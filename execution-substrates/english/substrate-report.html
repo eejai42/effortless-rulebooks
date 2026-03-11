@@ -45,7 +45,6 @@ main { padding: 1rem; }
 .card { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; box-shadow: var(--shadow); }
 .card h2 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; }
 pre { background: var(--code-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 0.75rem; overflow-x: auto; font-family: 'SF Mono', Monaco, monospace; font-size: 0.75rem; line-height: 1.4; max-height: 500px; overflow-y: auto; }
-.code-info { font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }
 .markdown-content { line-height: 1.7; }
 .markdown-content h2 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem 0; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
 .markdown-content h3 { font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.5rem 0; }
@@ -60,6 +59,26 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
 .result-value { font-size: 1.5rem; font-weight: 700; }
 .result-label { font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; }
 .prose-container { max-height: 600px; overflow-y: auto; padding-right: 0.5rem; }
+
+/* Graded data table styles */
+.entity-section { background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 1rem; padding: 1rem; box-shadow: var(--shadow); }
+.entity-name { font-size: 1rem; font-weight: 600; color: var(--accent-color); margin-bottom: 0.75rem; }
+.table-scroll { overflow-x: auto; }
+.graded-table { border-collapse: collapse; font-size: 0.8rem; width: 100%; }
+.graded-table th, .graded-table td { padding: 0.35rem 0.5rem; text-align: left; border: 1px solid var(--border-color); max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.graded-table th { background: var(--bg-tertiary); font-weight: 600; font-size: 0.75rem; position: sticky; top: 0; }
+.graded-table .computed-header { background: rgba(13, 110, 253, 0.15); color: var(--accent-color); }
+.graded-table .cell-raw { font-family: monospace; font-size: 0.75rem; color: var(--text-secondary); }
+.graded-table .cell-passed { background: rgba(25, 135, 84, 0.08); }
+.graded-table .cell-passed .check { color: var(--success-color); font-weight: bold; margin-right: 0.25rem; }
+.graded-table .cell-passed code { font-family: monospace; font-size: 0.75rem; }
+.graded-table .cell-failed { background: rgba(220, 53, 69, 0.1); }
+.graded-table .cell-failed .exp-act { display: block; font-size: 0.7rem; margin-bottom: 0.1rem; }
+.graded-table .cell-failed .label { font-weight: 500; color: var(--text-secondary); margin-right: 0.25rem; }
+.graded-table .cell-failed code.expected { background: rgba(25, 135, 84, 0.15); color: var(--success-color); padding: 0.1rem 0.25rem; border-radius: 3px; }
+.graded-table .cell-failed code.actual { background: rgba(220, 53, 69, 0.15); color: var(--danger-color); padding: 0.1rem 0.25rem; border-radius: 3px; }
+.graded-table td.computed { border-left: 2px solid var(--accent-color); }
+.no-data { color: var(--text-secondary); padding: 1rem; text-align: center; }
     </style>
 </head>
 <body>
@@ -69,8 +88,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>English (NLG) Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-good">84.5%</span></div>
-            <div class="stat"><span>87/103 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
+            <div class="stat"><span>3/3 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -78,6 +97,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         <button class="tab active" data-tab="description">Description</button>
         <button class="tab" data-tab="log">Run Log</button>
         <button class="tab" data-tab="results">Test Results</button>
+        <button class="tab" data-tab="graded-data">Graded Data</button>
         <button class="tab" data-tab="specification">Specification</button>
     </nav>
     <main>
@@ -104,6 +124,50 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
                 </ul>
             </div>
         </div>
+        <div id="graded-data" class="tab-content">
+            <div class="card">
+                <h2>Graded Test Data</h2>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">All columns shown. <span style="color: var(--accent-color); font-weight: 500;">Blue headers</span> indicate computed fields being tested. <span style="color: var(--success-color);">✓</span> = passed, <span style="color: var(--danger-color);">E/A</span> = failed (Expected vs Actual).</p>
+                <div class="entity-section">
+<h3 class="entity-name">customers</h3>
+<div class="table-scroll"><table class="graded-table"><thead><tr>
+<th class="">customer_id</th>
+<th class="">customer</th>
+<th class="">email_address</th>
+<th class="">first_name</th>
+<th class="">last_name</th>
+<th class="computed-header">full_name</th>
+</tr></thead><tbody>
+<tr>
+<td class="cell-raw" title="cust0001">cust0001</td>
+<td class="cell-raw" title="CUST0001">CUST0001</td>
+<td class="cell-raw" title="jane.smith@email.com">jane.smith@email.com</td>
+<td class="cell-raw" title="Jane">Jane</td>
+<td class="cell-raw" title="Smith">Smith</td>
+<td class="cell-passed computed" title="Smith, Jane">
+<span class="check">✓</span><code>Smith, Jane</code></td>
+</tr>
+<tr>
+<td class="cell-raw" title="cust0002">cust0002</td>
+<td class="cell-raw" title="CUST0002">CUST0002</td>
+<td class="cell-raw" title="john.doe@email.com">john.doe@email.com</td>
+<td class="cell-raw" title="John">John</td>
+<td class="cell-raw" title="Doe">Doe</td>
+<td class="cell-passed computed" title="Doe, John">
+<span class="check">✓</span><code>Doe, John</code></td>
+</tr>
+<tr>
+<td class="cell-raw" title="cust0003">cust0003</td>
+<td class="cell-raw" title="CUST0003">CUST0003</td>
+<td class="cell-raw" title="emily.jones@email.com">emily.jones@email.com</td>
+<td class="cell-raw" title="Emily">Emily</td>
+<td class="cell-raw" title="Jones">Jones</td>
+<td class="cell-passed computed" title="Jones, Emily">
+<span class="check">✓</span><code>Jones, Emily</code></td>
+</tr>
+</tbody></table></div></div>
+            </div>
+        </div>
         <div id="log" class="tab-content">
             <div class="card">
                 <h2>Execution Log</h2>
@@ -115,218 +179,32 @@ Using ENGLISH PROSE documents (glossary.md, specification.md)
 ======================================================================
 
 Loading English specification documents...
-  Loaded specification.md (4465 chars)
+  Loaded specification.md (2414 chars)
 
 Loading rulebook for schema metadata...
-Discovered 9 entities: Workflows, WorkflowSteps, ApprovalGates, PrecedesSteps, Roles, Departments, HumanAgents, AIAgents, AutomatedPipelines
+Discovered 1 entities: Customers
 
-Processing approval_gates...
-  Schema: 5 fields, 1 calculated
-    Processing 11 records in batches of 10...
-    Batch 1/2: records 1-10
+Processing customers...
+  Schema: 6 fields, 1 calculated
     Using English prose documents (specification)
 ============================================================
 PROMPT (first 2 lines):
   You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
   
-  ... (209 total lines, 7797 chars)
+  ... (125 total lines, 4272 chars)
 ============================================================
 Calling OpenAI (gpt-4o-mini)... please wait...
 ============================================================
 RESPONSE (first 2 lines):
   [
     {
-  ... (72 total lines, 2180 chars)
+  ... (26 total lines, 587 chars)
 ============================================================
-    Batch 2/2: records 11-11
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (146 total lines, 5944 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (9 total lines, 193 chars)
-============================================================
-  -&gt; approval_gates: 11 records, 11 computed fields filled
-
-Processing departments...
-  Schema: 5 fields, 1 calculated
-    Processing 15 records in batches of 10...
-    Batch 1/2: records 1-10
-    Using English prose documents (specification)
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (209 total lines, 7379 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (72 total lines, 1730 chars)
-============================================================
-    Batch 2/2: records 11-15
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (174 total lines, 6588 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (37 total lines, 905 chars)
-============================================================
-  -&gt; departments: 15 records, 15 computed fields filled
-
-Processing precedes_steps...
-  Schema: 5 fields, 1 calculated
-    Processing 16 records in batches of 10...
-    Batch 1/2: records 1-10
-    Using English prose documents (specification)
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (209 total lines, 7369 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (72 total lines, 1658 chars)
-============================================================
-    Batch 2/2: records 11-16
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (181 total lines, 6708 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (44 total lines, 1040 chars)
-============================================================
-  -&gt; precedes_steps: 16 records, 16 computed fields filled
-
-Processing roles...
-  Schema: 12 fields, 1 calculated
-    Processing 15 records in batches of 10...
-    Batch 1/2: records 1-10
-    Using English prose documents (specification)
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (279 total lines, 10450 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (142 total lines, 4753 chars)
-============================================================
-    Batch 2/2: records 11-15
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (209 total lines, 8132 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (72 total lines, 2400 chars)
-============================================================
-  -&gt; roles: 15 records, 15 computed fields filled
-
-Processing workflow_steps...
-  Schema: 9 fields, 1 calculated
-    Processing 16 records in batches of 10...
-    Batch 1/2: records 1-10
-    Using English prose documents (specification)
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (249 total lines, 9027 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (112 total lines, 3436 chars)
-============================================================
-    Batch 2/2: records 11-16
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (205 total lines, 7708 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (68 total lines, 2039 chars)
-============================================================
-  -&gt; workflow_steps: 16 records, 16 computed fields filled
-
-Processing workflows...
-  Schema: 10 fields, 2 calculated
-    Processing 15 records in batches of 10...
-    Batch 1/2: records 1-10
-    Using English prose documents (specification)
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (259 total lines, 10024 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (122 total lines, 4396 chars)
-============================================================
-    Batch 2/2: records 11-15
-============================================================
-PROMPT (first 2 lines):
-  You are taking a test. Your task is to fill in the computed columns for each record based on the Eng
-  
-  ... (199 total lines, 7883 chars)
-============================================================
-Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  [
-    {
-  ... (62 total lines, 2165 chars)
-============================================================
-  -&gt; workflows: 15 records, 30 computed fields filled
+  -&gt; customers: 3 records, 3 computed fields filled
 
 ======================================================================
-English substrate: Processed 6 entities, 88 total records
-Filled 103 computed fields total
+English substrate: Processed 1 entities, 3 total records
+Filled 3 computed fields total
 ======================================================================
 
 </pre>
@@ -336,100 +214,67 @@ Filled 103 computed fields total
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-good">84.5%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">87</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">16</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">103</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
         <div id="specification" class="tab-content">
             <div class="card">
                 <h2>specification.md (LLM-Generated)</h2>
-                <div class="prose-container markdown-content"><h2>Specification Document for Jessica Talisman - Ontology Parts 1-3 Rulebook</h2>
+                <div class="prose-container markdown-content"><h2>Specification Document for DEMO: Customer FullName Rulebook</h2>
 <h3>Overview</h3>
-<p>This specification document outlines the calculated fields present in the "Jessica Talisman - Ontology Parts 1-3" rulebook. It provides detailed instructions on how to compute these fields based on the input data available in the rulebook. The rulebook is structured around workflows, workflow steps, approval gates, and roles, each containing specific fields that contribute to the overall functionality of the system.</p>
-<h3>Workflows</h3>
+<p>This rulebook outlines the schema and calculations for generating customer full names from individual first and last names. It is derived from an Airtable base named 'DEMO: Customer FullName'. The primary focus is on how to compute the `FullName` field based on the provided `FirstName` and `LastName` fields.</p>
+<h3>Customers Table</h3>
 <h4>Input Fields</h4>
-<p>1. <strong>DisplayName</strong></p>
-<p>   - <strong>Type:</strong> String (raw)</p>
-<p>   - <strong>Description:</strong> A human-readable name for the workflow.</p>
-<h4>Calculated Fields</h4>
-<p>1. <strong>Name</strong></p>
-<p>   - <strong>Description:</strong> This field generates a machine-friendly name for the workflow, which is used for programmatic reference and URL slug generation.</p>
-<p>   - <strong>Computation:</strong> Convert the `DisplayName` to lowercase and replace spaces with hyphens.</p>
-<p>   - <strong>Formula:</strong> `=SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")`</p>
-<p>   - <strong>Example:</strong> </p>
-<p>     - If `DisplayName` is "Onboarding", then:</p>
-<p>       - `Name` = `SUBSTITUTE(LOWER("Onboarding"), " ", "-")` = "onboarding"</p>
-<p>2. <strong>CountOfSteps</strong></p>
-<p>   - <strong>Description:</strong> This field counts the number of workflow steps associated with this workflow.</p>
-<p>   - <strong>Computation:</strong> Count the number of entries in the `WorkflowSteps` table where the `Workflow` matches the current workflow's `WorkflowId`.</p>
-<p>   - <strong>Formula:</strong> `=COUNTIFS(WorkflowSteps!{{Workflow}}, Workflows!{{WorkflowId}})`</p>
-<p>   - <strong>Example:</strong> </p>
-<p>     - If there is 1 step associated with the workflow "onboarding", then:</p>
-<p>       - `CountOfSteps` = 1</p>
-<p>3. <strong>HasMoreThan1Step</strong></p>
-<p>   - <strong>Description:</strong> This field indicates whether the workflow has more than one step.</p>
-<p>   - <strong>Computation:</strong> Check if `CountOfSteps` is greater than 1.</p>
-<p>   - <strong>Formula:</strong> `={{CountOfSteps}} > 1`</p>
-<p>   - <strong>Example:</strong> </p>
-<p>     - If `CountOfSteps` is 1, then:</p>
-<p>       - `HasMoreThan1Step` = `1 > 1` = false</p>
-<h3>WorkflowSteps</h3>
-<h4>Input Fields</h4>
-<p>1. <strong>DisplayName</strong></p>
-<p>   - <strong>Type:</strong> String (raw)</p>
-<p>   - <strong>Description:</strong> A human-readable name for the workflow step.</p>
-<h4>Calculated Fields</h4>
-<p>1. <strong>Name</strong></p>
-<p>   - <strong>Description:</strong> This field generates a machine-friendly name for the workflow step, used for programmatic reference.</p>
-<p>   - <strong>Computation:</strong> Convert the `DisplayName` to lowercase and replace spaces with hyphens.</p>
-<p>   - <strong>Formula:</strong> `=SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")`</p>
-<p>   - <strong>Example:</strong></p>
-<p>     - If `DisplayName` is "Submit Request", then:</p>
-<p>       - `Name` = `SUBSTITUTE(LOWER("Submit Request"), " ", "-")` = "submit-request"</p>
-<h3>ApprovalGates</h3>
-<h4>Input Fields</h4>
-<p>1. <strong>DisplayName</strong></p>
-<p>   - <strong>Type:</strong> String (raw)</p>
-<p>   - <strong>Description:</strong> A human-readable name for the approval gate.</p>
-<h4>Calculated Fields</h4>
-<p>1. <strong>Name</strong></p>
-<p>   - <strong>Description:</strong> This field generates a machine-friendly name for the approval gate.</p>
-<p>   - <strong>Computation:</strong> Convert the `DisplayName` to lowercase and replace spaces with hyphens.</p>
-<p>   - <strong>Formula:</strong> `=SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")`</p>
-<p>   - <strong>Example:</strong></p>
-<p>     - If `DisplayName` is "Initial Review", then:</p>
-<p>       - `Name` = `SUBSTITUTE(LOWER("Initial Review"), " ", "-")` = "initial-review"</p>
-<h3>Roles</h3>
-<h4>Input Fields</h4>
-<p>1. <strong>DisplayName</strong></p>
-<p>   - <strong>Type:</strong> String (raw)</p>
-<p>   - <strong>Description:</strong> A human-readable name for the role.</p>
-<h4>Calculated Fields</h4>
-<p>1. <strong>Name</strong></p>
-<p>   - <strong>Description:</strong> This field generates a lowercase name for the role.</p>
-<p>   - <strong>Computation:</strong> Convert the `DisplayName` to lowercase.</p>
-<p>   - <strong>Formula:</strong> `=LOWER({{DisplayName}})`</p>
-<p>   - <strong>Example:</strong></p>
-<p>     - If `DisplayName` is "Admin", then:</p>
-<p>       - `Name` = `LOWER("Admin")` = "admin"</p>
-<h3>Departments</h3>
-<h4>Input Fields</h4>
-<p>1. <strong>DisplayName</strong></p>
-<p>   - <strong>Type:</strong> String (raw)</p>
-<p>   - <strong>Description:</strong> A human-readable name for the department.</p>
-<h4>Calculated Fields</h4>
-<p>1. <strong>Name</strong></p>
-<p>   - <strong>Description:</strong> This field generates a machine-friendly name for the department.</p>
-<p>   - <strong>Computation:</strong> Convert the `DisplayName` to lowercase and replace spaces with hyphens.</p>
-<p>   - <strong>Formula:</strong> `=SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")`</p>
-<p>   - <strong>Example:</strong></p>
-<p>     - If `DisplayName` is "Human Resources", then:</p>
-<p>       - `Name` = `SUBSTITUTE(LOWER("Human Resources"), " ", "-")` = "human-resources"</p>
-<h3>Conclusion</h3>
-<p>This document provides a comprehensive guide to calculating the fields in the "Jessica Talisman - Ontology Parts 1-3" rulebook. By following the outlined procedures, users can accurately compute the necessary values based on the raw input data provided in the rulebook.</p></div>
+<p>The following input fields are defined in the Customers table, which are necessary for calculating the `FullName`:</p>
+<p>1. <strong>CustomerId</strong></p>
+<p>   - <strong>Type</strong>: String</p>
+<p>   - <strong>Description</strong>: A unique identifier for each customer. This field is mandatory.</p>
+<p>2. <strong>Customer</strong></p>
+<p>   - <strong>Type</strong>: String</p>
+<p>   - <strong>Description</strong>: An identifier for the customers. This field is optional.</p>
+<p>3. <strong>EmailAddress</strong></p>
+<p>   - <strong>Type</strong>: String</p>
+<p>   - <strong>Description</strong>: The customer's email address. This field is optional.</p>
+<p>4. <strong>FirstName</strong></p>
+<p>   - <strong>Type</strong>: String</p>
+<p>   - <strong>Description</strong>: The first name of the customer, used to create the full name. This field is optional.</p>
+<p>5. <strong>LastName</strong></p>
+<p>   - <strong>Type</strong>: String</p>
+<p>   - <strong>Description</strong>: The last name of the customer, used to create the full name. This field is optional.</p>
+<h4>Calculated Field</h4>
+<p>#### FullName</p>
+<ul>
+<li>**Type**: Calculated</li>
+<li>**Description**: The full name is computed by concatenating the last name and first name of the customer in the format &quot;LastName, FirstName&quot;.</li>
+</ul>
+<p><strong>Calculation Method</strong>:</p>
+<p>To compute the `FullName`, follow these steps:</p>
+<p>1. Retrieve the value from the `LastName` field.</p>
+<p>2. Append a comma followed by a space.</p>
+<p>3. Retrieve the value from the `FirstName` field.</p>
+<p>4. Concatenate these values to form the full name.</p>
+<p><strong>Formula for Reference</strong>:</p>
+<pre>
+={{LastName}} &amp; &quot;, &quot; &amp; {{FirstName}}
+</pre>
+<p><strong>Concrete Examples</strong>:</p>
+<p>1. For the customer with `CustomerId` "cust0001":</p>
+<p>   - `LastName`: "Smith"</p>
+<p>   - `FirstName`: "Jane"</p>
+<p>   - <strong>Computed FullName</strong>: "Smith, Jane"</p>
+<p>2. For the customer with `CustomerId` "cust0002":</p>
+<p>   - `LastName`: "Doe"</p>
+<p>   - `FirstName`: "John"</p>
+<p>   - <strong>Computed FullName</strong>: "Doe, John"</p>
+<p>3. For the customer with `CustomerId` "cust0003":</p>
+<p>   - `LastName`: "Jones"</p>
+<p>   - `FirstName`: "Emily"</p>
+<p>   - <strong>Computed FullName</strong>: "Jones, Emily"</p>
+<p>This specification provides a clear understanding of how to derive the `FullName` from the `FirstName` and `LastName` fields, ensuring that the values can be computed accurately without needing to reference the original formulas.</p></div>
             </div>
         </div>
     </main>

@@ -57,7 +57,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # SQL Files in execution order
 SQL_FILES=(
-    "${SCRIPT_DIR}/000-drop-all.sql"
+    "${SCRIPT_DIR}/00-bootstrap.sql"
     "${SCRIPT_DIR}/01-drop-and-create-tables.sql"
     "${SCRIPT_DIR}/01b-customize-schema.sql"
     "${SCRIPT_DIR}/02-create-functions.sql"

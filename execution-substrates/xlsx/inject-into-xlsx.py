@@ -13,7 +13,7 @@ what's defined and generates the corresponding xlsx.
 
 Smart Update Feature:
 To avoid unnecessary file changes caused by volatile functions like NOW(),
-the script exports the LanguageCandidates sheet to CSV before and after
+the script exports all entity sheets to CSV before and after
 regeneration. If the content is identical, the update is rolled back.
 """
 

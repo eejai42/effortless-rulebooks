@@ -26,7 +26,7 @@ from dataclasses import dataclass
 script_dir = Path(__file__).resolve().parent
 sys.path.insert(0, str(script_dir.parent.parent))
 
-from orchestration.shared import to_snake_case
+from orchestration.shared import to_snake_case, load_rulebook, compute_aggregations
 
 
 # =============================================================================
@@ -392,12 +392,18 @@ def process_entity(
     input_path: Path,
     answers_path: Path,
     explanations_path: Path,
-    semantics: Dict[str, Any]
+    semantics: Dict[str, Any],
+    rulebook: dict = None,
+    project_root: Path = None
 ) -> int:
     """Process a single entity, producing answers and explanations."""
 
     with open(input_path, 'r') as f:
         records = json.load(f)
+
+    # Compute aggregation fields first (e.g., COUNTIFS)
+    if rulebook is not None and project_root is not None:
+        records = compute_aggregations(records, entity_name, rulebook, project_root)
 
     evaluator = ExplainEvaluator(semantics)
     templates = entity_spec.get("expr_templates", {})
@@ -474,6 +480,13 @@ def main():
         print(f"Error: {spec_path} not found. Run inject-into-explain-dag.py first.")
         sys.exit(1)
 
+    # Load rulebook for aggregation computation
+    try:
+        rulebook = load_rulebook()
+    except FileNotFoundError as e:
+        print(f"Warning: Could not load rulebook for aggregations: {e}")
+        rulebook = None
+
     # Load spec
     with open(spec_path, 'r') as f:
         spec = json.load(f)
@@ -525,7 +538,9 @@ def main():
             input_path,
             answers_path,
             explanations_path,
-            semantics
+            semantics,
+            rulebook,
+            project_root
         )
         total_records += count
         entity_count += 1

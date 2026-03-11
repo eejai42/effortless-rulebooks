@@ -166,7 +166,7 @@ show_menu() {
     echo -e "${BOLD}${CYAN}╚════════════════════════════════════════════════════════════╝${NC}"
     echo ""
     echo -e "  Project:  ${WHITE}$PROJECT_NAME${NC}"
-    echo -e "  Base ID:  ${WHITE}$CURRENT_BASE${NC}"
+    echo -e "  Airtable: ${CYAN}https://airtable.com/$CURRENT_BASE${NC}"
     echo ""
 
     # Get list of substrates for the menu
@@ -937,7 +937,53 @@ import pickle
 grades_file = os.path.join(test_orch.SUBSTRATES_DIR, substrate, '.grades.pkl')
 with open(grades_file, 'wb') as f:
     pickle.dump(grades, f)
+
+# Also write score to a simple file for bash to check
+score_file = os.path.join(test_orch.SUBSTRATES_DIR, substrate, '.score')
+score = grades.get('score', -1)
+with open(score_file, 'w') as f:
+    f.write(str(score))
 "
+        # Check for 0% score and pause if so (similar to execution failure)
+        score_file="$SUBSTRATES_DIR/$substrate/.score"
+        if [ -f "$score_file" ]; then
+            SCORE=$(cat "$score_file")
+            rm -f "$score_file"  # Clean up
+
+            # Check if score is 0 (using bc for float comparison)
+            if echo "$SCORE == 0" | bc -l | grep -q 1; then
+                # Only pause if execution itself succeeded (0% test score is the issue)
+                if [ $INJECT_EXIT_CODE -eq 0 ] && ! $CI_MODE; then
+                    echo ""
+                    echo -e "${YELLOW}╔════════════════════════════════════════════════════════════════╗${NC}"
+                    echo -e "${YELLOW}║${NC}     ${BOLD}${YELLOW}⚠️  TEST SCORE 0%: ${substrate_upper}${NC}                             ${YELLOW}║${NC}"
+                    echo -e "${YELLOW}╠════════════════════════════════════════════════════════════════╣${NC}"
+                    echo -e "${YELLOW}║${NC} ${DIM}Execution succeeded but all tests failed.${NC}                      ${YELLOW}║${NC}"
+                    echo -e "${YELLOW}║${NC} ${DIM}This usually means test-answers are missing or stale.${NC}          ${YELLOW}║${NC}"
+                    echo -e "${YELLOW}╠════════════════════════════════════════════════════════════════╣${NC}"
+                    echo -e "${YELLOW}║${NC}  ${GREEN}[C]${NC} Continue with remaining substrates                        ${YELLOW}║${NC}"
+                    echo -e "${YELLOW}║${NC}  ${RED}[S]${NC} Stop orchestration now                                    ${YELLOW}║${NC}"
+                    echo -e "${YELLOW}╚════════════════════════════════════════════════════════════════╝${NC}"
+                    echo ""
+                    read -p "  Choice [C/S]: " SCORE_CHOICE
+                    case $SCORE_CHOICE in
+                        [Ss])
+                            echo ""
+                            echo -e "${YELLOW}${BOLD}Orchestration stopped by user after 0% score.${NC}"
+                            echo -e "Run ${WHITE}./orchestrate.sh${NC} to retry."
+                            echo ""
+                            return 1
+                            ;;
+                        *)
+                            echo ""
+                            echo -e "${YELLOW}Continuing with remaining substrates...${NC}"
+                            echo ""
+                            ;;
+                    esac
+                fi
+            fi
+        fi
+
         # Add vertical spacing after each substrate for visual isolation
         printf '\n%.0s' {1..10}
     else

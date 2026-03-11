@@ -69,7 +69,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         </div>
         <div class="header-stats">
             <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>103/103 passed</span></div>
+            <div class="stat"><span>3/3 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -124,13 +124,8 @@ HasGrammar = true
                 <h2>Execution Log</h2>
                 <pre>=== ExplainDAG Substrate Test Run ===
 
-  -&gt; approval_gates: 11 records with explanations
-  -&gt; departments: 15 records with explanations
-  -&gt; precedes_steps: 16 records with explanations
-  -&gt; roles: 15 records with explanations
-  -&gt; workflow_steps: 16 records with explanations
-  -&gt; workflows: 15 records with explanations
-ExplainDAG substrate: Processed 6 entities, 88 total records
+  -&gt; customers: 3 records with explanations
+ExplainDAG substrate: Processed 1 entities, 3 total records
 Explanations written to: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/explain-dag/test-explanations
 
 </pre>
@@ -141,9 +136,9 @@ Explanations written to: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai
                 <h2>Test Summary</h2>
                 <div class="results-summary">
                     <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">103</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
                     <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">103</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -151,13 +146,13 @@ Explanations written to: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai
             <div class="card">
                 <div class="code-header">
                     <h2>explain_spec.json</h2>
-                    <div><span class="code-info">755 lines</span><button class="copy-btn" onclick="copyCode('spec-code')">Copy</button></div>
+                    <div><span class="code-info">123 lines</span><button class="copy-btn" onclick="copyCode('spec-code')">Copy</button></div>
                 </div>
                 <pre id="spec-code">{
   &quot;schema_version&quot;: &quot;erb.explain_spec.v1&quot;,
   &quot;rulebook&quot;: {
-    &quot;name&quot;: &quot;Jessica Talisman - Ontology Parts 1-3&quot;,
-    &quot;rulebook_hash&quot;: &quot;sha256:f2603d5224fbd6c35eef869302fcc354&quot;
+    &quot;name&quot;: &quot;DEMO: Customer FullName&quot;,
+    &quot;rulebook_hash&quot;: &quot;sha256:fc5baec006076835eeecd2be23742af0&quot;
   },
   &quot;semantics&quot;: {
     &quot;profile&quot;: &quot;excel&quot;,
@@ -166,741 +161,109 @@ Explanations written to: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai
     &quot;boolean_coercion&quot;: &quot;strict&quot;
   },
   &quot;entities&quot;: {
-    &quot;Workflows&quot;: {
-      &quot;id_field&quot;: &quot;WorkflowId&quot;,
-      &quot;id_field_snake&quot;: &quot;workflow_id&quot;,
+    &quot;Customers&quot;: {
+      &quot;id_field&quot;: &quot;CustomerId&quot;,
+      &quot;id_field_snake&quot;: &quot;customer_id&quot;,
       &quot;fields&quot;: {
-        &quot;WorkflowId&quot;: {
+        &quot;CustomerId&quot;: {
           &quot;datatype&quot;: &quot;string&quot;,
           &quot;nullable&quot;: false,
           &quot;type&quot;: &quot;raw&quot;
         },
-        &quot;Name&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;calculated&quot;
-        },
-        &quot;DisplayName&quot;: {
+        &quot;Customer&quot;: {
           &quot;datatype&quot;: &quot;string&quot;,
           &quot;nullable&quot;: true,
           &quot;type&quot;: &quot;raw&quot;
         },
-        &quot;Title&quot;: {
+        &quot;EmailAddress&quot;: {
           &quot;datatype&quot;: &quot;string&quot;,
           &quot;nullable&quot;: true,
           &quot;type&quot;: &quot;raw&quot;
         },
-        &quot;Description&quot;: {
+        &quot;FirstName&quot;: {
           &quot;datatype&quot;: &quot;string&quot;,
           &quot;nullable&quot;: true,
           &quot;type&quot;: &quot;raw&quot;
         },
-        &quot;Identifier&quot;: {
+        &quot;LastName&quot;: {
           &quot;datatype&quot;: &quot;string&quot;,
           &quot;nullable&quot;: true,
           &quot;type&quot;: &quot;raw&quot;
         },
-        &quot;Modified&quot;: {
-          &quot;datatype&quot;: &quot;datetime&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;WorkflowSteps&quot;: {
+        &quot;FullName&quot;: {
           &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;CountOfSteps&quot;: {
-          &quot;datatype&quot;: &quot;integer&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;aggregation&quot;
-        },
-        &quot;HasMoreThan1Step&quot;: {
-          &quot;datatype&quot;: &quot;boolean&quot;,
           &quot;nullable&quot;: true,
           &quot;type&quot;: &quot;calculated&quot;
         }
       },
       &quot;calc_order&quot;: [
-        &quot;Name&quot;,
-        &quot;HasMoreThan1Step&quot;
+        &quot;FullName&quot;
       ],
       &quot;dep_edges&quot;: [
         [
-          &quot;DisplayName&quot;,
-          &quot;Name&quot;
+          &quot;LastName&quot;,
+          &quot;FullName&quot;
         ],
         [
-          &quot;CountOfSteps&quot;,
-          &quot;HasMoreThan1Step&quot;
+          &quot;FirstName&quot;,
+          &quot;FullName&quot;
         ]
       ],
       &quot;expr_templates&quot;: {
-        &quot;Name&quot;: {
-          &quot;formula_source&quot;: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;,
-          &quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;,
-          &quot;root_node&quot;: &quot;n_result_Name&quot;,
+        &quot;FullName&quot;: {
+          &quot;formula_source&quot;: &quot;={{LastName}} &amp; \&quot;, \&quot; &amp; {{FirstName}}&quot;,
+          &quot;template_hash&quot;: &quot;sha256:87fca7e8a65752b8&quot;,
+          &quot;root_node&quot;: &quot;n_result_FullName&quot;,
           &quot;nodes&quot;: {
             &quot;n_ref_1&quot;: {
               &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;DisplayName&quot;,
-              &quot;field_snake&quot;: &quot;display_name&quot;
-            },
-            &quot;n_fn_2&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;LOWER&quot;,
-              &quot;args&quot;: [
-                &quot;n_ref_1&quot;
-              ]
-            },
-            &quot;n_const_3&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot; &quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_const_4&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot;-&quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_fn_5&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;SUBSTITUTE&quot;,
-              &quot;args&quot;: [
-                &quot;n_fn_2&quot;,
-                &quot;n_const_3&quot;,
-                &quot;n_const_4&quot;
-              ]
-            },
-            &quot;n_result_Name&quot;: {
-              &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;Name&quot;,
-              &quot;field_snake&quot;: &quot;name&quot;,
-              &quot;in&quot;: [
-                &quot;n_fn_5&quot;
-              ]
-            }
-          },
-          &quot;edges&quot;: [
-            [
-              &quot;n_ref_1&quot;,
-              &quot;n_fn_2&quot;
-            ],
-            [
-              &quot;n_fn_2&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_3&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_4&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_fn_5&quot;,
-              &quot;n_result_Name&quot;
-            ]
-          ]
-        },
-        &quot;HasMoreThan1Step&quot;: {
-          &quot;formula_source&quot;: &quot;={{CountOfSteps}} &gt; 1&quot;,
-          &quot;template_hash&quot;: &quot;sha256:51903b4d48fff752&quot;,
-          &quot;root_node&quot;: &quot;n_result_HasMoreThan1Step&quot;,
-          &quot;nodes&quot;: {
-            &quot;n_ref_1&quot;: {
-              &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;CountOfSteps&quot;,
-              &quot;field_snake&quot;: &quot;count_of_steps&quot;
+              &quot;field&quot;: &quot;LastName&quot;,
+              &quot;field_snake&quot;: &quot;last_name&quot;
             },
             &quot;n_const_2&quot;: {
               &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: 1,
-              &quot;type&quot;: &quot;integer&quot;
+              &quot;value&quot;: &quot;, &quot;,
+              &quot;type&quot;: &quot;string&quot;
             },
-            &quot;n_op_3&quot;: {
-              &quot;kind&quot;: &quot;op&quot;,
-              &quot;name&quot;: &quot;&gt;&quot;,
-              &quot;args&quot;: [
-                &quot;n_ref_1&quot;,
-                &quot;n_const_2&quot;
-              ]
-            },
-            &quot;n_result_HasMoreThan1Step&quot;: {
-              &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;HasMoreThan1Step&quot;,
-              &quot;field_snake&quot;: &quot;has_more_than1_step&quot;,
-              &quot;in&quot;: [
-                &quot;n_op_3&quot;
-              ]
-            }
-          },
-          &quot;edges&quot;: [
-            [
-              &quot;n_ref_1&quot;,
-              &quot;n_op_3&quot;
-            ],
-            [
-              &quot;n_const_2&quot;,
-              &quot;n_op_3&quot;
-            ],
-            [
-              &quot;n_op_3&quot;,
-              &quot;n_result_HasMoreThan1Step&quot;
-            ]
-          ]
-        }
-      }
-    },
-    &quot;WorkflowSteps&quot;: {
-      &quot;id_field&quot;: &quot;WorkflowStepId&quot;,
-      &quot;id_field_snake&quot;: &quot;workflow_step_id&quot;,
-      &quot;fields&quot;: {
-        &quot;WorkflowStepId&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: false,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Name&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;calculated&quot;
-        },
-        &quot;DisplayName&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Workflow&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;SequencePosition&quot;: {
-          &quot;datatype&quot;: &quot;integer&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;AssignedRole&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;RequiresHumanApproval&quot;: {
-          &quot;datatype&quot;: &quot;boolean&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;ApprovalGate&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;PrecededBySteps&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        }
-      },
-      &quot;calc_order&quot;: [
-        &quot;Name&quot;
-      ],
-      &quot;dep_edges&quot;: [
-        [
-          &quot;DisplayName&quot;,
-          &quot;Name&quot;
-        ]
-      ],
-      &quot;expr_templates&quot;: {
-        &quot;Name&quot;: {
-          &quot;formula_source&quot;: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;,
-          &quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;,
-          &quot;root_node&quot;: &quot;n_result_Name&quot;,
-          &quot;nodes&quot;: {
-            &quot;n_ref_1&quot;: {
+            &quot;n_ref_3&quot;: {
               &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;DisplayName&quot;,
-              &quot;field_snake&quot;: &quot;display_name&quot;
+              &quot;field&quot;: &quot;FirstName&quot;,
+              &quot;field_snake&quot;: &quot;first_name&quot;
             },
-            &quot;n_fn_2&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;LOWER&quot;,
-              &quot;args&quot;: [
-                &quot;n_ref_1&quot;
-              ]
-            },
-            &quot;n_const_3&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot; &quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_const_4&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot;-&quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_fn_5&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;SUBSTITUTE&quot;,
-              &quot;args&quot;: [
-                &quot;n_fn_2&quot;,
-                &quot;n_const_3&quot;,
-                &quot;n_const_4&quot;
-              ]
-            },
-            &quot;n_result_Name&quot;: {
-              &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;Name&quot;,
-              &quot;field_snake&quot;: &quot;name&quot;,
-              &quot;in&quot;: [
-                &quot;n_fn_5&quot;
-              ]
-            }
-          },
-          &quot;edges&quot;: [
-            [
-              &quot;n_ref_1&quot;,
-              &quot;n_fn_2&quot;
-            ],
-            [
-              &quot;n_fn_2&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_3&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_4&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_fn_5&quot;,
-              &quot;n_result_Name&quot;
-            ]
-          ]
-        }
-      }
-    },
-    &quot;ApprovalGates&quot;: {
-      &quot;id_field&quot;: &quot;ApprovalGateId&quot;,
-      &quot;id_field_snake&quot;: &quot;approval_gate_id&quot;,
-      &quot;fields&quot;: {
-        &quot;ApprovalGateId&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: false,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Name&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;calculated&quot;
-        },
-        &quot;DisplayName&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;WorkflowSteps&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;EscalationThresholdHours&quot;: {
-          &quot;datatype&quot;: &quot;integer&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        }
-      },
-      &quot;calc_order&quot;: [
-        &quot;Name&quot;
-      ],
-      &quot;dep_edges&quot;: [
-        [
-          &quot;DisplayName&quot;,
-          &quot;Name&quot;
-        ]
-      ],
-      &quot;expr_templates&quot;: {
-        &quot;Name&quot;: {
-          &quot;formula_source&quot;: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;,
-          &quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;,
-          &quot;root_node&quot;: &quot;n_result_Name&quot;,
-          &quot;nodes&quot;: {
-            &quot;n_ref_1&quot;: {
-              &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;DisplayName&quot;,
-              &quot;field_snake&quot;: &quot;display_name&quot;
-            },
-            &quot;n_fn_2&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;LOWER&quot;,
-              &quot;args&quot;: [
-                &quot;n_ref_1&quot;
-              ]
-            },
-            &quot;n_const_3&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot; &quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_const_4&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot;-&quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_fn_5&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;SUBSTITUTE&quot;,
-              &quot;args&quot;: [
-                &quot;n_fn_2&quot;,
-                &quot;n_const_3&quot;,
-                &quot;n_const_4&quot;
-              ]
-            },
-            &quot;n_result_Name&quot;: {
-              &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;Name&quot;,
-              &quot;field_snake&quot;: &quot;name&quot;,
-              &quot;in&quot;: [
-                &quot;n_fn_5&quot;
-              ]
-            }
-          },
-          &quot;edges&quot;: [
-            [
-              &quot;n_ref_1&quot;,
-              &quot;n_fn_2&quot;
-            ],
-            [
-              &quot;n_fn_2&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_3&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_4&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_fn_5&quot;,
-              &quot;n_result_Name&quot;
-            ]
-          ]
-        }
-      }
-    },
-    &quot;PrecedesSteps&quot;: {
-      &quot;id_field&quot;: &quot;PrecedesStepId&quot;,
-      &quot;id_field_snake&quot;: &quot;precedes_step_id&quot;,
-      &quot;fields&quot;: {
-        &quot;PrecedesStepId&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: false,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Name&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;DisplayName&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;calculated&quot;
-        },
-        &quot;StepNumber&quot;: {
-          &quot;datatype&quot;: &quot;integer&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;WorkflowStep&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        }
-      },
-      &quot;calc_order&quot;: [
-        &quot;DisplayName&quot;
-      ],
-      &quot;dep_edges&quot;: [
-        [
-          &quot;StepNumber&quot;,
-          &quot;DisplayName&quot;
-        ]
-      ],
-      &quot;expr_templates&quot;: {
-        &quot;DisplayName&quot;: {
-          &quot;formula_source&quot;: &quot;=\&quot;Step-\&quot; &amp; {{StepNumber}}&quot;,
-          &quot;template_hash&quot;: &quot;sha256:24e5a1504c34af8f&quot;,
-          &quot;root_node&quot;: &quot;n_result_DisplayName&quot;,
-          &quot;nodes&quot;: {
-            &quot;n_const_1&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot;Step-&quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_ref_2&quot;: {
-              &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;StepNumber&quot;,
-              &quot;field_snake&quot;: &quot;step_number&quot;
-            },
-            &quot;n_op_3&quot;: {
+            &quot;n_op_4&quot;: {
               &quot;kind&quot;: &quot;op&quot;,
               &quot;name&quot;: &quot;CONCAT&quot;,
               &quot;args&quot;: [
-                &quot;n_const_1&quot;,
-                &quot;n_ref_2&quot;
+                &quot;n_ref_1&quot;,
+                &quot;n_const_2&quot;,
+                &quot;n_ref_3&quot;
               ]
             },
-            &quot;n_result_DisplayName&quot;: {
+            &quot;n_result_FullName&quot;: {
               &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;DisplayName&quot;,
-              &quot;field_snake&quot;: &quot;display_name&quot;,
+              &quot;field&quot;: &quot;FullName&quot;,
+              &quot;field_snake&quot;: &quot;full_name&quot;,
               &quot;in&quot;: [
-                &quot;n_op_3&quot;
-              ]
-            }
-          },
-          &quot;edges&quot;: [
-            [
-              &quot;n_const_1&quot;,
-              &quot;n_op_3&quot;
-            ],
-            [
-              &quot;n_ref_2&quot;,
-              &quot;n_op_3&quot;
-            ],
-            [
-              &quot;n_op_3&quot;,
-              &quot;n_result_DisplayName&quot;
-            ]
-          ]
-        }
-      }
-    },
-    &quot;Roles&quot;: {
-      &quot;id_field&quot;: &quot;RoleId&quot;,
-      &quot;id_field_snake&quot;: &quot;role_id&quot;,
-      &quot;fields&quot;: {
-        &quot;RoleId&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: false,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Name&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;calculated&quot;
-        },
-        &quot;DisplayName&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Label&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Comment&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;FilledByHumanAgent&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;FilledByAIAgent&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;FilledByAutomatedPipeline&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;OwnedBy&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;DelegatesTo&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;WorkflowSteps&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        },
-        &quot;FromDelegatesTo&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        }
-      },
-      &quot;calc_order&quot;: [
-        &quot;Name&quot;
-      ],
-      &quot;dep_edges&quot;: [
-        [
-          &quot;DisplayName&quot;,
-          &quot;Name&quot;
-        ]
-      ],
-      &quot;expr_templates&quot;: {
-        &quot;Name&quot;: {
-          &quot;formula_source&quot;: &quot;=LOWER({{DisplayName}})&quot;,
-          &quot;template_hash&quot;: &quot;sha256:76da74226ab8d4cd&quot;,
-          &quot;root_node&quot;: &quot;n_result_Name&quot;,
-          &quot;nodes&quot;: {
-            &quot;n_ref_1&quot;: {
-              &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;DisplayName&quot;,
-              &quot;field_snake&quot;: &quot;display_name&quot;
-            },
-            &quot;n_fn_2&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;LOWER&quot;,
-              &quot;args&quot;: [
-                &quot;n_ref_1&quot;
-              ]
-            },
-            &quot;n_result_Name&quot;: {
-              &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;Name&quot;,
-              &quot;field_snake&quot;: &quot;name&quot;,
-              &quot;in&quot;: [
-                &quot;n_fn_2&quot;
+                &quot;n_op_4&quot;
               ]
             }
           },
           &quot;edges&quot;: [
             [
               &quot;n_ref_1&quot;,
-              &quot;n_fn_2&quot;
+              &quot;n_op_4&quot;
             ],
             [
-              &quot;n_fn_2&quot;,
-              &quot;n_result_Name&quot;
-            ]
-          ]
-        }
-      }
-    },
-    &quot;Departments&quot;: {
-      &quot;id_field&quot;: &quot;DepartmentId&quot;,
-      &quot;id_field_snake&quot;: &quot;department_id&quot;,
-      &quot;fields&quot;: {
-        &quot;DepartmentId&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: false,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Name&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;calculated&quot;
-        },
-        &quot;Title&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;DisplayName&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;raw&quot;
-        },
-        &quot;Roles&quot;: {
-          &quot;datatype&quot;: &quot;string&quot;,
-          &quot;nullable&quot;: true,
-          &quot;type&quot;: &quot;relationship&quot;
-        }
-      },
-      &quot;calc_order&quot;: [
-        &quot;Name&quot;
-      ],
-      &quot;dep_edges&quot;: [
-        [
-          &quot;DisplayName&quot;,
-          &quot;Name&quot;
-        ]
-      ],
-      &quot;expr_templates&quot;: {
-        &quot;Name&quot;: {
-          &quot;formula_source&quot;: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;,
-          &quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;,
-          &quot;root_node&quot;: &quot;n_result_Name&quot;,
-          &quot;nodes&quot;: {
-            &quot;n_ref_1&quot;: {
-              &quot;kind&quot;: &quot;field_ref&quot;,
-              &quot;field&quot;: &quot;DisplayName&quot;,
-              &quot;field_snake&quot;: &quot;display_name&quot;
-            },
-            &quot;n_fn_2&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;LOWER&quot;,
-              &quot;args&quot;: [
-                &quot;n_ref_1&quot;
-              ]
-            },
-            &quot;n_const_3&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot; &quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_const_4&quot;: {
-              &quot;kind&quot;: &quot;const&quot;,
-              &quot;value&quot;: &quot;-&quot;,
-              &quot;type&quot;: &quot;string&quot;
-            },
-            &quot;n_fn_5&quot;: {
-              &quot;kind&quot;: &quot;fn&quot;,
-              &quot;name&quot;: &quot;SUBSTITUTE&quot;,
-              &quot;args&quot;: [
-                &quot;n_fn_2&quot;,
-                &quot;n_const_3&quot;,
-                &quot;n_const_4&quot;
-              ]
-            },
-            &quot;n_result_Name&quot;: {
-              &quot;kind&quot;: &quot;result&quot;,
-              &quot;field&quot;: &quot;Name&quot;,
-              &quot;field_snake&quot;: &quot;name&quot;,
-              &quot;in&quot;: [
-                &quot;n_fn_5&quot;
-              ]
-            }
-          },
-          &quot;edges&quot;: [
-            [
-              &quot;n_ref_1&quot;,
-              &quot;n_fn_2&quot;
+              &quot;n_const_2&quot;,
+              &quot;n_op_4&quot;
             ],
             [
-              &quot;n_fn_2&quot;,
-              &quot;n_fn_5&quot;
+              &quot;n_ref_3&quot;,
+              &quot;n_op_4&quot;
             ],
             [
-              &quot;n_const_3&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_const_4&quot;,
-              &quot;n_fn_5&quot;
-            ],
-            [
-              &quot;n_fn_5&quot;,
-              &quot;n_result_Name&quot;
+              &quot;n_op_4&quot;,
+              &quot;n_result_FullName&quot;
             ]
           ]
         }
@@ -914,11 +277,11 @@ Explanations written to: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai
             <div class="card">
                 <h2>Sample Explanations (JSONL)</h2>
                 <div class="code-info">First few records from test-explanations/</div>
-                <pre>{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:f2603d5224fbd6c35eef869302fcc354&quot;, &quot;entity&quot;: &quot;approval_gates&quot;, &quot;record_id&quot;: &quot;compliance-check&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;compliance-check&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Compliance Check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;compliance check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;compliance-check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;compliance-check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
-{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:f2603d5224fbd6c35eef869302fcc354&quot;, &quot;entity&quot;: &quot;approval_gates&quot;, &quot;record_id&quot;: &quot;customer-confirmation&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;customer-confirmation&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Customer Confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;customer confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;customer-confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;customer-confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
-{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:f2603d5224fbd6c35eef869302fcc354&quot;, &quot;entity&quot;: &quot;approval_gates&quot;, &quot;record_id&quot;: &quot;executive-sign-off&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;executive-sign-off&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Executive Sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;executive sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;executive-sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;executive-sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
-{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:f2603d5224fbd6c35eef869302fcc354&quot;, &quot;entity&quot;: &quot;approval_gates&quot;, &quot;record_id&quot;: &quot;final-authorization&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;final-authorization&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Final Authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;final authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;final-authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;final-authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
-{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:f2603d5224fbd6c35eef869302fcc354&quot;, &quot;entity&quot;: &quot;approval_gates&quot;, &quot;record_id&quot;: &quot;finance-approval&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;finance-approval&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Finance Approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;finance approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;finance-approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;finance-approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
+                <pre>{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:5e28a38440c0dfa624d42ba03e473d9d&quot;, &quot;entity&quot;: &quot;approvals&quot;, &quot;record_id&quot;: &quot;compliance-check&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;compliance-check&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Compliance Check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;compliance check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;compliance-check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;compliance-check&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
+{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:5e28a38440c0dfa624d42ba03e473d9d&quot;, &quot;entity&quot;: &quot;approvals&quot;, &quot;record_id&quot;: &quot;customer-confirmation&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;customer-confirmation&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Customer Confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;customer confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;customer-confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;customer-confirmation&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
+{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:5e28a38440c0dfa624d42ba03e473d9d&quot;, &quot;entity&quot;: &quot;approvals&quot;, &quot;record_id&quot;: &quot;executive-sign-off&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;executive-sign-off&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Executive Sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;executive sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;executive-sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;executive-sign-off&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
+{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:5e28a38440c0dfa624d42ba03e473d9d&quot;, &quot;entity&quot;: &quot;approvals&quot;, &quot;record_id&quot;: &quot;final-authorization&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;final-authorization&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Final Authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;final authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;final-authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;final-authorization&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
+{&quot;schema_version&quot;: &quot;erb.explain_instance.v1&quot;, &quot;rulebook_hash&quot;: &quot;sha256:5e28a38440c0dfa624d42ba03e473d9d&quot;, &quot;entity&quot;: &quot;approvals&quot;, &quot;record_id&quot;: &quot;finance-approval&quot;, &quot;values&quot;: {&quot;name&quot;: &quot;finance-approval&quot;}, &quot;explanations&quot;: {&quot;Name&quot;: {&quot;template_hash&quot;: &quot;sha256:89d15a4a6be3f751&quot;, &quot;root&quot;: &quot;i_result_Name&quot;, &quot;nodes&quot;: {&quot;i_ref_1&quot;: {&quot;kind&quot;: &quot;field_ref&quot;, &quot;value&quot;: &quot;Finance Approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;DisplayName&quot;, &quot;field_snake&quot;: &quot;display_name&quot;}, &quot;i_const_3&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot; &quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_const_4&quot;: {&quot;kind&quot;: &quot;const&quot;, &quot;value&quot;: &quot;-&quot;, &quot;type&quot;: &quot;string&quot;}, &quot;i_fn_2&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;finance approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;LOWER&quot;, &quot;args&quot;: [&quot;n_ref_1&quot;]}, &quot;i_fn_5&quot;: {&quot;kind&quot;: &quot;fn&quot;, &quot;value&quot;: &quot;finance-approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;name&quot;: &quot;SUBSTITUTE&quot;, &quot;args&quot;: [&quot;n_fn_2&quot;, &quot;n_const_3&quot;, &quot;n_const_4&quot;]}, &quot;i_result_Name&quot;: {&quot;kind&quot;: &quot;result&quot;, &quot;value&quot;: &quot;finance-approval&quot;, &quot;type&quot;: &quot;string&quot;, &quot;field&quot;: &quot;Name&quot;}}, &quot;edges&quot;: [[&quot;i_ref_1&quot;, &quot;i_fn_2&quot;], [&quot;i_fn_2&quot;, &quot;i_fn_5&quot;], [&quot;i_const_3&quot;, &quot;i_fn_5&quot;], [&quot;i_const_4&quot;, &quot;i_fn_5&quot;], [&quot;i_fn_5&quot;, &quot;i_result_Name&quot;]], &quot;evidence&quot;: {&quot;short_circuit&quot;: [], &quot;branches&quot;: []}}}}
 </pre>
             </div>
         </div>

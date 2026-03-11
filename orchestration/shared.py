@@ -38,12 +38,12 @@ def ensure_output_folder():
 
 
 def write_readme(candidate_name, description=None, technology=None):
-    """Write a placeholder README.md for the language candidate.
+    """Write a placeholder README.md for the execution substrate.
 
     Args:
-        candidate_name: Name of the target language/format (e.g., 'python', 'owl')
+        candidate_name: Name of the target format/substrate (e.g., 'python', 'owl')
         description: Optional description, defaults to a placeholder message
-        technology: Optional technology section explaining the format/language
+        technology: Optional technology section explaining the format/substrate
     """
     output_folder = ensure_output_folder()
     readme_path = output_folder / "README.md"
@@ -56,7 +56,7 @@ def write_readme(candidate_name, description=None, technology=None):
     if technology:
         technology_section = f"\n## Technology\n\n{technology}\n"
 
-    content = f"""# {candidate_name.title()} Language Candidate
+    content = f"""# {candidate_name.title()} Execution Substrate
 
 {description}
 {technology_section}
@@ -290,3 +290,119 @@ def get_calculated_fields(schema: list) -> list:
 def get_raw_fields(schema: list) -> list:
     """Extract all raw fields from a schema."""
     return [field for field in schema if field.get('type') == 'raw']
+
+
+def get_aggregation_fields(schema: list) -> list:
+    """Extract all aggregation fields from a schema."""
+    return [field for field in schema if field.get('type') == 'aggregation']
+
+
+# =============================================================================
+# AGGREGATION COMPUTATION
+# =============================================================================
+# These functions compute aggregation fields (COUNTIFS, SUMIFS, etc.) by
+# loading related data from the testing/blank-tests directory.
+# =============================================================================
+
+def parse_countifs_formula(formula: str) -> tuple:
+    """
+    Parse a COUNTIFS formula to extract the related table, lookup field, and match field.
+
+    Formula format: =COUNTIFS(RelatedTable!{{LookupField}}, CurrentTable!{{MatchField}})
+    Example: =COUNTIFS(WorkflowSteps!{{Workflow}}, Workflows!{{WorkflowId}})
+
+    Returns: (related_table, lookup_field, match_field) or (None, None, None) if not parseable
+    """
+    import re
+    # Match pattern: COUNTIFS(Table!{{Field}}, Table!{{Field}})
+    pattern = r'=COUNTIFS\((\w+)!\{\{(\w+)\}\},\s*\w+!\{\{(\w+)\}\}\)'
+    match = re.match(pattern, formula)
+    if match:
+        related_table = match.group(1)  # e.g., "WorkflowSteps"
+        lookup_field = match.group(2)   # e.g., "Workflow"
+        match_field = match.group(3)    # e.g., "WorkflowId"
+        return (related_table, lookup_field, match_field)
+    return (None, None, None)
+
+
+def load_related_data(project_root: Path, related_table: str) -> list:
+    """
+    Load data from testing/blank-tests for a related table.
+
+    Args:
+        project_root: Path to the project root
+        related_table: PascalCase name of the related table
+
+    Returns:
+        List of records from the related table's blank-tests file
+    """
+    snake_name = to_snake_case(related_table)
+    blank_tests_path = project_root / "testing" / "blank-tests" / f"{snake_name}.json"
+
+    if not blank_tests_path.exists():
+        return []
+
+    with open(blank_tests_path, 'r', encoding='utf-8') as f:
+        return json.load(f)
+
+
+def compute_aggregations(records: list, entity_name: str, rulebook: dict, project_root: Path) -> list:
+    """
+    Compute aggregation fields for a list of records.
+
+    This function identifies aggregation fields in the schema, loads related data,
+    and computes the aggregated values (e.g., COUNTIFS).
+
+    Args:
+        records: List of records to update with aggregation values
+        entity_name: Name of the entity (PascalCase or snake_case)
+        rulebook: The loaded rulebook dictionary
+        project_root: Path to the project root for loading related data
+
+    Returns:
+        Updated list of records with aggregation fields populated
+    """
+    schema = get_entity_schema(rulebook, entity_name)
+    agg_fields = get_aggregation_fields(schema)
+
+    if not agg_fields:
+        return records
+
+    # Cache for loaded related data
+    related_data_cache = {}
+
+    for field in agg_fields:
+        field_name = field.get('name')
+        formula = field.get('formula', '')
+        snake_field_name = to_snake_case(field_name)
+
+        # Parse the formula
+        related_table, lookup_field, match_field = parse_countifs_formula(formula)
+
+        if not related_table:
+            continue
+
+        # Load related data (with caching)
+        if related_table not in related_data_cache:
+            related_data_cache[related_table] = load_related_data(project_root, related_table)
+
+        related_records = related_data_cache[related_table]
+        snake_lookup_field = to_snake_case(lookup_field)
+        snake_match_field = to_snake_case(match_field)
+
+        # Build a count map: match_value -> count
+        count_map = {}
+        for related_record in related_records:
+            lookup_value = related_record.get(snake_lookup_field)
+            if lookup_value is not None:
+                count_map[lookup_value] = count_map.get(lookup_value, 0) + 1
+
+        # Update each record with the aggregation value
+        for record in records:
+            match_value = record.get(snake_match_field)
+            if match_value is not None:
+                record[snake_field_name] = count_map.get(match_value, 0)
+            else:
+                record[snake_field_name] = 0
+
+    return records

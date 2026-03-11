@@ -30,6 +30,7 @@ SUBSTRATES_DIR = os.path.join(PROJECT_ROOT, "execution-substrates")
 RULEBOOK_DIR = os.path.join(PROJECT_ROOT, "effortless-rulebook")
 RULEBOOK_PATH = os.path.join(RULEBOOK_DIR, "effortless-rulebook.json")
 POSTGRES_DIR = os.path.join(PROJECT_ROOT, "postgres")
+SSOTME_JSON = os.path.join(PROJECT_ROOT, "ssotme.json")
 DEFAULT_OUTPUT = os.path.join(SCRIPT_DIR, "orchestration-report.html")
 
 
@@ -43,6 +44,21 @@ def load_rulebook():
         return {}
     with open(RULEBOOK_PATH, 'r') as f:
         return json.load(f)
+
+
+def get_base_id():
+    """Get the Airtable base ID from ssotme.json"""
+    if not os.path.exists(SSOTME_JSON):
+        return None
+    try:
+        with open(SSOTME_JSON, 'r') as f:
+            config = json.load(f)
+        for setting in config.get('ProjectSettings', []):
+            if setting.get('Name') == 'baseId':
+                return setting.get('Value', '')
+    except Exception:
+        pass
+    return None
 
 
 def to_snake_case(name: str) -> str:
@@ -135,6 +151,38 @@ def load_answer_keys():
             with open(file, 'r') as f:
                 answer_keys[entity] = json.load(f)
     return answer_keys
+
+
+def load_blank_tests():
+    """Load all blank tests with metadata about staleness.
+
+    Blank tests represent the "raw, unprocessed" state of data before
+    computed fields are filled in. They may be stale if the ontology
+    has changed - this is pedagogically valuable as it demonstrates
+    a key failure mode of natural language: staleness and the time
+    required to update it.
+    """
+    blank_tests = {}
+    if os.path.isdir(BLANK_TESTS_DIR):
+        for file in glob.glob(os.path.join(BLANK_TESTS_DIR, "*.json")):
+            entity = os.path.basename(file).replace('.json', '')
+            try:
+                stat = os.stat(file)
+                mtime = datetime.fromtimestamp(stat.st_mtime).isoformat()
+                with open(file, 'r') as f:
+                    data = json.load(f)
+                blank_tests[entity] = {
+                    "data": data,
+                    "last_modified": mtime,
+                    "file_path": file
+                }
+            except Exception as e:
+                blank_tests[entity] = {
+                    "data": [],
+                    "error": str(e),
+                    "file_path": file
+                }
+    return blank_tests
 
 
 def get_substrates():
@@ -277,6 +325,69 @@ def parse_test_results_md(filepath: str, substrate_name: str) -> dict:
     return grades
 
 
+def load_substrate_report_content(substrate_name: str) -> dict:
+    """Load and parse substrate-report.html to extract tab content.
+
+    Returns dict with 'tabs' list of {id, label} and 'contents' dict of {id: html_content}
+    """
+    if substrate_name == 'postgres':
+        return {"tabs": [], "contents": {}}
+
+    report_path = os.path.join(SUBSTRATES_DIR, substrate_name, "substrate-report.html")
+    if not os.path.exists(report_path):
+        return {"tabs": [], "contents": {}}
+
+    try:
+        with open(report_path, 'r', encoding='utf-8') as f:
+            html_content = f.read()
+
+        # Parse tabs: <button class="tab..." data-tab="...">Label</button>
+        tabs = []
+        tab_pattern = r'<button[^>]*class="tab[^"]*"[^>]*data-tab="([^"]+)"[^>]*>([^<]+)</button>'
+        for match in re.finditer(tab_pattern, html_content):
+            tab_id = match.group(1)
+            tab_label = match.group(2).strip()
+            tabs.append({"id": tab_id, "label": tab_label})
+
+        # Parse tab contents using balanced div matching
+        contents = {}
+        for tab in tabs:
+            tab_id = tab["id"]
+            # Find the start of this tab's content div
+            start_pattern = rf'<div\s+id="{tab_id}"\s+class="tab-content[^"]*"[^>]*>'
+            start_match = re.search(start_pattern, html_content)
+            if not start_match:
+                continue
+
+            # Find the matching closing </div> by counting nesting
+            start_pos = start_match.end()
+            depth = 1
+            pos = start_pos
+            while depth > 0 and pos < len(html_content):
+                # Find next <div or </div>
+                next_open = html_content.find('<div', pos)
+                next_close = html_content.find('</div>', pos)
+
+                if next_close == -1:
+                    break
+
+                if next_open != -1 and next_open < next_close:
+                    # Check if it's actually a div tag (not just containing "div")
+                    if html_content[next_open:next_open+5] in ('<div ', '<div>'):
+                        depth += 1
+                    pos = next_open + 4
+                else:
+                    depth -= 1
+                    if depth == 0:
+                        contents[tab_id] = html_content[start_pos:next_close].strip()
+                    pos = next_close + 6
+
+        return {"tabs": tabs, "contents": contents}
+    except Exception as e:
+        print(f"Warning: Could not parse substrate report for {substrate_name}: {e}")
+        return {"tabs": [], "contents": {}}
+
+
 def load_substrate_test_answers(substrate_name: str) -> dict:
     """Load test answers from a substrate"""
     if substrate_name == 'postgres':
@@ -347,6 +458,12 @@ def collect_all_data():
         else:
             grades["run_metadata"] = {"last_run": None, "last_successful_run": None}
 
+        # Load test answers for this substrate
+        grades["test_answers"] = load_substrate_test_answers(substrate)
+
+        # Load substrate report content (tabs and their HTML)
+        grades["report_content"] = load_substrate_report_content(substrate)
+
         all_grades[substrate] = grades
 
     # Build report data structure
@@ -358,7 +475,8 @@ def collect_all_data():
             "directory_name": os.path.basename(PROJECT_ROOT),
             "rulebook_path": RULEBOOK_PATH,
             "rulebook_name": rulebook_name,
-            "rulebook_description": rulebook.get("Description", "")
+            "rulebook_description": rulebook.get("Description", ""),
+            "base_id": get_base_id()
         },
         "summary": {
             "total_substrates": len(substrates),
@@ -448,16 +566,19 @@ def generate_html(data: dict) -> str:
                 <span class="project-name">Orchestration Report</span>
             </div>
         </div>
-        <button id="theme-toggle" title="Toggle dark/light mode">
-            <span class="sun">&#9728;</span>
-            <span class="moon">&#9790;</span>
-        </button>
+        <div class="header-actions">
+            {f'<a href="https://airtable.com/{data["meta"]["base_id"]}" target="_blank" class="airtable-link" title="Open in Airtable">Airtable &#8599;</a>' if data["meta"].get("base_id") else ''}
+            <button id="theme-toggle" title="Toggle dark/light mode">
+                <span class="sun">&#9728;</span>
+                <span class="moon">&#9790;</span>
+            </button>
+        </div>
     </header>
 
     <nav class="tabs" id="main-tabs">
         <button class="tab active" data-tab="overview">Overview</button>
+        <button class="tab" data-tab="substrates">Conformance Test Results</button>
         <button class="tab" data-tab="entities">Entities</button>
-        <button class="tab" data-tab="substrates">Substrates</button>
     </nav>
 
     <main>
@@ -467,7 +588,7 @@ def generate_html(data: dict) -> str:
                     <div class="stat-value" id="passing-count">
                         {data["summary"]["passing_substrates"]} / {data["summary"]["total_substrates"]}
                     </div>
-                    <div class="stat-label">Substrates Passing</div>
+                    <div class="stat-label">Tests Passing</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-value score-{get_score_class(data["summary"]["overall_score"])}">
@@ -489,17 +610,12 @@ def generate_html(data: dict) -> str:
                 </div>
             </div>
 
-            <div class="runtime-chart">
-                <h3>Runtime by Substrate</h3>
-                <div class="bar-container" id="runtime-bars"></div>
-            </div>
-
-            <h2>Substrates</h2>
+            <h2>Conformance Test Results</h2>
             <div class="substrate-links">
                 {generate_substrate_links(data)}
             </div>
 
-            <h2>Substrate Health Matrix</h2>
+            <h2>Conformance Test Matrix</h2>
             <div class="matrix-container">
                 <table class="health-matrix" id="health-matrix">
                     <thead>
@@ -508,6 +624,7 @@ def generate_html(data: dict) -> str:
                             {generate_entity_headers(data)}
                             <th>Score</th>
                             <th>Time</th>
+                            <th style="min-width: 120px;">Runtime</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -517,18 +634,18 @@ def generate_html(data: dict) -> str:
             </div>
         </section>
 
-        <section id="entities" class="tab-content">
-            <nav class="sub-tabs" id="entity-tabs">
-                {generate_entity_tabs(data)}
-            </nav>
-            <div id="entity-details"></div>
-        </section>
-
         <section id="substrates" class="tab-content">
             <nav class="sub-tabs" id="substrate-tabs">
                 {generate_substrate_tabs(data)}
             </nav>
             <div id="substrate-details"></div>
+        </section>
+
+        <section id="entities" class="tab-content">
+            <nav class="sub-tabs" id="entity-tabs">
+                {generate_entity_tabs(data)}
+            </nav>
+            <div id="entity-details"></div>
         </section>
 
     </main>
@@ -827,6 +944,21 @@ header {
 .header-content h1 { font-size: 1.25rem; font-weight: 600; }
 .header-meta { display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-secondary); }
 .project-name { font-weight: 500; }
+.header-actions { display: flex; align-items: center; gap: 0.75rem; }
+.airtable-link {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    transition: all 0.15s ease;
+}
+.airtable-link:hover {
+    color: var(--accent-color);
+    border-color: var(--accent-color);
+    background: var(--bg-secondary);
+}
 
 #theme-toggle {
     background: var(--bg-tertiary);
@@ -948,60 +1080,10 @@ h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--tex
 .score-cell { font-weight: 600; }
 .time-cell { color: var(--text-secondary); font-family: monospace; font-size: 0.75rem; }
 
-/* Runtime bar chart */
-.runtime-chart {
-    background: var(--bg-primary);
-    border: 1px solid var(--border-color);
-    border-radius: var(--radius);
-    padding: 1rem;
-    margin-bottom: 1.5rem;
-    box-shadow: var(--shadow);
-}
-.runtime-chart h3 {
-    font-size: 0.9rem;
-    margin-bottom: 0.75rem;
-    color: var(--text-primary);
-}
-.bar-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.4rem;
-}
-.bar-row {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-.bar-label {
-    width: 80px;
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    text-align: right;
-    flex-shrink: 0;
-}
-.bar-track {
-    flex: 1;
-    height: 18px;
-    background: var(--bg-tertiary);
-    border-radius: 3px;
-    overflow: hidden;
-    position: relative;
-}
-.bar-fill {
-    height: 100%;
-    background: var(--accent-color);
-    border-radius: 3px;
-    transition: width 0.3s ease;
-    min-width: 2px;
-}
-.bar-fill.bar-ai { background: var(--warning-color); }
-.bar-fill.bar-fast { background: var(--success-color); }
-.bar-time {
-    width: 50px;
-    font-size: 0.7rem;
-    font-family: monospace;
-    color: var(--text-secondary);
-    flex-shrink: 0;
+/* Runtime bar in health matrix */
+.runtime-bar-cell {
+    min-width: 100px;
+    padding: 0.4rem 0.5rem;
 }
 
 /* Sub-tabs - horizontal scrolling */
@@ -1125,6 +1207,46 @@ h2 { font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; color: var(--tex
 }
 .data-table th { background: var(--bg-tertiary); font-weight: 600; font-size: 0.75rem; }
 .data-table .computed { background: rgba(13, 110, 253, 0.1); }
+
+/* Blank tests section */
+.blank-tests-section { margin-bottom: 1.5rem; }
+.blank-tests-section h4 { margin-bottom: 0.5rem; }
+.blank-tests-section h4 .subtitle { font-weight: normal; font-size: 0.85rem; color: var(--text-secondary); }
+.blank-tests-intro { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem; line-height: 1.5; }
+.blank-tests-intro code { background: var(--bg-tertiary); padding: 0.1rem 0.3rem; border-radius: 3px; }
+.blank-test-entity { margin-bottom: 1rem; }
+.blank-test-header {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: var(--radius);
+    margin-bottom: 0.5rem;
+    font-size: 0.85rem;
+}
+.blank-test-header.stale { background: rgba(255, 193, 7, 0.15); border-left: 3px solid var(--warning-color); }
+.blank-test-header .entity-name { font-weight: 600; }
+.blank-test-header .record-count { color: var(--text-secondary); }
+.blank-test-header .last-modified { color: var(--text-secondary); font-size: 0.8rem; }
+.blank-test-header .stale-warning { color: var(--warning-color); font-weight: 500; margin-left: auto; }
+/* Stale entity styling */
+.stale-entity { background: rgba(255, 193, 7, 0.1) !important; border-left: 3px solid var(--warning-color); }
+.stale-entity-section { margin-top: 0.5rem; }
+.stale-entity-warning {
+    background: rgba(255, 193, 7, 0.15);
+    border: 1px solid var(--warning-color);
+    border-left: 3px solid var(--warning-color);
+    border-radius: var(--radius);
+    padding: 0.75rem 1rem;
+    margin-bottom: 1rem;
+}
+.stale-entity-warning strong { color: var(--warning-color); display: block; margin-bottom: 0.5rem; }
+.stale-entity-warning p { margin: 0.5rem 0; font-size: 0.85rem; line-height: 1.5; }
+.stale-entity-warning code { background: var(--bg-tertiary); padding: 0.1rem 0.3rem; border-radius: 3px; }
+.stale-explanation { color: var(--text-secondary); font-style: italic; }
+.stale-data-table { opacity: 0.85; }
+.stale-data-table .null-value { color: var(--text-secondary); font-style: italic; }
 
 /* Warnings and failures */
 .warning-banner {
@@ -1327,18 +1449,59 @@ footer {
     margin-right: 0.25rem;
 }
 
+/* Raw fact cells - no special styling, just display the value */
+.graded-test-table .cell-raw {
+    font-family: monospace;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+/* Computed column highlighting - adds subtle accent border */
+.graded-test-table td.computed {
+    border-left: 2px solid var(--accent-color);
+}
+
 /* Tooltip for full text on hover */
 [title] { cursor: help; }
 
-/* Substrate view tabs and iframe */
+/* Substrate view tabs */
 .substrate-view { display: none; }
 .substrate-view.active { display: block; }
-.substrate-report-iframe {
-    width: 100%;
-    min-height: 600px;
+
+/* Dynamic substrate content from embedded report */
+.substrate-dynamic-view {
+    background: var(--bg-primary);
     border: 1px solid var(--border-color);
     border-radius: var(--radius);
-    background: var(--bg-primary);
+    padding: 1rem;
+}
+.substrate-dynamic-view pre {
+    background: var(--code-bg);
+    padding: 0.75rem;
+    border-radius: var(--radius);
+    overflow-x: auto;
+    font-size: 0.8rem;
+}
+.substrate-dynamic-view code {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+    font-size: 0.8rem;
+}
+.substrate-dynamic-view table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+}
+.substrate-dynamic-view th, .substrate-dynamic-view td {
+    padding: 0.5rem;
+    border: 1px solid var(--border-color);
+    text-align: left;
+}
+.substrate-dynamic-view th {
+    background: var(--bg-secondary);
+    font-weight: 600;
+}
+#substrate-dynamic-tabs {
+    display: contents;
 }
 
 /* Postgres report section */
@@ -1442,42 +1605,38 @@ function getSubstrateReportUrl(substrateName) {
     return window.location.protocol === 'file:' ? localPath : onlinePath;
 }
 
-// Runtime bar chart
-function formatTime(seconds) {
-    if (seconds < 60) return seconds.toFixed(1) + 's';
-    const mins = Math.floor(seconds / 60);
-    if (mins < 60) return mins + 'm';
-    const hrs = Math.floor(mins / 60);
-    return hrs + 'h';
-}
-
+// Runtime bars in health matrix table
 function renderRuntimeBars() {
-    const container = document.getElementById('runtime-bars');
-    if (!container || !REPORT_DATA.substrates) return;
+    const table = document.getElementById('health-matrix');
+    if (!table || !REPORT_DATA.substrates) return;
 
-    const substrates = Object.entries(REPORT_DATA.substrates)
+    // Calculate max time for scaling (exclude answer-key postgres)
+    const times = Object.entries(REPORT_DATA.substrates)
         .filter(([name]) => name !== 'postgres')
-        .map(([name, data]) => ({
-            name,
-            time: data.runtime_seconds || 0
-        }))
-        .sort((a, b) => b.time - a.time);
+        .map(([name, data]) => data.elapsed_seconds || 0);
+    const maxTime = Math.max(...times, 1);
 
-    const maxTime = Math.max(...substrates.map(s => s.time), 1);
+    // Add bar cells to each row
+    const rows = table.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const substrateCell = row.querySelector('.substrate-name');
+        if (!substrateCell) return;
 
-    container.innerHTML = substrates.map(s => {
-        const pct = (s.time / maxTime) * 100;
-        const barClass = s.time > 60 ? 'bar-ai' : (s.time < 1 ? 'bar-fast' : '');
-        return `
-            <div class="bar-row">
-                <span class="bar-label">${s.name}</span>
-                <div class="bar-track">
-                    <div class="bar-fill ${barClass}" style="width: ${Math.max(pct, 0.5)}%"></div>
-                </div>
-                <span class="bar-time">${formatTime(s.time)}</span>
+        const substrateName = substrateCell.dataset.substrate;
+        const data = REPORT_DATA.substrates[substrateName];
+        const time = data ? (data.elapsed_seconds || 0) : 0;
+        const pct = (time / maxTime) * 100;
+        const barColor = time > 60 ? 'var(--warning-color)' : (time < 1 ? 'var(--success-color)' : 'var(--accent-color)');
+
+        const barCell = document.createElement('td');
+        barCell.className = 'runtime-bar-cell';
+        barCell.innerHTML = `
+            <div style="height: 14px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden;">
+                <div style="width: ${Math.max(pct, 0.5)}%; height: 100%; background: ${barColor}; border-radius: 3px;"></div>
             </div>
         `;
-    }).join('');
+        row.appendChild(barCell);
+    });
 }
 
 renderRuntimeBars();
@@ -1497,17 +1656,31 @@ themeToggle.addEventListener('click', () => {
 });
 
 // URL-BASED ROUTING
+// Hash format: tab/substrate/viewTab/entity
 function parseUrlHash() {
     const hash = window.location.hash.slice(1);
-    if (!hash) return { tab: 'overview', item: null };
+    if (!hash) return { tab: 'overview', item: null, viewTab: null, entity: null };
     const parts = hash.split('/');
-    return { tab: parts[0] || 'overview', item: parts[1] ? decodeURIComponent(parts[1]) : null };
+    return {
+        tab: parts[0] || 'overview',
+        item: parts[1] ? decodeURIComponent(parts[1]) : null,
+        viewTab: parts[2] ? decodeURIComponent(parts[2]) : null,
+        entity: parts[3] ? decodeURIComponent(parts[3]) : null
+    };
 }
 
-function updateUrlHash(tab, item = null) {
-    const hash = item ? `${tab}/${encodeURIComponent(item)}` : tab;
+function updateUrlHash(tab, item = null, viewTab = null, entity = null) {
+    let hash = tab;
+    if (item) hash += '/' + encodeURIComponent(item);
+    if (viewTab) hash += '/' + encodeURIComponent(viewTab);
+    if (entity) hash += '/' + encodeURIComponent(entity);
     history.replaceState(null, '', `#${hash}`);
 }
+
+// Track current substrate state for URL updates
+let currentSubstrateName = null;
+let currentViewTab = 'data';
+let currentEntityInView = null;
 
 window.addEventListener('hashchange', () => {
     const state = parseUrlHash();
@@ -1515,7 +1688,7 @@ window.addEventListener('hashchange', () => {
 });
 
 function navigateToState(state, updateUrl = true) {
-    const { tab, item } = state;
+    const { tab, item, viewTab, entity } = state;
     mainTabs.forEach(t => t.classList.remove('active'));
     tabContents.forEach(c => c.classList.remove('active'));
 
@@ -1524,16 +1697,18 @@ function navigateToState(state, updateUrl = true) {
     document.getElementById(tab)?.classList.add('active');
 
     if (tab === 'entities' && item) selectEntityTabNoUrl(item);
-    else if (tab === 'substrates' && item) selectSubstrateTabNoUrl(item);
+    else if (tab === 'substrates' && item) {
+        selectSubstrateTabNoUrl(item, viewTab, entity);
+    }
     else if (tab === 'entities') {
         const entities = Object.keys(REPORT_DATA.entities).sort();
         if (entities.length > 0) selectEntityTabNoUrl(entities[0]);
     } else if (tab === 'substrates') {
         const substrates = Object.keys(REPORT_DATA.substrates).sort();
-        if (substrates.length > 0) selectSubstrateTabNoUrl(substrates[0]);
+        if (substrates.length > 0) selectSubstrateTabNoUrl(substrates[0], viewTab, entity);
     }
 
-    if (updateUrl) updateUrlHash(tab, item);
+    if (updateUrl) updateUrlHash(tab, item, viewTab, entity);
 }
 
 const mainTabs = document.querySelectorAll('#main-tabs .tab');
@@ -1546,14 +1721,23 @@ mainTabs.forEach(tab => {
         tabContents.forEach(c => c.classList.remove('active'));
         tab.classList.add('active');
         document.getElementById(tabId)?.classList.add('active');
-        updateUrlHash(tabId);
 
         if (tabId === 'entities') {
             const entities = Object.keys(REPORT_DATA.entities).sort();
             if (entities.length > 0) selectEntityTab(entities[0]);
+            updateUrlHash(tabId);
         } else if (tabId === 'substrates') {
+            // Remember last substrate and view tab when returning to this tab
             const substrates = Object.keys(REPORT_DATA.substrates).sort();
-            if (substrates.length > 0) selectSubstrateTab(substrates[0]);
+            const substrateToShow = currentSubstrateName && substrates.includes(currentSubstrateName)
+                ? currentSubstrateName
+                : substrates[0];
+            if (substrateToShow) {
+                selectSubstrateTabNoUrl(substrateToShow, currentViewTab, currentEntityInView);
+                updateUrlHash('substrates', substrateToShow, currentViewTab, currentEntityInView);
+            }
+        } else {
+            updateUrlHash(tabId);
         }
     });
 });
@@ -1686,26 +1870,38 @@ function renderEntitySubstrateDetails(entityName, substrateName) {
         entityGrades.failures.forEach(f => { failureLookup[`${f.pk}|${f.field}`] = f; });
     }
 
+    // Get all columns from the schema to preserve proper order (not from answer_key which may be unordered)
+    const schemaFields = entity.schema ? entity.schema.map(f => f.name.replace(/([A-Z])/g, (m, c, i) => i > 0 ? '_' + c.toLowerCase() : c.toLowerCase())) : [];
+    const allCols = schemaFields.length > 0 ? schemaFields : (answerKey.length > 0 ? Object.keys(answerKey[0]) : []);
+
     let html = '<div class="table-scroll"><table class="graded-test-table"><thead><tr>';
-    html += `<th>Record</th>`;
-    computedCols.forEach(col => { html += `<th class="computed-col-header">${escapeHtml(col)}</th>`; });
+    allCols.forEach(col => {
+        const isComputed = computedCols.includes(col);
+        html += `<th class="${isComputed ? 'computed-col-header' : ''}">${escapeHtml(col)}</th>`;
+    });
     html += '</tr></thead><tbody>';
 
     answerKey.forEach(record => {
         const pkVal = record[pk];
-        html += `<tr><td class="record-pk" title="${escapeHtml(String(pkVal))}">${escapeHtml(String(pkVal))}</td>`;
-        computedCols.forEach(col => {
-            const expectedVal = record[col];
+        html += '<tr>';
+        allCols.forEach(col => {
+            const isComputed = computedCols.includes(col);
+            const val = record[col];
             const failKey = `${pkVal}|${col}`;
             const failure = failureLookup[failKey];
-            if (failure) {
-                html += `<td class="cell-failed" title="Expected: ${escapeHtml(String(failure.expected))}&#10;Actual: ${escapeHtml(String(failure.actual))}">
+
+            if (isComputed && failure) {
+                html += `<td class="cell-failed computed" title="Expected: ${escapeHtml(String(failure.expected))}&#10;Actual: ${escapeHtml(String(failure.actual))}">
                     <span class="expected-actual"><span class="expected-label">E:</span><code class="expected">${escapeHtml(String(failure.expected))}</code></span>
                     <span class="expected-actual"><span class="actual-label">A:</span><code class="actual">${escapeHtml(String(failure.actual))}</code></span>
                 </td>`;
+            } else if (isComputed) {
+                const valStr = val !== null ? String(val) : 'null';
+                html += `<td class="cell-passed computed" title="${escapeHtml(valStr)}"><span class="check-mark">&#10003;</span><code>${escapeHtml(valStr)}</code></td>`;
             } else {
-                const valStr = String(expectedVal);
-                html += `<td class="cell-passed" title="${escapeHtml(valStr)}"><span class="check-mark">&#10003;</span><code>${escapeHtml(valStr)}</code></td>`;
+                // Raw fact - just display the value without pass/fail styling
+                const valStr = val !== null ? String(val) : 'null';
+                html += `<td class="cell-raw" title="${escapeHtml(valStr)}">${escapeHtml(valStr)}</td>`;
             }
         });
         html += '</tr>';
@@ -1724,16 +1920,40 @@ if (entityTabs.length > 0 && REPORT_DATA.entities) {
 const substrateTabs = document.querySelectorAll('#substrate-tabs .sub-tab');
 const substrateDetails = document.getElementById('substrate-details');
 
-function selectSubstrateTabNoUrl(substrateName) {
+// Shared tabs that exist on all substrates - preserve these when switching
+const SHARED_VIEW_TABS = ['data', 'schema', 'dynamic-description', 'dynamic-log', 'dynamic-results'];
+
+function isSharedViewTab(viewTab) {
+    return SHARED_VIEW_TABS.includes(viewTab);
+}
+
+function selectSubstrateTabNoUrl(substrateName, viewTab = null, entity = null) {
     substrateTabs.forEach(t => t.classList.remove('active'));
     const targetTab = document.querySelector(`#substrate-tabs .sub-tab[data-substrate="${substrateName}"]`);
     if (targetTab) targetTab.classList.add('active');
-    renderSubstrateDetails(substrateName);
+    currentSubstrateName = substrateName;
+    // If no viewTab specified, keep current if it's shared, otherwise default to 'data'
+    if (viewTab) {
+        currentViewTab = viewTab;
+    } else if (!isSharedViewTab(currentViewTab)) {
+        currentViewTab = 'data';
+    }
+    // Keep currentViewTab as-is if it's a shared tab
+    currentEntityInView = entity !== null ? entity : currentEntityInView;
+    renderSubstrateDetails(substrateName, currentViewTab, currentEntityInView);
 }
 
 function selectSubstrateTab(substrateName) {
-    selectSubstrateTabNoUrl(substrateName);
-    updateUrlHash('substrates', substrateName);
+    // Preserve shared view tab when switching substrates
+    const viewTabToUse = isSharedViewTab(currentViewTab) ? currentViewTab : 'data';
+    selectSubstrateTabNoUrl(substrateName, viewTabToUse, currentEntityInView);
+    updateUrlHash('substrates', substrateName, currentViewTab, currentEntityInView);
+}
+
+function updateSubstrateUrl() {
+    if (currentSubstrateName) {
+        updateUrlHash('substrates', currentSubstrateName, currentViewTab, currentEntityInView);
+    }
 }
 
 function getScoreClass(score) {
@@ -1743,10 +1963,7 @@ function getScoreClass(score) {
     return 'danger';
 }
 
-// Track current entity within substrate view
-let currentSubstrateEntity = null;
-
-function renderSubstrateDetails(substrateName) {
+function renderSubstrateDetails(substrateName, restoreViewTab = null, restoreEntity = null) {
     const substrate = REPORT_DATA.substrates[substrateName];
     if (!substrate) { substrateDetails.innerHTML = '<p>Substrate not found</p>'; return; }
 
@@ -1781,49 +1998,24 @@ function renderSubstrateDetails(substrateName) {
         html += `<div class="failure-card"><code class="actual">${escapeHtml(substrate.error)}</code></div>`;
     }
 
-    // Primary tabs: Report, Data, Schema
+    // Unified tabs: Data, Schema, then substrate-specific tabs (loaded dynamically)
     html += '<nav class="sub-tabs" id="substrate-view-tabs">';
-    html += `<button class="sub-tab active" data-view="report">Report</button>`;
-    html += `<button class="sub-tab" data-view="data">Data</button>`;
+    html += `<button class="sub-tab active" data-view="data">Data</button>`;
     html += `<button class="sub-tab" data-view="schema">Schema</button>`;
+    if (isAnswerKey) {
+        html += `<button class="sub-tab" data-view="about">About</button>`;
+    }
+    // Substrate-specific tabs will be added dynamically after fetch
+    html += '<span id="substrate-dynamic-tabs"></span>';
     html += '</nav>';
 
     // Tab content containers
     html += '<div id="substrate-view-content">';
 
-    // Report tab - iframe to substrate-report.html or postgres explanation
-    html += '<div id="substrate-report-view" class="substrate-view active">';
-    if (!isAnswerKey) {
-        html += `<iframe src="${getSubstrateReportUrl(escapeHtml(substrateName))}" class="substrate-report-iframe" frameborder="0"></iframe>`;
-    } else {
-        html += '<div class="postgres-report">';
-        html += '<h4>PostgreSQL Reference Implementation</h4>';
-        html += '<p class="postgres-intro">PostgreSQL serves as the <strong>reference implementation</strong> for this rulebook. It is not privileged or special—it is simply the most reliable and consistent answer key generator due to its mature SQL engine and deterministic calculation behavior.</p>';
-        html += '<div class="postgres-details">';
-        html += '<h5>Why PostgreSQL?</h5>';
-        html += '<ul>';
-        html += '<li><strong>Deterministic calculations</strong> — SQL functions produce consistent, reproducible results</li>';
-        html += '<li><strong>Mature type system</strong> — Handles numeric precision, dates, and text reliably</li>';
-        html += '<li><strong>Declarative formulas</strong> — The rulebook formulas map directly to SQL expressions</li>';
-        html += '<li><strong>Battle-tested</strong> — Decades of production use ensures edge cases are handled correctly</li>';
-        html += '</ul>';
-        html += '<h5>The Point</h5>';
-        html += '<p>All substrates should converge on the same answers. PostgreSQL generates the "answer key" not because it is authoritative, but because it is the most <em>reliable</em> substrate for computing correct values. When other substrates match PostgreSQL, it validates that:</p>';
-        html += '<ol>';
-        html += '<li>The rulebook formulas are unambiguous across execution environments</li>';
-        html += '<li>Each substrate correctly interprets and executes the business logic</li>';
-        html += '<li>The same inputs produce the same outputs—regardless of implementation language</li>';
-        html += '</ol>';
-        html += '<p class="postgres-conclusion"><strong>Everything ends up agreeing—that is the point.</strong> The orchestration tests prove that diverse implementations (JavaScript, Python, Go, spreadsheets, etc.) all compute identical results from the same rulebook specification.</p>';
-        html += '</div>';
-        html += '</div>';
-    }
-    html += '</div>';
+    // Data tab - graded test results (now first/active)
+    html += '<div id="substrate-data-view" class="substrate-view active">';
 
-    // Data tab - graded test results
-    html += '<div id="substrate-data-view" class="substrate-view">';
-
-    // Get entities with results
+    // Get entities with results from current ontology
     const entitiesWithResults = Object.keys(REPORT_DATA.entities).sort().filter(entityName => {
         const entity = REPORT_DATA.entities[entityName];
         const computedCols = entity.computed_columns || [];
@@ -1831,12 +2023,23 @@ function renderSubstrateDetails(substrateName) {
         return computedCols.length > 0 && answerKey.length > 0;
     });
 
-    if (entitiesWithResults.length === 0) {
+    // Get stale entities: in substrate's test_answers but NOT in current ontology
+    const testAnswers = substrate.test_answers || {};
+    const staleEntities = Object.keys(testAnswers).sort().filter(entityName => {
+        return !REPORT_DATA.entities[entityName];
+    });
+
+    const hasCurrentResults = entitiesWithResults.length > 0;
+    const hasStaleResults = staleEntities.length > 0;
+
+    if (!hasCurrentResults && !hasStaleResults) {
         html += '<p class="no-results">No test results available.</p>';
     } else {
         // Entity tabs within substrate view
         html += '<h4>Graded Test Results</h4>';
         html += '<nav class="sub-tabs" id="substrate-entity-tabs">';
+
+        // Current ontology entities (with grading)
         entitiesWithResults.forEach((entityName, i) => {
             const entity = REPORT_DATA.entities[entityName];
             const entityGrades = substrate.entities ? substrate.entities[entityName] : null;
@@ -1847,6 +2050,13 @@ function renderSubstrateDetails(substrateName) {
             const active = i === 0 ? 'active' : '';
             html += `<button class="sub-tab ${active} score-${eClass}" data-entity="${escapeHtml(entityName)}">${escapeHtml(entityName)} (${ePassed}/${eTotal})</button>`;
         });
+
+        // Stale entities (from previous ontology - no grading possible)
+        staleEntities.forEach((entityName, i) => {
+            const active = (!hasCurrentResults && i === 0) ? 'active' : '';
+            html += `<button class="sub-tab ${active} stale-entity" data-entity="${escapeHtml(entityName)}" data-stale="true">${escapeHtml(entityName)} (stale)</button>`;
+        });
+
         html += '</nav>';
         html += '<div id="substrate-entity-content"></div>';
     }
@@ -1890,35 +2100,92 @@ function renderSubstrateDetails(substrateName) {
     });
     html += '</div>';
 
+    // About tab for postgres (answer key)
+    if (isAnswerKey) {
+        html += '<div id="substrate-about-view" class="substrate-view">';
+        html += '<div class="postgres-report">';
+        html += '<h4>PostgreSQL Reference Implementation</h4>';
+        html += '<p class="postgres-intro">PostgreSQL serves as the <strong>reference implementation</strong> for this rulebook. It is not privileged or special—it is simply the most reliable and consistent answer key generator due to its mature SQL engine and deterministic calculation behavior.</p>';
+        html += '<div class="postgres-details">';
+        html += '<h5>Why PostgreSQL?</h5>';
+        html += '<ul>';
+        html += '<li><strong>Deterministic calculations</strong> — SQL functions produce consistent, reproducible results</li>';
+        html += '<li><strong>Mature type system</strong> — Handles numeric precision, dates, and text reliably</li>';
+        html += '<li><strong>Declarative formulas</strong> — The rulebook formulas map directly to SQL expressions</li>';
+        html += '<li><strong>Battle-tested</strong> — Decades of production use ensures edge cases are handled correctly</li>';
+        html += '</ul>';
+        html += '<h5>The Point</h5>';
+        html += '<p>All substrates should converge on the same answers. PostgreSQL generates the "answer key" not because it is authoritative, but because it is the most <em>reliable</em> substrate for computing correct values. When other substrates match PostgreSQL, it validates that:</p>';
+        html += '<ol>';
+        html += '<li>The rulebook formulas are unambiguous across execution environments</li>';
+        html += '<li>Each substrate correctly interprets and executes the business logic</li>';
+        html += '<li>The same inputs produce the same outputs—regardless of implementation language</li>';
+        html += '</ol>';
+        html += '<p class="postgres-conclusion"><strong>Everything ends up agreeing—that is the point.</strong> The orchestration tests prove that diverse implementations (JavaScript, Python, Go, spreadsheets, etc.) all compute identical results from the same rulebook specification.</p>';
+        html += '</div>';
+        html += '</div>';
+        html += '</div>';
+    }
+
+    // Container for dynamically loaded substrate-specific tabs
+    html += '<div id="substrate-dynamic-content"></div>';
+
     html += '</div>'; // end substrate-view-content
 
     substrateDetails.innerHTML = html;
 
-    // Attach handlers to view tabs (Report/Data/Schema)
-    document.querySelectorAll('#substrate-view-tabs .sub-tab').forEach(tab => {
-        tab.addEventListener('click', () => {
-            document.querySelectorAll('#substrate-view-tabs .sub-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.substrate-view').forEach(v => v.classList.remove('active'));
-            tab.classList.add('active');
-            const view = tab.dataset.view;
-            document.getElementById(`substrate-${view}-view`)?.classList.add('active');
-        });
-    });
+    // Load substrate-specific tabs for non-answer-key substrates
+    if (!isAnswerKey) {
+        loadSubstrateTabs(substrateName);
+    }
 
-    // Attach handlers to entity tabs
+    // Attach handlers to view tabs with URL tracking
+    attachViewTabHandlers();
+
+    // Attach handlers to entity tabs with URL tracking
     document.querySelectorAll('#substrate-entity-tabs .sub-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             document.querySelectorAll('#substrate-entity-tabs .sub-tab').forEach(t => t.classList.remove('active'));
             tab.classList.add('active');
-            currentSubstrateEntity = tab.dataset.entity;
+            currentEntityInView = tab.dataset.entity;
             renderSubstrateEntityContent(substrateName, tab.dataset.entity);
+            updateSubstrateUrl();
         });
     });
 
-    // Render first entity in data view
-    if (entitiesWithResults.length > 0) {
-        currentSubstrateEntity = entitiesWithResults[0];
-        renderSubstrateEntityContent(substrateName, entitiesWithResults[0]);
+    // Restore view tab from URL if provided, or fall back to 'data'
+    if (restoreViewTab) {
+        const viewTabBtn = document.querySelector(`#substrate-view-tabs .sub-tab[data-view="${restoreViewTab}"]`);
+        if (viewTabBtn) {
+            document.querySelectorAll('#substrate-view-tabs .sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.substrate-view').forEach(v => v.classList.remove('active'));
+            viewTabBtn.classList.add('active');
+            document.getElementById(`substrate-${restoreViewTab}-view`)?.classList.add('active');
+            currentViewTab = restoreViewTab;
+        } else {
+            // Tab doesn't exist on this substrate, fall back to 'data'
+            currentViewTab = 'data';
+            // Data tab is already active by default from the HTML
+        }
+    }
+
+    // Determine which entity to show
+    let entityToShow = null;
+    if (restoreEntity && entitiesWithResults.includes(restoreEntity)) {
+        entityToShow = restoreEntity;
+    } else if (entitiesWithResults.length > 0) {
+        entityToShow = entitiesWithResults[0];
+    }
+
+    // Restore entity tab from URL or default to first
+    if (entityToShow) {
+        const entityTabBtn = document.querySelector(`#substrate-entity-tabs .sub-tab[data-entity="${entityToShow}"]`);
+        if (entityTabBtn) {
+            document.querySelectorAll('#substrate-entity-tabs .sub-tab').forEach(t => t.classList.remove('active'));
+            entityTabBtn.classList.add('active');
+        }
+        currentEntityInView = entityToShow;
+        renderSubstrateEntityContent(substrateName, entityToShow);
     }
 }
 
@@ -1928,11 +2195,31 @@ function renderSubstrateEntityContent(substrateName, entityName) {
 
     const substrate = REPORT_DATA.substrates[substrateName];
     const entity = REPORT_DATA.entities[entityName];
+
+    // Check if this is a stale entity (not in current ontology)
+    if (!entity) {
+        renderStaleEntityContent(container, substrateName, entityName, substrate);
+        return;
+    }
+
     const entityGrades = substrate.entities ? substrate.entities[entityName] : null;
     const answerKey = entity.answer_key || [];
     const computedCols = entity.computed_columns || [];
     const computedColsInfo = entity.computed_columns_info || [];
     const pk = entity.primary_key;
+
+    // Get substrate's actual test answers for this entity
+    const substrateTestAnswers = substrate.test_answers ? substrate.test_answers[entityName] : null;
+    const hasTestData = substrateTestAnswers && substrateTestAnswers.length > 0;
+
+    // Build lookup of test answers by primary key
+    const testAnswerLookup = {};
+    if (hasTestData) {
+        substrateTestAnswers.forEach(record => {
+            const pkVal = record[pk];
+            if (pkVal) testAnswerLookup[pkVal] = record;
+        });
+    }
 
     const entityDesc = entity.description || '';
     const eTotal = entityGrades ? entityGrades.fields_tested : 0;
@@ -1941,6 +2228,11 @@ function renderSubstrateEntityContent(substrateName, entityName) {
 
     let html = '<div class="entity-test-section">';
     if (entityDesc) html += `<p class="entity-description">${escapeHtml(entityDesc)}</p>`;
+
+    // Show warning if no test data
+    if (!hasTestData) {
+        html += '<p class="no-test-data-warning" style="color: var(--warning-color); padding: 0.5rem; background: rgba(255,193,7,0.1); border-radius: 4px; margin-bottom: 1rem;">No test answers found for this entity. The substrate has not been run or did not produce output for this entity.</p>';
+    }
 
     // Computed columns in collapsible
     html += '<details><summary>Computed Columns (' + computedCols.length + ')</summary>';
@@ -1961,33 +2253,146 @@ function renderSubstrateEntityContent(substrateName, entityName) {
         entityGrades.failures.forEach(f => { failureLookup[`${f.pk}|${f.field}`] = f; });
     }
 
-    // Graded test table
+    // Graded test table - show ALL columns with computed ones highlighted
+    // Get all columns from the schema to preserve proper order (not from answer_key which may be unordered)
+    const schemaFields = entity.schema ? entity.schema.map(f => f.name.replace(/([A-Z])/g, (m, c, i) => i > 0 ? '_' + c.toLowerCase() : c.toLowerCase())) : [];
+    const allCols = schemaFields.length > 0 ? schemaFields : (answerKey.length > 0 ? Object.keys(answerKey[0]) : []);
+
     html += '<div class="table-scroll"><table class="graded-test-table"><thead><tr>';
-    html += `<th>Record</th>`;
-    computedCols.forEach(col => { html += `<th class="computed-col-header">${escapeHtml(col)}</th>`; });
+    allCols.forEach(col => {
+        const isComputed = computedCols.includes(col);
+        html += `<th class="${isComputed ? 'computed-col-header' : ''}">${escapeHtml(col)}</th>`;
+    });
     html += '</tr></thead><tbody>';
 
     answerKey.forEach(record => {
         const pkVal = record[pk];
-        html += `<tr><td class="record-pk" title="${escapeHtml(String(pkVal))}">${escapeHtml(String(pkVal))}</td>`;
-        computedCols.forEach(col => {
+        const testRecord = testAnswerLookup[pkVal] || {};
+        html += '<tr>';
+        allCols.forEach(col => {
+            const isComputed = computedCols.includes(col);
             const expectedVal = record[col];
+            const actualVal = testRecord[col];
             const failKey = `${pkVal}|${col}`;
             const failure = failureLookup[failKey];
-            if (failure) {
-                html += `<td class="cell-failed" title="Expected: ${escapeHtml(String(failure.expected))}&#10;Actual: ${escapeHtml(String(failure.actual))}">
-                    <span class="expected-actual"><span class="expected-label">E:</span><code class="expected">${escapeHtml(String(failure.expected))}</code></span>
-                    <span class="expected-actual"><span class="actual-label">A:</span><code class="actual">${escapeHtml(String(failure.actual))}</code></span>
-                </td>`;
+
+            if (isComputed) {
+                if (!hasTestData) {
+                    // No test data - show expected value grayed out and crossed out
+                    const valStr = expectedVal !== null && expectedVal !== undefined ? String(expectedVal) : 'null';
+                    html += `<td class="cell-not-tested computed" title="Not tested - expected: ${escapeHtml(valStr)}" style="color: var(--text-secondary); background: rgba(108,117,125,0.1);"><code style="opacity: 0.5; text-decoration: line-through;">${escapeHtml(valStr)}</code></td>`;
+                } else if (failure) {
+                    html += `<td class="cell-failed computed" title="Expected: ${escapeHtml(String(failure.expected))}&#10;Actual: ${escapeHtml(String(failure.actual))}">
+                        <span class="expected-actual"><span class="expected-label">E:</span><code class="expected">${escapeHtml(String(failure.expected))}</code></span>
+                        <span class="expected-actual"><span class="actual-label">A:</span><code class="actual">${escapeHtml(String(failure.actual))}</code></span>
+                    </td>`;
+                } else {
+                    // Passed - show actual value from test answers
+                    const valStr = actualVal !== null && actualVal !== undefined ? String(actualVal) : 'null';
+                    html += `<td class="cell-passed computed" title="${escapeHtml(valStr)}"><span class="check-mark">&#10003;</span><code>${escapeHtml(valStr)}</code></td>`;
+                }
             } else {
-                const valStr = String(expectedVal);
-                html += `<td class="cell-passed" title="${escapeHtml(valStr)}"><span class="check-mark">&#10003;</span><code>${escapeHtml(valStr)}</code></td>`;
+                // Raw fact - display from answer key (these aren't tested, just context)
+                const valStr = expectedVal !== null && expectedVal !== undefined ? String(expectedVal) : 'null';
+                html += `<td class="cell-raw" title="${escapeHtml(valStr)}">${escapeHtml(valStr)}</td>`;
             }
         });
         html += '</tr>';
     });
     html += '</tbody></table></div></div>';
     container.innerHTML = html;
+}
+
+// Render stale entity content (entity from previous ontology, not in current rulebook)
+function renderStaleEntityContent(container, substrateName, entityName, substrate) {
+    const testAnswers = substrate.test_answers ? substrate.test_answers[entityName] : [];
+
+    let html = '<div class="stale-entity-section">';
+    html += '<div class="stale-entity-warning">';
+    html += '<strong>⚠ Stale Test Data</strong>';
+    html += '<p>This entity (<code>' + escapeHtml(entityName) + '</code>) is not part of the current ontology. ';
+    html += 'This data is from a previous rulebook and has not been updated.</p>';
+    html += '<p class="stale-explanation">This demonstrates a key failure mode of slower substrates (like English/LLM): ';
+    html += 'when the ontology changes, substrates that take time to re-run retain stale data from the previous model. ';
+    html += 'Unlike instant formal substrates, natural language requires effort to update.</p>';
+    html += '</div>';
+
+    if (!testAnswers || testAnswers.length === 0) {
+        html += '<p class="no-results">No test answer data found for this entity.</p>';
+    } else {
+        // Display all data as plain text - no grading possible without schema
+        const cols = Object.keys(testAnswers[0]);
+        html += '<h5>Raw Test Answers (' + testAnswers.length + ' records)</h5>';
+        html += '<div class="table-scroll"><table class="data-table stale-data-table"><thead><tr>';
+        cols.forEach(col => {
+            html += '<th>' + escapeHtml(col) + '</th>';
+        });
+        html += '</tr></thead><tbody>';
+        testAnswers.forEach(record => {
+            html += '<tr>';
+            cols.forEach(col => {
+                const val = record[col];
+                const display = val !== null && val !== undefined ? escapeHtml(String(val)) : '<span class="null-value">null</span>';
+                html += '<td>' + display + '</td>';
+            });
+            html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+    }
+
+    html += '</div>';
+    container.innerHTML = html;
+}
+
+// Attach view tab handlers (Data, Schema, and dynamically loaded tabs)
+function attachViewTabHandlers() {
+    document.querySelectorAll('#substrate-view-tabs .sub-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#substrate-view-tabs .sub-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.substrate-view').forEach(v => v.classList.remove('active'));
+            tab.classList.add('active');
+            const view = tab.dataset.view;
+            document.getElementById(`substrate-${view}-view`)?.classList.add('active');
+            currentViewTab = view;
+            updateSubstrateUrl();
+        });
+    });
+}
+
+// Load substrate-specific tabs from pre-loaded report_content data
+function loadSubstrateTabs(substrateName) {
+    const substrate = REPORT_DATA.substrates[substrateName];
+    const reportContent = substrate ? substrate.report_content : null;
+    const dynamicTabsContainer = document.getElementById('substrate-dynamic-tabs');
+    const dynamicContentContainer = document.getElementById('substrate-dynamic-content');
+
+    if (!dynamicTabsContainer || !dynamicContentContainer || !reportContent) return;
+
+    const tabs = reportContent.tabs || [];
+    const contents = reportContent.contents || {};
+
+    if (tabs.length === 0) {
+        // No substrate-specific tabs available
+        return;
+    }
+
+    // Build tab buttons for each substrate-specific tab
+    let tabButtonsHtml = '';
+    tabs.forEach(tab => {
+        tabButtonsHtml += `<button class="sub-tab" data-view="dynamic-${tab.id}">${escapeHtml(tab.label)}</button>`;
+    });
+    dynamicTabsContainer.innerHTML = tabButtonsHtml;
+
+    // Build content containers for each substrate-specific tab
+    let contentHtml = '';
+    tabs.forEach(tab => {
+        const tabContent = contents[tab.id] || '<p>Content not available</p>';
+        contentHtml += `<div id="substrate-dynamic-${tab.id}-view" class="substrate-view substrate-dynamic-view">${tabContent}</div>`;
+    });
+    dynamicContentContainer.innerHTML = contentHtml;
+
+    // Re-attach handlers to include the new tabs
+    attachViewTabHandlers();
 }
 
 if (substrateTabs.length > 0 && REPORT_DATA.substrates) {

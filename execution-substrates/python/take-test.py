@@ -17,18 +17,28 @@ import glob
 import json
 import os
 import sys
+from pathlib import Path
 
 # Add current directory to path to allow imports
 script_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, script_dir)
 
+# Add project root to path for shared imports
+sys.path.insert(0, str(Path(script_dir).parent.parent))
+
 from erb_calc import compute_all_calculated_fields
+from orchestration.shared import load_rulebook, compute_aggregations
 
 
-def process_entity(input_path: str, output_path: str, entity_name: str) -> int:
+def process_entity(input_path: str, output_path: str, entity_name: str,
+                   rulebook: dict = None, project_root: Path = None) -> int:
     """Process a single entity file, computing all calculated fields."""
     with open(input_path, 'r') as f:
         records = json.load(f)
+
+    # Compute aggregation fields first (e.g., COUNTIFS)
+    if rulebook is not None and project_root is not None:
+        records = compute_aggregations(records, entity_name, rulebook, project_root)
 
     # Compute all calculated fields for each record
     computed_records = []
@@ -46,22 +56,29 @@ def process_entity(input_path: str, output_path: str, entity_name: str) -> int:
 def run_multi_entity():
     """Process all entity files from shared testing/blank-tests/ directory."""
     # Use shared blank-tests directory at project root
-    project_root = os.path.join(script_dir, "..", "..")
-    blank_tests_dir = os.path.join(project_root, "testing", "blank-tests")
-    test_answers_dir = os.path.join(script_dir, "test-answers")
+    project_root = Path(script_dir).parent.parent
+    blank_tests_dir = project_root / "testing" / "blank-tests"
+    test_answers_dir = Path(script_dir) / "test-answers"
 
-    if not os.path.isdir(blank_tests_dir):
+    if not blank_tests_dir.is_dir():
         print(f"Error: {blank_tests_dir} not found")
         sys.exit(1)
 
+    # Load rulebook for aggregation computation
+    try:
+        rulebook = load_rulebook()
+    except FileNotFoundError as e:
+        print(f"Warning: Could not load rulebook for aggregations: {e}")
+        rulebook = None
+
     # Ensure output directory exists
-    os.makedirs(test_answers_dir, exist_ok=True)
+    test_answers_dir.mkdir(parents=True, exist_ok=True)
 
     # Process each entity file (skip metadata files starting with _)
     total_records = 0
     entity_count = 0
 
-    for input_path in sorted(glob.glob(os.path.join(blank_tests_dir, "*.json"))):
+    for input_path in sorted(glob.glob(str(blank_tests_dir / "*.json"))):
         filename = os.path.basename(input_path)
 
         # Skip metadata files
@@ -69,9 +86,9 @@ def run_multi_entity():
             continue
 
         entity = filename.replace('.json', '')
-        output_path = os.path.join(test_answers_dir, filename)
+        output_path = test_answers_dir / filename
 
-        count = process_entity(input_path, output_path, entity)
+        count = process_entity(input_path, str(output_path), entity, rulebook, project_root)
         total_records += count
         entity_count += 1
 

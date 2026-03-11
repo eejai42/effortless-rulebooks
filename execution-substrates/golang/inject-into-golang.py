@@ -49,6 +49,34 @@ def get_calculated_fields(schema: List[Dict]) -> List[Dict]:
     ]
 
 
+def get_aggregation_fields(schema: List[Dict]) -> List[Dict]:
+    """Extract all aggregation fields from a schema."""
+    return [
+        field for field in schema
+        if field.get('type') == 'aggregation' and field.get('formula')
+    ]
+
+
+def parse_countifs_formula(formula: str):
+    """
+    Parse a COUNTIFS formula to extract table and field references.
+
+    Formula format: =COUNTIFS(RelatedTable!{{LookupField}}, CurrentTable!{{MatchField}})
+    Example: =COUNTIFS(WorkflowSteps!{{Workflow}}, Workflows!{{WorkflowId}})
+
+    Returns: (related_table, lookup_field, match_field) or (None, None, None) if not parseable
+    """
+    # Match pattern: COUNTIFS(Table!{{Field}}, Table!{{Field}})
+    pattern = r'=COUNTIFS\((\w+)!\{\{(\w+)\}\},\s*\w+!\{\{(\w+)\}\}\)'
+    match = re.match(pattern, formula)
+    if match:
+        related_table = match.group(1)  # e.g., "WorkflowSteps"
+        lookup_field = match.group(2)   # e.g., "Workflow"
+        match_field = match.group(3)    # e.g., "WorkflowId"
+        return (related_table, lookup_field, match_field)
+    return (None, None, None)
+
+
 def get_raw_fields(schema: List[Dict]) -> List[Dict]:
     """Extract all raw fields from a schema."""
     return [field for field in schema if field.get('type') == 'raw']
@@ -547,7 +575,28 @@ def generate_erb_sdk(rulebook: Dict) -> str:
     return '\n'.join(lines)
 
 
-def generate_main_go(tables_with_calc: list) -> str:
+def get_table_aggregations(rulebook: Dict, table_name: str) -> List[Dict]:
+    """Get aggregation fields for a table with parsed formula info."""
+    table_data = rulebook.get(table_name, {})
+    if not isinstance(table_data, dict) or 'schema' not in table_data:
+        return []
+
+    agg_fields = get_aggregation_fields(table_data.get('schema', []))
+    result = []
+    for field in agg_fields:
+        formula = field.get('formula', '')
+        related_table, lookup_field, match_field = parse_countifs_formula(formula)
+        if related_table:
+            result.append({
+                'field': field,
+                'related_table': related_table,
+                'lookup_field': lookup_field,
+                'match_field': match_field
+            })
+    return result
+
+
+def generate_main_go(tables_with_calc: list, rulebook: Dict) -> str:
     """Generate main.go content that processes ALL tables with calculated fields.
 
     IMPORTANT: This file is ALWAYS regenerated when inject-into-golang.py runs.
@@ -555,7 +604,18 @@ def generate_main_go(tables_with_calc: list) -> str:
 
     Args:
         tables_with_calc: List of table names that have calculated fields
+        rulebook: The loaded rulebook for aggregation info
     """
+    # Collect all related tables needed for aggregations
+    all_related_tables = set()
+    table_aggregations = {}
+    for table_name in tables_with_calc:
+        aggs = get_table_aggregations(rulebook, table_name)
+        if aggs:
+            table_aggregations[table_name] = aggs
+            for agg in aggs:
+                all_related_tables.add(agg['related_table'])
+
     lines = []
     lines.append('// ERB SDK - Go Test Runner (GENERATED - DO NOT EDIT)')
     lines.append('// =======================================================')
@@ -563,6 +623,8 @@ def generate_main_go(tables_with_calc: list) -> str:
     lines.append('// It must stay in sync with erb_sdk.go and the rulebook.')
     lines.append('//')
     lines.append(f'// Tables with calculated fields: {", ".join(tables_with_calc)}')
+    if table_aggregations:
+        lines.append(f'// Tables with aggregations: {", ".join(table_aggregations.keys())}')
     lines.append('//')
     lines.append('// IMPORTANT: This runner processes ALL tables, not just a "primary" one.')
     lines.append('// If ANY table fails to process, the entire run fails with exit code 1.')
@@ -601,10 +663,27 @@ def generate_main_go(tables_with_calc: list) -> str:
     lines.append('\tvar totalRecords int')
     lines.append('')
 
+    # If there are aggregations, load related tables first
+    if all_related_tables:
+        lines.append('\t// ─────────────────────────────────────────────────────────────────')
+        lines.append('\t// Load related tables for aggregation calculations')
+        lines.append('\t// ─────────────────────────────────────────────────────────────────')
+
+        for related_table in sorted(all_related_tables):
+            related_snake = to_snake_case(related_table)
+            related_struct = table_name_to_struct_name(related_table)
+            lines.append(f'\t{related_snake}Data, err := Load{related_struct}Records(filepath.Join(blankTestsDir, "{related_snake}.json"))')
+            lines.append('\tif err != nil {')
+            lines.append(f'\t\tfmt.Fprintf(os.Stderr, "Warning: Could not load {related_table} for aggregations: %v\\n", err)')
+            lines.append(f'\t\t{related_snake}Data = nil')
+            lines.append('\t}')
+        lines.append('')
+
     # Generate processing code for each table
     for table_name in tables_with_calc:
         struct_name = table_name_to_struct_name(table_name)
         table_snake = to_snake_case(table_name)
+        aggs = table_aggregations.get(table_name, [])
 
         lines.append(f'\t// ─────────────────────────────────────────────────────────────────')
         lines.append(f'\t// Process {table_name}')
@@ -619,6 +698,45 @@ def generate_main_go(tables_with_calc: list) -> str:
         lines.append('\t\tfmt.Fprintf(os.Stderr, "ERROR: %s\\n", errMsg)')
         lines.append('\t\terrors = append(errors, errMsg)')
         lines.append('\t} else {')
+
+        # If this table has aggregations, compute them first
+        if aggs:
+            lines.append(f'\t\t// Compute aggregations for {table_name}')
+            for agg in aggs:
+                field_name = agg['field']['name']
+                field_snake = to_snake_case(field_name)
+                related_table = agg['related_table']
+                related_snake = to_snake_case(related_table)
+                lookup_field = agg['lookup_field']
+                lookup_snake = to_snake_case(lookup_field)
+                match_field = agg['match_field']
+                match_snake = to_snake_case(match_field)
+
+                # Build count map
+                lines.append(f'\t\t{field_snake}CountMap := make(map[string]int)')
+                lines.append(f'\t\tif {related_snake}Data != nil {{')
+                lines.append(f'\t\t\tfor _, rel := range {related_snake}Data {{')
+                lines.append(f'\t\t\t\tif rel.{lookup_field} != nil {{')
+                lines.append(f'\t\t\t\t\t{field_snake}CountMap[*rel.{lookup_field}]++')
+                lines.append('\t\t\t\t}')
+                lines.append('\t\t\t}')
+                lines.append('\t\t}')
+                lines.append('')
+
+            # Update records with aggregation values
+            lines.append(f'\t\t// Update records with aggregation values')
+            lines.append(f'\t\tfor i := range {table_snake}Records {{')
+            for agg in aggs:
+                field_name = agg['field']['name']
+                field_snake = to_snake_case(field_name)
+                match_field = agg['match_field']
+                lines.append(f'\t\t\tif {table_snake}Records[i].{match_field} != "" {{')
+                lines.append(f'\t\t\t\tcount := {field_snake}CountMap[{table_snake}Records[i].{match_field}]')
+                lines.append(f'\t\t\t\t{table_snake}Records[i].{field_name} = &count')
+                lines.append('\t\t\t}')
+            lines.append('\t\t}')
+            lines.append('')
+
         lines.append(f'\t\tvar computed{struct_name} []{struct_name}')
         lines.append(f'\t\tfor _, r := range {table_snake}Records {{')
         lines.append(f'\t\t\tcomputed{struct_name} = append(computed{struct_name}, *r.ComputeAll())')
@@ -729,7 +847,7 @@ def main():
     main_go_path = script_dir / "main.go"
     if tables_with_calc:
         print(f"Generating main.go (processes ALL {len(tables_with_calc)} tables)...")
-        main_go_content = generate_main_go(tables_with_calc)
+        main_go_content = generate_main_go(tables_with_calc, rulebook)
         main_go_path.write_text(main_go_content, encoding='utf-8')
         print(f"Wrote: {main_go_path} ({len(main_go_content)} bytes)")
     else:

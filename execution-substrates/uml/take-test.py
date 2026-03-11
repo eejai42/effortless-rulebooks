@@ -29,7 +29,7 @@ from enum import Enum, auto
 # Add project root to path for shared imports
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-from orchestration.shared import load_rulebook
+from orchestration.shared import load_rulebook, compute_aggregations
 
 # Add Python substrate directory to path for shared library
 script_dir = Path(__file__).parent.resolve()
@@ -701,10 +701,15 @@ def topological_sort_constraints(class_constraints: Dict[str, str]) -> List[tupl
 # =============================================================================
 
 def process_entity(input_path: str, output_path: str, entity_name: str,
-                   all_constraints: Dict[str, Dict[str, str]]) -> int:
+                   all_constraints: Dict[str, Dict[str, str]],
+                   rulebook: dict = None, project_root: Path = None) -> int:
     """Process a single entity file using OCL interpreter."""
     with open(input_path, 'r', encoding='utf-8') as f:
         records = json.load(f)
+
+    # Compute aggregation fields first (e.g., COUNTIFS)
+    if rulebook is not None and project_root is not None:
+        records = compute_aggregations(records, entity_name, rulebook, project_root)
 
     # Convert entity name to PascalCase for OCL class lookup
     class_name = snake_to_pascal(entity_name)
@@ -752,6 +757,13 @@ def run_multi_entity():
         print(f"Error: {blank_tests_dir} not found")
         sys.exit(1)
 
+    # Load rulebook for aggregation computation
+    try:
+        rulebook = load_rulebook()
+    except FileNotFoundError as e:
+        print(f"Warning: Could not load rulebook for aggregations: {e}")
+        rulebook = None
+
     # Load OCL constraints
     ocl_path = script_dir / "constraints.ocl"
     if not ocl_path.exists():
@@ -784,7 +796,8 @@ def run_multi_entity():
         entity = filename.replace('.json', '')
         output_path = test_answers_dir / filename
 
-        count = process_entity(input_path, str(output_path), entity, all_constraints)
+        count = process_entity(input_path, str(output_path), entity, all_constraints,
+                               rulebook, project_root)
         total_records += count
         entity_count += 1
 
@@ -797,85 +810,6 @@ def run_multi_entity():
 # =============================================================================
 # LEGACY MODE (uses OCL interpreter)
 # =============================================================================
-
-def run_legacy():
-    """Process using OCL interpreter (legacy mode)."""
-    test_file = script_dir / "test-answers.json"
-
-    print("=" * 70)
-    print("UML Execution Substrate - Test Execution")
-    print("=" * 70)
-    print()
-
-    model_path = script_dir / "model.json"
-    ocl_path = script_dir / "constraints.ocl"
-
-    for path in [model_path, ocl_path]:
-        if not path.exists():
-            print(f"ERROR: Required file not found: {path}")
-            print("Run: python inject-into-uml.py first")
-            sys.exit(1)
-
-    print("Loading model...")
-    with open(model_path) as f:
-        model = json.load(f)
-
-    print(f"   Loaded {len(model['instances'])} instances")
-
-    print("\nLoading OCL constraints...")
-    ocl_text = ocl_path.read_text()
-    constraints = parse_ocl_file(ocl_text)
-
-    total_constraints = sum(len(v) for v in constraints.values())
-    print(f"   Loaded {total_constraints} derived attribute definitions")
-
-    print("\nEvaluating OCL expressions...")
-    print("   (This is where computation happens - in the OCL interpreter)")
-
-    results = []
-    target_class = "LanguageCandidates"
-
-    for instance in model["instances"]:
-        if instance["class"] != target_class:
-            continue
-
-        record = {}
-        for key, value in instance["values"].items():
-            snake_key = camel_to_snake(key)
-            record[snake_key] = value
-
-        class_name = instance["class"]
-        class_constraints = constraints.get(class_name, {})
-
-        interpreter = OCLInterpreter(instance["values"])
-
-        sorted_constraints = topological_sort_constraints(class_constraints)
-
-        for attr_name, ocl_expr in sorted_constraints:
-            snake_key = camel_to_snake(attr_name)
-            try:
-                value = interpreter.evaluate(ocl_expr)
-                record[snake_key] = value
-                interpreter.attr_lookup[attr_name.lower()] = value
-            except Exception as e:
-                print(f"   Warning: Error evaluating {attr_name}: {e}")
-                record[snake_key] = None
-
-        if record.get("family_feud_mismatch") == "":
-            record["family_feud_mismatch"] = None
-
-        results.append(record)
-
-    print(f"   Evaluated {len(results)} records")
-
-    print(f"\nSaving results to: {test_file}")
-    with open(test_file, "w", encoding='utf-8') as f:
-        json.dump(results, f, indent=2)
-
-    print("\n" + "=" * 70)
-    print("Test execution complete!")
-    print("=" * 70)
-
 
 # =============================================================================
 # MAIN

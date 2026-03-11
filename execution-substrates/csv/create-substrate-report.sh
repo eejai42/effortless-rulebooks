@@ -54,7 +54,7 @@ log_content = read_file('.last-run.log', 'No log available')
 test_results = read_file('test-results.md', 'No test results available')
 
 # Read CSVs
-lang_candidates_table = read_csv_as_html_table('test-data/language_candidates.csv')
+entities_table = read_csv_as_html_table('test-data/workflows.csv')
 column_formulas_table = read_csv_as_html_table('test-data/column_formulas.csv')
 
 score_match = re.search(r'(\d+\.?\d*)%', test_results)
@@ -159,7 +159,7 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
         <button class="tab active" data-tab="description">Description</button>
         <button class="tab" data-tab="log">Run Log</button>
         <button class="tab" data-tab="results">Test Results</button>
-        <button class="tab" data-tab="candidates">Language Candidates</button>
+        <button class="tab" data-tab="candidates">Entities</button>
         <button class="tab" data-tab="formulas">Column Formulas</button>
     </nav>
     <main>
@@ -171,7 +171,7 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
                     <h3>Orchestration Pattern</h3>
                     <ol>
                         <li><strong>Export</strong>: <code>inject-into-csv.py</code> generates CSV files from rulebook JSON</li>
-                        <li><strong>Data Files</strong>: Creates <code>language_candidates.csv</code> with all entity data</li>
+                        <li><strong>Data Files</strong>: Creates CSV files for each entity in the rulebook</li>
                         <li><strong>Formula Mapping</strong>: Creates <code>column_formulas.csv</code> with calculation definitions</li>
                         <li><strong>Test</strong>: Validates CSV output matches expected values</li>
                     </ol>
@@ -206,8 +206,8 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
         </div>
         <div id="candidates" class="tab-content">
             <div class="card">
-                <h2>language_candidates.csv</h2>
-                <div class="table-scroll">{lang_candidates_table}</div>
+                <h2>Entity Data (workflows.csv)</h2>
+                <div class="table-scroll">{entities_table}</div>
             </div>
         </div>
         <div id="formulas" class="tab-content">
@@ -233,7 +233,7 @@ output = html_template.format(
     substrate_name=SUBSTRATE_NAME, title=SUBSTRATE_TITLE, icon=SUBSTRATE_ICON,
     score=score, score_class=score_class, passed=passed, failed=failed, total=total,
     log_content=log_escaped,
-    lang_candidates_table=lang_candidates_table, column_formulas_table=column_formulas_table
+    entities_table=entities_table, column_formulas_table=column_formulas_table
 )
 
 with open('substrate-report.html', 'w') as f:

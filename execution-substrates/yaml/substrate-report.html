@@ -69,7 +69,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         </div>
         <div class="header-stats">
             <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>103/103 passed</span></div>
+            <div class="stat"><span>3/3 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -109,20 +109,14 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
                 <h2>Execution Log</h2>
                 <pre>=== YAML Substrate Test Run ===
 
-YAML substrate: Loaded schema with 6 calculated fields
-  - category_contains_language: FIND(&quot;language&quot;, LOWER(category)) &gt; 0
-  - has_grammar: CAST(has_syntax AS TEXT)
-  - relationship_to_concept: IF(distance_from_concept = 1, &quot;IsMirrorOf&quot;, &quot;Is...
-  - family_fued_question: &quot;Is &quot; &amp; name &amp; &quot; a language?&quot;
-  - is_a_family_feud_top_answer: AND(   category_contains_language,   has_syntax...
-  ... and 1 more
-  -&gt; approval_gates: 11 records
-  -&gt; departments: 15 records
-  -&gt; precedes_steps: 16 records
-  -&gt; roles: 15 records
-  -&gt; workflow_steps: 16 records
-  -&gt; workflows: 15 records
-YAML substrate: Processed 6 entities, 88 total records
+YAML substrate: Loaded schema with 5 calculated fields
+  - name: =SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)
+  - has_more_than1_step: ={{CountOfSteps}} &gt; 1
+  - name: =SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)
+  - name: =SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)
+  - name: =SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)
+  -&gt; customers: 3 records
+YAML substrate: Processed 1 entities, 3 total records
 
 </pre>
             </div>
@@ -132,9 +126,9 @@ YAML substrate: Processed 6 entities, 88 total records
                 <h2>Test Summary</h2>
                 <div class="results-summary">
                     <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">103</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
                     <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">103</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -142,216 +136,219 @@ YAML substrate: Processed 6 entities, 88 total records
             <div class="card">
                 <div class="code-header">
                     <h2>schema.yaml</h2>
-                    <div><span class="code-info">209 lines</span><button class="copy-btn" onclick="copyCode('schema-code')">Copy</button></div>
+                    <div><span class="code-info">212 lines</span><button class="copy-btn" onclick="copyCode('schema-code')">Copy</button></div>
                 </div>
-                <pre id="schema-code"># ERB Schema - Language Candidates Rulebook
+                <pre id="schema-code"># ERB Schema - Jessica Talisman Workflow Ontology
 # Source: effortless-rulebook/effortless-rulebook.json
 # This is a schema-only file (no data) for LLM consumption
 
 entities:
-  LanguageCandidate:
-    description: &quot;A candidate item to evaluate whether it qualifies as a &#x27;language&#x27;&quot;
-    primary_key: language_candidate_id
+  Workflows:
+    description: &quot;A workflow definition representing a business process with ordered steps&quot;
+    primary_key: workflow_id
 
     raw_fields:
-      language_candidate_id:
+      workflow_id:
         type: string
         nullable: false
-      name:
+      display_name:
         type: string
         nullable: true
-      category:
+        description: &quot;Human-readable display name for the workflow&quot;
+      title:
         type: string
         nullable: true
-        examples: [&quot;Natural Language&quot;, &quot;Formal Language&quot;, &quot;Physical Object&quot;, &quot;Running Software&quot;]
-      can_be_held:
-        type: boolean
+        description: &quot;Human-readable title of the workflow. Maps to dct:title from Dublin Core.&quot;
+      description:
+        type: string
         nullable: true
-        description: &quot;Tangibility predicate - can this be physically held?&quot;
-      meaning_is_serialized:
-        type: boolean
+        description: &quot;Detailed description of the workflow&#x27;s purpose and scope.&quot;
+      identifier:
+        type: string
         nullable: true
-        description: &quot;Can meaning be represented in serialized form?&quot;
-      requires_parsing:
-        type: boolean
+        description: &quot;External system identifier for cross-referencing.&quot;
+      modified:
+        type: datetime
         nullable: true
-        description: &quot;Does it need parsing to be interpreted?&quot;
-      is_ongology_descriptor:
-        type: boolean
+        description: &quot;Last modification timestamp. Maps to dct:modified from Dublin Core.&quot;
+      workflow_steps:
+        type: relationship
         nullable: true
-        description: &quot;Does it function as an ontology/descriptor system?&quot;
-      has_syntax:
-        type: boolean
-        nullable: true
-        description: &quot;Does it have explicit grammar rules?&quot;
-      chosen_language_candidate:
-        type: boolean
-        nullable: true
-        description: &quot;Manually marked as a &#x27;true&#x27; language candidate&quot;
-      sort_order:
+        related_to: WorkflowSteps
+        description: &quot;Reference to workflow steps via ntwf:hasStep relationship.&quot;
+      count_of_steps:
         type: integer
         nullable: true
-      has_identity:
-        type: boolean
-        nullable: true
-        description: &quot;Does it have persistent identity?&quot;
-      distance_from_concept:
-        type: integer
-        nullable: true
-        values: [1, 2]
-        description: &quot;1=Mirror (is the thing), 2=Description (describes the thing)&quot;
+        description: &quot;Aggregation: count of workflow steps in this workflow.&quot;
 
     calculated_fields:
-      # Level 1: Simple calculations on raw fields only
-      category_contains_language:
-        type: boolean
-        depends_on: [category]
-        formula: &#x27;FIND(&quot;language&quot;, LOWER(category)) &gt; 0&#x27;
-        description: &quot;Does the category string contain &#x27;language&#x27;?&quot;
-
-      has_grammar:
-        type: string
-        depends_on: [has_syntax]
-        formula: &quot;CAST(has_syntax AS TEXT)&quot;
-        description: &quot;String representation of has_syntax&quot;
-
-      relationship_to_concept:
-        type: string
-        depends_on: [distance_from_concept]
-        formula: &#x27;IF(distance_from_concept = 1, &quot;IsMirrorOf&quot;, &quot;IsDescriptionOf&quot;)&#x27;
-        description: &quot;Semantic relationship to the language concept&quot;
-
-      family_fued_question:
-        type: string
-        depends_on: [name]
-        formula: &#x27;&quot;Is &quot; &amp; name &amp; &quot; a language?&quot;&#x27;
-        description: &quot;The Family Feud style question&quot;
-
-      # Level 2: Depends on Level 1 calculations
-      is_a_family_feud_top_answer:
-        type: boolean
-        depends_on:
-          - category_contains_language  # Level 1 calc
-          - has_syntax                  # raw
-          - can_be_held                 # raw
-          - meaning_is_serialized       # raw
-          - requires_parsing            # raw
-          - is_ongology_descriptor      # raw
-          - has_identity                # raw
-          - distance_from_concept       # raw
-        formula: |
-          AND(
-            category_contains_language,
-            has_syntax,
-            NOT(can_be_held),
-            meaning_is_serialized,
-            requires_parsing,
-            is_ongology_descriptor,
-            NOT(has_identity),
-            distance_from_concept = 2
-          )
-        description: &quot;Would this be a &#x27;top answer&#x27; on Family Feud for &#x27;Is X a language?&#x27;&quot;
-
-      # Level 3: Depends on Level 2 calculations
-      family_feud_mismatch:
-        type: string
-        depends_on:
-          - is_a_family_feud_top_answer  # Level 2 calc
-          - chosen_language_candidate    # raw
-          - name                         # raw
-        formula: |
-          IF(is_a_family_feud_top_answer != chosen_language_candidate,
-            name &amp; &quot; &quot; &amp;
-            IF(is_a_family_feud_top_answer, &quot;Is&quot;, &quot;Isn&#x27;t&quot;) &amp;
-            &quot; a Family Feud Language, but &quot; &amp;
-            IF(chosen_language_candidate, &quot;Is&quot;, &quot;Is Not&quot;) &amp;
-            &quot; marked as a &#x27;Language Candidate.&#x27;&quot;,
-            NULL
-          )
-        description: &quot;Reports mismatches between computed and manual classification&quot;
-
-  IsEverythingALanguage:
-    description: &quot;Argument steps in the philosophical debate about language definition&quot;
-    primary_key: is_everything_a_language_id
-
-    raw_fields:
-      is_everything_a_language_id:
-        type: string
-        nullable: false
       name:
         type: string
         nullable: true
-        description: &quot;Identifier like NEIAL-001&quot;
-      argument_name:
-        type: string
+        dag_level: 1
+        formula: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;
+        description: &quot;Short machine-friendly name for the workflow. Used for programmatic reference and URL slug generation.&quot;
+        example:
+          input: { display_name: &quot;Employee Onboarding&quot; }
+          output: &quot;employee-onboarding&quot;
+      has_more_than1_step:
+        type: boolean
         nullable: true
-        values: [&quot;LanguageCanBeFormalized&quot;, &quot;NotEverythingIsALanguage&quot;]
-      argument_category:
-        type: string
-        nullable: true
-        values: [&quot;Definition&quot;, &quot;Premise&quot;, &quot;Conclusion&quot;, &quot;Example&quot;, &quot;Observation&quot;, &quot;Refinement&quot;]
-      step_type:
-        type: string
-        nullable: true
-        values: [&quot;Motivation&quot;, &quot;PredicateSet&quot;, &quot;Definition&quot;, &quot;Witness&quot;, &quot;Conclusion&quot;,
-                 &quot;Entailment&quot;, &quot;Counterexample&quot;, &quot;NonLanguageExample&quot;, &quot;FuzzyBoundary&quot;, &quot;Refinement&quot;]
-      statement:
-        type: string
-        nullable: true
-        description: &quot;Natural language argument text&quot;
-      formalization:
-        type: string
-        nullable: true
-        description: &quot;Formal logic notation&quot;
-      related_candidate_name:
-        type: string
-        nullable: true
-      related_candidate_id:
-        type: string
-        nullable: true
-        foreign_key: LanguageCandidate.language_candidate_id
-      evidence_from_rulebook:
-        type: string
-        nullable: true
-        description: &quot;Predicate values supporting the candidate&quot;
-      notes:
-        type: string
-        nullable: true
+        dag_level: 2
+        formula: &quot;={{CountOfSteps}} &gt; 1&quot;
+        description: &quot;Boolean flag indicating if workflow has multiple steps.&quot;
+        example:
+          input: { count_of_steps: 3 }
+          output: true
 
-    calculated_fields: {}  # No calculations on this entity
+  WorkflowSteps:
+    description: &quot;A single step within a workflow, assigned to a role&quot;
+    primary_key: workflow_step_id
 
-# DAG Execution Order (topological sort)
-calculation_dag:
-  level_0:
-    - all raw fields from both entities
-  level_1:
-    - LanguageCandidate.category_contains_language
-    - LanguageCandidate.has_grammar
-    - LanguageCandidate.relationship_to_concept
-    - LanguageCandidate.family_fued_question
-  level_2:
-    - LanguageCandidate.is_a_family_feud_top_answer
-  level_3:
-    - LanguageCandidate.family_feud_mismatch
+    raw_fields:
+      workflow_step_id:
+        type: string
+        nullable: false
+      display_name:
+        type: string
+        nullable: true
+        description: &quot;Human-readable display name for the step&quot;
+      workflow:
+        type: relationship
+        nullable: true
+        related_to: Workflows
+        description: &quot;Foreign key to the parent workflow (ntwf:isStepOf).&quot;
+      sequence_position:
+        type: integer
+        nullable: true
+        description: &quot;Integer ordinal position of the step within its workflow.&quot;
+      assigned_role:
+        type: relationship
+        nullable: true
+        related_to: Roles
+        description: &quot;Foreign key to the Role responsible for executing this step.&quot;
+      requires_human_approval:
+        type: boolean
+        nullable: true
+        description: &quot;Boolean flag indicating whether a human agent must fill the assigned role.&quot;
+      approval_gate:
+        type: relationship
+        nullable: true
+        related_to: ApprovalGates
+        description: &quot;Foreign key to ApprovalGate if this step is a decision checkpoint.&quot;
+      preceded_by_steps:
+        type: relationship
+        nullable: true
+        related_to: PrecedesSteps
+        description: &quot;Reference to steps that must complete before this step.&quot;
 
-# Core Language Definition (from the rulebook)
-language_definition:
-  formula: |
-    Language(x) := HasSyntax(x)
-                   AND RequiresParsing(x)
-                   AND Meaning_Is_Serialized(x)
-                   AND IsOngologyDescriptor(x)
-  predicates:
-    core:
-      - has_syntax
-      - requires_parsing
-      - meaning_is_serialized
-      - is_ongology_descriptor
-    auxiliary:
-      - can_be_held
-      - has_identity
-      - distance_from_concept
-      - category
+    calculated_fields:
+      name:
+        type: string
+        nullable: true
+        dag_level: 1
+        formula: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;
+        description: &quot;Machine-friendly slug name for the step.&quot;
+        example:
+          input: { display_name: &quot;Manager Review&quot; }
+          output: &quot;manager-review&quot;
+
+  Roles:
+    description: &quot;A role that can be assigned to workflow steps and filled by agents&quot;
+    primary_key: role_id
+
+    raw_fields:
+      role_id:
+        type: string
+        nullable: false
+      display_name:
+        type: string
+        nullable: true
+      description:
+        type: string
+        nullable: true
+        description: &quot;Description of the role&#x27;s responsibilities.&quot;
+      identifier:
+        type: string
+        nullable: true
+        description: &quot;External system identifier for the role.&quot;
+
+    calculated_fields:
+      name:
+        type: string
+        nullable: true
+        dag_level: 1
+        formula: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;
+        description: &quot;Machine-friendly slug name for the role.&quot;
+
+  ApprovalGates:
+    description: &quot;A decision checkpoint that blocks workflow execution until authorization&quot;
+    primary_key: approval_gate_id
+
+    raw_fields:
+      approval_gate_id:
+        type: string
+        nullable: false
+      display_name:
+        type: string
+        nullable: true
+      description:
+        type: string
+        nullable: true
+        description: &quot;Description of what this gate approves.&quot;
+      gate_type:
+        type: string
+        nullable: true
+        description: &quot;Type of approval gate (e.g., single-approver, multi-approver).&quot;
+      approval_criteria:
+        type: string
+        nullable: true
+        description: &quot;Criteria that must be met for approval.&quot;
+
+    calculated_fields:
+      name:
+        type: string
+        nullable: true
+        dag_level: 1
+        formula: &quot;=SUBSTITUTE(LOWER({{DisplayName}}), \&quot; \&quot;, \&quot;-\&quot;)&quot;
+        description: &quot;Machine-friendly slug name for the gate.&quot;
+
+  PrecedesSteps:
+    description: &quot;Junction table representing step ordering relationships&quot;
+    primary_key: precedes_step_id
+
+    raw_fields:
+      precedes_step_id:
+        type: string
+        nullable: false
+      from_step:
+        type: relationship
+        nullable: true
+        related_to: WorkflowSteps
+        description: &quot;The step that must complete first.&quot;
+      to_step:
+        type: relationship
+        nullable: true
+        related_to: WorkflowSteps
+        description: &quot;The step that depends on from_step.&quot;
+      dependency_type:
+        type: string
+        nullable: true
+        description: &quot;Type of dependency (e.g., finish-to-start, start-to-start).&quot;
+
+    calculated_fields: {}
+
+# Calculation DAG Summary
+# =======================
+# Level 0: Raw fields (inputs)
+# Level 1: name (all entities) - depends only on display_name
+# Level 2: has_more_than1_step (Workflows) - depends on count_of_steps
+
+# Formula Types Used
+# ==================
+# SUBSTITUTE: Text replacement (spaces to hyphens)
+# LOWER: Convert to lowercase
+# Comparison: &gt; operator for boolean expressions
 </pre>
             </div>
         </div>

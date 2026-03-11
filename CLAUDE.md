@@ -1,3 +1,3 @@
 Local CLAUDE.md is in ../api.effortlessapi.com/CLAUDE.md
 
-Ignore LEGACY folder.
+Always udpate the INJECTORS not the resulting generated files when making changes.

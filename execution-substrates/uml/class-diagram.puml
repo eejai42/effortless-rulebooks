@@ -1,102 +1,14 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-class AIAgents {
-  +AIAgentId: String
-  +Name: String
-  +Title: String
-  +DisplayName: String
-  +ModelVersion: String
-  +Roles: String
+class Customers {
+  +CustomerId: String
+  +Customer: String
+  +EmailAddress: String
+  +FirstName: String
+  +LastName: String
   --
-}
-
-class ApprovalGates {
-  +ApprovalGateId: String
-  +DisplayName: String
-  +WorkflowSteps: String
-  +EscalationThresholdHours: Integer
-  --
-  /Name: String  {derived}
-}
-
-class AutomatedPipelines {
-  +AutomatedPipelineId: String
-  +Name: String
-  +Description: String
-  +DisplayName: String
-  +Roles: String
-  --
-}
-
-class Departments {
-  +DepartmentId: String
-  +Title: String
-  +DisplayName: String
-  +Roles: String
-  --
-  /Name: String  {derived}
-}
-
-class HumanAgents {
-  +HumanAgentId: String
-  +Name: String
-  +DisplayName: String
-  +Mbox: String
-  +Roles: String
-  --
-}
-
-class PrecedesSteps {
-  +PrecedesStepId: String
-  +Name: String
-  +StepNumber: Integer
-  +WorkflowStep: String
-  --
-  /DisplayName: String  {derived}
-}
-
-class Roles {
-  +RoleId: String
-  +DisplayName: String
-  +Label: String
-  +Comment: String
-  +FilledByHumanAgent: String
-  +FilledByAIAgent: String
-  +FilledByAutomatedPipeline: String
-  +OwnedBy: String
-  +DelegatesTo: String
-  +WorkflowSteps: String
-  +FromDelegatesTo: String
-  --
-  /Name: String  {derived}
-}
-
-class WorkflowSteps {
-  +WorkflowStepId: String
-  +DisplayName: String
-  +Workflow: String
-  +SequencePosition: Integer
-  +AssignedRole: String
-  +RequiresHumanApproval: Boolean
-  +ApprovalGate: String
-  +PrecededBySteps: String
-  --
-  /Name: String  {derived}
-}
-
-class Workflows {
-  +WorkflowId: String
-  +DisplayName: String
-  +Title: String
-  +Description: String
-  +Identifier: String
-  +Modified: String
-  +WorkflowSteps: String
-  +CountOfSteps: Integer
-  --
-  /Name: String  {derived}
-  /HasMoreThan1Step: Boolean  {derived}
+  /FullName: String  {derived}
 }
 
 @enduml

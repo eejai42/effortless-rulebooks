@@ -7,7 +7,7 @@
 # This orchestrator knows NOTHING about specific domains. It only knows:
 # - Views (anything named vw_* in postgres)
 # - Raw fields (schema type: "raw")
-# - Computed fields (schema type: "calculated")
+# - Computed fields (schema type: "calculated" or "aggregation")
 # - JSON comparison (expected vs actual)
 #
 # All configuration is auto-discovered from the rulebook and database.
@@ -299,13 +299,13 @@ def discover_primary_key(rulebook: dict, entity_name: str) -> str:
 def discover_computed_columns(rulebook: dict, entity_name: str) -> list:
     """
     Discover computed columns for an entity.
-    Returns list of snake_case column names where type == "calculated".
+    Returns list of snake_case column names where type == "calculated" or "aggregation".
     """
     schema = get_entity_schema(rulebook, entity_name)
 
     computed = []
     for field in schema:
-        if field.get('type') == 'calculated':
+        if field.get('type') in ('calculated', 'aggregation'):
             computed.append(to_snake_case(field['name']))
 
     return computed

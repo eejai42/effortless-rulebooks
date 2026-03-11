@@ -51,24 +51,19 @@ The following logical argument establishes that "language" can be formalized as 
 {{/each}}
 {{/with}}
 
-## Language Candidates
+## Execution Substrates
 
-The following entities have been evaluated against the operational definition of "language" using testable predicates.
+The following formats have been evaluated as execution substrates for this rulebook.
 
-| Name | Category | Is Language? | HasSyntax | RequiresParsing | HasLinearDecodingPressure | StableOntologyReference | README |
-|------|----------|--------------|-----------|-----------------|---------------------------|-------------------------|--------|
-{{#each LanguageCandidates.data}}
-| {{Name}} | {{Category}} | {{#if TopFamilyFeudAnswer}}Yes{{else}}No{{/if}} | {{#if HasSyntax}}✓{{else}}✗{{/if}} | {{#if RequiresParsing}}✓{{else}}✗{{/if}} | {{#if HasLinearDecodingPressure}}✓{{else}}✗{{/if}} | {{#if StableOntologyReference}}✓{{else}}✗{{/if}} | {{#if TopFamilyFeudAnswer}}[View](./execution-substrates/{{LanguageCandidateId}}/README.md){{else}}-{{/if}} |
+{{#if ExecutionSubstrates.data}}
+| Name | Category | Status | README |
+|------|----------|--------|--------|
+{{#each ExecutionSubstrates.data}}
+| {{Name}} | {{Category}} | {{Status}} | [View](./execution-substrates/{{SubstrateId}}/README.md) |
 {{/each}}
-
-### Predicate Legend
-
-| Predicate | Description |
-|-----------|-------------|
-| **HasSyntax** | Has formal syntactic rules governing valid expressions |
-| **RequiresParsing** | Understanding requires parsing/interpreting structured input |
-| **HasLinearDecodingPressure** | Requires sequential/linear interpretation to extract meaning |
-| **StableOntologyReference** | Provides stable references to concepts over time |
+{{else}}
+See the `execution-substrates/` directory for available format implementations.
+{{/if}}
 
 ---
 

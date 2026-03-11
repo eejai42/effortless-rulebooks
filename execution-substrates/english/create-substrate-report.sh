@@ -6,12 +6,21 @@ cd "$SCRIPT_DIR"
 
 python3 << 'PYTHON_SCRIPT'
 import html
+import json
 import os
 import re
+from pathlib import Path
 
 SUBSTRATE_NAME = "english"
 SUBSTRATE_TITLE = "English (NLG) Execution Substrate"
 SUBSTRATE_ICON = "📝"
+
+SCRIPT_DIR = Path(__file__).parent.resolve() if '__file__' in dir() else Path.cwd()
+PROJECT_ROOT = SCRIPT_DIR.parent.parent
+TESTING_DIR = PROJECT_ROOT / "testing"
+ANSWER_KEYS_DIR = TESTING_DIR / "answer-keys"
+TEST_ANSWERS_DIR = SCRIPT_DIR / "test-answers"
+METADATA_PATH = TESTING_DIR / "_metadata.json"
 
 def read_file(path, default=""):
     try:
@@ -19,6 +28,13 @@ def read_file(path, default=""):
             return f.read()
     except:
         return default
+
+def load_json(path):
+    try:
+        with open(path, 'r') as f:
+            return json.load(f)
+    except:
+        return None
 
 def markdown_to_html(md):
     """Simple markdown to HTML conversion"""
@@ -28,7 +44,6 @@ def markdown_to_html(md):
     in_code = False
 
     for line in lines:
-        # Code blocks
         if line.startswith('```'):
             if in_code:
                 html_out.append('</pre>')
@@ -40,15 +55,12 @@ def markdown_to_html(md):
         if in_code:
             html_out.append(html.escape(line))
             continue
-
-        # Headers
         if line.startswith('### '):
             html_out.append(f'<h4>{html.escape(line[4:])}</h4>')
         elif line.startswith('## '):
             html_out.append(f'<h3>{html.escape(line[3:])}</h3>')
         elif line.startswith('# '):
             html_out.append(f'<h2>{html.escape(line[2:])}</h2>')
-        # Lists
         elif line.startswith('- '):
             if not in_list:
                 html_out.append('<ul>')
@@ -59,18 +71,90 @@ def markdown_to_html(md):
                 html_out.append('</ul>')
                 in_list = False
             elif line.strip():
-                # Bold
                 line = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', line)
                 html_out.append(f'<p>{line}</p>')
-
     if in_list:
         html_out.append('</ul>')
     return '\n'.join(html_out)
 
+def generate_graded_data_html():
+    """Generate HTML for the graded data tab showing all columns with pass/fail"""
+    metadata = load_json(METADATA_PATH)
+    if not metadata:
+        return '<p class="no-data">No metadata available</p>'
+
+    html_parts = []
+
+    for entity_name, meta in sorted(metadata.items()):
+        computed_cols = meta.get('computed_columns', [])
+        pk_field = meta.get('primary_key', '')
+
+        # Load answer key and test answers
+        answer_key = load_json(ANSWER_KEYS_DIR / f"{entity_name}.json")
+        test_answers = load_json(TEST_ANSWERS_DIR / f"{entity_name}.json")
+
+        if not answer_key or not test_answers:
+            continue
+
+        # Build lookup for test answers by primary key
+        test_lookup = {}
+        for record in test_answers:
+            pk_val = record.get(pk_field)
+            if pk_val:
+                test_lookup[pk_val] = record
+
+        # Get all columns from first answer key record
+        all_cols = list(answer_key[0].keys()) if answer_key else []
+
+        html_parts.append(f'<div class="entity-section">')
+        html_parts.append(f'<h3 class="entity-name">{html.escape(entity_name)}</h3>')
+        html_parts.append('<div class="table-scroll"><table class="graded-table"><thead><tr>')
+
+        # Headers
+        for col in all_cols:
+            is_computed = col in computed_cols
+            cls = 'computed-header' if is_computed else ''
+            html_parts.append(f'<th class="{cls}">{html.escape(col)}</th>')
+        html_parts.append('</tr></thead><tbody>')
+
+        # Rows
+        for expected_record in answer_key:
+            pk_val = expected_record.get(pk_field)
+            actual_record = test_lookup.get(pk_val, {})
+
+            html_parts.append('<tr>')
+            for col in all_cols:
+                is_computed = col in computed_cols
+                expected_val = expected_record.get(col)
+                actual_val = actual_record.get(col)
+
+                expected_str = str(expected_val) if expected_val is not None else 'null'
+                actual_str = str(actual_val) if actual_val is not None else 'null'
+
+                if is_computed:
+                    # Compare expected vs actual
+                    if expected_str == actual_str:
+                        html_parts.append(f'<td class="cell-passed computed" title="{html.escape(expected_str)}">')
+                        html_parts.append(f'<span class="check">✓</span><code>{html.escape(expected_str)}</code></td>')
+                    else:
+                        html_parts.append(f'<td class="cell-failed computed" title="Expected: {html.escape(expected_str)}&#10;Actual: {html.escape(actual_str)}">')
+                        html_parts.append(f'<div class="exp-act"><span class="label">E:</span><code class="expected">{html.escape(expected_str)}</code></div>')
+                        html_parts.append(f'<div class="exp-act"><span class="label">A:</span><code class="actual">{html.escape(actual_str)}</code></div></td>')
+                else:
+                    # Raw fact - just show the value
+                    html_parts.append(f'<td class="cell-raw" title="{html.escape(expected_str)}">{html.escape(expected_str)}</td>')
+            html_parts.append('</tr>')
+
+        html_parts.append('</tbody></table></div></div>')
+
+    return '\n'.join(html_parts)
+
+# Load content
 log_content = read_file('.last-run.log', 'No log available')
 test_results = read_file('test-results.md', 'No test results available')
 specification = read_file('specification.md', '# No specification available')
 
+# Parse scores
 score_match = re.search(r'(\d+\.?\d*)%', test_results)
 score = score_match.group(0) if score_match else "N/A"
 passed_match = re.search(r'\| Passed \| (\d+)', test_results)
@@ -88,6 +172,7 @@ else: score_class = "score-danger"
 
 log_escaped = html.escape(log_content)
 spec_html = markdown_to_html(specification)
+graded_data_html = generate_graded_data_html()
 
 html_template = '''<!DOCTYPE html>
 <html lang="en">
@@ -136,7 +221,6 @@ main {{ padding: 1rem; }}
 .card {{ background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 1rem; margin-bottom: 1rem; box-shadow: var(--shadow); }}
 .card h2 {{ font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; }}
 pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border-radius: var(--radius); padding: 0.75rem; overflow-x: auto; font-family: 'SF Mono', Monaco, monospace; font-size: 0.75rem; line-height: 1.4; max-height: 500px; overflow-y: auto; }}
-.code-info {{ font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 0.5rem; }}
 .markdown-content {{ line-height: 1.7; }}
 .markdown-content h2 {{ font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.75rem 0; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }}
 .markdown-content h3 {{ font-size: 1rem; font-weight: 600; margin: 1.25rem 0 0.5rem 0; }}
@@ -151,6 +235,26 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
 .result-value {{ font-size: 1.5rem; font-weight: 700; }}
 .result-label {{ font-size: 0.7rem; color: var(--text-secondary); text-transform: uppercase; }}
 .prose-container {{ max-height: 600px; overflow-y: auto; padding-right: 0.5rem; }}
+
+/* Graded data table styles */
+.entity-section {{ background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius); margin-bottom: 1rem; padding: 1rem; box-shadow: var(--shadow); }}
+.entity-name {{ font-size: 1rem; font-weight: 600; color: var(--accent-color); margin-bottom: 0.75rem; }}
+.table-scroll {{ overflow-x: auto; }}
+.graded-table {{ border-collapse: collapse; font-size: 0.8rem; width: 100%; }}
+.graded-table th, .graded-table td {{ padding: 0.35rem 0.5rem; text-align: left; border: 1px solid var(--border-color); max-width: 250px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }}
+.graded-table th {{ background: var(--bg-tertiary); font-weight: 600; font-size: 0.75rem; position: sticky; top: 0; }}
+.graded-table .computed-header {{ background: rgba(13, 110, 253, 0.15); color: var(--accent-color); }}
+.graded-table .cell-raw {{ font-family: monospace; font-size: 0.75rem; color: var(--text-secondary); }}
+.graded-table .cell-passed {{ background: rgba(25, 135, 84, 0.08); }}
+.graded-table .cell-passed .check {{ color: var(--success-color); font-weight: bold; margin-right: 0.25rem; }}
+.graded-table .cell-passed code {{ font-family: monospace; font-size: 0.75rem; }}
+.graded-table .cell-failed {{ background: rgba(220, 53, 69, 0.1); }}
+.graded-table .cell-failed .exp-act {{ display: block; font-size: 0.7rem; margin-bottom: 0.1rem; }}
+.graded-table .cell-failed .label {{ font-weight: 500; color: var(--text-secondary); margin-right: 0.25rem; }}
+.graded-table .cell-failed code.expected {{ background: rgba(25, 135, 84, 0.15); color: var(--success-color); padding: 0.1rem 0.25rem; border-radius: 3px; }}
+.graded-table .cell-failed code.actual {{ background: rgba(220, 53, 69, 0.15); color: var(--danger-color); padding: 0.1rem 0.25rem; border-radius: 3px; }}
+.graded-table td.computed {{ border-left: 2px solid var(--accent-color); }}
+.no-data {{ color: var(--text-secondary); padding: 1rem; text-align: center; }}
     </style>
 </head>
 <body>
@@ -169,6 +273,7 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
         <button class="tab active" data-tab="description">Description</button>
         <button class="tab" data-tab="log">Run Log</button>
         <button class="tab" data-tab="results">Test Results</button>
+        <button class="tab" data-tab="graded-data">Graded Data</button>
         <button class="tab" data-tab="specification">Specification</button>
     </nav>
     <main>
@@ -193,6 +298,13 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
                     <li><strong>Round-Trip Testing</strong>: Verifies the English spec is clear enough to compute correct values</li>
                     <li><strong>Minimal Code</strong>: ~130 lines total, down from ~425 lines</li>
                 </ul>
+            </div>
+        </div>
+        <div id="graded-data" class="tab-content">
+            <div class="card">
+                <h2>Graded Test Data</h2>
+                <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">All columns shown. <span style="color: var(--accent-color); font-weight: 500;">Blue headers</span> indicate computed fields being tested. <span style="color: var(--success-color);">✓</span> = passed, <span style="color: var(--danger-color);">E/A</span> = failed (Expected vs Actual).</p>
+                {graded_data}
             </div>
         </div>
         <div id="log" class="tab-content">
@@ -235,7 +347,8 @@ output = html_template.format(
     substrate_name=SUBSTRATE_NAME, title=SUBSTRATE_TITLE, icon=SUBSTRATE_ICON,
     score=score, score_class=score_class, passed=passed, failed=failed, total=total,
     log_content=log_escaped,
-    specification=spec_html
+    specification=spec_html,
+    graded_data=graded_data_html
 )
 
 with open('substrate-report.html', 'w') as f:

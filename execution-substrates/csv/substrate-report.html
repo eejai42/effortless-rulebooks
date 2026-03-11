@@ -75,7 +75,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         </div>
         <div class="header-stats">
             <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>103/103 passed</span></div>
+            <div class="stat"><span>3/3 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -83,7 +83,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         <button class="tab active" data-tab="description">Description</button>
         <button class="tab" data-tab="log">Run Log</button>
         <button class="tab" data-tab="results">Test Results</button>
-        <button class="tab" data-tab="candidates">Language Candidates</button>
+        <button class="tab" data-tab="candidates">Entities</button>
         <button class="tab" data-tab="formulas">Column Formulas</button>
     </nav>
     <main>
@@ -95,7 +95,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
                     <h3>Orchestration Pattern</h3>
                     <ol>
                         <li><strong>Export</strong>: <code>inject-into-csv.py</code> generates CSV files from rulebook JSON</li>
-                        <li><strong>Data Files</strong>: Creates <code>language_candidates.csv</code> with all entity data</li>
+                        <li><strong>Data Files</strong>: Creates CSV files for each entity in the rulebook</li>
                         <li><strong>Formula Mapping</strong>: Creates <code>column_formulas.csv</code> with calculation definitions</li>
                         <li><strong>Test</strong>: Validates CSV output matches expected values</li>
                     </ol>
@@ -117,49 +117,14 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
                 <pre>=== CSV Substrate Test Run ===
 
 
-  Processing approval_gates from approval_gates.csv...
-Found 5 fields in test answers
-Primary key field: approval_gate_id
-Loaded 11 rows from CSV
-Filled 11 null fields across 11 records
-Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/approval_gates.json
+  Processing customers from customers.csv...
+Found 6 fields in test answers
+Primary key field: customer_id
+Loaded 3 rows from CSV
+Filled 3 null fields across 3 records
+Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/customers.json
 
-  Processing departments from departments.csv...
-Found 5 fields in test answers
-Primary key field: department_id
-Loaded 15 rows from CSV
-Filled 15 null fields across 15 records
-Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/departments.json
-
-  Processing precedes_steps from precedes_steps.csv...
-Found 5 fields in test answers
-Primary key field: precedes_step_id
-Loaded 16 rows from CSV
-Filled 16 null fields across 16 records
-Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/precedes_steps.json
-
-  Processing roles from roles.csv...
-Found 12 fields in test answers
-Primary key field: role_id
-Loaded 15 rows from CSV
-Filled 15 null fields across 15 records
-Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/roles.json
-
-  Processing workflow_steps from workflow_steps.csv...
-Found 9 fields in test answers
-Primary key field: workflow_step_id
-Loaded 16 rows from CSV
-Filled 16 null fields across 16 records
-Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/workflow_steps.json
-
-  Processing workflows from workflows.csv...
-Found 10 fields in test answers
-Primary key field: workflow_id
-Loaded 15 rows from CSV
-Filled 30 null fields across 15 records
-Updated /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/ERB_jessica-talisman-ontology/execution-substrates/csv/test-answers/workflows.json
-
-csv: Processed 6 entities
+csv: Processed 1 entities
 
 </pre>
             </div>
@@ -169,22 +134,22 @@ csv: Processed 6 entities
                 <h2>Test Summary</h2>
                 <div class="results-summary">
                     <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">103</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
                     <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">103</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
         <div id="candidates" class="tab-content">
             <div class="card">
-                <h2>language_candidates.csv</h2>
-                <div class="table-scroll"><p>Error reading CSV: [Errno 2] No such file or directory: 'test-data/language_candidates.csv'</p></div>
+                <h2>Entity Data (workflows.csv)</h2>
+                <div class="table-scroll"><p>Error reading CSV: [Errno 2] No such file or directory: 'test-data/workflows.csv'</p></div>
             </div>
         </div>
         <div id="formulas" class="tab-content">
             <div class="card">
                 <h2>column_formulas.csv</h2>
-                <div class="table-scroll"><table class="csv-table"><thead><tr><th>table_name</th><th>field_name</th><th>field_type</th><th>dag_level</th><th>formula</th></tr></thead><tbody><tr><td>Workflows</td><td>workflow_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>Workflows</td><td>name</td><td>calculated</td><td></td><td>=SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)</td></tr><tr><td>Workflows</td><td>display_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>Workflows</td><td>title</td><td>raw</td><td>0</td><td></td></tr><tr><td>Workflows</td><td>description</td><td>raw</td><td>0</td><td></td></tr><tr><td>Workflows</td><td>identifier</td><td>raw</td><td>0</td><td></td></tr><tr><td>Workflows</td><td>modified</td><td>raw</td><td>0</td><td></td></tr><tr><td>Workflows</td><td>workflow_steps</td><td>relationship</td><td></td><td></td></tr><tr><td>Workflows</td><td>count_of_steps</td><td>aggregation</td><td></td><td>=COUNTIFS(WorkflowSteps!{{Workflow}}, Workflows!{{WorkflowId}})</td></tr><tr><td>Workflows</td><td>has_more_than1_step</td><td>calculated</td><td></td><td>={{CountOfSteps}} &gt; 1</td></tr><tr><td>WorkflowSteps</td><td>workflow_step_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>WorkflowSteps</td><td>name</td><td>calculated</td><td></td><td>=SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)</td></tr><tr><td>WorkflowSteps</td><td>display_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>WorkflowSteps</td><td>workflow</td><td>relationship</td><td></td><td></td></tr><tr><td>WorkflowSteps</td><td>sequence_position</td><td>raw</td><td>0</td><td></td></tr><tr><td>WorkflowSteps</td><td>assigned_role</td><td>relationship</td><td></td><td></td></tr><tr><td>WorkflowSteps</td><td>requires_human_approval</td><td>raw</td><td>0</td><td></td></tr><tr><td>WorkflowSteps</td><td>approval_gate</td><td>relationship</td><td></td><td></td></tr><tr><td>WorkflowSteps</td><td>preceded_by_steps</td><td>relationship</td><td></td><td></td></tr><tr><td>ApprovalGates</td><td>approval_gate_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>ApprovalGates</td><td>name</td><td>calculated</td><td></td><td>=SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)</td></tr><tr><td>ApprovalGates</td><td>display_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>ApprovalGates</td><td>workflow_steps</td><td>relationship</td><td></td><td></td></tr><tr><td>ApprovalGates</td><td>escalation_threshold_hours</td><td>raw</td><td>0</td><td></td></tr><tr><td>PrecedesSteps</td><td>precedes_step_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>PrecedesSteps</td><td>name</td><td>raw</td><td>0</td><td></td></tr><tr><td>PrecedesSteps</td><td>display_name</td><td>calculated</td><td></td><td>=&quot;Step-&quot; &amp; {{StepNumber}}</td></tr><tr><td>PrecedesSteps</td><td>step_number</td><td>raw</td><td>0</td><td></td></tr><tr><td>PrecedesSteps</td><td>workflow_step</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>role_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>Roles</td><td>name</td><td>calculated</td><td></td><td>=LOWER({{DisplayName}})</td></tr><tr><td>Roles</td><td>display_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>Roles</td><td>label</td><td>raw</td><td>0</td><td></td></tr><tr><td>Roles</td><td>comment</td><td>raw</td><td>0</td><td></td></tr><tr><td>Roles</td><td>filled_by_human_agent</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>filled_by_ai_agent</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>filled_by_automated_pipeline</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>owned_by</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>delegates_to</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>workflow_steps</td><td>relationship</td><td></td><td></td></tr><tr><td>Roles</td><td>from_delegates_to</td><td>relationship</td><td></td><td></td></tr><tr><td>Departments</td><td>department_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>Departments</td><td>name</td><td>calculated</td><td></td><td>=SUBSTITUTE(LOWER({{DisplayName}}), &quot; &quot;, &quot;-&quot;)</td></tr><tr><td>Departments</td><td>title</td><td>raw</td><td>0</td><td></td></tr><tr><td>Departments</td><td>display_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>Departments</td><td>roles</td><td>relationship</td><td></td><td></td></tr><tr><td>HumanAgents</td><td>human_agent_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>HumanAgents</td><td>name</td><td>raw</td><td>0</td><td></td></tr><tr><td>HumanAgents</td><td>display_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>HumanAgents</td><td>mbox</td><td>raw</td><td>0</td><td></td></tr></tbody></table><p class="truncated">Showing 50 of 62 rows</p></div>
+                <div class="table-scroll"><table class="csv-table"><thead><tr><th>table_name</th><th>field_name</th><th>field_type</th><th>dag_level</th><th>formula</th></tr></thead><tbody><tr><td>Customers</td><td>customer_id</td><td>raw</td><td>0</td><td></td></tr><tr><td>Customers</td><td>customer</td><td>raw</td><td>0</td><td></td></tr><tr><td>Customers</td><td>email_address</td><td>raw</td><td>0</td><td></td></tr><tr><td>Customers</td><td>first_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>Customers</td><td>last_name</td><td>raw</td><td>0</td><td></td></tr><tr><td>Customers</td><td>full_name</td><td>calculated</td><td></td><td>={{LastName}} &amp; &quot;, &quot; &amp; {{FirstName}}</td></tr></tbody></table></div>
             </div>
         </div>
     </main>

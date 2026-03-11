@@ -36,7 +36,7 @@ from enum import Enum, auto
 # Add project root to path for shared imports
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-from orchestration.shared import load_rulebook, discover_entities, get_entity_schema, to_snake_case, get_calculated_fields
+from orchestration.shared import load_rulebook, discover_entities, get_entity_schema, to_snake_case, get_calculated_fields, compute_aggregations
 
 
 # =============================================================================
@@ -489,6 +489,9 @@ def run_multi_entity(script_dir: Path):
                 json.dump(data, f, indent=2)
             print(f"  -> {entity}: 0 records (empty)")
             continue
+
+        # Compute aggregation fields first (e.g., COUNTIFS)
+        data = compute_aggregations(data, rulebook_entity, rulebook, project_root)
 
         # Process records using entity-specific schema and functions
         processed = process_records(data, lib, schema, struct_size, available_funcs)

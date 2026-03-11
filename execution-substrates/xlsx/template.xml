@@ -91,9 +91,9 @@
     )
 
     family_feud_mismatch (Column L):
-    =IF(K2<>chosen_language_candidate,
-      B2 & " " & IF(K2, "Is", "Isn't") & " a Family Feud Language, but " &
-      IF(chosen_language_candidate, "Is", "Is Not") & " marked as a 'Language Candidate.'",
+    =IF(K2<>chosen_substrate,
+      B2 & " " & IF(K2, "Is", "Isn't") & " a valid match, but " &
+      IF(chosen_substrate, "Is", "Is Not") & " marked as an 'Execution Substrate.'",
       "")
 
     DAG Execution in Excel:

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Central orchestrator for ERB language candidate generation.
+Central orchestrator for ERB substrate generation.
 
 This script can invoke all generators or specific ones by name.
 Individual generators are typically invoked directly via ssotme -build,
@@ -16,6 +16,7 @@ import subprocess
 import sys
 from pathlib import Path
 
+# Substrates that have inject-into-{name}.py scripts
 GENERATORS = [
     "python",
     "english",
@@ -24,9 +25,8 @@ GENERATORS = [
     "csv",
     "uml",
     "owl",
-    "rdf",
-    "graphql",
-    "docx",
+    "xlsx",
+    "explain-dag",
 ]
 
 
@@ -42,27 +42,25 @@ def get_project_root():
 
 def run_generator(name):
     """Run a single generator by name."""
-    orchestration_dir = get_orchestration_dir()
     project_root = get_project_root()
 
-    script_path = orchestration_dir / "injection-scripts" / f"inject-into-{name}.py"
+    # Injection scripts are located in execution-substrates/{name}/inject-into-{name}.py
+    substrate_dir = project_root / "execution-substrates" / name
+    script_path = substrate_dir / f"inject-into-{name}.py"
+
     if not script_path.exists():
         print(f"Error: Generator script not found: {script_path}")
         return False
 
-    # Create the execution-substrates/{name} folder if it doesn't exist
-    candidate_dir = project_root / "execution-substrates" / name
-    candidate_dir.mkdir(parents=True, exist_ok=True)
-
-    # Run the generator from the candidate directory
+    # Run the generator from the substrate directory
     print(f"\n{'='*60}")
     print(f"Running: inject-into-{name}.py")
-    print(f"Working dir: {candidate_dir}")
+    print(f"Working dir: {substrate_dir}")
     print(f"{'='*60}")
 
     result = subprocess.run(
         [sys.executable, str(script_path)],
-        cwd=str(candidate_dir),
+        cwd=str(substrate_dir),
         capture_output=False,
     )
 

@@ -184,7 +184,7 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
                 <div class="markdown-content" style="margin-top: 1rem;">
                     <h3>Sheets</h3>
                     <ul>
-                        <li><strong>LanguageCandidates</strong> - Main data sheet with all entities and calculated fields</li>
+                        <li>One sheet per entity in the rulebook, each with all fields and calculated values</li>
                     </ul>
                 </div>
             </div>
@@ -196,12 +196,12 @@ pre {{ background: var(--code-bg); border: 1px solid var(--border-color); border
                     <p>Rulebook formulas are converted to Excel formulas with cell references:</p>
                 </div>
                 <div class="formula-example">
-                    <strong>Rulebook:</strong> ={{{{HasSyntax}}}} = TRUE()<br>
-                    <strong>Excel:</strong> =$C2=TRUE()
+                    <strong>Rulebook:</strong> =SUBSTITUTE(LOWER({{{{DisplayName}}}}), " ", "-")<br>
+                    <strong>Excel:</strong> =SUBSTITUTE(LOWER($B2), " ", "-")
                 </div>
                 <div class="formula-example">
-                    <strong>Rulebook:</strong> ="Is " &amp; {{{{Name}}}} &amp; " a language?"<br>
-                    <strong>Excel:</strong> ="Is " &amp; $B2 &amp; " a language?"
+                    <strong>Rulebook:</strong> ={{{{FieldA}}}} &amp; " - " &amp; {{{{FieldB}}}}<br>
+                    <strong>Excel:</strong> =$C2 &amp; " - " &amp; $D2
                 </div>
             </div>
         </div>
