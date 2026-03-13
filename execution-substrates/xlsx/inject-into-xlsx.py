@@ -12,18 +12,15 @@ The script is generic and works for ANY rulebook structure - it simply reads
 what's defined and generates the corresponding xlsx.
 
 Smart Update Feature:
-To avoid unnecessary file changes caused by volatile functions like NOW(),
-the script exports all entity sheets to CSV before and after
-regeneration. If the content is identical, the update is rolled back.
+To avoid unnecessary git dirty state from volatile metadata (e.g., file
+timestamps), this script compares the newly generated xlsx content (data +
+formulas) against git HEAD. If they're identical, it restores the git version
+via `git checkout`, preventing spurious uncommitted changes.
 """
 
 import sys
 import re
-import os
-import csv
-import shutil
 from pathlib import Path
-from datetime import datetime
 
 # Add project root to path for shared imports
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
@@ -464,79 +461,143 @@ def create_worksheet_from_table(workbook, table_name, table_data):
     return ws
 
 
-def export_sheet_to_csv(xlsx_path, sheet_name, csv_path):
-    """Export a specific sheet from an xlsx file to CSV.
-    
+def export_xlsx_to_json(xlsx_path):
+    """Export xlsx content to a JSON-serializable structure for comparison.
+
+    Exports data and formulas (not volatile metadata like timestamps).
+    This allows comparing two xlsx files for meaningful content changes.
+
     Args:
         xlsx_path: Path to the xlsx file
-        sheet_name: Name of the sheet to export
-        csv_path: Path for the output CSV file
-        
+
     Returns:
-        True if export succeeded, False if sheet not found or file doesn't exist
+        Dict with sheet data, or None on error
     """
-    xlsx_path = Path(xlsx_path)
-    csv_path = Path(csv_path)
-    
-    if not xlsx_path.exists():
-        print(f"  Note: {xlsx_path} does not exist (first run?)")
-        return False
-    
     try:
-        wb = load_workbook(xlsx_path, data_only=True)  # data_only=True reads computed values
-        
-        # Find the sheet (case-insensitive matching)
-        matching_sheet = None
-        for name in wb.sheetnames:
-            if name.lower() == sheet_name.lower():
-                matching_sheet = name
-                break
-        
-        if not matching_sheet:
-            print(f"  Warning: Sheet '{sheet_name}' not found in {xlsx_path}")
-            wb.close()
-            return False
-        
-        ws = wb[matching_sheet]
-        
-        with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            for row in ws.iter_rows(values_only=True):
-                # Convert all values to strings, handling None
-                writer.writerow(['' if v is None else str(v) for v in row])
-        
+        wb = load_workbook(xlsx_path)
+        result = {}
+
+        for sheet_name in wb.sheetnames:
+            ws = wb[sheet_name]
+            sheet_data = []
+
+            for row in ws.iter_rows():
+                row_data = []
+                for cell in row:
+                    # Get the cell value (formula string if it's a formula, else value)
+                    if cell.value is None:
+                        row_data.append(None)
+                    elif isinstance(cell.value, str) and cell.value.startswith('='):
+                        # It's a formula - store the formula itself
+                        row_data.append(cell.value)
+                    else:
+                        row_data.append(cell.value)
+                sheet_data.append(row_data)
+
+            result[sheet_name] = sheet_data
+
         wb.close()
-        return True
-        
+        return result
+
     except Exception as e:
-        print(f"  Error exporting sheet: {e}")
-        return False
+        print(f"  Error exporting xlsx to JSON: {e}")
+        return None
 
 
-def compare_csv_files(csv1_path, csv2_path):
-    """Compare two CSV files content.
-    
+def get_git_file_content(file_path):
+    """Get the git HEAD version of a file as bytes.
+
     Args:
-        csv1_path: Path to first CSV file
-        csv2_path: Path to second CSV file
-        
+        file_path: Path to the file (relative or absolute)
+
     Returns:
-        True if files are identical, False otherwise
+        Bytes content of the file from git HEAD, or None if not in git/doesn't exist
     """
-    csv1_path = Path(csv1_path)
-    csv2_path = Path(csv2_path)
-    
-    if not csv1_path.exists() or not csv2_path.exists():
-        return False
-    
+    import subprocess
+
     try:
-        with open(csv1_path, 'r', encoding='utf-8') as f1:
-            content1 = f1.read()
-        with open(csv2_path, 'r', encoding='utf-8') as f2:
-            content2 = f2.read()
-        return content1 == content2
+        # Get the relative path from the git root
+        result = subprocess.run(
+            ['git', 'rev-parse', '--show-toplevel'],
+            capture_output=True, text=True, check=True
+        )
+        git_root = Path(result.stdout.strip())
+
+        # Make path relative to git root
+        abs_path = Path(file_path).resolve()
+        try:
+            rel_path = abs_path.relative_to(git_root)
+        except ValueError:
+            print(f"  File {file_path} is not under git root")
+            return None
+
+        # Get file content from HEAD
+        result = subprocess.run(
+            ['git', 'show', f'HEAD:{rel_path}'],
+            capture_output=True, check=True
+        )
+        return result.stdout
+
+    except subprocess.CalledProcessError:
+        # File doesn't exist in git or not a git repo
+        return None
     except Exception as e:
-        print(f"  Error comparing files: {e}")
+        print(f"  Error getting git file: {e}")
+        return None
+
+
+def export_git_xlsx_to_json(file_path):
+    """Export the git HEAD version of an xlsx file to JSON for comparison.
+
+    Args:
+        file_path: Path to the xlsx file
+
+    Returns:
+        Dict with sheet data, or None if file not in git or on error
+    """
+    import tempfile
+
+    git_content = get_git_file_content(file_path)
+    if git_content is None:
+        return None
+
+    # Write to temp file and load with openpyxl
+    try:
+        with tempfile.NamedTemporaryFile(suffix='.xlsx', delete=False) as tmp:
+            tmp.write(git_content)
+            tmp_path = tmp.name
+
+        result = export_xlsx_to_json(tmp_path)
+
+        # Clean up temp file
+        Path(tmp_path).unlink()
+
+        return result
+
+    except Exception as e:
+        print(f"  Error loading git xlsx: {e}")
+        return None
+
+
+def git_checkout_file(file_path):
+    """Restore a file to its git HEAD version.
+
+    Args:
+        file_path: Path to the file
+
+    Returns:
+        True if successful, False otherwise
+    """
+    import subprocess
+
+    try:
+        subprocess.run(
+            ['git', 'checkout', 'HEAD', '--', str(file_path)],
+            capture_output=True, check=True
+        )
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"  Error checking out file: {e}")
         return False
 
 
@@ -545,80 +606,6 @@ def cleanup_file(path):
     path = Path(path)
     if path.exists():
         path.unlink()
-
-
-def compute_table_values_to_csv(rulebook, table_name, csv_path):
-    """Compute values from rulebook and write to CSV.
-
-    This is used for the "after" comparison since newly generated xlsx files
-    with formulas don't have cached computed values until opened in Excel.
-
-    Args:
-        rulebook: The loaded rulebook dict
-        table_name: Name of the table to export
-        csv_path: Path for the output CSV file
-
-    Returns:
-        True if export succeeded, False otherwise
-    """
-    csv_path = Path(csv_path)
-
-    # Find the table (case-insensitive matching)
-    matching_table = None
-    for name in rulebook.keys():
-        if name.lower() == table_name.lower():
-            matching_table = name
-            break
-
-    if not matching_table:
-        print(f"  Warning: Table '{table_name}' not found in rulebook")
-        return False
-
-    table_data = rulebook[matching_table]
-    if not isinstance(table_data, dict) or 'schema' not in table_data:
-        print(f"  Warning: '{table_name}' is not a valid table structure")
-        return False
-
-    schema = table_data.get('schema', [])
-    data = table_data.get('data', [])
-
-    try:
-        with open(csv_path, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-
-            # Write header row
-            header = [field['name'] for field in schema]
-            writer.writerow(header)
-
-            # Write data rows with computed values
-            for row_data in data:
-                row = []
-                for field in schema:
-                    field_name = field['name']
-                    field_type = field.get('type', 'raw')
-
-                    if field_type == 'calculated' and 'formula' in field:
-                        # Compute the value using Python formula evaluation
-                        value = evaluate_formula(field['formula'], row_data)
-                    else:
-                        # Raw field - use the data value
-                        value = row_data.get(field_name)
-
-                    # Convert to string for CSV
-                    if value is None:
-                        row.append('')
-                    elif isinstance(value, bool):
-                        row.append(str(value))
-                    else:
-                        row.append(str(value))
-
-                writer.writerow(row)
-
-        return True
-
-    except Exception as e:
-        print(f"  Error computing values to CSV: {e}")
-        return False
 
 
 def generate_workbook(rulebook, table_names):
@@ -676,10 +663,6 @@ def main():
 
     # Define paths
     output_path = Path('rulebook.xlsx')
-    backup_path = Path('rulebook.xlsx.backup')
-    csv_before_path = Path('.entity_before.csv')
-    csv_after_path = Path('.entity_after.csv')
-    comparison_sheet = None  # Will be set to first entity sheet for content comparison
 
     # Load the rulebook
     try:
@@ -695,43 +678,18 @@ def main():
         print("Warning: No tables found in rulebook")
         sys.exit(1)
 
-    # Find first valid table for content comparison (must have schema)
-    comparison_sheet = None
-    for name in table_names:
-        table_data = rulebook.get(name)
-        if isinstance(table_data, dict) and 'schema' in table_data:
-            comparison_sheet = name
-            break
-
     print(f"Found {len(table_names)} tables: {', '.join(table_names)}")
 
-    # --- SMART UPDATE WORKFLOW ---
-    # Step 1: Export the comparison sheet from current xlsx to CSV (baseline)
-    print(f"\n--- Smart Update: Checking for actual content changes ---")
-    has_existing_xlsx = output_path.exists()
-    baseline_exported = False
-
-    if not comparison_sheet:
-        print(f"  No valid tables found for comparison - skipping smart update")
-    elif has_existing_xlsx:
-        # Use Python formula evaluation for baseline (since xlsx formulas may not have cached values)
-        print(f"Step 1: Computing baseline values for '{comparison_sheet}'...")
-        baseline_exported = compute_table_values_to_csv(rulebook, comparison_sheet, csv_before_path)
-
-        if baseline_exported:
-            print(f"  Computed baseline to: {csv_before_path}")
-            
-            # Step 2: Rename current xlsx to backup
-            print(f"Step 2: Creating backup of existing xlsx...")
-            shutil.move(str(output_path), str(backup_path))
-            print(f"  Backed up to: {backup_path}")
-        else:
-            print(f"  Skipping smart update (could not export baseline)")
+    # Step 1: Get git's version of the file BEFORE we overwrite it
+    print(f"\n--- Smart Update: Getting git baseline ---")
+    git_content = export_git_xlsx_to_json(output_path)
+    if git_content:
+        print(f"  Exported git HEAD version for comparison")
     else:
-        print(f"  No existing xlsx found - this is a fresh generation")
+        print(f"  No git baseline (new file or not in git)")
 
-    # Step 3: Generate the new workbook
-    print(f"\nStep 3: Generating new xlsx...")
+    # Step 2: Generate the new workbook (always)
+    print(f"\nGenerating new xlsx...")
     wb = generate_workbook(rulebook, table_names)
 
     # Save the new workbook
@@ -739,43 +697,21 @@ def main():
     print(f"\nGenerated: {output_path}")
     print(f"  - {len(wb.sheetnames)} worksheets")
 
-    # Step 4-6: Compare and decide whether to keep or rollback
-    if comparison_sheet and baseline_exported and backup_path.exists():
-        print(f"\nStep 4: Computing values for '{comparison_sheet}' to CSV...")
-        # Use Python formula evaluation since the new xlsx doesn't have cached computed values yet
-        after_exported = compute_table_values_to_csv(rulebook, comparison_sheet, csv_after_path)
+    # Step 3: Compare with git and restore if identical
+    if git_content:
+        print(f"\n--- Smart Update: Comparing with git ---")
+        new_content = export_xlsx_to_json(output_path)
 
-        if after_exported:
-            print(f"  Computed values to: {csv_after_path}")
-            
-            # Step 5: Compare the CSVs
-            print(f"\nStep 5: Comparing content...")
-            content_changed = not compare_csv_files(csv_before_path, csv_after_path)
-            
-            if content_changed:
-                # Content actually changed - keep the new file
-                print(f"  CONTENT CHANGED - keeping new xlsx")
-                print(f"\nStep 6: Cleaning up (keeping new file)...")
-                cleanup_file(backup_path)
-                cleanup_file(csv_before_path)
-                cleanup_file(csv_after_path)
-                print(f"  Removed backup and temp CSV files")
-            else:
-                # Content is the same - rollback to avoid unnecessary file change
-                print(f"  NO CONTENT CHANGE - rolling back to preserve original file")
-                print(f"\nStep 6: Rolling back...")
-                cleanup_file(output_path)
-                shutil.move(str(backup_path), str(output_path))
-                cleanup_file(csv_before_path)
-                cleanup_file(csv_after_path)
-                print(f"  Restored original xlsx, removed temp files")
+        if new_content == git_content:
+            # Content is identical - restore git's version to avoid dirty state
+            print(f"  NO CONTENT CHANGE - restoring git version")
+            if git_checkout_file(output_path):
+                print(f"  Restored {output_path} from git HEAD")
                 print(f"\n*** XLSX NOT UPDATED (content unchanged) ***")
-                return  # Exit early since we rolled back
+            else:
+                print(f"  Warning: Could not restore git version")
         else:
-            # Couldn't export after - just keep the new file and clean up
-            print(f"  Warning: Could not export new xlsx for comparison - keeping new file")
-            cleanup_file(backup_path)
-            cleanup_file(csv_before_path)
+            print(f"  CONTENT CHANGED - keeping new xlsx")
 
     print(f"\nDone generating {candidate_name}.")
 
