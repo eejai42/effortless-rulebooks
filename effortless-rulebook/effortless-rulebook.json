@@ -3,57 +3,65 @@
   "Name": "JTO - v3",
   "Description": "Rulebook generated from Airtable base \u0027JTO - v3\u0027.",
   "Workflows": {
-    "Description": "Table: Workflows",
+    "Description": "Organizational process definitions with Dublin Core metadata. Aligned to prov:Plan and schema:CreativeWork per NTWF ontology. Each workflow contains ordered steps assigned to roles.",
     "schema": [
       {
         "name": "WorkflowId",
         "datatype": "string",
         "type": "raw",
-        "nullable": false
+        "nullable": false,
+        "description": "Unique identifier for the workflow. Corresponds to URI local name in NTWF ontology."
       },
       {
         "name": "Title",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Human-readable name for the workflow. Maps to dct:title per Dublin Core."
       },
       {
         "name": "Description",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Detailed description of the workflow purpose and scope. Maps to dct:description per Dublin Core."
       },
       {
         "name": "Created",
         "datatype": "datetime",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Date the workflow was created. Maps to dct:created per Dublin Core."
       },
       {
         "name": "Modified",
         "datatype": "datetime",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Date the workflow was last modified. Maps to dct:modified. Used to identify stale workflows per NTWF CQ5."
       },
       {
         "name": "Identifier",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "External reference identifier (e.g., ticket number). Maps to dct:identifier. Join key to operational systems."
       },
       {
         "name": "WorkflowSteps",
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "RelatedTo": "WorkflowSteps"
+        "RelatedTo": "WorkflowSteps",
+        "description": "Steps contained in this workflow. Inverse of IsStepOf. Maps to ntwf:hasStep."
       },
       {
         "name": "CountOfWorkflowSteps",
         "datatype": "integer",
         "type": "aggregation",
         "nullable": true,
-        "formula": "=COUNTIFS(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}})"
+        "formula": "=COUNTIFS(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}})",
+        "description": "Count of steps in this workflow. Aggregation over IsStepOf relationship."
       }
     ],
     "data": [
@@ -70,87 +78,99 @@
     ]
   },
   "WorkflowSteps": {
-    "Description": "Table: WorkflowSteps",
+    "Description": "Individual steps within a workflow, aligned to prov:Activity. Each step has a sequence position, may require human approval, and is assigned to exactly one role (functional property per NTWF design).",
     "schema": [
       {
         "name": "WorkflowStepId",
         "datatype": "string",
         "type": "raw",
-        "nullable": false
+        "nullable": false,
+        "description": "Unique identifier for the workflow step. Corresponds to URI local name in NTWF ontology."
       },
       {
         "name": "Label",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Human-readable name for the step. Maps to rdfs:label."
       },
       {
         "name": "SequencePosition",
         "datatype": "integer",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Ordinal position in workflow sequence. Maps to ntwf:sequencePosition (functional). Supports positional ordering queries."
       },
       {
         "name": "RequiresHumanApproval",
         "datatype": "boolean",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Whether this step requires a human agent. Maps to ntwf:requiresHumanApproval. Answers NTWF CQ3."
       },
       {
         "name": "IsStepOf",
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "RelatedTo": "Workflows"
+        "RelatedTo": "Workflows",
+        "description": "Parent workflow containing this step. Inverse of WorkflowSteps. Maps to ntwf:isStepOf."
       },
       {
         "name": "AssignedRole",
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "RelatedTo": "Roles"
+        "RelatedTo": "Roles",
+        "description": "Role responsible for this step. Maps to ntwf:assignedRole (functional). Implements role-agent separation."
       },
       {
         "name": "IsStepOfTitle",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(Workflows!{{Title}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))"
+        "formula": "=INDEX(Workflows!{{Title}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))",
+        "description": "Denormalized lookup of parent workflow title."
       },
       {
         "name": "IsStepOfDescription",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(Workflows!{{Description}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))"
+        "formula": "=INDEX(Workflows!{{Description}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))",
+        "description": "Denormalized lookup of parent workflow description."
       },
       {
         "name": "IsStepOfIdentifier",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(Workflows!{{Identifier}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))"
+        "formula": "=INDEX(Workflows!{{Identifier}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))",
+        "description": "Denormalized lookup of parent workflow external identifier."
       },
       {
         "name": "AssignedRoleLabel",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(Roles!{{Label}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))"
+        "formula": "=INDEX(Roles!{{Label}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))",
+        "description": "Denormalized lookup of assigned role label."
       },
       {
         "name": "AssignedRoleComment",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(Roles!{{Comment}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))"
+        "formula": "=INDEX(Roles!{{Comment}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))",
+        "description": "Denormalized lookup of assigned role comment/description."
       },
       {
         "name": "AssignedRoleFilledBy",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(Roles!{{FilledBy}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))"
+        "formula": "=INDEX(Roles!{{FilledBy}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))",
+        "description": "Denormalized lookup of agent currently filling the assigned role."
       }
     ],
     "data": [
@@ -179,8 +199,8 @@
         "IsStepOfDescription": "End-to-end workflow for deploying software releases to production, including risk analysis, legal clearance, and release approval. From Jessica Talisman\u0027s NTWF ontology article.",
         "IsStepOfIdentifier": "WF-PROD-001",
         "AssignedRoleLabel": "Legal Compliance Reviewer",
-        "AssignedRoleComment": "Role responsible for legal and compliance review of releases.",
-        "AssignedRoleFilledBy": ""
+        "AssignedRoleComment": "Role responsible for legal and compliance review of releases. Requires human approval per workflow step definition.",
+        "AssignedRoleFilledBy": "james-okafor"
       },
       {
         "WorkflowStepId": "release-approval",
@@ -199,60 +219,68 @@
     ]
   },
   "Roles": {
-    "Description": "Table: Roles",
+    "Description": "Organizational functions that hold responsibility for workflow steps. Implements role-agent separation (NTWF Heuristic 2): steps point to roles, roles point to agents. When personnel change, only the FilledBy binding updates.",
     "schema": [
       {
         "name": "RoleId",
         "datatype": "string",
         "type": "raw",
-        "nullable": false
+        "nullable": false,
+        "description": "Unique identifier for the role. Corresponds to URI local name in NTWF ontology."
       },
       {
         "name": "Label",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Human-readable name for the role. Maps to rdfs:label."
       },
       {
         "name": "Comment",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Description of the role's responsibilities. Maps to rdfs:comment."
       },
       {
         "name": "FilledBy",
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "RelatedTo": "HumanAgents"
+        "RelatedTo": "HumanAgents",
+        "description": "Agent currently filling this role. Maps to ntwf:filledBy. The change-management triple - update this when personnel change."
       },
       {
         "name": "WorkflowSteps",
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "RelatedTo": "WorkflowSteps"
+        "RelatedTo": "WorkflowSteps",
+        "description": "Steps assigned to this role. Inverse of AssignedRole."
       },
       {
         "name": "CountOfWorkflowSteps",
         "datatype": "integer",
         "type": "aggregation",
         "nullable": true,
-        "formula": "=COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})"
+        "formula": "=COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})",
+        "description": "Count of workflow steps assigned to this role."
       },
       {
         "name": "FilledByName",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(HumanAgents!{{Name}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))"
+        "formula": "=INDEX(HumanAgents!{{Name}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))",
+        "description": "Denormalized lookup of agent name (foaf:name) filling this role."
       },
       {
         "name": "FilledByMBox",
         "datatype": "string",
         "type": "lookup",
         "nullable": true,
-        "formula": "=INDEX(HumanAgents!{{Mbox}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))"
+        "formula": "=INDEX(HumanAgents!{{Mbox}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))",
+        "description": "Denormalized lookup of agent email (foaf:mbox) filling this role."
       }
     ],
     "data": [
@@ -269,12 +297,12 @@
       {
         "RoleId": "legal-compliance-reviewer",
         "Label": "Legal Compliance Reviewer",
-        "Comment": "Role responsible for legal and compliance review of releases.",
+        "Comment": "Role responsible for legal and compliance review of releases. Requires human approval per workflow step definition.",
         "WorkflowSteps": "legal-review",
         "CountOfWorkflowSteps": 1,
-        "FilledBy": "",
-        "FilledByName": "",
-        "FilledByMBox": ""
+        "FilledBy": "james-okafor",
+        "FilledByName": "James Okafor",
+        "FilledByMBox": "james.okafor@specialsolutions.example"
       },
       {
         "RoleId": "risk-analyst",
@@ -289,39 +317,44 @@
     ]
   },
   "HumanAgents": {
-    "Description": "Table: HumanAgents",
+    "Description": "Human individuals who fill roles. Aligned to foaf:Person and prov:Agent per NTWF ontology. Properties Name and Mbox follow FOAF conventions. In full NTWF, disjoint with AIAgent and AutomatedPipeline.",
     "schema": [
       {
         "name": "HumanAgentId",
         "datatype": "string",
         "type": "raw",
-        "nullable": false
+        "nullable": false,
+        "description": "Unique identifier for the human agent. Corresponds to URI local name in NTWF ontology."
       },
       {
         "name": "Name",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Full name of the person. Maps to foaf:name per FOAF ontology."
       },
       {
         "name": "Mbox",
         "datatype": "string",
         "type": "raw",
-        "nullable": true
+        "nullable": true,
+        "description": "Email address of the person. Maps to foaf:mbox per FOAF ontology. Used for contact and identity resolution."
       },
       {
         "name": "Roles",
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "RelatedTo": "Roles"
+        "RelatedTo": "Roles",
+        "description": "Roles filled by this agent. Inverse of FilledBy."
       },
       {
-        "name": "CountOfRles",
+        "name": "CountOfRoles",
         "datatype": "integer",
         "type": "aggregation",
         "nullable": true,
-        "formula": "=COUNTIFS(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}})"
+        "formula": "=COUNTIFS(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}})",
+        "description": "Count of roles currently filled by this agent."
       }
     ],
     "data": [
@@ -330,14 +363,14 @@
         "Name": "Maria Gonzalez",
         "Mbox": "maria.gonzalez@specialsolutions.example",
         "Roles": "release-manager",
-        "CountOfRles": 1
+        "CountOfRoles": 1
       },
       {
         "HumanAgentId": "james-okafor",
         "Name": "James Okafor",
         "Mbox": "james.okafor@specialsolutions.example",
-        "CountOfRles": 0,
-        "Roles": ""
+        "CountOfRoles": 1,
+        "Roles": "legal-compliance-reviewer"
       }
     ]
   },
