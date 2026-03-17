@@ -11,7 +11,7 @@
     "computed_columns": [
       "count_of_workflow_steps"
     ],
-    "record_count": 3
+    "record_count": 5
   },
   "human_agents": {
     "primary_key": "human_agent_id",

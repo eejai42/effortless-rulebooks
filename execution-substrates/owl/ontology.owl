@@ -84,6 +84,18 @@ erb:countOfWorkflowSteps a owl:DatatypeProperty ;
     rdfs:comment "Count of workflow steps assigned to this role." .
     # calculated: aggregation
 
+erb:delegatesTo a owl:DatatypeProperty ;
+    rdfs:domain erb:Roles ;
+    rdfs:range xsd:string ;
+    rdfs:label "DelegatesTo" ;
+    rdfs:comment "Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries." .
+
+erb:label_from_DelegatesTo a owl:DatatypeProperty ;
+    rdfs:domain erb:Roles ;
+    rdfs:range xsd:string ;
+    rdfs:label "Label_from_DelegatesTo" .
+    # calculated: lookup
+
 erb:filledByName a owl:DatatypeProperty ;
     rdfs:domain erb:Roles ;
     rdfs:range xsd:string ;
@@ -98,11 +110,10 @@ erb:filledByMBox a owl:DatatypeProperty ;
     rdfs:comment "Denormalized lookup of agent email (foaf:mbox) filling this role." .
     # calculated: lookup
 
-erb:delegatesTo a owl:DatatypeProperty ;
+erb:delegatedToBy a owl:DatatypeProperty ;
     rdfs:domain erb:Roles ;
     rdfs:range xsd:string ;
-    rdfs:label "DelegatesTo" ;
-    rdfs:comment "Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries." .
+    rdfs:label "DelegatedToBy" .
 
 # === Class: WorkflowSteps ===
 erb:WorkflowSteps a owl:Class ;

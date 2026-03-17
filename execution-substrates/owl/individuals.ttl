@@ -28,9 +28,11 @@ erb:Roles_0 a erb:Roles ;
     erb:filledBy "maria-gonzalez" ;
     erb:workflowSteps "release-approval" ;
     erb:countOfWorkflowSteps 1 ;
+    erb:delegatesTo "vp-engineering" ;
+    erb:label_from_DelegatesTo "VP Engineering" ;
     erb:filledByName "Maria Gonzalez" ;
     erb:filledByMBox "maria.gonzalez@specialsolutions.example" ;
-    erb:delegatesTo "" .
+    erb:delegatedToBy "" .
 
 erb:Roles_1 a erb:Roles ;
     erb:roleId "legal-compliance-reviewer" ;
@@ -39,9 +41,11 @@ erb:Roles_1 a erb:Roles ;
     erb:filledBy "" ;
     erb:workflowSteps "legal-review" ;
     erb:countOfWorkflowSteps 1 ;
+    erb:delegatesTo "" ;
+    erb:label_from_DelegatesTo "" ;
     erb:filledByName "" ;
     erb:filledByMBox "" ;
-    erb:delegatesTo "" .
+    erb:delegatedToBy "" .
 
 erb:Roles_2 a erb:Roles ;
     erb:roleId "risk-analyst" ;
@@ -50,9 +54,37 @@ erb:Roles_2 a erb:Roles ;
     erb:filledBy "" ;
     erb:workflowSteps "risk-assessment" ;
     erb:countOfWorkflowSteps 1 ;
+    erb:delegatesTo "" ;
+    erb:label_from_DelegatesTo "" ;
     erb:filledByName "" ;
     erb:filledByMBox "" ;
-    erb:delegatesTo "" .
+    erb:delegatedToBy "" .
+
+erb:Roles_3 a erb:Roles ;
+    erb:roleId "vp-engineering" ;
+    erb:label "VP Engineering" ;
+    erb:comment "Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6." ;
+    erb:filledBy "" ;
+    erb:workflowSteps "" ;
+    erb:countOfWorkflowSteps 0 ;
+    erb:delegatesTo "cto" ;
+    erb:label_from_DelegatesTo "CTO" ;
+    erb:filledByName "" ;
+    erb:filledByMBox "" ;
+    erb:delegatedToBy "release-manager" .
+
+erb:Roles_4 a erb:Roles ;
+    erb:roleId "cto" ;
+    erb:label "CTO" ;
+    erb:comment "Final role in delegation chain. Ultimate authority for release decisions. Article CQ6." ;
+    erb:filledBy "" ;
+    erb:workflowSteps "" ;
+    erb:countOfWorkflowSteps 0 ;
+    erb:delegatesTo "" ;
+    erb:label_from_DelegatesTo "" ;
+    erb:filledByName "" ;
+    erb:filledByMBox "" ;
+    erb:delegatedToBy "vp-engineering" .
 
 # === Individuals: WorkflowSteps ===
 

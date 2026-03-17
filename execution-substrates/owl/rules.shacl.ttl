@@ -13,6 +13,7 @@ erb:HumanAgentsShape a sh:NodeShape ;
 erb:RolesShape a sh:NodeShape ;
     sh:targetClass erb:Roles .
 # Rule for CountOfWorkflowSteps - parse error: Unexpected character '!' at position 22
+# Rule for Label_from_DelegatesTo - parse error: Unexpected character '!' at position 11
 # Rule for FilledByName - parse error: Unexpected character '!' at position 17
 # Rule for FilledByMBox - parse error: Unexpected character '!' at position 17
 

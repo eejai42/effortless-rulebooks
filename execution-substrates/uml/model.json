@@ -52,6 +52,10 @@
         {
           "name": "DelegatesTo",
           "type": "string"
+        },
+        {
+          "name": "DelegatedToBy",
+          "type": "string"
         }
       ],
       "derived": [
@@ -59,6 +63,11 @@
           "name": "CountOfWorkflowSteps",
           "type": "integer",
           "formula": "=COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})"
+        },
+        {
+          "name": "Label_from_DelegatesTo",
+          "type": "string",
+          "formula": "=INDEX(Roles!{{Label}}, MATCH(Roles!{{DelegatesTo}}, Roles!{{RoleId}}, 0))"
         },
         {
           "name": "FilledByName",
@@ -205,9 +214,11 @@
         "FilledBy": "maria-gonzalez",
         "WorkflowSteps": "release-approval",
         "CountOfWorkflowSteps": 1,
+        "DelegatesTo": "vp-engineering",
+        "Label_from_DelegatesTo": "VP Engineering",
         "FilledByName": "Maria Gonzalez",
         "FilledByMBox": "maria.gonzalez@specialsolutions.example",
-        "DelegatesTo": ""
+        "DelegatedToBy": ""
       }
     },
     {
@@ -220,9 +231,11 @@
         "FilledBy": "",
         "WorkflowSteps": "legal-review",
         "CountOfWorkflowSteps": 1,
+        "DelegatesTo": "",
+        "Label_from_DelegatesTo": "",
         "FilledByName": "",
         "FilledByMBox": "",
-        "DelegatesTo": ""
+        "DelegatedToBy": ""
       }
     },
     {
@@ -235,9 +248,45 @@
         "FilledBy": "",
         "WorkflowSteps": "risk-assessment",
         "CountOfWorkflowSteps": 1,
+        "DelegatesTo": "",
+        "Label_from_DelegatesTo": "",
         "FilledByName": "",
         "FilledByMBox": "",
-        "DelegatesTo": ""
+        "DelegatedToBy": ""
+      }
+    },
+    {
+      "class": "Roles",
+      "id": "Roles_3",
+      "values": {
+        "RoleId": "vp-engineering",
+        "Label": "VP Engineering",
+        "Comment": "Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.",
+        "FilledBy": "",
+        "WorkflowSteps": "",
+        "CountOfWorkflowSteps": 0,
+        "DelegatesTo": "cto",
+        "Label_from_DelegatesTo": "CTO",
+        "FilledByName": "",
+        "FilledByMBox": "",
+        "DelegatedToBy": "release-manager"
+      }
+    },
+    {
+      "class": "Roles",
+      "id": "Roles_4",
+      "values": {
+        "RoleId": "cto",
+        "Label": "CTO",
+        "Comment": "Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.",
+        "FilledBy": "",
+        "WorkflowSteps": "",
+        "CountOfWorkflowSteps": 0,
+        "DelegatesTo": "",
+        "Label_from_DelegatesTo": "",
+        "FilledByName": "",
+        "FilledByMBox": "",
+        "DelegatedToBy": "vp-engineering"
       }
     },
     {

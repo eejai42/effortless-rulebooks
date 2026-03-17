@@ -1,7 +1,7 @@
 {
   "$schema": "https://example.com/cmcc-schema/v1",
-  "Name": "JTO - v3",
-  "Description": "Rulebook generated from Airtable base \u0027JTO - v3\u0027.",
+  "Name": "Jessica\u0027s Ontology Series-v3",
+  "Description": "Rulebook generated from Airtable base \u0027Jessica\u0027s Ontology Series-v3\u0027.",
   "Workflows": {
     "Description": "Table: Workflows",
     "schema": [
@@ -264,6 +264,21 @@
         "formula": "=COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})"
       },
       {
+        "name": "DelegatesTo",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "Role to escalate to when this role\u0027s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.",
+        "RelatedTo": "Roles"
+      },
+      {
+        "name": "Label_from_DelegatesTo",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "formula": "=INDEX(Roles!{{Label}}, MATCH(Roles!{{DelegatesTo}}, Roles!{{RoleId}}, 0))"
+      },
+      {
         "name": "FilledByName",
         "datatype": "string",
         "type": "lookup",
@@ -280,11 +295,11 @@
         "formula": "=INDEX(HumanAgents!{{Mbox}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))"
       },
       {
-        "name": "DelegatesTo",
+        "name": "DelegatedToBy",
         "datatype": "string",
-        "type": "raw",
+        "type": "relationship",
         "nullable": true,
-        "Description": "Role to escalate to when this role\u0027s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries."
+        "RelatedTo": "Roles"
       }
     ],
     "data": [
@@ -297,7 +312,9 @@
         "FilledByName": "Maria Gonzalez",
         "FilledByMBox": "maria.gonzalez@specialsolutions.example",
         "CountOfWorkflowSteps": 1,
-        "DelegatesTo": ""
+        "DelegatesTo": "vp-engineering",
+        "Label_from_DelegatesTo": "VP Engineering",
+        "DelegatedToBy": ""
       },
       {
         "RoleId": "legal-compliance-reviewer",
@@ -306,9 +323,11 @@
         "WorkflowSteps": "legal-review",
         "CountOfWorkflowSteps": 1,
         "FilledBy": "",
+        "DelegatesTo": "",
+        "Label_from_DelegatesTo": "",
         "FilledByName": "",
         "FilledByMBox": "",
-        "DelegatesTo": ""
+        "DelegatedToBy": ""
       },
       {
         "RoleId": "risk-analyst",
@@ -317,9 +336,37 @@
         "WorkflowSteps": "risk-assessment",
         "CountOfWorkflowSteps": 1,
         "FilledBy": "",
+        "DelegatesTo": "",
+        "Label_from_DelegatesTo": "",
         "FilledByName": "",
         "FilledByMBox": "",
-        "DelegatesTo": ""
+        "DelegatedToBy": ""
+      },
+      {
+        "RoleId": "vp-engineering",
+        "Label": "VP Engineering",
+        "Comment": "Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.",
+        "CountOfWorkflowSteps": 0,
+        "DelegatesTo": "cto",
+        "DelegatedToBy": "release-manager",
+        "Label_from_DelegatesTo": "CTO",
+        "FilledBy": "",
+        "WorkflowSteps": "",
+        "FilledByName": "",
+        "FilledByMBox": ""
+      },
+      {
+        "RoleId": "cto",
+        "Label": "CTO",
+        "Comment": "Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.",
+        "CountOfWorkflowSteps": 0,
+        "DelegatedToBy": "vp-engineering",
+        "FilledBy": "",
+        "WorkflowSteps": "",
+        "DelegatesTo": "",
+        "Label_from_DelegatesTo": "",
+        "FilledByName": "",
+        "FilledByMBox": ""
       }
     ]
   },

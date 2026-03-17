@@ -1,14 +1,29 @@
 [
   {
+    "role_id": "cto",
+    "label": "CTO",
+    "comment": "Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.",
+    "filled_by": "",
+    "workflow_steps": "",
+    "count_of_workflow_steps": 0,
+    "delegates_to": "",
+    "label_from_delegates_to": null,
+    "filled_by_name": null,
+    "filled_by_m_box": null,
+    "delegated_to_by": "vp-engineering"
+  },
+  {
     "role_id": "legal-compliance-reviewer",
     "label": "Legal Compliance Reviewer",
     "comment": "Role responsible for legal and compliance review of releases.",
     "filled_by": "",
     "workflow_steps": "legal-review",
     "count_of_workflow_steps": 1,
+    "delegates_to": "",
+    "label_from_delegates_to": null,
     "filled_by_name": null,
     "filled_by_m_box": null,
-    "delegates_to": ""
+    "delegated_to_by": ""
   },
   {
     "role_id": "release-manager",
@@ -17,9 +32,11 @@
     "filled_by": "maria-gonzalez",
     "workflow_steps": "release-approval",
     "count_of_workflow_steps": 1,
+    "delegates_to": "vp-engineering",
+    "label_from_delegates_to": "VP Engineering",
     "filled_by_name": "Maria Gonzalez",
     "filled_by_m_box": "maria.gonzalez@specialsolutions.example",
-    "delegates_to": ""
+    "delegated_to_by": ""
   },
   {
     "role_id": "risk-analyst",
@@ -28,8 +45,23 @@
     "filled_by": "",
     "workflow_steps": "risk-assessment",
     "count_of_workflow_steps": 1,
+    "delegates_to": "",
+    "label_from_delegates_to": null,
     "filled_by_name": null,
     "filled_by_m_box": null,
-    "delegates_to": ""
+    "delegated_to_by": ""
+  },
+  {
+    "role_id": "vp-engineering",
+    "label": "VP Engineering",
+    "comment": "Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.",
+    "filled_by": "",
+    "workflow_steps": "",
+    "count_of_workflow_steps": 0,
+    "delegates_to": "cto",
+    "label_from_delegates_to": "CTO",
+    "filled_by_name": null,
+    "filled_by_m_box": null,
+    "delegated_to_by": "release-manager"
   }
 ]

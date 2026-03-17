@@ -8,7 +8,9 @@
     "filled_by_name": "Maria Gonzalez",
     "filled_by_m_box": "maria.gonzalez@specialsolutions.example",
     "count_of_workflow_steps": 1,
-    "delegates_to": null
+    "delegates_to": "vp-engineering",
+    "label_from_delegates_to": "VP Engineering",
+    "delegated_to_by": null
   },
   {
     "role_id": "legal-compliance-reviewer",
@@ -17,9 +19,11 @@
     "workflow_steps": "legal-review",
     "count_of_workflow_steps": 1,
     "filled_by": null,
+    "delegates_to": null,
+    "label_from_delegates_to": null,
     "filled_by_name": null,
     "filled_by_m_box": null,
-    "delegates_to": null
+    "delegated_to_by": null
   },
   {
     "role_id": "risk-analyst",
@@ -28,8 +32,36 @@
     "workflow_steps": "risk-assessment",
     "count_of_workflow_steps": 1,
     "filled_by": null,
+    "delegates_to": null,
+    "label_from_delegates_to": null,
     "filled_by_name": null,
     "filled_by_m_box": null,
-    "delegates_to": null
+    "delegated_to_by": null
+  },
+  {
+    "role_id": "vp-engineering",
+    "label": "VP Engineering",
+    "comment": "Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.",
+    "count_of_workflow_steps": 0,
+    "delegates_to": "cto",
+    "delegated_to_by": "release-manager",
+    "label_from_delegates_to": "CTO",
+    "filled_by": null,
+    "workflow_steps": null,
+    "filled_by_name": null,
+    "filled_by_m_box": null
+  },
+  {
+    "role_id": "cto",
+    "label": "CTO",
+    "comment": "Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.",
+    "count_of_workflow_steps": 0,
+    "delegated_to_by": "vp-engineering",
+    "filled_by": null,
+    "workflow_steps": null,
+    "delegates_to": null,
+    "label_from_delegates_to": null,
+    "filled_by_name": null,
+    "filled_by_m_box": null
   }
 ]

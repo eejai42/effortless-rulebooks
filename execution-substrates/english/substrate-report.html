@@ -162,21 +162,40 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
 <th class="">role_id</th>
 <th class="">label</th>
 <th class="">comment</th>
-<th class="">workflow_steps</th>
 <th class="computed-header">count_of_workflow_steps</th>
+<th class="">delegated_to_by</th>
 <th class="">filled_by</th>
+<th class="">workflow_steps</th>
+<th class="">delegates_to</th>
+<th class="">label_from_delegates_to</th>
 <th class="">filled_by_name</th>
 <th class="">filled_by_m_box</th>
-<th class="">delegates_to</th>
 </tr></thead><tbody>
+<tr>
+<td class="cell-raw" title="cto">cto</td>
+<td class="cell-raw" title="CTO">CTO</td>
+<td class="cell-raw" title="Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.">Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.</td>
+<td class="cell-failed computed" title="Expected: 0&#10;Actual: null">
+<div class="exp-act"><span class="label">E:</span><code class="expected">0</code></div>
+<div class="exp-act"><span class="label">A:</span><code class="actual">null</code></div></td>
+<td class="cell-raw" title="vp-engineering">vp-engineering</td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+</tr>
 <tr>
 <td class="cell-raw" title="legal-compliance-reviewer">legal-compliance-reviewer</td>
 <td class="cell-raw" title="Legal Compliance Reviewer">Legal Compliance Reviewer</td>
 <td class="cell-raw" title="Role responsible for legal and compliance review of releases.">Role responsible for legal and compliance review of releases.</td>
-<td class="cell-raw" title="legal-review">legal-review</td>
 <td class="cell-failed computed" title="Expected: 1&#10;Actual: null">
 <div class="exp-act"><span class="label">E:</span><code class="expected">1</code></div>
 <div class="exp-act"><span class="label">A:</span><code class="actual">null</code></div></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title="legal-review">legal-review</td>
 <td class="cell-raw" title=""></td>
 <td class="cell-raw" title=""></td>
 <td class="cell-raw" title=""></td>
@@ -186,25 +205,44 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
 <td class="cell-raw" title="release-manager">release-manager</td>
 <td class="cell-raw" title="Release Manager">Release Manager</td>
 <td class="cell-raw" title="Primary role responsible for coordinating production releases. First in delegation chain. Article CQ2: &#x27;filled by Maria Gonzalez&#x27;">Primary role responsible for coordinating production releases. First in delegation chain. Article CQ2: &#x27;filled by Maria Gonzalez&#x27;</td>
-<td class="cell-raw" title="release-approval">release-approval</td>
 <td class="cell-failed computed" title="Expected: 1&#10;Actual: null">
 <div class="exp-act"><span class="label">E:</span><code class="expected">1</code></div>
 <div class="exp-act"><span class="label">A:</span><code class="actual">null</code></div></td>
+<td class="cell-raw" title=""></td>
 <td class="cell-raw" title="maria-gonzalez">maria-gonzalez</td>
+<td class="cell-raw" title="release-approval">release-approval</td>
+<td class="cell-raw" title="vp-engineering">vp-engineering</td>
+<td class="cell-raw" title="VP Engineering">VP Engineering</td>
 <td class="cell-raw" title="Maria Gonzalez">Maria Gonzalez</td>
 <td class="cell-raw" title="maria.gonzalez@specialsolutions.example">maria.gonzalez@specialsolutions.example</td>
-<td class="cell-raw" title=""></td>
 </tr>
 <tr>
 <td class="cell-raw" title="risk-analyst">risk-analyst</td>
 <td class="cell-raw" title="Risk Analyst">Risk Analyst</td>
 <td class="cell-raw" title="Role responsible for risk assessment. In full ontology, filled by AI agent.">Role responsible for risk assessment. In full ontology, filled by AI agent.</td>
-<td class="cell-raw" title="risk-assessment">risk-assessment</td>
 <td class="cell-failed computed" title="Expected: 1&#10;Actual: null">
 <div class="exp-act"><span class="label">E:</span><code class="expected">1</code></div>
 <div class="exp-act"><span class="label">A:</span><code class="actual">null</code></div></td>
 <td class="cell-raw" title=""></td>
 <td class="cell-raw" title=""></td>
+<td class="cell-raw" title="risk-assessment">risk-assessment</td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+</tr>
+<tr>
+<td class="cell-raw" title="vp-engineering">vp-engineering</td>
+<td class="cell-raw" title="VP Engineering">VP Engineering</td>
+<td class="cell-raw" title="Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.">Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.</td>
+<td class="cell-failed computed" title="Expected: 0&#10;Actual: null">
+<div class="exp-act"><span class="label">E:</span><code class="expected">0</code></div>
+<div class="exp-act"><span class="label">A:</span><code class="actual">null</code></div></td>
+<td class="cell-raw" title="release-manager">release-manager</td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title=""></td>
+<td class="cell-raw" title="cto">cto</td>
+<td class="cell-raw" title="CTO">CTO</td>
 <td class="cell-raw" title=""></td>
 <td class="cell-raw" title=""></td>
 </tr>
@@ -247,7 +285,7 @@ Using ENGLISH PROSE documents (glossary.md, specification.md)
 ======================================================================
 
 Loading English specification documents...
-  Loaded specification.md (8254 chars)
+  Loaded specification.md (7293 chars)
 
 Loading rulebook for schema metadata...
 Discovered 4 entities: Workflows, WorkflowSteps, Roles, HumanAgents
@@ -258,9 +296,9 @@ Processing human_agents...
   -&gt; human_agents: 2 records, 0 computed fields filled
 
 Processing roles...
-  Schema: 9 fields, 0 calculated
+  Schema: 11 fields, 0 calculated
     No calculated fields for roles, copying as-is
-  -&gt; roles: 3 records, 0 computed fields filled
+  -&gt; roles: 5 records, 0 computed fields filled
 
 Processing workflows...
   Schema: 8 fields, 0 calculated
@@ -268,7 +306,7 @@ Processing workflows...
   -&gt; workflows: 1 records, 0 computed fields filled
 
 ======================================================================
-English substrate: Processed 3 entities, 6 total records
+English substrate: Processed 3 entities, 8 total records
 Filled 0 computed fields total
 ======================================================================
 
@@ -289,151 +327,145 @@ Filled 0 computed fields total
         <div id="specification" class="tab-content">
             <div class="card">
                 <h2>specification.md (LLM-Generated)</h2>
-                <div class="prose-container markdown-content"><h2>JTO - v3 Rulebook Specification</h2>
+                <div class="prose-container markdown-content"><h2>Specification Document for Jessica&#x27;s Ontology Series-v3 Rulebook</h2>
 <h3>Overview</h3>
-<p>The JTO - v3 rulebook provides a structured approach to managing workflows, workflow steps, roles, and human agents within an operational context. It defines how to compute various calculated fields based on raw input data, facilitating the tracking and management of workflows and their associated components.</p>
-<h3>Workflows Entity</h3>
+<p>This rulebook defines the structure and calculations for workflows, workflow steps, roles, and human agents within the context of "Jessica's Ontology Series-v3." It provides a schema for managing workflows, detailing the relationships between workflows, their steps, the roles involved, and the human agents filling those roles. This document outlines how to compute calculated fields based on raw input data.</p>
+<h3>Workflows</h3>
 <h4>Input Fields</h4>
 <p>1. <strong>WorkflowId</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Unique identifier for the workflow.</p>
 <p>2. <strong>Title</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Human-readable name for the workflow.</p>
 <p>3. <strong>Description</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Detailed description of the workflow's purpose and scope.</p>
 <p>4. <strong>Created</strong></p>
-<p>   - <strong>Type:</strong> datetime</p>
+<p>   - <strong>Type:</strong> Datetime</p>
 <p>   - <strong>Description:</strong> Date the workflow was created.</p>
 <p>5. <strong>Modified</strong></p>
-<p>   - <strong>Type:</strong> datetime</p>
+<p>   - <strong>Type:</strong> Datetime</p>
 <p>   - <strong>Description:</strong> Date the workflow was last modified.</p>
 <p>6. <strong>Identifier</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> External reference identifier (e.g., ticket number).</p>
 <p>7. <strong>WorkflowSteps</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Steps contained in this workflow.</p>
 <h4>Calculated Field</h4>
-<p>#### CountOfWorkflowSteps</p>
 <ul>
-<li>**Description:** This field counts the number of steps associated with the workflow.</li>
-<li>**Calculation Explanation:** To compute the count of workflow steps, you will count the number of entries in the `WorkflowSteps` field that match the current `WorkflowId`. This is done using a conditional count function that checks if the `IsStepOf` field in the `WorkflowSteps` table matches the `WorkflowId` of the current workflow.</li>
-<li>**Formula:** `=COUNTIFS(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}})`</li>
-<li>**Example:** For the workflow with `WorkflowId` &quot;production-deployment-workflow&quot;, it has three steps: &quot;legal-review&quot;, &quot;risk-assessment&quot;, and &quot;release-approval&quot;. Thus, `CountOfWorkflowSteps` would be 3.</li>
+<li>**CountOfWorkflowSteps**</li>
+<p>  - <strong>Description:</strong> This field counts the number of steps associated with the workflow.</p>
+<p>  - <strong>Computation Explanation:</strong> To compute the count of workflow steps, count all entries in the `WorkflowSteps` table where the `IsStepOf` field matches the `WorkflowId` of the current workflow.</p>
+<p>  - <strong>Formula:</strong> `=COUNTIFS(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}})`</p>
+<p>  - <strong>Example:</strong> For the workflow with `WorkflowId` "production-deployment-workflow," there are three steps ("legal-review," "risk-assessment," "release-approval"). Thus, `CountOfWorkflowSteps` would be 3.</p>
 </ul>
-<h3>WorkflowSteps Entity</h3>
+<h3>Workflow Steps</h3>
 <h4>Input Fields</h4>
 <p>1. <strong>WorkflowStepId</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Unique identifier for the workflow step.</p>
 <p>2. <strong>Label</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Human-readable name for the step.</p>
 <p>3. <strong>SequencePosition</strong></p>
-<p>   - <strong>Type:</strong> integer</p>
+<p>   - <strong>Type:</strong> Integer</p>
 <p>   - <strong>Description:</strong> Ordinal position in the workflow sequence.</p>
 <p>4. <strong>RequiresHumanApproval</strong></p>
-<p>   - <strong>Type:</strong> boolean</p>
+<p>   - <strong>Type:</strong> Boolean</p>
 <p>   - <strong>Description:</strong> Indicates if this step requires human approval.</p>
 <p>5. <strong>IsStepOf</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Parent workflow containing this step.</p>
 <p>6. <strong>AssignedRole</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Role responsible for this step.</p>
 <h4>Calculated Fields</h4>
-<p>#### IsStepOfTitle</p>
 <ul>
-<li>**Description:** This field provides a denormalized lookup of the parent workflow&#x27;s title.</li>
-<li>**Calculation Explanation:** The title is retrieved by matching the `IsStepOf` field (which contains the `WorkflowId`) with the `WorkflowId` in the Workflows table and returning the corresponding `Title`.</li>
-<li>**Formula:** `=INDEX(Workflows!{{Title}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))`</li>
-<li>**Example:** For the step with `IsStepOf` &quot;production-deployment-workflow&quot;, the `IsStepOfTitle` would return &quot;Production Deployment Workflow&quot;.</li>
+<li>**IsStepOfTitle**</li>
+<p>  - <strong>Description:</strong> Denormalized lookup of the parent workflow's title.</p>
+<p>  - <strong>Computation Explanation:</strong> Find the title of the workflow that corresponds to the `IsStepOf` field by matching it with the `WorkflowId` in the Workflows table.</p>
+<p>  - <strong>Formula:</strong> `=INDEX(Workflows!{{Title}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))`</p>
+<p>  - <strong>Example:</strong> For the step with `IsStepOf` "production-deployment-workflow," the title would be "Production Deployment Workflow."</p>
 </ul>
-<p>#### IsStepOfDescription</p>
 <ul>
-<li>**Description:** This field provides a denormalized lookup of the parent workflow&#x27;s description.</li>
-<li>**Calculation Explanation:** Similar to `IsStepOfTitle`, this field retrieves the description by matching the `IsStepOf` field with the `WorkflowId` in the Workflows table.</li>
-<li>**Formula:** `=INDEX(Workflows!{{Description}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))`</li>
-<li>**Example:** For the step with `IsStepOf` &quot;production-deployment-workflow&quot;, the `IsStepOfDescription` would return &quot;End-to-end workflow for deploying software releases to production, including risk analysis, legal clearance, and release approval.&quot;</li>
+<li>**IsStepOfDescription**</li>
+<p>  - <strong>Description:</strong> Denormalized lookup of the parent workflow's description.</p>
+<p>  - <strong>Computation Explanation:</strong> Similar to `IsStepOfTitle`, but retrieves the description instead.</p>
+<p>  - <strong>Formula:</strong> `=INDEX(Workflows!{{Description}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))`</p>
+<p>  - <strong>Example:</strong> The description for the step with `IsStepOf` "production-deployment-workflow" would be "End-to-end workflow for deploying software releases to production, including risk analysis, legal clearance, and release approval."</p>
 </ul>
-<p>#### IsStepOfIdentifier</p>
 <ul>
-<li>**Description:** This field provides a denormalized lookup of the parent workflow&#x27;s external identifier.</li>
-<li>**Calculation Explanation:** This is computed by matching the `IsStepOf` field with the `WorkflowId` in the Workflows table and returning the corresponding `Identifier`.</li>
-<li>**Formula:** `=INDEX(Workflows!{{Identifier}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))`</li>
-<li>**Example:** For the step with `IsStepOf` &quot;production-deployment-workflow&quot;, the `IsStepOfIdentifier` would return &quot;WF-PROD-001&quot;.</li>
+<li>**IsStepOfIdentifier**</li>
+<p>  - <strong>Description:</strong> Denormalized lookup of the parent workflow's external identifier.</p>
+<p>  - <strong>Computation Explanation:</strong> Retrieve the identifier of the workflow that corresponds to the `IsStepOf` field.</p>
+<p>  - <strong>Formula:</strong> `=INDEX(Workflows!{{Identifier}}, MATCH(WorkflowSteps!{{IsStepOf}}, Workflows!{{WorkflowId}}, 0))`</p>
+<p>  - <strong>Example:</strong> For the step with `IsStepOf` "production-deployment-workflow," the identifier would be "WF-PROD-001."</p>
 </ul>
-<p>#### AssignedRoleLabel</p>
 <ul>
-<li>**Description:** This field provides a denormalized lookup of the label for the assigned role.</li>
-<li>**Calculation Explanation:** The label is retrieved by matching the `AssignedRole` field with the `RoleId` in the Roles table and returning the corresponding `Label`.</li>
-<li>**Formula:** `=INDEX(Roles!{{Label}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))`</li>
-<li>**Example:** For the step with `AssignedRole` &quot;risk-analyst&quot;, the `AssignedRoleLabel` would return &quot;Risk Analyst&quot;.</li>
+<li>**AssignedRoleLabel**</li>
+<p>  - <strong>Description:</strong> Denormalized lookup of the assigned role's label.</p>
+<p>  - <strong>Computation Explanation:</strong> Find the label of the role by matching the `AssignedRole` field with the `RoleId` in the Roles table.</p>
+<p>  - <strong>Formula:</strong> `=INDEX(Roles!{{Label}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))`</p>
+<p>  - <strong>Example:</strong> For the step with `AssignedRole` "risk-analyst," the label would be "Risk Analyst."</p>
 </ul>
-<p>#### AssignedRoleComment</p>
 <ul>
-<li>**Description:** This field provides a denormalized lookup of the comment/description for the assigned role.</li>
-<li>**Calculation Explanation:** Similar to `AssignedRoleLabel`, this field retrieves the comment by matching the `AssignedRole` field with the `RoleId` in the Roles table.</li>
-<li>**Formula:** `=INDEX(Roles!{{Comment}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))`</li>
-<li>**Example:** For the step with `AssignedRole` &quot;risk-analyst&quot;, the `AssignedRoleComment` would return &quot;Role responsible for risk assessment. In full ontology, filled by AI agent.&quot;</li>
+<li>**AssignedRoleComment**</li>
+<p>  - <strong>Description:</strong> Denormalized lookup of the assigned role's comment/description.</p>
+<p>  - <strong>Computation Explanation:</strong> Similar to `AssignedRoleLabel`, but retrieves the comment instead.</p>
+<p>  - <strong>Formula:</strong> `=INDEX(Roles!{{Comment}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))`</p>
+<p>  - <strong>Example:</strong> For the step with `AssignedRole` "risk-analyst," the comment would be "Role responsible for risk assessment. In full ontology, filled by AI agent."</p>
 </ul>
-<p>#### AssignedRoleFilledBy</p>
 <ul>
-<li>**Description:** This field provides a denormalized lookup of the agent currently filling the assigned role.</li>
-<li>**Calculation Explanation:** This is computed by matching the `AssignedRole` field with the `RoleId` in the Roles table and returning the corresponding `FilledBy`.</li>
-<li>**Formula:** `=INDEX(Roles!{{FilledBy}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))`</li>
-<li>**Example:** For the step with `AssignedRole` &quot;release-manager&quot;, the `AssignedRoleFilledBy` would return &quot;maria-gonzalez&quot;.</li>
+<li>**AssignedRoleFilledBy**</li>
+<p>  - <strong>Description:</strong> Denormalized lookup of the agent currently filling the assigned role.</p>
+<p>  - <strong>Computation Explanation:</strong> Retrieve the agent's ID filling the role by matching the `AssignedRole` with the `RoleId` in the Roles table.</p>
+<p>  - <strong>Formula:</strong> `=INDEX(Roles!{{FilledBy}}, MATCH(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}}, 0))`</p>
+<p>  - <strong>Example:</strong> For the step with `AssignedRole` "release-manager," the filled by agent would be "maria-gonzalez."</p>
 </ul>
-<h3>Roles Entity</h3>
+<h3>Roles</h3>
 <h4>Input Fields</h4>
 <p>1. <strong>RoleId</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Unique identifier for the role.</p>
 <p>2. <strong>Label</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Human-readable name for the role.</p>
 <p>3. <strong>Comment</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Description of the role's responsibilities.</p>
 <p>4. <strong>FilledBy</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Agent currently filling this role.</p>
-<p>5. <strong>WorkflowSteps</strong></p>
-<p>   - <strong>Type:</strong> string</p>
-<p>   - <strong>Description:</strong> Steps assigned to this role.</p>
-<h4>Calculated Field</h4>
-<p>#### CountOfWorkflowSteps</p>
+<h4>Calculated Fields</h4>
 <ul>
-<li>**Description:** This field counts the number of workflow steps assigned to this role.</li>
-<li>**Calculation Explanation:** To compute this count, you will count the number of entries in the `WorkflowSteps` table where the `AssignedRole` matches the current `RoleId`.</li>
-<li>**Formula:** `=COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})`</li>
-<li>**Example:** For the role with `RoleId` &quot;release-manager&quot;, it is assigned to one step: &quot;release-approval&quot;. Thus, `CountOfWorkflowSteps` would be 1.</li>
+<li>**CountOfWorkflowSteps**</li>
+<p>  - <strong>Description:</strong> Count of workflow steps assigned to this role.</p>
+<p>  - <strong>Computation Explanation:</strong> Count all entries in the `WorkflowSteps` table where the `AssignedRole` matches the `RoleId` of the current role.</p>
+<p>  - <strong>Formula:</strong> `=COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})`</p>
+<p>  - <strong>Example:</strong> For the role "release-manager," there is one step ("release-approval"), so `CountOfWorkflowSteps` would be 1.</p>
 </ul>
-<h3>HumanAgents Entity</h3>
+<h3>Human Agents</h3>
 <h4>Input Fields</h4>
 <p>1. <strong>HumanAgentId</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Unique identifier for the human agent.</p>
 <p>2. <strong>Name</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Full name of the person.</p>
 <p>3. <strong>Mbox</strong></p>
-<p>   - <strong>Type:</strong> string</p>
+<p>   - <strong>Type:</strong> String</p>
 <p>   - <strong>Description:</strong> Email address of the person.</p>
-<p>4. <strong>Roles</strong></p>
-<p>   - <strong>Type:</strong> string</p>
-<p>   - <strong>Description:</strong> Roles filled by this agent.</p>
-<h4>Calculated Field</h4>
-<p>#### CountOfRoles</p>
+<h4>Calculated Fields</h4>
 <ul>
-<li>**Description:** This field counts the number of roles currently filled by this agent.</li>
-<li>**Calculation Explanation:** To compute this count, you will count the number of entries in the `Roles` table where the `FilledBy` matches the current `HumanAgentId`.</li>
-<li>**Formula:** `=COUNTIFS(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}})`</li>
-<li>**Example:** For the agent with `HumanAgentId` &quot;maria-gonzalez&quot;, she fills one role: &quot;release-manager&quot;. Thus, `CountOfRoles` would be 1.</li>
+<li>**CountOfRoles**</li>
+<p>  - <strong>Description:</strong> Count of roles currently filled by this agent.</p>
+<p>  - <strong>Computation Explanation:</strong> Count all entries in the `Roles` table where the `FilledBy` matches the `HumanAgentId` of the current agent.</p>
+<p>  - <strong>Formula:</strong> `=COUNTIFS(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}})`</p>
+<p>  - <strong>Example:</strong> For "Maria Gonzalez," who fills the "release-manager" role, `CountOfRoles` would be 1.</p>
 </ul>
-<p>This specification document provides a detailed guide for computing the calculated fields based on the raw input fields defined in the JTO - v3 rulebook. By following these instructions, one can accurately derive the necessary values without needing to reference the original formulas directly.</p></div>
+<p>This specification provides a comprehensive guide to computing calculated fields within the "Jessica's Ontology Series-v3" rulebook, ensuring accurate data management and reporting.</p></div>
             </div>
         </div>
     </main>

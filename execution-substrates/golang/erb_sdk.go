@@ -142,9 +142,11 @@ type Role struct {
 	FilledBy *string `json:"filled_by"` // Agent currently filling this role. Maps to ntwf:filledBy. The change-management triple - update this when personnel change.
 	WorkflowSteps *string `json:"workflow_steps"` // Steps assigned to this role. Inverse of AssignedRole.
 	CountOfWorkflowSteps *int `json:"count_of_workflow_steps"` // Count of workflow steps assigned to this role.
+	DelegatesTo *string `json:"delegates_to"` // Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
+	Label_from_DelegatesTo *string `json:"label_from_delegates_to"`
 	FilledByName *string `json:"filled_by_name"` // Denormalized lookup of agent name (foaf:name) filling this role.
 	FilledByMBox *string `json:"filled_by_m_box"` // Denormalized lookup of agent email (foaf:mbox) filling this role.
-	DelegatesTo *string `json:"delegates_to"` // Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
+	DelegatedToBy *string `json:"delegated_to_by"`
 }
 
 // =============================================================================

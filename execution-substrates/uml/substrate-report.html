@@ -68,7 +68,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         </div>
         <div class="header-stats">
             <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>6/6 passed</span></div>
+            <div class="stat"><span>8/8 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -120,11 +120,11 @@ Loaded 0 OCL constraints from constraints.ocl
    Warning: No OCL constraints found for class &#x27;HumanAgents&#x27;
   -&gt; human_agents: 2 records (via OCL)
    Warning: No OCL constraints found for class &#x27;Roles&#x27;
-  -&gt; roles: 3 records (via OCL)
+  -&gt; roles: 5 records (via OCL)
    Warning: No OCL constraints found for class &#x27;Workflows&#x27;
   -&gt; workflows: 1 records (via OCL)
 
-UML substrate: Processed 3 entities, 6 total records
+UML substrate: Processed 3 entities, 8 total records
 ======================================================================
 
 </pre>
@@ -135,9 +135,9 @@ UML substrate: Processed 3 entities, 6 total records
                 <h2>Test Summary</h2>
                 <div class="results-summary">
                     <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">8</div><div class="result-label">Passed</div></div>
                     <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value">8</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@ UML substrate: Processed 3 entities, 6 total records
             <div class="card">
                 <div class="code-header">
                     <h2>class-diagram.puml</h2>
-                    <div><span class="code-info">70 lines</span><button class="copy-btn" onclick="copyCode('class-code')">Copy</button></div>
+                    <div><span class="code-info">72 lines</span><button class="copy-btn" onclick="copyCode('class-code')">Copy</button></div>
                 </div>
                 <pre id="class-code">@startuml
 skinparam classAttributeIconSize 0
@@ -174,9 +174,11 @@ class Roles {
   +FilledBy: String -- Agent currently filling this role. Maps to ntwf:filledBy. The change-management triple - update this when personnel change.
   +WorkflowSteps: String -- Steps assigned to this role. Inverse of AssignedRole.
   +CountOfWorkflowSteps: Integer -- Count of workflow steps assigned to this role.
+  +DelegatesTo: String -- Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
+  +Label_from_DelegatesTo: String
   +FilledByName: String -- Denormalized lookup of agent name (foaf:name) filling this role.
   +FilledByMBox: String -- Denormalized lookup of agent email (foaf:mbox) filling this role.
-  +DelegatesTo: String -- Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
+  +DelegatedToBy: String
   --
 }
 
@@ -223,7 +225,7 @@ class Workflows {
             <div class="card">
                 <div class="code-header">
                     <h2>objects.puml</h2>
-                    <div><span class="code-info">111 lines</span><button class="copy-btn" onclick="copyCode('objects-code')">Copy</button></div>
+                    <div><span class="code-info">145 lines</span><button class="copy-btn" onclick="copyCode('objects-code')">Copy</button></div>
                 </div>
                 <pre id="objects-code">@startuml
 
@@ -250,9 +252,11 @@ object &quot;Roles_0&quot; as Roles_0 {
   FilledBy = &quot;maria-gonzalez&quot;
   WorkflowSteps = &quot;release-approval&quot;
   CountOfWorkflowSteps = 1
+  DelegatesTo = &quot;vp-engineering&quot;
+  Label_from_DelegatesTo = &quot;VP Engineering&quot;
   FilledByName = &quot;Maria Gonzalez&quot;
   FilledByMBox = &quot;maria.gonzalez@specialsolut...&quot;
-  DelegatesTo = &quot;&quot;
+  DelegatedToBy = &quot;&quot;
 }
 
 object &quot;Roles_1&quot; as Roles_1 {
@@ -262,9 +266,11 @@ object &quot;Roles_1&quot; as Roles_1 {
   FilledBy = &quot;&quot;
   WorkflowSteps = &quot;legal-review&quot;
   CountOfWorkflowSteps = 1
+  DelegatesTo = &quot;&quot;
+  Label_from_DelegatesTo = &quot;&quot;
   FilledByName = &quot;&quot;
   FilledByMBox = &quot;&quot;
-  DelegatesTo = &quot;&quot;
+  DelegatedToBy = &quot;&quot;
 }
 
 object &quot;Roles_2&quot; as Roles_2 {
@@ -274,9 +280,39 @@ object &quot;Roles_2&quot; as Roles_2 {
   FilledBy = &quot;&quot;
   WorkflowSteps = &quot;risk-assessment&quot;
   CountOfWorkflowSteps = 1
+  DelegatesTo = &quot;&quot;
+  Label_from_DelegatesTo = &quot;&quot;
   FilledByName = &quot;&quot;
   FilledByMBox = &quot;&quot;
+  DelegatedToBy = &quot;&quot;
+}
+
+object &quot;Roles_3&quot; as Roles_3 {
+  RoleId = &quot;vp-engineering&quot;
+  Label = &quot;VP Engineering&quot;
+  Comment = &quot;Secondary role in delegatio...&quot;
+  FilledBy = &quot;&quot;
+  WorkflowSteps = &quot;&quot;
+  CountOfWorkflowSteps = 0
+  DelegatesTo = &quot;cto&quot;
+  Label_from_DelegatesTo = &quot;CTO&quot;
+  FilledByName = &quot;&quot;
+  FilledByMBox = &quot;&quot;
+  DelegatedToBy = &quot;release-manager&quot;
+}
+
+object &quot;Roles_4&quot; as Roles_4 {
+  RoleId = &quot;cto&quot;
+  Label = &quot;CTO&quot;
+  Comment = &quot;Final role in delegation ch...&quot;
+  FilledBy = &quot;&quot;
+  WorkflowSteps = &quot;&quot;
+  CountOfWorkflowSteps = 0
   DelegatesTo = &quot;&quot;
+  Label_from_DelegatesTo = &quot;&quot;
+  FilledByName = &quot;&quot;
+  FilledByMBox = &quot;&quot;
+  DelegatedToBy = &quot;vp-engineering&quot;
 }
 
 object &quot;WorkflowSteps_0&quot; as WorkflowSteps_0 {
@@ -342,7 +378,7 @@ object &quot;Workflows_0&quot; as Workflows_0 {
             <div class="card">
                 <div class="code-header">
                     <h2>constraints.ocl</h2>
-                    <div><span class="code-info">59 lines</span><button class="copy-btn" onclick="copyCode('ocl-code')">Copy</button></div>
+                    <div><span class="code-info">62 lines</span><button class="copy-btn" onclick="copyCode('ocl-code')">Copy</button></div>
                 </div>
                 <pre id="ocl-code">-- OCL Constraints for ERB
 -- Generated from effortless-rulebook.json
@@ -360,6 +396,9 @@ context Roles
 -- Count of workflow steps assigned to this role.
 -- Formula for CountOfWorkflowSteps - parse error: Unexpected character &#x27;!&#x27; at position 22
 -- Original: =COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})
+
+-- Formula for Label_from_DelegatesTo - parse error: Unexpected character &#x27;!&#x27; at position 11
+-- Original: =INDEX(Roles!{{Label}}, MATCH(Roles!{{DelegatesTo}}, Roles!{{RoleId}}, 0))
 
 -- Denormalized lookup of agent name (foaf:name) filling this role.
 -- Formula for FilledByName - parse error: Unexpected character &#x27;!&#x27; at position 17

@@ -25,9 +25,11 @@ class Roles {
   +FilledBy: String -- Agent currently filling this role. Maps to ntwf:filledBy. The change-management triple - update this when personnel change.
   +WorkflowSteps: String -- Steps assigned to this role. Inverse of AssignedRole.
   +CountOfWorkflowSteps: Integer -- Count of workflow steps assigned to this role.
+  +DelegatesTo: String -- Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
+  +Label_from_DelegatesTo: String
   +FilledByName: String -- Denormalized lookup of agent name (foaf:name) filling this role.
   +FilledByMBox: String -- Denormalized lookup of agent email (foaf:mbox) filling this role.
-  +DelegatesTo: String -- Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
+  +DelegatedToBy: String
   --
 }
 

@@ -4,8 +4,8 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Fields Tested | 6 |
-| Passed | 6 |
+| Total Fields Tested | 8 |
+| Passed | 8 |
 | Failed | 0 |
 | Score | 100.0% |
 | Duration | < 1s |
@@ -14,7 +14,7 @@
 
 ### roles
 
-- Fields: 3/3 (100.0%)
+- Fields: 5/5 (100.0%)
 - Computed columns: count_of_workflow_steps
 
 ### workflows

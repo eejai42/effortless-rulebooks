@@ -135,10 +135,11 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;
 
-CREATE OR REPLACE FUNCTION get_roles_delegates_to(p_role_id TEXT)
+
+CREATE OR REPLACE FUNCTION calc_roles_label_from_delegates_to(p_role_id TEXT)
 RETURNS TEXT AS $$
 BEGIN
-  RETURN (SELECT delegates_to FROM roles WHERE role_id = p_role_id);
+  RETURN (SELECT label::text FROM roles WHERE role_id = (SELECT delegates_to FROM roles WHERE role_id = p_role_id));
 END;
 $$ LANGUAGE plpgsql STABLE SECURITY DEFINER;
 

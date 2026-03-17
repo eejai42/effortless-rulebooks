@@ -23,9 +23,11 @@ object "Roles_0" as Roles_0 {
   FilledBy = "maria-gonzalez"
   WorkflowSteps = "release-approval"
   CountOfWorkflowSteps = 1
+  DelegatesTo = "vp-engineering"
+  Label_from_DelegatesTo = "VP Engineering"
   FilledByName = "Maria Gonzalez"
   FilledByMBox = "maria.gonzalez@specialsolut..."
-  DelegatesTo = ""
+  DelegatedToBy = ""
 }
 
 object "Roles_1" as Roles_1 {
@@ -35,9 +37,11 @@ object "Roles_1" as Roles_1 {
   FilledBy = ""
   WorkflowSteps = "legal-review"
   CountOfWorkflowSteps = 1
+  DelegatesTo = ""
+  Label_from_DelegatesTo = ""
   FilledByName = ""
   FilledByMBox = ""
-  DelegatesTo = ""
+  DelegatedToBy = ""
 }
 
 object "Roles_2" as Roles_2 {
@@ -47,9 +51,39 @@ object "Roles_2" as Roles_2 {
   FilledBy = ""
   WorkflowSteps = "risk-assessment"
   CountOfWorkflowSteps = 1
+  DelegatesTo = ""
+  Label_from_DelegatesTo = ""
   FilledByName = ""
   FilledByMBox = ""
+  DelegatedToBy = ""
+}
+
+object "Roles_3" as Roles_3 {
+  RoleId = "vp-engineering"
+  Label = "VP Engineering"
+  Comment = "Secondary role in delegatio..."
+  FilledBy = ""
+  WorkflowSteps = ""
+  CountOfWorkflowSteps = 0
+  DelegatesTo = "cto"
+  Label_from_DelegatesTo = "CTO"
+  FilledByName = ""
+  FilledByMBox = ""
+  DelegatedToBy = "release-manager"
+}
+
+object "Roles_4" as Roles_4 {
+  RoleId = "cto"
+  Label = "CTO"
+  Comment = "Final role in delegation ch..."
+  FilledBy = ""
+  WorkflowSteps = ""
+  CountOfWorkflowSteps = 0
   DelegatesTo = ""
+  Label_from_DelegatesTo = ""
+  FilledByName = ""
+  FilledByMBox = ""
+  DelegatedToBy = "vp-engineering"
 }
 
 object "WorkflowSteps_0" as WorkflowSteps_0 {

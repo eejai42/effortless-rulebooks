@@ -15,6 +15,9 @@ context Roles
 -- Formula for CountOfWorkflowSteps - parse error: Unexpected character '!' at position 22
 -- Original: =COUNTIFS(WorkflowSteps!{{AssignedRole}}, Roles!{{RoleId}})
 
+-- Formula for Label_from_DelegatesTo - parse error: Unexpected character '!' at position 11
+-- Original: =INDEX(Roles!{{Label}}, MATCH(Roles!{{DelegatesTo}}, Roles!{{RoleId}}, 0))
+
 -- Denormalized lookup of agent name (foaf:name) filling this role.
 -- Formula for FilledByName - parse error: Unexpected character '!' at position 17
 -- Original: =INDEX(HumanAgents!{{Name}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))

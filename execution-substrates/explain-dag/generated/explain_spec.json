@@ -1,8 +1,8 @@
 {
   "schema_version": "erb.explain_spec.v1",
   "rulebook": {
-    "name": "JTO - v3",
-    "rulebook_hash": "sha256:f65d23c5b35eeec0a118c4591bbc371a"
+    "name": "Jessica's Ontology Series-v3",
+    "rulebook_hash": "sha256:837c613919523be15d07de089be103af"
   },
   "semantics": {
     "profile": "excel",

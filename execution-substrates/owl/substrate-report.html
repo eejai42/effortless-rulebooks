@@ -68,7 +68,7 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
         </div>
         <div class="header-stats">
             <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>6/6 passed</span></div>
+            <div class="stat"><span>8/8 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -122,7 +122,7 @@ Tables with computed columns: Workflows, WorkflowSteps, Roles, HumanAgents
 Loading ontology and data...
    Loaded: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/ontology.owl
    Loaded: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/individuals.ttl
-   Total triples: 262
+   Total triples: 300
 
 Loading SHACL rules...
    Loaded: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/rules.shacl.ttl
@@ -130,17 +130,17 @@ Loading SHACL rules...
 
 Running SHACL-SPARQL reasoning...
    (Multiple passes to resolve dependencies between computed fields)
-   Pass 1: 262 -&gt; 262 triples (0 added)
+   Pass 1: 300 -&gt; 300 triples (0 added)
    Completed in 1 passes
-   Final triple count: 262
+   Final triple count: 300
 
 Extracting computed values...
    Workflows: 1 records (1 computed fields)
    WorkflowSteps: 3 records (6 computed fields)
-   Roles: 3 records (3 computed fields)
+   Roles: 5 records (4 computed fields)
    HumanAgents: 2 records (1 computed fields)
 
-Total: 9 records extracted
+Total: 11 records extracted
 Output: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/test-answers/
 
 ======================================================================
@@ -155,9 +155,9 @@ SHACL reasoning complete!
                 <h2>Test Summary</h2>
                 <div class="results-summary">
                     <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">8</div><div class="result-label">Passed</div></div>
                     <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value">8</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@ SHACL reasoning complete!
             <div class="card">
                 <div class="code-header">
                     <h2>ontology.owl</h2>
-                    <div><span class="code-info">241 lines</span><button class="copy-btn" onclick="copyCode('ontology-code')">Copy</button></div>
+                    <div><span class="code-info">252 lines</span><button class="copy-btn" onclick="copyCode('ontology-code')">Copy</button></div>
                 </div>
                 <pre id="ontology-code">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
@@ -253,6 +253,18 @@ erb:countOfWorkflowSteps a owl:DatatypeProperty ;
     rdfs:comment &quot;Count of workflow steps assigned to this role.&quot; .
     # calculated: aggregation
 
+erb:delegatesTo a owl:DatatypeProperty ;
+    rdfs:domain erb:Roles ;
+    rdfs:range xsd:string ;
+    rdfs:label &quot;DelegatesTo&quot; ;
+    rdfs:comment &quot;Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.&quot; .
+
+erb:label_from_DelegatesTo a owl:DatatypeProperty ;
+    rdfs:domain erb:Roles ;
+    rdfs:range xsd:string ;
+    rdfs:label &quot;Label_from_DelegatesTo&quot; .
+    # calculated: lookup
+
 erb:filledByName a owl:DatatypeProperty ;
     rdfs:domain erb:Roles ;
     rdfs:range xsd:string ;
@@ -267,11 +279,10 @@ erb:filledByMBox a owl:DatatypeProperty ;
     rdfs:comment &quot;Denormalized lookup of agent email (foaf:mbox) filling this role.&quot; .
     # calculated: lookup
 
-erb:delegatesTo a owl:DatatypeProperty ;
+erb:delegatedToBy a owl:DatatypeProperty ;
     rdfs:domain erb:Roles ;
     rdfs:range xsd:string ;
-    rdfs:label &quot;DelegatesTo&quot; ;
-    rdfs:comment &quot;Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.&quot; .
+    rdfs:label &quot;DelegatedToBy&quot; .
 
 # === Class: WorkflowSteps ===
 erb:WorkflowSteps a owl:Class ;
@@ -414,7 +425,7 @@ erb:countOfWorkflowSteps a owl:DatatypeProperty ;
             <div class="card">
                 <div class="code-header">
                     <h2>individuals.ttl</h2>
-                    <div><span class="code-info">112 lines</span><button class="copy-btn" onclick="copyCode('individuals-code')">Copy</button></div>
+                    <div><span class="code-info">144 lines</span><button class="copy-btn" onclick="copyCode('individuals-code')">Copy</button></div>
                 </div>
                 <pre id="individuals-code">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
@@ -446,9 +457,11 @@ erb:Roles_0 a erb:Roles ;
     erb:filledBy &quot;maria-gonzalez&quot; ;
     erb:workflowSteps &quot;release-approval&quot; ;
     erb:countOfWorkflowSteps 1 ;
+    erb:delegatesTo &quot;vp-engineering&quot; ;
+    erb:label_from_DelegatesTo &quot;VP Engineering&quot; ;
     erb:filledByName &quot;Maria Gonzalez&quot; ;
     erb:filledByMBox &quot;maria.gonzalez@specialsolutions.example&quot; ;
-    erb:delegatesTo &quot;&quot; .
+    erb:delegatedToBy &quot;&quot; .
 
 erb:Roles_1 a erb:Roles ;
     erb:roleId &quot;legal-compliance-reviewer&quot; ;
@@ -457,9 +470,11 @@ erb:Roles_1 a erb:Roles ;
     erb:filledBy &quot;&quot; ;
     erb:workflowSteps &quot;legal-review&quot; ;
     erb:countOfWorkflowSteps 1 ;
+    erb:delegatesTo &quot;&quot; ;
+    erb:label_from_DelegatesTo &quot;&quot; ;
     erb:filledByName &quot;&quot; ;
     erb:filledByMBox &quot;&quot; ;
-    erb:delegatesTo &quot;&quot; .
+    erb:delegatedToBy &quot;&quot; .
 
 erb:Roles_2 a erb:Roles ;
     erb:roleId &quot;risk-analyst&quot; ;
@@ -468,9 +483,37 @@ erb:Roles_2 a erb:Roles ;
     erb:filledBy &quot;&quot; ;
     erb:workflowSteps &quot;risk-assessment&quot; ;
     erb:countOfWorkflowSteps 1 ;
+    erb:delegatesTo &quot;&quot; ;
+    erb:label_from_DelegatesTo &quot;&quot; ;
     erb:filledByName &quot;&quot; ;
     erb:filledByMBox &quot;&quot; ;
-    erb:delegatesTo &quot;&quot; .
+    erb:delegatedToBy &quot;&quot; .
+
+erb:Roles_3 a erb:Roles ;
+    erb:roleId &quot;vp-engineering&quot; ;
+    erb:label &quot;VP Engineering&quot; ;
+    erb:comment &quot;Secondary role in delegation chain. Escalation from Release Manager when primary agent unavailable. Article CQ6.&quot; ;
+    erb:filledBy &quot;&quot; ;
+    erb:workflowSteps &quot;&quot; ;
+    erb:countOfWorkflowSteps 0 ;
+    erb:delegatesTo &quot;cto&quot; ;
+    erb:label_from_DelegatesTo &quot;CTO&quot; ;
+    erb:filledByName &quot;&quot; ;
+    erb:filledByMBox &quot;&quot; ;
+    erb:delegatedToBy &quot;release-manager&quot; .
+
+erb:Roles_4 a erb:Roles ;
+    erb:roleId &quot;cto&quot; ;
+    erb:label &quot;CTO&quot; ;
+    erb:comment &quot;Final role in delegation chain. Ultimate authority for release decisions. Article CQ6.&quot; ;
+    erb:filledBy &quot;&quot; ;
+    erb:workflowSteps &quot;&quot; ;
+    erb:countOfWorkflowSteps 0 ;
+    erb:delegatesTo &quot;&quot; ;
+    erb:label_from_DelegatesTo &quot;&quot; ;
+    erb:filledByName &quot;&quot; ;
+    erb:filledByMBox &quot;&quot; ;
+    erb:delegatedToBy &quot;vp-engineering&quot; .
 
 # === Individuals: WorkflowSteps ===
 
@@ -534,7 +577,7 @@ erb:Workflows_0 a erb:Workflows ;
             <div class="card">
                 <div class="code-header">
                     <h2>rules.shacl.ttl</h2>
-                    <div><span class="code-info">34 lines</span><button class="copy-btn" onclick="copyCode('rules-code')">Copy</button></div>
+                    <div><span class="code-info">35 lines</span><button class="copy-btn" onclick="copyCode('rules-code')">Copy</button></div>
                 </div>
                 <pre id="rules-code">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
@@ -551,6 +594,7 @@ erb:HumanAgentsShape a sh:NodeShape ;
 erb:RolesShape a sh:NodeShape ;
     sh:targetClass erb:Roles .
 # Rule for CountOfWorkflowSteps - parse error: Unexpected character &#x27;!&#x27; at position 22
+# Rule for Label_from_DelegatesTo - parse error: Unexpected character &#x27;!&#x27; at position 11
 # Rule for FilledByName - parse error: Unexpected character &#x27;!&#x27; at position 17
 # Rule for FilledByMBox - parse error: Unexpected character &#x27;!&#x27; at position 17
 
