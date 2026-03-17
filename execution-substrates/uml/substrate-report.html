@@ -67,8 +67,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>UML Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-warning">69.2%</span></div>
-            <div class="stat"><span>9/13 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
+            <div class="stat"><span>6/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -118,13 +118,13 @@ UML Execution Substrate - Multi-Entity Test Execution (OCL)
 Loaded 0 OCL constraints from constraints.ocl
 
    Warning: No OCL constraints found for class &#x27;HumanAgents&#x27;
-  -&gt; human_agents: 9 records (via OCL)
+  -&gt; human_agents: 2 records (via OCL)
    Warning: No OCL constraints found for class &#x27;Roles&#x27;
   -&gt; roles: 3 records (via OCL)
    Warning: No OCL constraints found for class &#x27;Workflows&#x27;
   -&gt; workflows: 1 records (via OCL)
 
-UML substrate: Processed 3 entities, 13 total records
+UML substrate: Processed 3 entities, 6 total records
 ======================================================================
 
 </pre>
@@ -134,10 +134,10 @@ UML substrate: Processed 3 entities, 13 total records
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-warning">69.2%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">9</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">4</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">13</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -145,7 +145,7 @@ UML substrate: Processed 3 entities, 13 total records
             <div class="card">
                 <div class="code-header">
                     <h2>class-diagram.puml</h2>
-                    <div><span class="code-info">69 lines</span><button class="copy-btn" onclick="copyCode('class-code')">Copy</button></div>
+                    <div><span class="code-info">70 lines</span><button class="copy-btn" onclick="copyCode('class-code')">Copy</button></div>
                 </div>
                 <pre id="class-code">@startuml
 skinparam classAttributeIconSize 0
@@ -176,6 +176,7 @@ class Roles {
   +CountOfWorkflowSteps: Integer -- Count of workflow steps assigned to this role.
   +FilledByName: String -- Denormalized lookup of agent name (foaf:name) filling this role.
   +FilledByMBox: String -- Denormalized lookup of agent email (foaf:mbox) filling this role.
+  +DelegatesTo: String -- Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
   --
 }
 
@@ -222,7 +223,7 @@ class Workflows {
             <div class="card">
                 <div class="code-header">
                     <h2>objects.puml</h2>
-                    <div><span class="code-info">164 lines</span><button class="copy-btn" onclick="copyCode('objects-code')">Copy</button></div>
+                    <div><span class="code-info">111 lines</span><button class="copy-btn" onclick="copyCode('objects-code')">Copy</button></div>
                 </div>
                 <pre id="objects-code">@startuml
 
@@ -234,63 +235,7 @@ object &quot;Maria Gonzalez&quot; as HumanAgents_0 {
   CountOfRoles = 1
 }
 
-object &quot;Maria Gonzalez&quot; as HumanAgents_1 {
-  HumanAgentId = &quot;maria-gonzalez&quot;
-  Name = &quot;Maria Gonzalez&quot;
-  Mbox = &quot;maria.gonzalez@specialsolut...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;James Okafor&quot; as HumanAgents_2 {
-  HumanAgentId = &quot;james-okafor&quot;
-  Name = &quot;James Okafor&quot;
-  Mbox = &quot;james.okafor@specialsolutio...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;Maria Gonzalez&quot; as HumanAgents_3 {
-  HumanAgentId = &quot;maria-gonzalez&quot;
-  Name = &quot;Maria Gonzalez&quot;
-  Mbox = &quot;maria.gonzalez@specialsolut...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;James Okafor&quot; as HumanAgents_4 {
-  HumanAgentId = &quot;james-okafor&quot;
-  Name = &quot;James Okafor&quot;
-  Mbox = &quot;james.okafor@specialsolutio...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;Maria Gonzalez&quot; as HumanAgents_5 {
-  HumanAgentId = &quot;maria-gonzalez&quot;
-  Name = &quot;Maria Gonzalez&quot;
-  Mbox = &quot;maria.gonzalez@specialsolut...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;James Okafor&quot; as HumanAgents_6 {
-  HumanAgentId = &quot;james-okafor&quot;
-  Name = &quot;James Okafor&quot;
-  Mbox = &quot;james.okafor@specialsolutio...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;Maria Gonzalez&quot; as HumanAgents_7 {
-  HumanAgentId = &quot;maria-gonzalez&quot;
-  Name = &quot;Maria Gonzalez&quot;
-  Mbox = &quot;maria.gonzalez@specialsolut...&quot;
-  Roles = &quot;&quot;
-  CountOfRoles = 0
-}
-
-object &quot;James Okafor&quot; as HumanAgents_8 {
+object &quot;James Okafor&quot; as HumanAgents_1 {
   HumanAgentId = &quot;james-okafor&quot;
   Name = &quot;James Okafor&quot;
   Mbox = &quot;james.okafor@specialsolutio...&quot;
@@ -307,6 +252,7 @@ object &quot;Roles_0&quot; as Roles_0 {
   CountOfWorkflowSteps = 1
   FilledByName = &quot;Maria Gonzalez&quot;
   FilledByMBox = &quot;maria.gonzalez@specialsolut...&quot;
+  DelegatesTo = &quot;&quot;
 }
 
 object &quot;Roles_1&quot; as Roles_1 {
@@ -318,6 +264,7 @@ object &quot;Roles_1&quot; as Roles_1 {
   CountOfWorkflowSteps = 1
   FilledByName = &quot;&quot;
   FilledByMBox = &quot;&quot;
+  DelegatesTo = &quot;&quot;
 }
 
 object &quot;Roles_2&quot; as Roles_2 {
@@ -329,6 +276,7 @@ object &quot;Roles_2&quot; as Roles_2 {
   CountOfWorkflowSteps = 1
   FilledByName = &quot;&quot;
   FilledByMBox = &quot;&quot;
+  DelegatesTo = &quot;&quot;
 }
 
 object &quot;WorkflowSteps_0&quot; as WorkflowSteps_0 {

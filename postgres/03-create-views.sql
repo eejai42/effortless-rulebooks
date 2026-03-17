@@ -42,7 +42,8 @@ SELECT
   t.workflow_steps,
   calc_roles_count_of_workflow_steps(t.role_id) AS count_of_workflow_steps,
   calc_roles_filled_by_name(t.role_id) AS filled_by_name,
-  calc_roles_filled_by_m_box(t.role_id) AS filled_by_m_box
+  calc_roles_filled_by_m_box(t.role_id) AS filled_by_m_box,
+  t.delegates_to
 FROM roles t;
 
 CREATE OR REPLACE VIEW vw_human_agents WITH (security_invoker = ON) AS

@@ -16,38 +16,17 @@ VALUES ('legal-review', 'Legal Review', 2, TRUE, 'production-deployment-workflow
 INSERT INTO workflow_steps (workflow_step_id, label, sequence_position, requires_human_approval, is_step_of, assigned_role)
 VALUES ('release-approval', 'Release Approval', 3, TRUE, 'production-deployment-workflow', 'release-manager');
 
-INSERT INTO roles (role_id, label, comment, filled_by, workflow_steps)
-VALUES ('release-manager', 'Release Manager', 'Primary role responsible for coordinating production releases. First in delegation chain. Article CQ2: ''filled by Maria Gonzalez''', 'maria-gonzalez', 'release-approval');
+INSERT INTO roles (role_id, label, comment, filled_by, workflow_steps, delegates_to)
+VALUES ('release-manager', 'Release Manager', 'Primary role responsible for coordinating production releases. First in delegation chain. Article CQ2: ''filled by Maria Gonzalez''', 'maria-gonzalez', 'release-approval', '');
 
-INSERT INTO roles (role_id, label, comment, filled_by, workflow_steps)
-VALUES ('legal-compliance-reviewer', 'Legal Compliance Reviewer', 'Role responsible for legal and compliance review of releases.', '', 'legal-review');
+INSERT INTO roles (role_id, label, comment, filled_by, workflow_steps, delegates_to)
+VALUES ('legal-compliance-reviewer', 'Legal Compliance Reviewer', 'Role responsible for legal and compliance review of releases.', '', 'legal-review', '');
 
-INSERT INTO roles (role_id, label, comment, filled_by, workflow_steps)
-VALUES ('risk-analyst', 'Risk Analyst', 'Role responsible for risk assessment. In full ontology, filled by AI agent.', '', 'risk-assessment');
+INSERT INTO roles (role_id, label, comment, filled_by, workflow_steps, delegates_to)
+VALUES ('risk-analyst', 'Risk Analyst', 'Role responsible for risk assessment. In full ontology, filled by AI agent.', '', 'risk-assessment', '');
 
 INSERT INTO human_agents (human_agent_id, name, mbox, roles)
 VALUES ('maria-gonzalez', 'Maria Gonzalez', 'maria.gonzalez@specialsolutions.example', 'release-manager');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('maria-gonzalez', 'Maria Gonzalez', 'maria.gonzalez@specialsolutions.example', '');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('james-okafor', 'James Okafor', 'james.okafor@specialsolutions.example', '');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('maria-gonzalez', 'Maria Gonzalez', 'maria.gonzalez@specialsolutions.example', '');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('james-okafor', 'James Okafor', 'james.okafor@specialsolutions.example', '');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('maria-gonzalez', 'Maria Gonzalez', 'maria.gonzalez@specialsolutions.example', '');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('james-okafor', 'James Okafor', 'james.okafor@specialsolutions.example', '');
-
-INSERT INTO human_agents (human_agent_id, name, mbox, roles)
-VALUES ('maria-gonzalez', 'Maria Gonzalez', 'maria.gonzalez@specialsolutions.example', '');
 
 INSERT INTO human_agents (human_agent_id, name, mbox, roles)
 VALUES ('james-okafor', 'James Okafor', 'james.okafor@specialsolutions.example', '');

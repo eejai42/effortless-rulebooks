@@ -154,7 +154,7 @@ Golang substrate: ALL 6 tables processed successfully (20 total records)
             <div class="card">
                 <div class="code-header">
                     <h2>erb_sdk.go</h2>
-                    <div><span class="code-info">163 lines</span><button class="copy-btn" onclick="copyCode('sdk-code')">Copy</button></div>
+                    <div><span class="code-info">164 lines</span><button class="copy-btn" onclick="copyCode('sdk-code')">Copy</button></div>
                 </div>
                 <pre id="sdk-code">// ERB SDK - Go Implementation (GENERATED - DO NOT EDIT)
 // ======================================================
@@ -302,6 +302,7 @@ type Role struct {
 	CountOfWorkflowSteps *int `json:&quot;count_of_workflow_steps&quot;` // Count of workflow steps assigned to this role.
 	FilledByName *string `json:&quot;filled_by_name&quot;` // Denormalized lookup of agent name (foaf:name) filling this role.
 	FilledByMBox *string `json:&quot;filled_by_m_box&quot;` // Denormalized lookup of agent email (foaf:mbox) filling this role.
+	DelegatesTo *string `json:&quot;delegates_to&quot;` // Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
 }
 
 // =============================================================================

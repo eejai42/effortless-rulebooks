@@ -278,6 +278,13 @@
         "nullable": true,
         "Description": "Denormalized lookup of agent email (foaf:mbox) filling this role.",
         "formula": "=INDEX(HumanAgents!{{Mbox}}, MATCH(Roles!{{FilledBy}}, HumanAgents!{{HumanAgentId}}, 0))"
+      },
+      {
+        "name": "DelegatesTo",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Role to escalate to when this role\u0027s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries."
       }
     ],
     "data": [
@@ -289,7 +296,8 @@
         "WorkflowSteps": "release-approval",
         "FilledByName": "Maria Gonzalez",
         "FilledByMBox": "maria.gonzalez@specialsolutions.example",
-        "CountOfWorkflowSteps": 1
+        "CountOfWorkflowSteps": 1,
+        "DelegatesTo": ""
       },
       {
         "RoleId": "legal-compliance-reviewer",
@@ -299,7 +307,8 @@
         "CountOfWorkflowSteps": 1,
         "FilledBy": "",
         "FilledByName": "",
-        "FilledByMBox": ""
+        "FilledByMBox": "",
+        "DelegatesTo": ""
       },
       {
         "RoleId": "risk-analyst",
@@ -309,7 +318,8 @@
         "CountOfWorkflowSteps": 1,
         "FilledBy": "",
         "FilledByName": "",
-        "FilledByMBox": ""
+        "FilledByMBox": "",
+        "DelegatesTo": ""
       }
     ]
   },
@@ -360,55 +370,6 @@
         "Mbox": "maria.gonzalez@specialsolutions.example",
         "Roles": "release-manager",
         "CountOfRoles": 1
-      },
-      {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
-      },
-      {
-        "HumanAgentId": "james-okafor",
-        "Name": "James Okafor",
-        "Mbox": "james.okafor@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
-      },
-      {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
-      },
-      {
-        "HumanAgentId": "james-okafor",
-        "Name": "James Okafor",
-        "Mbox": "james.okafor@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
-      },
-      {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
-      },
-      {
-        "HumanAgentId": "james-okafor",
-        "Name": "James Okafor",
-        "Mbox": "james.okafor@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
-      },
-      {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "CountOfRoles": 0,
-        "Roles": ""
       },
       {
         "HumanAgentId": "james-okafor",

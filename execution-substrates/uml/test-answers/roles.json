@@ -7,7 +7,8 @@
     "count_of_workflow_steps": 1,
     "filled_by": "",
     "filled_by_name": "",
-    "filled_by_m_box": ""
+    "filled_by_m_box": "",
+    "delegates_to": ""
   },
   {
     "role_id": "release-manager",
@@ -17,7 +18,8 @@
     "workflow_steps": "release-approval",
     "filled_by_name": "Maria Gonzalez",
     "filled_by_m_box": "maria.gonzalez@specialsolutions.example",
-    "count_of_workflow_steps": 1
+    "count_of_workflow_steps": 1,
+    "delegates_to": ""
   },
   {
     "role_id": "risk-analyst",
@@ -27,6 +29,7 @@
     "count_of_workflow_steps": 1,
     "filled_by": "",
     "filled_by_name": "",
-    "filled_by_m_box": ""
+    "filled_by_m_box": "",
+    "delegates_to": ""
   }
 ]

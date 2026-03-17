@@ -10,14 +10,14 @@
 
 | Substrate | Passed | Failed | Total | Score | Duration | Status |
 |-----------|--------|--------|-------|-------|----------|--------|
-| csv | 12 | 1 | 13 | 92.3% | < 1s | FAIL |
-| owl | 12 | 1 | 13 | 92.3% | < 1s | FAIL |
-| xlsx | 12 | 1 | 13 | 92.3% | < 1s | FAIL |
-| uml | 9 | 4 | 13 | 69.2% | < 1s | FAIL |
-| postgres | 5 | 8 | 13 | 38.5% | 2s | FAIL |
+| csv | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| owl | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| uml | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| xlsx | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| postgres | 6 | 0 | 6 | 100.0% | 2s | PASS |
 | binary | 0 | 0 | 0 | 0.0% | < 1s | PASS |
 | cobol | 0 | 0 | 0 | 0.0% | < 1s | ERROR: No test-answers found |
-| english | 0 | 0 | 0 | 0.0% | 57s | PASS |
+| english | 0 | 0 | 0 | 0.0% | 43s | PASS |
 | explain-dag | 0 | 0 | 0 | 0.0% | < 1s | PASS |
 | golang | 0 | 0 | 0 | 0.0% | < 1s | ERROR: No test-answers found |
 | python | 0 | 0 | 0 | 0.0% | < 1s | ERROR: No test-answers found |
@@ -28,11 +28,11 @@
 | Metric | Value |
 |--------|-------|
 | Total Substrates | 12 |
-| Total Fields Tested | 65 |
-| Total Passed | 50 |
-| Total Failed | 15 |
-| Overall Score | 76.9% |
-| Total Duration | 1m 0s |
+| Total Fields Tested | 30 |
+| Total Passed | 30 |
+| Total Failed | 0 |
+| Overall Score | 100.0% |
+| Total Duration | 47s |
 
 ---
 

@@ -2,7 +2,7 @@
   "schema_version": "erb.explain_spec.v1",
   "rulebook": {
     "name": "JTO - v3",
-    "rulebook_hash": "sha256:820186526e8fa60d1e425325dfc753f0"
+    "rulebook_hash": "sha256:f65d23c5b35eeec0a118c4591bbc371a"
   },
   "semantics": {
     "profile": "excel",

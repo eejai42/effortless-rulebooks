@@ -8,63 +8,7 @@ object "Maria Gonzalez" as HumanAgents_0 {
   CountOfRoles = 1
 }
 
-object "Maria Gonzalez" as HumanAgents_1 {
-  HumanAgentId = "maria-gonzalez"
-  Name = "Maria Gonzalez"
-  Mbox = "maria.gonzalez@specialsolut..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "James Okafor" as HumanAgents_2 {
-  HumanAgentId = "james-okafor"
-  Name = "James Okafor"
-  Mbox = "james.okafor@specialsolutio..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "Maria Gonzalez" as HumanAgents_3 {
-  HumanAgentId = "maria-gonzalez"
-  Name = "Maria Gonzalez"
-  Mbox = "maria.gonzalez@specialsolut..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "James Okafor" as HumanAgents_4 {
-  HumanAgentId = "james-okafor"
-  Name = "James Okafor"
-  Mbox = "james.okafor@specialsolutio..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "Maria Gonzalez" as HumanAgents_5 {
-  HumanAgentId = "maria-gonzalez"
-  Name = "Maria Gonzalez"
-  Mbox = "maria.gonzalez@specialsolut..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "James Okafor" as HumanAgents_6 {
-  HumanAgentId = "james-okafor"
-  Name = "James Okafor"
-  Mbox = "james.okafor@specialsolutio..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "Maria Gonzalez" as HumanAgents_7 {
-  HumanAgentId = "maria-gonzalez"
-  Name = "Maria Gonzalez"
-  Mbox = "maria.gonzalez@specialsolut..."
-  Roles = ""
-  CountOfRoles = 0
-}
-
-object "James Okafor" as HumanAgents_8 {
+object "James Okafor" as HumanAgents_1 {
   HumanAgentId = "james-okafor"
   Name = "James Okafor"
   Mbox = "james.okafor@specialsolutio..."
@@ -81,6 +25,7 @@ object "Roles_0" as Roles_0 {
   CountOfWorkflowSteps = 1
   FilledByName = "Maria Gonzalez"
   FilledByMBox = "maria.gonzalez@specialsolut..."
+  DelegatesTo = ""
 }
 
 object "Roles_1" as Roles_1 {
@@ -92,6 +37,7 @@ object "Roles_1" as Roles_1 {
   CountOfWorkflowSteps = 1
   FilledByName = ""
   FilledByMBox = ""
+  DelegatesTo = ""
 }
 
 object "Roles_2" as Roles_2 {
@@ -103,6 +49,7 @@ object "Roles_2" as Roles_2 {
   CountOfWorkflowSteps = 1
   FilledByName = ""
   FilledByMBox = ""
+  DelegatesTo = ""
 }
 
 object "WorkflowSteps_0" as WorkflowSteps_0 {

@@ -48,6 +48,10 @@
         {
           "name": "WorkflowSteps",
           "type": "string"
+        },
+        {
+          "name": "DelegatesTo",
+          "type": "string"
         }
       ],
       "derived": [
@@ -184,83 +188,6 @@
       "class": "HumanAgents",
       "id": "HumanAgents_1",
       "values": {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_2",
-      "values": {
-        "HumanAgentId": "james-okafor",
-        "Name": "James Okafor",
-        "Mbox": "james.okafor@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_3",
-      "values": {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_4",
-      "values": {
-        "HumanAgentId": "james-okafor",
-        "Name": "James Okafor",
-        "Mbox": "james.okafor@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_5",
-      "values": {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_6",
-      "values": {
-        "HumanAgentId": "james-okafor",
-        "Name": "James Okafor",
-        "Mbox": "james.okafor@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_7",
-      "values": {
-        "HumanAgentId": "maria-gonzalez",
-        "Name": "Maria Gonzalez",
-        "Mbox": "maria.gonzalez@specialsolutions.example",
-        "Roles": "",
-        "CountOfRoles": 0
-      }
-    },
-    {
-      "class": "HumanAgents",
-      "id": "HumanAgents_8",
-      "values": {
         "HumanAgentId": "james-okafor",
         "Name": "James Okafor",
         "Mbox": "james.okafor@specialsolutions.example",
@@ -279,7 +206,8 @@
         "WorkflowSteps": "release-approval",
         "CountOfWorkflowSteps": 1,
         "FilledByName": "Maria Gonzalez",
-        "FilledByMBox": "maria.gonzalez@specialsolutions.example"
+        "FilledByMBox": "maria.gonzalez@specialsolutions.example",
+        "DelegatesTo": ""
       }
     },
     {
@@ -293,7 +221,8 @@
         "WorkflowSteps": "legal-review",
         "CountOfWorkflowSteps": 1,
         "FilledByName": "",
-        "FilledByMBox": ""
+        "FilledByMBox": "",
+        "DelegatesTo": ""
       }
     },
     {
@@ -307,7 +236,8 @@
         "WorkflowSteps": "risk-assessment",
         "CountOfWorkflowSteps": 1,
         "FilledByName": "",
-        "FilledByMBox": ""
+        "FilledByMBox": "",
+        "DelegatesTo": ""
       }
     },
     {

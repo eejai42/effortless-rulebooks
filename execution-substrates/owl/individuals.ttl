@@ -13,55 +13,6 @@ erb:HumanAgents_0 a erb:HumanAgents ;
     erb:countOfRoles 1 .
 
 erb:HumanAgents_1 a erb:HumanAgents ;
-    erb:humanAgentId "maria-gonzalez" ;
-    erb:name "Maria Gonzalez" ;
-    erb:mbox "maria.gonzalez@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_2 a erb:HumanAgents ;
-    erb:humanAgentId "james-okafor" ;
-    erb:name "James Okafor" ;
-    erb:mbox "james.okafor@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_3 a erb:HumanAgents ;
-    erb:humanAgentId "maria-gonzalez" ;
-    erb:name "Maria Gonzalez" ;
-    erb:mbox "maria.gonzalez@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_4 a erb:HumanAgents ;
-    erb:humanAgentId "james-okafor" ;
-    erb:name "James Okafor" ;
-    erb:mbox "james.okafor@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_5 a erb:HumanAgents ;
-    erb:humanAgentId "maria-gonzalez" ;
-    erb:name "Maria Gonzalez" ;
-    erb:mbox "maria.gonzalez@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_6 a erb:HumanAgents ;
-    erb:humanAgentId "james-okafor" ;
-    erb:name "James Okafor" ;
-    erb:mbox "james.okafor@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_7 a erb:HumanAgents ;
-    erb:humanAgentId "maria-gonzalez" ;
-    erb:name "Maria Gonzalez" ;
-    erb:mbox "maria.gonzalez@specialsolutions.example" ;
-    erb:roles "" ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_8 a erb:HumanAgents ;
     erb:humanAgentId "james-okafor" ;
     erb:name "James Okafor" ;
     erb:mbox "james.okafor@specialsolutions.example" ;
@@ -78,7 +29,8 @@ erb:Roles_0 a erb:Roles ;
     erb:workflowSteps "release-approval" ;
     erb:countOfWorkflowSteps 1 ;
     erb:filledByName "Maria Gonzalez" ;
-    erb:filledByMBox "maria.gonzalez@specialsolutions.example" .
+    erb:filledByMBox "maria.gonzalez@specialsolutions.example" ;
+    erb:delegatesTo "" .
 
 erb:Roles_1 a erb:Roles ;
     erb:roleId "legal-compliance-reviewer" ;
@@ -88,7 +40,8 @@ erb:Roles_1 a erb:Roles ;
     erb:workflowSteps "legal-review" ;
     erb:countOfWorkflowSteps 1 ;
     erb:filledByName "" ;
-    erb:filledByMBox "" .
+    erb:filledByMBox "" ;
+    erb:delegatesTo "" .
 
 erb:Roles_2 a erb:Roles ;
     erb:roleId "risk-analyst" ;
@@ -98,7 +51,8 @@ erb:Roles_2 a erb:Roles ;
     erb:workflowSteps "risk-assessment" ;
     erb:countOfWorkflowSteps 1 ;
     erb:filledByName "" ;
-    erb:filledByMBox "" .
+    erb:filledByMBox "" ;
+    erb:delegatesTo "" .
 
 # === Individuals: WorkflowSteps ===
 

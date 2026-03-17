@@ -98,6 +98,12 @@ erb:filledByMBox a owl:DatatypeProperty ;
     rdfs:comment "Denormalized lookup of agent email (foaf:mbox) filling this role." .
     # calculated: lookup
 
+erb:delegatesTo a owl:DatatypeProperty ;
+    rdfs:domain erb:Roles ;
+    rdfs:range xsd:string ;
+    rdfs:label "DelegatesTo" ;
+    rdfs:comment "Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries." .
+
 # === Class: WorkflowSteps ===
 erb:WorkflowSteps a owl:Class ;
     rdfs:label "WorkflowSteps" ;

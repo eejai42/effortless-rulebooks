@@ -4,10 +4,10 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Fields Tested | 13 |
-| Passed | 12 |
-| Failed | 1 |
-| Score | 92.3% |
+| Total Fields Tested | 6 |
+| Passed | 6 |
+| Failed | 0 |
+| Score | 100.0% |
 | Duration | < 1s |
 
 ## Results by Entity
@@ -24,9 +24,5 @@
 
 ### human_agents
 
-- Fields: 8/9 (88.9%)
+- Fields: 2/2 (100.0%)
 - Computed columns: count_of_roles
-
-| PK | Field | Expected | Actual |
-|-----|-------|----------|--------|
-| maria-gonzalez | count_of_roles | 1 | 0 |

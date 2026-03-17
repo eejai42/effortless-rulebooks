@@ -215,10 +215,10 @@ python3 take-test.py
 
 | Metric | Value |
 |--------|-------|
-| Total Fields Tested | 6 |
-| Passed | 6 |
-| Failed | 0 |
-| Score | 100.0% |
+| Total Fields Tested | 13 |
+| Passed | 5 |
+| Failed | 8 |
+| Score | 38.5% |
 | Duration | 2s |
 
 ## Results by Entity
@@ -235,8 +235,19 @@ python3 take-test.py
 
 ### human_agents
 
-- Fields: 2/2 (100.0%)
-- Computed columns: count_of_rles
+- Fields: 1/9 (11.1%)
+- Computed columns: count_of_roles
+
+| PK | Field | Expected | Actual |
+|-----|-------|----------|--------|
+| james-okafor | count_of_roles | 0 | None |
+| james-okafor | count_of_roles | 0 | None |
+| james-okafor | count_of_roles | 0 | None |
+| james-okafor | count_of_roles | 0 | None |
+| maria-gonzalez | count_of_roles | 0 | 1 |
+| maria-gonzalez | count_of_roles | 0 | 1 |
+| maria-gonzalez | count_of_roles | 0 | 1 |
+| maria-gonzalez | count_of_roles | 0 | 1 |
 </pre>
         </div>
     </div>
@@ -251,11 +262,11 @@ postgres: Connecting to database and querying views...
 PostgreSQL Substrate: Starting test...
 PostgreSQL Substrate: Connected to database
 PostgreSQL Substrate: Found 4 views
-  -&gt; human_agents: 1 records
+  -&gt; human_agents: 2 records
   -&gt; roles: 3 records
   -&gt; workflow_steps: 3 records
   -&gt; workflows: 1 records
-PostgreSQL Substrate: Processed 4 views, 8 total records
+PostgreSQL Substrate: Processed 4 views, 9 total records
 
 </pre>
         </div>

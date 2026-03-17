@@ -67,8 +67,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>OWL/SHACL Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-good">92.3%</span></div>
-            <div class="stat"><span>12/13 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
+            <div class="stat"><span>6/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -122,7 +122,7 @@ Tables with computed columns: Workflows, WorkflowSteps, Roles, HumanAgents
 Loading ontology and data...
    Loaded: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/ontology.owl
    Loaded: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/individuals.ttl
-   Total triples: 296
+   Total triples: 262
 
 Loading SHACL rules...
    Loaded: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/rules.shacl.ttl
@@ -130,17 +130,17 @@ Loading SHACL rules...
 
 Running SHACL-SPARQL reasoning...
    (Multiple passes to resolve dependencies between computed fields)
-   Pass 1: 296 -&gt; 296 triples (0 added)
+   Pass 1: 262 -&gt; 262 triples (0 added)
    Completed in 1 passes
-   Final triple count: 296
+   Final triple count: 262
 
 Extracting computed values...
    Workflows: 1 records (1 computed fields)
    WorkflowSteps: 3 records (6 computed fields)
    Roles: 3 records (3 computed fields)
-   HumanAgents: 9 records (1 computed fields)
+   HumanAgents: 2 records (1 computed fields)
 
-Total: 16 records extracted
+Total: 9 records extracted
 Output: /Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/execution-substrates/owl/test-answers/
 
 ======================================================================
@@ -154,10 +154,10 @@ SHACL reasoning complete!
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-good">92.3%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">12</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">1</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">13</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@ SHACL reasoning complete!
             <div class="card">
                 <div class="code-header">
                     <h2>ontology.owl</h2>
-                    <div><span class="code-info">235 lines</span><button class="copy-btn" onclick="copyCode('ontology-code')">Copy</button></div>
+                    <div><span class="code-info">241 lines</span><button class="copy-btn" onclick="copyCode('ontology-code')">Copy</button></div>
                 </div>
                 <pre id="ontology-code">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
@@ -266,6 +266,12 @@ erb:filledByMBox a owl:DatatypeProperty ;
     rdfs:label &quot;FilledByMBox&quot; ;
     rdfs:comment &quot;Denormalized lookup of agent email (foaf:mbox) filling this role.&quot; .
     # calculated: lookup
+
+erb:delegatesTo a owl:DatatypeProperty ;
+    rdfs:domain erb:Roles ;
+    rdfs:range xsd:string ;
+    rdfs:label &quot;DelegatesTo&quot; ;
+    rdfs:comment &quot;Role to escalate to when this role&#x27;s agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.&quot; .
 
 # === Class: WorkflowSteps ===
 erb:WorkflowSteps a owl:Class ;
@@ -408,7 +414,7 @@ erb:countOfWorkflowSteps a owl:DatatypeProperty ;
             <div class="card">
                 <div class="code-header">
                     <h2>individuals.ttl</h2>
-                    <div><span class="code-info">158 lines</span><button class="copy-btn" onclick="copyCode('individuals-code')">Copy</button></div>
+                    <div><span class="code-info">112 lines</span><button class="copy-btn" onclick="copyCode('individuals-code')">Copy</button></div>
                 </div>
                 <pre id="individuals-code">@prefix rdf: &lt;http://www.w3.org/1999/02/22-rdf-syntax-ns#&gt; .
 @prefix rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
@@ -425,55 +431,6 @@ erb:HumanAgents_0 a erb:HumanAgents ;
     erb:countOfRoles 1 .
 
 erb:HumanAgents_1 a erb:HumanAgents ;
-    erb:humanAgentId &quot;maria-gonzalez&quot; ;
-    erb:name &quot;Maria Gonzalez&quot; ;
-    erb:mbox &quot;maria.gonzalez@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_2 a erb:HumanAgents ;
-    erb:humanAgentId &quot;james-okafor&quot; ;
-    erb:name &quot;James Okafor&quot; ;
-    erb:mbox &quot;james.okafor@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_3 a erb:HumanAgents ;
-    erb:humanAgentId &quot;maria-gonzalez&quot; ;
-    erb:name &quot;Maria Gonzalez&quot; ;
-    erb:mbox &quot;maria.gonzalez@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_4 a erb:HumanAgents ;
-    erb:humanAgentId &quot;james-okafor&quot; ;
-    erb:name &quot;James Okafor&quot; ;
-    erb:mbox &quot;james.okafor@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_5 a erb:HumanAgents ;
-    erb:humanAgentId &quot;maria-gonzalez&quot; ;
-    erb:name &quot;Maria Gonzalez&quot; ;
-    erb:mbox &quot;maria.gonzalez@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_6 a erb:HumanAgents ;
-    erb:humanAgentId &quot;james-okafor&quot; ;
-    erb:name &quot;James Okafor&quot; ;
-    erb:mbox &quot;james.okafor@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_7 a erb:HumanAgents ;
-    erb:humanAgentId &quot;maria-gonzalez&quot; ;
-    erb:name &quot;Maria Gonzalez&quot; ;
-    erb:mbox &quot;maria.gonzalez@specialsolutions.example&quot; ;
-    erb:roles &quot;&quot; ;
-    erb:countOfRoles 0 .
-
-erb:HumanAgents_8 a erb:HumanAgents ;
     erb:humanAgentId &quot;james-okafor&quot; ;
     erb:name &quot;James Okafor&quot; ;
     erb:mbox &quot;james.okafor@specialsolutions.example&quot; ;
@@ -490,7 +447,8 @@ erb:Roles_0 a erb:Roles ;
     erb:workflowSteps &quot;release-approval&quot; ;
     erb:countOfWorkflowSteps 1 ;
     erb:filledByName &quot;Maria Gonzalez&quot; ;
-    erb:filledByMBox &quot;maria.gonzalez@specialsolutions.example&quot; .
+    erb:filledByMBox &quot;maria.gonzalez@specialsolutions.example&quot; ;
+    erb:delegatesTo &quot;&quot; .
 
 erb:Roles_1 a erb:Roles ;
     erb:roleId &quot;legal-compliance-reviewer&quot; ;
@@ -500,7 +458,8 @@ erb:Roles_1 a erb:Roles ;
     erb:workflowSteps &quot;legal-review&quot; ;
     erb:countOfWorkflowSteps 1 ;
     erb:filledByName &quot;&quot; ;
-    erb:filledByMBox &quot;&quot; .
+    erb:filledByMBox &quot;&quot; ;
+    erb:delegatesTo &quot;&quot; .
 
 erb:Roles_2 a erb:Roles ;
     erb:roleId &quot;risk-analyst&quot; ;
@@ -510,7 +469,8 @@ erb:Roles_2 a erb:Roles ;
     erb:workflowSteps &quot;risk-assessment&quot; ;
     erb:countOfWorkflowSteps 1 ;
     erb:filledByName &quot;&quot; ;
-    erb:filledByMBox &quot;&quot; .
+    erb:filledByMBox &quot;&quot; ;
+    erb:delegatesTo &quot;&quot; .
 
 # === Individuals: WorkflowSteps ===
 

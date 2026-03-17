@@ -144,6 +144,7 @@ type Role struct {
 	CountOfWorkflowSteps *int `json:"count_of_workflow_steps"` // Count of workflow steps assigned to this role.
 	FilledByName *string `json:"filled_by_name"` // Denormalized lookup of agent name (foaf:name) filling this role.
 	FilledByMBox *string `json:"filled_by_m_box"` // Denormalized lookup of agent email (foaf:mbox) filling this role.
+	DelegatesTo *string `json:"delegates_to"` // Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
 }
 
 // =============================================================================

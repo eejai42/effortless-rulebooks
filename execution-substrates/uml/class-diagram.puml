@@ -27,6 +27,7 @@ class Roles {
   +CountOfWorkflowSteps: Integer -- Count of workflow steps assigned to this role.
   +FilledByName: String -- Denormalized lookup of agent name (foaf:name) filling this role.
   +FilledByMBox: String -- Denormalized lookup of agent email (foaf:mbox) filling this role.
+  +DelegatesTo: String -- Role to escalate to when this role's agent is unavailable. Maps to ntwf:delegatesTo. Enables delegation chain queries.
   --
 }
 
