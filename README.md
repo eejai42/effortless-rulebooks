@@ -1,6 +1,6 @@
 # Effortless Rulebook (ERB) - Multi-Base Ontology Platform
 
-**One repo. Five ontologies. Eleven execution substrates. Complete conformance.**
+**One repo. 5+ ontologies. 10+ execution substrates. Complete conformance.**
 
 > Swap between completely different domains — workflows, media catalogs, philosophical arguments — and watch Python, Go, SQL, Excel, OWL, and English all regenerate in sync.
 
@@ -10,7 +10,7 @@
 
 ## TL;DR
 
-Write your business rules once in a declarative JSON format. ERB generates working code in Python, Go, SQL, Excel, and more. All versions compute identical results — proven by automated conformance tests. **Switch to a different ontology, and everything regenerates.** This repo includes 5 ready-to-run bases demonstrating the pattern at different complexity levels.
+Write your business rules once in a declarative JSON format. ERB generates working code in Python, Go, SQL, Excel, and more. All versions compute identical results — proven by automated conformance tests. **Switch to a different ontology, and everything regenerates.** This repo includes 5+ ready-to-run bases demonstrating the pattern at different complexity levels.
 
 ---
 
@@ -279,7 +279,7 @@ You can trace any derived value back to its inputs mechanically.
 
 ## 6. Available Ontologies
 
-This repo includes **5 ready-to-run bases** demonstrating the ERB pattern across different domains:
+This repo includes **5+ ready-to-run bases** demonstrating the ERB pattern across different domains:
 
 ### CustomerDemo (Start Here)
 The minimal example: 1 table, 1 formula, 3 rows. See [bases/customer-fullname/](bases/customer-fullname/).
