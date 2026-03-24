@@ -5,19 +5,14 @@
 | Metric | Value |
 |--------|-------|
 | Total Fields Tested | 3 |
-| Passed | 1 |
-| Failed | 2 |
-| Score | 33.3% |
+| Passed | 3 |
+| Failed | 0 |
+| Score | 100.0% |
 | Duration | < 1s |
 
 ## Results by Entity
 
-### workflows
+### customers
 
-- Fields: 1/3 (33.3%)
-- Computed columns: name, count_of_steps, has_more_than1_step
-
-| PK | Field | Expected | Actual |
-|-----|-------|----------|--------|
-| production-deployment | count_of_steps | 5 | 0 |
-| production-deployment | has_more_than1_step | True | False |
+- Fields: 3/3 (100.0%)
+- Computed columns: full_name

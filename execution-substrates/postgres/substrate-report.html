@@ -166,6 +166,8 @@
             <h2>How This Substrate Works</h2>
             <pre># PostgreSQL Execution Substrate
 
+PostgreSQL is one of the **three Effortless tools** — the only substrate with **no limitations**. The `rulebook-to-postgres` tool fully supports complex aggregations, multi-table JOINs, window functions, and all formula types. All caveats about &quot;demonstrated&quot; or &quot;limited&quot; formula support apply only to the local substrates (Python, Go, etc.), not to PostgreSQL.
+
 This substrate tests the PostgreSQL implementation of calculated fields against the
 canonical answer keys derived from the rulebook.
 
@@ -215,18 +217,18 @@ python3 take-test.py
 
 | Metric | Value |
 |--------|-------|
-| Total Fields Tested | 264 |
-| Passed | 264 |
+| Total Fields Tested | 3 |
+| Passed | 3 |
 | Failed | 0 |
 | Score | 100.0% |
-| Duration | &lt; 1s |
+| Duration | 2s |
 
 ## Results by Entity
 
-### language_candidates
+### customers
 
-- Fields: 264/264 (100.0%)
-- Computed columns: has_grammar, question, predicted_answer, prediction_predicates, prediction_fail, is_description_of, is_open_closed_world_conflicted, relationship_to_concept
+- Fields: 3/3 (100.0%)
+- Computed columns: full_name
 </pre>
         </div>
     </div>
@@ -240,21 +242,9 @@ postgres: Starting test...
 postgres: Connecting to database and querying views...
 PostgreSQL Substrate: Starting test...
 PostgreSQL Substrate: Connected to database
-PostgreSQL Substrate: Found 13 views
-  -&gt; ai_agents: 1 records
-  -&gt; approvals: 1 records
-  -&gt; automated_pipelines: 1 records
-  -&gt; departments: 2 records
-  -&gt; erb_customizations: 5 records
-  -&gt; erb_versions: 0 records
-  -&gt; human_agents: 3 records
-  -&gt; precedes_steps: 5 records
-  -&gt; roles: 6 records
-  -&gt; step_transitions: 1 records
-  -&gt; workflow_artifacts: 1 records
-  -&gt; workflow_steps: 5 records
-  -&gt; workflows: 1 records
-PostgreSQL Substrate: Processed 13 views, 32 total records
+PostgreSQL Substrate: Found 1 views
+  -&gt; customers: 3 records
+PostgreSQL Substrate: Processed 1 views, 3 total records
 
 </pre>
         </div>

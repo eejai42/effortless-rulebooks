@@ -4,35 +4,35 @@
 
 - **Rulebook:** `/Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortlessly-invariant-rulesbooks/effortless-rulebook/effortless-rulebook.json`
 - **Substrates Tested:** 12
-- **Computed Columns Tested:** 5
+- **Computed Columns Tested:** 1
 
 ## Summary by Substrate
 
 | Substrate | Passed | Failed | Total | Score | Duration | Status |
 |-----------|--------|--------|-------|-------|----------|--------|
-| explain-dag | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| python | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| uml | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| yaml | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| binary | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| csv | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| golang | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| owl | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| xlsx | 27 | 0 | 27 | 100.0% | < 1s | PASS |
-| postgres | 27 | 0 | 27 | 100.0% | 2s | PASS |
-| english | 11 | 16 | 27 | 40.7% | 1m 23s | FAIL |
-| cobol | 1 | 2 | 3 | 33.3% | < 1s | FAIL |
+| csv | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| explain-dag | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| python | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| uml | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| yaml | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| binary | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| cobol | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| golang | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| owl | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| xlsx | 3 | 0 | 3 | 100.0% | < 1s | PASS |
+| postgres | 3 | 0 | 3 | 100.0% | 2s | PASS |
+| english | 0 | 3 | 3 | 0.0% | 18s | FAIL |
 
 ## Overall Statistics
 
 | Metric | Value |
 |--------|-------|
 | Total Substrates | 12 |
-| Total Fields Tested | 300 |
-| Total Passed | 282 |
-| Total Failed | 18 |
-| Overall Score | 94.0% |
-| Total Duration | 1m 28s |
+| Total Fields Tested | 36 |
+| Total Passed | 33 |
+| Total Failed | 3 |
+| Overall Score | 91.7% |
+| Total Duration | 22s |
 
 ---
 

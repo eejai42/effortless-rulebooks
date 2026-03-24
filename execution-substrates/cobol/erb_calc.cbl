@@ -31,22 +31,13 @@
 
        *> ========== CUSTOMERS ==========
        *> Level 1
-       CALC-NAME.
-           MOVE FUNCTION LOWER-CASE(RECORD-DISPLAY-NAME) TO WS-TEMP-1
-           MOVE WS-TEMP-1 TO WS-SUBST-INPUT
-           MOVE " " TO WS-SUBST-OLD
-           MOVE "-" TO WS-SUBST-NEW
-           PERFORM SUBSTITUTE-ALL
-           MOVE WS-SUBST-OUTPUT TO RECORD-NAME
-       .
-
-       *> Level 2
-       CALC-HAS-MORE-THAN1-STEP.
-           IF (RECORD-COUNT-OF-STEPS > 1)
-               MOVE "true" TO RECORD-HAS-MORE-THAN1-STEP
-           ELSE
-               MOVE "false" TO RECORD-HAS-MORE-THAN1-STEP
-           END-IF
+       CALC-FULL-NAME.
+           MOVE SPACES TO RECORD-FULL-NAME
+           STRING
+               FUNCTION TRIM(RECORD-LAST-NAME TRAILING) DELIMITED SIZE
+               ", " DELIMITED SIZE
+               FUNCTION TRIM(RECORD-FIRST-NAME TRAILING) DELIMITED SIZE
+               INTO RECORD-FULL-NAME
        .
 
        COMPUTE-ALL-FIELDS.

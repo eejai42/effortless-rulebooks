@@ -1,19 +1,15 @@
 -- ============================================================================
--- SOURCE: ERBCustomizations table, record: 03d-customize-rls.sql
--- If you see SQL errors below, check this customization in Airtable
+-- CUSTOMIZE POLICIES - User-defined policies customizations
 -- ============================================================================
-
--- ============================================================================
--- CUSTOMIZE POLICIES - User-defined Row Level Security policies
--- ============================================================================
--- This file is for YOUR custom RLS policies that should persist across
+-- This file is for YOUR custom changes that should persist across
 -- regeneration of the base ERB files.
 --
 -- IMPORTANT:
---   - This file runs AFTER 04-create-policies.sql
---   - Base RLS policies already exist when this runs
---   - This file will NOT be overwritten by ERB regeneration
+--   - This file runs AFTER the main policies script
+--   - Define your customizations in the ERBCustomizations table in Airtable
+--   - Those changes will appear here after the next build
 --
 -- ============================================================================
 
--- Your custom policies go here:
+-- Your custom policies changes will appear here:
+

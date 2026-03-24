@@ -17,19 +17,13 @@ from typing import Optional, Any
 
 # Level 1
 
-def calc_customers_full_name(first_name, last_name):
+def calc_customers_full_name(last_name, first_name):
     """
     Full name is computed from the first and last name of the customer
     
-    Formula: ={{FirstName}} & " " & {{LastName}}
+    Formula: ={{LastName}} & ", " & {{FirstName}}
     """
-    return ((((display_name or "").lower()) or "").replace(' ', '-'))
-
-# Level 2
-
-def calc_workflows_has_more_than1_step(count_of_steps):
-    """Formula: ={{CountOfSteps}} > 1"""
-    return (count_of_steps > 1)
+    return (str(last_name or "") + ', ' + str(first_name or ""))
 
 
 def compute_customers_fields(record: dict) -> dict:
@@ -41,176 +35,10 @@ def compute_customers_fields(record: dict) -> dict:
     result = dict(record)
 
     # Level 1 calculations
-    result['name'] = calc_workflows_name(result.get('display_name'))
-
-    # Level 2 calculations
-    result['has_more_than1_step'] = calc_workflows_has_more_than1_step(result.get('count_of_steps'))
+    result['full_name'] = calc_customers_full_name(result.get('last_name'), result.get('first_name'))
 
     # Convert empty strings to None for string fields
-    for key in ['name']:
-        if result.get(key) == '':
-            result[key] = None
-
-    return result
-
-# =============================================================================
-# WORKFLOWSTEPS CALCULATIONS
-# Table: WorkflowSteps
-# =============================================================================
-
-# Level 1
-
-def calc_workflow_steps_name(display_name):
-    """Formula: =SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")"""
-    return ((((display_name or "").lower()) or "").replace(' ', '-'))
-
-# Level 2
-
-def calc_workflow_steps_execution_actor_type(assigned_role_department):
-    """Formula: =IF({{AssignedRoleDepartment}} = "HumanAgent", "HumanAgent", IF({{AssignedRoleDepartment}} = "AIAgent", "AIAgent", IF({{AssignedRoleDepartment}} = "AutomatedPipeline", "AutomatedPipeline", BLANK())))"""
-    return ('HumanAgent' if (assigned_role_department == 'HumanAgent') else ('AIAgent' if (assigned_role_department == 'AIAgent') else ('AutomatedPipeline' if (assigned_role_department == 'AutomatedPipeline') else None)))
-
-
-def compute_workflow_steps_fields(record: dict) -> dict:
-    """
-    Compute all calculated fields for WorkflowSteps.
-    
-    Table: WorkflowSteps
-    """
-    result = dict(record)
-
-    # Level 1 calculations
-    result['name'] = calc_workflow_steps_name(result.get('display_name'))
-
-    # Level 2 calculations
-    result['execution_actor_type'] = calc_workflow_steps_execution_actor_type(result.get('assigned_role_department'))
-
-    # Convert empty strings to None for string fields
-    for key in ['name', 'execution_actor_type']:
-        if result.get(key) == '':
-            result[key] = None
-
-    return result
-
-# =============================================================================
-# APPROVALS CALCULATIONS
-# Table: Approvals
-# =============================================================================
-
-# Level 1
-
-def calc_approvals_name(display_name):
-    """Formula: =SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")"""
-    return ((((display_name or "").lower()) or "").replace(' ', '-'))
-
-
-def compute_approvals_fields(record: dict) -> dict:
-    """
-    Compute all calculated fields for Approvals.
-    
-    Table: Approvals
-    """
-    result = dict(record)
-
-    # Level 1 calculations
-    result['name'] = calc_approvals_name(result.get('display_name'))
-
-    # Convert empty strings to None for string fields
-    for key in ['name']:
-        if result.get(key) == '':
-            result[key] = None
-
-    return result
-
-# =============================================================================
-# PRECEDESSTEPS CALCULATIONS
-# Table: PrecedesSteps
-# =============================================================================
-
-# Level 1
-
-def calc_precedes_steps_display_name(step_number):
-    """Formula: ="Step-" & {{StepNumber}}"""
-    return ('Step-' + str(step_number or ""))
-
-
-def compute_precedes_steps_fields(record: dict) -> dict:
-    """
-    Compute all calculated fields for PrecedesSteps.
-    
-    Table: PrecedesSteps
-    """
-    result = dict(record)
-
-    # Level 1 calculations
-    result['display_name'] = calc_precedes_steps_display_name(result.get('step_number'))
-
-    # Convert empty strings to None for string fields
-    for key in ['display_name']:
-        if result.get(key) == '':
-            result[key] = None
-
-    return result
-
-# =============================================================================
-# ROLES CALCULATIONS
-# Table: Roles
-# =============================================================================
-
-# Level 1
-
-def calc_roles_name(display_name):
-    """Formula: =LOWER({{DisplayName}})"""
-    return ((display_name or "").lower())
-
-
-def compute_roles_fields(record: dict) -> dict:
-    """
-    Compute all calculated fields for Roles.
-    
-    Table: Roles
-    """
-    result = dict(record)
-
-    # Level 1 calculations
-    result['name'] = calc_roles_name(result.get('display_name'))
-
-    # Convert empty strings to None for string fields
-    for key in ['name']:
-        if result.get(key) == '':
-            result[key] = None
-
-    return result
-
-# =============================================================================
-# DEPARTMENTS CALCULATIONS
-# Table: Departments
-# =============================================================================
-
-# Level 1
-
-def calc_departments_name(display_name):
-    """
-    Human-readable display name of the department. Should match organizational terminology for stakeholder communication.
-    
-    Formula: =SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")
-    """
-    return ((((display_name or "").lower()) or "").replace(' ', '-'))
-
-
-def compute_departments_fields(record: dict) -> dict:
-    """
-    Compute all calculated fields for Departments.
-    
-    Table: Departments
-    """
-    result = dict(record)
-
-    # Level 1 calculations
-    result['name'] = calc_departments_name(result.get('display_name'))
-
-    # Convert empty strings to None for string fields
-    for key in ['name']:
+    for key in ['full_name']:
         if result.get(key) == '':
             result[key] = None
 
@@ -242,18 +70,8 @@ def compute_all_calculated_fields(record: dict, entity_name: str = None) -> dict
     # Normalize to snake_case to support "LineItem", "line_item", "line-item"
     entity_lower = entity_name.lower().replace('-', '_')
 
-    if entity_lower == 'workflows':
-        return compute_workflows_fields(record)
-    elif entity_lower == 'workflow_steps':
-        return compute_workflow_steps_fields(record)
-    elif entity_lower == 'approvals':
-        return compute_approvals_fields(record)
-    elif entity_lower == 'precedes_steps':
-        return compute_precedes_steps_fields(record)
-    elif entity_lower == 'roles':
-        return compute_roles_fields(record)
-    elif entity_lower == 'departments':
-        return compute_departments_fields(record)
+    if entity_lower == 'customers':
+        return compute_customers_fields(record)
     else:
         # Unknown entity - return record unchanged (no error)
         return dict(record)

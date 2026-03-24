@@ -3,12 +3,12 @@
     "id": "appWrXPvXbkgQGOxt",
     "name": "ACME, LLC",
     "description": "Simplest possible example: 1 table, 1 calculated field (FullName = LastName + FirstName), 3 rows",
-    "docs": "bases/customer-fullname",
+    "docs": "bases/acme-llc",
     "complexity": "minimal",
     "default": true
   },
   {
-    "id": "appWrXPvXbkgQGOxt",
+    "id": "appzkcmBFPWFGBtRo",
     "name": "ACME Corporation",
     "description": "A extended version of ACME, llc with additional business rules, inferences, and cross-entity calculations",
     "docs": "bases/acme-corp",

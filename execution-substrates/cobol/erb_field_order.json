@@ -1,187 +1,25 @@
 {
-  "Workflows": {
+  "Customers": {
     "fields": [
-      "WorkflowId",
-      "DisplayName",
-      "Title",
-      "Description",
-      "Identifier",
-      "Modified",
-      "WorkflowSteps",
-      "CountOfSteps",
-      "Name",
-      "HasMoreThan1Step"
+      "CustomerId",
+      "Customer",
+      "EmailAddress",
+      "FirstName",
+      "LastName",
+      "FullName"
     ],
-    "raw_count": 8
+    "raw_count": 5
   },
-  "workflows": {
+  "customers": {
     "fields": [
-      "WorkflowId",
-      "DisplayName",
-      "Title",
-      "Description",
-      "Identifier",
-      "Modified",
-      "WorkflowSteps",
-      "CountOfSteps",
-      "Name",
-      "HasMoreThan1Step"
+      "CustomerId",
+      "Customer",
+      "EmailAddress",
+      "FirstName",
+      "LastName",
+      "FullName"
     ],
-    "raw_count": 8
+    "raw_count": 5
   },
-  "WorkflowSteps": {
-    "fields": [
-      "WorkflowStepId",
-      "DisplayName",
-      "Workflow",
-      "SequencePosition",
-      "AssignedRole",
-      "RequiresHumanApproval",
-      "ApprovalGate",
-      "PrecededBySteps",
-      "AssignedRoleDepartment",
-      "ApprovalGateEscalationThresholdHours",
-      "StepTransitions_From_Step",
-      "StepTransitions_To_Step",
-      "WorkflowArtifacts",
-      "Name",
-      "ExecutionActorType"
-    ],
-    "raw_count": 13
-  },
-  "workflow_steps": {
-    "fields": [
-      "WorkflowStepId",
-      "DisplayName",
-      "Workflow",
-      "SequencePosition",
-      "AssignedRole",
-      "RequiresHumanApproval",
-      "ApprovalGate",
-      "PrecededBySteps",
-      "AssignedRoleDepartment",
-      "ApprovalGateEscalationThresholdHours",
-      "StepTransitions_From_Step",
-      "StepTransitions_To_Step",
-      "WorkflowArtifacts",
-      "Name",
-      "ExecutionActorType"
-    ],
-    "raw_count": 13
-  },
-  "Approvals": {
-    "fields": [
-      "ApprovalId",
-      "DisplayName",
-      "WorkflowSteps",
-      "EscalationThresholdHours",
-      "Workflow_from_WorkflowSteps",
-      "Assigned_Role_from_WorkflowSteps",
-      "Sequence_Position_from_WorkflowSteps",
-      "Requires_Human_Approval_from_WorkflowSteps",
-      "Name"
-    ],
-    "raw_count": 8
-  },
-  "approvals": {
-    "fields": [
-      "ApprovalId",
-      "DisplayName",
-      "WorkflowSteps",
-      "EscalationThresholdHours",
-      "Workflow_from_WorkflowSteps",
-      "Assigned_Role_from_WorkflowSteps",
-      "Sequence_Position_from_WorkflowSteps",
-      "Requires_Human_Approval_from_WorkflowSteps",
-      "Name"
-    ],
-    "raw_count": 8
-  },
-  "PrecedesSteps": {
-    "fields": [
-      "PrecedesStepId",
-      "Name",
-      "StepNumber",
-      "WorkflowStep",
-      "DisplayName"
-    ],
-    "raw_count": 4
-  },
-  "precedes_steps": {
-    "fields": [
-      "PrecedesStepId",
-      "Name",
-      "StepNumber",
-      "WorkflowStep",
-      "DisplayName"
-    ],
-    "raw_count": 4
-  },
-  "Roles": {
-    "fields": [
-      "RoleId",
-      "DisplayName",
-      "Label",
-      "Comment",
-      "FilledByHumanAgent",
-      "FilledByAIAgent",
-      "FilledByAutomatedPipeline",
-      "OwnedBy",
-      "DelegatesTo",
-      "WorkflowSteps",
-      "FromDelegatesTo",
-      "All_Linked_Workflow_Steps",
-      "Distinct_Workflows_for_Linked_Steps",
-      "WorkflowArtifacts",
-      "Name"
-    ],
-    "raw_count": 14
-  },
-  "roles": {
-    "fields": [
-      "RoleId",
-      "DisplayName",
-      "Label",
-      "Comment",
-      "FilledByHumanAgent",
-      "FilledByAIAgent",
-      "FilledByAutomatedPipeline",
-      "OwnedBy",
-      "DelegatesTo",
-      "WorkflowSteps",
-      "FromDelegatesTo",
-      "All_Linked_Workflow_Steps",
-      "Distinct_Workflows_for_Linked_Steps",
-      "WorkflowArtifacts",
-      "Name"
-    ],
-    "raw_count": 14
-  },
-  "Departments": {
-    "fields": [
-      "DepartmentId",
-      "Title",
-      "DisplayName",
-      "Roles",
-      "All_Owned_Roles",
-      "All_Related_Workflow_Steps",
-      "All_Distinct_Workflows_for_Owned_Roles",
-      "Name"
-    ],
-    "raw_count": 7
-  },
-  "departments": {
-    "fields": [
-      "DepartmentId",
-      "Title",
-      "DisplayName",
-      "Roles",
-      "All_Owned_Roles",
-      "All_Related_Workflow_Steps",
-      "All_Distinct_Workflows_for_Owned_Roles",
-      "Name"
-    ],
-    "raw_count": 7
-  },
-  "_target_entity": "workflows"
+  "_target_entity": "customers"
 }

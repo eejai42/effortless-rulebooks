@@ -286,7 +286,7 @@ COBOL lacks native string manipulation intrinsics. Implementing SUBSTITUTE requi
 
 ### 2. No Cross-Table Lookups
 
-Formulas like `COUNTIFS(WorkflowSteps!{{Workflow}}, Workflows!{{WorkflowId}})` reference data across tables. Modern substrates (Python, Go, SQL) handle this naturally with dictionaries, maps, or JOINs.
+Formulas like `COUNTIFS(WorkflowSteps!{{Workflow}}, Workflows!{{WorkflowId}})` reference data across tables. **PostgreSQL** (via rulebook-to-postgres, one of the three Effortless tools) handles this natively with no limitations. Local substrates (Python, Go) also handle cross-table formulas in their demonstrated scope.
 
 COBOL&#x27;s record-at-a-time processing model has no built-in concept of relational lookups. Supporting COUNTIFS would require:
 - Pre-loading related tables into WORKING-STORAGE arrays
@@ -301,7 +301,7 @@ This architectural mismatch makes COBOL poorly suited for rulebooks with relatio
 - **Mainframe compliance**: Environments where only COBOL is approved
 - **CardDemo-style modernization**: Extracting rules from legacy COBOL into a portable rulebook, then optionally regenerating COBOL for continuity
 
-For greenfield projects, prefer Python, Go, or PostgreSQL substrates.
+For greenfield projects, prefer **PostgreSQL** (Effortless tool, no limitations) or, for local implementations, Python or Go substrates.
 
 ## Source
 
@@ -320,22 +320,17 @@ Generated from: `effortless-rulebook/effortless-rulebook.json`
 | Metric | Value |
 |--------|-------|
 | Total Fields Tested | 3 |
-| Passed | 1 |
-| Failed | 2 |
-| Score | 33.3% |
+| Passed | 3 |
+| Failed | 0 |
+| Score | 100.0% |
 | Duration | &lt; 1s |
 
 ## Results by Entity
 
-### workflows
+### customers
 
-- Fields: 1/3 (33.3%)
-- Computed columns: name, count_of_steps, has_more_than1_step
-
-| PK | Field | Expected | Actual |
-|-----|-------|----------|--------|
-| production-deployment | count_of_steps | 5 | 0 |
-| production-deployment | has_more_than1_step | True | False |
+- Fields: 3/3 (100.0%)
+- Computed columns: full_name
 </pre>
         </div>
     </div>
@@ -355,18 +350,13 @@ Checking for GnuCOBOL...
 Compiling erb_main.cbl...
   Compiled successfully: erb_test
 
-COBOL substrate targets: workflows
+COBOL substrate targets: customers
 
 Processing entities...
-  Skipping approvals (COBOL only supports workflows)
-  Skipping departments (COBOL only supports workflows)
-  Skipping precedes_steps (COBOL only supports workflows)
-  Skipping roles (COBOL only supports workflows)
-  Skipping workflow_steps (COBOL only supports workflows)
-  -&gt; workflows: 1 records
+  -&gt; customers: 3 records
 
 ==================================================
-COBOL substrate: Processed 1 entities, 1 total records
+COBOL substrate: Processed 1 entities, 3 total records
 ==================================================
 
 </pre>

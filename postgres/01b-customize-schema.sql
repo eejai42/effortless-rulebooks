@@ -1,25 +1,15 @@
 -- ============================================================================
--- SOURCE: ERBCustomizations table, record: 03a-customize-schema.sql
--- If you see SQL errors below, check this customization in Airtable
+-- CUSTOMIZE SCHEMA - User-defined schema customizations
 -- ============================================================================
-
--- ============================================================================
--- CUSTOMIZE SCHEMA - User-defined tables and schema modifications
--- ============================================================================
--- This file is for YOUR custom schema changes that should persist across
+-- This file is for YOUR custom changes that should persist across
 -- regeneration of the base ERB files.
 --
--- USE THIS FILE FOR:
---   - Additional tables not defined in the rulebook
---   - Extra columns on existing tables (ALTER TABLE)
---   - Custom indexes for performance tuning
---   - Custom constraints or triggers
---
 -- IMPORTANT:
---   - This file runs AFTER 01-drop-and-create-tables.sql
---   - The base tables already exist when this runs
---   - This file will NOT be overwritten by ERB regeneration
+--   - This file runs AFTER the main schema script
+--   - Define your customizations in the ERBCustomizations table in Airtable
+--   - Those changes will appear here after the next build
 --
 -- ============================================================================
 
--- Your custom schema changes go here:
+-- Your custom schema changes will appear here:
+
