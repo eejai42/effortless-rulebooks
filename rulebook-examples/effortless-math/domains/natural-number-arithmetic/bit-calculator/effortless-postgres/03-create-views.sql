@@ -10,7 +10,7 @@
 -- Drop pass: every rulebook-owned view, reverse iteration order, CASCADE.
 -- The rulebook is HEAD — the surviving view set must mirror it exactly.
 -- ----------------------------------------------------------------------------
-DROP VIEW IF EXISTS vw_computations CASCADE;
+DROP VIEW IF EXISTS vw_wires CASCADE;
 DROP VIEW IF EXISTS vw_gate_truth_rows CASCADE;
 DROP VIEW IF EXISTS vw_gate_types CASCADE;
 
@@ -21,8 +21,8 @@ DROP VIEW IF EXISTS vw_gate_types CASCADE;
 DROP VIEW IF EXISTS vw_gate_types CASCADE;
 CREATE VIEW vw_gate_types WITH (security_invoker = ON) AS
 SELECT
-  t.gate_type_id,                                                               -- gate_type_id
-  calc_gate_types_name(t.gate_type_id) AS name,                                 -- Name
+  t.gate_id,                                                                    -- GateId
+  calc_gate_types_name(t.gate_id) AS name,                                      -- Name
   t.symbol,                                                                     -- Human-readable gate symbol
   t.description                                                                 -- What the gate does
 FROM gate_types t;
@@ -34,27 +34,65 @@ FROM gate_types t;
 DROP VIEW IF EXISTS vw_gate_truth_rows CASCADE;
 CREATE VIEW vw_gate_truth_rows WITH (security_invoker = ON) AS
 SELECT
-  t.truth_row_id,                                                               -- truth_row_id
+  t.truth_row_id,                                                               -- gate|in0|in1 -- the PK IS the lookup key
   calc_gate_truth_rows_name(t.truth_row_id) AS name,                            -- Name
-  t.gate_type_id,                                                               -- Which gate this truth row belongs to
+  t.truth_row_name,                                                             -- Readable truth-table line
+  t.gate,                                                                       -- Which gate
   t.in0,                                                                        -- Left input bit
   t.in1,                                                                        -- Right input bit
-  t.out_bit                                                                     -- The gate's output bit for this input combination
+  t.out_bit                                                                     -- Output bit for this input pair
 FROM gate_truth_rows t;
 
 -- ----------------------------------------------------------------------------
--- vw_computations: View for Computations
+-- vw_wires: View for Wires
 -- Combines base table columns with calculated/lookup/aggregation fields.
 -- ----------------------------------------------------------------------------
-DROP VIEW IF EXISTS vw_computations CASCADE;
-CREATE VIEW vw_computations WITH (security_invoker = ON) AS
+-- ----------------------------------------------------------------------------
+-- vw_wires: View for Wires
+-- SELF-REFERENTIAL SETTLE: Wires has lookup field(s) reading a computed
+-- column of its own table through a self-FK. Settled level-by-level (seeds first,
+-- then each row once its drivers are settled) via a jsonb accumulator carried
+-- through ONE recursive self-reference. No cache: re-settles on every read.
+-- Settle targets: computed_bit, depth. Drivers: a_wire, b_wire.
+-- ----------------------------------------------------------------------------
+DROP VIEW IF EXISTS vw_wires CASCADE;
+CREATE VIEW vw_wires WITH (security_invoker = ON) AS
+WITH RECURSIVE acc AS (
+  SELECT 1 AS step,
+    COALESCE((SELECT jsonb_object_agg(t.wire_id, jsonb_build_object(
+      'computed_bit', CASE WHEN (SELECT NULLIF(t.seeded_bit::text,'')) IS NOT NULL THEN ((SELECT NULLIF(t.seeded_bit::text,'')))::text ELSE ((SELECT out_bit::integer FROM gate_truth_rows WHERE truth_row_id = (CASE WHEN (SELECT NULLIF(t.gate::text,'')) IS NOT NULL THEN (CONCAT((SELECT NULLIF(t.gate::text,'')), '|', (SELECT jsonb_extract_path_text('{}'::jsonb, NULLIF(t.a_wire,''), 'computed_bit')), '|', (SELECT jsonb_extract_path_text('{}'::jsonb, NULLIF(t.b_wire,''), 'computed_bit'))))::text ELSE ('')::text END)))::text END,
+      'depth', CASE WHEN (SELECT NULLIF(t.seeded_bit::text,'')) IS NOT NULL THEN (0)::text ELSE ((COALESCE(1, 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (GREATEST((SELECT jsonb_extract_path_text('{}'::jsonb, NULLIF(t.a_wire,''), 'depth')), (SELECT jsonb_extract_path_text('{}'::jsonb, NULLIF(t.b_wire,''), 'depth')))) AS v) __safe_numeric), 0)))::text END
+    ))
+    FROM wires t WHERE NULLIF(t.a_wire,'') IS NULL AND NULLIF(t.b_wire,'') IS NULL), '{}'::jsonb) AS settled
+  UNION ALL
+  SELECT a.step + 1, a.settled || COALESCE((
+    SELECT jsonb_object_agg(t.wire_id, jsonb_build_object(
+      'computed_bit', CASE WHEN (SELECT NULLIF(t.seeded_bit::text,'')) IS NOT NULL THEN ((SELECT NULLIF(t.seeded_bit::text,'')))::text ELSE ((SELECT out_bit::integer FROM gate_truth_rows WHERE truth_row_id = (CASE WHEN (SELECT NULLIF(t.gate::text,'')) IS NOT NULL THEN (CONCAT((SELECT NULLIF(t.gate::text,'')), '|', (SELECT jsonb_extract_path_text(a.settled, NULLIF(t.a_wire,''), 'computed_bit')), '|', (SELECT jsonb_extract_path_text(a.settled, NULLIF(t.b_wire,''), 'computed_bit'))))::text ELSE ('')::text END)))::text END,
+      'depth', CASE WHEN (SELECT NULLIF(t.seeded_bit::text,'')) IS NOT NULL THEN (0)::text ELSE ((COALESCE(1, 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (GREATEST((SELECT jsonb_extract_path_text(a.settled, NULLIF(t.a_wire,''), 'depth')), (SELECT jsonb_extract_path_text(a.settled, NULLIF(t.b_wire,''), 'depth')))) AS v) __safe_numeric), 0)))::text END
+    ))
+    FROM wires t
+    WHERE NOT (a.settled ? t.wire_id) AND NOT (NULLIF(t.a_wire,'') IS NULL AND NULLIF(t.b_wire,'') IS NULL) AND (NULLIF(t.a_wire,'') IS NULL OR a.settled ? t.a_wire) AND (NULLIF(t.b_wire,'') IS NULL OR a.settled ? t.b_wire)
+  ), '{}'::jsonb)
+  FROM acc a
+  WHERE EXISTS (SELECT 1 FROM wires t
+    WHERE NOT (a.settled ? t.wire_id) AND NOT (NULLIF(t.a_wire,'') IS NULL AND NULLIF(t.b_wire,'') IS NULL) AND (NULLIF(t.a_wire,'') IS NULL OR a.settled ? t.a_wire) AND (NULLIF(t.b_wire,'') IS NULL OR a.settled ? t.b_wire))
+),
+settled AS (SELECT s.settled FROM acc s ORDER BY s.step DESC LIMIT 1)
 SELECT
-  t.computation_id,                                                             -- computation_id
-  calc_computations_name(t.computation_id) AS name,                             -- Name
-  t.gate_type_id,                                                               -- Which gate this computation exercises (XOR for sum, AND for carry)
-  t.a,                                                                          -- Input bit a (the ONLY thing the app supplies besides which gate)
-  t.b,                                                                          -- Input bit b
-  calc_computations_my_lookup_key(t.computation_id) AS my_lookup_key,           -- This computation's gate+inputs; equals exactly one GateTruthRows.truth_row_id
-  calc_computations_out_bit(t.computation_id) AS out_bit                        -- THE ANSWER. The DB looks up this computation's output bit in the gate truth table by matching its gate+inputs key against the truth row's id. Not stored, not hand-computed — derived by the substrate from truth-table rows.
-FROM computations t;
+  t.wire_id,                                                                    -- WireId
+  calc_wires_name(t.wire_id) AS name,                                           -- Name
+  t.wire_name,                                                                  -- Human-readable wire name
+  t.seeded_bit,                                                                 -- Set ONLY on input wires. The app writes these; nothing else.
+  t.gate,                                                                       -- The gate driving this wire (null for inputs)
+  t.a_wire,                                                                     -- self-FK: the wire feeding this gate's left input
+  t.b_wire,                                                                     -- self-FK: the wire feeding this gate's right input
+  (SELECT settled #>> ARRAY[NULLIF(t.a_wire,''), 'computed_bit'] FROM settled)::integer AS a_bit,-- The left driver wire's computed bit. Blank when this wire has no driver (a seeded input).
+  (SELECT settled #>> ARRAY[NULLIF(t.b_wire,''), 'computed_bit'] FROM settled)::integer AS b_bit,-- The right driver wire's computed bit. Blank when this wire has no driver (a seeded input).
+  ((CASE WHEN (SELECT NULLIF(t.gate::text,'')) IS NOT NULL THEN (CONCAT((SELECT NULLIF(t.gate::text,'')), '|', (SELECT jsonb_extract_path_text((SELECT s2.settled FROM settled s2), NULLIF(t.a_wire,''), 'computed_bit')), '|', (SELECT jsonb_extract_path_text((SELECT s2.settled FROM settled s2), NULLIF(t.b_wire,''), 'computed_bit'))))::text ELSE ('')::text END))::text AS truth_key,-- Gate plus its two settled input bits; blank on a seeded input wire (no gate).
+  ((SELECT out_bit::integer FROM gate_truth_rows WHERE truth_row_id = (CASE WHEN (SELECT NULLIF(t.gate::text,'')) IS NOT NULL THEN (CONCAT((SELECT NULLIF(t.gate::text,'')), '|', (SELECT jsonb_extract_path_text((SELECT s2.settled FROM settled s2), NULLIF(t.a_wire,''), 'computed_bit')), '|', (SELECT jsonb_extract_path_text((SELECT s2.settled FROM settled s2), NULLIF(t.b_wire,''), 'computed_bit'))))::text ELSE ('')::text END)))::integer AS gate_out,-- The gate's output bit from the truth table; blank on a seeded input wire (no gate).
+  (SELECT settled #>> ARRAY[t.wire_id::text, 'computed_bit'] FROM settled)::integer AS computed_bit,-- THE ANSWER for this wire: its seeded bit if an input, else its gate's output.
+  (SELECT settled #>> ARRAY[NULLIF(t.a_wire,''), 'depth'] FROM settled)::integer AS a_depth,-- Left driver's depth; 0 when there is no driver.
+  (SELECT settled #>> ARRAY[NULLIF(t.b_wire,''), 'depth'] FROM settled)::integer AS b_depth,-- Right driver's depth; 0 when there is no driver.
+  (SELECT settled #>> ARRAY[t.wire_id::text, 'depth'] FROM settled)::integer AS depth-- Logic level: 0 for inputs, else one deeper than its deepest driver. The DAG computing its own depth.
+FROM wires t;
 

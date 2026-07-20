@@ -9,63 +9,141 @@
 -- ----------------------------------------------------------------------------
 -- GateTypes: Seed data for GateTypes
 -- ----------------------------------------------------------------------------
-INSERT INTO gate_types (gate_type_id, symbol, description)
-VALUES ('gate-xor', 'XOR', 'Exclusive OR of two bits. This is the SUM bit of a half adder.') ON CONFLICT (gate_type_id) DO UPDATE SET symbol = EXCLUDED.symbol, description = EXCLUDED.description;
+INSERT INTO gate_types (gate_id, symbol, description)
+VALUES ('gate-xor', 'XOR', 'Exclusive OR of two bits.') ON CONFLICT (gate_id) DO UPDATE SET symbol = EXCLUDED.symbol, description = EXCLUDED.description;
 
-INSERT INTO gate_types (gate_type_id, symbol, description)
-VALUES ('gate-and', 'AND', 'Logical AND of two bits. This is the CARRY bit of a half adder.') ON CONFLICT (gate_type_id) DO UPDATE SET symbol = EXCLUDED.symbol, description = EXCLUDED.description;
+INSERT INTO gate_types (gate_id, symbol, description)
+VALUES ('gate-and', 'AND', 'Logical AND of two bits.') ON CONFLICT (gate_id) DO UPDATE SET symbol = EXCLUDED.symbol, description = EXCLUDED.description;
+
+INSERT INTO gate_types (gate_id, symbol, description)
+VALUES ('gate-or', 'OR', 'Logical OR of two bits.') ON CONFLICT (gate_id) DO UPDATE SET symbol = EXCLUDED.symbol, description = EXCLUDED.description;
 
 -- ----------------------------------------------------------------------------
 -- GateTruthRows: Seed data for GateTruthRows
 -- ----------------------------------------------------------------------------
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-xor|0|0', 'gate-xor', 0, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-xor|0|0', 'XOR: 0 XOR 0 = 0', 'gate-xor', 0, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-xor|0|1', 'gate-xor', 0, 1, 1) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-xor|0|1', 'XOR: 0 XOR 1 = 1', 'gate-xor', 0, 1, 1) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-xor|1|0', 'gate-xor', 1, 0, 1) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-xor|1|0', 'XOR: 1 XOR 0 = 1', 'gate-xor', 1, 0, 1) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-xor|1|1', 'gate-xor', 1, 1, 0) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-xor|1|1', 'XOR: 1 XOR 1 = 0', 'gate-xor', 1, 1, 0) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-and|0|0', 'gate-and', 0, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-and|0|0', 'AND: 0 AND 0 = 0', 'gate-and', 0, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-and|0|1', 'gate-and', 0, 1, 0) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-and|0|1', 'AND: 0 AND 1 = 0', 'gate-and', 0, 1, 0) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-and|1|0', 'gate-and', 1, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-and|1|0', 'AND: 1 AND 0 = 0', 'gate-and', 1, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
-INSERT INTO gate_truth_rows (truth_row_id, gate_type_id, in0, in1, out_bit)
-VALUES ('gate-and|1|1', 'gate-and', 1, 1, 1) ON CONFLICT (truth_row_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-and|1|1', 'AND: 1 AND 1 = 1', 'gate-and', 1, 1, 1) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-or|0|0', 'OR: 0 OR 0 = 0', 'gate-or', 0, 0, 0) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-or|0|1', 'OR: 0 OR 1 = 1', 'gate-or', 0, 1, 1) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-or|1|0', 'OR: 1 OR 0 = 1', 'gate-or', 1, 0, 1) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
+
+INSERT INTO gate_truth_rows (truth_row_id, truth_row_name, gate, in0, in1, out_bit)
+VALUES ('gate-or|1|1', 'OR: 1 OR 1 = 1', 'gate-or', 1, 1, 1) ON CONFLICT (truth_row_id) DO UPDATE SET truth_row_name = EXCLUDED.truth_row_name, gate = EXCLUDED.gate, in0 = EXCLUDED.in0, in1 = EXCLUDED.in1, out_bit = EXCLUDED.out_bit;
 
 -- ----------------------------------------------------------------------------
--- Computations: Seed data for Computations
+-- Wires: Seed data for Wires
 -- ----------------------------------------------------------------------------
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('sum--0+0', 'gate-xor', 0, 0) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('a0', 'Operand A, bit 0', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('sum--0+1', 'gate-xor', 0, 1) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('b0', 'Operand B, bit 0', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('sum--1+0', 'gate-xor', 1, 0) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('a1', 'Operand A, bit 1', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('sum--1+1', 'gate-xor', 1, 1) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('b1', 'Operand B, bit 1', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('carry--0+0', 'gate-and', 0, 0) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('a2', 'Operand A, bit 2', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('carry--0+1', 'gate-and', 0, 1) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('b2', 'Operand B, bit 2', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('carry--1+0', 'gate-and', 1, 0) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('a3', 'Operand A, bit 3', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 
-INSERT INTO computations (computation_id, gate_type_id, a, b)
-VALUES ('carry--1+1', 'gate-and', 1, 1) ON CONFLICT (computation_id) DO UPDATE SET gate_type_id = EXCLUDED.gate_type_id, a = EXCLUDED.a, b = EXCLUDED.b;
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('b3', 'Operand B, bit 3', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('cin', 'Carry-in to bit 0', 0, NULL, NULL, NULL) ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa0_s1', 'FA0 half-sum (A0 XOR B0)', NULL, 'gate-xor', 'a0', 'b0') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa0_c1', 'FA0 half-carry (A0 AND B0)', NULL, 'gate-and', 'a0', 'b0') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa0_sum', 'FA0 SUM bit 0', NULL, 'gate-xor', 'fa0_s1', 'cin') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa0_c2', 'FA0 carry from half-sum AND carry-in', NULL, 'gate-and', 'fa0_s1', 'cin') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa0_cout', 'FA0 CARRY-OUT', NULL, 'gate-or', 'fa0_c1', 'fa0_c2') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa1_s1', 'FA1 half-sum (A1 XOR B1)', NULL, 'gate-xor', 'a1', 'b1') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa1_c1', 'FA1 half-carry (A1 AND B1)', NULL, 'gate-and', 'a1', 'b1') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa1_sum', 'FA1 SUM bit 1', NULL, 'gate-xor', 'fa1_s1', 'fa0_cout') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa1_c2', 'FA1 carry from half-sum AND carry-in', NULL, 'gate-and', 'fa1_s1', 'fa0_cout') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa1_cout', 'FA1 CARRY-OUT', NULL, 'gate-or', 'fa1_c1', 'fa1_c2') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa2_s1', 'FA2 half-sum (A2 XOR B2)', NULL, 'gate-xor', 'a2', 'b2') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa2_c1', 'FA2 half-carry (A2 AND B2)', NULL, 'gate-and', 'a2', 'b2') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa2_sum', 'FA2 SUM bit 2', NULL, 'gate-xor', 'fa2_s1', 'fa1_cout') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa2_c2', 'FA2 carry from half-sum AND carry-in', NULL, 'gate-and', 'fa2_s1', 'fa1_cout') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa2_cout', 'FA2 CARRY-OUT', NULL, 'gate-or', 'fa2_c1', 'fa2_c2') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa3_s1', 'FA3 half-sum (A3 XOR B3)', NULL, 'gate-xor', 'a3', 'b3') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa3_c1', 'FA3 half-carry (A3 AND B3)', NULL, 'gate-and', 'a3', 'b3') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa3_sum', 'FA3 SUM bit 3', NULL, 'gate-xor', 'fa3_s1', 'fa2_cout') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa3_c2', 'FA3 carry from half-sum AND carry-in', NULL, 'gate-and', 'fa3_s1', 'fa2_cout') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
+
+INSERT INTO wires (wire_id, wire_name, seeded_bit, gate, a_wire, b_wire)
+VALUES ('fa3_cout', 'FA3 CARRY-OUT', NULL, 'gate-or', 'fa3_c1', 'fa3_c2') ON CONFLICT (wire_id) DO UPDATE SET wire_name = EXCLUDED.wire_name, seeded_bit = EXCLUDED.seeded_bit, gate = EXCLUDED.gate, a_wire = EXCLUDED.a_wire, b_wire = EXCLUDED.b_wire;
 

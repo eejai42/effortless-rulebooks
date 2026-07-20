@@ -261,7 +261,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 <header class="doc-header" id="en-top">
   <div class="doc-header-inner">
     <h1 class="doc-title">📘 bit-calculator <span class="doc-title-sub">RuleSpeak</span></h1>
-    <p class="doc-lede">A half adder, and nothing else. Two input bits a and b; the DB computes sum = a XOR b and carry = a AND b by LOOKING THEM UP in gate truth tables. No arithmetic is stored. The output bit of every computation is a calculated field the substrate derives from truth-table rows.</p>
+    <p class="doc-lede">A 4-bit ripple-carry adder as pure rulebook data. 29 wires + 12 gate truth rows. Every result bit is a LOOKUP into a gate truth table keyed on the two driver wires' own computed bits. No arithmetic is stored and no bespoke function exists: ComputedBit is a plain Excel IF over two INDEX/MATCH lookups that recurse down the AWire/BWire self-FKs to the seeded inputs.</p>
     <p class="doc-note">Declarative business rules rendered from the rulebook — the single source of truth. Every statement below is the plain-language reading of a formula; nothing here is hand-authored prose.</p>
     <p class="narr-hint">Use the <button type="button" class="gear-inline gear-open-inline">⚙︎ options</button> in the top-right corner to turn each part of the documentation on or off — RuleSpeak, the literal reading, the raw formula, the author's description, and the links to a rule's inputs and consumers. Your choices are remembered.</p>
   </div>
@@ -269,78 +269,20 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 <nav class="toc">
   <h2 class="toc-title">Entities</h2>
   <ul class="toc-list">
-    <li><a href="#en-t-gatetypes">Gate Type</a> <span class="toc-meta">1 rules · 0 links</span></li>
+    <li><a href="#en-t-gatetypes">Gate Type</a> <span class="toc-meta">0 rules · 0 links</span></li>
     <li><a href="#en-t-gatetruthrows">Gate Truth Row</a> <span class="toc-meta">1 rules · 1 links</span></li>
-    <li><a href="#en-t-computations">Computation</a> <span class="toc-meta">3 rules · 1 links</span></li>
+    <li><a href="#en-t-wires">Wire</a> <span class="toc-meta">9 rules · 3 links</span></li>
   </ul>
 </nav>
 <section class="entity" id="en-t-gatetypes" data-entity="Gate Type">
   <header class="entity-head">
     <h2 class="entity-title">Gate Type</h2>
-    <p class="entity-synopsis">A gate type is identified by its <a class="ref" href="#en-f-gatetypes-name">name</a>.</p>
+    <p class="entity-synopsis">A gate type is identified by its name.</p>
   </header>
-  <article class="field tone-raw" id="en-f-gatetypes-gate-type-id" data-entity="Gate Type" data-field="gate type ID">
+  <article class="field tone-raw" id="en-f-gatetypes-symbol" data-entity="Gate Type" data-field="Symbol">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">gate type ID</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
-      <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-gatetypes-name">ƒ Name <span class="ref-pill-tbl">Gate Type</span></a>
-      </div>
-    </details>
-    <p class="field-note elem elem-desc">gate_type_id</p>
-    </article>
-  <article class="field tone-calc" id="en-f-gatetypes-name" data-entity="Gate Type" data-field="Name">
-    <div class="field-head">
-      <span class="field-glyph" title="Calculated">ƒ</span>
-      <span class="field-name">Name</span>
-      <span class="pill pill-type">Calculated</span>
-      <span class="pill pill-depth">1 hop from ground truth</span>
-      <span class="pill pill-muted">string</span>
-      <span class="pill pill-dr">DR-1</span>
-    </div>
-    <div class="narr-views">
-      <div class="view elem elem-rulespeak">
-        <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A gate type's <a class="ref" href="#en-f-gatetypes-name">name</a> is the same as its <a class="ref" href="#en-f-gatetypes-gate-type-id">gate type ID</a>.</p>
-      </div>
-      <div class="view elem elem-english">
-        <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-gatetypes-gate-type-id">Gate type ID</a>.</p>
-      </div>
-      <div class="view elem elem-formula">
-        <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-gatetypes-gate-type-id">gate type ID</a></div>
-      </div>
-    </div>
-    <details class="prov prov-inputs elem elem-inputs" open>
-      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
-      <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-gatetypes-gate-type-id">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">gate type ID</span><span class="input-table">Gate Type</span></span>
-          <span class="input-en muted">gate_type_id</span>
-        </a>
-      </div>
-    </details>
-    <details class="prov prov-leaves elem elem-inputs">
-      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
-      <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-gatetypes-gate-type-id">● gate type ID <span class="ref-pill-tbl">Gate Type</span></a>
-      </div>
-    </details>
-    <p class="field-note elem elem-desc">Name</p>
-    </article>
-  <article class="field tone-raw" id="en-f-gatetypes-symbol" data-entity="Gate Type" data-field="symbol">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">symbol</span>
+      <span class="field-name">Symbol</span>
       <span class="pill pill-type">Ground truth</span>
       <span class="pill pill-muted">string</span>
     </div>
@@ -349,10 +291,10 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     </div>
     <p class="field-note elem elem-desc">Human-readable gate symbol</p>
     </article>
-  <article class="field tone-raw" id="en-f-gatetypes-description" data-entity="Gate Type" data-field="description">
+  <article class="field tone-raw" id="en-f-gatetypes-description" data-entity="Gate Type" data-field="Description">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">description</span>
+      <span class="field-name">Description</span>
       <span class="pill pill-type">Ground truth</span>
       <span class="pill pill-muted">string</span>
     </div>
@@ -365,12 +307,52 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 <section class="entity" id="en-t-gatetruthrows" data-entity="Gate Truth Row">
   <header class="entity-head">
     <h2 class="entity-title">Gate Truth Row</h2>
-    <p class="entity-synopsis">A gate truth row is identified by its <a class="ref" href="#en-f-gatetruthrows-name">name</a> and is related to a <a class="ref" href="#en-t-gatetypes">gate type</a> (its <a class="ref" href="#en-f-gatetruthrows-gate-type-id">gate type ID</a>).</p>
+    <p class="entity-synopsis">A gate truth row is identified by its <a class="ref" href="#en-f-gatetruthrows-name">name</a> and is related to a <a class="ref" href="#en-t-gatetypes">gate type</a> (its <a class="ref" href="#en-f-gatetruthrows-gate">gate</a>).</p>
   </header>
-  <article class="field tone-raw" id="en-f-gatetruthrows-truth-row-id" data-entity="Gate Truth Row" data-field="truth row ID">
+  <article class="field tone-calc" id="en-f-gatetruthrows-name" data-entity="Gate Truth Row" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-1</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <p class="view-body">A gate truth row's <a class="ref" href="#en-f-gatetruthrows-name">name</a> is the same as its <a class="ref" href="#en-f-gatetruthrows-truthrowname">truth row name</a>.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-gatetruthrows-truthrowname">Truth row name</a>.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-gatetruthrows-truthrowname">Truth Row Name</a></div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-gatetruthrows-truthrowname">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Truth Row Name</span><span class="input-table">Gate Truth Row</span></span>
+          <span class="input-en muted">Readable truth-table line</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-truthrowname">● Truth Row Name <span class="ref-pill-tbl">Gate Truth Row</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Name</p>
+    </article>
+  <article class="field tone-raw" id="en-f-gatetruthrows-truthrowname" data-entity="Gate Truth Row" data-field="Truth Row Name">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">truth row ID</span>
+      <span class="field-name">Truth Row Name</span>
       <span class="pill pill-type">Ground truth</span>
       <span class="pill pill-muted">string</span>
     </div>
@@ -378,15 +360,78 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-gatetruthrows-name">ƒ Name <span class="ref-pill-tbl">Gate Truth Row</span></a>
-        <a class="ref-pill tone-lookup" href="#en-f-computations-out-bit">↗ out bit <span class="ref-pill-tbl">Computation</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">truth_row_id</p>
+    <p class="field-note elem elem-desc">Readable truth-table line</p>
     </article>
-  <article class="field tone-calc" id="en-f-gatetruthrows-name" data-entity="Gate Truth Row" data-field="Name">
+  <article class="field tone-rel" id="en-f-gatetruthrows-gate" data-entity="Gate Truth Row" data-field="Gate">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Gate</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-gatetypes">Gate Type</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <p class="field-note elem elem-desc">Which gate</p>
+    </article>
+  <article class="field tone-raw" id="en-f-gatetruthrows-in0" data-entity="Gate Truth Row" data-field="In0">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">In0</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">integer</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Left input bit</p>
+    </article>
+  <article class="field tone-raw" id="en-f-gatetruthrows-in1" data-entity="Gate Truth Row" data-field="In1">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">In1</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">integer</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Right input bit</p>
+    </article>
+  <article class="field tone-raw" id="en-f-gatetruthrows-outbit" data-entity="Gate Truth Row" data-field="Out Bit">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Out Bit</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">integer</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+4 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-lookup" href="#en-f-wires-gateout">↗ Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-truthkey">Truth Key <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Output bit for this input pair</p>
+    </article>
+</section>
+<section class="entity" id="en-t-wires" data-entity="Wire">
+  <header class="entity-head">
+    <h2 class="entity-title">Wire</h2>
+    <p class="entity-synopsis">A wire is identified by its <a class="ref" href="#en-f-wires-name">name</a> and is related to optionally a <a class="ref" href="#en-t-gatetypes">gate type</a> (its <a class="ref" href="#en-f-wires-gate">gate</a>); optionally another <a class="ref" href="#en-t-wires">wire</a> (its <a class="ref" href="#en-f-wires-awire">a wire</a>); and optionally another <a class="ref" href="#en-t-wires">wire</a> (its <a class="ref" href="#en-f-wires-bwire">b wire</a>).</p>
+  </header>
+  <article class="field tone-calc" id="en-f-wires-name" data-entity="Wire" data-field="Name">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Name</span>
@@ -398,98 +443,38 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A gate truth row's <a class="ref" href="#en-f-gatetruthrows-name">name</a> is the same as its <a class="ref" href="#en-f-gatetruthrows-truth-row-id">truth row ID</a>.</p>
+        <p class="view-body">A wire's <a class="ref" href="#en-f-wires-name">name</a> is the same as its <a class="ref" href="#en-f-wires-wirename">wire name</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-gatetruthrows-truth-row-id">Truth row ID</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-wires-wirename">Wire name</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-gatetruthrows-truth-row-id">truth row ID</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-wires-wirename">Wire Name</a></div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-gatetruthrows-truth-row-id">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">truth row ID</span><span class="input-table">Gate Truth Row</span></span>
-          <span class="input-en muted">truth_row_id</span>
+        <a class="input tone-raw" href="#en-f-wires-wirename">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Wire Name</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">Human-readable wire name</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-truth-row-id">● truth row ID <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-wirename">● Wire Name <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Name</p>
     </article>
-  <article class="field tone-rel" id="en-f-gatetruthrows-gate-type-id" data-entity="Gate Truth Row" data-field="gate type ID">
-    <div class="field-head">
-      <span class="field-glyph" title="Relationship">⇢</span>
-      <span class="field-name">gate type ID</span>
-      <span class="pill pill-type">Relationship</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">A pointer to <a href="#en-t-gatetypes">Gate Type</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
-    </div>
-    <p class="field-note elem elem-desc">Which gate this truth row belongs to</p>
-    </article>
-  <article class="field tone-raw" id="en-f-gatetruthrows-in0" data-entity="Gate Truth Row" data-field="in0">
+  <article class="field tone-raw" id="en-f-wires-wirename" data-entity="Wire" data-field="Wire Name">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">in0</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">integer</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    <p class="field-note elem elem-desc">Left input bit</p>
-    </article>
-  <article class="field tone-raw" id="en-f-gatetruthrows-in1" data-entity="Gate Truth Row" data-field="in1">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">in1</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">integer</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    <p class="field-note elem elem-desc">Right input bit</p>
-    </article>
-  <article class="field tone-raw" id="en-f-gatetruthrows-out-bit" data-entity="Gate Truth Row" data-field="out bit">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">out bit</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">integer</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
-      <div class="prov-pills">
-        <a class="ref-pill tone-lookup" href="#en-f-computations-out-bit">↗ out bit <span class="ref-pill-tbl">Computation</span></a>
-      </div>
-    </details>
-    <p class="field-note elem elem-desc">The gate's output bit for this input combination</p>
-    </article>
-</section>
-<section class="entity" id="en-t-computations" data-entity="Computation">
-  <header class="entity-head">
-    <h2 class="entity-title">Computation</h2>
-    <p class="entity-synopsis">A computation is identified by its <a class="ref" href="#en-f-computations-name">name</a> and is related to a <a class="ref" href="#en-t-gatetypes">gate type</a> (its <a class="ref" href="#en-f-computations-gate-type-id">gate type ID</a>).</p>
-  </header>
-  <article class="field tone-raw" id="en-f-computations-computation-id" data-entity="Computation" data-field="computation ID">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">computation ID</span>
+      <span class="field-name">Wire Name</span>
       <span class="pill pill-type">Ground truth</span>
       <span class="pill pill-muted">string</span>
     </div>
@@ -499,215 +484,596 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-consumers elem elem-consumers" open>
       <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-computations-name">ƒ Name <span class="ref-pill-tbl">Computation</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-wires-name">ƒ Name <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">computation_id</p>
+    <p class="field-note elem elem-desc">Human-readable wire name</p>
     </article>
-  <article class="field tone-calc" id="en-f-computations-name" data-entity="Computation" data-field="Name">
+  <article class="field tone-raw" id="en-f-wires-seededbit" data-entity="Wire" data-field="Seeded Bit">
     <div class="field-head">
-      <span class="field-glyph" title="Calculated">ƒ</span>
-      <span class="field-name">Name</span>
-      <span class="pill pill-type">Calculated</span>
-      <span class="pill pill-depth">1 hop from ground truth</span>
-      <span class="pill pill-muted">string</span>
-      <span class="pill pill-dr">DR-3</span>
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Seeded Bit</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">integer</span>
     </div>
-    <div class="narr-views">
-      <div class="view elem elem-rulespeak">
-        <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A computation's <a class="ref" href="#en-f-computations-name">name</a> is the same as its <a class="ref" href="#en-f-computations-computation-id">computation ID</a>.</p>
-      </div>
-      <div class="view elem elem-english">
-        <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-computations-computation-id">Computation ID</a>.</p>
-      </div>
-      <div class="view elem elem-formula">
-        <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-computations-computation-id">computation ID</a></div>
-      </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
-    <details class="prov prov-inputs elem elem-inputs" open>
-      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
-      <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-computations-computation-id">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">computation ID</span><span class="input-table">Computation</span></span>
-          <span class="input-en muted">computation_id</span>
-        </a>
-      </div>
-    </details>
-    <details class="prov prov-leaves elem elem-inputs">
-      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+6 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-computations-computation-id">● computation ID <span class="ref-pill-tbl">Computation</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-wires-computedbit">ƒ Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-wires-depth">ƒ Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-adepth">A Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bdepth">B Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-truthkey">Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-gateout">Gate Out <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Name</p>
+    <p class="field-note elem elem-desc">Set ONLY on input wires. The app writes these; nothing else.</p>
     </article>
-  <article class="field tone-rel" id="en-f-computations-gate-type-id" data-entity="Computation" data-field="gate type ID">
+  <article class="field tone-rel" id="en-f-wires-gate" data-entity="Wire" data-field="Gate">
     <div class="field-head">
       <span class="field-glyph" title="Relationship">⇢</span>
-      <span class="field-name">gate type ID</span>
+      <span class="field-name">Gate</span>
       <span class="pill pill-type">Relationship</span>
-      <span class="pill pill-muted">relationship</span>
+      <span class="pill pill-muted">string</span>
     </div>
     <div class="gt">
       <p class="gt-body">A pointer to <a href="#en-t-gatetypes">Gate Type</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-computations-my-lookup-key">ƒ my lookup key <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-rel faded" href="#en-f-computations-out-bit">out bit <span class="ref-pill-tbl">Computation</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-wires-truthkey">ƒ Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-lookup" href="#en-f-wires-gateout">↗ Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Which gate this computation exercises (XOR for sum, AND for carry)</p>
+    <p class="field-note elem elem-desc">The gate driving this wire (null for inputs)</p>
     </article>
-  <article class="field tone-raw" id="en-f-computations-a" data-entity="Computation" data-field="a">
+  <article class="field tone-rel" id="en-f-wires-awire" data-entity="Wire" data-field="A Wire">
     <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">a</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">integer</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
-      <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-computations-my-lookup-key">ƒ my lookup key <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-rel faded" href="#en-f-computations-out-bit">out bit <span class="ref-pill-tbl">Computation</span></a>
-      </div>
-    </details>
-    <p class="field-note elem elem-desc">Input bit a (the ONLY thing the app supplies besides which gate)</p>
-    </article>
-  <article class="field tone-raw" id="en-f-computations-b" data-entity="Computation" data-field="b">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">b</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">integer</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
-      <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-computations-my-lookup-key">ƒ my lookup key <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-rel faded" href="#en-f-computations-out-bit">out bit <span class="ref-pill-tbl">Computation</span></a>
-      </div>
-    </details>
-    <p class="field-note elem elem-desc">Input bit b</p>
-    </article>
-  <article class="field tone-calc" id="en-f-computations-my-lookup-key" data-entity="Computation" data-field="my lookup key">
-    <div class="field-head">
-      <span class="field-glyph" title="Calculated">ƒ</span>
-      <span class="field-name">my lookup key</span>
-      <span class="pill pill-type">Calculated</span>
-      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">A Wire</span>
+      <span class="pill pill-type">Relationship</span>
       <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-wires">Wire</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+6 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-lookup" href="#en-f-wires-abit">↗ A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-lookup" href="#en-f-wires-adepth">↗ A Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-truthkey">Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-depth">Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-gateout">Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bdepth">B Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">self-FK: the wire feeding this gate's left input</p>
+    </article>
+  <article class="field tone-rel" id="en-f-wires-bwire" data-entity="Wire" data-field="B Wire">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">B Wire</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-wires">Wire</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+6 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-lookup" href="#en-f-wires-bbit">↗ B Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-lookup" href="#en-f-wires-bdepth">↗ B Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-truthkey">Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-depth">Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-gateout">Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-adepth">A Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">self-FK: the wire feeding this gate's right input</p>
+    </article>
+  <article class="field tone-lookup" id="en-f-wires-abit" data-entity="Wire" data-field="A Bit">
+    <div class="field-head">
+      <span class="field-glyph" title="Lookup">↗</span>
+      <span class="field-name">A Bit</span>
+      <span class="pill pill-type">Lookup</span>
+      <span class="pill pill-depth">5 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-3</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-abit">a bit</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-wires-computedbit">computed bit</a> of the wire's <a class="ref" href="#en-f-wires-awire">a wire</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-awire">a wire</a> has a value</span></li><li><span class="rt-value">an empty string</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-awire">a wire</a> is not &quot;&quot; then the <a class="ref" href="#en-f-wires-computedbit">computed bit</a> of the linked <a class="ref" href="#en-f-wires-awire">a wire</a>, otherwise &quot;&quot;.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-awire">A Wire</a>&lt;&gt;&quot;&quot;, INDEX(<a class="fx-chip" href="#en-f-wires-computedbit">Computed Bit</a>, MATCH(<a class="fx-chip" href="#en-f-wires-awire">A Wire</a>, <span class="fx-chip">Wire ID</span>, 0)), &quot;&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-wires-awire">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">A Wire</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">self-FK: the wire feeding this gate's left input</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-wires-computedbit">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Computed Bit</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If seeded bit is not &quot;&quot; then seeded bit, otherwise gate out.</span>
+        </a>
+        <span class="input input-static tone-raw">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Wire ID</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">WireId</span>
+        </span>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-wires-truthkey">ƒ Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-gateout">Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-gate">⇢ Gate <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-outbit">● Out Bit <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+        <span class="ref-pill tone-raw">● Truth Row ID <span class="ref-pill-tbl">Gate Truth Row</span></span>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">The left driver wire's computed bit. Blank when this wire has no driver (a seeded input).</p>
+    </article>
+  <article class="field tone-lookup" id="en-f-wires-bbit" data-entity="Wire" data-field="B Bit">
+    <div class="field-head">
+      <span class="field-glyph" title="Lookup">↗</span>
+      <span class="field-name">B Bit</span>
+      <span class="pill pill-type">Lookup</span>
+      <span class="pill pill-depth">5 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
       <span class="pill pill-dr">DR-4</span>
     </div>
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A computation's <a class="ref" href="#en-f-computations-my-lookup-key">my lookup key</a> is computed as the <a class="ref" href="#en-f-computations-gate-type-id">gate type ID</a>, followed by “|”, followed by the <a class="ref" href="#en-f-computations-a">a</a>, followed by “|”, followed by the <a class="ref" href="#en-f-computations-b">b</a>.</p>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-bbit">b bit</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-wires-computedbit">computed bit</a> of the wire's <a class="ref" href="#en-f-wires-bwire">b wire</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-bwire">b wire</a> has a value</span></li><li><span class="rt-value">an empty string</span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-computations-gate-type-id">Gate type ID</a>, &quot;|&quot;, <a class="ref" href="#en-f-computations-a">a</a>, &quot;|&quot;, joined with <a class="ref" href="#en-f-computations-b">b</a>.</p>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-bwire">b wire</a> is not &quot;&quot; then the <a class="ref" href="#en-f-wires-computedbit">computed bit</a> of the linked <a class="ref" href="#en-f-wires-bwire">b wire</a>, otherwise &quot;&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-computations-gate-type-id">gate type ID</a>, &quot;|&quot;, <a class="fx-chip" href="#en-f-computations-a">a</a>, &quot;|&quot;, <a class="fx-chip" href="#en-f-computations-b">b</a>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-bwire">B Wire</a>&lt;&gt;&quot;&quot;, INDEX(<a class="fx-chip" href="#en-f-wires-computedbit">Computed Bit</a>, MATCH(<a class="fx-chip" href="#en-f-wires-bwire">B Wire</a>, <span class="fx-chip">Wire ID</span>, 0)), &quot;&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-rel" href="#en-f-computations-gate-type-id">
-          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">gate type ID</span><span class="input-table">Computation</span></span>
-          <span class="input-en muted">Which gate this computation exercises (XOR for sum, AND for carry)</span>
+        <a class="input tone-rel" href="#en-f-wires-bwire">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">B Wire</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">self-FK: the wire feeding this gate's right input</span>
         </a>
-        <a class="input tone-raw" href="#en-f-computations-a">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">a</span><span class="input-table">Computation</span></span>
-          <span class="input-en muted">Input bit a (the ONLY thing the app supplies besides which gate)</span>
+        <a class="input tone-calc" href="#en-f-wires-computedbit">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Computed Bit</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If seeded bit is not &quot;&quot; then seeded bit, otherwise gate out.</span>
         </a>
-        <a class="input tone-raw" href="#en-f-computations-b">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">b</span><span class="input-table">Computation</span></span>
-          <span class="input-en muted">Input bit b</span>
-        </a>
+        <span class="input input-static tone-raw">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Wire ID</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">WireId</span>
+        </span>
       </div>
     </details>
     <details class="prov prov-consumers elem elem-consumers">
-      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-lookup" href="#en-f-computations-out-bit">↗ out bit <span class="ref-pill-tbl">Computation</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-wires-truthkey">ƒ Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-gateout">Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
-      <summary>Ground truth at the leaves <span class="count">3</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-rel" href="#en-f-computations-gate-type-id">⇢ gate type ID <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-computations-a">● a <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-computations-b">● b <span class="ref-pill-tbl">Computation</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-gate">⇢ Gate <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-outbit">● Out Bit <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+        <span class="ref-pill tone-raw">● Truth Row ID <span class="ref-pill-tbl">Gate Truth Row</span></span>
       </div>
     </details>
-    <p class="field-note elem elem-desc">This computation's gate+inputs; equals exactly one GateTruthRows.truth_row_id</p>
+    <p class="field-note elem elem-desc">The right driver wire's computed bit. Blank when this wire has no driver (a seeded input).</p>
     </article>
-  <article class="field tone-lookup" id="en-f-computations-out-bit" data-entity="Computation" data-field="out bit">
+  <article class="field tone-calc" id="en-f-wires-truthkey" data-entity="Wire" data-field="Truth Key">
     <div class="field-head">
-      <span class="field-glyph" title="Lookup">↗</span>
-      <span class="field-name">out bit</span>
-      <span class="pill pill-type">Lookup</span>
-      <span class="pill pill-depth">2 hops from ground truth</span>
-      <span class="pill pill-muted">integer</span>
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Truth Key</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">4 hops from ground truth</span>
+      <span class="pill pill-muted">string</span>
       <span class="pill pill-dr">DR-5</span>
     </div>
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A computation's <a class="ref" href="#en-f-computations-out-bit">out bit</a> — taken from the linked <a class="ref" href="#en-f-computations-my-lookup-key">my lookup key</a>.</p>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-truthkey">truth key</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-wires-gate">gate</a>, followed by “|”, followed by the <a class="ref" href="#en-f-wires-abit">a bit</a>, followed by “|”, followed by the <a class="ref" href="#en-f-wires-bbit">b bit</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-gate">gate</a> has a value</span></li><li><span class="rt-value">an empty string</span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">The <a class="ref" href="#en-f-gatetruthrows-out-bit">out bit</a> of the linked <a class="ref" href="#en-f-computations-my-lookup-key">my lookup key</a>.</p>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-gate">gate</a> is not &quot;&quot; then <a class="ref" href="#en-f-wires-gate">gate</a>, &quot;|&quot;, <a class="ref" href="#en-f-wires-abit">a bit</a>, &quot;|&quot;, joined with <a class="ref" href="#en-f-wires-bbit">b bit</a>, otherwise &quot;&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-gatetruthrows-out-bit">out bit</a>, MATCH(<a class="fx-chip" href="#en-f-computations-my-lookup-key">my lookup key</a>, <a class="fx-chip" href="#en-f-gatetruthrows-truth-row-id">truth row ID</a>, 0))</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-gate">Gate</a>&lt;&gt;&quot;&quot;, CONCAT(<a class="fx-chip" href="#en-f-wires-gate">Gate</a>, &quot;|&quot;, <a class="fx-chip" href="#en-f-wires-abit">A Bit</a>, &quot;|&quot;, <a class="fx-chip" href="#en-f-wires-bbit">B Bit</a>), &quot;&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-gatetruthrows-out-bit">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">out bit</span><span class="input-table">Gate Truth Row</span></span>
-          <span class="input-en muted">The gate's output bit for this input combination</span>
+        <a class="input tone-rel" href="#en-f-wires-gate">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Gate</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">The gate driving this wire (null for inputs)</span>
         </a>
-        <a class="input tone-calc" href="#en-f-computations-my-lookup-key">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">my lookup key</span><span class="input-table">Computation</span></span>
-          <span class="input-en">Gate type ID, &quot;|&quot;, a, &quot;|&quot;, joined with b.</span>
+        <a class="input tone-lookup" href="#en-f-wires-abit">
+          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">A Bit</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If a wire is not &quot;&quot; then the computed bit of the linked a wire, otherwise &quot;&quot;.</span>
         </a>
-        <a class="input tone-raw" href="#en-f-gatetruthrows-truth-row-id">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">truth row ID</span><span class="input-table">Gate Truth Row</span></span>
-          <span class="input-en muted">truth_row_id</span>
+        <a class="input tone-lookup" href="#en-f-wires-bbit">
+          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">B Bit</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If b wire is not &quot;&quot; then the computed bit of the linked b wire, otherwise &quot;&quot;.</span>
         </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-lookup" href="#en-f-wires-gateout">↗ Gate Out <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-computedbit">Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
-      <summary>Ground truth at the leaves <span class="count">5</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-out-bit">● out bit <span class="ref-pill-tbl">Gate Truth Row</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-computations-gate-type-id">⇢ gate type ID <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-computations-a">● a <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-computations-b">● b <span class="ref-pill-tbl">Computation</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-truth-row-id">● truth row ID <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-gate">⇢ Gate <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-outbit">● Out Bit <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <span class="ref-pill tone-raw">● Truth Row ID <span class="ref-pill-tbl">Gate Truth Row</span></span>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">THE ANSWER. The DB looks up this computation's output bit in the gate truth table by matching its gate+inputs key against the truth row's id. Not stored, not hand-computed — derived by the substrate from truth-table rows.</p>
+    <p class="field-note elem elem-desc">Gate plus its two settled input bits; blank on a seeded input wire (no gate).</p>
+    </article>
+  <article class="field tone-lookup" id="en-f-wires-gateout" data-entity="Wire" data-field="Gate Out">
+    <div class="field-head">
+      <span class="field-glyph" title="Lookup">↗</span>
+      <span class="field-name">Gate Out</span>
+      <span class="pill pill-type">Lookup</span>
+      <span class="pill pill-depth">4 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-6</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-gateout">gate out</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-gatetruthrows-outbit">out bit</a> of the wire's <a class="ref" href="#en-f-wires-truthkey">truth key</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-gate">gate</a> has a value</span></li><li><span class="rt-value">an empty string</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-gate">gate</a> is not &quot;&quot; then the <a class="ref" href="#en-f-gatetruthrows-outbit">out bit</a> of the linked <a class="ref" href="#en-f-wires-truthkey">truth key</a>, otherwise &quot;&quot;.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-gate">Gate</a>&lt;&gt;&quot;&quot;, INDEX(<a class="fx-chip" href="#en-f-gatetruthrows-outbit">Out Bit</a>, MATCH(<a class="fx-chip" href="#en-f-wires-truthkey">Truth Key</a>, <span class="fx-chip">Truth Row ID</span>, 0)), &quot;&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">4</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-wires-gate">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Gate</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">The gate driving this wire (null for inputs)</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-gatetruthrows-outbit">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Out Bit</span><span class="input-table">Gate Truth Row</span></span>
+          <span class="input-en muted">Output bit for this input pair</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-wires-truthkey">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Truth Key</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If gate is not &quot;&quot; then gate, &quot;|&quot;, a bit, &quot;|&quot;, joined with b bit, otherwise &quot;&quot;.</span>
+        </a>
+        <span class="input input-static tone-raw">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Truth Row ID</span><span class="input-table">Gate Truth Row</span></span>
+          <span class="input-en muted">gate|in0|in1 -- the PK IS the lookup key</span>
+        </span>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-wires-computedbit">ƒ Computed Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-abit">A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bbit">B Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-truthkey">Truth Key <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-wires-gate">⇢ Gate <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-outbit">● Out Bit <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Truth Row ID <span class="ref-pill-tbl">Gate Truth Row</span></span>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">The gate's output bit from the truth table; blank on a seeded input wire (no gate).</p>
+    </article>
+  <article class="field tone-calc" id="en-f-wires-computedbit" data-entity="Wire" data-field="Computed Bit">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Computed Bit</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">4 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-7</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-computedbit">computed bit</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-wires-seededbit">seeded bit</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-seededbit">seeded bit</a> has a value</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-wires-gateout">gate out</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-seededbit">seeded bit</a> is not &quot;&quot; then <a class="ref" href="#en-f-wires-seededbit">seeded bit</a>, otherwise <a class="ref" href="#en-f-wires-gateout">gate out</a>.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-seededbit">Seeded Bit</a>&lt;&gt;&quot;&quot;, <a class="fx-chip" href="#en-f-wires-seededbit">Seeded Bit</a>, <a class="fx-chip" href="#en-f-wires-gateout">Gate Out</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-wires-seededbit">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Seeded Bit</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">Set ONLY on input wires. The app writes these; nothing else.</span>
+        </a>
+        <a class="input tone-lookup" href="#en-f-wires-gateout">
+          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Gate Out</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If gate is not &quot;&quot; then the out bit of the linked truth key, otherwise &quot;&quot;.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-lookup" href="#en-f-wires-abit">↗ A Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-lookup" href="#en-f-wires-bbit">↗ B Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-truthkey">Truth Key <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-gateout">Gate Out <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-gate">⇢ Gate <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-gatetruthrows-outbit">● Out Bit <span class="ref-pill-tbl">Gate Truth Row</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Truth Row ID <span class="ref-pill-tbl">Gate Truth Row</span></span>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">THE ANSWER for this wire: its seeded bit if an input, else its gate's output.</p>
+    </article>
+  <article class="field tone-lookup" id="en-f-wires-adepth" data-entity="Wire" data-field="A Depth">
+    <div class="field-head">
+      <span class="field-glyph" title="Lookup">↗</span>
+      <span class="field-name">A Depth</span>
+      <span class="pill pill-type">Lookup</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-8</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-adepth">a depth</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-wires-depth">depth</a> of the wire's <a class="ref" href="#en-f-wires-awire">a wire</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-awire">a wire</a> has a value</span></li><li><span class="rt-value">0</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-awire">a wire</a> is not &quot;&quot; then the <a class="ref" href="#en-f-wires-depth">depth</a> of the linked <a class="ref" href="#en-f-wires-awire">a wire</a>, otherwise 0.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-awire">A Wire</a>&lt;&gt;&quot;&quot;, INDEX(<a class="fx-chip" href="#en-f-wires-depth">Depth</a>, MATCH(<a class="fx-chip" href="#en-f-wires-awire">A Wire</a>, <span class="fx-chip">Wire ID</span>, 0)), 0)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-wires-awire">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">A Wire</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">self-FK: the wire feeding this gate's left input</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-wires-depth">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Depth</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If seeded bit is not &quot;&quot; then 0, otherwise (1 plus the largest of a depth and b depth).</span>
+        </a>
+        <span class="input input-static tone-raw">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Wire ID</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">WireId</span>
+        </span>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-wires-depth">ƒ Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-bdepth">B Depth <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">4</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Left driver's depth; 0 when there is no driver.</p>
+    </article>
+  <article class="field tone-lookup" id="en-f-wires-bdepth" data-entity="Wire" data-field="B Depth">
+    <div class="field-head">
+      <span class="field-glyph" title="Lookup">↗</span>
+      <span class="field-name">B Depth</span>
+      <span class="pill pill-type">Lookup</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-9</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-bdepth">b depth</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-wires-depth">depth</a> of the wire's <a class="ref" href="#en-f-wires-bwire">b wire</a></span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-bwire">b wire</a> has a value</span></li><li><span class="rt-value">0</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-bwire">b wire</a> is not &quot;&quot; then the <a class="ref" href="#en-f-wires-depth">depth</a> of the linked <a class="ref" href="#en-f-wires-bwire">b wire</a>, otherwise 0.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-bwire">B Wire</a>&lt;&gt;&quot;&quot;, INDEX(<a class="fx-chip" href="#en-f-wires-depth">Depth</a>, MATCH(<a class="fx-chip" href="#en-f-wires-bwire">B Wire</a>, <span class="fx-chip">Wire ID</span>, 0)), 0)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-wires-bwire">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">B Wire</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">self-FK: the wire feeding this gate's right input</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-wires-depth">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Depth</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If seeded bit is not &quot;&quot; then 0, otherwise (1 plus the largest of a depth and b depth).</span>
+        </a>
+        <span class="input input-static tone-raw">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Wire ID</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">WireId</span>
+        </span>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-wires-depth">ƒ Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-wires-adepth">A Depth <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">4</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Right driver's depth; 0 when there is no driver.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-wires-depth" data-entity="Wire" data-field="Depth">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Depth</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-10</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak</span>
+        <div class="view-body"><p class="rt-headline">The wire's <a class="ref" href="#en-f-wires-depth">depth</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-wires-seededbit">seeded bit</a> has a value</span></li><li><span class="rt-value">1 plus the largest of the <a class="ref" href="#en-f-wires-adepth">a depth</a> and the <a class="ref" href="#en-f-wires-bdepth">b depth</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-wires-seededbit">seeded bit</a> is not &quot;&quot; then 0, otherwise (1 plus the largest of <a class="ref" href="#en-f-wires-adepth">a depth</a> and <a class="ref" href="#en-f-wires-bdepth">b depth</a>).</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-wires-seededbit">Seeded Bit</a>&lt;&gt;&quot;&quot;, 0, 1 + MAX(<a class="fx-chip" href="#en-f-wires-adepth">A Depth</a>, <a class="fx-chip" href="#en-f-wires-bdepth">B Depth</a>))</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-wires-seededbit">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Seeded Bit</span><span class="input-table">Wire</span></span>
+          <span class="input-en muted">Set ONLY on input wires. The app writes these; nothing else.</span>
+        </a>
+        <a class="input tone-lookup" href="#en-f-wires-adepth">
+          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">A Depth</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If a wire is not &quot;&quot; then the depth of the linked a wire, otherwise 0.</span>
+        </a>
+        <a class="input tone-lookup" href="#en-f-wires-bdepth">
+          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">B Depth</span><span class="input-table">Wire</span></span>
+          <span class="input-en">If b wire is not &quot;&quot; then the depth of the linked b wire, otherwise 0.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-lookup" href="#en-f-wires-adepth">↗ A Depth <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-lookup" href="#en-f-wires-bdepth">↗ B Depth <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">4</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-wires-seededbit">● Seeded Bit <span class="ref-pill-tbl">Wire</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-wires-awire">⇢ A Wire <span class="ref-pill-tbl">Wire</span></a>
+        <span class="ref-pill tone-raw">● Wire ID <span class="ref-pill-tbl">Wire</span></span>
+        <a class="ref-pill tone-rel" href="#en-f-wires-bwire">⇢ B Wire <span class="ref-pill-tbl">Wire</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logic level: 0 for inputs, else one deeper than its deepest driver. The DAG computing its own depth.</p>
     </article>
 </section>
 <footer class="doc-footer">

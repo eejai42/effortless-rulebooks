@@ -23,27 +23,27 @@ SET check_function_bodies = off;
 -- Type: calculated | DataType: string | Returns: TEXT
 
 
-CREATE OR REPLACE FUNCTION calc_gate_types_name(p_gate_type_id TEXT)
+CREATE OR REPLACE FUNCTION calc_gate_types_name(p_gate_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((SELECT NULLIF(gate_type_id, '') FROM gate_types WHERE gate_type_id = p_gate_type_id))::text;
+  SELECT ((SELECT NULLIF(gate_id, '') FROM gate_types WHERE gate_id = p_gate_id))::text;
 $$ LANGUAGE sql STABLE;
 
 -- get_gate_types_symbol
--- Helper function: Get symbol from GateTypes by gate_type_id
+-- Helper function: Get Symbol from GateTypes by GateId
 -- Used for join-free cross-table references in aggregations
 
-CREATE OR REPLACE FUNCTION get_gate_types_symbol(p_gate_type_id TEXT)
+CREATE OR REPLACE FUNCTION get_gate_types_symbol(p_gate_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (SELECT symbol FROM gate_types WHERE gate_type_id = p_gate_type_id);
+  SELECT (SELECT symbol FROM gate_types WHERE gate_id = p_gate_id);
 $$ LANGUAGE sql STABLE;
 
 -- get_gate_types_description
--- Helper function: Get description from GateTypes by gate_type_id
+-- Helper function: Get Description from GateTypes by GateId
 -- Used for join-free cross-table references in aggregations
 
-CREATE OR REPLACE FUNCTION get_gate_types_description(p_gate_type_id TEXT)
+CREATE OR REPLACE FUNCTION get_gate_types_description(p_gate_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (SELECT description FROM gate_types WHERE gate_type_id = p_gate_type_id);
+  SELECT (SELECT description FROM gate_types WHERE gate_id = p_gate_id);
 $$ LANGUAGE sql STABLE;
 
 -- calc_gate_truth_rows_name
@@ -53,22 +53,93 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_gate_truth_rows_name(p_truth_row_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((SELECT NULLIF(truth_row_id, '') FROM gate_truth_rows WHERE truth_row_id = p_truth_row_id))::text;
+  SELECT ((SELECT NULLIF(truth_row_name, '') FROM gate_truth_rows WHERE truth_row_id = p_truth_row_id))::text;
 $$ LANGUAGE sql STABLE;
 
--- calc_computations_out_bit
--- Field: Computations.out_bit
+-- calc_wires_a_bit
+-- Field: Wires.ABit
 -- Type: lookup | DataType: integer | Returns: INTEGER
--- Lookup: out_bit from related GateTruthRows
+-- Lookup: ComputedBit from related Wires
 
 
-CREATE OR REPLACE FUNCTION calc_computations_out_bit(p_computation_id TEXT)
+CREATE OR REPLACE FUNCTION calc_wires_a_bit(p_wire_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT (SELECT out_bit::integer FROM gate_truth_rows WHERE truth_row_id = calc_computations_my_lookup_key(p_computation_id));
+  SELECT calc_wires_computed_bit((SELECT a_wire FROM wires WHERE wire_id = p_wire_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_wires_b_bit
+-- Field: Wires.BBit
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: ComputedBit from related Wires
+
+
+CREATE OR REPLACE FUNCTION calc_wires_b_bit(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_wires_computed_bit((SELECT b_wire FROM wires WHERE wire_id = p_wire_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_wires_gate_out
+-- Field: Wires.GateOut
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: OutBit from related GateTruthRows
+
+
+CREATE OR REPLACE FUNCTION calc_wires_gate_out(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT out_bit::integer FROM gate_truth_rows WHERE truth_row_id = calc_wires_truth_key(p_wire_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_wires_a_depth
+-- Field: Wires.ADepth
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Depth from related Wires
+
+
+CREATE OR REPLACE FUNCTION calc_wires_a_depth(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_wires_depth((SELECT a_wire FROM wires WHERE wire_id = p_wire_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_wires_b_depth
+-- Field: Wires.BDepth
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Depth from related Wires
+
+
+CREATE OR REPLACE FUNCTION calc_wires_b_depth(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_wires_depth((SELECT b_wire FROM wires WHERE wire_id = p_wire_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_wires_wire_name
+-- Helper function: Get WireName from Wires by WireId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_wires_wire_name(p_wire_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT wire_name FROM wires WHERE wire_id = p_wire_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_wires_seeded_bit
+-- Helper function: Get SeededBit from Wires by WireId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_wires_seeded_bit(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT seeded_bit FROM wires WHERE wire_id = p_wire_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_gate_truth_rows_truth_row_name
+-- Helper function: Get TruthRowName from GateTruthRows by TruthRowId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_gate_truth_rows_truth_row_name(p_truth_row_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT truth_row_name FROM gate_truth_rows WHERE truth_row_id = p_truth_row_id);
 $$ LANGUAGE sql STABLE;
 
 -- get_gate_truth_rows_in0
--- Helper function: Get in0 from GateTruthRows by truth_row_id
+-- Helper function: Get In0 from GateTruthRows by TruthRowId
 -- Used for join-free cross-table references in aggregations
 
 CREATE OR REPLACE FUNCTION get_gate_truth_rows_in0(p_truth_row_id TEXT)
@@ -77,7 +148,7 @@ RETURNS INTEGER AS $$
 $$ LANGUAGE sql STABLE;
 
 -- get_gate_truth_rows_in1
--- Helper function: Get in1 from GateTruthRows by truth_row_id
+-- Helper function: Get In1 from GateTruthRows by TruthRowId
 -- Used for join-free cross-table references in aggregations
 
 CREATE OR REPLACE FUNCTION get_gate_truth_rows_in1(p_truth_row_id TEXT)
@@ -86,7 +157,7 @@ RETURNS INTEGER AS $$
 $$ LANGUAGE sql STABLE;
 
 -- get_gate_truth_rows_out_bit
--- Helper function: Get out_bit from GateTruthRows by truth_row_id
+-- Helper function: Get OutBit from GateTruthRows by TruthRowId
 -- Used for join-free cross-table references in aggregations
 
 CREATE OR REPLACE FUNCTION get_gate_truth_rows_out_bit(p_truth_row_id TEXT)
@@ -94,24 +165,44 @@ RETURNS INTEGER AS $$
   SELECT (SELECT out_bit FROM gate_truth_rows WHERE truth_row_id = p_truth_row_id);
 $$ LANGUAGE sql STABLE;
 
--- calc_computations_name
--- Field: Computations.Name
+-- calc_wires_name
+-- Field: Wires.Name
 -- Type: calculated | DataType: string | Returns: TEXT
 
 
-CREATE OR REPLACE FUNCTION calc_computations_name(p_computation_id TEXT)
+CREATE OR REPLACE FUNCTION calc_wires_name(p_wire_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((SELECT NULLIF(computation_id, '') FROM computations WHERE computation_id = p_computation_id))::text;
+  SELECT ((SELECT NULLIF(wire_name, '') FROM wires WHERE wire_id = p_wire_id))::text;
 $$ LANGUAGE sql STABLE;
 
--- calc_computations_my_lookup_key
--- Field: Computations.my_lookup_key
+-- calc_wires_truth_key
+-- Field: Wires.TruthKey
 -- Type: calculated | DataType: string | Returns: TEXT
 
 
-CREATE OR REPLACE FUNCTION calc_computations_my_lookup_key(p_computation_id TEXT)
+CREATE OR REPLACE FUNCTION calc_wires_truth_key(p_wire_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CONCAT((SELECT NULLIF(gate_type_id, '') FROM computations WHERE computation_id = p_computation_id), '|', (SELECT a FROM computations WHERE computation_id = p_computation_id), '|', (SELECT b FROM computations WHERE computation_id = p_computation_id)))::text;
+  SELECT (CASE WHEN (SELECT NULLIF(gate, '') FROM wires WHERE wire_id = p_wire_id) IS NOT NULL THEN (CONCAT((SELECT NULLIF(gate, '') FROM wires WHERE wire_id = p_wire_id), '|', calc_wires_a_bit(p_wire_id), '|', calc_wires_b_bit(p_wire_id)))::text ELSE ('')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_wires_computed_bit
+-- Field: Wires.ComputedBit
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_wires_computed_bit(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (CASE WHEN (SELECT seeded_bit FROM wires WHERE wire_id = p_wire_id) IS NOT NULL THEN ((SELECT seeded_bit FROM wires WHERE wire_id = p_wire_id))::text ELSE (calc_wires_gate_out(p_wire_id))::text END)::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_wires_depth
+-- Field: Wires.Depth
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_wires_depth(p_wire_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (CASE WHEN (SELECT seeded_bit FROM wires WHERE wire_id = p_wire_id) IS NOT NULL THEN (0)::text ELSE ((COALESCE(1, 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (GREATEST(calc_wires_a_depth(p_wire_id), calc_wires_b_depth(p_wire_id))) AS v) __safe_numeric), 0)))::text END)::integer;
 $$ LANGUAGE sql STABLE;
 
 -- ============================================================================

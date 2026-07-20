@@ -1,6 +1,6 @@
 {
   "Name": "bit-calculator",
-  "Description": "A half adder, and nothing else. Two input bits a and b; the DB computes sum = a XOR b and carry = a AND b by LOOKING THEM UP in gate truth tables. No arithmetic is stored. The output bit of every computation is a calculated field the substrate derives from truth-table rows.",
+  "Description": "A 4-bit ripple-carry adder as pure rulebook data. 29 wires + 12 gate truth rows. Every result bit is a LOOKUP into a gate truth table keyed on the two driver wires' own computed bits. No arithmetic is stored and no bespoke function exists: ComputedBit is a plain Excel IF over two INDEX/MATCH lookups that recurse down the AWire/BWire self-FKs to the seeded inputs.",
   "__meta__": {
     "schema": [
       {"name": "MetaKey", "datatype": "string", "type": "raw", "nullable": false, "Description": "MetaKey"},
@@ -10,60 +10,95 @@
       {"name": "JsonValue", "datatype": "string", "type": "raw", "nullable": true, "Description": "JsonValue"}
     ],
     "data": [
-      {"MetaKey": "tagline", "ValueType": "string", "StringValue": "One half adder. The bits are looked up, not computed.", "JsonValue": null}
+      {"MetaKey": "tagline", "ValueType": "string", "StringValue": "29 wires. 12 truth rows. Arithmetic emerges. No bespoke code.", "JsonValue": null}
     ]
   },
   "GateTypes": {
     "schema": [
-      {"name": "gate_type_id", "datatype": "string", "type": "raw", "nullable": false, "Description": "gate_type_id"},
-      {"name": "Name", "datatype": "string", "type": "calculated", "nullable": true, "formula": "={{gate_type_id}}", "Description": "Name"},
-      {"name": "symbol", "datatype": "string", "type": "raw", "nullable": true, "Description": "Human-readable gate symbol"},
-      {"name": "description", "datatype": "string", "type": "raw", "nullable": true, "Description": "What the gate does"}
+      {"name": "GateId", "datatype": "string", "type": "raw", "nullable": false, "Description": "GateId"},
+      {"name": "Name", "datatype": "string", "type": "calculated", "nullable": true, "formula": "={{GateId}}", "Description": "Name"},
+      {"name": "Symbol", "datatype": "string", "type": "raw", "nullable": true, "Description": "Human-readable gate symbol"},
+      {"name": "Description", "datatype": "string", "type": "raw", "nullable": true, "Description": "What the gate does"}
     ],
     "data": [
-      {"gate_type_id": "gate-xor", "symbol": "XOR", "description": "Exclusive OR of two bits. This is the SUM bit of a half adder."},
-      {"gate_type_id": "gate-and", "symbol": "AND", "description": "Logical AND of two bits. This is the CARRY bit of a half adder."}
+      {"GateId": "gate-xor", "Symbol": "XOR", "Description": "Exclusive OR of two bits."},
+      {"GateId": "gate-and", "Symbol": "AND", "Description": "Logical AND of two bits."},
+      {"GateId": "gate-or", "Symbol": "OR", "Description": "Logical OR of two bits."}
     ]
   },
   "GateTruthRows": {
     "schema": [
-      {"name": "truth_row_id", "datatype": "string", "type": "raw", "nullable": false, "Description": "truth_row_id"},
-      {"name": "Name", "datatype": "string", "type": "calculated", "nullable": true, "formula": "={{truth_row_id}}", "Description": "Name"},
-      {"name": "gate_type_id", "datatype": "string", "type": "relationship", "nullable": false, "RelatedTo": "GateTypes", "Description": "Which gate this truth row belongs to"},
-      {"name": "in0", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Left input bit"},
-      {"name": "in1", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Right input bit"},
-      {"name": "out_bit", "datatype": "integer", "type": "raw", "nullable": false, "Description": "The gate's output bit for this input combination"}
+      {"name": "TruthRowId", "datatype": "string", "type": "raw", "nullable": false, "Description": "gate|in0|in1 -- the PK IS the lookup key"},
+      {"name": "Name", "datatype": "string", "type": "calculated", "nullable": true, "formula": "={{TruthRowName}}", "Description": "Name"},
+      {"name": "TruthRowName", "datatype": "string", "type": "raw", "nullable": true, "Description": "Readable truth-table line"},
+      {"name": "Gate", "datatype": "string", "type": "relationship", "nullable": false, "RelatedTo": "GateTypes", "Description": "Which gate"},
+      {"name": "In0", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Left input bit"},
+      {"name": "In1", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Right input bit"},
+      {"name": "OutBit", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Output bit for this input pair"}
     ],
     "data": [
-      {"truth_row_id": "gate-xor|0|0", "gate_type_id": "gate-xor", "in0": 0, "in1": 0, "out_bit": 0},
-      {"truth_row_id": "gate-xor|0|1", "gate_type_id": "gate-xor", "in0": 0, "in1": 1, "out_bit": 1},
-      {"truth_row_id": "gate-xor|1|0", "gate_type_id": "gate-xor", "in0": 1, "in1": 0, "out_bit": 1},
-      {"truth_row_id": "gate-xor|1|1", "gate_type_id": "gate-xor", "in0": 1, "in1": 1, "out_bit": 0},
-      {"truth_row_id": "gate-and|0|0", "gate_type_id": "gate-and", "in0": 0, "in1": 0, "out_bit": 0},
-      {"truth_row_id": "gate-and|0|1", "gate_type_id": "gate-and", "in0": 0, "in1": 1, "out_bit": 0},
-      {"truth_row_id": "gate-and|1|0", "gate_type_id": "gate-and", "in0": 1, "in1": 0, "out_bit": 0},
-      {"truth_row_id": "gate-and|1|1", "gate_type_id": "gate-and", "in0": 1, "in1": 1, "out_bit": 1}
+      {"TruthRowId": "gate-xor|0|0", "TruthRowName": "XOR: 0 XOR 0 = 0", "Gate": "gate-xor", "In0": 0, "In1": 0, "OutBit": 0},
+      {"TruthRowId": "gate-xor|0|1", "TruthRowName": "XOR: 0 XOR 1 = 1", "Gate": "gate-xor", "In0": 0, "In1": 1, "OutBit": 1},
+      {"TruthRowId": "gate-xor|1|0", "TruthRowName": "XOR: 1 XOR 0 = 1", "Gate": "gate-xor", "In0": 1, "In1": 0, "OutBit": 1},
+      {"TruthRowId": "gate-xor|1|1", "TruthRowName": "XOR: 1 XOR 1 = 0", "Gate": "gate-xor", "In0": 1, "In1": 1, "OutBit": 0},
+      {"TruthRowId": "gate-and|0|0", "TruthRowName": "AND: 0 AND 0 = 0", "Gate": "gate-and", "In0": 0, "In1": 0, "OutBit": 0},
+      {"TruthRowId": "gate-and|0|1", "TruthRowName": "AND: 0 AND 1 = 0", "Gate": "gate-and", "In0": 0, "In1": 1, "OutBit": 0},
+      {"TruthRowId": "gate-and|1|0", "TruthRowName": "AND: 1 AND 0 = 0", "Gate": "gate-and", "In0": 1, "In1": 0, "OutBit": 0},
+      {"TruthRowId": "gate-and|1|1", "TruthRowName": "AND: 1 AND 1 = 1", "Gate": "gate-and", "In0": 1, "In1": 1, "OutBit": 1},
+      {"TruthRowId": "gate-or|0|0", "TruthRowName": "OR: 0 OR 0 = 0", "Gate": "gate-or", "In0": 0, "In1": 0, "OutBit": 0},
+      {"TruthRowId": "gate-or|0|1", "TruthRowName": "OR: 0 OR 1 = 1", "Gate": "gate-or", "In0": 0, "In1": 1, "OutBit": 1},
+      {"TruthRowId": "gate-or|1|0", "TruthRowName": "OR: 1 OR 0 = 1", "Gate": "gate-or", "In0": 1, "In1": 0, "OutBit": 1},
+      {"TruthRowId": "gate-or|1|1", "TruthRowName": "OR: 1 OR 1 = 1", "Gate": "gate-or", "In0": 1, "In1": 1, "OutBit": 1}
     ]
   },
-  "Computations": {
+  "Wires": {
     "schema": [
-      {"name": "computation_id", "datatype": "string", "type": "raw", "nullable": false, "Description": "computation_id"},
-      {"name": "Name", "datatype": "string", "type": "calculated", "nullable": true, "formula": "={{computation_id}}", "Description": "Name"},
-      {"name": "gate_type_id", "datatype": "relationship", "type": "relationship", "nullable": false, "RelatedTo": "GateTypes", "Description": "Which gate this computation exercises (XOR for sum, AND for carry)"},
-      {"name": "a", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Input bit a (the ONLY thing the app supplies besides which gate)"},
-      {"name": "b", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Input bit b"},
-      {"name": "my_lookup_key", "datatype": "string", "type": "calculated", "nullable": true, "formula": "=CONCAT({{gate_type_id}}, \"|\", {{a}}, \"|\", {{b}})", "Description": "This computation's gate+inputs; equals exactly one GateTruthRows.truth_row_id"},
-      {"name": "out_bit", "datatype": "integer", "type": "lookup", "nullable": true, "RelatedTo": "GateTruthRows", "formula": "=INDEX(GateTruthRows!{{out_bit}}, MATCH({{my_lookup_key}}, GateTruthRows!{{truth_row_id}}, 0))", "Description": "THE ANSWER. The DB looks up this computation's output bit in the gate truth table by matching its gate+inputs key against the truth row's id. Not stored, not hand-computed — derived by the substrate from truth-table rows."}
+      {"name": "WireId", "datatype": "string", "type": "raw", "nullable": false, "Description": "WireId"},
+      {"name": "Name", "datatype": "string", "type": "calculated", "nullable": true, "formula": "={{WireName}}", "Description": "Name"},
+      {"name": "WireName", "datatype": "string", "type": "raw", "nullable": true, "Description": "Human-readable wire name"},
+      {"name": "SeededBit", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Set ONLY on input wires. The app writes these; nothing else."},
+      {"name": "Gate", "datatype": "string", "type": "relationship", "nullable": true, "RelatedTo": "GateTypes", "Description": "The gate driving this wire (null for inputs)"},
+      {"name": "AWire", "datatype": "string", "type": "relationship", "nullable": true, "RelatedTo": "Wires", "Description": "self-FK: the wire feeding this gate's left input"},
+      {"name": "BWire", "datatype": "string", "type": "relationship", "nullable": true, "RelatedTo": "Wires", "Description": "self-FK: the wire feeding this gate's right input"},
+      {"name": "ABit", "datatype": "integer", "type": "lookup", "nullable": true, "RelatedTo": "Wires", "formula": "=IF({{AWire}}<>\"\", INDEX(Wires!{{ComputedBit}}, MATCH({{AWire}}, Wires!{{WireId}}, 0)), \"\")", "Description": "The left driver wire's computed bit. Blank when this wire has no driver (a seeded input)."},
+      {"name": "BBit", "datatype": "integer", "type": "lookup", "nullable": true, "RelatedTo": "Wires", "formula": "=IF({{BWire}}<>\"\", INDEX(Wires!{{ComputedBit}}, MATCH({{BWire}}, Wires!{{WireId}}, 0)), \"\")", "Description": "The right driver wire's computed bit. Blank when this wire has no driver (a seeded input)."},
+      {"name": "TruthKey", "datatype": "string", "type": "calculated", "nullable": true, "formula": "=IF({{Gate}}<>\"\", CONCAT({{Gate}}, \"|\", {{ABit}}, \"|\", {{BBit}}), \"\")", "Description": "Gate plus its two settled input bits; blank on a seeded input wire (no gate)."},
+      {"name": "GateOut", "datatype": "integer", "type": "lookup", "nullable": true, "RelatedTo": "GateTruthRows", "formula": "=IF({{Gate}}<>\"\", INDEX(GateTruthRows!{{OutBit}}, MATCH({{TruthKey}}, GateTruthRows!{{TruthRowId}}, 0)), \"\")", "Description": "The gate's output bit from the truth table; blank on a seeded input wire (no gate)."},
+      {"name": "ComputedBit", "datatype": "integer", "type": "calculated", "nullable": true, "formula": "=IF({{SeededBit}}<>\"\", {{SeededBit}}, {{GateOut}})", "Description": "THE ANSWER for this wire: its seeded bit if an input, else its gate's output."},
+      {"name": "ADepth", "datatype": "integer", "type": "lookup", "nullable": true, "RelatedTo": "Wires", "formula": "=IF({{AWire}}<>\"\", INDEX(Wires!{{Depth}}, MATCH({{AWire}}, Wires!{{WireId}}, 0)), 0)", "Description": "Left driver's depth; 0 when there is no driver."},
+      {"name": "BDepth", "datatype": "integer", "type": "lookup", "nullable": true, "RelatedTo": "Wires", "formula": "=IF({{BWire}}<>\"\", INDEX(Wires!{{Depth}}, MATCH({{BWire}}, Wires!{{WireId}}, 0)), 0)", "Description": "Right driver's depth; 0 when there is no driver."},
+      {"name": "Depth", "datatype": "integer", "type": "calculated", "nullable": true, "formula": "=IF({{SeededBit}}<>\"\", 0, 1 + MAX({{ADepth}}, {{BDepth}}))", "Description": "Logic level: 0 for inputs, else one deeper than its deepest driver. The DAG computing its own depth."}
     ],
     "data": [
-      {"computation_id": "sum--0+0", "gate_type_id": "gate-xor", "a": 0, "b": 0},
-      {"computation_id": "sum--0+1", "gate_type_id": "gate-xor", "a": 0, "b": 1},
-      {"computation_id": "sum--1+0", "gate_type_id": "gate-xor", "a": 1, "b": 0},
-      {"computation_id": "sum--1+1", "gate_type_id": "gate-xor", "a": 1, "b": 1},
-      {"computation_id": "carry--0+0", "gate_type_id": "gate-and", "a": 0, "b": 0},
-      {"computation_id": "carry--0+1", "gate_type_id": "gate-and", "a": 0, "b": 1},
-      {"computation_id": "carry--1+0", "gate_type_id": "gate-and", "a": 1, "b": 0},
-      {"computation_id": "carry--1+1", "gate_type_id": "gate-and", "a": 1, "b": 1}
+      {"WireId": "a0", "WireName": "Operand A, bit 0", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "b0", "WireName": "Operand B, bit 0", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "a1", "WireName": "Operand A, bit 1", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "b1", "WireName": "Operand B, bit 1", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "a2", "WireName": "Operand A, bit 2", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "b2", "WireName": "Operand B, bit 2", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "a3", "WireName": "Operand A, bit 3", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "b3", "WireName": "Operand B, bit 3", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "cin", "WireName": "Carry-in to bit 0", "SeededBit": 0, "Gate": null, "AWire": null, "BWire": null},
+      {"WireId": "fa0_s1", "WireName": "FA0 half-sum (A0 XOR B0)", "SeededBit": null, "Gate": "gate-xor", "AWire": "a0", "BWire": "b0"},
+      {"WireId": "fa0_c1", "WireName": "FA0 half-carry (A0 AND B0)", "SeededBit": null, "Gate": "gate-and", "AWire": "a0", "BWire": "b0"},
+      {"WireId": "fa0_sum", "WireName": "FA0 SUM bit 0", "SeededBit": null, "Gate": "gate-xor", "AWire": "fa0_s1", "BWire": "cin"},
+      {"WireId": "fa0_c2", "WireName": "FA0 carry from half-sum AND carry-in", "SeededBit": null, "Gate": "gate-and", "AWire": "fa0_s1", "BWire": "cin"},
+      {"WireId": "fa0_cout", "WireName": "FA0 CARRY-OUT", "SeededBit": null, "Gate": "gate-or", "AWire": "fa0_c1", "BWire": "fa0_c2"},
+      {"WireId": "fa1_s1", "WireName": "FA1 half-sum (A1 XOR B1)", "SeededBit": null, "Gate": "gate-xor", "AWire": "a1", "BWire": "b1"},
+      {"WireId": "fa1_c1", "WireName": "FA1 half-carry (A1 AND B1)", "SeededBit": null, "Gate": "gate-and", "AWire": "a1", "BWire": "b1"},
+      {"WireId": "fa1_sum", "WireName": "FA1 SUM bit 1", "SeededBit": null, "Gate": "gate-xor", "AWire": "fa1_s1", "BWire": "fa0_cout"},
+      {"WireId": "fa1_c2", "WireName": "FA1 carry from half-sum AND carry-in", "SeededBit": null, "Gate": "gate-and", "AWire": "fa1_s1", "BWire": "fa0_cout"},
+      {"WireId": "fa1_cout", "WireName": "FA1 CARRY-OUT", "SeededBit": null, "Gate": "gate-or", "AWire": "fa1_c1", "BWire": "fa1_c2"},
+      {"WireId": "fa2_s1", "WireName": "FA2 half-sum (A2 XOR B2)", "SeededBit": null, "Gate": "gate-xor", "AWire": "a2", "BWire": "b2"},
+      {"WireId": "fa2_c1", "WireName": "FA2 half-carry (A2 AND B2)", "SeededBit": null, "Gate": "gate-and", "AWire": "a2", "BWire": "b2"},
+      {"WireId": "fa2_sum", "WireName": "FA2 SUM bit 2", "SeededBit": null, "Gate": "gate-xor", "AWire": "fa2_s1", "BWire": "fa1_cout"},
+      {"WireId": "fa2_c2", "WireName": "FA2 carry from half-sum AND carry-in", "SeededBit": null, "Gate": "gate-and", "AWire": "fa2_s1", "BWire": "fa1_cout"},
+      {"WireId": "fa2_cout", "WireName": "FA2 CARRY-OUT", "SeededBit": null, "Gate": "gate-or", "AWire": "fa2_c1", "BWire": "fa2_c2"},
+      {"WireId": "fa3_s1", "WireName": "FA3 half-sum (A3 XOR B3)", "SeededBit": null, "Gate": "gate-xor", "AWire": "a3", "BWire": "b3"},
+      {"WireId": "fa3_c1", "WireName": "FA3 half-carry (A3 AND B3)", "SeededBit": null, "Gate": "gate-and", "AWire": "a3", "BWire": "b3"},
+      {"WireId": "fa3_sum", "WireName": "FA3 SUM bit 3", "SeededBit": null, "Gate": "gate-xor", "AWire": "fa3_s1", "BWire": "fa2_cout"},
+      {"WireId": "fa3_c2", "WireName": "FA3 carry from half-sum AND carry-in", "SeededBit": null, "Gate": "gate-and", "AWire": "fa3_s1", "BWire": "fa2_cout"},
+      {"WireId": "fa3_cout", "WireName": "FA3 CARRY-OUT", "SeededBit": null, "Gate": "gate-or", "AWire": "fa3_c1", "BWire": "fa3_c2"}
     ]
   }
 }

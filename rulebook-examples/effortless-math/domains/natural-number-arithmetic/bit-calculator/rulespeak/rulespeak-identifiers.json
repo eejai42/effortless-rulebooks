@@ -1,12 +1,17 @@
 {
   "_comment": "Stable DR-number ledger for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build to keep rule numbers stable. Numbers in 'Retired' are tombstones and are never reissued. Hand-edit an Assignments number only to deliberately re-pin a rule.",
-  "NextId": 6,
+  "NextId": 11,
   "Assignments": {
-    "GateTypes.Name": 1,
-    "GateTruthRows.Name": 2,
-    "Computations.Name": 3,
-    "Computations.my_lookup_key": 4,
-    "Computations.out_bit": 5
+    "GateTruthRows.Name": 1,
+    "Wires.Name": 2,
+    "Wires.ABit": 3,
+    "Wires.BBit": 4,
+    "Wires.TruthKey": 5,
+    "Wires.GateOut": 6,
+    "Wires.ComputedBit": 7,
+    "Wires.ADepth": 8,
+    "Wires.BDepth": 9,
+    "Wires.Depth": 10
   },
   "Retired": []
 }

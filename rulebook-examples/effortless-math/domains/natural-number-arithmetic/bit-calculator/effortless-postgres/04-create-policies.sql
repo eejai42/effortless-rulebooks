@@ -9,7 +9,7 @@
 
 ALTER TABLE gate_types ENABLE ROW LEVEL SECURITY;
 ALTER TABLE gate_truth_rows ENABLE ROW LEVEL SECURITY;
-ALTER TABLE computations ENABLE ROW LEVEL SECURITY;
+ALTER TABLE wires ENABLE ROW LEVEL SECURITY;
 
 -- TODO: Add specific RLS policies based on your security requirements
 -- Example:
