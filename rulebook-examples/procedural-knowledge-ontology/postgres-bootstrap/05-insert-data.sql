@@ -24961,9 +24961,6 @@ INSERT INTO field_grants (field_grant_id, principal, target_field, can_read, can
 VALUES ('fg-finance-analyst-Agents.Name', 'principal-finance-analyst', 'Agents.Name', TRUE, FALSE, 'plain', 'urn:effortless:pko-extension#FieldGrant') ON CONFLICT (field_grant_id) DO UPDATE SET principal = EXCLUDED.principal, target_field = EXCLUDED.target_field, can_read = EXCLUDED.can_read, can_write = EXCLUDED.can_write, mask_strategy = EXCLUDED.mask_strategy, semantic_type_iri = EXCLUDED.semantic_type_iri;
 
 INSERT INTO field_grants (field_grant_id, principal, target_field, can_read, can_write, mask_strategy, semantic_type_iri)
-VALUES ('fg-finance-analyst-Agents.DisplayName', 'principal-finance-analyst', 'Agents.DisplayName', TRUE, FALSE, 'plain', 'urn:effortless:pko-extension#FieldGrant') ON CONFLICT (field_grant_id) DO UPDATE SET principal = EXCLUDED.principal, target_field = EXCLUDED.target_field, can_read = EXCLUDED.can_read, can_write = EXCLUDED.can_write, mask_strategy = EXCLUDED.mask_strategy, semantic_type_iri = EXCLUDED.semantic_type_iri;
-
-INSERT INTO field_grants (field_grant_id, principal, target_field, can_read, can_write, mask_strategy, semantic_type_iri)
 VALUES ('fg-finance-analyst-Agents.AgentKind', 'principal-finance-analyst', 'Agents.AgentKind', TRUE, FALSE, 'plain', 'urn:effortless:pko-extension#FieldGrant') ON CONFLICT (field_grant_id) DO UPDATE SET principal = EXCLUDED.principal, target_field = EXCLUDED.target_field, can_read = EXCLUDED.can_read, can_write = EXCLUDED.can_write, mask_strategy = EXCLUDED.mask_strategy, semantic_type_iri = EXCLUDED.semantic_type_iri;
 
 INSERT INTO field_grants (field_grant_id, principal, target_field, can_read, can_write, mask_strategy, semantic_type_iri)

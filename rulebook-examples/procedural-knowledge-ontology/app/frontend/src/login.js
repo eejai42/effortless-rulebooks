@@ -58,6 +58,10 @@ function initials(name) {
 }
 
 export async function renderLogin(mount) {
+  // Login replaces the console entirely: hide the chrome, show the mount.
+  document.querySelectorAll(".topbar, .shell").forEach((el) => (el.hidden = true));
+  mount.hidden = false;
+
   mount.innerHTML = `<div class="login-wrap"><div class="login-loading">
     Loading sign-ins…</div></div>`;
 

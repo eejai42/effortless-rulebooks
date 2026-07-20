@@ -534,3 +534,119 @@ footer p{margin:0 0 8px}
   .xcols,.xfields{grid-template-columns:1fr}
   .xinput-v{margin-left:0}
 }
+
+/* ============================================================================
+   Sign-in + Access Control console
+   Uses the existing token set, so both themes come along for free.
+   ========================================================================= */
+
+/* ---------- sign-in grid ---------- */
+.login-wrap{max-width:1180px;margin:0 auto;padding:56px 24px 72px}
+.login-head{text-align:center;margin-bottom:38px}
+.login-head h1{font-family:var(--doc);font-size:34px;letter-spacing:-.01em;margin:0 0 12px}
+.login-sub{max-width:620px;margin:0 auto;color:var(--muted);font-size:15px;line-height:1.6}
+.login-section{margin-bottom:34px}
+.login-h2{font-family:var(--stamp);font-size:12px;text-transform:uppercase;
+  letter-spacing:.09em;color:var(--muted);margin:0 0 14px;font-weight:600}
+.login-h2-note{text-transform:none;letter-spacing:0;font-weight:400;opacity:.8}
+.signin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+@media (max-width:900px){.signin-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:600px){.signin-grid{grid-template-columns:1fr}}
+
+.signin-card{display:flex;gap:14px;align-items:flex-start;text-align:left;
+  background:var(--raise);border:1px solid var(--rule);border-radius:12px;
+  padding:16px;cursor:pointer;box-shadow:var(--shadow);
+  transition:transform .12s ease,border-color .12s ease,box-shadow .12s ease;
+  border-left:3px solid var(--rule)}
+.signin-card:hover{transform:translateY(-2px);border-color:var(--spec)}
+.signin-card:focus-visible{outline:2px solid var(--spec);outline-offset:2px}
+.signin-card.is-busy{opacity:.55;pointer-events:none}
+.signin-card.org-finance{border-left-color:var(--spec)}
+.signin-card.org-people{border-left-color:var(--pass)}
+.signin-card.org-legal{border-left-color:var(--exec)}
+.signin-card.is-admin{background:linear-gradient(180deg,var(--spec-wash),var(--raise))}
+
+.signin-avatar{flex:0 0 42px;height:42px;border-radius:50%;
+  display:grid;place-items:center;background:var(--spec-wash);color:var(--spec);
+  font-family:var(--stamp);font-weight:700;font-size:14px;letter-spacing:.02em}
+.signin-card.org-people .signin-avatar{background:var(--pass-wash);color:var(--pass)}
+.signin-card.org-legal  .signin-avatar{background:var(--exec-wash);color:var(--exec)}
+.signin-body{min-width:0;flex:1}
+.signin-name{font-weight:650;font-size:15px;margin-bottom:1px}
+.signin-role{color:var(--muted);font-size:13px;margin-bottom:7px}
+.signin-meta{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px}
+.signin-resp{font-size:12.5px;color:var(--muted);line-height:1.45;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.login-foot{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+  border-top:1px solid var(--rule-soft);padding-top:16px;margin-top:8px;
+  color:var(--muted);font-size:12.5px;font-family:var(--data)}
+.login-loading,.login-error{padding:40px;text-align:center;color:var(--muted)}
+.login-error h2{color:var(--fail);font-size:18px;margin-bottom:10px}
+.login-error .hint{margin-top:12px;font-size:13px}
+.login-status{margin-top:18px;text-align:center;font-size:13.5px;color:var(--muted)}
+.login-status.is-error{color:var(--fail)}
+
+/* ---------- identity bar ---------- */
+.whoami{display:flex;align-items:center;gap:9px;margin-left:auto;
+  font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.who-name{font-weight:650;color:var(--ink)}
+.who-schema{font-size:11.5px;opacity:.75}
+.btn-ghost{background:transparent;border:1px solid var(--rule);color:var(--muted);
+  border-radius:7px;padding:3px 9px;cursor:pointer;font-size:12px}
+.btn-ghost:hover{border-color:var(--fail);color:var(--fail)}
+
+/* ---------- access console ---------- */
+.ac-summary{display:flex;gap:12px;flex-wrap:wrap;margin:4px 0 16px}
+.ac-stat{background:var(--raise);border:1px solid var(--rule);border-radius:10px;
+  padding:11px 16px;min-width:104px}
+.ac-stat b{display:block;font-size:22px;font-family:var(--stamp);line-height:1.1}
+.ac-stat span{font-size:11.5px;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.06em}
+.ac-stat.is-warn b{color:var(--warn)}
+.ac-stat.is-bad b{color:var(--fail)}
+.ac-note{color:var(--muted);font-size:13.5px;line-height:1.6;max-width:78ch;
+  margin:0 0 16px}
+.ac-filter{margin-bottom:12px}
+.ac-filter input,.ac-picker select{background:var(--raise);color:var(--ink);
+  border:1px solid var(--rule);border-radius:8px;padding:7px 11px;font-size:13.5px}
+.ac-filter input{width:min(420px,100%)}
+.ac-picker{display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap;margin-bottom:16px}
+.ac-picker label{display:flex;flex-direction:column;gap:5px;font-size:12px;
+  color:var(--muted);text-transform:uppercase;letter-spacing:.06em}
+.ac-pred{width:100%;font-family:var(--data);font-size:12.5px;
+  background:var(--paper);color:var(--ink);
+  border:1px solid var(--rule-soft);border-radius:6px;padding:5px 8px}
+.ac-pred:focus{border-color:var(--spec);outline:none;background:var(--raise)}
+tr.is-admin-row{background:var(--spec-wash)}
+td.formula{font-family:var(--data);font-size:11.5px;color:var(--muted);
+  max-width:420px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.chip{display:inline-block;padding:1px 7px;border-radius:20px;font-size:11px;
+  font-family:var(--stamp);background:var(--pend-wash);color:var(--pend);
+  border:1px solid transparent;white-space:nowrap}
+.chip-admin{background:var(--spec-wash);color:var(--spec)}
+.chip-ok{background:var(--pass-wash);color:var(--pass)}
+.chip-bad{background:var(--fail-wash);color:var(--fail)}
+.chip-warn{background:var(--warn-wash);color:var(--warn)}
+.chip-inf{background:var(--exec-wash);color:var(--exec)}
+.chip-bot{background:var(--exec-wash);color:var(--exec)}
+.chip-calculated,.chip-lookup,.chip-aggregation{background:var(--exec-wash);color:var(--exec)}
+.chip-raw{background:var(--pend-wash);color:var(--pend)}
+.chip-relationship{background:var(--spec-wash);color:var(--spec)}
+
+/* save bar + rebuild log */
+.ac-savebar{position:sticky;bottom:0;display:flex;justify-content:space-between;
+  align-items:center;gap:16px;background:var(--raise);border:1px solid var(--spec);
+  border-radius:11px;padding:12px 18px;margin-top:20px;box-shadow:var(--shadow)}
+.btn{background:var(--raise);color:var(--ink);border:1px solid var(--rule);
+  border-radius:8px;padding:7px 14px;cursor:pointer;font-size:13.5px}
+.btn:hover{border-color:var(--spec)}
+.btn-primary{background:var(--spec);border-color:var(--spec);color:#fff;font-weight:600}
+.btn-primary:disabled{opacity:.55;cursor:not-allowed}
+.ac-log{margin-top:14px;background:var(--paper);border:1px solid var(--rule);
+  border-radius:10px;padding:14px;max-height:340px;overflow:auto;
+  font-family:var(--data);font-size:12px;line-height:1.6;white-space:pre-wrap}
+.ac-log-line.head{color:var(--spec);font-weight:600;margin-top:6px}
+.ac-log-line.ok{color:var(--pass)}
+.ac-log-line.bad{color:var(--fail);font-weight:600}
+.ac-log-line.warn{color:var(--warn)}

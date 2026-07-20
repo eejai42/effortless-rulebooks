@@ -100234,15 +100234,6 @@
     "SemanticTypeIri": "urn:effortless:pko-extension#FieldGrant"
    },
    {
-    "FieldGrantId": "fg-finance-analyst-Agents.DisplayName",
-    "Principal": "principal-finance-analyst",
-    "TargetField": "Agents.DisplayName",
-    "CanRead": true,
-    "CanWrite": false,
-    "MaskStrategy": "plain",
-    "SemanticTypeIri": "urn:effortless:pko-extension#FieldGrant"
-   },
-   {
     "FieldGrantId": "fg-finance-analyst-Agents.AgentKind",
     "Principal": "principal-finance-analyst",
     "TargetField": "Agents.AgentKind",
@@ -155816,6 +155807,15 @@
     "CanWrite": false,
     "MaskStrategy": "plain",
     "SemanticTypeIri": "urn:effortless:pko-extension#FieldGrant"
+   },
+   {
+    "FieldGrantId": "fg-finance-analyst-Agents.DisplayName",
+    "Principal": "principal-finance-analyst",
+    "TargetField": "Agents.DisplayName",
+    "CanRead": true,
+    "CanWrite": false,
+    "MaskStrategy": "plain",
+    "SemanticTypeIri": "urn:effortless:pko-extension#FieldGrant"
    }
   ]
  },
@@ -159780,7 +159780,7 @@
     "ForbiddenRowId": "noah-williams",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "noah-williams belongs to acme-legal. A finance-analyst (acme-finance) must not see them: the organization tenancy predicate must exclude the row.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159792,7 +159792,7 @@
     "ForbiddenRowId": "maria-chen",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "Positive control. maria-chen is acme-finance, the analyst's own organization. If this row is NOT visible the policy is over-restrictive and the negative tests prove nothing.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159804,7 +159804,7 @@
     "ForbiddenRowId": "cr-close-timestamp",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "cr-close-timestamp is decided (is_open=false). The inference-backed predicate must exclude it, proving a policy can cut on a derived field rather than a stored column.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159816,7 +159816,7 @@
     "ForbiddenRowId": "cr-policy-delivery",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "Positive control for the inference predicate. cr-policy-delivery is open (is_open=true) and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159828,7 +159828,7 @@
     "ForbiddenRowId": "kf-close-fx-time",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "kf-close-fx-time is owned by the controller. Employment counsel must not read another role's knowledge fragment.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159840,7 +159840,7 @@
     "ForbiddenRowId": "kf-policy-ai-boundary",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "Positive control for the ownership predicate. kf-policy-ai-boundary is owned by employment-counsel and must be visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159852,7 +159852,7 @@
     "ForbiddenRowId": "gap-close-cadence-unmeasured",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "gap-close-cadence-unmeasured is Resolved (is_open=false) and must not appear.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159864,7 +159864,7 @@
     "ForbiddenRowId": "gap-policy-delivery-receipts",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "Positive control. gap-policy-delivery-receipts is Open and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159876,7 +159876,7 @@
     "ForbiddenRowId": "maria-chen",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-20T20:15:40+00:00",
+    "LastRunAt": "2026-07-20T20:27:20+00:00",
     "Rationale": "ContactAddress is granted to no non-administrator. The column must be ABSENT from the analyst's view -- selecting it must raise 'column does not exist', not return null.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    }

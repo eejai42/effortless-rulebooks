@@ -15,6 +15,12 @@
 // rulebook formula, not here.
 // ============================================================================
 import "./styles.css";
+import { renderLogin, storedClaims, tokenIsLive, signOut } from "./login.js";
+import {
+  ACCESS_TABS, loadAccessModel, accessCounts, wireAccess,
+  viewPrincipals, viewPolicies, viewGrants,
+  viewWitnesses as viewDenialWitnesses, saveBarHtml,
+} from "./access.js";
 import {
   ADMIN_TABS, loadAdmin, adminCount, wireAdmin,
   viewBoard, viewWitnesses, viewLoops, viewTrace,
@@ -125,6 +131,14 @@ const ROLES = {
     label: "Explorer",
     tabs: ["inferences", "tables", "record"],
   },
+  // Administrators only. The button is not rendered for anyone else, and the
+  // API refuses the calls regardless -- the UI hiding it is a courtesy, not
+  // the control.
+  access: {
+    label: "Access Control",
+    adminOnly: true,
+    tabs: ACCESS_TABS.map((t) => t.id),
+  },
 };
 const TABS = {
   run: "My Steps",
@@ -139,6 +153,7 @@ const TABS = {
   mappings: "Ontology Mapping",
   ...ADMIN_TABS,
   ...EXPLORE_TABS,
+  ...Object.fromEntries(ACCESS_TABS.map((t) => [t.id, t.label])),
 };
 
 let role = "operator";
@@ -162,6 +177,9 @@ function tabCount(t) {
     case "evidence": return (T.requirement_satisfactions || []).length;
     case "board": case "witnesses": case "loops": return adminCount(t);
     case "inferences": case "tables": return exploreCount(t);
+    case "ac-principals": return accessCounts().principals ?? null;
+    case "ac-policies": return accessCounts().policies ?? null;
+    case "ac-witnesses": return accessCounts().denials ?? null;
     default: return null;
   }
 }
@@ -798,11 +816,46 @@ function goTo(next) {
   render();
 }
 
+// ---------- access console ----------
+const ACCESS_VIEWS = {
+  "ac-principals": viewPrincipals,
+  "ac-policies": viewPolicies,
+  "ac-grants": viewGrants,
+  "ac-witnesses": viewDenialWitnesses,
+};
+
+// The signed-in principal, from the verified token. is_admin was joined from
+// vw_access_principals when the token was minted -- this is display only; the
+// API enforces it independently.
+const ME = storedClaims() || {};
+
+function renderIdentityBar() {
+  const el = $("whoami");
+  if (!el) return;
+  el.innerHTML = `
+    <span class="who-name">${esc(ME.name || ME.email || "—")}</span>
+    <span class="who-role">${esc(ME.principal_label || ME.principal || "")}</span>
+    ${ME.is_admin ? '<span class="chip chip-admin">admin</span>' : ""}
+    <span class="who-schema mono">${esc(ME.schema || "")}</span>
+    <button class="btn btn-ghost" id="signout">Sign out</button>`;
+  const so = $("signout");
+  if (so) so.onclick = signOut;
+}
+
+// Hide role buttons this principal may not use. The API refuses them anyway;
+// this only avoids offering a door that will not open.
+function renderRoleButtons() {
+  document.querySelectorAll(".role-btn[data-role]").forEach((b) => {
+    const def = ROLES[b.dataset.role];
+    b.hidden = Boolean(def?.adminOnly) && ME.is_admin !== true;
+    b.setAttribute("aria-pressed", String(b.dataset.role === role));
+  });
+}
+
 // ---------- render ----------
 function render() {
-  document.querySelectorAll(".role-btn[data-role]").forEach((b) =>
-    b.setAttribute("aria-pressed", String(b.dataset.role === role))
-  );
+  renderRoleButtons();
+  renderIdentityBar();
   const tabs = ROLES[role].tabs;
   if (!tabs.includes(tab)) tab = tabs[0];
   $("nav").innerHTML = tabs
@@ -811,7 +864,13 @@ function render() {
       return `<button class="nav-btn" data-tab="${t}" ${t === tab ? 'aria-current="page"' : ""}>${esc(TABS[t])}${n != null ? `<span class="n">${n}</span>` : ""}</button>`;
     })
     .join("");
-  $("view").innerHTML = VIEWS[tab]();
+  const isAccess = ACCESS_TABS.some((t) => t.id === tab);
+  $("view").innerHTML = isAccess
+    ? ACCESS_VIEWS[tab]() + saveBarHtml()
+    : VIEWS[tab]();
+  if (isAccess) {
+    wireAccess($("view"), render);
+  }
   if (ADMIN_TABS[tab]) {
     wireAdmin(tab, goTo);
   }
@@ -834,6 +893,14 @@ document.addEventListener("click", (e) => {
       return loadAdmin().then(render).catch((err) => {
         $("view").innerHTML = `<div class="card" style="padding:24px">
           <h2 style="color:var(--fail);font-size:17px;margin-bottom:8px">Could not load the admin layer</h2>
+          <p class="prose">${esc(err.message)}</p></div>`;
+      });
+    }
+    if (role === "access" && accessCounts().principals == null) {
+      $("view").innerHTML = `<div class="card" style="padding:24px">Loading the access model…</div>`;
+      return loadAccessModel().then(render).catch((err) => {
+        $("view").innerHTML = `<div class="card" style="padding:24px">
+          <h2 style="color:var(--fail);font-size:17px;margin-bottom:8px">Could not load the access model</h2>
           <p class="prose">${esc(err.message)}</p></div>`;
       });
     }
@@ -860,6 +927,14 @@ $("dbg").onclick = closeDrawer;
 document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeDrawer(); });
 
 // ---------- boot ----------
+// Sign-in gate. The console is a view onto data the signed-in principal is
+// allowed to see, so there is nothing meaningful to render before a token
+// exists. renderLogin() replaces the whole page until one does.
+if (!tokenIsLive()) {
+  document.body.classList.add("login-mode");
+  renderLogin(document.getElementById("app") || document.body);
+} else {
+
 // A failed load is shown as a real error with the real message. We never render
 // an empty console that looks like "this domain has no procedures".
 load()
@@ -880,3 +955,4 @@ load()
       <p class="mono" style="font-size:13px;margin-top:8px">./postgres-bootstrap/init-db.sh</p>
     </div>`;
   });
+}
