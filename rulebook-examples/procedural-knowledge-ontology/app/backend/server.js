@@ -711,6 +711,110 @@ app.get("/api/explore/inferences", h(async (req, res) => {
   });
 }));
 
+// ===========================================================================
+// ACCESS CONTROL
+//
+// Everything below reaches Postgres AS THE SIGNED-IN PRINCIPAL. The API does
+// no filtering of its own: RLS decides which rows, the principal's schema
+// decides which tables and columns. If a caller can see it here, they could
+// see it with psql and the same token -- which is the point. The security is
+// in the database, and this server is a proxy in front of it.
+// ===========================================================================
+import { listSignIns, mintToken, requireAuth, PUBLIC_KEY_PEM, ISSUER }
+  from "./auth.js";
+import { asPrincipal, adminQuery } from "./db.js";
+
+// --- sign-in ---------------------------------------------------------------
+
+// The login grid. Open by design: it lists who MAY sign in, never any of
+// their data. Read as owner because nobody is authenticated yet.
+app.get("/api/auth/sign-ins", h(async (_req, res) => {
+  const rows = await listSignIns({ query: adminQuery });
+  res.json({
+    issuer: ISSUER,
+    signIns: rows.map((r) => ({
+      appUserId: r.app_user_id,
+      principalId: r.principal_id,
+      displayName: r.display_name,
+      email: r.email_address,
+      organization: r.organization,
+      agentKind: r.agent_kind,
+      principalLabel: r.principal_label,
+      domainRole: r.domain_role,
+      isAdministrator: r.is_administrator === true,
+      isDefault: r.is_default === true,
+      responsibility: r.responsibility,
+      schemaName: r.schema_name,
+    })),
+  });
+}));
+
+// Mint. The client asks to be a principal; the server checks whether it may.
+app.post("/api/auth/sign-in", h(async (req, res) => {
+  const { appUserId, principalId } = req.body || {};
+  if (!appUserId || !principalId) {
+    return res.status(400).json({ error: "appUserId and principalId required" });
+  }
+  try {
+    const out = await mintToken({ query: adminQuery }, appUserId, principalId);
+    res.json(out);
+  } catch (e) {
+    res.status(e.status || 500).json({ error: e.message });
+  }
+}));
+
+// The public key, so anything else can verify our tokens without asking us.
+app.get("/api/auth/public-key", (_req, res) =>
+  res.type("text/plain").send(PUBLIC_KEY_PEM));
+
+// Who am I, and what can I reach? Answered by querying the database AS the
+// caller -- the schema listing IS their world, not a computed opinion of it.
+app.get("/api/me", requireAuth, h(async (req, res) => {
+  const out = await asPrincipal(req.claims, async (client, p) => {
+    const { rows: tables } = await client.query(
+      `SELECT table_name FROM information_schema.views
+        WHERE table_schema = $1 ORDER BY table_name`, [p.schema_name]);
+    return {
+      claims: req.claims,
+      schema: p.schema_name,
+      pgRole: p.pg_role_name,
+      isAdministrator: p.is_administrator === true,
+      tables: tables.map((t) => t.table_name),
+    };
+  });
+  res.json(out);
+}));
+
+// --- the data explorer, scoped to the caller -------------------------------
+// select * from <table in my schema>. No allow-list here on purpose: the
+// caller's search_path contains exactly one schema, so naming anything they
+// were not granted simply does not resolve.
+app.get("/api/my/:table", requireAuth, h(async (req, res) => {
+  const t = String(req.params.table);
+  if (!/^[a-z0-9_]+$/.test(t)) {
+    return res.status(400).json({ error: "bad table name" });
+  }
+  const limit = Math.min(Number(req.query.limit) || 500, 2000);
+  try {
+    const out = await asPrincipal(req.claims, async (client, p) => {
+      const { rows } = await client.query(
+        `SELECT * FROM ${p.schema_name}.${t} LIMIT ${limit}`);
+      return rows;
+    });
+    res.json({ table: t, rows: out, count: out.length });
+  } catch (e) {
+    // A table outside the principal's schema genuinely does not exist for
+    // them. Report that honestly rather than dressing it up as empty.
+    if (/does not exist/i.test(e.message)) {
+      return res.status(404).json({
+        error: "not_in_your_schema",
+        detail: `${t} is not visible to ${req.claims.principal}`,
+      });
+    }
+    throw e;
+  }
+}));
+
 // --- static frontend (prod mode) -------------------------------------------
 const dist = path.join(__dirname, "../frontend/dist");
 app.use(express.static(dist));

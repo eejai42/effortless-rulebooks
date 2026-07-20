@@ -60,6 +60,29 @@ fi
 # ----------------------------------------------------------------------
 # 2. Run all NN[b]?-*.sql files in lex order. Skip *.sql.disabled.
 # ----------------------------------------------------------------------
+# ----------------------------------------------------------------------
+# 1b. Regenerate the access-control DDL from the rulebook.
+#
+# 06-access-control.sql is a PURE FUNCTION of the rulebook's access-control
+# tables (AccessPrincipals / AccessPolicies / FieldGrants / RoleSchemas /
+# RoleSchemaViews). Regenerating it here is what makes "an admin edits a
+# policy, saves, and the database reshapes" true -- the DDL is never
+# hand-maintained and never stale.
+#
+# The generator validates every predicate against the live database with
+# EXPLAIN and refuses to emit if any is invalid, so a bad policy fails here
+# rather than aborting the load half-way through applying security.
+# ----------------------------------------------------------------------
+GEN="${SCRIPT_DIR}/../tools/generate_access_ddl.py"
+if [ -f "$GEN" ]; then
+    echo "[init-db] regenerating access-control DDL from the rulebook"
+    if ! DATABASE_URL="$DATABASE_URL" python3 "$GEN"; then
+        echo "[init-db] FATAL: access-control DDL generation failed." >&2
+        echo "[init-db] Fix the offending policy in the rulebook and re-run." >&2
+        exit 1
+    fi
+fi
+
 shopt -s nullglob
 FILES_RUN=()
 FILES_SKIP=()

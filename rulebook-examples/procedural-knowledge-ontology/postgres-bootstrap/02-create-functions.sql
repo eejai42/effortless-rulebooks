@@ -11613,7 +11613,17 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_app_routes_is_shared(p_app_route_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((SELECT NULLIF(owning_role, '') FROM app_routes WHERE app_route_id = p_app_route_id) IS NULL)::boolean;
+  SELECT (((SELECT NULLIF(owning_role, '') FROM app_routes WHERE app_route_id = p_app_route_id) IS NULL AND (SELECT NULLIF(surface, '') FROM app_routes WHERE app_route_id = p_app_route_id) = 'domain'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_routes_is_maintainer
+-- Field: AppRoutes.IsMaintainer
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_app_routes_is_maintainer(p_app_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(surface, '') FROM app_routes WHERE app_route_id = p_app_route_id) = 'maintainer')::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_app_routes_question_count
@@ -11643,7 +11653,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_app_routes_answers_no_question(p_app_route_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((calc_app_routes_question_count(p_app_route_id))::NUMERIC = 0 AND calc_app_routes_is_shared(p_app_route_id) = FALSE AND (SELECT NULLIF(route_kind, '') FROM app_routes WHERE app_route_id = p_app_route_id) <> 'index'));
+  SELECT (((calc_app_routes_question_count(p_app_route_id))::NUMERIC = 0 AND calc_app_routes_is_shared(p_app_route_id) = FALSE AND calc_app_routes_is_maintainer(p_app_route_id) = FALSE AND (SELECT NULLIF(route_kind, '') FROM app_routes WHERE app_route_id = p_app_route_id) <> 'index'));
 $$ LANGUAGE sql STABLE;
 
 -- get_app_routes_route_path
@@ -11662,6 +11672,15 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION get_app_routes_route_name(p_app_route_id TEXT)
 RETURNS TEXT AS $$
   SELECT (SELECT route_name FROM app_routes WHERE app_route_id = p_app_route_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_app_routes_surface
+-- Helper function: Get Surface from AppRoutes by AppRouteId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_app_routes_surface(p_app_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT surface FROM app_routes WHERE app_route_id = p_app_route_id);
 $$ LANGUAGE sql STABLE;
 
 -- get_app_routes_nav_order
@@ -11727,6 +11746,836 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_app_route_references_name(p_app_route_reference_id TEXT)
 RETURNS TEXT AS $$
   SELECT (CONCAT((SELECT NULLIF(from_route, '') FROM app_route_references WHERE app_route_reference_id = p_app_route_reference_id), ' -> ', (SELECT NULLIF(to_route, '') FROM app_route_references WHERE app_route_reference_id = p_app_route_reference_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_rulebook_tables_name
+-- Field: RulebookTables.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_rulebook_tables_name(p_rulebook_tables_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(table_name, '') FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_rulebook_tables_field_count
+-- Field: RulebookTables.FieldCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_rulebook_tables_field_count(p_rulebook_tables_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM rulebook_fields WHERE target_table = (SELECT NULLIF(table_name, '') FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_rulebook_tables_policy_count
+-- Field: RulebookTables.PolicyCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_rulebook_tables_policy_count(p_rulebook_tables_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM access_policies WHERE target_table = (SELECT NULLIF(table_name, '') FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_rulebook_tables_is_unsecured
+-- Field: RulebookTables.IsUnsecured
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_rulebook_tables_is_unsecured(p_rulebook_tables_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_rulebook_tables_policy_count(p_rulebook_tables_id))::NUMERIC = 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_organization_scope
+-- Field: AccessPrincipals.OrganizationScope
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Organization from related Roles
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_organization_scope(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT organization::text FROM roles WHERE role_id = (SELECT domain_role FROM access_principals WHERE access_principal_id = p_access_principal_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_role_label
+-- Field: AccessPrincipals.RoleLabel
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Label from related Roles
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_role_label(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT label::text FROM roles WHERE role_id = (SELECT domain_role FROM access_principals WHERE access_principal_id = p_access_principal_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_name
+-- Field: AccessPrincipals.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_name(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(label, '') FROM access_principals WHERE access_principal_id = p_access_principal_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_policy_count
+-- Field: AccessPrincipals.PolicyCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_policy_count(p_access_principal_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM access_policies WHERE principal = (SELECT NULLIF(access_principal_id, '') FROM access_principals WHERE access_principal_id = p_access_principal_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_grant_count
+-- Field: AccessPrincipals.GrantCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_grant_count(p_access_principal_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM field_grants WHERE principal = (SELECT NULLIF(access_principal_id, '') FROM access_principals WHERE access_principal_id = p_access_principal_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_visible_table_count
+-- Field: AccessPrincipals.VisibleTableCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_visible_table_count(p_access_principal_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM role_schema_views WHERE principal = (SELECT NULLIF(access_principal_id, '') FROM access_principals WHERE access_principal_id = p_access_principal_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_has_no_access
+-- Field: AccessPrincipals.HasNoAccess
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_has_no_access(p_access_principal_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_access_principals_policy_count(p_access_principal_id))::NUMERIC = 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_principals_is_over_privileged
+-- Field: AccessPrincipals.IsOverPrivileged
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_principals_is_over_privileged(p_access_principal_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((NOT (COALESCE((SELECT is_administrator FROM access_principals WHERE access_principal_id = p_access_principal_id), FALSE)) AND (calc_access_principals_visible_table_count(p_access_principal_id))::NUMERIC >= 74));
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_principal_is_admin
+-- Field: AccessPolicies.PrincipalIsAdmin
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAdministrator from related AccessPrincipals
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_principal_is_admin(p_access_policy_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_administrator::boolean FROM access_principals WHERE access_principal_id = (SELECT principal FROM access_policies WHERE access_policy_id = p_access_policy_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_access_principals_label
+-- Helper function: Get Label from AccessPrincipals by AccessPrincipalId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_principals_label(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT label FROM access_principals WHERE access_principal_id = p_access_principal_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_principals_pg_role_name
+-- Helper function: Get PgRoleName from AccessPrincipals by AccessPrincipalId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_principals_pg_role_name(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT pg_role_name FROM access_principals WHERE access_principal_id = p_access_principal_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_principals_schema_name
+-- Helper function: Get SchemaName from AccessPrincipals by AccessPrincipalId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_principals_schema_name(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT schema_name FROM access_principals WHERE access_principal_id = p_access_principal_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_principals_is_administrator
+-- Helper function: Get IsAdministrator from AccessPrincipals by AccessPrincipalId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_principals_is_administrator(p_access_principal_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_administrator FROM access_principals WHERE access_principal_id = p_access_principal_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_principals_semantic_type_iri
+-- Helper function: Get SemanticTypeIri from AccessPrincipals by AccessPrincipalId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_principals_semantic_type_iri(p_access_principal_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT semantic_type_iri FROM access_principals WHERE access_principal_id = p_access_principal_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_rulebook_tables_table_name
+-- Helper function: Get TableName from RulebookTables by RulebookTablesId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_tables_table_name(p_rulebook_tables_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT table_name FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_rulebook_tables_physical_table
+-- Helper function: Get PhysicalTable from RulebookTables by RulebookTablesId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_tables_physical_table(p_rulebook_tables_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT physical_table FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_rulebook_tables_physical_view
+-- Helper function: Get PhysicalView from RulebookTables by RulebookTablesId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_tables_physical_view(p_rulebook_tables_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT physical_view FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_rulebook_tables_subject_area
+-- Helper function: Get SubjectArea from RulebookTables by RulebookTablesId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_tables_subject_area(p_rulebook_tables_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT subject_area FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_rulebook_tables_is_extension
+-- Helper function: Get IsExtension from RulebookTables by RulebookTablesId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_tables_is_extension(p_rulebook_tables_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_extension FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_rulebook_tables_semantic_type_iri
+-- Helper function: Get SemanticTypeIri from RulebookTables by RulebookTablesId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_tables_semantic_type_iri(p_rulebook_tables_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT semantic_type_iri FROM rulebook_tables WHERE rulebook_tables_id = p_rulebook_tables_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_name
+-- Field: AccessPolicies.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_name(p_access_policy_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(principal, '') FROM access_policies WHERE access_policy_id = p_access_policy_id), ' ', (SELECT NULLIF(command, '') FROM access_policies WHERE access_policy_id = p_access_policy_id), ' ', (SELECT NULLIF(target_table, '') FROM access_policies WHERE access_policy_id = p_access_policy_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_is_write_command
+-- Field: AccessPolicies.IsWriteCommand
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_is_write_command(p_access_policy_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(command, '') FROM access_policies WHERE access_policy_id = p_access_policy_id) = 'INSERT' OR (SELECT NULLIF(command, '') FROM access_policies WHERE access_policy_id = p_access_policy_id) = 'UPDATE' OR (SELECT NULLIF(command, '') FROM access_policies WHERE access_policy_id = p_access_policy_id) = 'DELETE' OR (SELECT NULLIF(command, '') FROM access_policies WHERE access_policy_id = p_access_policy_id) = 'ALL'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_is_unrestricted
+-- Field: AccessPolicies.IsUnrestricted
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_is_unrestricted(p_access_policy_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(row_predicate, '') FROM access_policies WHERE access_policy_id = p_access_policy_id) IS NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_is_unrestricted_non_admin_grant
+-- Field: AccessPolicies.IsUnrestrictedNonAdminGrant
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_is_unrestricted_non_admin_grant(p_access_policy_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_access_policies_is_unrestricted(p_access_policy_id) AND NOT (calc_access_policies_principal_is_admin(p_access_policy_id))))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_is_unwitnessed_write
+-- Field: AccessPolicies.IsUnwitnessedWrite
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_is_unwitnessed_write(p_access_policy_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_access_policies_is_write_command(p_access_policy_id) AND (calc_access_policies_denial_test_count(p_access_policy_id))::NUMERIC = 0));
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_policies_denial_test_count
+-- Field: AccessPolicies.DenialTestCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_access_policies_denial_test_count(p_access_policy_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM access_denial_tests WHERE target_policy = (SELECT NULLIF(access_policy_id, '') FROM access_policies WHERE access_policy_id = p_access_policy_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_field_table
+-- Field: FieldGrants.FieldTable
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: TargetTable from related RulebookFields
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_field_table(p_field_grant_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT target_table::text FROM rulebook_fields WHERE rulebook_field_id = (SELECT target_field FROM field_grants WHERE field_grant_id = p_field_grant_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_field_name
+-- Field: FieldGrants.FieldName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: FieldName from related RulebookFields
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_field_name(p_field_grant_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT field_name::text FROM rulebook_fields WHERE rulebook_field_id = (SELECT target_field FROM field_grants WHERE field_grant_id = p_field_grant_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_field_is_derived
+-- Field: FieldGrants.FieldIsDerived
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsDerived from related RulebookFields
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_field_is_derived(p_field_grant_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_rulebook_fields_is_derived((SELECT target_field FROM field_grants WHERE field_grant_id = p_field_grant_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_name
+-- Field: FieldGrants.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_name(p_field_grant_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(principal, '') FROM field_grants WHERE field_grant_id = p_field_grant_id), ' -> ', (SELECT NULLIF(target_field, '') FROM field_grants WHERE field_grant_id = p_field_grant_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_is_writable_derived_field
+-- Field: FieldGrants.IsWritableDerivedField
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_is_writable_derived_field(p_field_grant_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((COALESCE((SELECT can_write FROM field_grants WHERE field_grant_id = p_field_grant_id), FALSE) AND calc_field_grants_field_is_derived(p_field_grant_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_is_masked
+-- Field: FieldGrants.IsMasked
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_is_masked(p_field_grant_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(mask_strategy, '') FROM field_grants WHERE field_grant_id = p_field_grant_id) <> 'plain' AND (SELECT NULLIF(mask_strategy, '') FROM field_grants WHERE field_grant_id = p_field_grant_id) IS NOT NULL))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_field_grants_grant_key_when_readable
+-- Field: FieldGrants.GrantKeyWhenReadable
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_field_grants_grant_key_when_readable(p_field_grant_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN COALESCE((SELECT can_read FROM field_grants WHERE field_grant_id = p_field_grant_id), FALSE) THEN (CONCAT((SELECT NULLIF(principal, '') FROM field_grants WHERE field_grant_id = p_field_grant_id), '|', calc_field_grants_field_table(p_field_grant_id)))::text ELSE ('')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schemas_name
+-- Field: RoleSchemas.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_role_schemas_name(p_role_schema_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(schema_name, '') FROM role_schemas WHERE role_schema_id = p_role_schema_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schemas_search_path
+-- Field: RoleSchemas.SearchPath
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_role_schemas_search_path(p_role_schema_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(schema_name, '') FROM role_schemas WHERE role_schema_id = p_role_schema_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schemas_view_count
+-- Field: RoleSchemas.ViewCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_role_schemas_view_count(p_role_schema_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM role_schema_views WHERE role_schema = (SELECT NULLIF(role_schema_id, '') FROM role_schemas WHERE role_schema_id = p_role_schema_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schemas_is_empty_schema
+-- Field: RoleSchemas.IsEmptySchema
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_role_schemas_is_empty_schema(p_role_schema_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_role_schemas_view_count(p_role_schema_id))::NUMERIC = 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_schema_name
+-- Field: RoleSchemaViews.SchemaName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: SchemaName from related RoleSchemas
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_schema_name(p_role_schema_view_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT schema_name::text FROM role_schemas WHERE role_schema_id = (SELECT role_schema FROM role_schema_views WHERE role_schema_view_id = p_role_schema_view_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_source_view
+-- Field: RoleSchemaViews.SourceView
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: PhysicalView from related RulebookTables
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_source_view(p_role_schema_view_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT physical_view::text FROM rulebook_tables WHERE rulebook_tables_id = (SELECT target_table FROM role_schema_views WHERE role_schema_view_id = p_role_schema_view_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_table_field_count
+-- Field: RoleSchemaViews.TableFieldCount
+-- Type: lookup | DataType: number | Returns: NUMERIC
+-- Lookup: FieldCount from related RulebookTables
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_table_field_count(p_role_schema_view_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_rulebook_tables_field_count((SELECT target_table FROM role_schema_views WHERE role_schema_view_id = p_role_schema_view_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_role_schemas_schema_name
+-- Helper function: Get SchemaName from RoleSchemas by RoleSchemaId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_role_schemas_schema_name(p_role_schema_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT schema_name FROM role_schemas WHERE role_schema_id = p_role_schema_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_role_schemas_is_sealed
+-- Helper function: Get IsSealed from RoleSchemas by RoleSchemaId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_role_schemas_is_sealed(p_role_schema_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_sealed FROM role_schemas WHERE role_schema_id = p_role_schema_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_role_schemas_semantic_type_iri
+-- Helper function: Get SemanticTypeIri from RoleSchemas by RoleSchemaId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_role_schemas_semantic_type_iri(p_role_schema_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT semantic_type_iri FROM role_schemas WHERE role_schema_id = p_role_schema_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_name
+-- Field: RoleSchemaViews.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_name(p_role_schema_view_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT(calc_role_schema_views_schema_name(p_role_schema_view_id), '.', (SELECT NULLIF(view_name, '') FROM role_schema_views WHERE role_schema_view_id = p_role_schema_view_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_grant_key
+-- Field: RoleSchemaViews.GrantKey
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_grant_key(p_role_schema_view_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(principal, '') FROM role_schema_views WHERE role_schema_view_id = p_role_schema_view_id), '|', (SELECT NULLIF(target_table, '') FROM role_schema_views WHERE role_schema_view_id = p_role_schema_view_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_column_count
+-- Field: RoleSchemaViews.ColumnCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_column_count(p_role_schema_view_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM field_grants WHERE calc_field_grants_grant_key_when_readable(field_grant_id) = calc_role_schema_views_grant_key(p_role_schema_view_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_is_full_width
+-- Field: RoleSchemaViews.IsFullWidth
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_is_full_width(p_role_schema_view_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((calc_role_schema_views_column_count(p_role_schema_view_id))::NUMERIC > 0 AND calc_role_schema_views_column_count(p_role_schema_view_id) >= calc_role_schema_views_table_field_count(p_role_schema_view_id)));
+$$ LANGUAGE sql STABLE;
+
+-- calc_role_schema_views_is_degenerate_view
+-- Field: RoleSchemaViews.IsDegenerateView
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_role_schema_views_is_degenerate_view(p_role_schema_view_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_role_schema_views_column_count(p_role_schema_view_id))::NUMERIC = 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_jwt_claim_mappings_name
+-- Field: JwtClaimMappings.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_jwt_claim_mappings_name(p_jwt_claim_mapping_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(claim_name, '') FROM jwt_claim_mappings WHERE jwt_claim_mapping_id = p_jwt_claim_mapping_id), ' -> ', (SELECT NULLIF(sql_accessor, '') FROM jwt_claim_mappings WHERE jwt_claim_mapping_id = p_jwt_claim_mapping_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_jwt_claim_mappings_usage_count
+-- Field: JwtClaimMappings.UsageCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_jwt_claim_mappings_usage_count(p_jwt_claim_mapping_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM access_policies WHERE row_predicate = (SELECT NULLIF(sql_accessor, '') FROM jwt_claim_mappings WHERE jwt_claim_mapping_id = p_jwt_claim_mapping_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- get_access_policies_command
+-- Helper function: Get Command from AccessPolicies by AccessPolicyId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_policies_command(p_access_policy_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT command FROM access_policies WHERE access_policy_id = p_access_policy_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_policies_row_predicate
+-- Helper function: Get RowPredicate from AccessPolicies by AccessPolicyId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_policies_row_predicate(p_access_policy_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT row_predicate FROM access_policies WHERE access_policy_id = p_access_policy_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_policies_check_predicate
+-- Helper function: Get CheckPredicate from AccessPolicies by AccessPolicyId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_policies_check_predicate(p_access_policy_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT check_predicate FROM access_policies WHERE access_policy_id = p_access_policy_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_policies_rationale
+-- Helper function: Get Rationale from AccessPolicies by AccessPolicyId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_policies_rationale(p_access_policy_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT rationale FROM access_policies WHERE access_policy_id = p_access_policy_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_policies_references_inference
+-- Helper function: Get ReferencesInference from AccessPolicies by AccessPolicyId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_policies_references_inference(p_access_policy_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT references_inference FROM access_policies WHERE access_policy_id = p_access_policy_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_access_policies_semantic_type_iri
+-- Helper function: Get SemanticTypeIri from AccessPolicies by AccessPolicyId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_access_policies_semantic_type_iri(p_access_policy_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT semantic_type_iri FROM access_policies WHERE access_policy_id = p_access_policy_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_denial_tests_name
+-- Field: AccessDenialTests.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_access_denial_tests_name(p_access_denial_test_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(principal, '') FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id), ' must not see ', (SELECT NULLIF(forbidden_row_id, '') FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_denial_tests_has_run
+-- Field: AccessDenialTests.HasRun
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_denial_tests_has_run(p_access_denial_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT last_run_at::timestamptz FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_denial_tests_is_passing
+-- Field: AccessDenialTests.IsPassing
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_denial_tests_is_passing(p_access_denial_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT observed_visible FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id) = (SELECT expected_visible FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_denial_tests_is_leak
+-- Field: AccessDenialTests.IsLeak
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_denial_tests_is_leak(p_access_denial_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((NOT (COALESCE((SELECT expected_visible FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id), FALSE)) AND COALESCE((SELECT observed_visible FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id), FALSE)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_denial_tests_is_unproven
+-- Field: AccessDenialTests.IsUnproven
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_denial_tests_is_unproven(p_access_denial_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (NOT (calc_access_denial_tests_has_run(p_access_denial_test_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_access_denial_tests_is_positive_control
+-- Field: AccessDenialTests.IsPositiveControl
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_access_denial_tests_is_positive_control(p_access_denial_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT expected_visible FROM access_denial_tests WHERE access_denial_test_id = p_access_denial_test_id))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_agent_kind
+-- Field: AppUsers.AgentKind
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: AgentKind from related Agents
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_agent_kind(p_app_user_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT agent_kind::text FROM agents WHERE agent_id = (SELECT linked_agent FROM app_users WHERE app_user_id = p_app_user_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_organization
+-- Field: AppUsers.Organization
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Organization from related Agents
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_organization(p_app_user_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT organization::text FROM agents WHERE agent_id = (SELECT linked_agent FROM app_users WHERE app_user_id = p_app_user_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_name
+-- Field: AppUsers.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_name(p_app_user_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(display_name, '') FROM app_users WHERE app_user_id = p_app_user_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_assignment_count
+-- Field: AppUsers.AssignmentCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_assignment_count(p_app_user_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM principal_assignments WHERE app_user = (SELECT NULLIF(app_user_id, '') FROM app_users WHERE app_user_id = p_app_user_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_has_no_principal
+-- Field: AppUsers.HasNoPrincipal
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_has_no_principal(p_app_user_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_app_users_assignment_count(p_app_user_id))::NUMERIC = 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_holds_multiple_principals
+-- Field: AppUsers.HoldsMultiplePrincipals
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_holds_multiple_principals(p_app_user_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_app_users_assignment_count(p_app_user_id))::NUMERIC > 1)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_app_users_is_non_human_sign_in
+-- Field: AppUsers.IsNonHumanSignIn
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_app_users_is_non_human_sign_in(p_app_user_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_app_users_agent_kind(p_app_user_id) = 'AIAgent' OR calc_app_users_agent_kind(p_app_user_id) = 'AutomatedPipeline'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_principal_assignments_principal_is_admin
+-- Field: PrincipalAssignments.PrincipalIsAdmin
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAdministrator from related AccessPrincipals
+
+
+CREATE OR REPLACE FUNCTION calc_principal_assignments_principal_is_admin(p_principal_assignment_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_administrator::boolean FROM access_principals WHERE access_principal_id = (SELECT principal FROM principal_assignments WHERE principal_assignment_id = p_principal_assignment_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_principal_assignments_user_organization
+-- Field: PrincipalAssignments.UserOrganization
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Organization from related AppUsers
+
+
+CREATE OR REPLACE FUNCTION calc_principal_assignments_user_organization(p_principal_assignment_id TEXT)
+RETURNS TEXT AS $$
+  SELECT calc_app_users_organization((SELECT app_user FROM principal_assignments WHERE principal_assignment_id = p_principal_assignment_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_principal_assignments_principal_organization
+-- Field: PrincipalAssignments.PrincipalOrganization
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: OrganizationScope from related AccessPrincipals
+
+
+CREATE OR REPLACE FUNCTION calc_principal_assignments_principal_organization(p_principal_assignment_id TEXT)
+RETURNS TEXT AS $$
+  SELECT calc_access_principals_organization_scope((SELECT principal FROM principal_assignments WHERE principal_assignment_id = p_principal_assignment_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_app_users_email_address
+-- Helper function: Get EmailAddress from AppUsers by AppUserId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_app_users_email_address(p_app_user_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT email_address FROM app_users WHERE app_user_id = p_app_user_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_app_users_display_name
+-- Helper function: Get DisplayName from AppUsers by AppUserId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_app_users_display_name(p_app_user_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT display_name FROM app_users WHERE app_user_id = p_app_user_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_app_users_is_enabled
+-- Helper function: Get IsEnabled from AppUsers by AppUserId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_app_users_is_enabled(p_app_user_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_enabled FROM app_users WHERE app_user_id = p_app_user_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_app_users_semantic_type_iri
+-- Helper function: Get SemanticTypeIri from AppUsers by AppUserId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_app_users_semantic_type_iri(p_app_user_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT semantic_type_iri FROM app_users WHERE app_user_id = p_app_user_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_principal_assignments_name
+-- Field: PrincipalAssignments.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_principal_assignments_name(p_principal_assignment_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(app_user, '') FROM principal_assignments WHERE principal_assignment_id = p_principal_assignment_id), ' as ', (SELECT NULLIF(principal, '') FROM principal_assignments WHERE principal_assignment_id = p_principal_assignment_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_principal_assignments_is_cross_organization_grant
+-- Field: PrincipalAssignments.IsCrossOrganizationGrant
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_principal_assignments_is_cross_organization_grant(p_principal_assignment_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_principal_assignments_user_organization(p_principal_assignment_id) IS NOT NULL AND calc_principal_assignments_principal_organization(p_principal_assignment_id) IS NOT NULL AND calc_principal_assignments_user_organization(p_principal_assignment_id) <> calc_principal_assignments_principal_organization(p_principal_assignment_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_issued_tokens_name
+-- Field: IssuedTokens.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_issued_tokens_name(p_issued_token_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(app_user, '') FROM issued_tokens WHERE issued_token_id = p_issued_token_id), ' as ', (SELECT NULLIF(principal, '') FROM issued_tokens WHERE issued_token_id = p_issued_token_id), ' @ ', (SELECT issued_at::timestamptz FROM issued_tokens WHERE issued_token_id = p_issued_token_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_issued_tokens_is_dev_minted
+-- Field: IssuedTokens.IsDevMinted
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_issued_tokens_is_dev_minted(p_issued_token_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(issuer, '') FROM issued_tokens WHERE issued_token_id = p_issued_token_id) = 'dev-mint')::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- ============================================================================

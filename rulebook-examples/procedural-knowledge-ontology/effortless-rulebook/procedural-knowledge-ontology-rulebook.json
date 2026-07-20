@@ -66879,7 +66879,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Domain role whose authority this principal exercises.",
-    "formula": "Roles"
+    "RelatedTo": "Roles"
    },
    {
     "name": "PgRoleName",
@@ -67102,7 +67102,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal this policy grants to.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "TargetTable",
@@ -67110,7 +67110,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Rulebook table this policy guards.",
-    "formula": "RulebookTables"
+    "RelatedTo": "RulebookTables"
    },
    {
     "name": "Command",
@@ -72137,7 +72137,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal receiving the grant.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "TargetField",
@@ -72145,7 +72145,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Catalogued field being exposed.",
-    "formula": "RulebookFields"
+    "RelatedTo": "RulebookFields"
    },
    {
     "name": "CanRead",
@@ -155844,7 +155844,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal that owns this schema.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "SchemaName",
@@ -156004,7 +156004,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Schema this view is emitted into.",
-    "formula": "RoleSchemas"
+    "RelatedTo": "RoleSchemas"
    },
    {
     "name": "Principal",
@@ -156012,7 +156012,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal that will read this view.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "TargetTable",
@@ -156020,7 +156020,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Rulebook table this view exposes.",
-    "formula": "RulebookTables"
+    "RelatedTo": "RulebookTables"
    },
    {
     "name": "ViewName",
@@ -159670,7 +159670,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Policy this test exercises.",
-    "formula": "AccessPolicies"
+    "RelatedTo": "AccessPolicies"
    },
    {
     "name": "Principal",
@@ -159678,7 +159678,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal the query runs as.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "TargetTable",
@@ -159686,7 +159686,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Table queried.",
-    "formula": "RulebookTables"
+    "RelatedTo": "RulebookTables"
    },
    {
     "name": "ForbiddenRowId",
@@ -159921,7 +159921,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Domain agent this sign-in identity corresponds to.",
-    "formula": "Agents"
+    "RelatedTo": "Agents"
    },
    {
     "name": "IsEnabled",
@@ -160094,7 +160094,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Sign-in identity being granted.",
-    "formula": "AppUsers"
+    "RelatedTo": "AppUsers"
    },
    {
     "name": "Principal",
@@ -160102,7 +160102,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal the user may act as.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "IsDefault",
@@ -160282,7 +160282,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Identity that signed in.",
-    "formula": "AppUsers"
+    "RelatedTo": "AppUsers"
    },
    {
     "name": "Principal",
@@ -160290,7 +160290,7 @@
     "type": "relationship",
     "nullable": true,
     "Description": "Principal the token authorises.",
-    "formula": "AccessPrincipals"
+    "RelatedTo": "AccessPrincipals"
    },
    {
     "name": "IssuedAt",

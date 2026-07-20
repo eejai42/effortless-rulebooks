@@ -653,4 +653,73 @@ ALTER TABLE app_route_references DROP CONSTRAINT IF EXISTS fk_app_route_referenc
 ALTER TABLE app_route_references ADD CONSTRAINT fk_app_route_references_to_route
   FOREIGN KEY (to_route) REFERENCES app_routes (app_route_id);
 
--- 175 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).
+-- AccessPrincipals
+ALTER TABLE access_principals DROP CONSTRAINT IF EXISTS fk_access_principals_domain_role;
+ALTER TABLE access_principals ADD CONSTRAINT fk_access_principals_domain_role
+  FOREIGN KEY (domain_role) REFERENCES roles (role_id);
+
+-- AccessPolicies
+ALTER TABLE access_policies DROP CONSTRAINT IF EXISTS fk_access_policies_principal;
+ALTER TABLE access_policies ADD CONSTRAINT fk_access_policies_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+ALTER TABLE access_policies DROP CONSTRAINT IF EXISTS fk_access_policies_target_table;
+ALTER TABLE access_policies ADD CONSTRAINT fk_access_policies_target_table
+  FOREIGN KEY (target_table) REFERENCES rulebook_tables (rulebook_tables_id);
+
+-- FieldGrants
+ALTER TABLE field_grants DROP CONSTRAINT IF EXISTS fk_field_grants_principal;
+ALTER TABLE field_grants ADD CONSTRAINT fk_field_grants_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+ALTER TABLE field_grants DROP CONSTRAINT IF EXISTS fk_field_grants_target_field;
+ALTER TABLE field_grants ADD CONSTRAINT fk_field_grants_target_field
+  FOREIGN KEY (target_field) REFERENCES rulebook_fields (rulebook_field_id);
+
+-- RoleSchemas
+ALTER TABLE role_schemas DROP CONSTRAINT IF EXISTS fk_role_schemas_principal;
+ALTER TABLE role_schemas ADD CONSTRAINT fk_role_schemas_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+
+-- RoleSchemaViews
+ALTER TABLE role_schema_views DROP CONSTRAINT IF EXISTS fk_role_schema_views_role_schema;
+ALTER TABLE role_schema_views ADD CONSTRAINT fk_role_schema_views_role_schema
+  FOREIGN KEY (role_schema) REFERENCES role_schemas (role_schema_id);
+ALTER TABLE role_schema_views DROP CONSTRAINT IF EXISTS fk_role_schema_views_principal;
+ALTER TABLE role_schema_views ADD CONSTRAINT fk_role_schema_views_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+ALTER TABLE role_schema_views DROP CONSTRAINT IF EXISTS fk_role_schema_views_target_table;
+ALTER TABLE role_schema_views ADD CONSTRAINT fk_role_schema_views_target_table
+  FOREIGN KEY (target_table) REFERENCES rulebook_tables (rulebook_tables_id);
+
+-- AccessDenialTests
+ALTER TABLE access_denial_tests DROP CONSTRAINT IF EXISTS fk_access_denial_tests_target_policy;
+ALTER TABLE access_denial_tests ADD CONSTRAINT fk_access_denial_tests_target_policy
+  FOREIGN KEY (target_policy) REFERENCES access_policies (access_policy_id);
+ALTER TABLE access_denial_tests DROP CONSTRAINT IF EXISTS fk_access_denial_tests_principal;
+ALTER TABLE access_denial_tests ADD CONSTRAINT fk_access_denial_tests_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+ALTER TABLE access_denial_tests DROP CONSTRAINT IF EXISTS fk_access_denial_tests_target_table;
+ALTER TABLE access_denial_tests ADD CONSTRAINT fk_access_denial_tests_target_table
+  FOREIGN KEY (target_table) REFERENCES rulebook_tables (rulebook_tables_id);
+
+-- AppUsers
+ALTER TABLE app_users DROP CONSTRAINT IF EXISTS fk_app_users_linked_agent;
+ALTER TABLE app_users ADD CONSTRAINT fk_app_users_linked_agent
+  FOREIGN KEY (linked_agent) REFERENCES agents (agent_id);
+
+-- PrincipalAssignments
+ALTER TABLE principal_assignments DROP CONSTRAINT IF EXISTS fk_principal_assignments_app_user;
+ALTER TABLE principal_assignments ADD CONSTRAINT fk_principal_assignments_app_user
+  FOREIGN KEY (app_user) REFERENCES app_users (app_user_id);
+ALTER TABLE principal_assignments DROP CONSTRAINT IF EXISTS fk_principal_assignments_principal;
+ALTER TABLE principal_assignments ADD CONSTRAINT fk_principal_assignments_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+
+-- IssuedTokens
+ALTER TABLE issued_tokens DROP CONSTRAINT IF EXISTS fk_issued_tokens_app_user;
+ALTER TABLE issued_tokens ADD CONSTRAINT fk_issued_tokens_app_user
+  FOREIGN KEY (app_user) REFERENCES app_users (app_user_id);
+ALTER TABLE issued_tokens DROP CONSTRAINT IF EXISTS fk_issued_tokens_principal;
+ALTER TABLE issued_tokens ADD CONSTRAINT fk_issued_tokens_principal
+  FOREIGN KEY (principal) REFERENCES access_principals (access_principal_id);
+
+-- 192 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).

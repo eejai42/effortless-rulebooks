@@ -2442,7 +2442,7 @@ CREATE VIEW pko_knowledge_authority.app_route_references AS
 ALTER VIEW pko_knowledge_authority.app_route_references OWNER TO postgres;
 GRANT SELECT ON pko_knowledge_authority.app_route_references TO pko_knowledge_authority;
 CREATE VIEW pko_knowledge_authority.app_routes AS
-  SELECT answers_no_question, app_route_id, is_in_nav, is_shared, layout_hints, name, nav_group, nav_order, owning_role, purpose, question_count, reference_count, route_kind, route_name, route_path, semantic_type_iri FROM public.vw_app_routes;
+  SELECT answers_no_question, app_route_id, is_in_nav, is_maintainer, is_shared, layout_hints, name, nav_group, nav_order, owning_role, purpose, question_count, reference_count, route_kind, route_name, route_path, semantic_type_iri, surface FROM public.vw_app_routes;
 ALTER VIEW pko_knowledge_authority.app_routes OWNER TO postgres;
 GRANT SELECT ON pko_knowledge_authority.app_routes TO pko_knowledge_authority;
 CREATE VIEW pko_knowledge_authority.attestations AS
@@ -2954,7 +2954,7 @@ CREATE VIEW pko_process_steward.app_route_references AS
 ALTER VIEW pko_process_steward.app_route_references OWNER TO postgres;
 GRANT SELECT ON pko_process_steward.app_route_references TO pko_process_steward;
 CREATE VIEW pko_process_steward.app_routes AS
-  SELECT answers_no_question, app_route_id, is_in_nav, is_shared, layout_hints, name, nav_group, nav_order, owning_role, purpose, question_count, reference_count, route_kind, route_name, route_path, semantic_type_iri FROM public.vw_app_routes;
+  SELECT answers_no_question, app_route_id, is_in_nav, is_maintainer, is_shared, layout_hints, name, nav_group, nav_order, owning_role, purpose, question_count, reference_count, route_kind, route_name, route_path, semantic_type_iri, surface FROM public.vw_app_routes;
 ALTER VIEW pko_process_steward.app_routes OWNER TO postgres;
 GRANT SELECT ON pko_process_steward.app_routes TO pko_process_steward;
 CREATE VIEW pko_process_steward.attestations AS
@@ -3321,10 +3321,5 @@ CREATE VIEW pko_variance_review_agent.verification_outcomes AS
   SELECT evidence_uri, expected_signal_value, has_evidence, independent_observation_execution_key, is_independent_human_observation, is_self_witnessed, is_self_witnessed_and_unbacked, is_unbacked_observation, is_uncorroborated_pass, name, observed_at, observed_by_agent, observed_signal_value, observer_is_independent_of_executor, observer_is_non_human, parent_procedure_execution_of_outcome, self_witnessed_step_key, semantic_type_iri, signal_identifier, signal_matches_expected, step_execution, step_executor_agent, step_verification, unbacked_step_key, uncorroborated_pass_step_key, verification_outcome_id FROM public.vw_verification_outcomes;
 ALTER VIEW pko_variance_review_agent.verification_outcomes OWNER TO postgres;
 GRANT SELECT ON pko_variance_review_agent.verification_outcomes TO pko_variance_review_agent;
-
--- WARNING: catalog is AHEAD of the database. These granted fields
--- do not exist in the live view yet, and were omitted. Run
--- `effortless build` + init-db.sh to bring the database level.
---   vw_app_routes: is_maintainer, surface
 
 DO $$ BEGIN RAISE NOTICE 'access-control: 12 principals, 446 policies, 430 views'; END $$;
