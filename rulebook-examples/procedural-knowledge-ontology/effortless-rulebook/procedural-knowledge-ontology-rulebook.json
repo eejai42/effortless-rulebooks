@@ -159881,5 +159881,468 @@
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    }
   ]
+ },
+ "AppUsers": {
+  "Description": "Sign-in identities. One row per person or automation that can authenticate. EmailAddress is what a verified token asserts; everything else about the caller is resolved from here inside the database, never trusted from the token.",
+  "important": true,
+  "schema": [
+   {
+    "name": "AppUserId",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": false,
+    "Description": "Stored logical identifier, e.g. 'user-maria-chen'."
+   },
+   {
+    "name": "Name",
+    "datatype": "string",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "Human-readable calculated display alias.",
+    "formula": "={{DisplayName}}"
+   },
+   {
+    "name": "EmailAddress",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Verified email. The one claim magic-links vouches for, and the join key from a token back to this row."
+   },
+   {
+    "name": "DisplayName",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Name shown in the console."
+   },
+   {
+    "name": "LinkedAgent",
+    "datatype": "string",
+    "type": "relationship",
+    "nullable": true,
+    "Description": "Domain agent this sign-in identity corresponds to.",
+    "formula": "Agents"
+   },
+   {
+    "name": "IsEnabled",
+    "datatype": "boolean",
+    "type": "raw",
+    "nullable": true,
+    "Description": "False disables sign-in without deleting the identity or its history."
+   },
+   {
+    "name": "AgentKind",
+    "datatype": "string",
+    "type": "lookup",
+    "nullable": true,
+    "Description": "Whether the linked agent is Human, AIAgent or AutomatedPipeline.",
+    "formula": "=INDEX(Agents!{{AgentKind}}, MATCH({{LinkedAgent}}, Agents!{{AgentId}}, 0))"
+   },
+   {
+    "name": "Organization",
+    "datatype": "string",
+    "type": "lookup",
+    "nullable": true,
+    "Description": "Organization inherited from the linked agent; the tenancy claim baked into issued tokens.",
+    "formula": "=INDEX(Agents!{{Organization}}, MATCH({{LinkedAgent}}, Agents!{{AgentId}}, 0))"
+   },
+   {
+    "name": "AssignmentCount",
+    "datatype": "number",
+    "type": "aggregation",
+    "nullable": true,
+    "Description": "Number of principals this user may act as.",
+    "formula": "=COUNTIFS(PrincipalAssignments!{{AppUser}}, {{AppUserId}})"
+   },
+   {
+    "name": "HasNoPrincipal",
+    "datatype": "boolean",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "True when the user may act as no principal at all, so a successfully verified token still grants nothing. Authentication without authorization.",
+    "formula": "={{AssignmentCount}} = 0"
+   },
+   {
+    "name": "HoldsMultiplePrincipals",
+    "datatype": "boolean",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "True when the user may act as more than one principal, so the principal cannot be inferred from the email alone and must be chosen explicitly at sign-in.",
+    "formula": "={{AssignmentCount}} > 1"
+   },
+   {
+    "name": "IsNonHumanSignIn",
+    "datatype": "boolean",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "True when a non-human agent has a sign-in identity. Pipelines and AI agents authenticate too, and their tokens are scoped exactly like a person's.",
+    "formula": "=OR({{AgentKind}} = \"AIAgent\", {{AgentKind}} = \"AutomatedPipeline\")"
+   },
+   {
+    "name": "SemanticTypeIri",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Semantic type IRI."
+   }
+  ],
+  "data": [
+   {
+    "AppUserId": "user-amina-yusuf",
+    "EmailAddress": "amina.yusuf@example.com",
+    "DisplayName": "Amina Yusuf",
+    "LinkedAgent": "amina-yusuf",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-close-pipeline",
+    "EmailAddress": "close-pipeline@pipelines.internal",
+    "DisplayName": "Close Pipeline",
+    "LinkedAgent": "close-pipeline",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-devon-okafor",
+    "EmailAddress": "devon.okafor@example.com",
+    "DisplayName": "Devon Okafor",
+    "LinkedAgent": "devon-okafor",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-elena-garcia",
+    "EmailAddress": "elena.garcia@example.com",
+    "DisplayName": "Elena Garcia",
+    "LinkedAgent": "elena-garcia",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-maria-chen",
+    "EmailAddress": "maria.chen@example.com",
+    "DisplayName": "Maria Chen",
+    "LinkedAgent": "maria-chen",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-noah-williams",
+    "EmailAddress": "noah.williams@example.com",
+    "DisplayName": "Noah Williams",
+    "LinkedAgent": "noah-williams",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-notification-pipeline",
+    "EmailAddress": "notification-pipeline@pipelines.internal",
+    "DisplayName": "Notification Pipeline",
+    "LinkedAgent": "notification-pipeline",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-policy-drafting-ai",
+    "EmailAddress": "policy-drafting-ai@pipelines.internal",
+    "DisplayName": "Policy Drafting Ai",
+    "LinkedAgent": "policy-drafting-ai",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-priya-raman",
+    "EmailAddress": "priya.raman@example.com",
+    "DisplayName": "Priya Raman",
+    "LinkedAgent": "priya-raman",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   },
+   {
+    "AppUserId": "user-variance-ai",
+    "EmailAddress": "variance-ai@pipelines.internal",
+    "DisplayName": "Variance Ai",
+    "LinkedAgent": "variance-ai",
+    "IsEnabled": true,
+    "SemanticTypeIri": "urn:effortless:pko-extension#AppUser"
+   }
+  ]
+ },
+ "PrincipalAssignments": {
+  "Description": "Which principals a user may act as. The authorization half of sign-in: a verified email proves who you are, this table decides what you may become. A user with two assignments picks one at sign-in, and the choice is verified here rather than accepted from the client.",
+  "important": true,
+  "schema": [
+   {
+    "name": "PrincipalAssignmentId",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": false,
+    "Description": "Stored logical identifier, e.g. 'pa-maria-finance-analyst'."
+   },
+   {
+    "name": "Name",
+    "datatype": "string",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "Human-readable calculated display alias.",
+    "formula": "={{AppUser}} & \" as \" & {{Principal}}"
+   },
+   {
+    "name": "AppUser",
+    "datatype": "string",
+    "type": "relationship",
+    "nullable": true,
+    "Description": "Sign-in identity being granted.",
+    "formula": "AppUsers"
+   },
+   {
+    "name": "Principal",
+    "datatype": "string",
+    "type": "relationship",
+    "nullable": true,
+    "Description": "Principal the user may act as.",
+    "formula": "AccessPrincipals"
+   },
+   {
+    "name": "IsDefault",
+    "datatype": "boolean",
+    "type": "raw",
+    "nullable": true,
+    "Description": "True for the principal selected when the user does not name one."
+   },
+   {
+    "name": "GrantedRationale",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Why this user may act as this principal."
+   },
+   {
+    "name": "PrincipalIsAdmin",
+    "datatype": "boolean",
+    "type": "lookup",
+    "nullable": true,
+    "Description": "Whether the assigned principal is an administrator.",
+    "formula": "=INDEX(AccessPrincipals!{{IsAdministrator}}, MATCH({{Principal}}, AccessPrincipals!{{AccessPrincipalId}}, 0))"
+   },
+   {
+    "name": "UserOrganization",
+    "datatype": "string",
+    "type": "lookup",
+    "nullable": true,
+    "Description": "Organization of the signing-in user.",
+    "formula": "=INDEX(AppUsers!{{Organization}}, MATCH({{AppUser}}, AppUsers!{{AppUserId}}, 0))"
+   },
+   {
+    "name": "PrincipalOrganization",
+    "datatype": "string",
+    "type": "lookup",
+    "nullable": true,
+    "Description": "Organization of the principal being assumed.",
+    "formula": "=INDEX(AccessPrincipals!{{OrganizationScope}}, MATCH({{Principal}}, AccessPrincipals!{{AccessPrincipalId}}, 0))"
+   },
+   {
+    "name": "IsCrossOrganizationGrant",
+    "datatype": "boolean",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "True when a user is allowed to act as a principal in a different organization. Legitimate for shared-service roles, but it crosses the tenancy boundary and should be deliberate rather than accidental.",
+    "formula": "=AND({{UserOrganization}} <> \"\", {{PrincipalOrganization}} <> \"\", {{UserOrganization}} <> {{PrincipalOrganization}})"
+   },
+   {
+    "name": "SemanticTypeIri",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Semantic type IRI."
+   }
+  ],
+  "data": [
+   {
+    "PrincipalAssignmentId": "pa-amina-yusuf-communications-manager",
+    "AppUser": "user-amina-yusuf",
+    "Principal": "principal-communications-manager",
+    "IsDefault": true,
+    "GrantedRationale": "amina-yusuf currently holds the communications-manager role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-close-pipeline-close-automation",
+    "AppUser": "user-close-pipeline",
+    "Principal": "principal-close-automation",
+    "IsDefault": true,
+    "GrantedRationale": "close-pipeline currently holds the close-automation role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-devon-okafor-controller",
+    "AppUser": "user-devon-okafor",
+    "Principal": "principal-controller",
+    "IsDefault": true,
+    "GrantedRationale": "devon-okafor currently holds the controller role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-elena-garcia-hr-policy-owner",
+    "AppUser": "user-elena-garcia",
+    "Principal": "principal-hr-policy-owner",
+    "IsDefault": true,
+    "GrantedRationale": "elena-garcia currently holds the hr-policy-owner role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-elena-garcia-process-steward",
+    "AppUser": "user-elena-garcia",
+    "Principal": "principal-process-steward",
+    "IsDefault": false,
+    "GrantedRationale": "elena-garcia currently holds the process-steward role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-maria-chen-finance-analyst",
+    "AppUser": "user-maria-chen",
+    "Principal": "principal-finance-analyst",
+    "IsDefault": true,
+    "GrantedRationale": "maria-chen currently holds the finance-analyst role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-noah-williams-employment-counsel",
+    "AppUser": "user-noah-williams",
+    "Principal": "principal-employment-counsel",
+    "IsDefault": true,
+    "GrantedRationale": "noah-williams currently holds the employment-counsel role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-notification-pipeline-notification-publisher",
+    "AppUser": "user-notification-pipeline",
+    "Principal": "principal-notification-publisher",
+    "IsDefault": true,
+    "GrantedRationale": "notification-pipeline currently holds the notification-publisher role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-policy-drafting-ai-policy-drafting-agent",
+    "AppUser": "user-policy-drafting-ai",
+    "Principal": "principal-policy-drafting-agent",
+    "IsDefault": true,
+    "GrantedRationale": "policy-drafting-ai currently holds the policy-drafting-agent role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-priya-raman-cfo",
+    "AppUser": "user-priya-raman",
+    "Principal": "principal-cfo",
+    "IsDefault": true,
+    "GrantedRationale": "priya-raman currently holds the cfo role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-priya-raman-knowledge-authority",
+    "AppUser": "user-priya-raman",
+    "Principal": "principal-knowledge-authority",
+    "IsDefault": false,
+    "GrantedRationale": "priya-raman currently holds the knowledge-authority role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   },
+   {
+    "PrincipalAssignmentId": "pa-variance-ai-variance-review-agent",
+    "AppUser": "user-variance-ai",
+    "Principal": "principal-variance-review-agent",
+    "IsDefault": true,
+    "GrantedRationale": "variance-ai currently holds the variance-review-agent role in the domain model, so may act as its principal.",
+    "SemanticTypeIri": "urn:effortless:pko-extension#PrincipalAssignment"
+   }
+  ]
+ },
+ "IssuedTokens": {
+  "Description": "Audit trail of every token minted. A token records which user signed in, which principal they chose, and the claims that were joined from the database at mint time -- so a later question of 'what could this session see' is answerable from data rather than reconstruction.",
+  "important": true,
+  "schema": [
+   {
+    "name": "IssuedTokenId",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": false,
+    "Description": "Stored logical identifier for one mint event."
+   },
+   {
+    "name": "Name",
+    "datatype": "string",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "Human-readable calculated display alias.",
+    "formula": "={{AppUser}} & \" as \" & {{Principal}} & \" @ \" & {{IssuedAt}}"
+   },
+   {
+    "name": "AppUser",
+    "datatype": "string",
+    "type": "relationship",
+    "nullable": true,
+    "Description": "Identity that signed in.",
+    "formula": "AppUsers"
+   },
+   {
+    "name": "Principal",
+    "datatype": "string",
+    "type": "relationship",
+    "nullable": true,
+    "Description": "Principal the token authorises.",
+    "formula": "AccessPrincipals"
+   },
+   {
+    "name": "IssuedAt",
+    "datatype": "datetime",
+    "type": "raw",
+    "nullable": true,
+    "Description": "When the token was minted."
+   },
+   {
+    "name": "ExpiresAt",
+    "datatype": "datetime",
+    "type": "raw",
+    "nullable": true,
+    "Description": "When the token stops being accepted."
+   },
+   {
+    "name": "Issuer",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Who minted it: 'dev-mint' locally, or the magic-links tenant URL in production."
+   },
+   {
+    "name": "SubjectClaim",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "The 'sub' claim: the AppUserId the bearer is asserted to be."
+   },
+   {
+    "name": "ClaimsSnapshot",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "JSON of the additional claims joined from the database at mint time."
+   },
+   {
+    "name": "IsDevMinted",
+    "datatype": "boolean",
+    "type": "calculated",
+    "nullable": true,
+    "Description": "True when issued by the local dev minter rather than a real magic-links tenant. Dev tokens are genuine RS256 tokens with a genuine keypair; they simply skip the email round-trip.",
+    "formula": "={{Issuer}} = \"dev-mint\""
+   },
+   {
+    "name": "SemanticTypeIri",
+    "datatype": "string",
+    "type": "raw",
+    "nullable": true,
+    "Description": "Semantic type IRI."
+   }
+  ],
+  "data": []
  }
 }

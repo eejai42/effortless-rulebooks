@@ -2,6 +2,27 @@
 
 This project follows the **Effortless Rulebook (ERB) methodology**. The rulebook is the single source of truth. All other artifacts are mechanically derived from it.
 
+## Agents do not move branches. Ever.
+
+**`git checkout`, `git merge`, `git pull`, `git rebase`, and `git reset` require the user's explicit say-so on that specific turn.** Committing to the branch you are already on is fine and needs no permission. Moving between branches does not.
+
+This rule exists because it already went wrong: an agent switched this checkout from `pko-bootstrap` to `main` (a *different project's* branch — TSP), leaving `./start.sh` reporting `missing effortless-rulebook/procedural-knowledge-ontology-rulebook.json` and the user reasonably believing the entire domain had been destroyed. Nothing had been lost; the work was one `git checkout pko-bootstrap` away. A separate `Merge branch 'main' into pko-bootstrap` pulled four unrelated TSP commits into the PKO branch.
+
+Multiple agents work this repo concurrently. A branch switch under another agent — or under the user — is indistinguishable from catastrophic data loss until someone reads the reflog.
+
+- Before reporting anything as missing or lost, run `git rev-parse --abbrev-ref HEAD`, `git reflog`, and `git log --all --oneline -- <path>`. Commits are almost never gone; the checkout is on the wrong branch.
+- Never say "everything is gone" from an `ls` alone.
+- Do not delete stashes or prune dangling commits. Other agents park work there.
+
+## Concurrent writes to the rulebook
+
+The rulebook JSON is a contended file — other agents write it mid-session, and a watcher auto-commits.
+
+- Write it with `json.dump(..., indent=1, ensure_ascii=False)`. **The file uses 1-space indent**; `indent=2` reflows all ~130k lines and will clobber a concurrent agent's work on the next merge.
+- Re-read immediately before every write. Insert only your own top-level keys; never rewrite the whole document from a stale read.
+- Verify row counts **after** committing, via `git show HEAD:<path>`. Verifying before the commit is worthless here — a concurrent rebuild already emptied eight seeded tables between verification and commit once.
+- Keep seed scripts idempotent so a lost write is simply re-appliable.
+
 ## Rulebook
 
 **Location:** `effortless-rulebook/procedural-knowledge-ontology-rulebook.json`
