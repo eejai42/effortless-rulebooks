@@ -80,6 +80,83 @@ effortless build      # runs rulebook-to-rulespeak -> rulespeak/
 
 `./start.sh` is the restart story for this domain. It has no server — its deliverables are documents — so start.sh validates the rulebook, regenerates every projection, exercises the BPM process-export adapter, and runs the tests. `./start.sh validate|test|open` narrow that.
 
+## The access-control layer — security expressed as rulebook data
+
+Row-, field- and table-level security is modelled as data, and the Postgres DDL
+that enforces it is generated from that data. Eight tables:
+
+```
+AccessPrincipals -> AccessPolicies  (vertical cut: which ROWS, via RLS)
+       |          -> FieldGrants    (horizontal cut: which COLUMNS)
+       |          -> RoleSchemas -> RoleSchemaViews (the emitted views)
+       +-> AppUsers -> PrincipalAssignments (who may act as whom)
+                    -> IssuedTokens (mint audit)
+AccessDenialTests   (the witnesses: proof a policy actually refuses)
+```
+
+**The capability that matters:** a policy predicate may call a `calc_*`
+function, so a one-line policy can cut on a field derived many hops down the
+DAG — `USING (public.calc_change_requests_is_open(change_request_id))`. The
+policy stays simple while the semantics stay as deep as the model.
+
+**Two cuts, two mechanisms.** RLS on `public.*` decides which rows. The
+principal's own schema — the ONLY entry on its `search_path` — decides which
+tables and columns. A field with no grant is *absent* from the view, not
+blanked in it: selecting it raises `column does not exist`.
+
+### Verified substrate facts — do not re-derive these from memory
+
+1. **Calc functions must be `SECURITY DEFINER` + `row_security = off`.** They
+   are pure derivations over the whole dataset; a policy predicate calls them.
+   Without this they return NULL for a non-superuser and every policy silently
+   denies every row — enforcement that looks green and enforces nothing. The
+   generator marks all ~1280 of them. Safety rests on their shape: they take a
+   primary key and return a scalar. **Never write a calc function that takes
+   arbitrary input and returns rows** — that would be a leak.
+2. **Ownership-chaining does not survive the `calc_*` hop.** A role view over
+   `vw_*` owned by postgres still fails `permission denied`. Principals need
+   real `SELECT` on `public`; RLS is what makes that safe.
+3. **A predicate that sub-selects its own table** raises `infinite recursion
+   detected in policy for relation`. The generator refuses to emit one.
+4. **Policy identifiers contain hyphens** and must be quoted, or Postgres reads
+   them as operators.
+
+### The write path is long on purpose
+
+Editing a policy writes to the rulebook; a separate rebuild applies it:
+
+```
+integrity check -> effortless build -> init-db.sh (regenerates 06-access-control.sql)
+                -> denial witnesses          ~14s
+```
+
+There is no incremental "just add this one policy" shortcut, because that
+shortcut is how the database and the model start to disagree. Edits and rebuild
+are separate endpoints so a failed save cannot half-apply security.
+
+### Acceptance bar
+
+`tools/verify_access_control.sh` — 11 assertions through the HTTP API, must be
+11/11. `tools/run_denial_witnesses.py` — the witnesses, run by `start.sh`.
+
+**Denial tests need positive controls.** A suite that only tests denials cannot
+distinguish a working policy from one that denies everything. Four of the nine
+witnesses assert a row the principal *is* entitled to. And a test naming a row
+that does not exist passes for the wrong reason — every `ForbiddenRowId` is
+verified to exist before the test counts.
+
+| Tool | Purpose |
+|---|---|
+| `tools/generate_access_ddl.py` | Emits `postgres-bootstrap/06-access-control.sql`. Validates every predicate with `EXPLAIN` against the live DB and refuses to emit if any fails; intersects granted columns against live view columns (the catalog can be ahead of the DB). |
+| `tools/run_denial_witnesses.py` | Runs the witnesses as each principal, writes results back from the substrate. |
+| `tools/check_rulebook_integrity.py` | Gates transpiler-defect classes: relationship-with-`formula`, `IIF`, multi-criteria `COUNTIFS`, non-PK `INDEX/MATCH`. |
+| `tools/verify_access_control.sh` | The acceptance test. |
+
+**Relationship fields carry `RelatedTo`, never `formula`.** With a `formula`
+the transpiler emits `SELECT (TargetTable)::text` — a function that fails at
+call time while the build stays green. Seventeen fields were silently corrupted
+this way. `check_rulebook_integrity.py` now catches it.
+
 ## Three categories of semantic mapping — keep them distinct
 
 Every table's semantics are recorded as data in the `SemanticMappings` table. When editing, preserve the distinction:
