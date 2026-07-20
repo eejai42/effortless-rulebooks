@@ -67506,10 +67506,10 @@
     "Principal": "principal-finance-analyst",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -67836,10 +67836,10 @@
     "Principal": "principal-controller",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -68166,10 +68166,10 @@
     "Principal": "principal-cfo",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -68496,10 +68496,10 @@
     "Principal": "principal-hr-policy-owner",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -68826,10 +68826,10 @@
     "Principal": "principal-employment-counsel",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -69156,10 +69156,10 @@
     "Principal": "principal-communications-manager",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -69486,10 +69486,10 @@
     "Principal": "principal-close-automation",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -69816,10 +69816,10 @@
     "Principal": "principal-variance-review-agent",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -70146,10 +70146,10 @@
     "Principal": "principal-policy-drafting-agent",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -70476,10 +70476,10 @@
     "Principal": "principal-notification-publisher",
     "TargetTable": "ProcedureVersions",
     "Command": "SELECT",
-    "RowPredicate": "public.calc_procedure_versions_is_current(procedure_version_id)",
+    "RowPredicate": "is_current",
     "CheckPredicate": "",
-    "Rationale": "Only the current version of each procedure; superseded versions are for stewards.",
-    "ReferencesInference": true,
+    "Rationale": "Only the current version of each procedure; superseded versions are for stewards. is_current is a stored column on procedure_versions, not a derivation, so the predicate reads it directly.",
+    "ReferencesInference": false,
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessPolicy"
    },
    {
@@ -159779,8 +159779,8 @@
     "TargetTable": "Agents",
     "ForbiddenRowId": "noah-williams",
     "ExpectedVisible": false,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": false,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "noah-williams belongs to acme-legal. A finance-analyst (acme-finance) must not see them: the organization tenancy predicate must exclude the row.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159791,8 +159791,8 @@
     "TargetTable": "Agents",
     "ForbiddenRowId": "maria-chen",
     "ExpectedVisible": true,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": true,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "Positive control. maria-chen is acme-finance, the analyst's own organization. If this row is NOT visible the policy is over-restrictive and the negative tests prove nothing.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159803,8 +159803,8 @@
     "TargetTable": "ChangeRequests",
     "ForbiddenRowId": "cr-close-timestamp",
     "ExpectedVisible": false,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": false,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "cr-close-timestamp is decided (is_open=false). The inference-backed predicate must exclude it, proving a policy can cut on a derived field rather than a stored column.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159815,8 +159815,8 @@
     "TargetTable": "ChangeRequests",
     "ForbiddenRowId": "cr-policy-delivery",
     "ExpectedVisible": true,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": true,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "Positive control for the inference predicate. cr-policy-delivery is open (is_open=true) and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159827,8 +159827,8 @@
     "TargetTable": "KnowledgeFragments",
     "ForbiddenRowId": "kf-close-fx-time",
     "ExpectedVisible": false,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": false,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "kf-close-fx-time is owned by the controller. Employment counsel must not read another role's knowledge fragment.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159839,8 +159839,8 @@
     "TargetTable": "KnowledgeFragments",
     "ForbiddenRowId": "kf-policy-ai-boundary",
     "ExpectedVisible": true,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": true,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "Positive control for the ownership predicate. kf-policy-ai-boundary is owned by employment-counsel and must be visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159851,8 +159851,8 @@
     "TargetTable": "KnowledgeGaps",
     "ForbiddenRowId": "gap-close-cadence-unmeasured",
     "ExpectedVisible": false,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": false,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "gap-close-cadence-unmeasured is Resolved (is_open=false) and must not appear.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159863,8 +159863,8 @@
     "TargetTable": "KnowledgeGaps",
     "ForbiddenRowId": "gap-policy-delivery-receipts",
     "ExpectedVisible": true,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": true,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "Positive control. gap-policy-delivery-receipts is Open and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -159875,8 +159875,8 @@
     "TargetTable": "Agents",
     "ForbiddenRowId": "maria-chen",
     "ExpectedVisible": false,
-    "ObservedVisible": null,
-    "LastRunAt": null,
+    "ObservedVisible": false,
+    "LastRunAt": "2026-07-20T20:15:40+00:00",
     "Rationale": "ContactAddress is granted to no non-administrator. The column must be ABSENT from the analyst's view -- selecting it must raise 'column does not exist', not return null.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    }
