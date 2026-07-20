@@ -815,6 +815,52 @@ app.get("/api/my/:table", requireAuth, h(async (req, res) => {
   }
 }));
 
+// --- admin: edit the access model ------------------------------------------
+import { readAccessModel, readGrantMatrix, applyEdits, rebuildStream }
+  from "./admin-access.js";
+
+// Administrator-ness comes from the verified token, whose is_admin claim was
+// joined from vw_access_principals at mint time. A client cannot assert it.
+function requireAdmin(req, res, next) {
+  if (req.claims?.is_admin !== true) {
+    return res.status(403).json({
+      error: "admin_only",
+      detail: `${req.claims?.principal || "caller"} is not an administrator`,
+    });
+  }
+  next();
+}
+
+app.get("/api/admin/access/model", requireAuth, requireAdmin, h(async (_q, res) => {
+  res.json(await readAccessModel(adminQuery));
+}));
+
+app.get("/api/admin/access/grants", requireAuth, requireAdmin, h(async (req, res) => {
+  const { principal, table } = req.query;
+  if (!principal || !table) {
+    return res.status(400).json({ error: "principal and table required" });
+  }
+  res.json({ principal, table,
+             fields: await readGrantMatrix(adminQuery, principal, table) });
+}));
+
+// Write to the rulebook. This does NOT touch the database -- the caller then
+// POSTs /rebuild, which is what makes the change real. Keeping them separate
+// means a save that fails cannot leave a half-applied security config.
+app.post("/api/admin/access/edits", requireAuth, requireAdmin, h(async (req, res) => {
+  try {
+    const applied = applyEdits(req.body?.edits);
+    res.json({ ok: true, applied, note: "rulebook updated; POST /rebuild to apply" });
+  } catch (e) {
+    res.status(e.status || 500).json({ error: e.message });
+  }
+}));
+
+// The minute-long path, streamed.
+app.post("/api/admin/access/rebuild", requireAuth, requireAdmin, (req, res) => {
+  rebuildStream(res);
+});
+
 // --- static frontend (prod mode) -------------------------------------------
 const dist = path.join(__dirname, "../frontend/dist");
 app.use(express.static(dist));
