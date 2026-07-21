@@ -51,6 +51,32 @@ def main():
     now = datetime.now(timezone.utc).isoformat(timespec="seconds")
     results, failures = [], []
 
+    # An absence witness is vacuous unless the thing it claims is withheld
+    # actually EXISTS in the unrestricted view. Otherwise the test passes
+    # because nobody has the column/table, not because this principal is
+    # denied it -- a green light that states nothing, which is the failure
+    # mode this rulebook's witness doctrine exists to prevent.
+    for t in tests:
+        col, tbl = t.get("ForbiddenColumn"), t.get("ForbiddenTable")
+        if col:
+            rc, out, _ = run(
+                "SELECT count(*) FROM information_schema.columns WHERE "
+                f"table_schema='public' AND table_name='vw_{snake(t['TargetTable'])}' "
+                f"AND column_name={sq(col)}")
+            if out.strip() == "0":
+                raise SystemExit(
+                    f"FATAL: {t['AccessDenialTestId']} names column {col!r}, which "
+                    f"does not exist on public.vw_{snake(t['TargetTable'])}. The "
+                    f"test would pass vacuously.")
+        if tbl:
+            rc, out, _ = run(
+                "SELECT count(*) FROM information_schema.views WHERE "
+                f"table_schema='public' AND table_name='vw_{snake(tbl)}'")
+            if out.strip() == "0":
+                raise SystemExit(
+                    f"FATAL: {t['AccessDenialTestId']} names table {tbl!r}, which "
+                    f"has no public view. The test would pass vacuously.")
+
     for t in tests:
         p = principals[t["Principal"]]
         tbl = tables[t["TargetTable"]]
@@ -58,10 +84,15 @@ def main():
         pk = snake(rb[t["TargetTable"]]["schema"][0]["name"])
         u = user_for.get(t["Principal"], {})
 
-        # The column-absence test is a different question: not "is the row
-        # filtered" but "does the column exist at all". Selecting it must ERROR.
-        is_column_test = "contact_address" in (t.get("Rationale") or "").lower() \
-            or "ContactAddress" in (t.get("Rationale") or "")
+        # Three kinds of witness, three different questions:
+        #   row      -- is this row filtered out?
+        #   column   -- does this column exist at all?
+        #   table    -- does this table exist in the principal's schema at all?
+        # The last two must ERROR, not return an empty result. A table that is
+        # merely empty for a principal is a different (weaker) guarantee than
+        # one that does not resolve.
+        is_table_test = bool(t.get("ForbiddenTable"))
+        is_column_test = (not is_table_test) and bool(t.get("ForbiddenColumn"))
 
         gucs = (
             f"SELECT set_config('app.jwt_email',{sq(u.get('EmailAddress',''))},true);"
@@ -71,9 +102,17 @@ def main():
             f"SELECT set_config('app.jwt_is_admin',{sq(str(bool(p.get('IsAdministrator'))).lower())},true);"
         )
 
-        if is_column_test:
+        if is_table_test:
             sql = (f"BEGIN;{gucs}SET LOCAL ROLE {p['PgRoleName']};"
-                   f"SELECT contact_address FROM {p['SchemaName']}.{view} "
+                   f"SELECT 1 FROM {p['SchemaName']}.{snake(t['ForbiddenTable'])} "
+                   f"LIMIT 1;COMMIT;")
+            rc, out, err = run(sql)
+            observed = (rc == 0)          # visible == the table resolved
+            detail = ("table absent (error as required)" if rc
+                      else "TABLE IS READABLE -- leak")
+        elif is_column_test:
+            sql = (f"BEGIN;{gucs}SET LOCAL ROLE {p['PgRoleName']};"
+                   f"SELECT {t['ForbiddenColumn']} FROM {p['SchemaName']}.{view} "
                    f"LIMIT 1;COMMIT;")
             rc, out, err = run(sql)
             # visible == the column could be selected

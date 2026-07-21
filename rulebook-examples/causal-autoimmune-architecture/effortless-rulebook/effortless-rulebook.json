@@ -12538,7 +12538,7 @@
         "DisplayName": "Cohort discovery",
         "Route": "/cohort",
         "Description": "All 7 cases and their keystone verdicts.",
-        "SortOrder": 1,
+        "SortOrder": 5,
         "ParentRouteKey": "",
         "RouteKey": "admin.cohort",
         "NavLevel": "top",

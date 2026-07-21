@@ -343,3 +343,24 @@ cd rulebook-examples/acme-llc/python/
 effortless -install http://localhost:4242/rulebook-to-python \
     -i ../effortless-rulebook/acme-llc-rulebook.json
 ```
+
+---
+
+# Making a video about a demo? Load the `effortless-video` skill.
+
+Videos about these rulebooks are **not** produced in this repo. They live in the
+sibling multi-video producer:
+
+```
+../effortless-vid-01-full-name/videos/<NN-slug>/
+```
+
+Each video is itself an Effortless project — a rulebook (`Storyboards → Acts →
+Scenes → Clips → Assets`) that gets rendered. The story is changed by editing
+that rulebook and running `effortless build`, never by hand-editing
+`STORYBOARD.md` or reaching into `server/*.mjs`.
+
+**Whenever the user asks to make / storyboard / script / render a video about a
+demo here, invoke the `effortless-video` skill first.** The reference-quality
+example is `videos/03-closure` (Transitive Closure, Made Obvious) — read its
+`ANIMATION-SPEC.md` before authoring a new one.

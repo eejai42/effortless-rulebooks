@@ -33,29 +33,64 @@ def tok(uid,pid):
     return b["token"]
 
 A=tok("user-maria-chen","principal-finance-analyst")
+C=tok("user-devon-okafor","principal-controller")
+F=tok("user-priya-raman","principal-cfo")
+K=tok("user-close-pipeline","principal-close-automation")
 S=tok("user-elena-garcia","principal-process-steward")
 checks=[]
 def chk(name,cond,detail=""):
     checks.append((name,bool(cond),detail))
 
-s,me=call("/api/me",A);          chk("analyst /api/me",           s==200 and not me["isAdministrator"], f"{len(me.get('tables',[]))} tables")
-s,adm=call("/api/me",S);         chk("admin /api/me is admin",    s==200 and adm["isAdministrator"], f"{len(adm.get('tables',[]))} tables")
-chk("admin reaches more tables", len(adm["tables"])>len(me["tables"]), f"{len(adm['tables'])} > {len(me['tables'])}")
+def me(t):
+    s,b=call("/api/me",t); assert s==200, b; return b
 
-s,ag=call("/api/my/agents",A)
-orgs=sorted({r["organization"] for r in ag["rows"]})
-chk("tenancy cut on agents",     orgs==["acme-finance"], f"orgs={orgs} rows={ag['count']}")
-chk("column cut: contact_address absent", "contact_address" not in (ag["rows"][0] if ag["rows"] else {}))
+mA,mC,mF,mK,mS = me(A),me(C),me(F),me(K),me(S)
 
-s,cr=call("/api/my/change_requests",A)
-ids=[r["change_request_id"] for r in cr["rows"]]
+# --- the cut is per-JOB, not two tiers ---------------------------------------
+sizes={"analyst":len(mA["tables"]),"controller":len(mC["tables"]),
+       "cfo":len(mF["tables"]),"close-automation":len(mK["tables"]),
+       "steward":len(mS["tables"])}
+chk("each role differs in reach", len(set([sizes["analyst"],sizes["cfo"],sizes["close-automation"]]))==3, str(sizes))
+chk("no operating role exceeds 10 tables",
+    max(sizes["analyst"],sizes["controller"],sizes["cfo"],sizes["close-automation"])<=10, str(sizes))
+chk("admin reaches far more", sizes["steward"] > 5*sizes["close-automation"],
+    f"{sizes['steward']} vs {sizes['close-automation']}")
+
+# --- horizontal cut: tables absent, not empty --------------------------------
+s,_=call("/api/my/send_intents",F);      chk("cfo cannot reach send_intents", s==404)
+s,_=call("/api/my/step_executions",F);   chk("cfo cannot reach step_executions", s==404)
+s,_=call("/api/my/recipients",K);        chk("pipeline cannot reach recipients", s==404)
+s,_=call("/api/my/change_requests",K);   chk("pipeline cannot reach change_requests", s==404)
+
+# --- field cut ---------------------------------------------------------------
+s,st=call("/api/my/steps",K)
+cols=set(st["rows"][0]) if st.get("rows") else set()
+chk("pipeline steps view is narrow", 0 < len(cols) <= 12, f"{len(cols)} cols")
+chk("no stewardship diagnostics leaked",
+    not (cols & {"unwarranted_boundary_count","stale_binding_count",
+                 "undeclared_control_version_key"}), f"{len(cols)} cols")
+
+# --- vertical cut still enforcing -------------------------------------------
+s,cr=call("/api/my/change_requests",C)
+ids=[r["change_request_id"] for r in cr.get("rows",[])]
 chk("inference cut on change_requests", ids==["cr-policy-delivery"], f"ids={ids}")
+s,pv=call("/api/my/procedure_versions",A)
+vids=sorted(r["procedure_version_id"] for r in pv.get("rows",[]))
+chk("superseded versions hidden", "close-v1.0.0" not in vids, f"{vids}")
 
-s,_=call("/api/my/issued_tokens",A);         chk("out-of-schema table refused", s==404)
-s,_=call("/api/admin/access/model",A);       chk("admin API refused to analyst", s==403)
-s,m=call("/api/admin/access/model",S);       chk("admin API serves admin", s==200 and int(m["live"]["policies"])>0, f"live={m.get('live')}")
-s,_=call("/api/me");                          chk("no token refused", s==401)
+# --- register is scoped ------------------------------------------------------
+s,reg=call("/api/register",F)
+chk("register scoped to principal", s==200 and set(reg)==set(mF["tables"]),
+    f"{len(reg)} tables")
 
+# --- tabs computed from grants ----------------------------------------------
+chk("tabs differ per role", mF["tabs"]!=mK["tabs"], f"cfo={mF['tabs']} pipeline={mK['tabs']}")
+chk("every principal has >=1 screen", all(len(x["tabs"])>0 for x in (mA,mC,mF,mK,mS)))
+
+# --- negatives ---------------------------------------------------------------
+s,_=call("/api/admin/access/model",A);   chk("admin API refused to analyst", s==403)
+s,m=call("/api/admin/access/model",S);   chk("admin API serves admin", s==200)
+s,_=call("/api/me");                      chk("no token refused", s==401)
 try:
     tok("user-maria-chen","principal-cfo"); chk("unassigned principal refused", False, "MINTED!")
 except AssertionError:

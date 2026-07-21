@@ -121,14 +121,25 @@ app.get("/api/t/:table", h(async (req, res) => {
 
 // --- the whole register, in one shot ---------------------------------------
 // The console is a read-mostly document viewer; one round trip beats forty.
-// Every entry here is still a plain view read.
-app.get("/api/register", h(async (_req, res) => {
-  const out = {};
-  await Promise.all(
-    VIEWS.map(async (t) => {
-      out[t] = await readView(`vw_${t}`);
-    })
-  );
+//
+// Scoped to the caller: this reads the PRINCIPAL'S OWN SCHEMA, so the register
+// contains exactly the tables and columns that principal is granted and
+// nothing else. Previously it read every public view as the owner, which
+// meant the console saw everything regardless of the access model -- the API
+// was quietly the largest hole in it.
+app.get("/api/register", requireAuth, h(async (req, res) => {
+  const out = await asPrincipal(req.claims, async (client, p) => {
+    const { rows: tables } = await client.query(
+      `SELECT table_name FROM information_schema.views
+        WHERE table_schema = $1`, [p.schema_name]);
+    const reg = {};
+    for (const { table_name } of tables) {
+      const { rows } = await client.query(
+        `SELECT * FROM ${p.schema_name}.${table_name}`);
+      reg[table_name] = rows;
+    }
+    return reg;
+  });
   res.json(out);
 }));
 
@@ -767,6 +778,25 @@ app.post("/api/auth/sign-in", h(async (req, res) => {
 app.get("/api/auth/public-key", (_req, res) =>
   res.type("text/plain").send(PUBLIC_KEY_PEM));
 
+// Which console screens can this principal actually feed? Declared here as
+// tab -> the tables that screen reads. A tab whose tables are not in the
+// caller's schema is not offered, because offering it would mean rendering an
+// empty screen that looks like "there is no data" rather than "this is not
+// yours".
+const TAB_TABLES = {
+  run: ["step_executions", "steps"],
+  ledger: ["procedure_executions", "step_executions", "steps"],
+  flow: ["steps", "step_transitions"],
+  catalog: ["procedures", "procedure_versions"],
+  knowledge: ["knowledge_fragments"],
+  changes: ["change_requests"],
+  queue: ["step_executions"],
+  health: ["knowledge_gaps"],
+  evidence: ["requirement_satisfactions", "requirements"],
+  mappings: ["semantic_mappings"],
+  comms: ["send_intents", "message_deliveries"],
+};
+
 // Who am I, and what can I reach? Answered by querying the database AS the
 // caller -- the schema listing IS their world, not a computed opinion of it.
 app.get("/api/me", requireAuth, h(async (req, res) => {
@@ -774,12 +804,19 @@ app.get("/api/me", requireAuth, h(async (req, res) => {
     const { rows: tables } = await client.query(
       `SELECT table_name FROM information_schema.views
         WHERE table_schema = $1 ORDER BY table_name`, [p.schema_name]);
+    const have = new Set(tables.map((t) => t.table_name));
+    // A tab is reachable when EVERY table it reads is present. Partial data
+    // would render a half-empty screen, which is its own kind of lie.
+    const tabs = Object.entries(TAB_TABLES)
+      .filter(([, need]) => need.every((t) => have.has(t)))
+      .map(([tab]) => tab);
     return {
       claims: req.claims,
       schema: p.schema_name,
       pgRole: p.pg_role_name,
       isAdministrator: p.is_administrator === true,
-      tables: tables.map((t) => t.table_name),
+      tables: [...have],
+      tabs,
     };
   });
   res.json(out);

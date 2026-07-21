@@ -41,9 +41,17 @@ const esc = (s) =>
 let T = {};
 let META = {};
 
+// The register is now scoped to the signed-in principal, so every read needs
+// the token. What comes back IS that principal's world -- if a table is absent
+// here it is because Postgres does not expose it to them, not because the UI
+// filtered it.
+const authed = () => ({ Authorization: `Bearer ${localStorage.getItem("pko.token")}` });
+
+let ME = {};
+
 async function load() {
-  const [reg, meta] = await Promise.all([
-    fetch("/api/register").then(async (r) => {
+  const [reg, meta, me] = await Promise.all([
+    fetch("/api/register", { headers: authed() }).then(async (r) => {
       if (!r.ok) throw new Error(`/api/register -> ${r.status} ${await r.text()}`);
       return r.json();
     }),
@@ -51,9 +59,14 @@ async function load() {
       if (!r.ok) throw new Error(`/api/meta -> ${r.status} ${await r.text()}`);
       return r.json();
     }),
+    fetch("/api/me", { headers: authed() }).then(async (r) => {
+      if (!r.ok) throw new Error(`/api/me -> ${r.status} ${await r.text()}`);
+      return r.json();
+    }),
   ]);
   T = reg;
   META = meta;
+  ME = me;
 }
 
 // Row lookup by primary key — this is indexing already-fetched view rows, not
@@ -115,6 +128,10 @@ const ROLES = {
     label: "Steward",
     tabs: ["health", "knowledge", "ledger", "changes"],
   },
+  publisher: {
+    label: "Comms",
+    tabs: ["comms", "health", "knowledge"],
+  },
   auditor: {
     label: "Auditor",
     tabs: ["ledger", "evidence", "mappings"],
@@ -151,12 +168,13 @@ const TABS = {
   health: "Knowledge Health",
   evidence: "Evidence Trail",
   mappings: "Ontology Mapping",
+  comms: "Communications",
   ...ADMIN_TABS,
   ...EXPLORE_TABS,
   ...Object.fromEntries(ACCESS_TABS.map((t) => [t.id, t.label])),
 };
 
-let role = "operator";
+let role = "operator";   // corrected at first render to one this principal can use
 let tab = "run";
 let execSel = null;
 
@@ -782,10 +800,73 @@ function viewMappings() {
   return h;
 }
 
+// ---------- comms ----------
+// The outbound pipeline: what is queued to send, and what actually went out.
+// Every column here is a view column; suppression_reason and delivery_status
+// are computed by Postgres from the channel policy, not decided here.
+function viewComms() {
+  const intents = T.send_intents || [];
+  const deliveries = T.message_deliveries || [];
+  const policies = T.communication_policies || [];
+  const recips = by("recipients", "recipient_id");
+
+  const who = (id) => recips[id]?.display_name ?? recips[id]?.email_address ?? id ?? "—";
+
+  return `
+    ${head("Communications", "Send intents and deliveries, scoped to your schema")}
+    ${policies.length ? `
+    <div class="card" style="padding:18px;margin-bottom:18px">
+      <div class="eyebrow">Channel policy</div>
+      <table class="grid"><thead><tr>
+        <th>Channel</th><th>Quiet hours</th><th class="num">Max len</th>
+        <th class="num">Max segs</th><th>Consent</th><th>Status</th>
+      </tr></thead><tbody>
+      ${policies.map((p) => `<tr>
+        <td><b>${esc(p.channel)}</b></td>
+        <td>${esc(p.quiet_hours_start ?? "—")} – ${esc(p.quiet_hours_end ?? "—")}</td>
+        <td class="num">${p.max_message_length ?? "—"}</td>
+        <td class="num">${p.max_segments ?? "—"}</td>
+        <td>${p.consent_required ? "required" : "not required"}</td>
+        <td>${esc(p.status ?? "—")}</td>
+      </tr>`).join("")}
+      </tbody></table>
+    </div>` : ""}
+
+    <div class="card" style="padding:18px;margin-bottom:18px">
+      <div class="eyebrow">Send queue — ${intents.length}</div>
+      ${intents.length ? `<table class="grid"><thead><tr>
+        <th>Recipient</th><th>Proposed body</th><th class="num">Local hour</th>
+        <th>Evaluated</th></tr></thead><tbody>
+      ${intents.map((i) => `<tr>
+        <td>${esc(who(i.recipient))}</td>
+        <td class="prose" style="max-width:520px">${esc((i.proposed_body ?? "").slice(0, 160))}</td>
+        <td class="num">${i.proposed_send_at_local_hour ?? "—"}</td>
+        <td>${dt(i.evaluated_at)}</td>
+      </tr>`).join("")}</tbody></table>`
+      : `<p class="muted">Nothing queued.</p>`}
+    </div>
+
+    <div class="card" style="padding:18px">
+      <div class="eyebrow">Delivered — ${deliveries.length}</div>
+      ${deliveries.length ? `<table class="grid"><thead><tr>
+        <th>Recipient</th><th>Sent</th><th>Status</th><th>Suppressed because</th>
+        <th>Acknowledged</th></tr></thead><tbody>
+      ${deliveries.map((d) => `<tr>
+        <td>${esc(who(d.recipient))}</td>
+        <td>${dt(d.sent_at)}</td>
+        <td><span class="chip ${d.delivery_status === "Sent" ? "chip-ok" : "chip-warn"}">${esc(d.delivery_status ?? "—")}</span></td>
+        <td>${esc(d.suppression_reason ?? "—")}</td>
+        <td>${dt(d.acknowledged_at)}</td>
+      </tr>`).join("")}</tbody></table>`
+      : `<p class="muted">Nothing delivered yet.</p>`}
+    </div>`;
+}
+
 const VIEWS = {
   ledger: viewLedger, run: viewRun, flow: viewFlow, catalog: viewCatalog,
   knowledge: viewKnowledge, health: viewHealth, queue: viewQueue,
   changes: viewChanges, evidence: viewEvidence, mappings: viewMappings,
+  comms: viewComms,
   board: viewBoard, witnesses: viewWitnesses, loops: viewLoops, trace: viewTrace,
   inferences: viewInferences, tables: viewTables, record: viewRecord,
 };
@@ -799,8 +880,8 @@ const VIEWS = {
 // role, switch to the role that owns it and load that role's data first.
 function goTo(next) {
   if (!next) return render();
-  if (!ROLES[role].tabs.includes(next)) {
-    const owner = Object.keys(ROLES).find((r) => ROLES[r].tabs.includes(next));
+  if (!reachableTabs(role).includes(next)) {
+    const owner = Object.keys(ROLES).find((r) => reachableTabs(r).includes(next));
     if (!owner) throw new Error(`No role owns tab '${next}'`);
     role = owner;
     tab = next;
@@ -824,22 +905,51 @@ const ACCESS_VIEWS = {
   "ac-witnesses": viewDenialWitnesses,
 };
 
-// The signed-in principal, from the verified token. is_admin was joined from
-// vw_access_principals when the token was minted -- this is display only; the
-// API enforces it independently.
-const ME = storedClaims() || {};
+// Display identity comes from the token; ME.tabs / ME.tables come from the
+// server, which computed them by listing the principal's own schema.
+const CLAIMS = storedClaims() || {};
 
 function renderIdentityBar() {
   const el = $("whoami");
   if (!el) return;
   el.innerHTML = `
-    <span class="who-name">${esc(ME.name || ME.email || "—")}</span>
-    <span class="who-role">${esc(ME.principal_label || ME.principal || "")}</span>
-    ${ME.is_admin ? '<span class="chip chip-admin">admin</span>' : ""}
-    <span class="who-schema mono">${esc(ME.schema || "")}</span>
+    <span class="who-name">${esc(CLAIMS.name || CLAIMS.email || "—")}</span>
+    <span class="who-role">${esc(CLAIMS.principal_label || CLAIMS.principal || "")}</span>
+    ${CLAIMS.is_admin ? '<span class="chip chip-admin">admin</span>' : ""}
+    <span class="who-schema mono">${esc(CLAIMS.schema || "")}</span>
     <button class="btn btn-ghost" id="signout">Sign out</button>`;
   const so = $("signout");
   if (so) so.onclick = signOut;
+}
+
+// A tab is offered only if the server said this principal can feed it. The
+// admin/explorer/access screens read the catalog rather than domain tables, so
+// they are always available to whoever can reach them.
+const SELF_FEEDING = new Set([
+  ...Object.keys(ADMIN_TABS), ...Object.keys(EXPLORE_TABS),
+  ...ACCESS_TABS.map((t) => t.id),
+]);
+
+function reachableTabs(r) {
+  const declared = ROLES[r].tabs;
+  if (!Array.isArray(ME.tabs)) return declared;
+  return declared.filter((t) => SELF_FEEDING.has(t) || ME.tabs.includes(t));
+}
+
+// An honest empty state. This principal's schema does not carry the tables
+// these screens read -- which is the access model working, not a failure.
+function emptyRoleHtml() {
+  const have = (ME.tables || []).slice().sort();
+  return `<div class="card" style="padding:26px;margin-top:26px">
+    <h2 style="font-size:17px;margin-bottom:10px">Nothing here for
+      ${esc(ROLES[role].label)}</h2>
+    <p class="prose" style="margin:0 0 12px">None of this section's screens can
+    be filled from <span class="mono">${esc(ME.schema || "your schema")}</span>.
+    That is the access model doing its job: your principal is granted
+    ${have.length} table(s), and these screens read others.</p>
+    <p class="muted" style="font-size:13.5px;margin:0">Granted to you:
+      <span class="mono">${esc(have.join(", ") || "none")}</span></p>
+  </div>`;
 }
 
 // Hide role buttons this principal may not use. The API refuses them anyway;
@@ -847,7 +957,9 @@ function renderIdentityBar() {
 function renderRoleButtons() {
   document.querySelectorAll(".role-btn[data-role]").forEach((b) => {
     const def = ROLES[b.dataset.role];
-    b.hidden = Boolean(def?.adminOnly) && ME.is_admin !== true;
+    const adminBlocked = Boolean(def?.adminOnly) && CLAIMS.is_admin !== true;
+    const noScreens = def && reachableTabs(b.dataset.role).length === 0;
+    b.hidden = adminBlocked || noScreens;
     b.setAttribute("aria-pressed", String(b.dataset.role === role));
   });
 }
@@ -856,7 +968,12 @@ function renderRoleButtons() {
 function render() {
   renderRoleButtons();
   renderIdentityBar();
-  const tabs = ROLES[role].tabs;
+  const tabs = reachableTabs(role);
+  if (!tabs.length) {
+    $("nav").innerHTML = "";
+    $("view").innerHTML = emptyRoleHtml();
+    return;
+  }
   if (!tabs.includes(tab)) tab = tabs[0];
   $("nav").innerHTML = tabs
     .map((t) => {
@@ -940,6 +1057,13 @@ if (!tokenIsLive()) {
 load()
   .then(() => {
     buildIndexes();
+    // Start on a section this principal can actually populate.
+    if (reachableTabs(role).length === 0) {
+      const first = Object.keys(ROLES).find(
+        (r) => !(ROLES[r].adminOnly && CLAIMS.is_admin !== true)
+               && reachableTabs(r).length > 0);
+      if (first) role = first;
+    }
     execSel = T.procedure_executions?.[0]?.procedure_execution_id ?? null;
     if (META.pko_core_version_iri) {
       $("brandmark").textContent = META.ontology_profile ?? "PKO 2.0.0";
