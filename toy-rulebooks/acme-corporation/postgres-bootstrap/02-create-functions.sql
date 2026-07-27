@@ -146,6 +146,16 @@ RETURNS TEXT AS $$
   SELECT (SELECT phone_number FROM employees WHERE employee_id = p_employee_id);
 $$ LANGUAGE sql STABLE;
 
+-- calc_projects_is_approved
+-- Field: Projects.IsApproved
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_projects_is_approved(p_project_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((NOT (calc_projects_project_type_requires_manager_approval(p_project_id)) OR calc_projects_approved_by_role_is_manager(p_project_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
 -- calc_employees_role_name
 -- Field: Employees.RoleName
 -- Type: lookup | DataType: string | Returns: TEXT
@@ -222,14 +232,6 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION get_projects_due_date(p_project_id TEXT)
 RETURNS TIMESTAMPTZ AS $$
   SELECT (SELECT due_date FROM projects WHERE project_id = p_project_id);
-$$ LANGUAGE sql STABLE;
-
--- get_projects_is_approved
--- Helper function: Get IsApproved from Projects by ProjectId
--- Used for join-free cross-table references in aggregations
-CREATE OR REPLACE FUNCTION get_projects_is_approved(p_project_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT (SELECT is_approved FROM projects WHERE project_id = p_project_id);
 $$ LANGUAGE sql STABLE;
 
 -- calc_roles_count_of_employees

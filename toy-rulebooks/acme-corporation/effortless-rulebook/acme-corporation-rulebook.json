@@ -148,8 +148,12 @@
       {
         "name": "IsApproved",
         "datatype": "boolean",
-        "type": "raw",
-        "nullable": true
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Whether the project is validly approved. True when the project's type doesn't require manager approval, OR the person in ApprovedBy holds a manager role.",
+        "formula": "=OR(NOT({{ProjectTypeRequiresManagerApproval}}), {{ApprovedByRoleIsManager}})",
+        "important": true,
+        "explanation_rich": "**The verdict the database computes for you.** `IsApproved` is not typed in by a human — it is derived: a project clears if its *type* doesn't require manager sign-off, or if the employee in `ApprovedBy` holds a role flagged `IsManager`. Both operands are themselves derived (`ProjectTypeRequiresManagerApproval` walks project→type; `ApprovedByRoleIsManager` walks project→approver→role). Set one foreign key — `ApprovedBy` — and the whole approval judgment follows from the rulebook, in every substrate. The app never runs this check; it reads the answer."
       },
       {
         "name": "ApprovedBy",

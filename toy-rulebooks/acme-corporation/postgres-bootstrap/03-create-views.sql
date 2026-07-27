@@ -28,7 +28,7 @@ SELECT
   t.email_address,                                                              -- Thec ustomers email address
   t.first_name,                                                                 -- First Name of the customer - used to make the full name
   t.last_name,                                                                  -- Last Name of the customer - used to make the full name
-  calc_client_full_name(t.client_id) AS full_name                               -- Full name is computed from the first and last name of the customer
+  calc_client_full_name(t.client_id) AS full_name                               -- The client's full name, written first name then last name (FirstName & " " & LastName).
 FROM client t;
 
 -- ----------------------------------------------------------------------------
@@ -46,7 +46,7 @@ SELECT
   calc_projects_project_type_description(t.project_id) AS project_type_description,
   calc_projects_project_type_requires_manager_approval(t.project_id) AS project_type_requires_manager_approval,
   t.due_date,
-  t.is_approved,
+  calc_projects_is_approved(t.project_id) AS is_approved,                       -- Whether the project is validly approved. True when the project's type doesn't require manager approval, OR the person in ApprovedBy holds a manager role.
   t.approved_by,
   calc_projects_approved_by_role_is_manager(t.project_id) AS approved_by_role_is_manager,
   calc_projects_approved_by_name(t.project_id) AS approved_by_name,
