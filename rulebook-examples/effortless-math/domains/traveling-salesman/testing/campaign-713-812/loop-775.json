@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 775,
+  "LoopId": "tsp-loop-775",
+  "DisplayName": "fri26 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "fri26 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "fri26 source ingested with SHA-256 80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0 and dimension 26.",
+  "WitnessSummary": "fri26 source ingested with SHA-256 80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0 and dimension 26.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "fri26",
+    "dimension": 26,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/fri26.tsp",
+    "source_sha256": "80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0",
+    "edge_weight_type": "EXPLICIT",
+    "edge_weight_format": "LOWER_DIAG_ROW",
+    "published_optimum": 937,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

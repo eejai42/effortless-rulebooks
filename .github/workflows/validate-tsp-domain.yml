@@ -1,40 +1,99 @@
-name: Validate TSP domain
+name: Validate consolidated TSP domain
 
 # Temporarily manual-only while the long-form loop campaign is being integrated.
 # This prevents one validation run and notification per semantic-loop commit.
 on:
+  pull_request:
+    paths:
+      - README.md
+      - rulebook-examples/effortless-math/README.md
+      - rulebook-examples/effortless-math/CLAUDE.md
+      - rulebook-examples/effortless-math/RESEARCH_CURRENT_STATUS.md
+      - rulebook-examples/effortless-math/RESEARCH_HANDOFF.md
+      - rulebook-examples/effortless-math/docs/LOOP_PROTOCOL.md
+      - rulebook-examples/effortless-math/domains/traveling-salesman/**
+      - rulebook-examples/effortless-math/shared-kernels/semantic-orchestration/**
+      - research-campaigns/_alignment/**
+      - research-campaigns/wall-clock-813-912/**
+      - .github/workflows/validate-tsp-domain.yml
+      - .github/workflows/verify-tsp-effortless-build.yml
+  push:
+    branches:
+      - main
+      - agent/tsp_consolidation
+    paths:
+      - README.md
+      - rulebook-examples/effortless-math/README.md
+      - rulebook-examples/effortless-math/CLAUDE.md
+      - rulebook-examples/effortless-math/RESEARCH_CURRENT_STATUS.md
+      - rulebook-examples/effortless-math/RESEARCH_HANDOFF.md
+      - rulebook-examples/effortless-math/docs/LOOP_PROTOCOL.md
+      - rulebook-examples/effortless-math/domains/traveling-salesman/**
+      - rulebook-examples/effortless-math/shared-kernels/semantic-orchestration/**
+      - research-campaigns/_alignment/**
+      - research-campaigns/wall-clock-813-912/**
+      - .github/workflows/validate-tsp-domain.yml
+      - .github/workflows/verify-tsp-effortless-build.yml
   workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: validate-consolidated-tsp-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PYTHONHASHSEED: '0'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
-          ref: ${{ github.ref_name }}
           fetch-depth: 0
 
-      - name: Validate semantic rulebook and summary projections
-        shell: bash
-        run: |
-          set -euo pipefail
-          domain='rulebook-examples/effortless-math/domains/traveling-salesman'
-          python3 "$domain/scripts/validate_rulebook.py"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.13'
 
-      - name: Compile replay, commissioning, and validation programs
+      - name: Install pinned validation dependencies
+        run: |
+          python3 -m pip install --quiet \
+            'numpy==2.1.3' \
+            'scipy==1.14.1' \
+            'networkx==3.4.2' \
+            'psycopg2-binary==2.9.10'
+
+      - name: Require mechanically reconciled projections
+        run: |
+          set -euo pipefail
+          domain='rulebook-examples/effortless-math/domains/traveling-salesman'
+          python3 "$domain/scripts/reconcile_summary.py"
+          git diff --exit-code -- \
+            "$domain/problem-contract.json" \
+            "$domain/testing/consolidation/artifact-lifecycle.json" \
+            "$domain/testing/consolidation/benchmark-provenance.json"
+
+      - name: Run cumulative semantic and evidence validation
         shell: bash
         run: |
           set -euo pipefail
           domain='rulebook-examples/effortless-math/domains/traveling-salesman'
+          args=()
+          if [[ "${{ github.event_name }}" == 'pull_request' ]] \
+             || grep -q '<!-- tsp-consolidation: canonical-loops=577-812 rows=236 views=45 -->' "$domain/README.md"; then
+            args+=(--require-build-certificate --include-readmes)
+          fi
+          python3 "$domain/scripts/validate_rulebook.py" "${args[@]}"
           find "$domain/scripts" "$domain/testing" -type f -name '*.py' -print0 \
             | xargs -0 -r python3 -m py_compile
           bash -n "$domain/start.sh"
 
-      - name: Ensure validation is read-only
-        shell: bash
-        run: |
-          test -z "$(git status --porcelain)"
+      - name: Prove validation is read-only
+        run: git diff --exit-code && test -z "$(git status --porcelain)"

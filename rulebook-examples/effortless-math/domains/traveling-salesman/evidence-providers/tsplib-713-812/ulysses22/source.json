@@ -1,0 +1,10 @@
+{
+  "name": "ulysses22",
+  "dimension": 22,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses22.tsp",
+  "source_sha256": "5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898",
+  "edge_weight_type": "GEO",
+  "edge_weight_format": null,
+  "published_optimum": 7013,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

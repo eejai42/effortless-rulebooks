@@ -43,15 +43,37 @@ cmd_build() {
     echo "missing required executable: effortless" >&2
     exit 1
   fi
-  echo "[tsp] effortless build → Postgres + RuleSpeak"
-  effortless build
 
   local formatter="$HERE/../../scripts/format-rulebook.py"
+  local mutation_checker="$HERE/scripts/check_rulebook_build_mutation.py"
   if [ ! -f "$formatter" ]; then
     echo "missing canonical formatter: $formatter" >&2
     exit 1
   fi
+  if [ ! -f "$mutation_checker" ]; then
+    echo "missing rulebook semantic-mutation checker: $mutation_checker" >&2
+    exit 1
+  fi
+
+  local before
+  before="$(mktemp)"
+  trap 'rm -f "$before"' RETURN
+  cp "$RULEBOOK" "$before"
+
+  echo "[tsp] effortless build → Postgres + RuleSpeak"
+  effortless build
+
+  # Effortless may rewrite JSON presentation. Normalize it, then require the
+  # parsed semantic object to be identical to the pre-build rulebook.
   python3 "$formatter" "$RULEBOOK"
+  if [ -n "${TSP_BUILD_MUTATION_REPORT:-}" ]; then
+    python3 "$mutation_checker" \
+      --before "$before" \
+      --after "$RULEBOOK" \
+      --report "$TSP_BUILD_MUTATION_REPORT"
+  else
+    python3 "$mutation_checker" --before "$before" --after "$RULEBOOK"
+  fi
 }
 
 cmd_db() {

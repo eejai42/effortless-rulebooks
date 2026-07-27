@@ -1,10 +1,10 @@
-name: Verify TSP Effortless build
+name: Certify consolidated TSP Effortless build
 
 on:
   push:
     branches:
       - main
-      - agent/tsp-effortless-build-recovery
+      - agent/tsp_consolidation
     paths:
       - .tsp-effortless-build.trigger
   workflow_dispatch:
@@ -13,13 +13,13 @@ permissions:
   contents: write
 
 concurrency:
-  group: tsp-effortless-build-${{ github.ref }}
+  group: certify-consolidated-tsp-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
-  verify:
+  certify:
     runs-on: ubuntu-24.04
-    timeout-minutes: 90
+    timeout-minutes: 120
     env:
       TARGET_BRANCH: ${{ github.ref_name }}
       DOMAIN: rulebook-examples/effortless-math/domains/traveling-salesman
@@ -30,12 +30,16 @@ jobs:
       EFFORTLESS_CLI_SOURCE: https://github.com/EffortlessAPI/cli/archive/1551cb82d5a8992ad09e4c82d08e28493f92f7b4.tar.gz
       NPM_CONFIG_PREFIX: /tmp/effortless-npm-global
       NPM_CONFIG_CACHE: /tmp/effortless-npm-cache
-      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
-      DOTNET_CLI_TELEMETRY_OPTOUT: "1"
-
+      PYTHONHASHSEED: '0'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: '1'
+      DOTNET_CLI_TELEMETRY_OPTOUT: '1'
     services:
       postgres:
-        image: postgres:16
+        image: postgres:16@sha256:33f923b05f64ca54ac4401c01126a6b92afe839a0aa0a52bc5aeb5cc958e5f20
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
@@ -49,38 +53,43 @@ jobs:
           --health-retries 20
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           ref: ${{ env.TARGET_BRANCH }}
           fetch-depth: 0
 
       - name: Configure Git
-        shell: bash
         run: |
           set -euo pipefail
           echo configure-git >/tmp/tsp-build-stage
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           node-version: '22'
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9
         with:
           dotnet-version: '8.0.410'
 
-      - name: Install runtime dependencies
-        shell: bash
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.13'
+
+      - name: Install pinned runtime dependencies
         run: |
           set -euo pipefail
           echo install-runtime-dependencies >/tmp/tsp-build-stage
           sudo apt-get update -qq
           sudo apt-get install -y -qq postgresql-client
-          python3 -m pip install --quiet psycopg2-binary
+          python3 -m pip install --quiet \
+            'numpy==2.1.3' \
+            'scipy==1.14.1' \
+            'networkx==3.4.2' \
+            'psycopg2-binary==2.9.10'
 
       - name: Install pinned Effortless CLI
-        shell: bash
         run: |
           set -euo pipefail
           echo install-effortless-cli >/tmp/tsp-build-stage
@@ -89,21 +98,85 @@ jobs:
           echo "$NPM_CONFIG_PREFIX/bin" >> "$GITHUB_PATH"
           npm install -g "$EFFORTLESS_CLI_SOURCE"
           effortless -info | tee /tmp/effortless-info.log
+          grep -q 'SSoTme CLI Version 2026-06-09.06.13' /tmp/effortless-info.log
 
-      - name: Validate canonical TSP rulebook before generation
-        shell: bash
+      - name: Record runtime identities
+        run: |
+          set -euo pipefail
+          echo record-runtime-identities >/tmp/tsp-build-stage
+          uname -a > /tmp/uname.log
+          lscpu > /tmp/lscpu.log
+          node --version > /tmp/node-version.log
+          npm --version > /tmp/npm-version.log
+          dotnet --info > /tmp/dotnet-info.log
+          python3 --version > /tmp/python-version.log
+          psql --version > /tmp/psql-version.log
+          psql -h "$PGHOST" -U "$PGUSER" -d postgres -v ON_ERROR_STOP=1 -tA -c \
+            "SELECT current_setting('server_version'), version()" \
+            > /tmp/postgres-version.log
+          python3 - <<'PY'
+          import importlib.metadata
+          import json
+          import os
+          import platform
+          from pathlib import Path
+
+          packages = {}
+          for name in ('numpy', 'scipy', 'networkx', 'psycopg2-binary'):
+              packages[name] = importlib.metadata.version(name)
+          runtime = {
+              'schema_version': 1,
+              'github_run_id': os.environ['GITHUB_RUN_ID'],
+              'github_runner_os': os.environ.get('RUNNER_OS'),
+              'github_runner_arch': os.environ.get('RUNNER_ARCH'),
+              'python': platform.python_version(),
+              'platform': platform.platform(),
+              'machine': platform.machine(),
+              'packages': packages,
+              'environment': {
+                  key: os.environ[key]
+                  for key in (
+                      'PYTHONHASHSEED', 'OMP_NUM_THREADS', 'OPENBLAS_NUM_THREADS',
+                      'MKL_NUM_THREADS', 'NUMEXPR_NUM_THREADS',
+                      'DOTNET_SKIP_FIRST_TIME_EXPERIENCE', 'DOTNET_CLI_TELEMETRY_OPTOUT'
+                  )
+              },
+              'command_outputs': {
+                  'node': Path('/tmp/node-version.log').read_text().strip(),
+                  'npm': Path('/tmp/npm-version.log').read_text().strip(),
+                  'python': Path('/tmp/python-version.log').read_text().strip(),
+                  'psql': Path('/tmp/psql-version.log').read_text().strip(),
+                  'postgres': Path('/tmp/postgres-version.log').read_text().strip(),
+              }
+          }
+          Path('/tmp/runtime-toolchain.json').write_text(json.dumps(runtime, indent=2) + '\n')
+          PY
+
+      - name: Require reconciled canonical state before generation
         run: |
           set -euo pipefail
           echo prebuild-validation >/tmp/tsp-build-stage
+          python3 "$DOMAIN/scripts/audit_loop_history.py" --output /tmp/loop-history-audit.json
+          cmp /tmp/loop-history-audit.json "$DOMAIN/testing/consolidation/loop-history-audit.json"
+          python3 "$DOMAIN/scripts/reconcile_summary.py"
+          git diff --exit-code -- \
+            "$DOMAIN/problem-contract.json" \
+            "$DOMAIN/testing/consolidation/artifact-lifecycle.json" \
+            "$DOMAIN/testing/consolidation/benchmark-provenance.json"
           python3 "$DOMAIN/scripts/validate_rulebook.py" | tee /tmp/tsp-prebuild-validation.log
-          python3 -m json.tool "$DOMAIN/effortless-rulebook/traveling-salesman-rulebook.json" >/dev/null
-          python3 -m json.tool "$DOMAIN/effortless.json" >/dev/null
+          find "$DOMAIN/scripts" "$DOMAIN/testing" -type f -name '*.py' -print0 \
+            | xargs -0 -r python3 -m py_compile
+          bash -n "$DOMAIN/start.sh"
+          python3 "$DOMAIN/scripts/validate_consolidation.py" --print-input-digest \
+            > /tmp/certified-input-before.txt
+          python3 "$DOMAIN/scripts/validate_consolidation.py" --print-input-files \
+            > /tmp/certified-input-files.json
 
-      - name: Generate projections with Effortless
-        shell: bash
+      - name: Generate Postgres and RuleSpeak through Effortless
         run: |
           set -euo pipefail
           echo effortless-build >/tmp/tsp-build-stage
+          export TSP_BUILD_MUTATION_REPORT=/tmp/tsp-build-mutation-report.json
           cd "$DOMAIN"
           ./start.sh build | tee /tmp/tsp-effortless-build.log
           test -s effortless-postgres/01-drop-and-create-tables.sql
@@ -113,16 +186,44 @@ jobs:
           test -s effortless-postgres/init-db.sh
           test -s rulespeak/rulespeak.md
 
-      - name: Recreate generated Postgres database
-        shell: bash
+      - name: Enforce resolved transpiler versions
+        run: |
+          set -euo pipefail
+          echo enforce-transpiler-versions >/tmp/tsp-build-stage
+          python3 - <<'PY'
+          import json
+          import re
+          from pathlib import Path
+
+          domain = Path('rulebook-examples/effortless-math/domains/traveling-salesman')
+          lock = json.loads((domain / 'testing' / 'consolidation' / 'toolchain-lock.json').read_text())
+          expected = {row['name']: row['version'] for row in lock['transpilers']}
+          aliases = {
+              'minimize-rulebook': 'minimizerulebook',
+              'rulebook-to-postgres': 'rulebooktopostgres',
+              'rulebook-to-rulespeak': 'rulebooktorulespeak',
+          }
+          resolved = {}
+          for line in Path('/tmp/tsp-effortless-build.log').read_text(errors='replace').splitlines():
+              match = re.search(r'cli:>\s+(\S+)\s+(v\S+)', line)
+              if not match:
+                  continue
+              tool = match.group(1).split('/')[-1]
+              if tool in aliases:
+                  resolved[aliases[tool]] = match.group(2)
+          if resolved != expected:
+              raise AssertionError(f'resolved transpilers differ from lock: {resolved!r} != {expected!r}')
+          Path('/tmp/resolved-transpilers.json').write_text(json.dumps(resolved, indent=2) + '\n')
+          PY
+
+      - name: Recreate database from generated SQL
         run: |
           set -euo pipefail
           echo postgres-load >/tmp/tsp-build-stage
           cd "$DOMAIN"
           ./start.sh db | tee /tmp/tsp-postgres-load.log
 
-      - name: Run Python/Postgres conformance
-        shell: bash
+      - name: Run generated Postgres and Python peer conformance
         run: |
           set -euo pipefail
           echo postgres-conformance >/tmp/tsp-build-stage
@@ -134,88 +235,207 @@ jobs:
           psql -h "$PGHOST" -U "$PGUSER" -d "$TSP_DB" -v ON_ERROR_STOP=1 -tA -c \
             "SELECT count(*) FROM information_schema.views WHERE table_schema='public' AND table_name LIKE 'vw_%'" \
             | tee /tmp/tsp-view-count.log
+          grep -qx '812|236' /tmp/tsp-loop-surface.log
+          grep -qx '45' /tmp/tsp-view-count.log
 
-      - name: Record verified build certificate
-        shell: bash
+      - name: Replay all semantic and benchmark evidence after generation
         run: |
           set -euo pipefail
-          echo record-certificate >/tmp/tsp-build-stage
-          mkdir -p "$DOMAIN/testing"
-          cp /tmp/effortless-info.log "$DOMAIN/testing/effortless-build-cli-info.log"
-          cp /tmp/tsp-prebuild-validation.log "$DOMAIN/testing/effortless-build-prevalidation.log"
-          cp /tmp/tsp-effortless-build.log "$DOMAIN/testing/effortless-build-generation.log"
-          cp /tmp/tsp-postgres-load.log "$DOMAIN/testing/effortless-build-postgres-load.log"
-          cp /tmp/tsp-postgres-conformance.log "$DOMAIN/testing/effortless-build-conformance.log"
-          cp /tmp/tsp-loop-surface.log "$DOMAIN/testing/effortless-build-loop-surface.txt"
-          cp /tmp/tsp-view-count.log "$DOMAIN/testing/effortless-build-view-count.txt"
+          echo postbuild-replay >/tmp/tsp-build-stage
+          python3 "$DOMAIN/scripts/validate_rulebook.py" | tee /tmp/tsp-postbuild-validation.log
+          python3 "$DOMAIN/scripts/validate_consolidation.py" --print-input-digest \
+            > /tmp/certified-input-after.txt
+          cmp /tmp/certified-input-before.txt /tmp/certified-input-after.txt
+
+      - name: Write consolidated runtime and build certificates
+        run: |
+          set -euo pipefail
+          echo write-consolidated-certificate >/tmp/tsp-build-stage
+          mkdir -p "$DOMAIN/testing/consolidation/build-logs"
+          cp /tmp/runtime-toolchain.json "$DOMAIN/testing/consolidation/runtime-toolchain.json"
+          cp /tmp/tsp-build-mutation-report.json "$DOMAIN/testing/consolidation/build-mutation-report.json"
+          cp /tmp/certified-input-files.json "$DOMAIN/testing/consolidation/certified-input-files.json"
+          cp /tmp/effortless-info.log "$DOMAIN/testing/consolidation/build-logs/effortless-info.log"
+          cp /tmp/tsp-prebuild-validation.log "$DOMAIN/testing/consolidation/build-logs/prebuild-validation.log"
+          cp /tmp/tsp-effortless-build.log "$DOMAIN/testing/consolidation/build-logs/effortless-build.log"
+          cp /tmp/tsp-postgres-load.log "$DOMAIN/testing/consolidation/build-logs/postgres-load.log"
+          cp /tmp/tsp-postgres-conformance.log "$DOMAIN/testing/consolidation/build-logs/postgres-conformance.log"
+          cp /tmp/tsp-postbuild-validation.log "$DOMAIN/testing/consolidation/build-logs/postbuild-validation.log"
+          cp /tmp/tsp-loop-surface.log "$DOMAIN/testing/consolidation/build-logs/loop-surface.txt"
+          cp /tmp/tsp-view-count.log "$DOMAIN/testing/consolidation/build-logs/view-count.txt"
+          cp /tmp/resolved-transpilers.json "$DOMAIN/testing/consolidation/resolved-transpilers.json"
+          cp /tmp/uname.log "$DOMAIN/testing/consolidation/build-logs/uname.log"
+          cp /tmp/lscpu.log "$DOMAIN/testing/consolidation/build-logs/lscpu.log"
+          cp /tmp/dotnet-info.log "$DOMAIN/testing/consolidation/build-logs/dotnet-info.log"
           python3 - <<'PY'
-          import hashlib, json, os
+          import hashlib
+          import json
+          import os
+          import subprocess
           from pathlib import Path
 
           domain = Path(os.environ['DOMAIN'])
           rulebook = domain / 'effortless-rulebook' / 'traveling-salesman-rulebook.json'
-          generated = domain / 'effortless-postgres'
 
           def sha256(path: Path) -> str:
               return hashlib.sha256(path.read_bytes()).hexdigest()
 
-          generated_files = sorted(p for p in generated.rglob('*') if p.is_file())
-          tree_digest = hashlib.sha256()
-          for path in generated_files:
-              rel = path.relative_to(domain).as_posix().encode()
-              tree_digest.update(rel + b'\0' + path.read_bytes() + b'\0')
+          def semantic_sha256(path: Path) -> str:
+              value = json.loads(path.read_text())
+              payload = json.dumps(value, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode()
+              return hashlib.sha256(payload).hexdigest()
+
+          def tree_identity(root: Path) -> tuple[str, int]:
+              files = sorted(
+                  path for path in root.rglob('*')
+                  if path.is_file() and '__pycache__' not in path.parts and not path.name.endswith('.pyc')
+              )
+              digest = hashlib.sha256()
+              for path in files:
+                  rel = path.relative_to(domain).as_posix().encode()
+                  digest.update(rel + b'\0' + path.read_bytes() + b'\0')
+              return digest.hexdigest(), len(files)
+
+          mutation = json.loads(Path('/tmp/tsp-build-mutation-report.json').read_text())
+          runtime = json.loads(Path('/tmp/runtime-toolchain.json').read_text())
+          resolved = json.loads(Path('/tmp/resolved-transpilers.json').read_text())
+          input_files = json.loads(Path('/tmp/certified-input-files.json').read_text())
+          matrix_path = domain / 'testing' / 'consolidation' / 'validator-matrix.json'
+          matrix = json.loads(matrix_path.read_text())
+          if matrix.get('all_pass') is not True:
+              raise AssertionError('validator matrix is not fully passing')
+
+          postgres_hash, postgres_count = tree_identity(domain / 'effortless-postgres')
+          rulespeak_hash, rulespeak_count = tree_identity(domain / 'rulespeak')
+          loop_surface = Path('/tmp/tsp-loop-surface.log').read_text().strip()
+          view_count = int(Path('/tmp/tsp-view-count.log').read_text().strip())
+          certified_digest = Path('/tmp/certified-input-after.txt').read_text().strip()
 
           certificate = {
+              'schema_version': 1,
               'status': 'PASS',
               'github_run_id': os.environ['GITHUB_RUN_ID'],
               'source_commit': os.environ['GITHUB_SHA'],
-              'cli_source': os.environ['EFFORTLESS_CLI_SOURCE'],
-              'rulebook_sha256': sha256(rulebook),
-              'generated_postgres_tree_sha256': tree_digest.hexdigest(),
-              'generated_postgres_file_count': len(generated_files),
-              'loop_surface': Path('/tmp/tsp-loop-surface.log').read_text().strip(),
-              'view_count': int(Path('/tmp/tsp-view-count.log').read_text().strip()),
+              'certified_branch': os.environ['TARGET_BRANCH'],
+              'certified_git_head_before_certificate_commit': subprocess.check_output(
+                  ['git', 'rev-parse', 'HEAD'], text=True
+              ).strip(),
+              'canonical_loop_range': [577, 812],
+              'loop_surface': loop_surface,
+              'view_count': view_count,
               'database': os.environ['TSP_DB'],
-              'generation_command': './start.sh build',
-              'database_command': './start.sh db',
-              'conformance_command': './start.sh test',
+              'rulebook_raw_sha256': sha256(rulebook),
+              'rulebook_semantic_sha256': semantic_sha256(rulebook),
+              'rulebook_semantic_object_equal_after_build': mutation['semantic_object_equal'],
+              'rulebook_raw_bytes_equal_after_build': mutation['raw_bytes_equal'],
+              'generated_postgres_tree_sha256': postgres_hash,
+              'generated_postgres_file_count': postgres_count,
+              'rulespeak_tree_sha256': rulespeak_hash,
+              'rulespeak_file_count': rulespeak_count,
+              'certified_input_scope_sha256': certified_digest,
+              'certified_input_file_count': len(input_files),
+              'certified_input_manifest_path': 'testing/consolidation/certified-input-files.json',
+              'toolchain_lock_sha256': sha256(domain / 'testing' / 'consolidation' / 'toolchain-lock.json'),
+              'runtime_toolchain_sha256': sha256(domain / 'testing' / 'consolidation' / 'runtime-toolchain.json'),
+              'resolved_transpilers': resolved,
+              'benchmark_provenance_sha256': sha256(domain / 'testing' / 'consolidation' / 'benchmark-provenance.json'),
+              'artifact_lifecycle_sha256': sha256(domain / 'testing' / 'consolidation' / 'artifact-lifecycle.json'),
+              'loop_history_audit_sha256': sha256(domain / 'testing' / 'consolidation' / 'loop-history-audit.json'),
+              'validator_matrix_sha256': sha256(matrix_path),
+              'campaign_aggregate_sha256': sha256(domain / 'testing' / 'campaign-713-812' / 'aggregate.json'),
+              'source_ledger_sha256': sha256(domain / 'evidence-providers' / 'tsplib-713-812' / 'source-ledger.json'),
+              'rulebook_is_generation_input': True,
+              'generated_database_loaded_from_effortless_projection': True,
+              'python_postgres_peer_conformance': 'PASS',
+              'legacy_and_current_validator_matrix': 'PASS',
+              'campaign_713_812_replay': 'PASS',
+              'bridge_711_712_replay': 'PASS',
+              'documentation_alignment_non_readme': 'PASS',
+              'runtime': runtime,
+              'commands': [
+                  './start.sh build',
+                  './start.sh db',
+                  './start.sh test',
+                  'scripts/validate_rulebook.py',
+              ],
+              'claim_boundary': [
+                  'finite exact TSP evidence only',
+                  'no general TSP algorithm proved',
+                  'no state-of-the-art solver claim',
+                  'provider-local labels 813-1532 remain noncanonical',
+                  'remote transpiler versions are enforced; provider source/image digests are not exposed'
+              ]
+          }
+          if certificate['loop_surface'] != '812|236' or certificate['view_count'] != 45:
+              raise AssertionError(certificate)
+          if certificate['rulebook_semantic_object_equal_after_build'] is not True:
+              raise AssertionError('Effortless build changed the parsed rulebook object')
+
+          certificate_path = domain / 'testing' / 'consolidation' / 'build-certificate.json'
+          certificate_path.write_text(json.dumps(certificate, indent=2) + '\n')
+
+          legacy = {
+              'status': 'PASS',
+              'github_run_id': os.environ['GITHUB_RUN_ID'],
+              'source_commit': os.environ['GITHUB_SHA'],
+              'consolidated_certificate': 'testing/consolidation/build-certificate.json',
+              'rulebook_sha256': certificate['rulebook_raw_sha256'],
+              'rulebook_semantic_sha256': certificate['rulebook_semantic_sha256'],
+              'generated_postgres_tree_sha256': certificate['generated_postgres_tree_sha256'],
+              'generated_postgres_file_count': certificate['generated_postgres_file_count'],
+              'loop_surface': certificate['loop_surface'],
+              'view_count': certificate['view_count'],
+              'database': certificate['database'],
               'rulebook_is_generation_input': True,
               'generated_database_loaded_from_effortless_projection': True,
           }
-          (domain / 'testing' / 'effortless-build-status.json').write_text(json.dumps(certificate, indent=2) + '\n')
+          (domain / 'testing' / 'effortless-build-status.json').write_text(
+              json.dumps(legacy, indent=2) + '\n'
+          )
           PY
 
-      - name: Commit generated projections and certificate
-        shell: bash
+      - name: Verify the completed certificate against the repository
+        run: |
+          set -euo pipefail
+          echo verify-consolidated-certificate >/tmp/tsp-build-stage
+          python3 "$DOMAIN/scripts/validate_rulebook.py" --require-build-certificate \
+            | tee "$DOMAIN/testing/consolidation/build-logs/certificate-validation.log"
+
+      - name: Commit generated projections and consolidated certificate
         run: |
           set -euo pipefail
           echo publish-success >/tmp/tsp-build-stage
           rm -f .tsp-effortless-build.trigger
-          git add -A -- "$DOMAIN" .tsp-effortless-build.trigger .github/workflows/verify-tsp-effortless-build.yml
-          git commit -m 'Verify TSP rulebook through Effortless build and generated Postgres' || true
+          git add -A -- \
+            "$DOMAIN/effortless-rulebook" \
+            "$DOMAIN/effortless-postgres" \
+            "$DOMAIN/rulespeak" \
+            "$DOMAIN/problem-contract.json" \
+            "$DOMAIN/testing/consolidation" \
+            "$DOMAIN/testing/effortless-build-status.json" \
+            .tsp-effortless-build.trigger
+          git commit -m 'Certify consolidated TSP rulebook through Effortless and Postgres'
           git pull --rebase origin "$TARGET_BRANCH"
           git push origin HEAD:"$TARGET_BRANCH"
 
       - name: Persist failing build stage
         if: failure()
-        shell: bash
         run: |
           set +e
           stage=$(cat /tmp/tsp-build-stage 2>/dev/null || echo unknown)
           git fetch origin "$TARGET_BRANCH"
           git reset --hard "origin/$TARGET_BRANCH"
-          mkdir -p "$DOMAIN/testing"
-          cat > "$DOMAIN/testing/effortless-build-status.json" <<EOF
+          mkdir -p "$DOMAIN/testing/consolidation"
+          cat > "$DOMAIN/testing/consolidation/build-failure-latest.json" <<EOF
           {
+            "schema_version": 1,
             "status": "FAIL",
             "github_run_id": "$GITHUB_RUN_ID",
             "source_commit": "$GITHUB_SHA",
             "failing_stage": "$stage",
-            "cli_source": "$EFFORTLESS_CLI_SOURCE",
-            "rulebook_is_generation_input": true,
-            "generated_database_loaded_from_effortless_projection": false
+            "previous_pass_certificate_preserved": true
           }
           EOF
-          git add "$DOMAIN/testing/effortless-build-status.json"
-          git commit -m "Record TSP Effortless build failure at $stage" || true
+          git add "$DOMAIN/testing/consolidation/build-failure-latest.json"
+          git commit -m "Record consolidated TSP build failure at $stage" || true
           git push origin HEAD:"$TARGET_BRANCH" || true

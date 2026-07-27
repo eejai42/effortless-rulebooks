@@ -1,0 +1,53 @@
+{
+  "strongest_lower_bound": {
+    "method": "scaled_integer_one_tree",
+    "value": 3323.0,
+    "ceil": 3323,
+    "trust": "EXACT_RATIONAL_REPLAY"
+  },
+  "best_witness": {
+    "method": "all_start_nearest_neighbor_2opt",
+    "tour": [
+      0,
+      1,
+      13,
+      2,
+      3,
+      4,
+      5,
+      11,
+      6,
+      12,
+      7,
+      10,
+      8,
+      9
+    ],
+    "value": 3323,
+    "provenance": "CONSTRUCTIVE_PORTFOLIO"
+  },
+  "best_constructive_witness": {
+    "tour": [
+      0,
+      1,
+      13,
+      2,
+      3,
+      4,
+      5,
+      11,
+      6,
+      12,
+      7,
+      10,
+      8,
+      9
+    ],
+    "value": 3323,
+    "gap_to_published_optimum": 0
+  },
+  "value_closed": true,
+  "witness_closed": true,
+  "branch_warrant": "REJECTED_VALUE_CLOSED",
+  "lp_tour_cost": 3323
+}

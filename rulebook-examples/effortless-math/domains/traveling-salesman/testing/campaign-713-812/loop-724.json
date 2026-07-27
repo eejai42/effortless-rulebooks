@@ -1,0 +1,121 @@
+{
+  "LoopOrder": 724,
+  "LoopId": "tsp-loop-724",
+  "DisplayName": "burma14 — Scaled-integer Held-Karp one-tree bound",
+  "Status": "CLOSED",
+  "BeforeState": "burma14 lacks an exact scaled-integer one-tree dual certificate.",
+  "PlannedClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+  "AfterState": "Exact scaled one-tree lower=3323.0; ceil=3323; tour-shaped=True.",
+  "WitnessSummary": "Exact scaled one-tree lower=3323.0; ceil=3323; tour-shaped=True.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Dual Value/Tour-Shape Split",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "method": "scaled-integer Held-Karp one-tree subgradient",
+    "scale": 1000,
+    "iterations_budget": 1000,
+    "best_lower_numerator": 3323000,
+    "best_lower_bound": 3323.0,
+    "best_ceil_lower_bound": 3323,
+    "upper_bound": 3323,
+    "value_closed": true,
+    "tour_shaped": true,
+    "degree": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "edges": [
+      [
+        1,
+        13
+      ],
+      [
+        13,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        11
+      ],
+      [
+        11,
+        6
+      ],
+      [
+        6,
+        12
+      ],
+      [
+        12,
+        7
+      ],
+      [
+        7,
+        10
+      ],
+      [
+        10,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        0,
+        9
+      ],
+      [
+        0,
+        1
+      ]
+    ],
+    "original_one_tree_cost": 3323,
+    "potentials_scaled": [
+      0,
+      94720,
+      -61650,
+      -92738,
+      -287889,
+      51052,
+      -13426,
+      178574,
+      117280,
+      -124863,
+      136800,
+      36860,
+      -2893,
+      -31827
+    ]
+  }
+}

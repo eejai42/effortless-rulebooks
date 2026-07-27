@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 720,
+  "LoopId": "tsp-loop-720",
+  "DisplayName": "Failure preservation policy",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Record caps, fractional residues, heuristic misses, and open values without promotion.",
+  "AfterState": "Caps, fractional residues, heuristic gaps, and open values are retained as first-class outcomes.",
+  "WitnessSummary": "Caps, fractional residues, heuristic gaps, and open values are retained as first-class outcomes.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "preserved_outcomes": [
+      "TIME_CAP",
+      "STATE_CAP",
+      "FRACTIONAL_SEC_CLOSED",
+      "FRACTIONAL_COMB_CLOSED",
+      "REQUIRED_VALUE_OPEN"
+    ],
+    "new_active_terms": 0
+  }
+}

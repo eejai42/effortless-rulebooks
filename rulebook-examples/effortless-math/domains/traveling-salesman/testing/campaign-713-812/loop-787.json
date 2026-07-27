@@ -1,0 +1,211 @@
+{
+  "LoopOrder": 787,
+  "LoopId": "tsp-loop-787",
+  "DisplayName": "bayg29 — Scaled-integer Held-Karp one-tree bound",
+  "Status": "CLOSED",
+  "BeforeState": "bayg29 lacks an exact scaled-integer one-tree dual certificate.",
+  "PlannedClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+  "AfterState": "Exact scaled one-tree lower=1607.995; ceil=1608; tour-shaped=False.",
+  "WitnessSummary": "Exact scaled one-tree lower=1607.995; ceil=1608; tour-shaped=False.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Dual Value/Tour-Shape Split",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "method": "scaled-integer Held-Karp one-tree subgradient",
+    "scale": 1000,
+    "iterations_budget": 1000,
+    "best_lower_numerator": 1607995,
+    "best_lower_bound": 1607.995,
+    "best_ceil_lower_bound": 1608,
+    "upper_bound": 1610,
+    "value_closed": false,
+    "tour_shaped": false,
+    "degree": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      3,
+      2,
+      2,
+      2,
+      2,
+      3,
+      2,
+      2,
+      1,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      1,
+      2,
+      2
+    ],
+    "edges": [
+      [
+        1,
+        19
+      ],
+      [
+        19,
+        9
+      ],
+      [
+        9,
+        12
+      ],
+      [
+        12,
+        15
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        3,
+        14
+      ],
+      [
+        14,
+        17
+      ],
+      [
+        17,
+        13
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        21
+      ],
+      [
+        21,
+        10
+      ],
+      [
+        10,
+        18
+      ],
+      [
+        18,
+        24
+      ],
+      [
+        24,
+        6
+      ],
+      [
+        6,
+        22
+      ],
+      [
+        22,
+        7
+      ],
+      [
+        7,
+        26
+      ],
+      [
+        7,
+        23
+      ],
+      [
+        1,
+        20
+      ],
+      [
+        20,
+        4
+      ],
+      [
+        4,
+        28
+      ],
+      [
+        28,
+        2
+      ],
+      [
+        2,
+        25
+      ],
+      [
+        25,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        11,
+        5
+      ],
+      [
+        5,
+        27
+      ],
+      [
+        0,
+        27
+      ],
+      [
+        0,
+        23
+      ]
+    ],
+    "original_one_tree_cost": 1626,
+    "potentials_scaled": [
+      0,
+      29582,
+      -65601,
+      10675,
+      21157,
+      11952,
+      -36148,
+      4671,
+      12457,
+      20866,
+      -23675,
+      -4032,
+      -1326,
+      -6829,
+      15551,
+      -325,
+      -26133,
+      -13020,
+      6535,
+      2095,
+      15420,
+      -10650,
+      -26617,
+      17029,
+      8134,
+      3697,
+      21675,
+      28258,
+      -15398
+    ]
+  }
+}

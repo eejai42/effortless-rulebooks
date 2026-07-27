@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 810,
+  "LoopId": "tsp-loop-810",
+  "DisplayName": "dantzig42 — Resource and residual profile",
+  "Status": "CLOSED",
+  "BeforeState": "dantzig42 lacks a common resource and residual profile across methods.",
+  "PlannedClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+  "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "WitnessSummary": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "dimension": 42,
+    "path_status": "TIME_CAP",
+    "path_unique_states": 19472,
+    "path_state_updates": 20861,
+    "path_runtime_seconds": 5.000104778999997,
+    "one_tree_ceil": 697,
+    "sec_objective": 697.0,
+    "comb_objective": 697.6666666666667,
+    "sec_cuts": 6,
+    "comb_cuts": 1,
+    "value_closed": false,
+    "witness_closed": true,
+    "new_active_terms": 0
+  }
+}

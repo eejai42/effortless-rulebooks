@@ -1944,8 +1944,12 @@ def validate_state(rb: dict[str, Any], contract: dict[str, Any]) -> None:
     base.validate_state(rb, contract)
     loop_map = {int(row["LoopOrder"]): row for row in rows(rb, "TSPLoops")}
     contract_map = {int(row["LoopOrder"]): row for row in contract["Loops"]}
-    if sorted(loop_map) != list(range(577, 711)):
-        raise AssertionError(f"loop sequence is not contiguous through 710: {min(loop_map)}..{max(loop_map)} count={len(loop_map)}")
+    required_loop_orders = set(range(577, 711))
+    missing_loop_orders = sorted(required_loop_orders - set(loop_map))
+    if missing_loop_orders:
+        raise AssertionError(
+            f"loop sequence is missing required history through 710: {missing_loop_orders}"
+        )
     for order in range(647, 711):
         row = loop_map[order]
         if not row.get("BeforeState") or not row.get("PlannedClosureCriterion"):
@@ -2030,8 +2034,15 @@ def validate_state(rb: dict[str, Any], contract: dict[str, Any]) -> None:
         if profile["count"] != 12 or profile["coverage_pct"] != 100:
             raise AssertionError(f"held-out summary mismatch: {profile}")
     if closed(709):
-        if "loop_709_postgres_projection_tree" not in contract.get("ArtifactHashes", {}):
-            raise AssertionError("loop-709 live Postgres artifact hash missing")
+        legacy_hashes = contract.get("ArtifactHashes", {})
+        if "loop_709_postgres_projection_tree" not in legacy_hashes:
+            lifecycle_path = contract.get("ArtifactLifecycle", {}).get("path")
+            if not lifecycle_path:
+                raise AssertionError("loop-709 live Postgres artifact lifecycle is missing")
+            lifecycle = load(DOMAIN / lifecycle_path)
+            historical = lifecycle.get("historical_loop_artifacts", {})
+            if "loop_709_postgres_projection_tree" not in historical:
+                raise AssertionError("loop-709 historical Postgres artifact hash missing")
     if closed(710):
         if meta_value(rb, "calibration_program_status") != "CLOSED_647_710":
             raise AssertionError("final calibration status mismatch")

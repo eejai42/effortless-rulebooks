@@ -1,0 +1,198 @@
+{
+  "LoopOrder": 781,
+  "LoopId": "tsp-loop-781",
+  "DisplayName": "fri26 — Simple 2-matching comb closure",
+  "Status": "CLOSED",
+  "BeforeState": "fri26 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+  "PlannedClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+  "AfterState": "Comb status=INTEGRAL_TOUR; objective=937.0; SEC cuts=6; comb cuts=0.",
+  "WitnessSummary": "Comb status=INTEGRAL_TOUR; objective=937.0; SEC cuts=6; comb cuts=0.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Warranted Rewrite",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "status": "INTEGRAL_TOUR",
+    "objective": 937.0,
+    "ceil_objective": 937,
+    "iterations": 7,
+    "sec_cut_count": 6,
+    "comb_cut_count": 0,
+    "fractional_edge_count": 0,
+    "integral": true,
+    "connected": true,
+    "tour_shaped": true,
+    "selected_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        24
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        5
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        4,
+        6
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        9,
+        13
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        10,
+        15
+      ],
+      [
+        11,
+        12
+      ],
+      [
+        12,
+        14
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        15,
+        18
+      ],
+      [
+        16,
+        17
+      ],
+      [
+        16,
+        20
+      ],
+      [
+        17,
+        19
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        20,
+        21
+      ],
+      [
+        21,
+        25
+      ],
+      [
+        22,
+        23
+      ],
+      [
+        22,
+        25
+      ],
+      [
+        23,
+        24
+      ]
+    ],
+    "fractional_edges": [],
+    "runtime_seconds": 0.026858699000001707,
+    "history": [
+      {
+        "iteration": 1,
+        "objective": 880.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 0,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 2,
+        "objective": 902.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 1,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 3,
+        "objective": 911.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 2,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 4,
+        "objective": 911.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 0,
+        "sec_cut_count": 3,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 5,
+        "objective": 932.0,
+        "mincut": 1.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 4,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 6,
+        "objective": 937.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 0,
+        "sec_cut_count": 5,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 7,
+        "objective": 937.0,
+        "mincut": 2.0,
+        "fractional_edge_count": 0,
+        "sec_cut_count": 6,
+        "comb_cut_count": 0
+      }
+    ],
+    "solver_trust": "SCIPY_HIGHS_NUMERICAL_LP"
+  }
+}

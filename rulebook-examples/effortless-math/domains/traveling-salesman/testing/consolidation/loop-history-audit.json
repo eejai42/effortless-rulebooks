@@ -1,0 +1,1145 @@
+{
+  "schema_version": 1,
+  "status": "PASS_WITH_RECORDED_HISTORICAL_EXCEPTION",
+  "loop_definition": "One loop equals one parsed canonical rulebook semantic change.",
+  "canonical_loop_range": [
+    577,
+    812
+  ],
+  "canonical_loop_count": 236,
+  "ordered_campaign_loop_commit_count": 100,
+  "ordered_campaign_commits": [
+    {
+      "loop_order": 713,
+      "commit": "283505562516eebcea90400ab6711a8a14b25039",
+      "subject": "TSP loop 713: External benchmark ladder preregistration",
+      "parent": "e3cab9a6f13f1ad04f266feca5a8ff730fa714f8",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        713
+      ]
+    },
+    {
+      "loop_order": 714,
+      "commit": "46d694d2de2266ad0563c2e9d5df004e3127e3f2",
+      "subject": "TSP loop 714: Frozen method portfolio",
+      "parent": "283505562516eebcea90400ab6711a8a14b25039",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        714
+      ]
+    },
+    {
+      "loop_order": 715,
+      "commit": "195da8a3200cf8db7c63efaecb09c3dc39ba97b8",
+      "subject": "TSP loop 715: Measurement contract",
+      "parent": "46d694d2de2266ad0563c2e9d5df004e3127e3f2",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        715
+      ]
+    },
+    {
+      "loop_order": 716,
+      "commit": "09b257b273eb584ef77583072bfb8a94288b7306",
+      "subject": "TSP loop 716: Source provenance contract",
+      "parent": "195da8a3200cf8db7c63efaecb09c3dc39ba97b8",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        716
+      ]
+    },
+    {
+      "loop_order": 717,
+      "commit": "263324b225ebcc4ac39ec5f0dbb01a07606089a1",
+      "subject": "TSP loop 717: Exactness trust boundary",
+      "parent": "09b257b273eb584ef77583072bfb8a94288b7306",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        717
+      ]
+    },
+    {
+      "loop_order": 718,
+      "commit": "8c910b46851f853b19e8e1f3d6b43c1a604e4e3c",
+      "subject": "TSP loop 718: Path-state proof contract",
+      "parent": "263324b225ebcc4ac39ec5f0dbb01a07606089a1",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        718
+      ]
+    },
+    {
+      "loop_order": 719,
+      "commit": "760624ea0a7cf589bace3f8d0f758b383e2ff6af",
+      "subject": "TSP loop 719: Cut closure contract",
+      "parent": "8c910b46851f853b19e8e1f3d6b43c1a604e4e3c",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        719
+      ]
+    },
+    {
+      "loop_order": 720,
+      "commit": "550faa8f1d37fb452682c547e4c929a77a5116bf",
+      "subject": "TSP loop 720: Failure preservation policy",
+      "parent": "760624ea0a7cf589bace3f8d0f758b383e2ff6af",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        720
+      ]
+    },
+    {
+      "loop_order": 721,
+      "commit": "8df81b542a0667883da2e112662db9fe1e026c34",
+      "subject": "TSP loop 721: burma14 — TSPLIB source ingestion",
+      "parent": "550faa8f1d37fb452682c547e4c929a77a5116bf",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        721
+      ]
+    },
+    {
+      "loop_order": 722,
+      "commit": "e04e1f2bbccf1c7ba21f664f50f1fc4c493811f6",
+      "subject": "TSP loop 722: burma14 — Constructive witness portfolio",
+      "parent": "8df81b542a0667883da2e112662db9fe1e026c34",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        722
+      ]
+    },
+    {
+      "loop_order": 723,
+      "commit": "eac100d7fc85819837617d2c7db0a5c6f77ecc2e",
+      "subject": "TSP loop 723: burma14 — MST-envelope path-state proof",
+      "parent": "e04e1f2bbccf1c7ba21f664f50f1fc4c493811f6",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        723
+      ]
+    },
+    {
+      "loop_order": 724,
+      "commit": "e98f41af6904c341e576a92586ce0638b0f98baf",
+      "subject": "TSP loop 724: burma14 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "eac100d7fc85819837617d2c7db0a5c6f77ecc2e",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        724
+      ]
+    },
+    {
+      "loop_order": 725,
+      "commit": "3fb2b8b251bc3b0f0fc19b65fc7cad7a560569bd",
+      "subject": "TSP loop 725: burma14 — Degree-only LP relaxation",
+      "parent": "e98f41af6904c341e576a92586ce0638b0f98baf",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        725
+      ]
+    },
+    {
+      "loop_order": 726,
+      "commit": "95ad92311ae2254afb38ca0070179aeab9614f81",
+      "subject": "TSP loop 726: burma14 — Subtour-elimination cut closure",
+      "parent": "3fb2b8b251bc3b0f0fc19b65fc7cad7a560569bd",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        726
+      ]
+    },
+    {
+      "loop_order": 727,
+      "commit": "749c255a0593423919b5088b9a700e6c0af5930b",
+      "subject": "TSP loop 727: burma14 — Simple 2-matching comb closure",
+      "parent": "95ad92311ae2254afb38ca0070179aeab9614f81",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        727
+      ]
+    },
+    {
+      "loop_order": 728,
+      "commit": "18206a9625e7cc699df6eb45a98176491ba216df",
+      "subject": "TSP loop 728: burma14 — Value/witness sandwich and branch warrant",
+      "parent": "749c255a0593423919b5088b9a700e6c0af5930b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        728
+      ]
+    },
+    {
+      "loop_order": 729,
+      "commit": "5e859d74cfbcea11b531a877410cba8fed7edc2d",
+      "subject": "TSP loop 729: burma14 — Resource and residual profile",
+      "parent": "18206a9625e7cc699df6eb45a98176491ba216df",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        729
+      ]
+    },
+    {
+      "loop_order": 730,
+      "commit": "2005bcefb9987d9b63a85fc5e484ecf396dcb626",
+      "subject": "TSP loop 730: ulysses16 — TSPLIB source ingestion",
+      "parent": "5e859d74cfbcea11b531a877410cba8fed7edc2d",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        730
+      ]
+    },
+    {
+      "loop_order": 731,
+      "commit": "12e8e183a75d650d5cd7415028ae6be1825e11db",
+      "subject": "TSP loop 731: ulysses16 — Constructive witness portfolio",
+      "parent": "2005bcefb9987d9b63a85fc5e484ecf396dcb626",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        731
+      ]
+    },
+    {
+      "loop_order": 732,
+      "commit": "d7ae5e4864708b19f7a926d0c08db9c67e14e8b5",
+      "subject": "TSP loop 732: ulysses16 — MST-envelope path-state proof",
+      "parent": "12e8e183a75d650d5cd7415028ae6be1825e11db",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        732
+      ]
+    },
+    {
+      "loop_order": 733,
+      "commit": "b43f5313dd9ad800b38832bc70e328d6c9278528",
+      "subject": "TSP loop 733: ulysses16 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "d7ae5e4864708b19f7a926d0c08db9c67e14e8b5",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        733
+      ]
+    },
+    {
+      "loop_order": 734,
+      "commit": "9625b6d28f4db03c24cd37ac7fcfa0072b0407e3",
+      "subject": "TSP loop 734: ulysses16 — Degree-only LP relaxation",
+      "parent": "b43f5313dd9ad800b38832bc70e328d6c9278528",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        734
+      ]
+    },
+    {
+      "loop_order": 735,
+      "commit": "199c6f63b4cfb44a731e9f0df2f5e127d53cd8e4",
+      "subject": "TSP loop 735: ulysses16 — Subtour-elimination cut closure",
+      "parent": "9625b6d28f4db03c24cd37ac7fcfa0072b0407e3",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        735
+      ]
+    },
+    {
+      "loop_order": 736,
+      "commit": "93d3e8814371af9901f60bc16633e28174310145",
+      "subject": "TSP loop 736: ulysses16 — Simple 2-matching comb closure",
+      "parent": "199c6f63b4cfb44a731e9f0df2f5e127d53cd8e4",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        736
+      ]
+    },
+    {
+      "loop_order": 737,
+      "commit": "d5c10b20bd66df9ba4ebc4bf216b74a0eea48e80",
+      "subject": "TSP loop 737: ulysses16 — Value/witness sandwich and branch warrant",
+      "parent": "93d3e8814371af9901f60bc16633e28174310145",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        737
+      ]
+    },
+    {
+      "loop_order": 738,
+      "commit": "4a5dc0eafbb0d220b05cd315f4eae854815d3927",
+      "subject": "TSP loop 738: ulysses16 — Resource and residual profile",
+      "parent": "d5c10b20bd66df9ba4ebc4bf216b74a0eea48e80",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        738
+      ]
+    },
+    {
+      "loop_order": 739,
+      "commit": "2ba636e9246bc978f4d3840d6f513f33aa0509c5",
+      "subject": "TSP loop 739: gr17 — TSPLIB source ingestion",
+      "parent": "4a5dc0eafbb0d220b05cd315f4eae854815d3927",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        739
+      ]
+    },
+    {
+      "loop_order": 740,
+      "commit": "a3fb0b8abc4fbd02e13a09b5ecd993c5acc4ce9b",
+      "subject": "TSP loop 740: gr17 — Constructive witness portfolio",
+      "parent": "2ba636e9246bc978f4d3840d6f513f33aa0509c5",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        740
+      ]
+    },
+    {
+      "loop_order": 741,
+      "commit": "f682709206f01a8bbcb7828053a6431a0d34c2fb",
+      "subject": "TSP loop 741: gr17 — MST-envelope path-state proof",
+      "parent": "a3fb0b8abc4fbd02e13a09b5ecd993c5acc4ce9b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        741
+      ]
+    },
+    {
+      "loop_order": 742,
+      "commit": "027823f97d43a127db2ad1f0222365eb24fa77f5",
+      "subject": "TSP loop 742: gr17 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "f682709206f01a8bbcb7828053a6431a0d34c2fb",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        742
+      ]
+    },
+    {
+      "loop_order": 743,
+      "commit": "8c69dae18d3063c2c58e9cb528d3e474fda205b7",
+      "subject": "TSP loop 743: gr17 — Degree-only LP relaxation",
+      "parent": "027823f97d43a127db2ad1f0222365eb24fa77f5",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        743
+      ]
+    },
+    {
+      "loop_order": 744,
+      "commit": "10f885eb3fd841fd5646b9c39f261cab7be8c131",
+      "subject": "TSP loop 744: gr17 — Subtour-elimination cut closure",
+      "parent": "8c69dae18d3063c2c58e9cb528d3e474fda205b7",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        744
+      ]
+    },
+    {
+      "loop_order": 745,
+      "commit": "9f7670856ccc3124cbb4b35fb3501bb3c2c1e8d8",
+      "subject": "TSP loop 745: gr17 — Simple 2-matching comb closure",
+      "parent": "10f885eb3fd841fd5646b9c39f261cab7be8c131",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        745
+      ]
+    },
+    {
+      "loop_order": 746,
+      "commit": "b4e51a70871535a63e15deff5a8f1e5c4d5c3206",
+      "subject": "TSP loop 746: gr17 — Value/witness sandwich and branch warrant",
+      "parent": "9f7670856ccc3124cbb4b35fb3501bb3c2c1e8d8",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        746
+      ]
+    },
+    {
+      "loop_order": 747,
+      "commit": "65ad70342ca8cc335c4bc8a9d7384ce416fc508b",
+      "subject": "TSP loop 747: gr17 — Resource and residual profile",
+      "parent": "b4e51a70871535a63e15deff5a8f1e5c4d5c3206",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        747
+      ]
+    },
+    {
+      "loop_order": 748,
+      "commit": "deecef7536a3915fd2f28d262faef97f4b6ef0f0",
+      "subject": "TSP loop 748: gr21 — TSPLIB source ingestion",
+      "parent": "65ad70342ca8cc335c4bc8a9d7384ce416fc508b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        748
+      ]
+    },
+    {
+      "loop_order": 749,
+      "commit": "faa9f4e4ed8e292ad43f31ee03151e6debb54670",
+      "subject": "TSP loop 749: gr21 — Constructive witness portfolio",
+      "parent": "deecef7536a3915fd2f28d262faef97f4b6ef0f0",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        749
+      ]
+    },
+    {
+      "loop_order": 750,
+      "commit": "a53ff9d7e5a657da5dd941b861be8fe60ffd22ad",
+      "subject": "TSP loop 750: gr21 — MST-envelope path-state proof",
+      "parent": "faa9f4e4ed8e292ad43f31ee03151e6debb54670",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        750
+      ]
+    },
+    {
+      "loop_order": 751,
+      "commit": "02f21421c6c3365099ae8347149e48dddd5158a7",
+      "subject": "TSP loop 751: gr21 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "a53ff9d7e5a657da5dd941b861be8fe60ffd22ad",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        751
+      ]
+    },
+    {
+      "loop_order": 752,
+      "commit": "b3d1059c3c506b09ed92701deea76431ff63f119",
+      "subject": "TSP loop 752: gr21 — Degree-only LP relaxation",
+      "parent": "02f21421c6c3365099ae8347149e48dddd5158a7",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        752
+      ]
+    },
+    {
+      "loop_order": 753,
+      "commit": "03221679e2271b0ebc7e0db7ba63ec22714157d1",
+      "subject": "TSP loop 753: gr21 — Subtour-elimination cut closure",
+      "parent": "b3d1059c3c506b09ed92701deea76431ff63f119",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        753
+      ]
+    },
+    {
+      "loop_order": 754,
+      "commit": "c700c627aae7174652954ae19c1e80b083e0fabf",
+      "subject": "TSP loop 754: gr21 — Simple 2-matching comb closure",
+      "parent": "03221679e2271b0ebc7e0db7ba63ec22714157d1",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        754
+      ]
+    },
+    {
+      "loop_order": 755,
+      "commit": "3fa2cf3b40f0d5d875b4d89c692447342348c1ca",
+      "subject": "TSP loop 755: gr21 — Value/witness sandwich and branch warrant",
+      "parent": "c700c627aae7174652954ae19c1e80b083e0fabf",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        755
+      ]
+    },
+    {
+      "loop_order": 756,
+      "commit": "01c9c3f9bf0385fff97c10db6b7d2cacd4b3b51d",
+      "subject": "TSP loop 756: gr21 — Resource and residual profile",
+      "parent": "3fa2cf3b40f0d5d875b4d89c692447342348c1ca",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        756
+      ]
+    },
+    {
+      "loop_order": 757,
+      "commit": "2e9bb8b3dae5217bee51c1b3947802467672423e",
+      "subject": "TSP loop 757: ulysses22 — TSPLIB source ingestion",
+      "parent": "01c9c3f9bf0385fff97c10db6b7d2cacd4b3b51d",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        757
+      ]
+    },
+    {
+      "loop_order": 758,
+      "commit": "00daa6621375f5ec35ba45cf514158ad9633d0c5",
+      "subject": "TSP loop 758: ulysses22 — Constructive witness portfolio",
+      "parent": "2e9bb8b3dae5217bee51c1b3947802467672423e",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        758
+      ]
+    },
+    {
+      "loop_order": 759,
+      "commit": "227ec292ec9c3f9b88dd26d5e5abd143664286f8",
+      "subject": "TSP loop 759: ulysses22 — MST-envelope path-state proof",
+      "parent": "00daa6621375f5ec35ba45cf514158ad9633d0c5",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        759
+      ]
+    },
+    {
+      "loop_order": 760,
+      "commit": "65bfb96732a8eb7d41974679ed6dafea589a0eac",
+      "subject": "TSP loop 760: ulysses22 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "227ec292ec9c3f9b88dd26d5e5abd143664286f8",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        760
+      ]
+    },
+    {
+      "loop_order": 761,
+      "commit": "73c0eb555917628a68e8dd577937c27c3e6181a6",
+      "subject": "TSP loop 761: ulysses22 — Degree-only LP relaxation",
+      "parent": "65bfb96732a8eb7d41974679ed6dafea589a0eac",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        761
+      ]
+    },
+    {
+      "loop_order": 762,
+      "commit": "f73db4fcd90aba9d5c38a0f9967f5a29e6659312",
+      "subject": "TSP loop 762: ulysses22 — Subtour-elimination cut closure",
+      "parent": "73c0eb555917628a68e8dd577937c27c3e6181a6",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        762
+      ]
+    },
+    {
+      "loop_order": 763,
+      "commit": "dbd57429953626ff4ea742f99085cf0d12c57ac8",
+      "subject": "TSP loop 763: ulysses22 — Simple 2-matching comb closure",
+      "parent": "f73db4fcd90aba9d5c38a0f9967f5a29e6659312",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        763
+      ]
+    },
+    {
+      "loop_order": 764,
+      "commit": "a602feca5626ead920bc984da2a5274f5f27e5be",
+      "subject": "TSP loop 764: ulysses22 — Value/witness sandwich and branch warrant",
+      "parent": "dbd57429953626ff4ea742f99085cf0d12c57ac8",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        764
+      ]
+    },
+    {
+      "loop_order": 765,
+      "commit": "a0cd2ac98ac98ff19e0a2c2acc4c7fd18e18610f",
+      "subject": "TSP loop 765: ulysses22 — Resource and residual profile",
+      "parent": "a602feca5626ead920bc984da2a5274f5f27e5be",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        765
+      ]
+    },
+    {
+      "loop_order": 766,
+      "commit": "4aba060aef0b959bc836cf4afc5eb8f9fa48d020",
+      "subject": "TSP loop 766: gr24 — TSPLIB source ingestion",
+      "parent": "a0cd2ac98ac98ff19e0a2c2acc4c7fd18e18610f",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        766
+      ]
+    },
+    {
+      "loop_order": 767,
+      "commit": "316256232942fa7ae6f8e2044be31b056a17190b",
+      "subject": "TSP loop 767: gr24 — Constructive witness portfolio",
+      "parent": "4aba060aef0b959bc836cf4afc5eb8f9fa48d020",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        767
+      ]
+    },
+    {
+      "loop_order": 768,
+      "commit": "ab141179c1285eb13eae1c62b2671122ea6bb568",
+      "subject": "TSP loop 768: gr24 — MST-envelope path-state proof",
+      "parent": "316256232942fa7ae6f8e2044be31b056a17190b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        768
+      ]
+    },
+    {
+      "loop_order": 769,
+      "commit": "09058ebc1acc092ebebe27f11ce1f4e1677ca8f8",
+      "subject": "TSP loop 769: gr24 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "ab141179c1285eb13eae1c62b2671122ea6bb568",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        769
+      ]
+    },
+    {
+      "loop_order": 770,
+      "commit": "61515b73ecf4160d5951f97fed583f7c1e4b2bbd",
+      "subject": "TSP loop 770: gr24 — Degree-only LP relaxation",
+      "parent": "09058ebc1acc092ebebe27f11ce1f4e1677ca8f8",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        770
+      ]
+    },
+    {
+      "loop_order": 771,
+      "commit": "fce43099eb5dc5abbeb10868fdb21e6b1962f58b",
+      "subject": "TSP loop 771: gr24 — Subtour-elimination cut closure",
+      "parent": "61515b73ecf4160d5951f97fed583f7c1e4b2bbd",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        771
+      ]
+    },
+    {
+      "loop_order": 772,
+      "commit": "2ddf7062cf4b765be67c9f4c9559458edba98d15",
+      "subject": "TSP loop 772: gr24 — Simple 2-matching comb closure",
+      "parent": "fce43099eb5dc5abbeb10868fdb21e6b1962f58b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        772
+      ]
+    },
+    {
+      "loop_order": 773,
+      "commit": "835ab13561057e3da18373c21b83989aa7c5cb04",
+      "subject": "TSP loop 773: gr24 — Value/witness sandwich and branch warrant",
+      "parent": "2ddf7062cf4b765be67c9f4c9559458edba98d15",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        773
+      ]
+    },
+    {
+      "loop_order": 774,
+      "commit": "e9970040772684a5ec488f8d826690c76dad7cbe",
+      "subject": "TSP loop 774: gr24 — Resource and residual profile",
+      "parent": "835ab13561057e3da18373c21b83989aa7c5cb04",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        774
+      ]
+    },
+    {
+      "loop_order": 775,
+      "commit": "d2d2390e088899aa9ee89af54ce135907a7e39de",
+      "subject": "TSP loop 775: fri26 — TSPLIB source ingestion",
+      "parent": "e9970040772684a5ec488f8d826690c76dad7cbe",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        775
+      ]
+    },
+    {
+      "loop_order": 776,
+      "commit": "711f89c228cb15984a0447fe9c5d127c70743f02",
+      "subject": "TSP loop 776: fri26 — Constructive witness portfolio",
+      "parent": "d2d2390e088899aa9ee89af54ce135907a7e39de",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        776
+      ]
+    },
+    {
+      "loop_order": 777,
+      "commit": "e9ad1f71cc52091c59fb71dfa115b14f0b39ef51",
+      "subject": "TSP loop 777: fri26 — MST-envelope path-state proof",
+      "parent": "711f89c228cb15984a0447fe9c5d127c70743f02",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        777
+      ]
+    },
+    {
+      "loop_order": 778,
+      "commit": "cb4581c8f22ab8372e92285948ad12f5490ada08",
+      "subject": "TSP loop 778: fri26 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "e9ad1f71cc52091c59fb71dfa115b14f0b39ef51",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        778
+      ]
+    },
+    {
+      "loop_order": 779,
+      "commit": "ba39b435021e85c2a0bc750ba10bb2a35a558211",
+      "subject": "TSP loop 779: fri26 — Degree-only LP relaxation",
+      "parent": "cb4581c8f22ab8372e92285948ad12f5490ada08",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        779
+      ]
+    },
+    {
+      "loop_order": 780,
+      "commit": "0d2d4d54db3a4904a63aeaafddab83956bc3bf4b",
+      "subject": "TSP loop 780: fri26 — Subtour-elimination cut closure",
+      "parent": "ba39b435021e85c2a0bc750ba10bb2a35a558211",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        780
+      ]
+    },
+    {
+      "loop_order": 781,
+      "commit": "87b5af394ea6ae139c4e8d5e0035f2a37882fffd",
+      "subject": "TSP loop 781: fri26 — Simple 2-matching comb closure",
+      "parent": "0d2d4d54db3a4904a63aeaafddab83956bc3bf4b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        781
+      ]
+    },
+    {
+      "loop_order": 782,
+      "commit": "da65441ca7b570034cab7013887f7032c9dfe95b",
+      "subject": "TSP loop 782: fri26 — Value/witness sandwich and branch warrant",
+      "parent": "87b5af394ea6ae139c4e8d5e0035f2a37882fffd",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        782
+      ]
+    },
+    {
+      "loop_order": 783,
+      "commit": "97c150ec647b5f8ff175670a9fe4141892163045",
+      "subject": "TSP loop 783: fri26 — Resource and residual profile",
+      "parent": "da65441ca7b570034cab7013887f7032c9dfe95b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        783
+      ]
+    },
+    {
+      "loop_order": 784,
+      "commit": "b7101ce67b0d61843b8f9d602f1713f347acfde4",
+      "subject": "TSP loop 784: bayg29 — TSPLIB source ingestion",
+      "parent": "97c150ec647b5f8ff175670a9fe4141892163045",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        784
+      ]
+    },
+    {
+      "loop_order": 785,
+      "commit": "80e9ab41a6314d052ad90038a4d7dc5d0bc480e6",
+      "subject": "TSP loop 785: bayg29 — Constructive witness portfolio",
+      "parent": "b7101ce67b0d61843b8f9d602f1713f347acfde4",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        785
+      ]
+    },
+    {
+      "loop_order": 786,
+      "commit": "370a1f9feab48fbb832b89235415fe03a04524a7",
+      "subject": "TSP loop 786: bayg29 — MST-envelope path-state proof",
+      "parent": "80e9ab41a6314d052ad90038a4d7dc5d0bc480e6",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        786
+      ]
+    },
+    {
+      "loop_order": 787,
+      "commit": "10b14c96b26428df913f4320da33500690441fe1",
+      "subject": "TSP loop 787: bayg29 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "370a1f9feab48fbb832b89235415fe03a04524a7",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        787
+      ]
+    },
+    {
+      "loop_order": 788,
+      "commit": "5fc888a1dc59eddfad713e9bdd93b97360399d80",
+      "subject": "TSP loop 788: bayg29 — Degree-only LP relaxation",
+      "parent": "10b14c96b26428df913f4320da33500690441fe1",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        788
+      ]
+    },
+    {
+      "loop_order": 789,
+      "commit": "bfbb6b86db8b11d981a524543bdaef71521276bc",
+      "subject": "TSP loop 789: bayg29 — Subtour-elimination cut closure",
+      "parent": "5fc888a1dc59eddfad713e9bdd93b97360399d80",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        789
+      ]
+    },
+    {
+      "loop_order": 790,
+      "commit": "7cd81188611c31386c4a360ccb046f5ba70c476e",
+      "subject": "TSP loop 790: bayg29 — Simple 2-matching comb closure",
+      "parent": "bfbb6b86db8b11d981a524543bdaef71521276bc",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        790
+      ]
+    },
+    {
+      "loop_order": 791,
+      "commit": "df2fb576a01955a233b24bb3b51eb3b40016ec82",
+      "subject": "TSP loop 791: bayg29 — Value/witness sandwich and branch warrant",
+      "parent": "7cd81188611c31386c4a360ccb046f5ba70c476e",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        791
+      ]
+    },
+    {
+      "loop_order": 792,
+      "commit": "ca104ce652ffcdb2e6c0865f3c2f5daa08c3ecaa",
+      "subject": "TSP loop 792: bayg29 — Resource and residual profile",
+      "parent": "df2fb576a01955a233b24bb3b51eb3b40016ec82",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        792
+      ]
+    },
+    {
+      "loop_order": 793,
+      "commit": "ed09335fee0ce6ba15c290a5ab8847db36ace300",
+      "subject": "TSP loop 793: bays29 — TSPLIB source ingestion",
+      "parent": "ca104ce652ffcdb2e6c0865f3c2f5daa08c3ecaa",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        793
+      ]
+    },
+    {
+      "loop_order": 794,
+      "commit": "f570ac4d1da3fb38e89904c9f81ba599b8293719",
+      "subject": "TSP loop 794: bays29 — Constructive witness portfolio",
+      "parent": "ed09335fee0ce6ba15c290a5ab8847db36ace300",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        794
+      ]
+    },
+    {
+      "loop_order": 795,
+      "commit": "ffbd574dffb9536b13672d26878855e3b0b65c5c",
+      "subject": "TSP loop 795: bays29 — MST-envelope path-state proof",
+      "parent": "f570ac4d1da3fb38e89904c9f81ba599b8293719",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        795
+      ]
+    },
+    {
+      "loop_order": 796,
+      "commit": "9fbede7ccad6f224de63853ad6fbd42587e6943c",
+      "subject": "TSP loop 796: bays29 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "ffbd574dffb9536b13672d26878855e3b0b65c5c",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        796
+      ]
+    },
+    {
+      "loop_order": 797,
+      "commit": "700086884620e572e9a2fcd576e70309a73e4835",
+      "subject": "TSP loop 797: bays29 — Degree-only LP relaxation",
+      "parent": "9fbede7ccad6f224de63853ad6fbd42587e6943c",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        797
+      ]
+    },
+    {
+      "loop_order": 798,
+      "commit": "f5f9472c1153c8d15a8e1e77e46eaa092ed6b5ae",
+      "subject": "TSP loop 798: bays29 — Subtour-elimination cut closure",
+      "parent": "700086884620e572e9a2fcd576e70309a73e4835",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        798
+      ]
+    },
+    {
+      "loop_order": 799,
+      "commit": "4431607ef10146d6e8a1dac1314b41b9a982ef63",
+      "subject": "TSP loop 799: bays29 — Simple 2-matching comb closure",
+      "parent": "f5f9472c1153c8d15a8e1e77e46eaa092ed6b5ae",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        799
+      ]
+    },
+    {
+      "loop_order": 800,
+      "commit": "f48934545fb8392dbc98ffc74ecba046486bb267",
+      "subject": "TSP loop 800: bays29 — Value/witness sandwich and branch warrant",
+      "parent": "4431607ef10146d6e8a1dac1314b41b9a982ef63",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        800
+      ]
+    },
+    {
+      "loop_order": 801,
+      "commit": "2f41918f1a01dafc4d198a002a45193e14fae9cf",
+      "subject": "TSP loop 801: bays29 — Resource and residual profile",
+      "parent": "f48934545fb8392dbc98ffc74ecba046486bb267",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        801
+      ]
+    },
+    {
+      "loop_order": 802,
+      "commit": "37b9efd565b792682b3dd2475c7349c576e87b22",
+      "subject": "TSP loop 802: dantzig42 — TSPLIB source ingestion",
+      "parent": "2f41918f1a01dafc4d198a002a45193e14fae9cf",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        802
+      ]
+    },
+    {
+      "loop_order": 803,
+      "commit": "7c922d3efc0b7f6b4ad45ab7b8c9e928f0d67101",
+      "subject": "TSP loop 803: dantzig42 — Constructive witness portfolio",
+      "parent": "37b9efd565b792682b3dd2475c7349c576e87b22",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        803
+      ]
+    },
+    {
+      "loop_order": 804,
+      "commit": "f959320b138415a5fa855728351874ef78f5883b",
+      "subject": "TSP loop 804: dantzig42 — MST-envelope path-state proof",
+      "parent": "7c922d3efc0b7f6b4ad45ab7b8c9e928f0d67101",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        804
+      ]
+    },
+    {
+      "loop_order": 805,
+      "commit": "26e3ea6c5eb581302cc7da249d8d239c26b1c612",
+      "subject": "TSP loop 805: dantzig42 — Scaled-integer Held-Karp one-tree bound",
+      "parent": "f959320b138415a5fa855728351874ef78f5883b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        805
+      ]
+    },
+    {
+      "loop_order": 806,
+      "commit": "330ff074041e411390167994016ccc263948bc4d",
+      "subject": "TSP loop 806: dantzig42 — Degree-only LP relaxation",
+      "parent": "26e3ea6c5eb581302cc7da249d8d239c26b1c612",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        806
+      ]
+    },
+    {
+      "loop_order": 807,
+      "commit": "76da50ae9a77db34b69e73de92eb769824b3dd3b",
+      "subject": "TSP loop 807: dantzig42 — Subtour-elimination cut closure",
+      "parent": "330ff074041e411390167994016ccc263948bc4d",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        807
+      ]
+    },
+    {
+      "loop_order": 808,
+      "commit": "a3820fccc2173811d6e00ff57a6e0c149ef79570",
+      "subject": "TSP loop 808: dantzig42 — Simple 2-matching comb closure",
+      "parent": "76da50ae9a77db34b69e73de92eb769824b3dd3b",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        808
+      ]
+    },
+    {
+      "loop_order": 809,
+      "commit": "9f2eee38d78012e066dd8f76d4110fcda1c96022",
+      "subject": "TSP loop 809: dantzig42 — Value/witness sandwich and branch warrant",
+      "parent": "a3820fccc2173811d6e00ff57a6e0c149ef79570",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        809
+      ]
+    },
+    {
+      "loop_order": 810,
+      "commit": "670c2b62ec7edc8419586f5ccc5855b6b8fbe8d2",
+      "subject": "TSP loop 810: dantzig42 — Resource and residual profile",
+      "parent": "9f2eee38d78012e066dd8f76d4110fcda1c96022",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        810
+      ]
+    },
+    {
+      "loop_order": 811,
+      "commit": "b19c1ec4f709bf5a26d1f5991f82fcf37c0f6b6d",
+      "subject": "TSP loop 811: Ten-instance benchmark synthesis",
+      "parent": "670c2b62ec7edc8419586f5ccc5855b6b8fbe8d2",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        811
+      ]
+    },
+    {
+      "loop_order": 812,
+      "commit": "84e45f1942208dc598fb6f96c958019da16009e6",
+      "subject": "TSP loop 812: Frozen-vocabulary frontier audit",
+      "parent": "b19c1ec4f709bf5a26d1f5991f82fcf37c0f6b6d",
+      "semantic_rulebook_changed": true,
+      "changed_loop_rows": [
+        812
+      ]
+    }
+  ],
+  "historical_bulk_preregistration": {
+    "status": "RECORDED_PROTOCOL_EXCEPTION",
+    "commit": "e3cab9a6f13f1ad04f266feca5a8ff730fa714f8",
+    "parent": "8e7cf14df37b280205bfa3b0dc5837b4dda7ad9a",
+    "subject": "TSP loops 713-812: preregister frozen TSPLIB campaign",
+    "semantic_rulebook_changed": true,
+    "changed_loop_rows": [
+      711,
+      712,
+      713,
+      714,
+      715,
+      716,
+      717,
+      718,
+      719,
+      720,
+      721,
+      722,
+      723,
+      724,
+      725,
+      726,
+      727,
+      728,
+      729,
+      730,
+      731,
+      732,
+      733,
+      734,
+      735,
+      736,
+      737,
+      738,
+      739,
+      740,
+      741,
+      742,
+      743,
+      744,
+      745,
+      746,
+      747,
+      748,
+      749,
+      750,
+      751,
+      752,
+      753,
+      754,
+      755,
+      756,
+      757,
+      758,
+      759,
+      760,
+      761,
+      762,
+      763,
+      764,
+      765,
+      766,
+      767,
+      768,
+      769,
+      770,
+      771,
+      772,
+      773,
+      774,
+      775,
+      776,
+      777,
+      778,
+      779,
+      780,
+      781,
+      782,
+      783,
+      784,
+      785,
+      786,
+      787,
+      788,
+      789,
+      790,
+      791,
+      792,
+      793,
+      794,
+      795,
+      796,
+      797,
+      798,
+      799,
+      800,
+      801,
+      802,
+      803,
+      804,
+      805,
+      806,
+      807,
+      808,
+      809,
+      810,
+      811,
+      812
+    ],
+    "explanation": "The runner inserted bridge rows 711-712 and PLANNED rows 713-812 in one semantic rulebook change before the 100 ordered closure commits. The final ledger and closure evidence are retained. Future campaign plans must remain outside the canonical rulebook until each individual semantic loop is committed."
+  },
+  "earlier_history": {
+    "loop_range": [
+      577,
+      710
+    ],
+    "mode": "SQUASHED_CANONICAL_LEDGER",
+    "per_loop_git_subjects_required": false,
+    "verification_basis": [
+      "canonical TSPLoops rows",
+      "historical loop-range certificates",
+      "calibration canonical-ledger replay",
+      "current consolidated Effortless/Postgres/peer replay"
+    ]
+  },
+  "future_enforcement": {
+    "semantic_commit_subject": "TSP loop <order>: <conceptual change>",
+    "maximum_changed_loop_rows": 1,
+    "bulk_planned_row_insertion_allowed": false,
+    "code_only_loop_label_allowed": false
+  }
+}

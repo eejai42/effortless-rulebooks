@@ -1,0 +1,10 @@
+{
+  "name": "dantzig42",
+  "dimension": 42,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/dantzig42.tsp",
+  "source_sha256": "44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d",
+  "edge_weight_type": "EXPLICIT",
+  "edge_weight_format": "LOWER_DIAG_ROW",
+  "published_optimum": 699,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

@@ -1,0 +1,13 @@
+TSP loops 713-812 validation: PASS
+{
+  "instance_count": 10,
+  "value_closed_count": 9,
+  "witness_closed_count": 10,
+  "path_proved_count": 6,
+  "one_tree_value_closed_count": 7,
+  "sec_integral_count": 7,
+  "comb_integral_count": 8,
+  "fractional_but_value_closed_count": 1,
+  "branch_required_count": 1,
+  "new_active_terms": 0
+}

@@ -1,0 +1,206 @@
+{
+  "schema_version": 1,
+  "status": "COMPLETE",
+  "all_pass": false,
+  "validators": [
+    {
+      "name": "v3_temporal",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_rulebook_v3_temporal.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/v3_temporal.log",
+      "tail": [
+        "traveling-salesman temporal v3 validation: PASS"
+      ]
+    },
+    {
+      "name": "v5_temporal",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_rulebook_v5_temporal.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/v5_temporal.log",
+      "tail": [
+        "traveling-salesman temporal v5 validation: PASS"
+      ]
+    },
+    {
+      "name": "v6_repository",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_rulebook_v6.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/v6_repository.log",
+      "tail": [
+        "traveling-salesman coherence convergence validation: PASS",
+        "loops=236 tables=45 atoms=1 operators=1"
+      ]
+    },
+    {
+      "name": "v6_summary",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_summary_alignment_v6.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/v6_summary.log",
+      "tail": [
+        "traveling-salesman coherence summary alignment: PASS"
+      ]
+    },
+    {
+      "name": "v7_repository",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_rulebook_v7.py"
+      ],
+      "exit_code": 1,
+      "status": "FAIL",
+      "log_path": "testing/consolidation/validator-matrix/v7_repository.log",
+      "tail": [
+        "traveling-salesman temporal v3 validation: PASS",
+        "traveling-salesman temporal v5 validation: PASS",
+        "Traceback (most recent call last):",
+        "  File \"/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_rulebook_v7.py\", line 5, in <module>",
+        "    validate_repository_state()",
+        "  File \"/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/apply_loops_647_710_calibration.py\", line 2055, in validate_repository_state",
+        "    validate_state(rb, contract)",
+        "  File \"/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/apply_loops_647_710_calibration.py\", line 1948, in validate_state",
+        "    raise AssertionError(f\"loop sequence is not contiguous through 710: {min(loop_map)}..{max(loop_map)} count={len(loop_map)}\")",
+        "AssertionError: loop sequence is not contiguous through 710: 577..812 count=236"
+      ]
+    },
+    {
+      "name": "v7_summary",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_summary_alignment_v7.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/v7_summary.log",
+      "tail": [
+        "traveling-salesman frozen-basis calibration summary alignment: PASS"
+      ]
+    },
+    {
+      "name": "calibration_647_710",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/verify_calibration_647_710.py"
+      ],
+      "exit_code": 1,
+      "status": "FAIL",
+      "log_path": "testing/consolidation/validator-matrix/calibration_647_710.log",
+      "tail": [
+        "Traceback (most recent call last):",
+        "  File \"/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/verify_calibration_647_710.py\", line 337, in <module>",
+        "    main()",
+        "  File \"/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/verify_calibration_647_710.py\", line 158, in main",
+        "    raise AssertionError(f\"loop sequence mismatch: {min(loops)}..{max(loops)} count={len(loops)}\")",
+        "AssertionError: loop sequence mismatch: 577..812 count=236"
+      ]
+    },
+    {
+      "name": "campaign_713_812",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/campaign_713_812.py",
+        "--validate"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/campaign_713_812.log",
+      "tail": [
+        "TSP loops 713-812 validation: PASS",
+        "{",
+        "  \"instance_count\": 10,",
+        "  \"value_closed_count\": 9,",
+        "  \"witness_closed_count\": 10,",
+        "  \"path_proved_count\": 6,",
+        "  \"one_tree_value_closed_count\": 7,",
+        "  \"sec_integral_count\": 7,",
+        "  \"comb_integral_count\": 8,",
+        "  \"fractional_but_value_closed_count\": 1,",
+        "  \"branch_required_count\": 1,",
+        "  \"new_active_terms\": 0",
+        "}"
+      ]
+    },
+    {
+      "name": "bridge_711_gr17",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/benchmark_gr17_loop_711.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/bridge_711_gr17.log",
+      "tail": [
+        "    14,",
+        "    2,",
+        "    10,",
+        "    9,",
+        "    1,",
+        "    4,",
+        "    8,",
+        "    11,",
+        "    15",
+        "  ],",
+        "  \"witness_value\": 2085,",
+        "  \"held_karp_states\": 524288,",
+        "  \"envelope_search\": {",
+        "    \"cheaper_tour_found\": false,",
+        "    \"expanded\": 21353,",
+        "    \"pushed\": 24861,",
+        "    \"pruned\": 164845",
+        "  },",
+        "  \"expanded_fraction_of_held_karp\": 0.04072761535644531",
+        "}"
+      ]
+    },
+    {
+      "name": "bridge_712_gr21",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/verify_loop_712_gr21.py"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/bridge_712_gr21.log",
+      "tail": [
+        "{'instance': 'TSPLIB gr21', 'witness': [2, 8, 4, 15, 5, 7, 6, 0, 11, 3, 10, 19, 18, 16, 9, 17, 12, 13, 14, 20, 1], 'witness_value': 2707, 'quotient_states': 4352, 'held_karp_states': 10485760, 'percentage': 0.04150390625, 'pruned': 53002}"
+      ]
+    },
+    {
+      "name": "consolidation",
+      "command": [
+        "/opt/hostedtoolcache/Python/3.12.13/x64/bin/python3",
+        "rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_consolidation.py",
+        "--require-history-audit"
+      ],
+      "exit_code": 0,
+      "status": "PASS",
+      "log_path": "testing/consolidation/validator-matrix/consolidation.log",
+      "tail": [
+        "traveling-salesman consolidation validation: PASS",
+        "{",
+        "  \"canonical_loop_surface\": \"577-812|236\",",
+        "  \"rulebook_raw_sha256\": \"956d5ec0a8bdf0dd2d4bb28463b632826c9b3cac27997cb58c49550937f0a82d\",",
+        "  \"rulebook_semantic_sha256\": \"228d94ac8b0abfe83bfdd261b1221d35f842341303b928cfbabd67458b37e5d5\",",
+        "  \"certified_input_scope_sha256\": \"65bb2ab30e3c88696a78f8d0ffbe60eec85fb9d7175838934b673c0429415de3\",",
+        "  \"build_certificate_required\": false,",
+        "  \"history_audit_required\": true",
+        "}"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "LoopOrder": 717,
+  "LoopId": "tsp-loop-717",
+  "DisplayName": "Exactness trust boundary",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Separate independently replayable integer bounds, numerical LP imports, witnesses, and published evaluation values.",
+  "AfterState": "Exact rational, numerical LP, constructive witness, and published evaluation statuses remain distinct.",
+  "WitnessSummary": "Exact rational, numerical LP, constructive witness, and published evaluation statuses remain distinct.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "trust_classes": [
+      "EXACT_RATIONAL_REPLAY",
+      "SCIPY_HIGHS_NUMERICAL_LP",
+      "CONSTRUCTIVE_WITNESS",
+      "PUBLISHED_EVALUATION_VALUE"
+    ],
+    "new_active_terms": 0
+  }
+}

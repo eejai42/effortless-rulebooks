@@ -1,0 +1,86 @@
+{
+  "LoopOrder": 755,
+  "LoopId": "tsp-loop-755",
+  "DisplayName": "gr21 — Value/witness sandwich and branch warrant",
+  "Status": "CLOSED",
+  "BeforeState": "gr21 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+  "PlannedClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+  "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+  "WitnessSummary": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Bound Sandwich",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "strongest_lower_bound": {
+      "method": "scaled_integer_one_tree",
+      "value": 2707.0,
+      "ceil": 2707,
+      "trust": "EXACT_RATIONAL_REPLAY"
+    },
+    "best_witness": {
+      "method": "all_start_nearest_neighbor_2opt",
+      "tour": [
+        0,
+        6,
+        7,
+        5,
+        15,
+        4,
+        8,
+        2,
+        1,
+        20,
+        14,
+        13,
+        12,
+        17,
+        9,
+        16,
+        18,
+        19,
+        10,
+        3,
+        11
+      ],
+      "value": 2707,
+      "provenance": "CONSTRUCTIVE_PORTFOLIO"
+    },
+    "best_constructive_witness": {
+      "tour": [
+        0,
+        6,
+        7,
+        5,
+        15,
+        4,
+        8,
+        2,
+        1,
+        20,
+        14,
+        13,
+        12,
+        17,
+        9,
+        16,
+        18,
+        19,
+        10,
+        3,
+        11
+      ],
+      "value": 2707,
+      "gap_to_published_optimum": 0
+    },
+    "value_closed": true,
+    "witness_closed": true,
+    "branch_warrant": "REJECTED_VALUE_CLOSED",
+    "lp_tour_cost": 2707
+  }
+}

@@ -1,0 +1,1 @@
+{"conclusion":"failure","createdAt":"2026-07-20T20:35:07Z","databaseId":29776730694,"event":"push","headBranch":"agent/tsp_consolidation","headSha":"f6e3fa6170f512ff141f9cd5c86cc6c75dc06a46","jobs":[],"name":".github/workflows/tsp-align-historical-handoff.yml","status":"completed","updatedAt":"2026-07-20T20:35:07Z"}

@@ -1,0 +1,10 @@
+{
+  "name": "gr17",
+  "dimension": 17,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr17.tsp",
+  "source_sha256": "b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa",
+  "edge_weight_type": "EXPLICIT",
+  "edge_weight_format": "LOWER_DIAG_ROW",
+  "published_optimum": 2085,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

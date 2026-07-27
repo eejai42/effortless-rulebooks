@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "status": "CONSOLIDATED_AVAILABLE_EVIDENCE",
+  "loop_definition": "A loop is exactly one change to the parsed semantic object of the canonical TSP rulebook. Code, generated projections, workflows, builds, benchmarks, reports, UI/UX, and documentation are not loops unless the same change modifies that semantic object.",
+  "canonical_ledger": {
+    "path": "effortless-rulebook/traveling-salesman-rulebook.json#TSPLoops",
+    "first_loop": 577,
+    "last_loop": 812,
+    "loop_count": 236,
+    "status": "CANONICAL_AND_REPLAYED",
+    "continuity": "CONTIGUOUS",
+    "build_gate": "testing/campaign-713-812/postgres-status.json",
+    "notes": [
+      "Loops 577-710 are preserved from the earlier canonical ledger and its historical verification certificates.",
+      "Loops 711-812 are now present in the same TSPLoops table and were replayed through the real Effortless build, generated Postgres recreation, campaign validation, and Python/Postgres conformance.",
+      "The historical 713-812 publication workflow bulk-preregistered PLANNED rows before closing them one at a time. The final ledger is retained, but future campaigns must stage plans outside the canonical rulebook and make exactly one semantic rulebook delta per loop."
+    ]
+  },
+  "historical_label_ranges": [
+    {
+      "first_label": 713,
+      "last_label": 812,
+      "classification": "CANONICAL_RULEBOOK_LOOPS",
+      "repository_source_present": true,
+      "archive_redundancy_status": "HISTORICAL_DELIVERY_ARCHIVES_NOT_REQUIRED_FOR_CURRENT_REPLAY",
+      "artifacts": [
+        {
+          "filename": "tsp-exact-search-loops-713-812.bundle",
+          "size_bytes": 129023,
+          "sha256": "06e2206ef90244992cfb489f5b0b612ba342aa50653799c97beb00b4e377b89e"
+        },
+        {
+          "filename": "tsp-exact-search-loops-713-812-source.zip",
+          "size_bytes": 151521,
+          "sha256": "cdbde37c2334029da6b6bbc2f0458ffb45f1d4739b93cf8b6a45afdcf026feaf"
+        },
+        {
+          "filename": "tsp-exact-search-loops-713-812-delivery.zip",
+          "size_bytes": 283485,
+          "sha256": "41606116b6d02b374700024457afd1d7166f55b0b5dfa3480729f569f93976e7"
+        }
+      ]
+    },
+    {
+      "first_label": 813,
+      "last_label": 912,
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "repository_summary_present": true,
+      "summary_paths": [
+        "../../../../../../research-campaigns/wall-clock-813-912/README.md",
+        "../../../../../../research-campaigns/wall-clock-813-912/summary.json",
+        "../../../../../../research-campaigns/wall-clock-813-912/validation.json"
+      ],
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-wall-clock-loops-813-912.bundle",
+          "size_bytes": 356159,
+          "sha256": "225a64a6ea1372bef4dbe626557eb2802eed631db24dbeecedad243125d6b00b"
+        },
+        {
+          "filename": "tsp-wall-clock-loops-813-912-source.zip",
+          "size_bytes": 184169,
+          "sha256": "1ee886e380305f574631ab38a2d8c854e722b3a2822a15c4c82c2e140217ad8f"
+        },
+        {
+          "filename": "tsp-wall-clock-loops-813-912-delivery.zip",
+          "size_bytes": 514126,
+          "sha256": "4da0c2451e8dc46c088f91a7ab5d19e42e3ae6ce273800f9a8864c65ee77069b"
+        }
+      ]
+    },
+    {
+      "first_label": 913,
+      "last_label": 932,
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "repository_summary_present": true,
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-orchestration-loops-913-932.bundle",
+          "size_bytes": 389229,
+          "sha256": "e70d33da40fb14ac44dc0d4a42136f4e5789c4e155b0fadfbf439df8052b5aac"
+        },
+        {
+          "filename": "tsp-orchestration-loops-913-932-source.zip",
+          "size_bytes": 30193,
+          "sha256": "9a251ab5d4d44bb86e8934fd4a3259579a08eeb4abdc956aff440eead978590a"
+        }
+      ]
+    },
+    {
+      "first_label": 933,
+      "last_label": 1032,
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "repository_summary_present": true,
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-solver-assistance-loops-933-1032.bundle",
+          "size_bytes": 971151,
+          "sha256": "a11a03489f77c3abb714422807bee786a9a2f348e200ec26a154c0f7ede2ef62"
+        },
+        {
+          "filename": "tsp-solver-assistance-loops-933-1032-source.zip",
+          "size_bytes": 822803,
+          "sha256": "5f747f1f693b312f2b9d498398f57dfa51f61960e265bc865b47f044343523da"
+        },
+        {
+          "filename": "tsp-solver-assistance-loops-933-1032-delivery.zip",
+          "size_bytes": 1725232,
+          "sha256": "14cf1ef21a0ac9a9f8868e6773fa8bd80d348b0e7bcb7834802164e283787c43"
+        }
+      ]
+    },
+    {
+      "first_label": 1033,
+      "last_label": 1532,
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "repository_summary_present": true,
+      "summary_paths": [
+        "../../../../../../research-campaigns/_alignment/provider-local-result-1033-1532.md"
+      ],
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-persistent-provider-loops-1033-1532.bundle",
+          "size_bytes": 1651054,
+          "sha256": "9f2ec34626ae28550bb18b50cfc98f743a3b13531ca0f84101e76361c4a92c0d"
+        },
+        {
+          "filename": "tsp-persistent-provider-loops-1033-1532-source.zip",
+          "size_bytes": 1789577,
+          "sha256": "55121705c3f1edfdfde45eacfb97cc056cd97d270d3cb456d948f801d078c71a"
+        },
+        {
+          "filename": "tsp-persistent-provider-loops-1033-1532-delivery.zip",
+          "size_bytes": 2957393,
+          "sha256": "b5429cc61acd32f967cf0dd4776643828471c4582ac5c055a4118a3495d7b2be"
+        }
+      ]
+    }
+  ],
+  "identifier_policy": {
+    "reserved_pending_audit": [813, 1532],
+    "next_unambiguous_new_loop_order": 1533,
+    "reason": "Historical provider work already used labels 813-1532. Those identifiers must not be reused even though the corresponding physical archives are absent from this repository and the labels have not been proven to be semantic rulebook loops."
+  },
+  "claim_boundary": {
+    "canonical_repository_truth": "Loops 577-812 and their checked-in evidence only.",
+    "verified_experimental_result": "The checked-in 713-812 campaign and the separately retained provider summaries, each at its stated trust boundary.",
+    "provider_local_evidence": "Labels 813-1532 remain content-addressed but noncanonical until source restoration, loop-eligibility audit, ordered rulebook ingestion, Effortless generation, Postgres load, and independent replay.",
+    "conversation_hypothesis": "Never promoted without a canonical artifact and a passing closure certificate."
+  }
+}

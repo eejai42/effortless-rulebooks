@@ -1,0 +1,90 @@
+{
+  "LoopOrder": 716,
+  "LoopId": "tsp-loop-716",
+  "DisplayName": "Source provenance contract",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Require URL, payload hash, TSPLIB dimension, format, and published optimum provenance.",
+  "AfterState": "Source URL, format, dimension, optimum ledger, and SHA-256 requirements were frozen.",
+  "WitnessSummary": "Source URL, format, dimension, optimum ledger, and SHA-256 requirements were frozen.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "optimum_ledger": {
+      "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions",
+      "sha256": "d6fa81c754f9b559bfbf19121c577d06aa3da195142d16d5fc2a14569f9be47c",
+      "verified_values": {
+        "burma14": 3323,
+        "ulysses16": 6859,
+        "gr17": 2085,
+        "gr21": 2707,
+        "ulysses22": 7013,
+        "gr24": 1272,
+        "fri26": 937,
+        "bayg29": 1610,
+        "bays29": 2020,
+        "dantzig42": 699
+      }
+    },
+    "sources": {
+      "burma14": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/burma14.tsp",
+        "sha256": "c2f10b100ad1a00bba19094e33ab3c05fb50203352151e23252eba6f85d5c3e7",
+        "dimension": 14
+      },
+      "ulysses16": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses16.tsp",
+        "sha256": "46064545dbb24b7f53b9b26802b422a903d92bc51ab835a73ec15733ab3cac46",
+        "dimension": 16
+      },
+      "gr17": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr17.tsp",
+        "sha256": "b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa",
+        "dimension": 17
+      },
+      "gr21": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr21.tsp",
+        "sha256": "3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4",
+        "dimension": 21
+      },
+      "ulysses22": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses22.tsp",
+        "sha256": "5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898",
+        "dimension": 22
+      },
+      "gr24": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr24.tsp",
+        "sha256": "7fcf61204842785f06c58e7098a3e1eb2786831179e115645083ce500c065779",
+        "dimension": 24
+      },
+      "fri26": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/fri26.tsp",
+        "sha256": "80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0",
+        "dimension": 26
+      },
+      "bayg29": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bayg29.tsp",
+        "sha256": "6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b",
+        "dimension": 29
+      },
+      "bays29": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bays29.tsp",
+        "sha256": "385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f",
+        "dimension": 29
+      },
+      "dantzig42": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/dantzig42.tsp",
+        "sha256": "44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d",
+        "dimension": 42
+      }
+    },
+    "new_active_terms": 0
+  }
+}

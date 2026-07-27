@@ -1,4 +1,15 @@
-# TSP Persistent Exact-Provider Assistance — Loops 1033–1532
+# TSP Persistent Exact-Provider Assistance — Historical Iteration Labels 1033–1532
+
+## Classification
+
+The numbers 1033–1532 are preserved historical provider-iteration labels. Under the repository’s strict loop definition, they are **not canonical TSP loops unless and until a restored archive proves that an individual iteration changed the parsed canonical TSP rulebook object**.
+
+```text
+canonical rulebook semantic object changed  => loop
+canonical rulebook semantic object unchanged => provider/code/experiment iteration
+```
+
+The physical bundle, source archive, and delivery archive are content-addressed in `local-artifact-inventory.json`, but they are not present in this repository. Therefore no per-iteration rulebook-delta audit can be performed here, and these labels are reserved rather than promoted or reused.
 
 ## Provider-local finite result
 
@@ -7,9 +18,9 @@ A preregistered campaign compared the same one-thread HiGHS exact binary degree-
 - **COLD_REBUILD:** construct a fresh native model for every weight snapshot and retain no proof artifacts.
 - **PERSISTENT_START:** retain the fixed-topology native model and accepted SEC rows, update only edge objectives, and install the previous independently verified tour as a MIP start.
 
-The rulebook and Postgres remain the intended canonical editing, orchestration, state-machine, verification, and acceptance surfaces. The numerical provider is purpose-built `highspy` 1.12.0.
+The rulebook and generated Postgres remain the intended canonical semantic, verification, and acceptance surfaces. Generic provider registration, solve-plan state, and artifact lifecycle belong in the sibling semantic-orchestration shared kernel. The numerical provider recorded by the available summary is purpose-built `highspy` 1.12.0.
 
-**Evidence status in this repository:** provider-local archive summary. These values have not yet been ingested into the canonical loop-710 rulebook and rebuilt through the current Effortless/Postgres gate.
+**Evidence status in this repository:** provider-local archive summary. These values have not been ingested as canonical rulebook changes or rebuilt through the consolidated Effortless/Postgres gate. The current canonical TSP ledger ends at loop 812 with 236 rows.
 
 ### Combined preregistered evidence
 
@@ -77,9 +88,9 @@ persistent model + prior tour       8.041352 s   2.814×
 
 Most of the represented gain comes from reusing independently accepted proof cuts. The previous tour helps when paired with those cuts. Model persistence adds a smaller further contribution on the development cohort.
 
-## Corrected closure of the earlier four cases
+## Corrected closure of four earlier provider cases
 
-A timing bug in loops 933–1032 reset the clock before each MILP call, so the old elapsed-time headline and original four-regression diagnosis are withdrawn. With corrected end-to-end timing, nine paired repetitions on each case produced:
+A timing bug in the historical provider iterations labeled 933–1032 reset the clock before each MILP call, so the old elapsed-time headline and original four-regression diagnosis are withdrawn. With corrected end-to-end timing, nine paired repetitions on each case produced:
 
 ```text
 7004-day1   1.382×   9 / 9 wins
@@ -110,4 +121,4 @@ Provider output is never accepted merely because the provider claims optimality.
 
 ## Claim boundary
 
-This is a provider-local finite repeated-topology exact-solver-assistance result from one recorded environment. It is not a universal TSP speedup theorem, a cross-machine leaderboard, a claim against Concorde, polynomial normalization, or `P = NP`. No new semantic atom, operator, or active glossary term was introduced in the 500-loop campaign.
+This is a provider-local finite repeated-topology exact-solver-assistance result from one recorded environment. It is not canonical TSP rulebook truth, a universal TSP speedup theorem, a cross-machine leaderboard, a claim against Concorde, polynomial normalization, or `P = NP`. The available summary reports no new semantic atom, operator, or active glossary term during the 500 provider iterations; because the physical source archive is absent, that statement remains provider-local evidence rather than a completed per-change rulebook audit.

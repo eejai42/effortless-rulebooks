@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 739,
+  "LoopId": "tsp-loop-739",
+  "DisplayName": "gr17 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "gr17 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "gr17 source ingested with SHA-256 b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa and dimension 17.",
+  "WitnessSummary": "gr17 source ingested with SHA-256 b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa and dimension 17.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "gr17",
+    "dimension": 17,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr17.tsp",
+    "source_sha256": "b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa",
+    "edge_weight_type": "EXPLICIT",
+    "edge_weight_format": "LOWER_DIAG_ROW",
+    "published_optimum": 2085,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

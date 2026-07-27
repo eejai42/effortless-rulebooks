@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "status": "EXPLICIT_LIFECYCLE",
+  "semantics": {
+    "CURRENT": "Certified for the current source commit and toolchain lock.",
+    "HISTORICAL": "Valid evidence for an earlier loop or source state.",
+    "SUPERSEDED": "Retained for provenance but replaced as the current build artifact.",
+    "REJECTED": "Preserved evidence that failed a declared gate.",
+    "UNVERIFIED_PROVIDER_LOCAL": "Content-addressed evidence not yet restored, ingested, and independently replayed in this repository."
+  },
+  "current": {
+    "status": "CERTIFICATE_PATH_IS_AUTHORITATIVE",
+    "certificate_path": "testing/consolidation/build-certificate.json",
+    "toolchain_lock_path": "testing/consolidation/toolchain-lock.json",
+    "rulebook_path": "effortless-rulebook/traveling-salesman-rulebook.json",
+    "rulebook_raw_sha256": "956d5ec0a8bdf0dd2d4bb28463b632826c9b3cac27997cb58c49550937f0a82d",
+    "rulebook_semantic_sha256": "228d94ac8b0abfe83bfdd261b1221d35f842341303b928cfbabd67458b37e5d5",
+    "policy": "No bare hash is current unless the named build certificate has status PASS and identifies the source commit, semantic input, generated trees, database load, and independent checks."
+  },
+  "historical_loop_artifacts": {
+    "loop_610_postgres_projection_tree": "sha256:820fc671a825379a4661ad333fd83b03f6f578f094f15a5e1193db293ae38194",
+    "loop_610_rulespeak_tree": "sha256:7312ad39093f44a34d8ef4bf8f15a92334d04b3d5c2681597db91c773d6f7f1c",
+    "loop_610_generated_view_count": 45,
+    "loop_646_postgres_projection_tree": "sha256:820fc671a825379a4661ad333fd83b03f6f578f094f15a5e1193db293ae38194",
+    "loop_646_rulespeak_tree": "sha256:7312ad39093f44a34d8ef4bf8f15a92334d04b3d5c2681597db91c773d6f7f1c",
+    "loop_646_live_three_region_lower_bound": "36.0000000000000000,true",
+    "loop_646_live_optimal_face": {
+      "tour-optimal-face-abcd-4": [
+        4.0,
+        "true"
+      ],
+      "tour-optimal-face-abdc-6": [
+        6.0,
+        "false"
+      ],
+      "tour-optimal-face-acbd-4": [
+        4.0,
+        "true"
+      ]
+    },
+    "loop_709_postgres_projection_tree": "sha256:21161cf595207344af096782102a7fc738dfef1adba1882298541f601ee9470d",
+    "loop_709_rulespeak_tree": "sha256:bc9b33ac5cfef2ecf99cea18a48fe9572c47f9b2e746c22a009a264248d749fb",
+    "loop_709_generated_view_count": 45,
+    "loop_709_live_heldout_exact_count": 12,
+    "loop_709_live_oracle_rows": [
+      "tsp-holdout-bottleneck7-7,20.0,1,360,REQUIRED_FOR_VALUE",
+      "tsp-holdout-cluster7-7,29.0,2,360,REQUIRED_FOR_VALUE",
+      "tsp-holdout-dominance7-7,29.0,1,360,REQUIRED_FOR_VALUE",
+      "tsp-holdout-fourregion8-8,24.0,2,2520,REJECTED_VALUE_ALREADY_CERTIFIED",
+      "tsp-holdout-hetero8-8,31.0,1,2520,REQUIRED_FOR_VALUE",
+      "tsp-holdout-metric6-6,152.0,1,1,REJECTED_VALUE_ALREADY_CERTIFIED",
+      "tsp-holdout-nested8-8,31.0,2,2520,REQUIRED_FOR_VALUE",
+      "tsp-holdout-nonmetric6-6,37.0,1,60,REQUIRED_FOR_VALUE",
+      "tsp-holdout-residual8-8,38.0,1,2520,REQUIRED_FOR_VALUE",
+      "tsp-holdout-ring6-6,6.0,1,1,REJECTED_VALUE_ALREADY_CERTIFIED",
+      "tsp-holdout-sparse8-8,8.0,1,1,REJECTED_VALUE_ALREADY_CERTIFIED",
+      "tsp-holdout-tie6-6,6.0,60,60,REJECTED_VALUE_ALREADY_CERTIFIED"
+    ]
+  },
+  "superseded_legacy_top_level_artifacts": {
+    "rulebook": "sha256:71649f568248a91818b22ef25b57e7b33260f57e03605d9d8243e8ee6151ed1d",
+    "build_input_rulebook": "sha256:9e4ee0e680d38ad9b3353fbc857c4d4d7875133197338bccceb0f2db69620c90",
+    "postgres_projection_tree": "sha256:52a43b65f1f868ee752043a1e6012d38f8aa9ffbcd8020aed1cb9507bfdca427",
+    "rulespeak_tree": "sha256:0bf9cbe820e706586e1600029deffd2615cdc4448520ac7d47ea9455eba7679d",
+    "commissioning_transcript": "sha256:ae8190f4c6084cbd1d2a3e9ae359a2b1966cf99dfcb2423d92cf98e6aaf8f7a5",
+    "effortless_cli_commit": "1551cb82d5a8992ad09e4c82d08e28493f92f7b4",
+    "effortless_cli_archive": "https://github.com/EffortlessAPI/cli/archive/1551cb82d5a8992ad09e4c82d08e28493f92f7b4.tar.gz",
+    "retry_9_finalization_failure_transcript": "sha256:6516deab2de42c971cc55ef2d752d3d5cb2154dd343cd7827803e1bd6ed8bd2b"
+  },
+  "provider_local": {
+    "classification_path": "testing/consolidation/campaign-classification.json",
+    "benchmark_provenance_path": "testing/consolidation/benchmark-provenance.json",
+    "status": "SEE_CLASSIFICATION"
+  }
+}

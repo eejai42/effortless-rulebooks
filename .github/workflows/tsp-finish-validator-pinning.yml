@@ -1,0 +1,199 @@
+name: Finish TSP validator scope and workflow pinning
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation
+    paths:
+      - .tsp-finish-validator-pinning.trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: agent/tsp_consolidation
+          fetch-depth: 0
+
+      - name: Patch certified input scope and durable workflow identities
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          repo = Path.cwd()
+          domain = repo / 'rulebook-examples' / 'effortless-math' / 'domains' / 'traveling-salesman'
+
+          def lines(*items: str) -> str:
+              return '\n'.join(items)
+
+          def replace_once(text: str, old: str, new: str, label: str) -> str:
+              count = text.count(old)
+              if count != 1:
+                  raise AssertionError(f'{label}: expected one exact block, found {count}')
+              return text.replace(old, new, 1)
+
+          validator = domain / 'scripts' / 'validate_consolidation.py'
+          text = validator.read_text()
+          old_paths = lines(
+              '    paths: list[Path] = [',
+              '        RULEBOOK,',
+              '        CONTRACT,',
+              '        EFFORTLESS,',
+              '        DOMAIN / "start.sh",',
+              '        DOMAIN / "CAMPAIGN_REPORT_713_812.md",',
+              '        DOMAIN / "testing" / "take-test.py",',
+              '        CLASSIFICATION,',
+              '        TOOLCHAIN_LOCK,',
+              '        BENCHMARK_PROVENANCE,',
+              '        ARTIFACT_LIFECYCLE,',
+              '        LOCAL_INVENTORY,',
+              '        REPO / "research-campaigns" / "wall-clock-813-912" / "summary.json",',
+              '        REPO / "research-campaigns" / "wall-clock-813-912" / "validation.json",',
+              '        REPO / "research-campaigns" / "_alignment" / "provider-local-result-1033-1532.md",',
+              '        SHARED_ORCHESTRATION,',
+              '        REPO / ".github" / "workflows" / "validate-tsp-domain.yml",',
+              '        REPO / ".github" / "workflows" / "verify-tsp-effortless-build.yml",',
+              '    ]',
+          )
+          new_paths = lines(
+              '    paths: list[Path] = [',
+              '        RULEBOOK,',
+              '        CONTRACT,',
+              '        EFFORTLESS,',
+              '        REPO / "rulebook-examples" / "effortless-math" / "CLAUDE.md",',
+              '        REPO / "rulebook-examples" / "effortless-math" / "RESEARCH_CURRENT_STATUS.md",',
+              '        REPO / "rulebook-examples" / "effortless-math" / "RESEARCH_HANDOFF.md",',
+              '        REPO / "rulebook-examples" / "effortless-math" / "docs" / "LOOP_PROTOCOL.md",',
+              '        DOMAIN / "CLAUDE.md",',
+              '        DOMAIN / "start.sh",',
+              '        DOMAIN / "CAMPAIGN_REPORT_713_812.md",',
+              '        DOMAIN / "testing" / "take-test.py",',
+              '        DOMAIN / "testing" / "calibration-647-710-status.json",',
+              '        DOMAIN / "testing" / "calibration-647-710-verified.json",',
+              '        DOMAIN / "testing" / "calibration-history-mode.json",',
+              '        DOMAIN / "testing" / "loop-711-gr17.json",',
+              '        DOMAIN / "testing" / "loop-711-gr17-result.json",',
+              '        DOMAIN / "testing" / "loop-712-gr21-result.json",',
+              '        DOMAIN / "testing" / "consolidation" / "validator-matrix.json",',
+              '        CAMPAIGN_STATUS,',
+              '        CAMPAIGN_AGGREGATE,',
+              '        CAMPAIGN_POSTGRES,',
+              '        CLASSIFICATION,',
+              '        TOOLCHAIN_LOCK,',
+              '        BENCHMARK_PROVENANCE,',
+              '        ARTIFACT_LIFECYCLE,',
+              '        LOCAL_INVENTORY,',
+              '        REPO / "research-campaigns" / "wall-clock-813-912" / "summary.json",',
+              '        REPO / "research-campaigns" / "wall-clock-813-912" / "validation.json",',
+              '        REPO / "research-campaigns" / "_alignment" / "provider-local-result-1033-1532.md",',
+              '        SHARED_ORCHESTRATION,',
+              '        REPO / ".github" / "workflows" / "validate-tsp-domain.yml",',
+              '        REPO / ".github" / "workflows" / "verify-tsp-effortless-build.yml",',
+              '    ]',
+          )
+          text = replace_once(text, old_paths, new_paths, 'certified input paths')
+
+          old_toolchain_tail = lines(
+              '    cli = lock["effortless_cli"]',
+              '    if cli["git_commit"] not in cli["archive_url"]:',
+              '        raise AssertionError("Effortless CLI archive does not identify the pinned commit")',
+          )
+          new_toolchain_tail = lines(
+              '    cli = lock["effortless_cli"]',
+              '    if cli["git_commit"] not in cli["archive_url"]:',
+              '        raise AssertionError("Effortless CLI archive does not identify the pinned commit")',
+              '',
+              '    actions = lock["github_actions"]',
+              '    validation_workflow = (REPO / ".github" / "workflows" / "validate-tsp-domain.yml").read_text()',
+              '    build_workflow = (REPO / ".github" / "workflows" / "verify-tsp-effortless-build.yml").read_text()',
+              '    required_action_refs = {',
+              '        "checkout": f"actions/checkout@{actions[\'checkout_v4_commit\']}",',
+              '        "setup_python": f"actions/setup-python@{actions[\'setup_python_v5_commit\']}",',
+              '        "setup_node": f"actions/setup-node@{actions[\'setup_node_v4_commit\']}",',
+              '        "setup_dotnet": f"actions/setup-dotnet@{actions[\'setup_dotnet_v4_commit\']}",',
+              '    }',
+              '    for name in ("checkout", "setup_python"):',
+              '        reference = required_action_refs[name]',
+              '        if reference not in validation_workflow or reference not in build_workflow:',
+              '            raise AssertionError(f"durable TSP workflows do not both pin {name}: {reference}")',
+              '    for name in ("setup_node", "setup_dotnet"):',
+              '        reference = required_action_refs[name]',
+              '        if reference not in build_workflow:',
+              '            raise AssertionError(f"TSP build workflow does not pin {name}: {reference}")',
+              '',
+              '    runtime = lock["runtime"]',
+              '    required_build_literals = [',
+              '        f"python-version: \'{runtime[\'python\']}\'",',
+              '        f"node-version: \'{runtime[\'node\']}\'",',
+              '        f"dotnet-version: \'{runtime[\'dotnet_sdk\']}\'",',
+              '        f"image: {runtime[\'postgres_image\']}",',
+              '    ]',
+              '    missing_literals = [item for item in required_build_literals if item not in build_workflow]',
+              '    if missing_literals:',
+              '        raise AssertionError(f"TSP build workflow/toolchain lock mismatch: {missing_literals}")',
+              '    if f"python-version: \'{runtime[\'python\']}\'" not in validation_workflow:',
+              '        raise AssertionError("TSP validation workflow does not pin the locked Python patch version")',
+          )
+          text = replace_once(text, old_toolchain_tail, new_toolchain_tail, 'toolchain workflow validation')
+          validator.write_text(text)
+
+          validation_workflow = repo / '.github' / 'workflows' / 'validate-tsp-domain.yml'
+          text = validation_workflow.read_text()
+          text = replace_once(
+              text,
+              "          python-version: '3.12'",
+              "          python-version: '3.12.13'",
+              'validation Python patch',
+          )
+          validation_workflow.write_text(text)
+
+          build_workflow = repo / '.github' / 'workflows' / 'verify-tsp-effortless-build.yml'
+          text = build_workflow.read_text()
+          text = replace_once(
+              text,
+              '      - uses: actions/setup-node@v4',
+              '      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020',
+              'build setup-node action',
+          )
+          text = replace_once(
+              text,
+              '      - uses: actions/setup-dotnet@v4',
+              '      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9',
+              'build setup-dotnet action',
+          )
+          build_workflow.write_text(text)
+          PY
+
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12.13'
+
+      - name: Validate patched scope and identities
+        run: |
+          set -euo pipefail
+          domain='rulebook-examples/effortless-math/domains/traveling-salesman'
+          python3 -m py_compile "$domain/scripts/validate_consolidation.py"
+          python3 "$domain/scripts/validate_consolidation.py" --require-history-audit
+          python3 "$domain/scripts/validate_consolidation.py" --print-input-digest
+
+      - name: Commit the final validator and pinning surface
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-finish-validator-pinning.trigger
+          git add \
+            rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_consolidation.py \
+            .github/workflows/validate-tsp-domain.yml \
+            .github/workflows/verify-tsp-effortless-build.yml \
+            .tsp-finish-validator-pinning.trigger
+          git commit -m 'Bind TSP certification to the complete pinned input surface'
+          git pull --rebase origin agent/tsp_consolidation
+          git push origin HEAD:agent/tsp_consolidation

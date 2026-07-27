@@ -1,0 +1,130 @@
+repair	Make loop-647-710 validators cumulative-compatible	﻿2026-07-20T20:25:23.7747017Z ##[group]Run set -euo pipefail
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7747453Z ^[[36;1mset -euo pipefail^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7747702Z ^[[36;1mpython3 - <<'PY'^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7747952Z ^[[36;1mfrom pathlib import Path^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7748198Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7748562Z ^[[36;1mdomain = Path('rulebook-examples/effortless-math/domains/traveling-salesman')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7748996Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7749308Z ^[[36;1mapply_path = domain / 'scripts' / 'apply_loops_647_710_calibration.py'^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7749709Z ^[[36;1mtext = apply_path.read_text()^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7750037Z ^[[36;1mold = '''    if sorted(loop_map) != list(range(577, 711)):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7750688Z ^[[36;1m    raise AssertionError(f"loop sequence is not contiguous through 710: {min(loop_map)}..{max(loop_map)} count={len(loop_map)}")'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7751335Z ^[[36;1mnew = '''    required_loop_orders = set(range(577, 711))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7752085Z ^[[36;1m    missing_loop_orders = sorted(required_loop_orders - set(loop_map))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7752513Z ^[[36;1m    if missing_loop_orders:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7752774Z ^[[36;1m        raise AssertionError(^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7753193Z ^[[36;1m            f"loop sequence is missing required history through 710: {missing_loop_orders}"^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7753616Z ^[[36;1m        )'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7753834Z ^[[36;1mif old not in text:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7754196Z ^[[36;1m    raise AssertionError('apply-loop exact-boundary block not found')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7754608Z ^[[36;1mtext = text.replace(old, new)^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7754859Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7755048Z ^[[36;1mold = '''    if closed(709):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7755462Z ^[[36;1m    if "loop_709_postgres_projection_tree" not in contract.get("ArtifactHashes", {}):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7756046Z ^[[36;1m        raise AssertionError("loop-709 live Postgres artifact hash missing")'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7756468Z ^[[36;1mnew = '''    if closed(709):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7756796Z ^[[36;1m    legacy_hashes = contract.get("ArtifactHashes", {})^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7757215Z ^[[36;1m    if "loop_709_postgres_projection_tree" not in legacy_hashes:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7757690Z ^[[36;1m        lifecycle_path = contract.get("ArtifactLifecycle", {}).get("path")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7758099Z ^[[36;1m        if not lifecycle_path:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7758536Z ^[[36;1m            raise AssertionError("loop-709 live Postgres artifact lifecycle is missing")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7759016Z ^[[36;1m        lifecycle = load(DOMAIN / lifecycle_path)^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7759422Z ^[[36;1m        historical = lifecycle.get("historical_loop_artifacts", {})^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7759874Z ^[[36;1m        if "loop_709_postgres_projection_tree" not in historical:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7760569Z ^[[36;1m            raise AssertionError("loop-709 historical Postgres artifact hash missing")'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7761013Z ^[[36;1mif old not in text:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7761380Z ^[[36;1m    raise AssertionError('apply-loop artifact-hash block not found')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7762021Z ^[[36;1mapply_path.write_text(text.replace(old, new))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7762324Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7762622Z ^[[36;1mverify_path = domain / 'scripts' / 'verify_calibration_647_710.py'^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7763008Z ^[[36;1mtext = verify_path.read_text()^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7763392Z ^[[36;1mold = '''VERIFIED = DOMAIN / "testing" / "calibration-647-710-verified.json"^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7763804Z ^[[36;1msys.path.insert(0, str(HERE))'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7764192Z ^[[36;1mnew = '''VERIFIED = DOMAIN / "testing" / "calibration-647-710-verified.json"^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7764692Z ^[[36;1mHISTORY_MODE = DOMAIN / "testing" / "calibration-history-mode.json"^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7765092Z ^[[36;1msys.path.insert(0, str(HERE))'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7765361Z ^[[36;1mif old not in text:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7765719Z ^[[36;1m    raise AssertionError('verifier constant insertion point not found')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7766286Z ^[[36;1mtext = text.replace(old, new)^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7766536Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7766776Z ^[[36;1mold = '''    if sorted(loops) != list(range(577, 711)):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7767307Z ^[[36;1m    raise AssertionError(f"loop sequence mismatch: {min(loops)}..{max(loops)} count={len(loops)}")'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7767848Z ^[[36;1mnew = '''    required_loop_orders = set(range(577, 711))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7768280Z ^[[36;1m    missing_loop_orders = sorted(required_loop_orders - set(loops))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7768657Z ^[[36;1m    if missing_loop_orders:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7769114Z ^[[36;1m        raise AssertionError(f"required calibration history is missing: {missing_loop_orders}")'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7769596Z ^[[36;1mif old not in text:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7769932Z ^[[36;1m    raise AssertionError('verifier exact-boundary block not found')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7770317Z ^[[36;1mtext = text.replace(old, new)^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7770576Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7770998Z ^[[36;1mold = '''    subjects = subprocess.check_output(["git", "log", "--format=%s", "--reverse"], text=True).splitlines()^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7771823Z ^[[36;1m    plan_message = "TSP loops 647-710: register frozen-basis exact calibration"^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7772296Z ^[[36;1m    expected = [plan_message, *EXPECTED_LOOP_COMMITS]^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7772627Z ^[[36;1m    positions: list[int] = []^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7772896Z ^[[36;1m    for message in expected:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7773179Z ^[[36;1m        if message not in subjects:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7773582Z ^[[36;1m            raise AssertionError(f"missing calibration commit: {message}")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7774056Z ^[[36;1m        positions.append(subjects.index(message))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7774507Z ^[[36;1m    if positions != sorted(positions) or len(set(positions)) != len(positions):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7775089Z ^[[36;1m        raise AssertionError(f"calibration commits are not strictly ordered: {positions}")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7775537Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7775723Z ^[[36;1m    payload = {'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7776064Z ^[[36;1mnew = '''    history = load(HISTORY_MODE) if HISTORY_MODE.is_file() else {}^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7776532Z ^[[36;1m    history_mode = history.get("mode", "DETAILED_GIT_HISTORY")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7776895Z ^[[36;1m    positions: list[int] = []^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7777190Z ^[[36;1m    ordered_commit_history_verified = False^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7777523Z ^[[36;1m    canonical_ledger_history_verified = False^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7777871Z ^[[36;1m    if history_mode == "SQUASHED_CANONICAL_LEDGER":^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7778310Z ^[[36;1m        if history.get("detailed_git_commit_history_required") is not False:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7779053Z ^[[36;1m            raise AssertionError("squashed calibration history must disable commit-subject dependence")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7779608Z ^[[36;1m        if history.get("required_loop_range") != "647-710":^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7780103Z ^[[36;1m            raise AssertionError(f"unexpected calibration history range: {history!r}")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7780576Z ^[[36;1m        canonical_ledger_history_verified = True^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7780874Z ^[[36;1m    else:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7781296Z ^[[36;1m        subjects = subprocess.check_output(["git", "log", "--format=%s", "--reverse"], text=True).splitlines()^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7782112Z ^[[36;1m        plan_message = "TSP loops 647-710: register frozen-basis exact calibration"^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7782587Z ^[[36;1m        expected = [plan_message, *EXPECTED_LOOP_COMMITS]^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7782926Z ^[[36;1m        for message in expected:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7783218Z ^[[36;1m            if message not in subjects:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7783622Z ^[[36;1m                raise AssertionError(f"missing calibration commit: {message}")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7784064Z ^[[36;1m            positions.append(subjects.index(message))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7784646Z ^[[36;1m        if positions != sorted(positions) or len(set(positions)) != len(positions):^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7785241Z ^[[36;1m            raise AssertionError(f"calibration commits are not strictly ordered: {positions}")^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7785731Z ^[[36;1m        ordered_commit_history_verified = True^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7786021Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7786209Z ^[[36;1m    payload = {'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7786444Z ^[[36;1mif old not in text:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7786761Z ^[[36;1m    raise AssertionError('verifier history block not found')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7787129Z ^[[36;1mtext = text.replace(old, new)^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7787385Z ^[[36;1m^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7787629Z ^[[36;1mold = '''        "general_tsp_algorithm_proved": False,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7787994Z ^[[36;1m        "ordered_commit_positions": positions,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7788282Z ^[[36;1m    }'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7788543Z ^[[36;1mnew = '''        "general_tsp_algorithm_proved": False,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7788882Z ^[[36;1m        "history_mode": history_mode,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7789278Z ^[[36;1m        "ordered_commit_history_verified": ordered_commit_history_verified,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7789798Z ^[[36;1m        "canonical_ledger_history_verified": canonical_ledger_history_verified,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7790237Z ^[[36;1m        "ordered_commit_positions": positions,^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7790523Z ^[[36;1m    }'''^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7790726Z ^[[36;1mif old not in text:^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7791044Z ^[[36;1m    raise AssertionError('verifier payload block not found')^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7791442Z ^[[36;1mverify_path.write_text(text.replace(old, new))^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7791993Z ^[[36;1mPY^[[0m
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7850760Z shell: /usr/bin/bash -e {0}
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7851037Z env:
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7851237Z   PYTHONHASHSEED: 0
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7851455Z   OMP_NUM_THREADS: 1
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7851933Z   OPENBLAS_NUM_THREADS: 1
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7852162Z   MKL_NUM_THREADS: 1
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7852381Z   NUMEXPR_NUM_THREADS: 1
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7852675Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7853118Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7853558Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7853944Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7854326Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7854716Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.7855048Z ##[endgroup]
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.8141804Z Traceback (most recent call last):
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.8149199Z   File "<stdin>", line 16, in <module>
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.8150149Z AssertionError: apply-loop exact-boundary block not found
+repair	Make loop-647-710 validators cumulative-compatible	2026-07-20T20:25:23.8187420Z ##[error]Process completed with exit code 1.

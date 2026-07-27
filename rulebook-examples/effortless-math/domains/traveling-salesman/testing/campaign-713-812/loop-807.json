@@ -1,0 +1,343 @@
+{
+  "LoopOrder": 807,
+  "LoopId": "tsp-loop-807",
+  "DisplayName": "dantzig42 — Subtour-elimination cut closure",
+  "Status": "CLOSED",
+  "BeforeState": "dantzig42 lacks separated subtour-elimination closure.",
+  "PlannedClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+  "AfterState": "SEC status=FRACTIONAL_SEC_CLOSED; objective=697.0; cuts=6; fractional edges=16.",
+  "WitnessSummary": "SEC status=FRACTIONAL_SEC_CLOSED; objective=697.0; cuts=6; fractional edges=16.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Warranted Rewrite",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "status": "FRACTIONAL_SEC_CLOSED",
+    "objective": 697.0,
+    "ceil_objective": 697,
+    "iterations": 7,
+    "sec_cut_count": 6,
+    "comb_cut_count": 0,
+    "fractional_edge_count": 16,
+    "integral": false,
+    "connected": false,
+    "tour_shaped": false,
+    "selected_edges": [
+      [
+        0,
+        1
+      ],
+      [
+        0,
+        41
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        3
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        5
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        8
+      ],
+      [
+        8,
+        9
+      ],
+      [
+        10,
+        11
+      ],
+      [
+        12,
+        13
+      ],
+      [
+        13,
+        14
+      ],
+      [
+        15,
+        16
+      ],
+      [
+        17,
+        18
+      ],
+      [
+        18,
+        19
+      ],
+      [
+        19,
+        20
+      ],
+      [
+        21,
+        22
+      ],
+      [
+        23,
+        24
+      ],
+      [
+        25,
+        26
+      ],
+      [
+        27,
+        28
+      ],
+      [
+        28,
+        29
+      ],
+      [
+        29,
+        30
+      ],
+      [
+        30,
+        31
+      ],
+      [
+        31,
+        32
+      ],
+      [
+        32,
+        33
+      ],
+      [
+        33,
+        34
+      ],
+      [
+        34,
+        35
+      ],
+      [
+        35,
+        36
+      ],
+      [
+        36,
+        37
+      ],
+      [
+        37,
+        38
+      ],
+      [
+        38,
+        39
+      ],
+      [
+        39,
+        40
+      ],
+      [
+        40,
+        41
+      ]
+    ],
+    "fractional_edges": [
+      {
+        "edge": [
+          9,
+          11
+        ],
+        "value": 0.49999999999999845
+      },
+      {
+        "edge": [
+          9,
+          24
+        ],
+        "value": 0.5000000000000002
+      },
+      {
+        "edge": [
+          10,
+          22
+        ],
+        "value": 0.5
+      },
+      {
+        "edge": [
+          10,
+          23
+        ],
+        "value": 0.5000000000000004
+      },
+      {
+        "edge": [
+          11,
+          12
+        ],
+        "value": 0.5000000000000016
+      },
+      {
+        "edge": [
+          12,
+          16
+        ],
+        "value": 0.5
+      },
+      {
+        "edge": [
+          14,
+          15
+        ],
+        "value": 0.5
+      },
+      {
+        "edge": [
+          14,
+          17
+        ],
+        "value": 0.5
+      },
+      {
+        "edge": [
+          15,
+          17
+        ],
+        "value": 0.5
+      },
+      {
+        "edge": [
+          16,
+          22
+        ],
+        "value": 0.5
+      },
+      {
+        "edge": [
+          20,
+          21
+        ],
+        "value": 0.4999999999999999
+      },
+      {
+        "edge": [
+          20,
+          27
+        ],
+        "value": 0.5000000000000008
+      },
+      {
+        "edge": [
+          21,
+          26
+        ],
+        "value": 0.49999999999999983
+      },
+      {
+        "edge": [
+          23,
+          26
+        ],
+        "value": 0.5000000000000002
+      },
+      {
+        "edge": [
+          24,
+          25
+        ],
+        "value": 0.5000000000000007
+      },
+      {
+        "edge": [
+          25,
+          27
+        ],
+        "value": 0.4999999999999998
+      }
+    ],
+    "runtime_seconds": 0.07212382999998113,
+    "history": [
+      {
+        "iteration": 1,
+        "objective": 641.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 0,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 2,
+        "objective": 676.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 1,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 3,
+        "objective": 681.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 2,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 4,
+        "objective": 682.5,
+        "mincut": 1.0,
+        "fractional_edge_count": 6,
+        "sec_cut_count": 3,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 5,
+        "objective": 686.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 0,
+        "sec_cut_count": 4,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 6,
+        "objective": 688.0,
+        "mincut": 0.0,
+        "fractional_edge_count": 0,
+        "sec_cut_count": 5,
+        "comb_cut_count": 0
+      },
+      {
+        "iteration": 7,
+        "objective": 697.0,
+        "mincut": 1.9999999999999978,
+        "fractional_edge_count": 16,
+        "sec_cut_count": 6,
+        "comb_cut_count": 0
+      }
+    ],
+    "solver_trust": "SCIPY_HIGHS_NUMERICAL_LP"
+  }
+}

@@ -1,0 +1,1 @@
+<HTTPError 401: 'Server failed to authenticate the request. Please refer to the information in the www-authenticate header.'>

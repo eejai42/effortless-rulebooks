@@ -1,0 +1,104 @@
+{
+  "LoopOrder": 722,
+  "LoopId": "tsp-loop-722",
+  "DisplayName": "burma14 — Constructive witness portfolio",
+  "Status": "CLOSED",
+  "BeforeState": "burma14 has source data but no frozen constructive witness comparison.",
+  "PlannedClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+  "AfterState": "Best frozen constructive witness cost=3323 versus published optimum=3323.",
+  "WitnessSummary": "Best frozen constructive witness cost=3323 versus published optimum=3323.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Witness Gap",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "heuristics": {
+      "all_start_nearest_neighbor_2opt": {
+        "tour": [
+          0,
+          1,
+          13,
+          2,
+          3,
+          4,
+          5,
+          11,
+          6,
+          12,
+          7,
+          10,
+          8,
+          9
+        ],
+        "value": 3323,
+        "gap_to_published_optimum": 0
+      },
+      "cheapest_insertion_2opt_oropt": {
+        "tour": [
+          0,
+          1,
+          13,
+          2,
+          3,
+          4,
+          5,
+          11,
+          6,
+          12,
+          7,
+          10,
+          8,
+          9
+        ],
+        "value": 3323,
+        "gap_to_published_optimum": 0
+      },
+      "farthest_insertion_2opt_oropt": {
+        "tour": [
+          0,
+          1,
+          13,
+          2,
+          3,
+          4,
+          5,
+          11,
+          6,
+          12,
+          7,
+          10,
+          8,
+          9
+        ],
+        "value": 3323,
+        "gap_to_published_optimum": 0
+      }
+    },
+    "best_method": "all_start_nearest_neighbor_2opt",
+    "best_witness": {
+      "tour": [
+        0,
+        1,
+        13,
+        2,
+        3,
+        4,
+        5,
+        11,
+        6,
+        12,
+        7,
+        10,
+        8,
+        9
+      ],
+      "value": 3323,
+      "gap_to_published_optimum": 0
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "LoopOrder": 713,
+  "LoopId": "tsp-loop-713",
+  "DisplayName": "External benchmark ladder preregistration",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Register ten named TSPLIB instances before consuming results.",
+  "AfterState": "Ten named TSPLIB instances were fixed before execution.",
+  "WitnessSummary": "Ten named TSPLIB instances were fixed before execution.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "campaign_preregistered": true,
+    "instances": [
+      {
+        "name": "burma14",
+        "dimension": 14,
+        "published_optimum": 3323
+      },
+      {
+        "name": "ulysses16",
+        "dimension": 16,
+        "published_optimum": 6859
+      },
+      {
+        "name": "gr17",
+        "dimension": 17,
+        "published_optimum": 2085
+      },
+      {
+        "name": "gr21",
+        "dimension": 21,
+        "published_optimum": 2707
+      },
+      {
+        "name": "ulysses22",
+        "dimension": 22,
+        "published_optimum": 7013
+      },
+      {
+        "name": "gr24",
+        "dimension": 24,
+        "published_optimum": 1272
+      },
+      {
+        "name": "fri26",
+        "dimension": 26,
+        "published_optimum": 937
+      },
+      {
+        "name": "bayg29",
+        "dimension": 29,
+        "published_optimum": 1610
+      },
+      {
+        "name": "bays29",
+        "dimension": 29,
+        "published_optimum": 2020
+      },
+      {
+        "name": "dantzig42",
+        "dimension": 42,
+        "published_optimum": 699
+      }
+    ],
+    "new_active_terms": 0
+  }
+}

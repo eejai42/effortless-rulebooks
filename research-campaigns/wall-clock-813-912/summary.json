@@ -1,8 +1,12 @@
 {
-  "campaign": "TSP wall-clock loops 813-912",
-  "loop_count": 100,
-  "first_loop": 813,
-  "last_loop": 912,
+  "schema_version": 2,
+  "campaign": "TSP wall-clock provider experiment",
+  "classification": "PROVIDER_LOCAL_ITERATIONS_PENDING_RULEBOOK_DELTA_AUDIT",
+  "historical_iteration_label_range": [813, 912],
+  "historical_iteration_count": 100,
+  "canonical_rulebook_loop_count": 0,
+  "canonical_rulebook_changed": false,
+  "labeling_disposition": "The 813-912 numbers are preserved historical provider-iteration labels. They are not canonical TSP loops unless restored source proves an individual parsed rulebook semantic change.",
   "comb_residuals_closed": 2,
   "comb_new_active_terms": 0,
   "external_exact_instances": 13,
@@ -33,9 +37,11 @@
   "new_operators": 0,
   "new_active_terms": 0,
   "claim_boundary": [
-    "warm in-process timing is not a cross-machine benchmark",
+    "provider-local warm in-process timing is not a cross-machine benchmark",
     "integer SEC cutting plane is established branch-and-cut machinery, not a novel TSP algorithm",
     "exact results through kroA100 do not imply state-of-the-art performance or polynomial scaling",
-    "semantic neighborhood cuts are valid SEC seeds; observed speedup is empirical, not universal"
+    "semantic neighborhood cuts are valid SEC seeds; observed speedup is empirical, not universal",
+    "zero reported semantic growth is provider-local evidence until the physical archive is restored and each rulebook delta is audited",
+    "historical iteration labels 813-912 are reserved but not canonical loop identifiers"
   ]
 }

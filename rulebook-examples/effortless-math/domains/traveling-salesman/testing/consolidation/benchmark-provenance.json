@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "status": "PASS_FOR_CHECKED_IN_713_812; ARCHIVE_RESTORATION_REQUIRED_FOR_813_1532",
+  "checked_in_tsplib_campaign": {
+    "loop_range": [
+      713,
+      812
+    ],
+    "source_ledger_path": "evidence-providers/tsplib-713-812/source-ledger.json",
+    "optimum_ledger": {
+      "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions",
+      "sha256": "d6fa81c754f9b559bfbf19121c577d06aa3da195142d16d5fc2a14569f9be47c",
+      "verified_values": {
+        "burma14": 3323,
+        "ulysses16": 6859,
+        "gr17": 2085,
+        "gr21": 2707,
+        "ulysses22": 7013,
+        "gr24": 1272,
+        "fri26": 937,
+        "bayg29": 1610,
+        "bays29": 2020,
+        "dantzig42": 699
+      }
+    },
+    "sources": {
+      "burma14": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/burma14.tsp",
+        "sha256": "c2f10b100ad1a00bba19094e33ab3c05fb50203352151e23252eba6f85d5c3e7",
+        "dimension": 14
+      },
+      "ulysses16": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses16.tsp",
+        "sha256": "46064545dbb24b7f53b9b26802b422a903d92bc51ab835a73ec15733ab3cac46",
+        "dimension": 16
+      },
+      "gr17": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr17.tsp",
+        "sha256": "b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa",
+        "dimension": 17
+      },
+      "gr21": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr21.tsp",
+        "sha256": "3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4",
+        "dimension": 21
+      },
+      "ulysses22": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses22.tsp",
+        "sha256": "5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898",
+        "dimension": 22
+      },
+      "gr24": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr24.tsp",
+        "sha256": "7fcf61204842785f06c58e7098a3e1eb2786831179e115645083ce500c065779",
+        "dimension": 24
+      },
+      "fri26": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/fri26.tsp",
+        "sha256": "80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0",
+        "dimension": 26
+      },
+      "bayg29": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bayg29.tsp",
+        "sha256": "6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b",
+        "dimension": 29
+      },
+      "bays29": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bays29.tsp",
+        "sha256": "385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f",
+        "dimension": 29
+      },
+      "dantzig42": {
+        "url": "https://raw.githubusercontent.com/mastqe/tsplib/master/dantzig42.tsp",
+        "sha256": "44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d",
+        "dimension": 42
+      }
+    },
+    "source_files_are_content_addressed": true,
+    "published_optima_are_evaluation_inputs_not_construction_antecedents": true
+  },
+  "provider_local_campaigns": [
+    {
+      "label_range": [
+        813,
+        912
+      ],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-wall-clock-loops-813-912.bundle",
+          "size_bytes": 356159,
+          "sha256": "225a64a6ea1372bef4dbe626557eb2802eed631db24dbeecedad243125d6b00b"
+        },
+        {
+          "filename": "tsp-wall-clock-loops-813-912-source.zip",
+          "size_bytes": 184169,
+          "sha256": "1ee886e380305f574631ab38a2d8c854e722b3a2822a15c4c82c2e140217ad8f"
+        },
+        {
+          "filename": "tsp-wall-clock-loops-813-912-delivery.zip",
+          "size_bytes": 514126,
+          "sha256": "4da0c2451e8dc46c088f91a7ab5d19e42e3ae6ce273800f9a8864c65ee77069b"
+        }
+      ]
+    },
+    {
+      "label_range": [
+        913,
+        932
+      ],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-orchestration-loops-913-932.bundle",
+          "size_bytes": 389229,
+          "sha256": "e70d33da40fb14ac44dc0d4a42136f4e5789c4e155b0fadfbf439df8052b5aac"
+        },
+        {
+          "filename": "tsp-orchestration-loops-913-932-source.zip",
+          "size_bytes": 30193,
+          "sha256": "9a251ab5d4d44bb86e8934fd4a3259579a08eeb4abdc956aff440eead978590a"
+        }
+      ]
+    },
+    {
+      "label_range": [
+        933,
+        1032
+      ],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-solver-assistance-loops-933-1032.bundle",
+          "size_bytes": 971151,
+          "sha256": "a11a03489f77c3abb714422807bee786a9a2f348e200ec26a154c0f7ede2ef62"
+        },
+        {
+          "filename": "tsp-solver-assistance-loops-933-1032-source.zip",
+          "size_bytes": 822803,
+          "sha256": "5f747f1f693b312f2b9d498398f57dfa51f61960e265bc865b47f044343523da"
+        },
+        {
+          "filename": "tsp-solver-assistance-loops-933-1032-delivery.zip",
+          "size_bytes": 1725232,
+          "sha256": "14cf1ef21a0ac9a9f8868e6773fa8bd80d348b0e7bcb7834802164e283787c43"
+        }
+      ]
+    },
+    {
+      "label_range": [
+        1033,
+        1532
+      ],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_present": false,
+      "canonical_promotion": "PROHIBITED_UNTIL_PHYSICAL_ARCHIVE_RESTORATION_AND_PER_CHANGE_RULEBOOK_DIFF_AUDIT",
+      "artifacts": [
+        {
+          "filename": "tsp-persistent-provider-loops-1033-1532.bundle",
+          "size_bytes": 1651054,
+          "sha256": "9f2ec34626ae28550bb18b50cfc98f743a3b13531ca0f84101e76361c4a92c0d"
+        },
+        {
+          "filename": "tsp-persistent-provider-loops-1033-1532-source.zip",
+          "size_bytes": 1789577,
+          "sha256": "55121705c3f1edfdfde45eacfb97cc056cd97d270d3cb456d948f801d078c71a"
+        },
+        {
+          "filename": "tsp-persistent-provider-loops-1033-1532-delivery.zip",
+          "size_bytes": 2957393,
+          "sha256": "b5429cc61acd32f967cf0dd4776643828471c4582ac5c055a4118a3495d7b2be"
+        }
+      ]
+    }
+  ],
+  "alignment_inventory_path": "research-campaigns/_alignment/local-artifact-inventory.json",
+  "alignment_inventory_sha256": "6626517398d4dbbe00790d113dd99e2d2c15f22c40b6b4cd4bfbc6964cb11ea4",
+  "alignment_inventory_status": "LOCAL_PROVIDER_EVIDENCE_NOT_YET_CANONICAL",
+  "claim_boundary": "A URL and checksum establish source identity; they do not establish a mathematical claim. Accepted finite claims additionally require witness/bound replay and the declared trust-boundary checks."
+}

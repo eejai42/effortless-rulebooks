@@ -1,8 +1,5 @@
 {
   "status": "VERIFIED",
-  "github_run_id": "29674471405",
-  "validation_commit": "b42ec716ba9dc5a534d61d962ea240a0c0943f0a",
-  "verifier": "established-validation-gate/raw-exact-v1",
   "loops": "647-710",
   "physical_table_count": 45,
   "active_atoms": [
@@ -21,6 +18,8 @@
   "primitive_growth_count": 0,
   "exact_oracle_is_structural_proof": false,
   "general_tsp_algorithm_proved": false,
-  "ordered_commit_history_verified": true,
-  "validation_gate_read_only": true
+  "history_mode": "SQUASHED_CANONICAL_LEDGER",
+  "ordered_commit_history_verified": false,
+  "canonical_ledger_history_verified": true,
+  "ordered_commit_positions": []
 }

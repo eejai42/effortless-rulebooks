@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/verify_calibration_647_710.py", line 337, in <module>
+    main()
+  File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/verify_calibration_647_710.py", line 158, in main
+    raise AssertionError(f"loop sequence mismatch: {min(loops)}..{max(loops)} count={len(loops)}")
+AssertionError: loop sequence mismatch: 577..812 count=236

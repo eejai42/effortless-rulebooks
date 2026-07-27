@@ -1,76 +1,123 @@
 {
-  "status": "LOCAL_PROVIDER_EVIDENCE_NOT_YET_CANONICAL",
-  "canonical_tsp_loop_boundary": 710,
+  "schema_version": 2,
+  "status": "CANONICAL_577_812_WITH_PROVIDER_LOCAL_813_1532",
+  "loop_definition": "A loop is exactly one change to the parsed semantic object of the canonical TSP rulebook. Provider execution, timing, orchestration, UI/UX, workflow, build, benchmark, report, and packaging iterations are not loops unless that rulebook object changes.",
+  "canonical_tsp_loop_boundary": 812,
+  "canonical_tsp_loop_count": 236,
+  "canonical_rulebook_path": "rulebook-examples/effortless-math/domains/traveling-salesman/effortless-rulebook/traveling-salesman-rulebook.json#TSPLoops",
+  "artifact_name_policy": "Archive filenames are immutable historical identities. The word 'loops' inside a filename does not establish that the archived iterations qualify as canonical semantic loops.",
   "artifacts": [
     {
       "filename": "tsp-exact-search-loops-713-812.bundle",
       "size_bytes": 129023,
-      "sha256": "06e2206ef90244992cfb489f5b0b612ba342aa50653799c97beb00b4e377b89e"
+      "sha256": "06e2206ef90244992cfb489f5b0b612ba342aa50653799c97beb00b4e377b89e",
+      "historical_label_range": [713, 812],
+      "classification": "HISTORICAL_DELIVERY_COPY_OF_CANONICAL_RULEBOOK_LOOPS",
+      "repository_source_status": "CHECKED_IN_AND_REPLAYED"
     },
     {
       "filename": "tsp-exact-search-loops-713-812-source.zip",
       "size_bytes": 151521,
-      "sha256": "cdbde37c2334029da6b6bbc2f0458ffb45f1d4739b93cf8b6a45afdcf026feaf"
+      "sha256": "cdbde37c2334029da6b6bbc2f0458ffb45f1d4739b93cf8b6a45afdcf026feaf",
+      "historical_label_range": [713, 812],
+      "classification": "HISTORICAL_DELIVERY_COPY_OF_CANONICAL_RULEBOOK_LOOPS",
+      "repository_source_status": "CHECKED_IN_AND_REPLAYED"
     },
     {
       "filename": "tsp-exact-search-loops-713-812-delivery.zip",
       "size_bytes": 283485,
-      "sha256": "41606116b6d02b374700024457afd1d7166f55b0b5dfa3480729f569f93976e7"
+      "sha256": "41606116b6d02b374700024457afd1d7166f55b0b5dfa3480729f569f93976e7",
+      "historical_label_range": [713, 812],
+      "classification": "HISTORICAL_DELIVERY_COPY_OF_CANONICAL_RULEBOOK_LOOPS",
+      "repository_source_status": "CHECKED_IN_AND_REPLAYED"
     },
     {
       "filename": "tsp-wall-clock-loops-813-912.bundle",
       "size_bytes": 356159,
-      "sha256": "225a64a6ea1372bef4dbe626557eb2802eed631db24dbeecedad243125d6b00b"
+      "sha256": "225a64a6ea1372bef4dbe626557eb2802eed631db24dbeecedad243125d6b00b",
+      "historical_label_range": [813, 912],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-wall-clock-loops-813-912-source.zip",
       "size_bytes": 184169,
-      "sha256": "1ee886e380305f574631ab38a2d8c854e722b3a2822a15c4c82c2e140217ad8f"
+      "sha256": "1ee886e380305f574631ab38a2d8c854e722b3a2822a15c4c82c2e140217ad8f",
+      "historical_label_range": [813, 912],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-wall-clock-loops-813-912-delivery.zip",
       "size_bytes": 514126,
-      "sha256": "4da0c2451e8dc46c088f91a7ab5d19e42e3ae6ce273800f9a8864c65ee77069b"
+      "sha256": "4da0c2451e8dc46c088f91a7ab5d19e42e3ae6ce273800f9a8864c65ee77069b",
+      "historical_label_range": [813, 912],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-orchestration-loops-913-932.bundle",
       "size_bytes": 389229,
-      "sha256": "e70d33da40fb14ac44dc0d4a42136f4e5789c4e155b0fadfbf439df8052b5aac"
+      "sha256": "e70d33da40fb14ac44dc0d4a42136f4e5789c4e155b0fadfbf439df8052b5aac",
+      "historical_label_range": [913, 932],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-orchestration-loops-913-932-source.zip",
       "size_bytes": 30193,
-      "sha256": "9a251ab5d4d44bb86e8934fd4a3259579a08eeb4abdc956aff440eead978590a"
+      "sha256": "9a251ab5d4d44bb86e8934fd4a3259579a08eeb4abdc956aff440eead978590a",
+      "historical_label_range": [913, 932],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-solver-assistance-loops-933-1032.bundle",
       "size_bytes": 971151,
-      "sha256": "a11a03489f77c3abb714422807bee786a9a2f348e200ec26a154c0f7ede2ef62"
+      "sha256": "a11a03489f77c3abb714422807bee786a9a2f348e200ec26a154c0f7ede2ef62",
+      "historical_label_range": [933, 1032],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-solver-assistance-loops-933-1032-source.zip",
       "size_bytes": 822803,
-      "sha256": "5f747f1f693b312f2b9d498398f57dfa51f61960e265bc865b47f044343523da"
+      "sha256": "5f747f1f693b312f2b9d498398f57dfa51f61960e265bc865b47f044343523da",
+      "historical_label_range": [933, 1032],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-solver-assistance-loops-933-1032-delivery.zip",
       "size_bytes": 1725232,
-      "sha256": "14cf1ef21a0ac9a9f8868e6773fa8bd80d348b0e7bcb7834802164e283787c43"
+      "sha256": "14cf1ef21a0ac9a9f8868e6773fa8bd80d348b0e7bcb7834802164e283787c43",
+      "historical_label_range": [933, 1032],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-persistent-provider-loops-1033-1532.bundle",
       "size_bytes": 1651054,
-      "sha256": "9f2ec34626ae28550bb18b50cfc98f743a3b13531ca0f84101e76361c4a92c0d"
+      "sha256": "9f2ec34626ae28550bb18b50cfc98f743a3b13531ca0f84101e76361c4a92c0d",
+      "historical_label_range": [1033, 1532],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-persistent-provider-loops-1033-1532-source.zip",
       "size_bytes": 1789577,
-      "sha256": "55121705c3f1edfdfde45eacfb97cc056cd97d270d3cb456d948f801d078c71a"
+      "sha256": "55121705c3f1edfdfde45eacfb97cc056cd97d270d3cb456d948f801d078c71a",
+      "historical_label_range": [1033, 1532],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     },
     {
       "filename": "tsp-persistent-provider-loops-1033-1532-delivery.zip",
       "size_bytes": 2957393,
-      "sha256": "b5429cc61acd32f967cf0dd4776643828471c4582ac5c055a4118a3495d7b2be"
+      "sha256": "b5429cc61acd32f967cf0dd4776643828471c4582ac5c055a4118a3495d7b2be",
+      "historical_label_range": [1033, 1532],
+      "classification": "PROVIDER_LOCAL_ITERATION_LABELS_PENDING_RULEBOOK_DELTA_AUDIT",
+      "repository_source_status": "PHYSICAL_ARCHIVE_NOT_PRESENT"
     }
   ]
 }

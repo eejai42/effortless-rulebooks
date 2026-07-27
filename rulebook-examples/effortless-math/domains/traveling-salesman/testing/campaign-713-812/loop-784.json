@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 784,
+  "LoopId": "tsp-loop-784",
+  "DisplayName": "bayg29 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "bayg29 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "bayg29 source ingested with SHA-256 6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b and dimension 29.",
+  "WitnessSummary": "bayg29 source ingested with SHA-256 6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b and dimension 29.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "bayg29",
+    "dimension": 29,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bayg29.tsp",
+    "source_sha256": "6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b",
+    "edge_weight_type": "EXPLICIT",
+    "edge_weight_format": "UPPER_ROW",
+    "published_optimum": 1610,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

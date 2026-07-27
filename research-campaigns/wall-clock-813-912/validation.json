@@ -1,7 +1,11 @@
 {
-  "status": "PASS",
-  "loop_range": [813, 912],
-  "loop_count": 100,
+  "schema_version": 2,
+  "status": "PASS_AT_PROVIDER_LOCAL_TRUST_BOUNDARY",
+  "classification": "PROVIDER_LOCAL_ITERATIONS_PENDING_RULEBOOK_DELTA_AUDIT",
+  "historical_iteration_label_range": [813, 912],
+  "historical_iteration_count": 100,
+  "canonical_rulebook_loop_count": 0,
+  "canonical_rulebook_changed": false,
   "external_replay_count": 13,
   "external_replay": {
     "burma14": {"objective": 3323, "solves": 2, "cuts": 3},
@@ -21,9 +25,12 @@
   "comb_replay_count": 2,
   "crossover_replay_count": 32,
   "region_replay_count": 2,
-  "new_atoms": 0,
-  "new_operators": 0,
-  "new_active_terms": 0,
+  "new_atoms_reported": 0,
+  "new_operators_reported": 0,
+  "new_active_terms_reported": 0,
   "independent_local_git_head": "804e19636b3f3017708bc940a2f09312dee28105",
-  "full_delivery_sha256": "4da0c2451e8dc46c088f91a7ab5d19e42e3ae6ce273800f9a8864c65ee77069b"
+  "full_delivery_sha256": "4da0c2451e8dc46c088f91a7ab5d19e42e3ae6ce273800f9a8864c65ee77069b",
+  "source_availability": "PHYSICAL_ARCHIVE_NOT_PRESENT_IN_REPOSITORY",
+  "canonical_promotion": "BLOCKED_PENDING_ARCHIVE_RESTORATION_PER_CHANGE_RULEBOOK_DIFF_AUDIT_EFFORTLESS_BUILD_POSTGRES_LOAD_AND_INDEPENDENT_REPLAY",
+  "claim_boundary": "The numerical replay summary is retained as provider-local finite evidence. The iteration labels are not canonical loop identifiers, and the reported zero semantic growth is not independently re-auditable without the content-addressed source archive."
 }

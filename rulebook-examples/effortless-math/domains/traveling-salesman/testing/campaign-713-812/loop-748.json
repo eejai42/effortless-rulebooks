@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 748,
+  "LoopId": "tsp-loop-748",
+  "DisplayName": "gr21 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "gr21 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "gr21 source ingested with SHA-256 3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4 and dimension 21.",
+  "WitnessSummary": "gr21 source ingested with SHA-256 3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4 and dimension 21.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "gr21",
+    "dimension": 21,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr21.tsp",
+    "source_sha256": "3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4",
+    "edge_weight_type": "EXPLICIT",
+    "edge_weight_format": "LOWER_DIAG_ROW",
+    "published_optimum": 2707,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

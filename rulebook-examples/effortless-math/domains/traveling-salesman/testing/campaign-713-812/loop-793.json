@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 793,
+  "LoopId": "tsp-loop-793",
+  "DisplayName": "bays29 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "bays29 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "bays29 source ingested with SHA-256 385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f and dimension 29.",
+  "WitnessSummary": "bays29 source ingested with SHA-256 385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f and dimension 29.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "bays29",
+    "dimension": 29,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bays29.tsp",
+    "source_sha256": "385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f",
+    "edge_weight_type": "EXPLICIT",
+    "edge_weight_format": "FULL_MATRIX",
+    "published_optimum": 2020,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

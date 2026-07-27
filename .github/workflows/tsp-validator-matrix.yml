@@ -1,0 +1,114 @@
+name: Audit TSP validator matrix
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation
+    paths:
+      - .tsp-validator-matrix.trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      PYTHONHASHSEED: '0'
+      OMP_NUM_THREADS: '1'
+      OPENBLAS_NUM_THREADS: '1'
+      MKL_NUM_THREADS: '1'
+      NUMEXPR_NUM_THREADS: '1'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsp_consolidation
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install pinned validator dependencies
+        run: |
+          python3 -m pip install --quiet \
+            'numpy==2.1.3' \
+            'scipy==1.14.1' \
+            'networkx==3.4.2' \
+            'psycopg2-binary==2.9.10'
+
+      - name: Execute every historical and current validator independently
+        run: |
+          set -euo pipefail
+          domain='rulebook-examples/effortless-math/domains/traveling-salesman'
+          out="$domain/testing/consolidation/validator-matrix"
+          mkdir -p "$out"
+          python3 - <<'PY'
+          import json
+          import os
+          import subprocess
+          import sys
+          from pathlib import Path
+
+          domain = Path('rulebook-examples/effortless-math/domains/traveling-salesman')
+          out = domain / 'testing' / 'consolidation' / 'validator-matrix'
+          commands = [
+              ('v3_temporal', [sys.executable, str(domain / 'scripts' / 'validate_rulebook_v3_temporal.py')]),
+              ('v5_temporal', [sys.executable, str(domain / 'scripts' / 'validate_rulebook_v5_temporal.py')]),
+              ('v6_repository', [sys.executable, str(domain / 'scripts' / 'validate_rulebook_v6.py')]),
+              ('v6_summary', [sys.executable, str(domain / 'scripts' / 'validate_summary_alignment_v6.py')]),
+              ('v7_repository', [sys.executable, str(domain / 'scripts' / 'validate_rulebook_v7.py')]),
+              ('v7_summary', [sys.executable, str(domain / 'scripts' / 'validate_summary_alignment_v7.py')]),
+              ('calibration_647_710', [sys.executable, str(domain / 'scripts' / 'verify_calibration_647_710.py')]),
+              ('campaign_713_812', [sys.executable, str(domain / 'scripts' / 'campaign_713_812.py'), '--validate']),
+              ('bridge_711_gr17', [sys.executable, str(domain / 'scripts' / 'benchmark_gr17_loop_711.py')]),
+              ('bridge_712_gr21', [sys.executable, str(domain / 'scripts' / 'verify_loop_712_gr21.py')]),
+              ('consolidation', [sys.executable, str(domain / 'scripts' / 'validate_consolidation.py'), '--require-history-audit']),
+          ]
+          rows = []
+          for name, command in commands:
+              completed = subprocess.run(
+                  command,
+                  cwd=Path.cwd(),
+                  text=True,
+                  stdout=subprocess.PIPE,
+                  stderr=subprocess.STDOUT,
+                  env=os.environ.copy(),
+              )
+              log = completed.stdout
+              (out / f'{name}.log').write_text(log)
+              rows.append({
+                  'name': name,
+                  'command': command,
+                  'exit_code': completed.returncode,
+                  'status': 'PASS' if completed.returncode == 0 else 'FAIL',
+                  'log_path': f'testing/consolidation/validator-matrix/{name}.log',
+                  'tail': log.splitlines()[-20:],
+              })
+          report = {
+              'schema_version': 1,
+              'status': 'COMPLETE',
+              'all_pass': all(row['status'] == 'PASS' for row in rows),
+              'validators': rows,
+          }
+          (domain / 'testing' / 'consolidation' / 'validator-matrix.json').write_text(
+              json.dumps(report, indent=2) + '\n'
+          )
+          print(json.dumps({row['name']: row['status'] for row in rows}, indent=2))
+          PY
+
+      - name: Commit validator matrix
+        run: |
+          set -euo pipefail
+          domain='rulebook-examples/effortless-math/domains/traveling-salesman'
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-validator-matrix.trigger
+          git add "$domain/testing/consolidation/validator-matrix" \
+            "$domain/testing/consolidation/validator-matrix.json" \
+            .tsp-validator-matrix.trigger
+          git commit -m 'Audit all TSP validation generations' || true
+          git pull --rebase origin agent/tsp_consolidation
+          git push origin HEAD:agent/tsp_consolidation

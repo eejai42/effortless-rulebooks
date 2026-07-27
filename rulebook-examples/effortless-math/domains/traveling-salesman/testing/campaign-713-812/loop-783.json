@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 783,
+  "LoopId": "tsp-loop-783",
+  "DisplayName": "fri26 — Resource and residual profile",
+  "Status": "CLOSED",
+  "BeforeState": "fri26 lacks a common resource and residual profile across methods.",
+  "PlannedClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+  "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "WitnessSummary": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "dimension": 26,
+    "path_status": "PROVED",
+    "path_unique_states": 20038,
+    "path_state_updates": 21321,
+    "path_runtime_seconds": 7.20152295699998,
+    "one_tree_ceil": 937,
+    "sec_objective": 937.0,
+    "comb_objective": 937.0,
+    "sec_cuts": 6,
+    "comb_cuts": 0,
+    "value_closed": true,
+    "witness_closed": true,
+    "new_active_terms": 0
+  }
+}

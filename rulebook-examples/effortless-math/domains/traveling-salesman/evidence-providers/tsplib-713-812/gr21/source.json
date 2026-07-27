@@ -1,0 +1,10 @@
+{
+  "name": "gr21",
+  "dimension": 21,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr21.tsp",
+  "source_sha256": "3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4",
+  "edge_weight_type": "EXPLICIT",
+  "edge_weight_format": "LOWER_DIAG_ROW",
+  "published_optimum": 2707,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

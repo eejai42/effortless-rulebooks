@@ -1,0 +1,73 @@
+{
+  "strongest_lower_bound": {
+    "method": "sec_comb_lp",
+    "value": 1272.0,
+    "ceil": 1272,
+    "trust": "SCIPY_HIGHS_NUMERICAL_LP"
+  },
+  "best_witness": {
+    "method": "all_start_nearest_neighbor_2opt",
+    "tour": [
+      0,
+      11,
+      3,
+      22,
+      8,
+      12,
+      13,
+      19,
+      1,
+      14,
+      18,
+      21,
+      17,
+      16,
+      9,
+      4,
+      20,
+      7,
+      23,
+      5,
+      6,
+      2,
+      10,
+      15
+    ],
+    "value": 1272,
+    "provenance": "CONSTRUCTIVE_PORTFOLIO"
+  },
+  "best_constructive_witness": {
+    "tour": [
+      0,
+      11,
+      3,
+      22,
+      8,
+      12,
+      13,
+      19,
+      1,
+      14,
+      18,
+      21,
+      17,
+      16,
+      9,
+      4,
+      20,
+      7,
+      23,
+      5,
+      6,
+      2,
+      10,
+      15
+    ],
+    "value": 1272,
+    "gap_to_published_optimum": 0
+  },
+  "value_closed": true,
+  "witness_closed": true,
+  "branch_warrant": "REJECTED_VALUE_CLOSED",
+  "lp_tour_cost": 1272
+}

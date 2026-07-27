@@ -1,5 +1,14 @@
 # Effortless Math Research Handoff
 
+> [!IMPORTANT]
+> ## SUPERSEDED CURRENT-STATE NOTICE
+>
+> This document is retained as historical research context. Its original loop-710 and open-PR boundaries describe the repository at the time it was written; they are not the current state.
+>
+> On `agent/tsp_consolidation`, the canonical TSP ledger is now 577–812 with 236 rows in one `TSPLoops` table. A loop is exactly one change to the parsed canonical rulebook semantic object. UI/UX, generated projections, provider adapters, workflows, build repairs, benchmarks, reports, and packaging are not loops unless that rulebook object changes.
+>
+> The historical provider-iteration labels 813–1532 are reserved but noncanonical because their physical source archives are absent from this repository and their per-change rulebook deltas cannot yet be audited. Read `RESEARCH_CURRENT_STATUS.md`, `docs/LOOP_PROTOCOL.md`, the TSP `problem-contract.json`, and `testing/consolidation/` before using the historical narrative below.
+
 ## CMCC, Traveling Salesman, Predicate Invention, Semantic Orchestration, and the Protocol for Continuing the Work
 
 **Repository:** `EffortlessAPI/effortless-rulebooks`  

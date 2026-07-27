@@ -1,0 +1,54 @@
+name: Extract TSP campaign failure logs
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation-diagnostics
+    paths:
+      - .tsp-consolidation-log-extract.trigger
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsp_consolidation-diagnostics
+          fetch-depth: 0
+      - name: Extract failed-step logs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p diagnostics/tsp-actions
+          for run in \
+            29776779282 \
+            29776738467 \
+            29776730694 \
+            29776632357 \
+            29776017995 \
+            29775288873 \
+            29773061405 \
+            29721229268 \
+            29719492275; do
+            gh run view "$run" --repo "$GITHUB_REPOSITORY" \
+              --json databaseId,name,event,status,conclusion,headBranch,headSha,createdAt,updatedAt,jobs \
+              > "diagnostics/tsp-actions/run-$run.json"
+            gh run view "$run" --repo "$GITHUB_REPOSITORY" --log-failed \
+              > "diagnostics/tsp-actions/run-$run-failed.log" 2>&1 || true
+          done
+      - name: Commit extracted logs
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-consolidation-log-extract.trigger
+          git add diagnostics/tsp-actions .tsp-consolidation-log-extract.trigger
+          git commit -m 'Extract TSP campaign failure logs' || true
+          git pull --rebase origin agent/tsp_consolidation-diagnostics
+          git push origin HEAD:agent/tsp_consolidation-diagnostics

@@ -1,0 +1,10 @@
+{
+  "name": "fri26",
+  "dimension": 26,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/fri26.tsp",
+  "source_sha256": "80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0",
+  "edge_weight_type": "EXPLICIT",
+  "edge_weight_format": "LOWER_DIAG_ROW",
+  "published_optimum": 937,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

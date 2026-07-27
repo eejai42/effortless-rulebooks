@@ -1,0 +1,30 @@
+{
+  "LoopOrder": 812,
+  "LoopId": "tsp-loop-812",
+  "DisplayName": "Frozen-vocabulary frontier audit",
+  "Status": "CLOSED",
+  "BeforeState": "The benchmark results have not been reconciled with the frozen active glossary and nonclaims.",
+  "PlannedClosureCriterion": "Confirm zero active-term growth, state the strongest finite conclusions, and preserve the unresolved search/cut frontier.",
+  "AfterState": "The campaign added zero active terms; larger branch-and-cut instances and independently verified numerical LP certificates remain open.",
+  "WitnessSummary": "The campaign added zero active terms; larger branch-and-cut instances and independently verified numerical LP certificates remain open.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Select the first larger benchmark requiring genuine branch-and-cut rather than root closure.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "new_active_terms": 0,
+    "active_atom": "SEMANTIC_ARC",
+    "active_operator": "WARRANTED_REWRITE",
+    "remaining_frontier": [
+      "larger TSPLIB instances requiring genuine branching after cut closure",
+      "independent exact verification of numerical LP dual certificates",
+      "wall-clock and memory comparison with mature branch-and-cut solvers",
+      "stronger general comb and blossom separation beyond the witnessed simple family"
+    ]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "name": "bays29",
+  "dimension": 29,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bays29.tsp",
+  "source_sha256": "385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f",
+  "edge_weight_type": "EXPLICIT",
+  "edge_weight_format": "FULL_MATRIX",
+  "published_optimum": 2020,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

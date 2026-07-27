@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 738,
+  "LoopId": "tsp-loop-738",
+  "DisplayName": "ulysses16 — Resource and residual profile",
+  "Status": "CLOSED",
+  "BeforeState": "ulysses16 lacks a common resource and residual profile across methods.",
+  "PlannedClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+  "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "WitnessSummary": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "dimension": 16,
+    "path_status": "PROVED",
+    "path_unique_states": 60421,
+    "path_state_updates": 82930,
+    "path_runtime_seconds": 2.1614976040000045,
+    "one_tree_ceil": 6859,
+    "sec_objective": 6859.0,
+    "comb_objective": 6859.0,
+    "sec_cuts": 5,
+    "comb_cuts": 0,
+    "value_closed": true,
+    "witness_closed": true,
+    "new_active_terms": 0
+  }
+}

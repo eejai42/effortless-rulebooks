@@ -333,3 +333,8 @@ Twelve deterministic held-out instances were fixed before exact analysis.  A dep
 The campaign records separate coordinates for exactness gap, closure yield, value rigidity, choice entropy, defect support, repair potential, boundary demand, port compatibility, quotient width, residual kernel, branch necessity, and class/value/choice compression.
 
 Local representational growth remains allowed when it replaces opacity.  The measured convergence target is a stable reusable basis, explicit warrants, exact recoverability, and a smaller typed residual kernel—not monotonically fewer rows.
+
+
+## Loops 713–812 — TSPLIB search and cut ladder
+
+A preregistered ten-instance external ladder compares constructive witnesses, exact MST-envelope path-state search, scaled-integer Held–Karp one-tree bounds, degree LPs, separated subtour cuts, and witnessed simple 2-matching comb cuts. The campaign closes value on **9 / 10** instances, proves **6 / 10** with the basic path-state engine under caps, and adds **zero** active semantic terms. Numerical LP certificates remain explicitly inside the SciPy/HiGHS trust boundary. See `testing/campaign-713-812/aggregate.json`.

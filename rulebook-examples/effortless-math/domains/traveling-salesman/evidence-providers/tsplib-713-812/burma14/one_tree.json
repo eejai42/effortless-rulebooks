@@ -1,0 +1,102 @@
+{
+  "method": "scaled-integer Held-Karp one-tree subgradient",
+  "scale": 1000,
+  "iterations_budget": 1000,
+  "best_lower_numerator": 3323000,
+  "best_lower_bound": 3323.0,
+  "best_ceil_lower_bound": 3323,
+  "upper_bound": 3323,
+  "value_closed": true,
+  "tour_shaped": true,
+  "degree": [
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2,
+    2
+  ],
+  "edges": [
+    [
+      1,
+      13
+    ],
+    [
+      13,
+      2
+    ],
+    [
+      2,
+      3
+    ],
+    [
+      3,
+      4
+    ],
+    [
+      4,
+      5
+    ],
+    [
+      5,
+      11
+    ],
+    [
+      11,
+      6
+    ],
+    [
+      6,
+      12
+    ],
+    [
+      12,
+      7
+    ],
+    [
+      7,
+      10
+    ],
+    [
+      10,
+      8
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      0,
+      9
+    ],
+    [
+      0,
+      1
+    ]
+  ],
+  "original_one_tree_cost": 3323,
+  "potentials_scaled": [
+    0,
+    94720,
+    -61650,
+    -92738,
+    -287889,
+    51052,
+    -13426,
+    178574,
+    117280,
+    -124863,
+    136800,
+    36860,
+    -2893,
+    -31827
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 757,
+  "LoopId": "tsp-loop-757",
+  "DisplayName": "ulysses22 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "ulysses22 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "ulysses22 source ingested with SHA-256 5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898 and dimension 22.",
+  "WitnessSummary": "ulysses22 source ingested with SHA-256 5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898 and dimension 22.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "ulysses22",
+    "dimension": 22,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses22.tsp",
+    "source_sha256": "5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898",
+    "edge_weight_type": "GEO",
+    "edge_weight_format": null,
+    "published_optimum": 7013,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

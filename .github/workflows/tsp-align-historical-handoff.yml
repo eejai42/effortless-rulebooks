@@ -1,0 +1,70 @@
+name: Align historical TSP handoff with consolidation
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation
+    paths:
+      - .tsp-align-historical-handoff.trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  align:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsp_consolidation
+          fetch-depth: 0
+
+      - name: Prepend supersession notice without rewriting historical context
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('rulebook-examples/effortless-math/RESEARCH_HANDOFF.md')
+          text = path.read_text()
+          marker = '## SUPERSEDED CURRENT-STATE NOTICE'
+          if marker not in text:
+              heading = '# Effortless Math Research Handoff\n'
+              if not text.startswith(heading):
+                  raise AssertionError('unexpected handoff title')
+              notice_lines = [
+                  '# Effortless Math Research Handoff',
+                  '',
+                  '> [!IMPORTANT]',
+                  '> ## SUPERSEDED CURRENT-STATE NOTICE',
+                  '>',
+                  '> This document is retained as historical research context. Its original loop-710 and open-PR boundaries describe the repository at the time it was written; they are not the current state.',
+                  '>',
+                  '> On `agent/tsp_consolidation`, the canonical TSP ledger is now 577–812 with 236 rows in one `TSPLoops` table. A loop is exactly one change to the parsed canonical rulebook semantic object. UI/UX, generated projections, provider adapters, workflows, build repairs, benchmarks, reports, and packaging are not loops unless that rulebook object changes.',
+                  '>',
+                  '> The historical provider-iteration labels 813–1532 are reserved but noncanonical because their physical source archives are absent from this repository and their per-change rulebook deltas cannot yet be audited. Read `RESEARCH_CURRENT_STATUS.md`, `docs/LOOP_PROTOCOL.md`, the TSP `problem-contract.json`, and `testing/consolidation/` before using the historical narrative below.',
+                  '',
+              ]
+              notice = '\n'.join(notice_lines) + '\n'
+              path.write_text(notice + text[len(heading):].lstrip('\n'))
+          PY
+
+      - name: Validate non-README documentation alignment
+        run: |
+          set -euo pipefail
+          domain='rulebook-examples/effortless-math/domains/traveling-salesman'
+          python3 "$domain/scripts/validate_documentation_alignment.py"
+
+      - name: Commit historical handoff alignment
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-align-historical-handoff.trigger
+          git add rulebook-examples/effortless-math/RESEARCH_HANDOFF.md \
+            .tsp-align-historical-handoff.trigger
+          git commit -m 'Mark the original Effortless Math handoff as historical'
+          git pull --rebase origin agent/tsp_consolidation
+          git push origin HEAD:agent/tsp_consolidation

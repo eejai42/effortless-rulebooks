@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 774,
+  "LoopId": "tsp-loop-774",
+  "DisplayName": "gr24 — Resource and residual profile",
+  "Status": "CLOSED",
+  "BeforeState": "gr24 lacks a common resource and residual profile across methods.",
+  "PlannedClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+  "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "WitnessSummary": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "dimension": 24,
+    "path_status": "PROVED",
+    "path_unique_states": 22398,
+    "path_state_updates": 23939,
+    "path_runtime_seconds": 6.349165633000013,
+    "one_tree_ceil": 1272,
+    "sec_objective": 1272.0,
+    "comb_objective": 1272.0,
+    "sec_cuts": 3,
+    "comb_cuts": 0,
+    "value_closed": true,
+    "witness_closed": true,
+    "new_active_terms": 0
+  }
+}

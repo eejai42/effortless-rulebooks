@@ -1,0 +1,68 @@
+execute	Seal and publish the campaign	﻿2026-07-20T19:47:51.7119500Z ##[group]Run set -euo pipefail
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7120091Z ^[[36;1mset -euo pipefail^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7120477Z ^[[36;1mdomain='rulebook-examples/effortless-math/domains/traveling-salesman'^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7120931Z ^[[36;1mcp /tmp/tsp-campaign-713-812-execution.log \^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7121319Z ^[[36;1m  "$domain/testing/campaign-713-812/execution.log"^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7121889Z ^[[36;1mcp /tmp/tsp-campaign-713-812-validation.log \^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7122248Z ^[[36;1m  "$domain/testing/campaign-713-812/validation.log"^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7122607Z ^[[36;1mcp /tmp/tsp-campaign-713-812-postgres.log \^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7122954Z ^[[36;1m  "$domain/testing/campaign-713-812/postgres.log"^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7123267Z ^[[36;1mpython3 - <<'PY'^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7123498Z ^[[36;1mimport json^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7123724Z ^[[36;1mfrom pathlib import Path^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7124297Z ^[[36;1mpath = Path('rulebook-examples/effortless-math/domains/traveling-salesman/testing/campaign-713-812/postgres-status.json')^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7124913Z ^[[36;1mpath.write_text(json.dumps({^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7125180Z ^[[36;1m    'status': 'SUCCEEDED',^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7125447Z ^[[36;1m    'github_run_id': '29773061405',^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7125720Z ^[[36;1m    'highest_loop': 812,^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7125977Z ^[[36;1m    'loop_row_count': 236,^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7126287Z ^[[36;1m    'database': 'erb_traveling_salesman',^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7126632Z ^[[36;1m}, indent=2) + '\n')^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7126861Z ^[[36;1mPY^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7134697Z ^[[36;1mpython3 "$domain/scripts/campaign_713_812.py" --validate^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7135113Z ^[[36;1mrm -rf .github/tsp_campaign_713_812^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7135596Z ^[[36;1mrm -f .tsp-campaign-713-812.trigger .github/workflows/apply-tsp-campaign-713-812.yml^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7136351Z ^[[36;1mgit add -A -- "$domain" .github/tsp_campaign_713_812 .tsp-campaign-713-812.trigger .github/workflows/apply-tsp-campaign-713-812.yml^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7137035Z ^[[36;1mgit commit -m 'TSP loops 713-812: seal replay and Postgres conformance'^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7137431Z ^[[36;1mgit push origin HEAD:"$TARGET_BRANCH"^[[0m
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7198018Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7198365Z env:
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7198581Z   TARGET_BRANCH: agent/tsp_consolidation
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7198868Z   PGHOST: localhost
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7199076Z   PGUSER: postgres
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7199280Z   PGPASSWORD: postgres
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7199515Z   TSP_DB: erb_traveling_salesman
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7200161Z   EFFORTLESS_CLI_SOURCE: https://github.com/EffortlessAPI/cli/archive/1551cb82d5a8992ad09e4c82d08e28493f92f7b4.tar.gz
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7200747Z   NPM_CONFIG_PREFIX: /tmp/effortless-npm-global
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7201074Z   NPM_CONFIG_CACHE: /tmp/effortless-npm-cache
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7201354Z   PYTHONHASHSEED: 0
+execute	Seal and publish the campaign	2026-07-20T19:47:51.7201557Z ##[endgroup]
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1894876Z TSP loops 713-812 validation: PASS
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1895357Z {
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1895636Z   "instance_count": 10,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1895988Z   "value_closed_count": 9,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1896342Z   "witness_closed_count": 10,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1896706Z   "path_proved_count": 6,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1897075Z   "one_tree_value_closed_count": 7,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1897485Z   "sec_integral_count": 7,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1897814Z   "comb_integral_count": 8,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1898214Z   "fractional_but_value_closed_count": 1,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1898604Z   "branch_required_count": 1,
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1898941Z   "new_active_terms": 0
+execute	Seal and publish the campaign	2026-07-20T19:47:52.1899232Z }
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3286913Z [agent/tsp_consolidation f17f9bdb] TSP loops 713-812: seal replay and Postgres conformance
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3287605Z  12 files changed, 1789 insertions(+), 282 deletions(-)
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3288096Z  delete mode 100644 .github/tsp_campaign_713_812/campaign.gz.b64.part-00
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3288632Z  delete mode 100644 .github/tsp_campaign_713_812/campaign.gz.b64.part-01
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3289469Z  delete mode 100644 .github/tsp_campaign_713_812/campaign.gz.b64.part-02
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3290168Z  delete mode 100644 .github/tsp_campaign_713_812/campaign.gz.b64.part-03
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3290636Z  delete mode 100644 .github/workflows/apply-tsp-campaign-713-812.yml
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3291228Z  delete mode 100644 .tsp-campaign-713-812.trigger
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3291863Z  create mode 100644 rulebook-examples/effortless-math/domains/traveling-salesman/testing/campaign-713-812/execution.log
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3292753Z  create mode 100644 rulebook-examples/effortless-math/domains/traveling-salesman/testing/campaign-713-812/postgres-status.json
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3293628Z  create mode 100644 rulebook-examples/effortless-math/domains/traveling-salesman/testing/campaign-713-812/postgres.log
+execute	Seal and publish the campaign	2026-07-20T19:47:52.3294460Z  create mode 100644 rulebook-examples/effortless-math/domains/traveling-salesman/testing/campaign-713-812/validation.log
+execute	Seal and publish the campaign	2026-07-20T19:47:54.4313249Z To https://github.com/EffortlessAPI/effortless-rulebooks
+execute	Seal and publish the campaign	2026-07-20T19:47:54.4314439Z  ! [remote rejected]   HEAD -> agent/tsp_consolidation (refusing to allow a GitHub App to create or update workflow `.github/workflows/validate-tsp-domain.yml` without `workflows` permission)
+execute	Seal and publish the campaign	2026-07-20T19:47:54.4315475Z error: failed to push some refs to 'https://github.com/EffortlessAPI/effortless-rulebooks'
+execute	Seal and publish the campaign	2026-07-20T19:47:54.4340756Z ##[error]Process completed with exit code 1.

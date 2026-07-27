@@ -1,0 +1,32 @@
+{
+  "instance": "TSPLIB gr17",
+  "dimension": 17,
+  "witness": [
+    0,
+    3,
+    12,
+    6,
+    7,
+    5,
+    16,
+    13,
+    14,
+    2,
+    10,
+    9,
+    1,
+    4,
+    8,
+    11,
+    15
+  ],
+  "witness_value": 2085,
+  "held_karp_states": 524288,
+  "envelope_search": {
+    "cheaper_tour_found": false,
+    "expanded": 21353,
+    "pushed": 24861,
+    "pruned": 164845
+  },
+  "expanded_fraction_of_held_karp": 0.04072761535644531
+}

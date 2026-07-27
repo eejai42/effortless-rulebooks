@@ -1,0 +1,131 @@
+{
+  "status": "INTEGRAL_TOUR",
+  "objective": 6859.0,
+  "ceil_objective": 6859,
+  "iterations": 6,
+  "sec_cut_count": 5,
+  "comb_cut_count": 0,
+  "fractional_edge_count": 0,
+  "integral": true,
+  "connected": true,
+  "tour_shaped": true,
+  "selected_edges": [
+    [
+      0,
+      7
+    ],
+    [
+      0,
+      13
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      3
+    ],
+    [
+      2,
+      15
+    ],
+    [
+      3,
+      7
+    ],
+    [
+      4,
+      10
+    ],
+    [
+      4,
+      14
+    ],
+    [
+      5,
+      6
+    ],
+    [
+      5,
+      14
+    ],
+    [
+      6,
+      11
+    ],
+    [
+      8,
+      9
+    ],
+    [
+      8,
+      10
+    ],
+    [
+      9,
+      15
+    ],
+    [
+      11,
+      12
+    ],
+    [
+      12,
+      13
+    ]
+  ],
+  "fractional_edges": [],
+  "runtime_seconds": 0.011535836999996718,
+  "history": [
+    {
+      "iteration": 1,
+      "objective": 6113.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 0,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 2,
+      "objective": 6205.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 1,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 3,
+      "objective": 6698.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 2,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 4,
+      "objective": 6770.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 3,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 5,
+      "objective": 6813.5,
+      "mincut": 0.0,
+      "fractional_edge_count": 8,
+      "sec_cut_count": 4,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 6,
+      "objective": 6859.0,
+      "mincut": 2.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 5,
+      "comb_cut_count": 0
+    }
+  ],
+  "solver_trust": "SCIPY_HIGHS_NUMERICAL_LP"
+}

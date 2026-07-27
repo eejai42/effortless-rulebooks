@@ -1,0 +1,29 @@
+{
+  "LoopOrder": 802,
+  "LoopId": "tsp-loop-802",
+  "DisplayName": "dantzig42 — TSPLIB source ingestion",
+  "Status": "CLOSED",
+  "BeforeState": "dantzig42 is named in the preregistered corpus but its source payload and format have not been ingested.",
+  "PlannedClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+  "AfterState": "dantzig42 source ingested with SHA-256 44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d and dimension 42.",
+  "WitnessSummary": "dantzig42 source ingested with SHA-256 44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d and dimension 42.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Semantic Arc",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "name": "dantzig42",
+    "dimension": 42,
+    "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/dantzig42.tsp",
+    "source_sha256": "44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d",
+    "edge_weight_type": "EXPLICIT",
+    "edge_weight_format": "LOWER_DIAG_ROW",
+    "published_optimum": 699,
+    "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+  }
+}

@@ -1,0 +1,20 @@
+[burma14] n=14
+  heuristic=3323 feasible=3323 path=PROVED one_tree=3323 sec=3323.0 comb=3323.0 closed=True
+[ulysses16] n=16
+  heuristic=6859 feasible=6859 path=PROVED one_tree=6859 sec=6859.0 comb=6859.0 closed=True
+[gr17] n=17
+  heuristic=2085 feasible=2085 path=PROVED one_tree=2085 sec=2085.0 comb=2085.0 closed=True
+[gr21] n=21
+  heuristic=2707 feasible=2707 path=PROVED one_tree=2707 sec=2707.0 comb=2707.0 closed=True
+[ulysses22] n=22
+  heuristic=7013 feasible=7013 path=STATE_CAP one_tree=7013 sec=7013.0 comb=7013.0 closed=True
+[gr24] n=24
+  heuristic=1272 feasible=1272 path=PROVED one_tree=1272 sec=1272.0 comb=1272.0 closed=True
+[fri26] n=26
+  heuristic=937 feasible=937 path=PROVED one_tree=937 sec=937.0 comb=937.0 closed=True
+[bayg29] n=29
+  heuristic=1610 feasible=1610 path=TIME_CAP one_tree=1608 sec=1608.0 comb=1610.0 closed=True
+[bays29] n=29
+  heuristic=2020 feasible=2020 path=STATE_CAP one_tree=2014 sec=2013.5 comb=2019.3333333333333 closed=True
+[dantzig42] n=42
+  heuristic=699 feasible=699 path=TIME_CAP one_tree=697 sec=697.0 comb=697.6666666666667 closed=False

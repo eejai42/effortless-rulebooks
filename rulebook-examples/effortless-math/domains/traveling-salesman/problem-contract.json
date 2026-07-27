@@ -1,11 +1,11 @@
 {
   "ProblemId": "traveling-salesman-semantic-geometry",
-  "Version": "0.7.0",
+  "Version": "0.8.1-consolidated",
   "Title": "Traveling Salesman — City / Neighborhood / Address Semantic Geometry",
   "Status": "RESEARCH_PROGRAM",
   "Statement": "Given finite city-scale weighted graphs, represent graph normalization, supplied tours, typed frontier obligations, local-to-global lower bounds, finite optimality certificates, and residual search as executable structural data.",
-  "Scope": "The represented scope includes a frozen one-arc/one-rewrite basis, exact depot-fixed reversal-quotient calibration on six development and twelve held-out finite symmetric instances through nine stops, structural lower-bound and closure audits, and one explicit calibration-only value branch. No general TSP algorithm, universal region-repair theorem, basis-minimality theorem, or complexity-class claim is made.",
-  "TrustBoundary": "Input graph weights, availability, and membership remain trusted data. Exact enumeration is an independent finite calibration substrate, not an automatic structural proof. Structural certificates retain their own warrants. Held-out graphs were fixed before oracle execution. Postgres and Python are peer projections.",
+  "Scope": "The canonical semantic ledger contains 236 closed TSP loops, 577-812, including the frozen one-arc/one-rewrite development and held-out calibration work plus the checked-in ten-instance TSPLIB search-and-cut campaign. Later provider work historically labeled 813-1532 remains content-addressed evidence, not canonical rulebook truth, because its physical archives are absent from this repository and its per-change rulebook deltas have not been audited. No general TSP algorithm, universal region-repair theorem, basis-minimality theorem, solver-leaderboard claim, or complexity-class claim is made.",
+  "TrustBoundary": "Input graph weights, source payloads, declared memberships, published benchmark optima, numerical LP/MILP implementations, and remote transpiler services retain their stated trust status. Exact integer replay, generated Postgres, and Python are distinct evidence surfaces. Provider-local summaries do not become canonical without archive restoration, rulebook-delta audit, Effortless generation, generated database load, and independent replay.",
   "Claims": {
     "PEqualsNP": false,
     "UniversalPolynomialNormalization": false,
@@ -63,7 +63,20 @@
     "HeldOutRouteClosedCount": 3,
     "HeldOutValueBranchRequiredCount": 7,
     "FrozenBasisPrimitiveGrowthCount": 0,
-    "PhysicalTableCountLoop710": 45
+    "PhysicalTableCountLoop710": 45,
+    "TSPLIBCampaign713812Completed": true,
+    "NewActiveTermsInCampaign": 0,
+    "TSPLIBCampaignValueClosedCount": 9,
+    "TSPLIBCampaignPathProvedCount": 6,
+    "LoopMeansCanonicalRulebookSemanticChange": true,
+    "CanonicalLoopBoundary": 812,
+    "CanonicalLoopRowCount": 236,
+    "CanonicalLoopLedgerUnified": true,
+    "CanonicalLoopLedgerContiguous": true,
+    "TSPLIBCampaignPostgresConformance": true,
+    "ProviderLocalLabels8131532Canonical": false,
+    "ProviderLocalArchives8131532PresentInRepository": false,
+    "GenericOrchestrationTablesBelongInTSPRulebook": false
   },
   "CanonicalAsset": "effortless-rulebook/traveling-salesman-rulebook.json",
   "ExecutionSubstrates": [
@@ -74,62 +87,82 @@
     {
       "LoopOrder": 577,
       "LoopId": "tsp-loop-577",
-      "Result": "City -> Neighborhood -> Address hierarchy closed for the fixture.",
-      "Status": "CLOSED"
+      "Result": "One city, three neighborhoods, and five addresses form an acyclic spatial hierarchy.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 578,
       "LoopId": "tsp-loop-578",
-      "Result": "Five-stop complete symmetric weighted graph normalized as ten canonical edges.",
-      "Status": "CLOSED"
+      "Result": "Five required stops and ten canonical edges satisfy n(n-1)/2 for a complete symmetric graph.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 579,
       "LoopId": "tsp-loop-579",
-      "Result": "Candidate tours represented as ordered stops plus edge-bound legs.",
-      "Status": "CLOSED"
+      "Result": "The route A-B-C-D-E-A is represented entirely by rows and relationships.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 580,
       "LoopId": "tsp-loop-580",
-      "Result": "Valid reference route accepted; duplicate-stop route rejected; optimality remained open.",
-      "Status": "CLOSED"
+      "Result": "The reference route validates; A-B-C-B-E-A is rejected for duplicate visitation; both retain IsOptimalityProved=false.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 581,
       "LoopId": "tsp-loop-581",
-      "Result": "Baseline recorded twelve symmetry-reduced route-discovery classes.",
-      "Status": "CLOSED"
+      "Result": "For five stops with depot and reversal symmetry fixed, twelve route classes remain and zero have yet been eliminated.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 582,
       "LoopId": "tsp-loop-582",
-      "Result": "Frontier obligations typed separately from imported dependencies; imported count remains zero.",
-      "Status": "CLOSED"
+      "Result": "Eight current frontier rows classify internal inference, certificates, substrate commissioning, generalization, and residual search; active imported dependencies remain zero.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 583,
       "LoopId": "tsp-loop-583",
-      "Result": "Global one-in/one-out transition coverage rejects a locally legal but globally incomplete cycle.",
-      "Status": "CLOSED"
+      "Result": "A candidate with five unique visits and five locally legal legs is rejected because A-B is duplicated and E-A is missing.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 584,
       "LoopId": "tsp-loop-584",
-      "Result": "Canonical pair multiplicity rejects a count-preserving duplicate-edge graph.",
-      "Status": "CLOSED"
+      "Result": "A three-stop graph with the expected three rows is rejected because AB occurs twice and BC is absent.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 585,
       "LoopId": "tsp-loop-585",
-      "Result": "Degree-two local bounds certify a global tour lower bound of 14.",
-      "Status": "CLOSED"
+      "Result": "Local bounds 5,5,6,6,6 sum to 28; dividing by two certifies every Gridville tour costs at least 14.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 586,
       "LoopId": "tsp-loop-586",
-      "Result": "Reference candidate cost 14 equals the certified lower bound, proving finite-instance optimality.",
-      "Status": "CLOSED"
+      "Result": "The valid reference tour costs 14 and the certified lower bound is 14, so it is optimal for tsp-gridville-5 without route enumeration.",
+      "Status": "CLOSED",
+      "AfterState": null,
+      "CompletionDisposition": null
     },
     {
       "LoopOrder": 587,
@@ -1370,6 +1403,1026 @@
       "AfterState": "Sealed the third coherence event through loop 710.",
       "Result": "Twelve held-out instances are exactly calibrated; value closed=5, route closed=3, value branch required=7; active basis remains one arc/one rewrite and physical tables remain 45.",
       "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 711,
+      "LoopId": "tsp-loop-711",
+      "Status": "CLOSED",
+      "BeforeState": "No external named benchmark had an exact path-state certificate.",
+      "ClosureCriterion": "Apply the frozen path-state method to external TSPLIB GR17.",
+      "AfterState": "GR17 optimum 2085 was witnessed and proved with 21,353 unique quotient states.",
+      "Result": "GR17 witness 2085; 21,353 unique quotient states; exact proof complete.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 712,
+      "LoopId": "tsp-loop-712",
+      "Status": "CLOSED",
+      "BeforeState": "The GR17 reduction could be a single-instance artifact.",
+      "ClosureCriterion": "Repeat the unchanged path-state method on external TSPLIB GR21.",
+      "AfterState": "GR21 optimum 2707 was witnessed and proved with 4,352 unique quotient states.",
+      "Result": "GR21 witness 2707; 4,352 unique quotient states; exact proof complete.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 713,
+      "LoopId": "tsp-loop-713",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Register ten named TSPLIB instances before consuming results.",
+      "AfterState": "Ten named TSPLIB instances were fixed before execution.",
+      "Result": "Ten named TSPLIB instances were fixed before execution.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 714,
+      "LoopId": "tsp-loop-714",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Freeze heuristic, path-state, one-tree, SEC, and simple comb methods before execution.",
+      "AfterState": "The constructive, path-state, scaled one-tree, degree-LP, SEC, and simple-comb methods were frozen.",
+      "Result": "The constructive, path-state, scaled one-tree, degree-LP, SEC, and simple-comb methods were frozen.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 715,
+      "LoopId": "tsp-loop-715",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Freeze state, cut, runtime, gap, witness, and branch-warrant metrics.",
+      "AfterState": "State, cut, runtime, lower-bound, witness, and branch metrics were frozen.",
+      "Result": "State, cut, runtime, lower-bound, witness, and branch metrics were frozen.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 716,
+      "LoopId": "tsp-loop-716",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Require URL, payload hash, TSPLIB dimension, format, and published optimum provenance.",
+      "AfterState": "Source URL, format, dimension, optimum ledger, and SHA-256 requirements were frozen.",
+      "Result": "Source URL, format, dimension, optimum ledger, and SHA-256 requirements were frozen.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 717,
+      "LoopId": "tsp-loop-717",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Separate independently replayable integer bounds, numerical LP imports, witnesses, and published evaluation values.",
+      "AfterState": "Exact rational, numerical LP, constructive witness, and published evaluation statuses remain distinct.",
+      "Result": "Exact rational, numerical LP, constructive witness, and published evaluation statuses remain distinct.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 718,
+      "LoopId": "tsp-loop-718",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Require exact dominance and completion-bound search accounting with explicit caps.",
+      "AfterState": "The path-state proof uses (last, unvisited), prefix dominance, an MST completion envelope, and explicit caps.",
+      "Result": "The path-state proof uses (last, unvisited), prefix dominance, an MST completion envelope, and explicit caps.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 719,
+      "LoopId": "tsp-loop-719",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Require degree equations, separated subtour cuts, optional simple comb cuts, and no implicit branching.",
+      "AfterState": "The cut proof uses degree equations, global min-cut SEC separation, and only witnessed simple 2-matching combs.",
+      "Result": "The cut proof uses degree equations, global min-cut SEC separation, and only witnessed simple 2-matching combs.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 720,
+      "LoopId": "tsp-loop-720",
+      "Status": "CLOSED",
+      "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+      "ClosureCriterion": "Record caps, fractional residues, heuristic misses, and open values without promotion.",
+      "AfterState": "Caps, fractional residues, heuristic gaps, and open values are retained as first-class outcomes.",
+      "Result": "Caps, fractional residues, heuristic gaps, and open values are retained as first-class outcomes.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 721,
+      "LoopId": "tsp-loop-721",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "burma14 source ingested with SHA-256 c2f10b100ad1a00bba19094e33ab3c05fb50203352151e23252eba6f85d5c3e7 and dimension 14.",
+      "Result": "burma14 source ingested with SHA-256 c2f10b100ad1a00bba19094e33ab3c05fb50203352151e23252eba6f85d5c3e7 and dimension 14.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 722,
+      "LoopId": "tsp-loop-722",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=3323 versus published optimum=3323.",
+      "Result": "Best frozen constructive witness cost=3323 versus published optimum=3323.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 723,
+      "LoopId": "tsp-loop-723",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=PROVED; unique states=2498; final incumbent=3323.",
+      "Result": "Path-state status=PROVED; unique states=2498; final incumbent=3323.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 724,
+      "LoopId": "tsp-loop-724",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=3323.0; ceil=3323; tour-shaped=True.",
+      "Result": "Exact scaled one-tree lower=3323.0; ceil=3323; tour-shaped=True.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 725,
+      "LoopId": "tsp-loop-725",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=3001.0; fractional edges=0.",
+      "Result": "Degree-LP objective=3001.0; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 726,
+      "LoopId": "tsp-loop-726",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=3323.0; cuts=2; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=3323.0; cuts=2; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 727,
+      "LoopId": "tsp-loop-727",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=3323.0; SEC cuts=2; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=3323.0; SEC cuts=2; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 728,
+      "LoopId": "tsp-loop-728",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 729,
+      "LoopId": "tsp-loop-729",
+      "Status": "CLOSED",
+      "BeforeState": "burma14 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 730,
+      "LoopId": "tsp-loop-730",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "ulysses16 source ingested with SHA-256 46064545dbb24b7f53b9b26802b422a903d92bc51ab835a73ec15733ab3cac46 and dimension 16.",
+      "Result": "ulysses16 source ingested with SHA-256 46064545dbb24b7f53b9b26802b422a903d92bc51ab835a73ec15733ab3cac46 and dimension 16.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 731,
+      "LoopId": "tsp-loop-731",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=6859 versus published optimum=6859.",
+      "Result": "Best frozen constructive witness cost=6859 versus published optimum=6859.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 732,
+      "LoopId": "tsp-loop-732",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=PROVED; unique states=60421; final incumbent=6859.",
+      "Result": "Path-state status=PROVED; unique states=60421; final incumbent=6859.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 733,
+      "LoopId": "tsp-loop-733",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=6859.0; ceil=6859; tour-shaped=True.",
+      "Result": "Exact scaled one-tree lower=6859.0; ceil=6859; tour-shaped=True.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 734,
+      "LoopId": "tsp-loop-734",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=6113.0; fractional edges=0.",
+      "Result": "Degree-LP objective=6113.0; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 735,
+      "LoopId": "tsp-loop-735",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=6859.0; cuts=5; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=6859.0; cuts=5; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 736,
+      "LoopId": "tsp-loop-736",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=6859.0; SEC cuts=5; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=6859.0; SEC cuts=5; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 737,
+      "LoopId": "tsp-loop-737",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 738,
+      "LoopId": "tsp-loop-738",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses16 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 739,
+      "LoopId": "tsp-loop-739",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "gr17 source ingested with SHA-256 b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa and dimension 17.",
+      "Result": "gr17 source ingested with SHA-256 b18d6060189534ec7c6ea3b50b6ba793d1a3bd22b38e99bf9f422338ffa203fa and dimension 17.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 740,
+      "LoopId": "tsp-loop-740",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=2085 versus published optimum=2085.",
+      "Result": "Best frozen constructive witness cost=2085 versus published optimum=2085.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 741,
+      "LoopId": "tsp-loop-741",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=PROVED; unique states=21353; final incumbent=2085.",
+      "Result": "Path-state status=PROVED; unique states=21353; final incumbent=2085.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 742,
+      "LoopId": "tsp-loop-742",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=2085.0; ceil=2085; tour-shaped=True.",
+      "Result": "Exact scaled one-tree lower=2085.0; ceil=2085; tour-shaped=True.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 743,
+      "LoopId": "tsp-loop-743",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=1684.0; fractional edges=0.",
+      "Result": "Degree-LP objective=1684.0; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 744,
+      "LoopId": "tsp-loop-744",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=2085.0; cuts=12; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=2085.0; cuts=12; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 745,
+      "LoopId": "tsp-loop-745",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=2085.0; SEC cuts=12; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=2085.0; SEC cuts=12; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 746,
+      "LoopId": "tsp-loop-746",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 747,
+      "LoopId": "tsp-loop-747",
+      "Status": "CLOSED",
+      "BeforeState": "gr17 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 748,
+      "LoopId": "tsp-loop-748",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "gr21 source ingested with SHA-256 3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4 and dimension 21.",
+      "Result": "gr21 source ingested with SHA-256 3ff0ab452689b2e9ffb7aa206a7dcee4e6053dbb915afa99e66005f84e8b54b4 and dimension 21.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 749,
+      "LoopId": "tsp-loop-749",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=2707 versus published optimum=2707.",
+      "Result": "Best frozen constructive witness cost=2707 versus published optimum=2707.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 750,
+      "LoopId": "tsp-loop-750",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=PROVED; unique states=4352; final incumbent=2707.",
+      "Result": "Path-state status=PROVED; unique states=4352; final incumbent=2707.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 751,
+      "LoopId": "tsp-loop-751",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=2707.0; ceil=2707; tour-shaped=True.",
+      "Result": "Exact scaled one-tree lower=2707.0; ceil=2707; tour-shaped=True.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 752,
+      "LoopId": "tsp-loop-752",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=2707.0; fractional edges=0.",
+      "Result": "Degree-LP objective=2707.0; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 753,
+      "LoopId": "tsp-loop-753",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=2707.0; cuts=0; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=2707.0; cuts=0; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 754,
+      "LoopId": "tsp-loop-754",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=2707.0; SEC cuts=0; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=2707.0; SEC cuts=0; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 755,
+      "LoopId": "tsp-loop-755",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 756,
+      "LoopId": "tsp-loop-756",
+      "Status": "CLOSED",
+      "BeforeState": "gr21 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 757,
+      "LoopId": "tsp-loop-757",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "ulysses22 source ingested with SHA-256 5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898 and dimension 22.",
+      "Result": "ulysses22 source ingested with SHA-256 5d78d3131b51d4130c28495ecc558da9208fbb9a8f4f7d38535421371ba79898 and dimension 22.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 758,
+      "LoopId": "tsp-loop-758",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=7013 versus published optimum=7013.",
+      "Result": "Best frozen constructive witness cost=7013 versus published optimum=7013.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 759,
+      "LoopId": "tsp-loop-759",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=STATE_CAP; unique states=212768; final incumbent=7013.",
+      "Result": "Path-state status=STATE_CAP; unique states=212768; final incumbent=7013.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 760,
+      "LoopId": "tsp-loop-760",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=7013.0; ceil=7013; tour-shaped=True.",
+      "Result": "Exact scaled one-tree lower=7013.0; ceil=7013; tour-shaped=True.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 761,
+      "LoopId": "tsp-loop-761",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=6106.5; fractional edges=6.",
+      "Result": "Degree-LP objective=6106.5; fractional edges=6.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 762,
+      "LoopId": "tsp-loop-762",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=7013.0; cuts=8; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=7013.0; cuts=8; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 763,
+      "LoopId": "tsp-loop-763",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=7013.0; SEC cuts=8; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=7013.0; SEC cuts=8; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 764,
+      "LoopId": "tsp-loop-764",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 765,
+      "LoopId": "tsp-loop-765",
+      "Status": "CLOSED",
+      "BeforeState": "ulysses22 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 766,
+      "LoopId": "tsp-loop-766",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "gr24 source ingested with SHA-256 7fcf61204842785f06c58e7098a3e1eb2786831179e115645083ce500c065779 and dimension 24.",
+      "Result": "gr24 source ingested with SHA-256 7fcf61204842785f06c58e7098a3e1eb2786831179e115645083ce500c065779 and dimension 24.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 767,
+      "LoopId": "tsp-loop-767",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=1272 versus published optimum=1272.",
+      "Result": "Best frozen constructive witness cost=1272 versus published optimum=1272.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 768,
+      "LoopId": "tsp-loop-768",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=PROVED; unique states=22398; final incumbent=1272.",
+      "Result": "Path-state status=PROVED; unique states=22398; final incumbent=1272.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 769,
+      "LoopId": "tsp-loop-769",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=1271.999; ceil=1272; tour-shaped=False.",
+      "Result": "Exact scaled one-tree lower=1271.999; ceil=1272; tour-shaped=False.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 770,
+      "LoopId": "tsp-loop-770",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=1224.5; fractional edges=6.",
+      "Result": "Degree-LP objective=1224.5; fractional edges=6.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 771,
+      "LoopId": "tsp-loop-771",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=1272.0; cuts=3; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=1272.0; cuts=3; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 772,
+      "LoopId": "tsp-loop-772",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=1272.0; SEC cuts=3; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=1272.0; SEC cuts=3; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 773,
+      "LoopId": "tsp-loop-773",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 774,
+      "LoopId": "tsp-loop-774",
+      "Status": "CLOSED",
+      "BeforeState": "gr24 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 775,
+      "LoopId": "tsp-loop-775",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "fri26 source ingested with SHA-256 80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0 and dimension 26.",
+      "Result": "fri26 source ingested with SHA-256 80d6b51cf41459ba33ca883324f50b2f0694a4b787f2ae153c9cd97c8d8948c0 and dimension 26.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 776,
+      "LoopId": "tsp-loop-776",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=937 versus published optimum=937.",
+      "Result": "Best frozen constructive witness cost=937 versus published optimum=937.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 777,
+      "LoopId": "tsp-loop-777",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=PROVED; unique states=20038; final incumbent=937.",
+      "Result": "Path-state status=PROVED; unique states=20038; final incumbent=937.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 778,
+      "LoopId": "tsp-loop-778",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=937.0; ceil=937; tour-shaped=False.",
+      "Result": "Exact scaled one-tree lower=937.0; ceil=937; tour-shaped=False.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 779,
+      "LoopId": "tsp-loop-779",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=880.0; fractional edges=6.",
+      "Result": "Degree-LP objective=880.0; fractional edges=6.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 780,
+      "LoopId": "tsp-loop-780",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=INTEGRAL_TOUR; objective=937.0; cuts=6; fractional edges=0.",
+      "Result": "SEC status=INTEGRAL_TOUR; objective=937.0; cuts=6; fractional edges=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 781,
+      "LoopId": "tsp-loop-781",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=937.0; SEC cuts=6; comb cuts=0.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=937.0; SEC cuts=6; comb cuts=0.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 782,
+      "LoopId": "tsp-loop-782",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 783,
+      "LoopId": "tsp-loop-783",
+      "Status": "CLOSED",
+      "BeforeState": "fri26 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 784,
+      "LoopId": "tsp-loop-784",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "bayg29 source ingested with SHA-256 6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b and dimension 29.",
+      "Result": "bayg29 source ingested with SHA-256 6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b and dimension 29.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 785,
+      "LoopId": "tsp-loop-785",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=1610 versus published optimum=1610.",
+      "Result": "Best frozen constructive witness cost=1610 versus published optimum=1610.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 786,
+      "LoopId": "tsp-loop-786",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=TIME_CAP; unique states=62005; final incumbent=1610.",
+      "Result": "Path-state status=TIME_CAP; unique states=62005; final incumbent=1610.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 787,
+      "LoopId": "tsp-loop-787",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=1607.995; ceil=1608; tour-shaped=False.",
+      "Result": "Exact scaled one-tree lower=1607.995; ceil=1608; tour-shaped=False.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 788,
+      "LoopId": "tsp-loop-788",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=1546.0; fractional edges=8.",
+      "Result": "Degree-LP objective=1546.0; fractional edges=8.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 789,
+      "LoopId": "tsp-loop-789",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=FRACTIONAL_SEC_CLOSED; objective=1608.0; cuts=6; fractional edges=8.",
+      "Result": "SEC status=FRACTIONAL_SEC_CLOSED; objective=1608.0; cuts=6; fractional edges=8.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 790,
+      "LoopId": "tsp-loop-790",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=INTEGRAL_TOUR; objective=1610.0; SEC cuts=7; comb cuts=1.",
+      "Result": "Comb status=INTEGRAL_TOUR; objective=1610.0; SEC cuts=7; comb cuts=1.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 791,
+      "LoopId": "tsp-loop-791",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 792,
+      "LoopId": "tsp-loop-792",
+      "Status": "CLOSED",
+      "BeforeState": "bayg29 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 793,
+      "LoopId": "tsp-loop-793",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "bays29 source ingested with SHA-256 385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f and dimension 29.",
+      "Result": "bays29 source ingested with SHA-256 385c381b3bf28ed9f1065cb1672d02d1909b0eb66eab111d7c9887f9a796dc8f and dimension 29.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 794,
+      "LoopId": "tsp-loop-794",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=2020 versus published optimum=2020.",
+      "Result": "Best frozen constructive witness cost=2020 versus published optimum=2020.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 795,
+      "LoopId": "tsp-loop-795",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=STATE_CAP; unique states=86043; final incumbent=2020.",
+      "Result": "Path-state status=STATE_CAP; unique states=86043; final incumbent=2020.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 796,
+      "LoopId": "tsp-loop-796",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=2013.487; ceil=2014; tour-shaped=False.",
+      "Result": "Exact scaled one-tree lower=2013.487; ceil=2014; tour-shaped=False.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 797,
+      "LoopId": "tsp-loop-797",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=1944.0; fractional edges=6.",
+      "Result": "Degree-LP objective=1944.0; fractional edges=6.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 798,
+      "LoopId": "tsp-loop-798",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=FRACTIONAL_SEC_CLOSED; objective=2013.5; cuts=3; fractional edges=6.",
+      "Result": "SEC status=FRACTIONAL_SEC_CLOSED; objective=2013.5; cuts=3; fractional edges=6.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 799,
+      "LoopId": "tsp-loop-799",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=FRACTIONAL_COMB_CLOSED; objective=2019.3333333333333; SEC cuts=6; comb cuts=3.",
+      "Result": "Comb status=FRACTIONAL_COMB_CLOSED; objective=2019.3333333333333; SEC cuts=6; comb cuts=3.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 800,
+      "LoopId": "tsp-loop-800",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "Result": "Value closed=True; witness closed=True; branch warrant=REJECTED_VALUE_CLOSED.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 801,
+      "LoopId": "tsp-loop-801",
+      "Status": "CLOSED",
+      "BeforeState": "bays29 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 802,
+      "LoopId": "tsp-loop-802",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "ClosureCriterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "AfterState": "dantzig42 source ingested with SHA-256 44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d and dimension 42.",
+      "Result": "dantzig42 source ingested with SHA-256 44e695b2084b13fe3efe790c783a4db1745df8947a482b1c8edcda63cb15b29d and dimension 42.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 803,
+      "LoopId": "tsp-loop-803",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 has source data but no frozen constructive witness comparison.",
+      "ClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "AfterState": "Best frozen constructive witness cost=699 versus published optimum=699.",
+      "Result": "Best frozen constructive witness cost=699 versus published optimum=699.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 804,
+      "LoopId": "tsp-loop-804",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "ClosureCriterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "AfterState": "Path-state status=TIME_CAP; unique states=19472; final incumbent=699.",
+      "Result": "Path-state status=TIME_CAP; unique states=19472; final incumbent=699.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 805,
+      "LoopId": "tsp-loop-805",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 lacks an exact scaled-integer one-tree dual certificate.",
+      "ClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "AfterState": "Exact scaled one-tree lower=696.996; ceil=697; tour-shaped=False.",
+      "Result": "Exact scaled one-tree lower=696.996; ceil=697; tour-shaped=False.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 806,
+      "LoopId": "tsp-loop-806",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 lacks a degree-only LP relaxation profile.",
+      "ClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "AfterState": "Degree-LP objective=641.0; fractional edges=6.",
+      "Result": "Degree-LP objective=641.0; fractional edges=6.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 807,
+      "LoopId": "tsp-loop-807",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 lacks separated subtour-elimination closure.",
+      "ClosureCriterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "AfterState": "SEC status=FRACTIONAL_SEC_CLOSED; objective=697.0; cuts=6; fractional edges=16.",
+      "Result": "SEC status=FRACTIONAL_SEC_CLOSED; objective=697.0; cuts=6; fractional edges=16.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 808,
+      "LoopId": "tsp-loop-808",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "ClosureCriterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "AfterState": "Comb status=FRACTIONAL_COMB_CLOSED; objective=697.6666666666667; SEC cuts=6; comb cuts=1.",
+      "Result": "Comb status=FRACTIONAL_COMB_CLOSED; objective=697.6666666666667; SEC cuts=6; comb cuts=1.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 809,
+      "LoopId": "tsp-loop-809",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "ClosureCriterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "AfterState": "Value closed=False; witness closed=True; branch warrant=REQUIRED_VALUE_OPEN.",
+      "Result": "Value closed=False; witness closed=True; branch warrant=REQUIRED_VALUE_OPEN.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 810,
+      "LoopId": "tsp-loop-810",
+      "Status": "CLOSED",
+      "BeforeState": "dantzig42 lacks a common resource and residual profile across methods.",
+      "ClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "Result": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 811,
+      "LoopId": "tsp-loop-811",
+      "Status": "CLOSED",
+      "BeforeState": "Per-instance evidence exists but has not been aggregated across the preregistered ladder.",
+      "ClosureCriterion": "Aggregate closure, integrality, state, cut, runtime, and failure counts without dropping weak cases.",
+      "AfterState": "Aggregated 10 instances: value closed=9, path proved=6, one-tree closed=7, SEC integral=7, final integral=8.",
+      "Result": "Aggregated 10 instances: value closed=9, path proved=6, one-tree closed=7, SEC integral=7, final integral=8.",
+      "CompletionDisposition": "CLOSED"
+    },
+    {
+      "LoopOrder": 812,
+      "LoopId": "tsp-loop-812",
+      "Status": "CLOSED",
+      "BeforeState": "The benchmark results have not been reconciled with the frozen active glossary and nonclaims.",
+      "ClosureCriterion": "Confirm zero active-term growth, state the strongest finite conclusions, and preserve the unresolved search/cut frontier.",
+      "AfterState": "The campaign added zero active terms; larger branch-and-cut instances and independently verified numerical LP certificates remain open.",
+      "Result": "The campaign added zero active terms; larger branch-and-cut instances and independently verified numerical LP certificates remain open.",
+      "CompletionDisposition": "CLOSED"
     }
   ],
   "CurrentCertificates": [
@@ -1502,13 +2555,18 @@
       "CertificateId": "tsp-coherence-event-three",
       "Kind": "coherence-vector-certificate",
       "Conclusion": "The active basis remains one Semantic Arc and one Warranted Rewrite across a twelve-family held-out exact campaign with zero physical-table growth."
+    },
+    {
+      "CertificateId": "tsp-tsplib-campaign-713-812",
+      "Kind": "external-benchmark-campaign-certificate",
+      "Conclusion": "Ten preregistered TSPLIB instances were evaluated under a frozen vocabulary; value closed on 9, path search proved 6, and active-term growth was zero."
     }
   ],
   "RemainingFrontier": [
-    "repeat the frozen-basis campaign on standard public TSP benchmark instances using a separately versioned importer",
-    "replace calibration-only exact branches with structural branch-and-bound certificates whose bounds are themselves witnessed",
-    "generalize region repair beyond the finite heterogeneous observations recorded here",
-    "measure runtime and memory scaling without confusing exact small-instance enumeration with a general algorithm"
+    "larger TSPLIB instances requiring genuine branching after cut closure",
+    "independent exact verification of numerical LP dual certificates",
+    "wall-clock and memory comparison with mature branch-and-cut solvers",
+    "stronger general comb and blossom separation beyond the witnessed simple family"
   ],
   "Acceptance": {
     "RulebookTables": 45,
@@ -1519,7 +2577,7 @@
     "InstanceStops": 121,
     "TravelEdges": 349,
     "CandidateTours": 24,
-    "TSPLoops": 134,
+    "TSPLoops": 236,
     "FrontierObligations": 34,
     "ActiveImportedDependencies": 0,
     "ReferenceTourValid": true,
@@ -1531,8 +2589,8 @@
     "BrokenGraphComplete": false,
     "RouteDiscoverySearchEliminationPct": 0,
     "SuppliedCandidateOptimalityVerificationEliminationPct": 100,
-    "LastPlannedLoop": 710,
-    "HighestCompletedLoop": 710,
+    "LastPlannedLoop": 812,
+    "HighestCompletedLoop": 812,
     "PostgresCommissioningStatus": "CLOSED",
     "InferenceApplications": 16,
     "SelectedNotForcedEdgeStates": 5,
@@ -1613,55 +2671,18 @@
     "HeldOutRouteClosedCount": 3,
     "HeldOutBranchRequiredCount": 7,
     "HeldOutMeanClosureYieldPct": 23.96,
-    "HeldOutMaxExactClassCount": 2520
-  },
-  "ArtifactHashes": {
-    "rulebook": "sha256:71649f568248a91818b22ef25b57e7b33260f57e03605d9d8243e8ee6151ed1d",
-    "build_input_rulebook": "sha256:9e4ee0e680d38ad9b3353fbc857c4d4d7875133197338bccceb0f2db69620c90",
-    "postgres_projection_tree": "sha256:52a43b65f1f868ee752043a1e6012d38f8aa9ffbcd8020aed1cb9507bfdca427",
-    "rulespeak_tree": "sha256:0bf9cbe820e706586e1600029deffd2615cdc4448520ac7d47ea9455eba7679d",
-    "commissioning_transcript": "sha256:ae8190f4c6084cbd1d2a3e9ae359a2b1966cf99dfcb2423d92cf98e6aaf8f7a5",
-    "effortless_cli_commit": "1551cb82d5a8992ad09e4c82d08e28493f92f7b4",
-    "effortless_cli_archive": "https://github.com/EffortlessAPI/cli/archive/1551cb82d5a8992ad09e4c82d08e28493f92f7b4.tar.gz",
-    "retry_9_finalization_failure_transcript": "sha256:6516deab2de42c971cc55ef2d752d3d5cb2154dd343cd7827803e1bd6ed8bd2b",
-    "loop_610_postgres_projection_tree": "sha256:820fc671a825379a4661ad333fd83b03f6f578f094f15a5e1193db293ae38194",
-    "loop_610_rulespeak_tree": "sha256:7312ad39093f44a34d8ef4bf8f15a92334d04b3d5c2681597db91c773d6f7f1c",
-    "loop_610_generated_view_count": 45,
-    "loop_646_postgres_projection_tree": "sha256:820fc671a825379a4661ad333fd83b03f6f578f094f15a5e1193db293ae38194",
-    "loop_646_rulespeak_tree": "sha256:7312ad39093f44a34d8ef4bf8f15a92334d04b3d5c2681597db91c773d6f7f1c",
-    "loop_646_live_three_region_lower_bound": "36.0000000000000000,true",
-    "loop_646_live_optimal_face": {
-      "tour-optimal-face-abcd-4": [
-        4.0,
-        "true"
-      ],
-      "tour-optimal-face-abdc-6": [
-        6.0,
-        "false"
-      ],
-      "tour-optimal-face-acbd-4": [
-        4.0,
-        "true"
-      ]
-    },
-    "loop_709_postgres_projection_tree": "sha256:21161cf595207344af096782102a7fc738dfef1adba1882298541f601ee9470d",
-    "loop_709_rulespeak_tree": "sha256:bc9b33ac5cfef2ecf99cea18a48fe9572c47f9b2e746c22a009a264248d749fb",
-    "loop_709_generated_view_count": 45,
-    "loop_709_live_heldout_exact_count": 12,
-    "loop_709_live_oracle_rows": [
-      "tsp-holdout-bottleneck7-7,20.0,1,360,REQUIRED_FOR_VALUE",
-      "tsp-holdout-cluster7-7,29.0,2,360,REQUIRED_FOR_VALUE",
-      "tsp-holdout-dominance7-7,29.0,1,360,REQUIRED_FOR_VALUE",
-      "tsp-holdout-fourregion8-8,24.0,2,2520,REJECTED_VALUE_ALREADY_CERTIFIED",
-      "tsp-holdout-hetero8-8,31.0,1,2520,REQUIRED_FOR_VALUE",
-      "tsp-holdout-metric6-6,152.0,1,1,REJECTED_VALUE_ALREADY_CERTIFIED",
-      "tsp-holdout-nested8-8,31.0,2,2520,REQUIRED_FOR_VALUE",
-      "tsp-holdout-nonmetric6-6,37.0,1,60,REQUIRED_FOR_VALUE",
-      "tsp-holdout-residual8-8,38.0,1,2520,REQUIRED_FOR_VALUE",
-      "tsp-holdout-ring6-6,6.0,1,1,REJECTED_VALUE_ALREADY_CERTIFIED",
-      "tsp-holdout-sparse8-8,8.0,1,1,REJECTED_VALUE_ALREADY_CERTIFIED",
-      "tsp-holdout-tie6-6,6.0,60,60,REJECTED_VALUE_ALREADY_CERTIFIED"
-    ]
+    "HeldOutMaxExactClassCount": 2520,
+    "CanonicalLoopFirst": 577,
+    "CanonicalLoopLast": 812,
+    "CanonicalLoopCount": 236,
+    "CanonicalLoopContinuity": true,
+    "TSPLIBCampaignInstanceCount": 10,
+    "TSPLIBCampaignValueClosedCount": 9,
+    "TSPLIBCampaignWitnessClosedCount": 10,
+    "TSPLIBCampaignPathProvedCount": 6,
+    "TSPLIBCampaignNewActiveTerms": 0,
+    "CampaignPostgresHighestLoop": 812,
+    "CampaignPostgresLoopRowCount": 236
   },
   "GeneratedTimestamp": null,
   "Vocabulary": {
@@ -1669,5 +2690,45 @@
     "FrontierObligation": "Any still-open semantic edge, typed as inference, certificate, substrate, generalization, or residual search.",
     "ResidualSearch": "Explicit ambiguity remaining after all currently represented deterministic obligations reach closure.",
     "KernelAssumption": "Trusted primitive input semantics recorded at the trust boundary, not silently promoted into a derivation."
+  },
+  "LoopSemantics": {
+    "definition": "A loop is exactly one change to the parsed semantic object of the canonical TSP rulebook. Code, generated projections, workflows, builds, benchmarks, reports, UI/UX, and documentation are not loops unless the same change modifies that semantic object.",
+    "canonical_ledger": "effortless-rulebook/traveling-salesman-rulebook.json#TSPLoops",
+    "future_commit_rule": "A semantic rulebook delta must change exactly one loop row and name that loop in the commit subject. A parsed-object-equivalent formatting rewrite is not a loop.",
+    "historical_preregistration_disposition": "The 713-812 runner bulk-added PLANNED rows before ordered closure. The final rows are retained, but this publication pattern is prohibited for future semantic campaigns.",
+    "reserved_provider_labels": [
+      813,
+      1532
+    ],
+    "next_unambiguous_new_loop_order": 1533
+  },
+  "EvidenceBoundary": {
+    "canonical_repository_truth": "Loops 577-812 and their checked-in evidence only.",
+    "verified_experimental_result": "The checked-in 713-812 campaign and the separately retained provider summaries, each at its stated trust boundary.",
+    "provider_local_evidence": "Labels 813-1532 remain content-addressed but noncanonical until source restoration, loop-eligibility audit, ordered rulebook ingestion, Effortless generation, Postgres load, and independent replay.",
+    "conversation_hypothesis": "Never promoted without a canonical artifact and a passing closure certificate."
+  },
+  "ToolchainLock": {
+    "path": "testing/consolidation/toolchain-lock.json",
+    "status": "PINNED_FOR_CONSOLIDATED_REPLAY"
+  },
+  "ArtifactLifecycle": {
+    "path": "testing/consolidation/artifact-lifecycle.json",
+    "current_build_certificate": "testing/consolidation/build-certificate.json",
+    "status": "EXPLICIT_CURRENT_HISTORICAL_SUPERSEDED_AND_PROVIDER_LOCAL_STATES"
+  },
+  "BenchmarkProvenance": {
+    "path": "testing/consolidation/benchmark-provenance.json",
+    "status": "PASS_FOR_CHECKED_IN_713_812; ARCHIVE_RESTORATION_REQUIRED_FOR_813_1532"
+  },
+  "Consolidation": {
+    "status": "CANONICAL_AVAILABLE_EVIDENCE_ALIGNED",
+    "canonical_loop_surface": "577-812|236",
+    "rulebook_meta_last_loop": 812,
+    "rulebook_meta_highest_completed_loop": 812,
+    "campaign_status_path": "testing/campaign-713-812/status.json",
+    "campaign_postgres_status_path": "testing/campaign-713-812/postgres-status.json",
+    "classification_path": "testing/consolidation/campaign-classification.json",
+    "build_certificate_path": "testing/consolidation/build-certificate.json"
   }
 }

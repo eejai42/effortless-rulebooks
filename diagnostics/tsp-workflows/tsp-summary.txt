@@ -1,0 +1,317 @@
+===== .github/workflows/apply-tsp-campaign-713-812.yml =====
+1:name: Apply TSP loops 713-812 benchmark campaign
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp_consolidation
+7:    paths:
+8:      - .tsp-campaign-713-812.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp_consolidation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v10.yml =====
+1:name: Apply TSP convergence loops 597-610 v10 corrected adapter
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v10.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v11.yml =====
+1:name: Apply TSP convergence loops 597-610 v11 checkpointed
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v11.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v12.yml =====
+1:name: Apply TSP convergence loops 597-610 v12 durable commits
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v12.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v2.yml =====
+1:name: Apply TSP convergence loops 597-610 v2
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v2.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v3.yml =====
+1:name: Apply TSP convergence loops 597-610 v3 diagnostics
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v3.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v4.yml =====
+1:name: Apply TSP convergence loops 597-610 v4 hardened
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v4.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v5.yml =====
+1:name: Apply TSP convergence loops 597-610 v5 final
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v5.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v6.yml =====
+1:name: Apply TSP convergence loops 597-610 v6 adaptive
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v6.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v7.yml =====
+1:name: Apply TSP convergence loops 597-610 v7 rulebook-derived
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v7.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v8.yml =====
+1:name: Apply TSP convergence loops 597-610 v8 self-contained
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v8.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-597-610-convergence-v9.yml =====
+1:name: Apply TSP convergence loops 597-610 v9 state-aware
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-v9.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-611-623-refinement.yml =====
+1:name: Apply TSP atom-operator refinement loops 611-623
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-refinement-611-623.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-624-646-coherence-v2.yml =====
+1:name: Apply TSP coherence convergence loops 624-646 v2 temporal
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-coherence-624-646-v2.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-loops-624-646-coherence.yml =====
+1:name: Apply TSP coherence convergence loops 624-646
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-coherence-624-646.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/apply-tsp-provider-711-836.yml =====
+1:name: Apply TSP provider bridge and benchmark loops 711-836
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-provider-711-836.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/authoritative-tsp-convergence-finalizer.yml =====
+1:name: Authoritative TSP convergence finalizer
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-authoritative-finalize.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/cleanup-tsp-convergence-597-610.yml =====
+1:name: Clean up TSP convergence 597-610 scaffolding
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+
+===== .github/workflows/diagnose-tsp-effortless-generation.yml =====
+1:name: Diagnose TSP Effortless generation
+3:on:
+4:  push:
+5:    branches:
+7:    paths:
+8:      - .tsp-effortless-generation-diagnose.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/diagnose-tsp-rulebook.yml =====
+1:name: Diagnose TSP rulebook validation
+3:on:
+4:  push:
+5:    branches:
+7:    paths:
+8:      - .tsp-rulebook-diagnose.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/finalize-tsp-convergence-pr.yml =====
+1:name: Finalize TSP convergence PR
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+
+===== .github/workflows/reemit-tsp-convergence-result.yml =====
+1:name: Emit authoritative TSP convergence result
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-result.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/tsp-consolidation-diagnostics.yml =====
+1:name: Inspect TSP consolidation and historical campaign runs
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp_consolidation-diagnostics
+7:    paths:
+8:      - .tsp-consolidation-diagnostics.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/tsp-consolidation-log-extract.yml =====
+1:name: Extract TSP campaign failure logs
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp_consolidation-diagnostics
+7:    paths:
+8:      - .tsp-consolidation-log-extract.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/tsp-workflow-inventory.yml =====
+1:name: Inventory TSP-related workflows
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp_consolidation-diagnostics
+7:    paths:
+8:      - .tsp-workflow-inventory.trigger
+9:  workflow_dispatch:
+
+===== .github/workflows/validate-tsp-domain.yml =====
+1:name: Validate TSP domain
+5:on:
+6:  workflow_dispatch:
+
+===== .github/workflows/verify-tsp-convergence-597-610-v2.yml =====
+1:name: Verify TSP convergence loops 597-610 v2 checkpointed
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-verify-v2.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/verify-tsp-convergence-597-610-v3.yml =====
+1:name: Verify TSP convergence loops 597-610 v3 canonical witnesses
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+8:      - .tsp-convergence-597-610-verify-v3.trigger
+9:  workflow_dispatch:
+23:      TARGET_BRANCH: agent/tsp-semantic-foundation
+
+===== .github/workflows/verify-tsp-convergence-597-610.yml =====
+1:name: Verify TSP convergence loops 597-610
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+
+===== .github/workflows/verify-tsp-effortless-build.yml =====
+1:name: Verify TSP Effortless build
+3:on:
+4:  push:
+5:    branches:
+7:      - agent/tsp-effortless-build-recovery
+8:    paths:
+9:      - .tsp-effortless-build.trigger
+10:  workflow_dispatch:
+24:      TARGET_BRANCH: ${{ github.ref_name }}
+
+===== .github/workflows/verify-tsp-refinement-611-623.yml =====
+1:name: Verify TSP atom-operator refinement loops 611-623
+3:on:
+4:  push:
+5:    branches:
+6:      - agent/tsp-semantic-foundation
+7:    paths:
+9:      - .tsp-refinement-611-623-verify.trigger
+10:  workflow_dispatch:
+24:      TARGET_BRANCH: agent/tsp-semantic-foundation
+

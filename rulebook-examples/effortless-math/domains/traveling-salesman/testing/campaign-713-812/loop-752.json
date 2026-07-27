@@ -1,0 +1,27 @@
+{
+  "LoopOrder": 752,
+  "LoopId": "tsp-loop-752",
+  "DisplayName": "gr21 — Degree-only LP relaxation",
+  "Status": "CLOSED",
+  "BeforeState": "gr21 lacks a degree-only LP relaxation profile.",
+  "PlannedClosureCriterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+  "AfterState": "Degree-LP objective=2707.0; fractional edges=0.",
+  "WitnessSummary": "Degree-LP objective=2707.0; fractional edges=0.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Cycle-Cover/Tour Split",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "iteration": 1,
+    "objective": 2707.0,
+    "mincut": 2.0,
+    "fractional_edge_count": 0,
+    "sec_cut_count": 0,
+    "comb_cut_count": 0
+  }
+}

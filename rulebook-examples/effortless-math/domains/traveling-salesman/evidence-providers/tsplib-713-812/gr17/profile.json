@@ -1,0 +1,15 @@
+{
+  "dimension": 17,
+  "path_status": "PROVED",
+  "path_unique_states": 21353,
+  "path_state_updates": 24861,
+  "path_runtime_seconds": 1.2920410279999999,
+  "one_tree_ceil": 2085,
+  "sec_objective": 2085.0,
+  "comb_objective": 2085.0,
+  "sec_cuts": 12,
+  "comb_cuts": 0,
+  "value_closed": true,
+  "witness_closed": true,
+  "new_active_terms": 0
+}

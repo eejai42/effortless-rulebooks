@@ -1,0 +1,9 @@
+traveling-salesman consolidation validation: PASS
+{
+  "canonical_loop_surface": "577-812|236",
+  "rulebook_raw_sha256": "956d5ec0a8bdf0dd2d4bb28463b632826c9b3cac27997cb58c49550937f0a82d",
+  "rulebook_semantic_sha256": "228d94ac8b0abfe83bfdd261b1221d35f842341303b928cfbabd67458b37e5d5",
+  "certified_input_scope_sha256": "65bb2ab30e3c88696a78f8d0ffbe60eec85fb9d7175838934b673c0429415de3",
+  "build_certificate_required": false,
+  "history_audit_required": true
+}

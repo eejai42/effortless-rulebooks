@@ -1,0 +1,20 @@
+consolidate	Validate consolidated state before build certificate	﻿2026-07-20T20:14:44.7251361Z ##[group]Run set -euo pipefail
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7251711Z ^[[36;1mset -euo pipefail^[[0m
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7252100Z ^[[36;1mdomain='rulebook-examples/effortless-math/domains/traveling-salesman'^[[0m
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7252666Z ^[[36;1mpython3 "$domain/scripts/validate_consolidation.py" --require-history-audit^[[0m
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7253225Z ^[[36;1mfind "$domain/scripts" "$domain/testing" -type f -name '*.py' -print0 \^[[0m
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7253638Z ^[[36;1m  | xargs -0 -r python3 -m py_compile^[[0m
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7253934Z ^[[36;1mbash -n "$domain/start.sh"^[[0m
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7312322Z shell: /usr/bin/bash -e {0}
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.7312594Z ##[endgroup]
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9080156Z Traceback (most recent call last):
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9082132Z   File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_consolidation.py", line 509, in <module>
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9083981Z     main()
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9085433Z   File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_consolidation.py", line 505, in main
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9087063Z     run_validation(args.require_build_certificate, args.require_history_audit)
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9088903Z   File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_consolidation.py", line 467, in run_validation
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9090337Z     validate_loop_ledger(rulebook, contract)
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9091711Z   File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_consolidation.py", line 200, in validate_loop_ledger
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9093171Z     raise AssertionError(f"canonical loop {order} lacks {missing}")
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9094198Z AssertionError: canonical loop 577 lacks ['BeforeState', 'PlannedClosureCriterion', 'AfterState', 'CompletionDisposition']
+consolidate	Validate consolidated state before build certificate	2026-07-20T20:14:44.9273497Z ##[error]Process completed with exit code 1.

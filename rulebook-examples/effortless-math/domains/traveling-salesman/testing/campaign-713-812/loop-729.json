@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 729,
+  "LoopId": "tsp-loop-729",
+  "DisplayName": "burma14 — Resource and residual profile",
+  "Status": "CLOSED",
+  "BeforeState": "burma14 lacks a common resource and residual profile across methods.",
+  "PlannedClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+  "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "WitnessSummary": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "dimension": 14,
+    "path_status": "PROVED",
+    "path_unique_states": 2498,
+    "path_state_updates": 2675,
+    "path_runtime_seconds": 0.11181895600000757,
+    "one_tree_ceil": 3323,
+    "sec_objective": 3323.0,
+    "comb_objective": 3323.0,
+    "sec_cuts": 2,
+    "comb_cuts": 0,
+    "value_closed": true,
+    "witness_closed": true,
+    "new_active_terms": 0
+  }
+}

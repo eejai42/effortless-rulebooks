@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 792,
+  "LoopId": "tsp-loop-792",
+  "DisplayName": "bayg29 — Resource and residual profile",
+  "Status": "CLOSED",
+  "BeforeState": "bayg29 lacks a common resource and residual profile across methods.",
+  "PlannedClosureCriterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+  "AfterState": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "WitnessSummary": "Normalized profile records path, one-tree, LP, cut, witness, value, and residual status with zero active-term growth.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "dimension": 29,
+    "path_status": "TIME_CAP",
+    "path_unique_states": 62005,
+    "path_state_updates": 68485,
+    "path_runtime_seconds": 10.00070636800001,
+    "one_tree_ceil": 1608,
+    "sec_objective": 1608.0,
+    "comb_objective": 1610.0,
+    "sec_cuts": 7,
+    "comb_cuts": 1,
+    "value_closed": true,
+    "witness_closed": true,
+    "new_active_terms": 0
+  }
+}

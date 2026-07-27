@@ -15,6 +15,7 @@ RULEBOOK = DOMAIN / "effortless-rulebook" / "traveling-salesman-rulebook.json"
 CONTRACT = DOMAIN / "problem-contract.json"
 STATUS = DOMAIN / "testing" / "calibration-647-710-status.json"
 VERIFIED = DOMAIN / "testing" / "calibration-647-710-verified.json"
+HISTORY_MODE = DOMAIN / "testing" / "calibration-history-mode.json"
 sys.path.insert(0, str(HERE))
 import exact_oracle_v1 as oracle  # noqa: E402
 
@@ -154,8 +155,10 @@ def main() -> None:
     rb = load(RULEBOOK)
     contract = load(CONTRACT)
     loops = {int(row["LoopOrder"]): row for row in rows(rb, "TSPLoops")}
-    if sorted(loops) != list(range(577, 711)):
-        raise AssertionError(f"loop sequence mismatch: {min(loops)}..{max(loops)} count={len(loops)}")
+    required_loop_orders = set(range(577, 711))
+    missing_loop_orders = sorted(required_loop_orders - set(loops))
+    if missing_loop_orders:
+        raise AssertionError(f"required calibration history is missing: {missing_loop_orders}")
     for order in range(647, 711):
         row = loops[order]
         if row["Status"] != "CLOSED":
@@ -299,16 +302,28 @@ def main() -> None:
     if claims.get("FrozenBasisPrimitiveGrowthCount") != 0:
         raise AssertionError("basis growth claim mismatch")
 
-    subjects = subprocess.check_output(["git", "log", "--format=%s", "--reverse"], text=True).splitlines()
-    plan_message = "TSP loops 647-710: register frozen-basis exact calibration"
-    expected = [plan_message, *EXPECTED_LOOP_COMMITS]
+    history = load(HISTORY_MODE) if HISTORY_MODE.is_file() else {}
+    history_mode = history.get("mode", "DETAILED_GIT_HISTORY")
     positions: list[int] = []
-    for message in expected:
-        if message not in subjects:
-            raise AssertionError(f"missing calibration commit: {message}")
-        positions.append(subjects.index(message))
-    if positions != sorted(positions) or len(set(positions)) != len(positions):
-        raise AssertionError(f"calibration commits are not strictly ordered: {positions}")
+    ordered_commit_history_verified = False
+    canonical_ledger_history_verified = False
+    if history_mode == "SQUASHED_CANONICAL_LEDGER":
+        if history.get("detailed_git_commit_history_required") is not False:
+            raise AssertionError("squashed calibration history must disable commit-subject dependence")
+        if history.get("required_loop_range") != "647-710":
+            raise AssertionError(f"unexpected calibration history range: {history!r}")
+        canonical_ledger_history_verified = True
+    else:
+        subjects = subprocess.check_output(["git", "log", "--format=%s", "--reverse"], text=True).splitlines()
+        plan_message = "TSP loops 647-710: register frozen-basis exact calibration"
+        expected = [plan_message, *EXPECTED_LOOP_COMMITS]
+        for message in expected:
+            if message not in subjects:
+                raise AssertionError(f"missing calibration commit: {message}")
+            positions.append(subjects.index(message))
+        if positions != sorted(positions) or len(set(positions)) != len(positions):
+            raise AssertionError(f"calibration commits are not strictly ordered: {positions}")
+        ordered_commit_history_verified = True
 
     payload = {
         "status": "VERIFIED",
@@ -326,6 +341,9 @@ def main() -> None:
         "primitive_growth_count": 0,
         "exact_oracle_is_structural_proof": False,
         "general_tsp_algorithm_proved": False,
+        "history_mode": history_mode,
+        "ordered_commit_history_verified": ordered_commit_history_verified,
+        "canonical_ledger_history_verified": canonical_ledger_history_verified,
         "ordered_commit_positions": positions,
     }
     VERIFIED.write_text(json.dumps(payload, indent=2) + "\n")

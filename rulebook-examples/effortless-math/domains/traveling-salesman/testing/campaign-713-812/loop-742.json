@@ -1,0 +1,139 @@
+{
+  "LoopOrder": 742,
+  "LoopId": "tsp-loop-742",
+  "DisplayName": "gr17 — Scaled-integer Held-Karp one-tree bound",
+  "Status": "CLOSED",
+  "BeforeState": "gr17 lacks an exact scaled-integer one-tree dual certificate.",
+  "PlannedClosureCriterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+  "AfterState": "Exact scaled one-tree lower=2085.0; ceil=2085; tour-shaped=True.",
+  "WitnessSummary": "Exact scaled one-tree lower=2085.0; ceil=2085; tour-shaped=True.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Dual Value/Tour-Shape Split",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "method": "scaled-integer Held-Karp one-tree subgradient",
+    "scale": 1000,
+    "iterations_budget": 1000,
+    "best_lower_numerator": 2085000,
+    "best_lower_bound": 2085.0,
+    "best_ceil_lower_bound": 2085,
+    "upper_bound": 2085,
+    "value_closed": true,
+    "tour_shaped": true,
+    "degree": [
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2,
+      2
+    ],
+    "edges": [
+      [
+        1,
+        9
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        9,
+        10
+      ],
+      [
+        10,
+        2
+      ],
+      [
+        2,
+        14
+      ],
+      [
+        14,
+        13
+      ],
+      [
+        13,
+        16
+      ],
+      [
+        16,
+        5
+      ],
+      [
+        5,
+        7
+      ],
+      [
+        7,
+        6
+      ],
+      [
+        4,
+        8
+      ],
+      [
+        8,
+        11
+      ],
+      [
+        11,
+        15
+      ],
+      [
+        6,
+        12
+      ],
+      [
+        12,
+        3
+      ],
+      [
+        0,
+        15
+      ],
+      [
+        0,
+        3
+      ]
+    ],
+    "original_one_tree_cost": 2085,
+    "potentials_scaled": [
+      0,
+      -225306,
+      20343,
+      91943,
+      -72450,
+      90460,
+      103195,
+      93441,
+      -1753,
+      -165959,
+      -54839,
+      -65049,
+      113676,
+      26797,
+      12787,
+      -63820,
+      96534
+    ]
+  }
+}

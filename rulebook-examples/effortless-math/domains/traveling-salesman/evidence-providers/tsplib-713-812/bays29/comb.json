@@ -1,0 +1,273 @@
+{
+  "status": "FRACTIONAL_COMB_CLOSED",
+  "objective": 2019.3333333333333,
+  "ceil_objective": 2020,
+  "iterations": 10,
+  "sec_cut_count": 6,
+  "comb_cut_count": 3,
+  "fractional_edge_count": 11,
+  "integral": false,
+  "connected": false,
+  "tour_shaped": false,
+  "selected_edges": [
+    [
+      0,
+      27
+    ],
+    [
+      1,
+      2
+    ],
+    [
+      1,
+      20
+    ],
+    [
+      2,
+      28
+    ],
+    [
+      3,
+      9
+    ],
+    [
+      3,
+      14
+    ],
+    [
+      4,
+      8
+    ],
+    [
+      4,
+      25
+    ],
+    [
+      5,
+      11
+    ],
+    [
+      5,
+      27
+    ],
+    [
+      6,
+      22
+    ],
+    [
+      6,
+      24
+    ],
+    [
+      7,
+      26
+    ],
+    [
+      8,
+      11
+    ],
+    [
+      9,
+      19
+    ],
+    [
+      10,
+      18
+    ],
+    [
+      10,
+      21
+    ],
+    [
+      12,
+      15
+    ],
+    [
+      13,
+      16
+    ],
+    [
+      13,
+      21
+    ],
+    [
+      14,
+      17
+    ],
+    [
+      16,
+      17
+    ],
+    [
+      18,
+      24
+    ],
+    [
+      25,
+      28
+    ]
+  ],
+  "fractional_edges": [
+    {
+      "edge": [
+        0,
+        7
+      ],
+      "value": 0.33333333333333337
+    },
+    {
+      "edge": [
+        0,
+        23
+      ],
+      "value": 0.6666666666666666
+    },
+    {
+      "edge": [
+        7,
+        22
+      ],
+      "value": 0.33333333333333337
+    },
+    {
+      "edge": [
+        7,
+        23
+      ],
+      "value": 0.33333333333333337
+    },
+    {
+      "edge": [
+        12,
+        19
+      ],
+      "value": 0.3333333333333333
+    },
+    {
+      "edge": [
+        12,
+        20
+      ],
+      "value": 0.33333333333333337
+    },
+    {
+      "edge": [
+        12,
+        23
+      ],
+      "value": 0.33333333333333326
+    },
+    {
+      "edge": [
+        15,
+        23
+      ],
+      "value": 0.6666666666666667
+    },
+    {
+      "edge": [
+        15,
+        26
+      ],
+      "value": 0.33333333333333326
+    },
+    {
+      "edge": [
+        19,
+        20
+      ],
+      "value": 0.6666666666666666
+    },
+    {
+      "edge": [
+        22,
+        26
+      ],
+      "value": 0.6666666666666666
+    }
+  ],
+  "runtime_seconds": 0.04866529900002092,
+  "history": [
+    {
+      "iteration": 1,
+      "objective": 1944.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 6,
+      "sec_cut_count": 0,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 2,
+      "objective": 1971.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 6,
+      "sec_cut_count": 1,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 3,
+      "objective": 1988.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 2,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 4,
+      "objective": 2013.5,
+      "mincut": 2.0,
+      "fractional_edge_count": 6,
+      "sec_cut_count": 3,
+      "comb_cut_count": 0
+    },
+    {
+      "iteration": 5,
+      "objective": 2015.5,
+      "mincut": 1.0,
+      "fractional_edge_count": 10,
+      "sec_cut_count": 3,
+      "comb_cut_count": 1
+    },
+    {
+      "iteration": 6,
+      "objective": 2017.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 4,
+      "comb_cut_count": 1
+    },
+    {
+      "iteration": 7,
+      "objective": 2017.0,
+      "mincut": 2.0,
+      "fractional_edge_count": 10,
+      "sec_cut_count": 5,
+      "comb_cut_count": 1
+    },
+    {
+      "iteration": 8,
+      "objective": 2018.0,
+      "mincut": 2.0,
+      "fractional_edge_count": 6,
+      "sec_cut_count": 5,
+      "comb_cut_count": 2
+    },
+    {
+      "iteration": 9,
+      "objective": 2019.0,
+      "mincut": 0.0,
+      "fractional_edge_count": 0,
+      "sec_cut_count": 5,
+      "comb_cut_count": 3
+    },
+    {
+      "iteration": 10,
+      "objective": 2019.3333333333333,
+      "mincut": 1.999999999999998,
+      "fractional_edge_count": 11,
+      "sec_cut_count": 6,
+      "comb_cut_count": 3
+    }
+  ],
+  "solver_trust": "SCIPY_HIGHS_NUMERICAL_LP"
+}

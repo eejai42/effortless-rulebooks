@@ -1,0 +1,31 @@
+repair	Replay repaired historical validators	﻿2026-07-20T20:34:11.5371817Z ##[group]Run set -euo pipefail
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5372140Z ^[[36;1mset -euo pipefail^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5372524Z ^[[36;1mdomain='rulebook-examples/effortless-math/domains/traveling-salesman'^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5373180Z ^[[36;1mpython3 "$domain/scripts/validate_rulebook_v7.py"^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5373583Z ^[[36;1mpython3 "$domain/scripts/verify_calibration_647_710.py"^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5374316Z ^[[36;1mpython3 "$domain/scripts/validate_consolidation.py" --require-history-audit^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5374763Z ^[[36;1mpython3 -m py_compile \^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5375091Z ^[[36;1m  "$domain/scripts/apply_loops_647_710_calibration.py" \^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5375477Z ^[[36;1m  "$domain/scripts/verify_calibration_647_710.py"^[[0m
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5434637Z shell: /usr/bin/bash -e {0}
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5434902Z env:
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5435112Z   PYTHONHASHSEED: 0
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5435331Z   OMP_NUM_THREADS: 1
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5435554Z   OPENBLAS_NUM_THREADS: 1
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5435812Z   MKL_NUM_THREADS: 1
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5436028Z   NUMEXPR_NUM_THREADS: 1
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5436323Z   pythonLocation: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5436780Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib/pkgconfig
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5437211Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5437597Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5437970Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.13/x64
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5438333Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.13/x64/lib
+repair	Replay repaired historical validators	2026-07-20T20:34:11.5438649Z ##[endgroup]
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6115914Z Traceback (most recent call last):
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6126372Z   File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/validate_rulebook_v7.py", line 2, in <module>
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6127927Z     from apply_loops_647_710_calibration import validate_repository_state
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6129722Z   File "/home/runner/work/effortless-rulebooks/effortless-rulebooks/rulebook-examples/effortless-math/domains/traveling-salesman/scripts/apply_loops_647_710_calibration.py", line 2037
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6131168Z     legacy_hashes = contract.get("ArtifactHashes", {})
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6131670Z     ^^^^^^^^^^^^^
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6132237Z IndentationError: expected an indented block after 'if' statement on line 2036
+repair	Replay repaired historical validators	2026-07-20T20:34:11.6166541Z ##[error]Process completed with exit code 1.

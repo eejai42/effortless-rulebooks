@@ -1,0 +1,34 @@
+{
+  "LoopOrder": 714,
+  "LoopId": "tsp-loop-714",
+  "DisplayName": "Frozen method portfolio",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Freeze heuristic, path-state, one-tree, SEC, and simple comb methods before execution.",
+  "AfterState": "The constructive, path-state, scaled one-tree, degree-LP, SEC, and simple-comb methods were frozen.",
+  "WitnessSummary": "The constructive, path-state, scaled one-tree, degree-LP, SEC, and simple-comb methods were frozen.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Warranted Rewrite",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "constructive": [
+      "all-start nearest-neighbor + deterministic 2-opt",
+      "cheapest/farthest insertion + deterministic 2-opt/Or-opt"
+    ],
+    "exact_path_state": "(last, unvisited)",
+    "exact_path_bound": "endpoint + MST(unvisited) + depot attachment",
+    "dual_bound": "scaled-integer Held-Karp one-tree",
+    "cut_relaxations": [
+      "degree equations",
+      "subtour elimination",
+      "witnessed simple 2-matching comb"
+    ],
+    "new_active_terms": 0
+  }
+}

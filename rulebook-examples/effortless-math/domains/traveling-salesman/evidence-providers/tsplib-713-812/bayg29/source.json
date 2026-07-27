@@ -1,0 +1,10 @@
+{
+  "name": "bayg29",
+  "dimension": 29,
+  "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bayg29.tsp",
+  "source_sha256": "6b6a501a2a4933e9b6614f905b79e1d3f9e5093a56ef0d3deaf8fbf440a17a3b",
+  "edge_weight_type": "EXPLICIT",
+  "edge_weight_format": "UPPER_ROW",
+  "published_optimum": 1610,
+  "optimum_source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/solutions"
+}

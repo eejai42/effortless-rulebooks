@@ -1,0 +1,42 @@
+name: Inspect TSP consolidation ref and tree
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation-diagnostics
+    paths:
+      - .tsp-ref-inspect.trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsp_consolidation-diagnostics
+          fetch-depth: 0
+      - name: Query consolidation branch ref and commit tree
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p diagnostics/tsp-ref
+          gh api "repos/$GITHUB_REPOSITORY/git/ref/heads/agent/tsp_consolidation" \
+            > diagnostics/tsp-ref/ref.json
+          sha=$(python3 -c "import json; print(json.load(open('diagnostics/tsp-ref/ref.json'))['object']['sha'])")
+          gh api "repos/$GITHUB_REPOSITORY/git/commits/$sha" \
+            > diagnostics/tsp-ref/commit.json
+      - name: Commit ref inventory
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-ref-inspect.trigger
+          git add diagnostics/tsp-ref .tsp-ref-inspect.trigger
+          git commit -m 'Record TSP consolidation ref and tree' || true
+          git pull --rebase origin agent/tsp_consolidation-diagnostics
+          git push origin HEAD:agent/tsp_consolidation-diagnostics

@@ -1,0 +1,15 @@
+{
+  "dimension": 22,
+  "path_status": "STATE_CAP",
+  "path_unique_states": 212768,
+  "path_state_updates": 300000,
+  "path_runtime_seconds": 7.27649577699998,
+  "one_tree_ceil": 7013,
+  "sec_objective": 7013.0,
+  "comb_objective": 7013.0,
+  "sec_cuts": 8,
+  "comb_cuts": 0,
+  "value_closed": true,
+  "witness_closed": true,
+  "new_active_terms": 0
+}

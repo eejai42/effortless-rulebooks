@@ -1,0 +1,43 @@
+name: Inventory TSP-related workflows
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation-diagnostics
+    paths:
+      - .tsp-workflow-inventory.trigger
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  inventory:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsp_consolidation-diagnostics
+          fetch-depth: 0
+      - name: Inventory workflow files and TSP references
+        run: |
+          set -euo pipefail
+          mkdir -p diagnostics/tsp-workflows
+          git ls-files '.github/workflows/*' | sort > diagnostics/tsp-workflows/all-files.txt
+          while IFS= read -r file; do
+            if grep -qi 'tsp\|traveling-salesman' "$file"; then
+              echo "===== $file ====="
+              grep -nE '^(name:|on:|  push:|    branches:|      - agent/|    paths:|      - \.tsp|  workflow_dispatch:|      TARGET_BRANCH:)' "$file" || true
+              echo
+            fi
+          done < diagnostics/tsp-workflows/all-files.txt > diagnostics/tsp-workflows/tsp-summary.txt
+      - name: Commit workflow inventory
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-workflow-inventory.trigger
+          git add diagnostics/tsp-workflows .tsp-workflow-inventory.trigger
+          git commit -m 'Inventory TSP-related workflow residue' || true
+          git pull --rebase origin agent/tsp_consolidation-diagnostics
+          git push origin HEAD:agent/tsp_consolidation-diagnostics

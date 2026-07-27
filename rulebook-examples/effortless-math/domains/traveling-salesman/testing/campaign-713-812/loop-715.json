@@ -1,0 +1,36 @@
+{
+  "LoopOrder": 715,
+  "LoopId": "tsp-loop-715",
+  "DisplayName": "Measurement contract",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Freeze state, cut, runtime, gap, witness, and branch-warrant metrics.",
+  "AfterState": "State, cut, runtime, lower-bound, witness, and branch metrics were frozen.",
+  "WitnessSummary": "State, cut, runtime, lower-bound, witness, and branch metrics were frozen.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Frontier Obligation",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "metrics": [
+      "feasible upper value",
+      "certified lower value",
+      "unique quotient states",
+      "state updates",
+      "candidate extensions",
+      "bound/dominance prunes",
+      "peak frontier",
+      "runtime",
+      "SEC cuts",
+      "comb cuts",
+      "fractional residue",
+      "branch warrant"
+    ],
+    "new_active_terms": 0
+  }
+}

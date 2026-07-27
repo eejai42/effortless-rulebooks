@@ -1,0 +1,128 @@
+name: Inspect TSP consolidation and historical campaign runs
+
+on:
+  push:
+    branches:
+      - agent/tsp_consolidation-diagnostics
+    paths:
+      - .tsp-consolidation-diagnostics.trigger
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: agent/tsp_consolidation-diagnostics
+          fetch-depth: 0
+
+      - name: Query workflow runs, jobs, artifacts, and failed logs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          import os
+          import urllib.request
+          from pathlib import Path
+
+          repo = os.environ['GH_REPOSITORY']
+          token = os.environ['GH_TOKEN']
+          out = Path('diagnostics/tsp-actions')
+          out.mkdir(parents=True, exist_ok=True)
+
+          def api(path: str, *, binary: bool = False):
+              req = urllib.request.Request(
+                  f'https://api.github.com/repos/{repo}{path}',
+                  headers={
+                      'Authorization': f'Bearer {token}',
+                      'Accept': 'application/vnd.github+json',
+                      'X-GitHub-Api-Version': '2022-11-28',
+                      'User-Agent': 'tsp-consolidation-diagnostics',
+                  },
+              )
+              with urllib.request.urlopen(req) as response:
+                  data = response.read()
+              return data if binary else json.loads(data)
+
+          report = {'repository': repo, 'branches': {}}
+          for branch in ('agent/tsp_consolidation', 'agent/tsp-loop-711-gr17'):
+              runs_payload = api(f'/actions/runs?branch={urllib.parse.quote(branch, safe="")}&per_page=100')
+              branch_rows = []
+              for run in runs_payload.get('workflow_runs', []):
+                  row = {
+                      key: run.get(key)
+                      for key in (
+                          'id', 'name', 'event', 'status', 'conclusion', 'workflow_id',
+                          'run_number', 'run_attempt', 'head_branch', 'head_sha',
+                          'created_at', 'updated_at', 'html_url', 'path'
+                      )
+                  }
+                  artifacts = api(f"/actions/runs/{run['id']}/artifacts?per_page=100")
+                  row['artifacts'] = [
+                      {
+                          key: artifact.get(key)
+                          for key in ('id', 'name', 'size_in_bytes', 'expired', 'created_at', 'expires_at', 'archive_download_url')
+                      }
+                      for artifact in artifacts.get('artifacts', [])
+                  ]
+                  jobs = api(f"/actions/runs/{run['id']}/jobs?per_page=100")
+                  row['jobs'] = []
+                  for job in jobs.get('jobs', []):
+                      job_row = {
+                          key: job.get(key)
+                          for key in ('id', 'name', 'status', 'conclusion', 'started_at', 'completed_at', 'html_url')
+                      }
+                      job_row['steps'] = [
+                          {
+                              key: step.get(key)
+                              for key in ('number', 'name', 'status', 'conclusion', 'started_at', 'completed_at')
+                          }
+                          for step in job.get('steps', [])
+                      ]
+                      row['jobs'].append(job_row)
+                      if job.get('conclusion') == 'failure':
+                          try:
+                              log = api(f"/actions/jobs/{job['id']}/logs", binary=True)
+                              (out / f"job-{job['id']}-failure.log").write_bytes(log[:500_000])
+                          except Exception as exc:
+                              (out / f"job-{job['id']}-failure-error.txt").write_text(repr(exc) + '\n')
+                  branch_rows.append(row)
+              report['branches'][branch] = branch_rows
+
+          (out / 'inventory.json').write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
+
+          lines = ['# TSP Actions inventory', '']
+          for branch, runs in report['branches'].items():
+              lines += [f'## `{branch}`', '']
+              if not runs:
+                  lines.append('_No runs returned._')
+                  lines.append('')
+                  continue
+              lines.append('| Run | Workflow | Event | Status | Conclusion | Head | Artifacts |')
+              lines.append('|---:|---|---|---|---|---|---:|')
+              for run in runs:
+                  lines.append(
+                      f"| {run['id']} | {run['name']} | {run['event']} | {run['status']} | "
+                      f"{run['conclusion']} | `{str(run['head_sha'])[:12]}` | {len(run['artifacts'])} |"
+                  )
+              lines.append('')
+          (out / 'README.md').write_text('\n'.join(lines) + '\n')
+          PY
+
+      - name: Commit diagnostic inventory
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          rm -f .tsp-consolidation-diagnostics.trigger
+          git add diagnostics/tsp-actions .tsp-consolidation-diagnostics.trigger
+          git commit -m 'Record TSP Actions diagnostic inventory' || true
+          git push origin HEAD:agent/tsp_consolidation-diagnostics

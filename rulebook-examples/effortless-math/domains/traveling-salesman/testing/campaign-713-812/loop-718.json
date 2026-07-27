@@ -1,0 +1,26 @@
+{
+  "LoopOrder": 718,
+  "LoopId": "tsp-loop-718",
+  "DisplayName": "Path-state proof contract",
+  "Status": "CLOSED",
+  "BeforeState": "The external benchmark campaign has not yet represented this prerequisite.",
+  "PlannedClosureCriterion": "Require exact dominance and completion-bound search accounting with explicit caps.",
+  "AfterState": "The path-state proof uses (last, unvisited), prefix dominance, an MST completion envelope, and explicit caps.",
+  "WitnessSummary": "The path-state proof uses (last, unvisited), prefix dominance, an MST completion envelope, and explicit caps.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Continue the frozen benchmark ladder.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Search-State Quotient",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "state": "(last, unvisited)",
+    "dominance": "minimum prefix cost per state",
+    "completion_bound": "MST completion envelope",
+    "caps_are_failures": true,
+    "new_active_terms": 0
+  }
+}

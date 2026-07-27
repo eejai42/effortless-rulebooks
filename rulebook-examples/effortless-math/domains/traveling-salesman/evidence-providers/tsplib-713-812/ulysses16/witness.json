@@ -1,0 +1,93 @@
+{
+  "heuristics": {
+    "all_start_nearest_neighbor_2opt": {
+      "tour": [
+        0,
+        7,
+        3,
+        1,
+        2,
+        15,
+        9,
+        8,
+        10,
+        4,
+        14,
+        5,
+        6,
+        11,
+        12,
+        13
+      ],
+      "value": 6859,
+      "gap_to_published_optimum": 0
+    },
+    "cheapest_insertion_2opt_oropt": {
+      "tour": [
+        0,
+        7,
+        3,
+        1,
+        2,
+        15,
+        9,
+        8,
+        10,
+        4,
+        14,
+        5,
+        6,
+        11,
+        12,
+        13
+      ],
+      "value": 6859,
+      "gap_to_published_optimum": 0
+    },
+    "farthest_insertion_2opt_oropt": {
+      "tour": [
+        0,
+        7,
+        3,
+        1,
+        2,
+        15,
+        9,
+        8,
+        10,
+        4,
+        14,
+        5,
+        6,
+        11,
+        12,
+        13
+      ],
+      "value": 6859,
+      "gap_to_published_optimum": 0
+    }
+  },
+  "best_method": "all_start_nearest_neighbor_2opt",
+  "best_witness": {
+    "tour": [
+      0,
+      7,
+      3,
+      1,
+      2,
+      15,
+      9,
+      8,
+      10,
+      4,
+      14,
+      5,
+      6,
+      11,
+      12,
+      13
+    ],
+    "value": 6859,
+    "gap_to_published_optimum": 0
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "LoopOrder": 749,
+  "LoopId": "tsp-loop-749",
+  "DisplayName": "gr21 — Constructive witness portfolio",
+  "Status": "CLOSED",
+  "BeforeState": "gr21 has source data but no frozen constructive witness comparison.",
+  "PlannedClosureCriterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+  "AfterState": "Best frozen constructive witness cost=2707 versus published optimum=2707.",
+  "WitnessSummary": "Best frozen constructive witness cost=2707 versus published optimum=2707.",
+  "CompletionDisposition": "CLOSED",
+  "NextFrontier": "Advance to the next frozen method or benchmark instance.",
+  "PrimaryInferenceRule": "tsp-rule-tsplib-campaign",
+  "NewConcept": "Witness Gap",
+  "BasisDelta": {
+    "new_atoms": 0,
+    "new_operators": 0,
+    "new_active_terms": 0
+  },
+  "Evidence": {
+    "heuristics": {
+      "all_start_nearest_neighbor_2opt": {
+        "tour": [
+          0,
+          6,
+          7,
+          5,
+          15,
+          4,
+          8,
+          2,
+          1,
+          20,
+          14,
+          13,
+          12,
+          17,
+          9,
+          16,
+          18,
+          19,
+          10,
+          3,
+          11
+        ],
+        "value": 2707,
+        "gap_to_published_optimum": 0
+      },
+      "cheapest_insertion_2opt_oropt": {
+        "tour": [
+          0,
+          6,
+          7,
+          5,
+          15,
+          4,
+          8,
+          2,
+          1,
+          20,
+          14,
+          13,
+          12,
+          17,
+          9,
+          16,
+          18,
+          19,
+          10,
+          3,
+          11
+        ],
+        "value": 2707,
+        "gap_to_published_optimum": 0
+      },
+      "farthest_insertion_2opt_oropt": {
+        "tour": [
+          0,
+          6,
+          7,
+          5,
+          15,
+          4,
+          8,
+          2,
+          1,
+          20,
+          14,
+          13,
+          12,
+          17,
+          9,
+          16,
+          18,
+          19,
+          10,
+          3,
+          11
+        ],
+        "value": 2707,
+        "gap_to_published_optimum": 0
+      }
+    },
+    "best_method": "all_start_nearest_neighbor_2opt",
+    "best_witness": {
+      "tour": [
+        0,
+        6,
+        7,
+        5,
+        15,
+        4,
+        8,
+        2,
+        1,
+        20,
+        14,
+        13,
+        12,
+        17,
+        9,
+        16,
+        18,
+        19,
+        10,
+        3,
+        11
+      ],
+      "value": 2707,
+      "gap_to_published_optimum": 0
+    }
+  }
+}

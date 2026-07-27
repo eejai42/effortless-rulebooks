@@ -1,0 +1,1079 @@
+{
+  "campaign": "TSP loops 713-812",
+  "status": "PLANNED",
+  "registered_before_execution": true,
+  "source_specs": [
+    {
+      "name": "burma14",
+      "n": 14,
+      "optimum": 3323,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/burma14.tsp"
+    },
+    {
+      "name": "ulysses16",
+      "n": 16,
+      "optimum": 6859,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses16.tsp"
+    },
+    {
+      "name": "gr17",
+      "n": 17,
+      "optimum": 2085,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr17.tsp"
+    },
+    {
+      "name": "gr21",
+      "n": 21,
+      "optimum": 2707,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr21.tsp"
+    },
+    {
+      "name": "ulysses22",
+      "n": 22,
+      "optimum": 7013,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/ulysses22.tsp"
+    },
+    {
+      "name": "gr24",
+      "n": 24,
+      "optimum": 1272,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/gr24.tsp"
+    },
+    {
+      "name": "fri26",
+      "n": 26,
+      "optimum": 937,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/fri26.tsp"
+    },
+    {
+      "name": "bayg29",
+      "n": 29,
+      "optimum": 1610,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bayg29.tsp"
+    },
+    {
+      "name": "bays29",
+      "n": 29,
+      "optimum": 2020,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/bays29.tsp"
+    },
+    {
+      "name": "dantzig42",
+      "n": 42,
+      "optimum": 699,
+      "source_url": "https://raw.githubusercontent.com/mastqe/tsplib/master/dantzig42.tsp"
+    }
+  ],
+  "method_contract": {
+    "active_atom": "SEMANTIC_ARC",
+    "active_operator": "WARRANTED_REWRITE",
+    "new_active_term_budget": 0,
+    "path_state": "(last, unvisited)",
+    "path_bound": "MST completion envelope",
+    "one_tree": "scaled-integer Held-Karp subgradient",
+    "lp": "degree equations plus separated SEC and witnessed simple 2-matching comb cuts",
+    "branch_policy": "branch only if value or feasibility remains open"
+  },
+  "loops": [
+    {
+      "LoopOrder": 713,
+      "name": "External benchmark ladder preregistration",
+      "term": "Frontier Obligation",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Register ten named TSPLIB instances before consuming results.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 714,
+      "name": "Frozen method portfolio",
+      "term": "Warranted Rewrite",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Freeze heuristic, path-state, one-tree, SEC, and simple comb methods before execution.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 715,
+      "name": "Measurement contract",
+      "term": "Frontier Obligation",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Freeze state, cut, runtime, gap, witness, and branch-warrant metrics.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 716,
+      "name": "Source provenance contract",
+      "term": "Semantic Arc",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Require URL, payload hash, TSPLIB dimension, format, and published optimum provenance.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 717,
+      "name": "Exactness trust boundary",
+      "term": "Frontier Obligation",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Separate independently replayable integer bounds, numerical LP imports, witnesses, and published evaluation values.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 718,
+      "name": "Path-state proof contract",
+      "term": "Search-State Quotient",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Require exact dominance and completion-bound search accounting with explicit caps.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 719,
+      "name": "Cut closure contract",
+      "term": "Warranted Rewrite",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Require degree equations, separated subtour cuts, optional simple comb cuts, and no implicit branching.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 720,
+      "name": "Failure preservation policy",
+      "term": "Frontier Obligation",
+      "before": "The external benchmark campaign has not yet represented this prerequisite.",
+      "criterion": "Record caps, fractional residues, heuristic misses, and open values without promotion.",
+      "next": "Continue the frozen benchmark ladder.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 721,
+      "name": "burma14 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "burma14 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 722,
+      "name": "burma14 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "burma14 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 723,
+      "name": "burma14 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "burma14 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 724,
+      "name": "burma14 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "burma14 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 725,
+      "name": "burma14 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "burma14 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 726,
+      "name": "burma14 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "burma14 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 727,
+      "name": "burma14 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "burma14 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 728,
+      "name": "burma14 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "burma14 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 729,
+      "name": "burma14 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "burma14 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 730,
+      "name": "ulysses16 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "ulysses16 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 731,
+      "name": "ulysses16 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "ulysses16 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 732,
+      "name": "ulysses16 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "ulysses16 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 733,
+      "name": "ulysses16 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "ulysses16 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 734,
+      "name": "ulysses16 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "ulysses16 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 735,
+      "name": "ulysses16 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "ulysses16 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 736,
+      "name": "ulysses16 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "ulysses16 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 737,
+      "name": "ulysses16 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "ulysses16 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 738,
+      "name": "ulysses16 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "ulysses16 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 739,
+      "name": "gr17 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "gr17 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 740,
+      "name": "gr17 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "gr17 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 741,
+      "name": "gr17 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "gr17 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 742,
+      "name": "gr17 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "gr17 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 743,
+      "name": "gr17 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "gr17 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 744,
+      "name": "gr17 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "gr17 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 745,
+      "name": "gr17 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "gr17 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 746,
+      "name": "gr17 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "gr17 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 747,
+      "name": "gr17 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "gr17 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 748,
+      "name": "gr21 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "gr21 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 749,
+      "name": "gr21 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "gr21 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 750,
+      "name": "gr21 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "gr21 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 751,
+      "name": "gr21 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "gr21 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 752,
+      "name": "gr21 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "gr21 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 753,
+      "name": "gr21 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "gr21 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 754,
+      "name": "gr21 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "gr21 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 755,
+      "name": "gr21 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "gr21 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 756,
+      "name": "gr21 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "gr21 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 757,
+      "name": "ulysses22 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "ulysses22 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 758,
+      "name": "ulysses22 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "ulysses22 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 759,
+      "name": "ulysses22 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "ulysses22 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 760,
+      "name": "ulysses22 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "ulysses22 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 761,
+      "name": "ulysses22 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "ulysses22 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 762,
+      "name": "ulysses22 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "ulysses22 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 763,
+      "name": "ulysses22 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "ulysses22 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 764,
+      "name": "ulysses22 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "ulysses22 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 765,
+      "name": "ulysses22 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "ulysses22 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 766,
+      "name": "gr24 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "gr24 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 767,
+      "name": "gr24 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "gr24 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 768,
+      "name": "gr24 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "gr24 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 769,
+      "name": "gr24 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "gr24 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 770,
+      "name": "gr24 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "gr24 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 771,
+      "name": "gr24 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "gr24 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 772,
+      "name": "gr24 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "gr24 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 773,
+      "name": "gr24 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "gr24 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 774,
+      "name": "gr24 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "gr24 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 775,
+      "name": "fri26 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "fri26 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 776,
+      "name": "fri26 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "fri26 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 777,
+      "name": "fri26 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "fri26 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 778,
+      "name": "fri26 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "fri26 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 779,
+      "name": "fri26 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "fri26 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 780,
+      "name": "fri26 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "fri26 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 781,
+      "name": "fri26 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "fri26 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 782,
+      "name": "fri26 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "fri26 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 783,
+      "name": "fri26 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "fri26 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 784,
+      "name": "bayg29 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "bayg29 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 785,
+      "name": "bayg29 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "bayg29 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 786,
+      "name": "bayg29 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "bayg29 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 787,
+      "name": "bayg29 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "bayg29 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 788,
+      "name": "bayg29 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "bayg29 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 789,
+      "name": "bayg29 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "bayg29 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 790,
+      "name": "bayg29 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "bayg29 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 791,
+      "name": "bayg29 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "bayg29 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 792,
+      "name": "bayg29 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "bayg29 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 793,
+      "name": "bays29 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "bays29 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 794,
+      "name": "bays29 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "bays29 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 795,
+      "name": "bays29 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "bays29 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 796,
+      "name": "bays29 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "bays29 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 797,
+      "name": "bays29 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "bays29 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 798,
+      "name": "bays29 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "bays29 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 799,
+      "name": "bays29 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "bays29 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 800,
+      "name": "bays29 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "bays29 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 801,
+      "name": "bays29 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "bays29 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 802,
+      "name": "dantzig42 — TSPLIB source ingestion",
+      "term": "Semantic Arc",
+      "before": "dantzig42 is named in the preregistered corpus but its source payload and format have not been ingested.",
+      "criterion": "Verify name, dimension, symmetric weights, source URL, and SHA-256 payload hash.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 803,
+      "name": "dantzig42 — Constructive witness portfolio",
+      "term": "Witness Gap",
+      "before": "dantzig42 has source data but no frozen constructive witness comparison.",
+      "criterion": "Run the frozen constructive portfolio and record every route value without using the published optimum as an antecedent.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 804,
+      "name": "dantzig42 — MST-envelope path-state proof",
+      "term": "Search-State Quotient",
+      "before": "dantzig42 has a candidate witness but no capped exact path-state proof result under the frozen MST envelope.",
+      "criterion": "Execute the exact path-state search under declared caps and record unique quotient states, state updates, bounds, dominance, and completion status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 805,
+      "name": "dantzig42 — Scaled-integer Held-Karp one-tree bound",
+      "term": "Dual Value/Tour-Shape Split",
+      "before": "dantzig42 lacks an exact scaled-integer one-tree dual certificate.",
+      "criterion": "Produce a scaled-integer 1-tree lower bound with explicit potentials, degree vector, and tour-shape status.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 806,
+      "name": "dantzig42 — Degree-only LP relaxation",
+      "term": "Cycle-Cover/Tour Split",
+      "before": "dantzig42 lacks a degree-only LP relaxation profile.",
+      "criterion": "Solve the degree equations with edge bounds and record objective, integrality, component structure, and numerical solver trust.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 807,
+      "name": "dantzig42 — Subtour-elimination cut closure",
+      "term": "Warranted Rewrite",
+      "before": "dantzig42 lacks separated subtour-elimination closure.",
+      "criterion": "Separate violated global min-cuts until all represented subtour inequalities pass or a declared cap/failure occurs.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 808,
+      "name": "dantzig42 — Simple 2-matching comb closure",
+      "term": "Warranted Rewrite",
+      "before": "dantzig42 has no simple 2-matching comb follow-up for any fractional SEC residue.",
+      "criterion": "Apply only witnessed simple 2-matching comb cuts from fractional-support components and preserve any remaining fractional residue.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 809,
+      "name": "dantzig42 — Value/witness sandwich and branch warrant",
+      "term": "Bound Sandwich",
+      "before": "dantzig42 has method outputs but no consolidated value, witness, and branch-warrant classification.",
+      "criterion": "Close value only when a certified lower bound and feasible witness meet; branch only when value or feasibility remains open.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 810,
+      "name": "dantzig42 — Resource and residual profile",
+      "term": "Frontier Obligation",
+      "before": "dantzig42 lacks a common resource and residual profile across methods.",
+      "criterion": "Normalize runtime, state, cut, gap, witness, and residual fields without adding an active semantic term.",
+      "next": "Advance to the next frozen method or benchmark instance.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 811,
+      "name": "Ten-instance benchmark synthesis",
+      "term": "Frontier Obligation",
+      "before": "Per-instance evidence exists but has not been aggregated across the preregistered ladder.",
+      "criterion": "Aggregate closure, integrality, state, cut, runtime, and failure counts without dropping weak cases.",
+      "next": "Audit vocabulary and identify the next residual kernel.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    },
+    {
+      "LoopOrder": 812,
+      "name": "Frozen-vocabulary frontier audit",
+      "term": "Frontier Obligation",
+      "before": "The benchmark results have not been reconciled with the frozen active glossary and nonclaims.",
+      "criterion": "Confirm zero active-term growth, state the strongest finite conclusions, and preserve the unresolved search/cut frontier.",
+      "next": "Select the first larger benchmark requiring genuine branch-and-cut rather than root closure.",
+      "rule": "tsp-rule-tsplib-campaign",
+      "Status": "PLANNED"
+    }
+  ]
+}
