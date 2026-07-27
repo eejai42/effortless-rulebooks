@@ -55,7 +55,7 @@ if [ ! -f "$RULEBOOK_FILE" ]; then
   echo "  Set RULEBOOK_FILE to the correct path (relative to this script's" >&2
   echo "  own directory) if your rulebook isn't named effortless-rulebook.json" >&2
   echo "  or doesn't live one directory up, e.g.:" >&2
-  echo "    RULEBOOK_FILE=../effortless-banking-rulebook.json ./edit-rulebook.sh" >&2
+  echo "    RULEBOOK_FILE=./effortless-banking-rulebook.json ./edit-rulebook.sh" >&2
   exit 1
 fi
 

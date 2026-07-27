@@ -60,8 +60,8 @@
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-banking-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.10.1308",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.07.08.1458",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-07-08-1458-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -79,7 +79,7 @@
       "CommandLine": "effortless-rulebook-editor -i effortless-banking-rulebook.json",
       "IsDisabled": false,
       "LastVersionUsed": "v2026.07.27.0122",
-      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-26-2001-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-27-0122-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ]
 }

@@ -117,9 +117,11 @@ chmod +x /app/postgres/chmod-initdb.sh
 if [ "${LOCAL_TOOL_URLS:-1}" != "0" ] && [ -n "${LOCAL_TOOL_URLS:-1}" ]; then
   LOCAL_API_PORT="${LOCAL_API_PORT:-30039}"
   LOCAL_WEB_PORT="${LOCAL_WEB_PORT:-30040}"
+  LOCAL_POSTGRES_TRANSPILER_PORT="${LOCAL_POSTGRES_TRANSPILER_PORT:-30038}"
   echo "[entrypoint] LOCAL_TOOL_URLS active (default) -- pointing consumed transpilers at host.docker.internal"
   effortless -setToolUrl rulebook-to-node-postgres-api=http://host.docker.internal:${LOCAL_API_PORT}
   effortless -setToolUrl rulebook-to-vite-admin-portal=http://host.docker.internal:${LOCAL_WEB_PORT}
+  effortless -setToolUrl rulebook-to-postgres=http://host.docker.internal:${LOCAL_POSTGRES_TRANSPILER_PORT}
 else
   echo "[entrypoint] LOCAL_TOOL_URLS=0 -- using normal effortless tool resolution (production mode)"
 fi
