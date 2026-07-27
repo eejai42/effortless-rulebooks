@@ -17,6 +17,7 @@ ALTER TABLE covenants ENABLE ROW LEVEL SECURITY;
 ALTER TABLE risk_rating_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE documents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE interactions ENABLE ROW LEVEL SECURITY;
+ALTER TABLE constraints ENABLE ROW LEVEL SECURITY;
 
 -- TODO: Add specific RLS policies based on your security requirements
 -- Example:

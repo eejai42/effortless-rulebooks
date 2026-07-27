@@ -1,7 +1,7 @@
 {
   "ShowHidden": false,
   "ShowAllFiles": false,
-  "CurrentPath": "/rulespeak-de",
+  "CurrentPath": "/effortless-rulebook",
   "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "88f956dc-5967-4229-8dae-66746b75041e",
   "Name": "first-valley-bank",
@@ -18,8 +18,8 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-banking-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true -p pk_type=string",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.05.29.1925",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-05-29-1925-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.07.27.0029",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-07-27-0029-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -71,6 +71,15 @@
       "IsDisabled": false,
       "LastVersionUsed": "v2026.06.20.2306",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-20-2306-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortless-rulebook-editor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i effortless-banking-rulebook.json",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.07.27.0122",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-26-2001-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ]
 }

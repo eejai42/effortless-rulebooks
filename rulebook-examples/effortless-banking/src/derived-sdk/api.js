@@ -81,6 +81,13 @@ export const api = {
     update: (id, body) => jsonFetch(`/interactions/${id}`, { method: 'PUT', body }),
     remove: (id) => jsonFetch(`/interactions/${id}`, { method: 'DELETE' }),
   },
+  constraints: {
+    list: () => jsonFetch('/constraints'),
+    get: (id) => jsonFetch(`/constraints/${id}`),
+    create: (body) => jsonFetch('/constraints', { method: 'POST', body }),
+    update: (id, body) => jsonFetch(`/constraints/${id}`, { method: 'PUT', body }),
+    remove: (id) => jsonFetch(`/constraints/${id}`, { method: 'DELETE' }),
+  },
   __meta__: {
     list: () => jsonFetch('/__meta__'),
     get: (id) => jsonFetch(`/__meta__/${id}`),

@@ -1,0 +1,54 @@
+{
+  "Name": "effortless-rulebook-editor-runtime",
+  "Description": "Generic in-container pipeline: rulebook -> Postgres -> read-only Node API + Vite admin portal. Baked into the effortless-rulebook-editor image; not project-specific.",
+  "SSoTmeProjectId": "",
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": "",
+  "SSoTmeProjectFiles": null,
+  "ProjectSettings": [
+    { "Name": "project-name", "Value": "effortless-rulebook-editor-runtime" }
+  ],
+  "ProjectTranspilers": [
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "rulebooktopostgres",
+      "RelativePath": "/postgres",
+      "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json",
+      "IsDisabled": false,
+      "Description": "Generate Postgres SQL from the mounted rulebook"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "chmodinitdb",
+      "RelativePath": "/postgres",
+      "CommandLine": "-exec ./chmod-initdb.sh",
+      "IsDisabled": false,
+      "Description": "rulebook-to-postgres emits init-db.sh without the execute bit set. The -exec engine passes NO arguments through to the invoked command (confirmed empirically: `-exec chmod +x ./init-db.sh` fails with 'missing operand' -- everything after the command token is swallowed), so this indirects through a tiny wrapper script (chmod-initdb.sh, placed in /postgres by container-entrypoint.sh) that takes no CLI args of its own."
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "initdb",
+      "RelativePath": "/postgres",
+      "CommandLine": "-exec ./init-db.sh",
+      "IsDisabled": false,
+      "Description": "Drop + recreate the in-container Postgres DB from the freshly generated SQL. Connection string comes from the DATABASE_URL env var (exported by container-entrypoint.sh) rather than a CLI arg, since -exec does not pass arguments through to the invoked command."
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "rulebooktonodepostgresapi",
+      "RelativePath": "/api",
+      "CommandLine": "rulebook-to-node-postgres-api -i ../effortless-rulebook/effortless-rulebook.json",
+      "IsDisabled": false,
+      "Description": "Generate the read-only Node/Express API"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "rulebooktoviteadminportal",
+      "RelativePath": "/admin-portal",
+      "CommandLine": "rulebook-to-vite-admin-portal -i ../effortless-rulebook/effortless-rulebook.json",
+      "IsDisabled": false,
+      "Description": "Generate the read-only Vite admin UI"
+    }
+  ]
+}

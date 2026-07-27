@@ -326,7 +326,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_businesses_count_of_classified_loans(p_businesses_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((SELECT COUNT(*) FROM loans WHERE business = calc_businesses_name(p_businesses_id)))::integer;
+  SELECT ((SELECT COUNT(*) FROM loans WHERE business = calc_businesses_name(p_businesses_id) AND calc_loans_is_classified_asset(loans_id) = TRUE))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_businesses_has_classified_loan
@@ -346,7 +346,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_businesses_beneficial_owners_at_cdd_threshold(p_businesses_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((SELECT COUNT(*) FROM beneficial_owners WHERE business = calc_businesses_name(p_businesses_id)))::integer;
+  SELECT ((SELECT COUNT(*) FROM beneficial_owners WHERE business = calc_businesses_name(p_businesses_id) AND calc_beneficial_owners_meets_cdd_threshold(beneficial_owners_id) = TRUE))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_businesses_meets_cdd_rule
@@ -479,7 +479,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_accounts_treasury_service_count(p_accounts_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (CASE WHEN COALESCE((SELECT has_ach FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN COALESCE((SELECT has_ach FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN COALESCE((SELECT has_wire FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN COALESCE((SELECT has_wire FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN COALESCE((SELECT has_card FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN COALESCE((SELECT has_card FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN COALESCE((SELECT has_wire FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN COALESCE((SELECT has_wire FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN COALESCE((SELECT has_card FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN COALESCE((SELECT has_card FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN COALESCE((SELECT has_ach FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN COALESCE((SELECT has_wire FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN COALESCE((SELECT has_card FROM accounts WHERE accounts_id = p_accounts_id), FALSE) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_accounts_has_any_treasury_service
@@ -525,13 +525,13 @@ RETURNS TEXT AS $$
   SELECT (SELECT full_name::text FROM users WHERE users_id = (SELECT originating_rm FROM loans WHERE loans_id = p_loans_id));
 $$ LANGUAGE sql STABLE;
 
--- calc_loans_underwriter_label
--- Field: Loans.UnderwriterLabel
+-- calc_loans_underwriter_is_admin
+-- Field: Loans.UnderwriterIsAdmin
 -- Type: lookup | DataType: boolean | Returns: BOOLEAN
 -- Lookup: IsAdmin from related Users
 
 
-CREATE OR REPLACE FUNCTION calc_loans_underwriter_label(p_loans_id TEXT)
+CREATE OR REPLACE FUNCTION calc_loans_underwriter_is_admin(p_loans_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT calc_users_is_admin((SELECT underwriter FROM loans WHERE loans_id = p_loans_id));
 $$ LANGUAGE sql STABLE;
@@ -613,7 +613,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_loans_count_of_breached_covenants(p_loans_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((SELECT COUNT(*) FROM covenants WHERE loan = calc_loans_name(p_loans_id)))::integer;
+  SELECT ((SELECT COUNT(*) FROM covenants WHERE loan = calc_loans_name(p_loans_id) AND calc_covenants_is_breached(covenants_id) = TRUE))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_loans_count_of_risk_rating_history
@@ -663,7 +663,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_loans_health_score(p_loans_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (CASE WHEN calc_loans_dscr_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_dscr_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN calc_loans_ltv_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_ltv_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN calc_loans_ltv_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_ltv_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END)::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_loans_dscr_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_loans_ltv_in_band(p_loans_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_loans_is_classified_asset(p_loans_id) THEN (0)::text ELSE (1)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_loans_has_breached_covenant(p_loans_id) THEN (0)::text ELSE (1)::text END) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_covenants_loan_label
@@ -878,7 +878,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_risk_rating_history_grade_delta(p_risk_rating_history_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN ((SELECT new_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT new_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN (COALESCE((SELECT prior_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id), (SELECT new_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (COALESCE((SELECT prior_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id), (SELECT new_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id)))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT new_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (COALESCE((SELECT prior_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id), (SELECT new_grade FROM risk_rating_history WHERE risk_rating_history_id = p_risk_rating_history_id))) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_risk_rating_history_is_downgrade
@@ -1048,6 +1048,16 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_interactions_is_covenant_event(p_interactions_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT ((calc_interactions_is_system_event(p_interactions_id) AND NOT ((COALESCE(POSITION('covenant' IN LOWER((SELECT NULLIF(subject, '') FROM interactions WHERE interactions_id = p_interactions_id))), 0))::NUMERIC = 0)));
+$$ LANGUAGE sql STABLE;
+
+-- calc_constraints_name
+-- Field: Constraints.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_constraints_name(p_constraints_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (LOWER((SELECT NULLIF(constraint_key, '') FROM constraints WHERE constraints_id = p_constraints_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- ============================================================================
