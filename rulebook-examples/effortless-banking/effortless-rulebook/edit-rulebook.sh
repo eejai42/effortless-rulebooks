@@ -19,12 +19,10 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 
 IMAGE_NAME="effortless-rulebook-editor"
 CONTAINER_NAME="effortless-rulebook-editor"
-API_PORT="${RULEBOOK_EDITOR_API_PORT:-4241}"
-UI_PORT="${RULEBOOK_EDITOR_UI_PORT:-4242}"
-# Postgres (internal 5432, user/pass postgres/postgres, db rulebookeditor) is
-# published to the host so a psql client / GUI tool can connect directly for
-# debugging -- there was previously NO way to reach it from outside the
-# container at all (not on 5442, not on any port); this is the fix.
+# Fixed, memorable default ports (42441/42442/5442) so this project's stack
+# is reachable at the same URLs/connection string every run.
+API_PORT="${RULEBOOK_EDITOR_API_PORT:-42441}"
+UI_PORT="${RULEBOOK_EDITOR_UI_PORT:-42442}"
 PG_PORT="${RULEBOOK_EDITOR_PG_PORT:-5442}"
 
 # The rulebook file to mount, relative to this script's own directory. Default

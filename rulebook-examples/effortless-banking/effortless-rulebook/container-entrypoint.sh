@@ -9,15 +9,35 @@
 #      SSE and exposes a Rebuild button; see boot-server.js for the full
 #      contract (state file + log file it watches).
 #   1. start local Postgres cluster (bundled in-image, single-container app)
-#   2. run `effortless build` once (generates SQL + runs init-db.sh against
+#   2. point the consumed transpilers at the host's dotnet-run processes via
+#      host.docker.internal (LOCAL DEV, the default -- see NETWORKING MODE
+#      below) or leave normal effortless tool resolution in place (PRODUCTION)
+#   3. run `effortless build` once (generates SQL + runs init-db.sh against
 #      the local Postgres + generates the Node API + Vite UI + RuleSpeak +
-#      RuleSpeak-DE + XLSX export) -- consumed transpilers resolve from the
-#      normal published registry, same as any other effortless transpiler
-#   3. start the generated Node API and Vite UI (Vite binds the INTERNAL port
+#      RuleSpeak-DE + XLSX export)
+#   4. start the generated Node API and Vite UI (Vite binds the INTERNAL port
 #      5175 -- boot-server.js proxies 5174 -> 5175 once the build succeeds)
-#   4. watch the mounted effortless-rulebook.json AND the boot server's
+#   5. watch the mounted effortless-rulebook.json AND the boot server's
 #      rebuild-trigger file for changes; on either, kill+rebuild+restart
 #      everything. Loop forever.
+#
+# ---------------------------------------------------------------------
+# NETWORKING MODE -- read this before touching LOCAL_TOOL_URLS
+# ---------------------------------------------------------------------
+# Mode A (PRODUCTION, the DEFAULT): normal effortless tool resolution --
+# rulebook-to-node-postgres-api / rulebook-to-vite-admin-portal resolve from
+# the published registry, same as any other effortless transpiler. This is
+# what every user other than the tool's own developer wants.
+#
+# Mode B (LOCAL DEV): set LOCAL_TOOL_URLS=1 to opt into pointing the
+# consumed transpilers at http://host.docker.internal:$LOCAL_API_PORT and
+# :$LOCAL_WEB_PORT (defaults 30039/30040 -- the ports the two tools' own
+# start.sh scripts bind to on the host), so a `dotnet run` on the host is
+# picked up immediately on the next rebuild -- no publish step needed for
+# the fast local iteration loop while actively developing those two tools.
+# Do NOT hard-code host.docker.internal anywhere outside this one
+# conditional block.
+# ---------------------------------------------------------------------
 
 set -uo pipefail
 
@@ -39,10 +59,11 @@ BOOT_SERVER_PID=$!
 
 # The host's ~/.ssotme is bind-mounted READ-ONLY at /root/.ssotme-ro (auth
 # credentials live there and must never be mutated from inside the
-# container). The effortless CLI needs a writable HOME/CLI state directory,
-# so we copy the read-only mount into a writable working copy at
-# /root/.ssotme once at startup and point HOME/CLI state there instead. The
-# host's real ~/.ssotme is never touched.
+# container). `-setToolUrl` (used only in LOCAL_TOOL_URLS mode) needs to
+# WRITE a tool_urls.json alongside those credentials, so we copy the
+# read-only mount into a writable working copy at /root/.ssotme once at
+# startup and point HOME/CLI state there instead. The host's real
+# ~/.ssotme is never touched.
 if [ -d /root/.ssotme-ro ]; then
   echo "[entrypoint] copying read-only ~/.ssotme mount into a writable working copy..."
   rm -rf /root/.ssotme
@@ -172,7 +193,13 @@ start_services() {
     echo "[entrypoint] SKIPPING API start -- /app/api/index.js was not generated (rulebook-to-node-postgres-api did not produce expected output)." >> "$BUILD_LOG_FILE"
   else
     echo "[entrypoint] starting generated Node API (port 5177)..." >> "$BUILD_LOG_FILE"
-    (cd /app/api && npm install --omit=dev --silent && PORT=5177 node index.js) \
+    # setsid makes this chain (and everything npm/node fork under it) its own
+    # process-group leader, so stop_services can kill the WHOLE group with
+    # `kill -- -$PID` -- killing just $! (the setsid wrapper's own PID) would
+    # leave the real node process it exec's into still running, which is
+    # exactly the bug that let old Vite/API servers survive rebuilds and pile
+    # up on the same ports.
+    setsid bash -c 'cd /app/api && npm install --omit=dev --silent && PORT=5177 exec node index.js' \
       > /tmp/api.log 2>&1 &
     API_PID=$!
   fi
@@ -191,7 +218,7 @@ start_services() {
   # just data) is simpler to keep correct than wiring a second static-file
   # server + manual rebuild step. Bound to the INTERNAL port 5175 --
   # boot-server.js owns the EXTERNAL port 5174 and proxies to this once ready.
-  (cd /app/admin-portal && npm install --silent && API_PROXY_TARGET=http://127.0.0.1:5177 npx vite --host 0.0.0.0 --port 5175) \
+  setsid bash -c 'cd /app/admin-portal && npm install --silent && API_PROXY_TARGET=http://127.0.0.1:5177 exec npx vite --host 0.0.0.0 --port 5175' \
     > /tmp/ui.log 2>&1 &
   UI_PID=$!
 
@@ -206,9 +233,13 @@ start_services() {
 
 stop_services() {
   echo "[entrypoint] stopping API (pid $API_PID) and UI (pid $UI_PID)..."
-  [ -n "$API_PID" ] && kill "$API_PID" 2>/dev/null
-  [ -n "$UI_PID" ] && kill "$UI_PID" 2>/dev/null
-  # also reap anything still bound to the two ports (npm/vite spawn children)
+  # setsid made API_PID/UI_PID each the leader of their own process group, so
+  # `kill -- -$PID` (negative PID = kill the whole group) reaches npm AND the
+  # node/vite process it exec'd into -- not just the setsid wrapper itself.
+  [ -n "$API_PID" ] && kill -- "-$API_PID" 2>/dev/null
+  [ -n "$UI_PID" ] && kill -- "-$UI_PID" 2>/dev/null
+  # fuser is a backstop, not the primary mechanism, in case something outside
+  # these two process groups is still bound to the ports.
   fuser -k 5177/tcp 2>/dev/null || true
   fuser -k 5175/tcp 2>/dev/null || true
   sleep 1

@@ -9,35 +9,15 @@
 #      SSE and exposes a Rebuild button; see boot-server.js for the full
 #      contract (state file + log file it watches).
 #   1. start local Postgres cluster (bundled in-image, single-container app)
-#   2. point the consumed transpilers at the host's dotnet-run processes via
-#      host.docker.internal (LOCAL DEV, the default -- see NETWORKING MODE
-#      below) or leave normal effortless tool resolution in place (PRODUCTION)
-#   3. run `effortless build` once (generates SQL + runs init-db.sh against
+#   2. run `effortless build` once (generates SQL + runs init-db.sh against
 #      the local Postgres + generates the Node API + Vite UI + RuleSpeak +
-#      RuleSpeak-DE + XLSX export)
-#   4. start the generated Node API and Vite UI (Vite binds the INTERNAL port
+#      RuleSpeak-DE + XLSX export) -- consumed transpilers resolve from the
+#      normal published registry, same as any other effortless transpiler
+#   3. start the generated Node API and Vite UI (Vite binds the INTERNAL port
 #      5175 -- boot-server.js proxies 5174 -> 5175 once the build succeeds)
-#   5. watch the mounted effortless-rulebook.json AND the boot server's
+#   4. watch the mounted effortless-rulebook.json AND the boot server's
 #      rebuild-trigger file for changes; on either, kill+rebuild+restart
 #      everything. Loop forever.
-#
-# ---------------------------------------------------------------------
-# NETWORKING MODE -- read this before touching LOCAL_TOOL_URLS
-# ---------------------------------------------------------------------
-# Mode A (PRODUCTION, the DEFAULT): normal effortless tool resolution --
-# rulebook-to-node-postgres-api / rulebook-to-vite-admin-portal resolve from
-# the published registry, same as any other effortless transpiler. This is
-# what every user other than the tool's own developer wants.
-#
-# Mode B (LOCAL DEV): set LOCAL_TOOL_URLS=1 to opt into pointing the
-# consumed transpilers at http://host.docker.internal:$LOCAL_API_PORT and
-# :$LOCAL_WEB_PORT (defaults 30039/30040 -- the ports the two tools' own
-# start.sh scripts bind to on the host), so a `dotnet run` on the host is
-# picked up immediately on the next rebuild -- no publish step needed for
-# the fast local iteration loop while actively developing those two tools.
-# Do NOT hard-code host.docker.internal anywhere outside this one
-# conditional block.
-# ---------------------------------------------------------------------
 
 set -uo pipefail
 
@@ -59,11 +39,10 @@ BOOT_SERVER_PID=$!
 
 # The host's ~/.ssotme is bind-mounted READ-ONLY at /root/.ssotme-ro (auth
 # credentials live there and must never be mutated from inside the
-# container). `-setToolUrl` (used only in LOCAL_TOOL_URLS mode) needs to
-# WRITE a tool_urls.json alongside those credentials, so we copy the
-# read-only mount into a writable working copy at /root/.ssotme once at
-# startup and point HOME/CLI state there instead. The host's real
-# ~/.ssotme is never touched.
+# container). The effortless CLI needs a writable HOME/CLI state directory,
+# so we copy the read-only mount into a writable working copy at
+# /root/.ssotme once at startup and point HOME/CLI state there instead. The
+# host's real ~/.ssotme is never touched.
 if [ -d /root/.ssotme-ro ]; then
   echo "[entrypoint] copying read-only ~/.ssotme mount into a writable working copy..."
   rm -rf /root/.ssotme
@@ -119,19 +98,6 @@ chmod +x /app/postgres/init-db.sh 2>/dev/null || true
 EOF
 chmod +x /app/postgres/chmod-initdb.sh
 
-# Default OFF: normal published-tool registry resolution is what every user
-# other than the tool's own developer wants. Set LOCAL_TOOL_URLS=1 to opt
-# into the fast-iteration path (host.docker.internal -> a `dotnet run` on
-# the host) while actively developing the two consumed transpilers.
-if [ "${LOCAL_TOOL_URLS:-0}" != "0" ] && [ -n "${LOCAL_TOOL_URLS:-0}" ]; then
-  LOCAL_API_PORT="${LOCAL_API_PORT:-30039}"
-  LOCAL_WEB_PORT="${LOCAL_WEB_PORT:-30040}"
-  echo "[entrypoint] LOCAL_TOOL_URLS active (default) -- pointing consumed transpilers at host.docker.internal"
-  effortless -setToolUrl rulebook-to-node-postgres-api=http://host.docker.internal:${LOCAL_API_PORT}
-  effortless -setToolUrl rulebook-to-vite-admin-portal=http://host.docker.internal:${LOCAL_WEB_PORT}
-else
-  echo "[entrypoint] LOCAL_TOOL_URLS=0 -- using normal effortless tool resolution (production mode)"
-fi
 
 run_build() {
   echo "building" > "$BOOT_STATE_FILE"

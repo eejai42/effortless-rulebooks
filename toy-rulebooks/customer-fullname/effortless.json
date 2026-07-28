@@ -58,7 +58,7 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/customer-fullname-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.07.1721",
+      "LastVersionUsed": "v2026.07.27.0029",
       "LastUrl": "https://effortless-rulebook-to-postgres-v2026-06-07-1721-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Generate Postgres schema + seed data from the rulebook (dev: full drop-all rebuild so raws always match the rulebook)"
     },
@@ -100,15 +100,16 @@
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/customer-fullname-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.10.1308",
+      "LastVersionUsed": "v2026.07.08.1458",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
       "Name": "effortless-rulebook-editor",
       "RelativePath": "",
-      "CommandLine": "http://localhost:30041 -i effortless-rulebook.json",
-      "IsDisabled": false
+      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.07.27.2032"
     }
   ]
 }

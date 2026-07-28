@@ -14,6 +14,18 @@
 const http = require('http');
 const fs = require('fs');
 
+// This process owns the one port (5174) meant to survive the whole
+// container lifetime -- if it dies, the browser gets a hard connection
+// reset with no indication why. A bug in any one request handler must not
+// take the whole server down, so uncaught errors are logged and swallowed
+// here rather than allowed to crash the process.
+process.on('uncaughtException', (err) => {
+  console.error('[boot-server] uncaught exception (server stays up):', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('[boot-server] unhandled rejection (server stays up):', err);
+});
+
 const EXTERNAL_PORT = 5174;
 const INTERNAL_UI_PORT = 5175;
 const STATE_FILE = process.env.BOOT_STATE_FILE || '/tmp/boot-state';
@@ -201,7 +213,12 @@ const STATIC_TOOL_DIRS = {
 const path = require('path');
 
 function serveStaticTool(req, res, urlPrefix, rootDir) {
-  const rel = decodeURIComponent(req.url.slice(urlPrefix.length));
+  // req.url still carries the query string (e.g. "?lang=zh" from the
+  // RuleSpeak language picker) -- strip it before treating the remainder as
+  // a filesystem path, or a request for rulespeak.html?lang=zh resolves to
+  // a literal (nonexistent) file named "rulespeak.html?lang=zh".
+  const urlPath = req.url.split('?')[0];
+  const rel = decodeURIComponent(urlPath.slice(urlPrefix.length));
 
   // A bare directory request (no filename) resolves to whatever single file
   // is actually in that directory, rather than a hardcoded name -- e.g.
@@ -241,7 +258,7 @@ function serveFile(res, target) {
   fs.readFile(target, (err, data) => {
     if (err) {
       res.writeHead(404, { 'content-type': 'text/plain' });
-      res.end(`not found: ${rel} (has the build run yet? see /__boot/log)`);
+      res.end(`not found: ${target} (has the build run yet? see /__boot/log)`);
       return;
     }
     const ext = path.extname(target).toLowerCase();

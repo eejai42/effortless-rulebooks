@@ -1465,7 +1465,7 @@
         "type": "calculated",
         "nullable": false,
         "Description": "True when CurrentWaiverThrough is set (waiver is on file).",
-        "formula": "=NOT(COALESCE({{CurrentWaiverThrough}}, \"\") = \"\")"
+        "formula": "=NOT(ISBLANK({{CurrentWaiverThrough}}))"
       }
     ],
     "data": [

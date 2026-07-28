@@ -83,16 +83,6 @@ time afterward -- this re-labels the portal's own UI chrome (nav, buttons,
 messages) and, if you're on the RuleSpeak tab, switches that document's
 displayed language too.
 
-## Local dev vs production tool resolution
-
-By default, `edit-rulebook.sh` uses normal published-tool registry
-resolution for `rulebook-to-node-postgres-api` / `rulebook-to-vite-admin-portal`
--- what every user other than this tool's own developer wants. Developers
-actively iterating on those two transpilers' source can opt into local-dev
-mode with `LOCAL_TOOL_URLS=1 ./edit-rulebook.sh`: the container then points
-at the developer's own `dotnet run` processes via `host.docker.internal:30039`
-/ `:30040`, so source edits are picked up on the very next rebuild -- no
-publish step in that loop.
 
 ## Host ports
 
