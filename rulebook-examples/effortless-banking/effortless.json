@@ -2,7 +2,7 @@
   "ShowHidden": false,
   "ShowAllFiles": false,
   "CurrentPath": "/effortless-rulebook",
-  "SSoTmeProjectFiles": null,
+  "SSoTmeProjectFiles": [],
   "SSoTmeProjectId": "88f956dc-5967-4229-8dae-66746b75041e",
   "Name": "first-valley-bank",
   "ProjectSettings": [
@@ -49,8 +49,8 @@
       "IsSSoTTranspiler": false,
       "Name": "httplocalhost4242postgrescalculatedtorulebook",
       "RelativePath": "/postgres-bootstrap",
-      "CommandLine": "http://localhost:4242/postgres-calculated-to-rulebook -i ../effortless-rulebook/effortless-banking-rulebook.json -i .pg-dump.sql",
-      "IsDisabled": false,
+      "CommandLine": "postgres-calculated-to-rulebook -i ../effortless-rulebook/effortless-banking-rulebook.json -i .pg-dump.sql",
+      "IsDisabled": true,
       "Description": "Pure function: sync rulebook data[] from pg_dump. Both files passed as zipped payload to ssotme-proxy."
     },
     {
@@ -64,21 +64,12 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "rulebooktorulespeak",
-      "RelativePath": "/rulespeak-de",
-      "CommandLine": "rulebook-to-rulespeak-de -i ../effortless-rulebook/effortless-banking-rulebook.json",
-      "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.20.2306",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-20-2306-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "effortless-rulebook-editor",
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i effortless-banking-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.07.27.1859",
-      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-27-1532-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.07.27.1938",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-27-1938-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ]
 }

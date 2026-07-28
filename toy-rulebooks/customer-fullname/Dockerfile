@@ -83,9 +83,10 @@ RUN chmod +x /app/container-entrypoint.sh
 # immediate boot/progress page + log stream + rebuild button and transparently
 # reverse-proxies to the internal Vite dev server once a build succeeds. This
 # means 5174 is reachable from t=0 (container start), not just once the first
-# `effortless build` finishes. Postgres listens internally on 5432 but is NOT
-# exposed outside the container in v1 (only the API + UI ports are meant to
-# be reached from the host).
-EXPOSE 5177 5174
+# `effortless build` finishes. Postgres listens internally on 5432 and IS
+# published (see edit-rulebook.sh's -p "$PG_PUBLISH") so a host psql client /
+# GUI tool can connect directly for debugging -- there is no other supported
+# way to reach it from outside the container.
+EXPOSE 5177 5174 5432
 
 ENTRYPOINT ["/app/container-entrypoint.sh"]

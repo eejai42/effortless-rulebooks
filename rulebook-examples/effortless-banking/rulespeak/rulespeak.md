@@ -100,7 +100,7 @@ _Community-bank commercial RM platform — loans, deposits, covenants, BSA/AML._
 | Is System Event | True when the interaction type is “SystemEvent”. | _True for system-generated rows._ |
 | Is Task | True when the interaction type is “Task”. | _True for Task-type rows._ |
 | From Customer | True when the source is “BusinessClientPortal”. | _True when sourced from the BusinessClientPortal (customer-originated)._ |
-| Is Covenant Event | True when all of the following hold: the system event flag is set and the subject mentions “covenant”. | _Higher-order: true when this is a covenant-related system event (subject contains 'covenant')._ |
+| Is Covenant Event | True when all of the following hold: the system event flag is set and the subject mentions “covenant breach”. | _Higher-order: true when this is a covenant-related system event (subject contains 'covenant')._ |
 
 ## 2 Fact Types
 
@@ -271,7 +271,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-77 Is System Event** | An interaction is considered a system event if the interaction type is “SystemEvent”. |
 | **DR-78 Is Task** | An interaction is considered a task if the interaction type is “Task”. |
 | **DR-79 From Customer** | An interaction is flagged from customer if the source is “BusinessClientPortal”. |
-| **DR-80 Is Covenant Event** | An interaction is considered a covenant event if all of the following hold: the system event flag is set and the subject mentions “covenant”. |
+| **DR-80 Is Covenant Event** | An interaction is considered a covenant event if all of the following hold: the system event flag is set and the subject mentions “covenant breach”. |
 
 ## 5 Traceability to Schema
 
@@ -359,7 +359,7 @@ the same logic the rulebook stores, written for a business reader._
 | **Interactions.IsSystemEvent** | formula | `InteractionType = "SystemEvent"` |
 | **Interactions.IsTask** | formula | `InteractionType = "Task"` |
 | **Interactions.FromCustomer** | formula | `Source = "BusinessClientPortal"` |
-| **Interactions.IsCovenantEvent** | formula | `And(IsSystemEvent, Not(Iferror(Find("covenant", Lower(Subject)), 0) = 0))` |
+| **Interactions.IsCovenantEvent** | formula | `And(IsSystemEvent, Not(Iferror(Find("covenant breach", Lower(Subject)), 0) = 0))` |
 
 ---
 

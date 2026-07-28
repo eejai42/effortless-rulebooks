@@ -1047,7 +1047,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_interactions_is_covenant_event(p_interactions_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_interactions_is_system_event(p_interactions_id) AND NOT ((COALESCE(POSITION('covenant' IN LOWER((SELECT NULLIF(subject, '') FROM interactions WHERE interactions_id = p_interactions_id))), 0))::NUMERIC = 0)));
+  SELECT ((calc_interactions_is_system_event(p_interactions_id) AND NOT ((COALESCE(POSITION('covenant breach' IN LOWER((SELECT NULLIF(subject, '') FROM interactions WHERE interactions_id = p_interactions_id))), 0))::NUMERIC = 0)));
 $$ LANGUAGE sql STABLE;
 
 -- calc_constraints_name

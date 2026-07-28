@@ -96,7 +96,20 @@ publish step in that loop.
 
 ## Host ports
 
-`API_PORT` / `UI_PORT` are unpinned by default -- Docker assigns free
-ephemeral host ports (`edit-rulebook.sh` prints the actual URLs once the
+`API_PORT` / `UI_PORT` / `PG_PORT` are unpinned by default -- Docker assigns
+free ephemeral host ports (`edit-rulebook.sh` prints the actual URLs once the
 container starts). Set `RULEBOOK_EDITOR_API_PORT` / `RULEBOOK_EDITOR_UI_PORT`
-to pin specific host ports instead.
+/ `RULEBOOK_EDITOR_PG_PORT` to pin specific host ports instead.
+
+## Connecting to Postgres directly
+
+Postgres (internal 5432, user/pass `postgres`/`postgres`, db `rulebookeditor`)
+is published to the host like the other two ports -- there is no other
+supported way to reach it. `edit-rulebook.sh` prints the resolved connection
+string (`postgresql://postgres:postgres@localhost:<port>/rulebookeditor`) on
+every start; run `docker port <container-name> 5432/tcp` to look it up again
+later. Do NOT assume a specific port (5432, 5442, or any other number) --
+it is ephemeral/Docker-assigned unless you pinned it with
+`RULEBOOK_EDITOR_PG_PORT`. The DB is reseeded from the mounted rulebook on
+every rebuild, so treat it as disposable/read-only for inspection, not a
+place to persist manual changes.

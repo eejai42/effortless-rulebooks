@@ -216,11 +216,11 @@ function serveStaticTool(req, res, urlPrefix, rootDir) {
       entries = [];
     }
     if (entries.length === 1) {
-      serveFile(res, path.join(rootDir, entries[0]));
+      serveFile(res, path.join(rootDir, entries[0]), entries[0]);
       return;
     }
     if (entries.includes('index.html')) {
-      serveFile(res, path.join(rootDir, 'index.html'));
+      serveFile(res, path.join(rootDir, 'index.html'), 'index.html');
       return;
     }
     res.writeHead(404, { 'content-type': 'text/plain' });
@@ -234,10 +234,10 @@ function serveStaticTool(req, res, urlPrefix, rootDir) {
     res.end('bad path');
     return;
   }
-  serveFile(res, target);
+  serveFile(res, target, rel);
 }
 
-function serveFile(res, target) {
+function serveFile(res, target, rel) {
   fs.readFile(target, (err, data) => {
     if (err) {
       res.writeHead(404, { 'content-type': 'text/plain' });
@@ -257,44 +257,64 @@ function serveFile(res, target) {
 }
 
 const server = http.createServer((req, res) => {
-  for (const [prefix, dir] of Object.entries(STATIC_TOOL_DIRS)) {
-    if (req.url === prefix || req.url.startsWith(prefix + '/')) {
-      serveStaticTool(req, res, prefix, dir);
+  try {
+    for (const [prefix, dir] of Object.entries(STATIC_TOOL_DIRS)) {
+      if (req.url === prefix || req.url.startsWith(prefix + '/')) {
+        serveStaticTool(req, res, prefix, dir);
+        return;
+      }
+    }
+
+    if (req.url === '/__boot/log') {
+      res.writeHead(200, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ lines: tailLines(400), state: readState() }));
       return;
     }
-  }
+    if (req.url === '/__boot/events') {
+      res.writeHead(200, {
+        'content-type': 'text/event-stream',
+        'cache-control': 'no-cache',
+        connection: 'keep-alive',
+      });
+      res.write(': connected\n\n');
+      sseClients.add(res);
+      req.on('close', () => sseClients.delete(res));
+      return;
+    }
+    if (req.url === '/__boot/rebuild' && req.method === 'POST') {
+      fs.writeFileSync(REBUILD_TRIGGER, String(Date.now()));
+      res.writeHead(202, { 'content-type': 'application/json' });
+      res.end(JSON.stringify({ triggered: true }));
+      return;
+    }
 
-  if (req.url === '/__boot/log') {
-    res.writeHead(200, { 'content-type': 'application/json' });
-    res.end(JSON.stringify({ lines: tailLines(400), state: readState() }));
-    return;
-  }
-  if (req.url === '/__boot/events') {
-    res.writeHead(200, {
-      'content-type': 'text/event-stream',
-      'cache-control': 'no-cache',
-      connection: 'keep-alive',
-    });
-    res.write(': connected\n\n');
-    sseClients.add(res);
-    req.on('close', () => sseClients.delete(res));
-    return;
-  }
-  if (req.url === '/__boot/rebuild' && req.method === 'POST') {
-    fs.writeFileSync(REBUILD_TRIGGER, String(Date.now()));
-    res.writeHead(202, { 'content-type': 'application/json' });
-    res.end(JSON.stringify({ triggered: true }));
-    return;
-  }
+    const state = readState();
+    if (state === 'ready') {
+      proxyToInternalUI(req, res);
+      return;
+    }
 
-  const state = readState();
-  if (state === 'ready') {
-    proxyToInternalUI(req, res);
-    return;
+    res.writeHead(200, { 'content-type': 'text/html' });
+    res.end(BOOT_PAGE);
+  } catch (err) {
+    console.error('[boot-server] request handler error:', req.url, err);
+    if (!res.headersSent) {
+      res.writeHead(500, { 'content-type': 'text/plain' });
+      res.end(`boot-server internal error: ${err && err.message ? err.message : err}`);
+    } else {
+      res.end();
+    }
   }
+});
 
-  res.writeHead(200, { 'content-type': 'text/html' });
-  res.end(BOOT_PAGE);
+// A single malformed/unexpected request must never take the whole container's
+// proxy down -- log and keep serving instead of letting Node's default
+// uncaughtException/unhandledRejection behavior exit the process.
+process.on('uncaughtException', (err) => {
+  console.error('[boot-server] uncaught exception (process kept alive):', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('[boot-server] unhandled rejection (process kept alive):', err);
 });
 
 server.listen(EXTERNAL_PORT, '0.0.0.0', () => {

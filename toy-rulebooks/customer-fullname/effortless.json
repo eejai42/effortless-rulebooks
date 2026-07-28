@@ -107,9 +107,8 @@
       "IsSSoTTranspiler": false,
       "Name": "effortless-rulebook-editor",
       "RelativePath": "",
-      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json",
-      "IsDisabled": false,
-      "PinnedVersion": "v2026.07.27.1859"
+      "CommandLine": "http://localhost:30041 -i effortless-rulebook.json",
+      "IsDisabled": false
     }
   ]
 }

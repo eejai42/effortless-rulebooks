@@ -5470,15 +5470,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak</span>
-        <div class="view-body"><p class="rt-headline">An interaction is considered a covenant event if all of the following:</p><ol class="rt-priority"><ul class="rt-group"><li>the <a class="ref" href="#en-f-interactions-issystemevent">system event</a> flag is set</li><li>the <a class="ref" href="#en-f-interactions-subject">subject</a> mentions “covenant”</li></ul></ol></div>
+        <div class="view-body"><p class="rt-headline">An interaction is considered a covenant event if all of the following:</p><ol class="rt-priority"><ul class="rt-group"><li>the <a class="ref" href="#en-f-interactions-issystemevent">system event</a> flag is set</li><li>the <a class="ref" href="#en-f-interactions-subject">subject</a> mentions “covenant breach”</li></ul></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-interactions-issystemevent">Is system event</a> and not find(&quot;covenant&quot;, <a class="ref" href="#en-f-interactions-subject">subject</a> lowercased), or 0 if that has an error equals 0.</p>
+        <p class="view-body"><a class="ref" href="#en-f-interactions-issystemevent">Is system event</a> and not find(&quot;covenant breach&quot;, <a class="ref" href="#en-f-interactions-subject">subject</a> lowercased), or 0 if that has an error equals 0.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>AND(<a class="fx-chip" href="#en-f-interactions-issystemevent">Is System Event</a>, NOT(IFERROR(FIND(&quot;covenant&quot;, LOWER(<a class="fx-chip" href="#en-f-interactions-subject">Subject</a>)), 0) = 0))</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>AND(<a class="fx-chip" href="#en-f-interactions-issystemevent">Is System Event</a>, NOT(IFERROR(FIND(&quot;covenant breach&quot;, LOWER(<a class="fx-chip" href="#en-f-interactions-subject">Subject</a>)), 0) = 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>

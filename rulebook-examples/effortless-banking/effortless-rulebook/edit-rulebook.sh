@@ -36,25 +36,6 @@ PG_PORT="${RULEBOOK_EDITOR_PG_PORT:-5442}"
 # lives -- RULEBOOK_FILE may be any path relative to this script's directory.
 RULEBOOK_FILE="${RULEBOOK_FILE:-../effortless-rulebook.json}"
 
-# --- LOCAL DEV vs PRODUCTION -------------------------------------------
-# Both consumed transpilers (rulebook-to-node-postgres-api,
-# rulebook-to-vite-admin-portal) are under active local development, so
-# LOCAL DEV mode is the DEFAULT: this container points at your own
-# `dotnet run` processes (host.docker.internal:$LOCAL_API_PORT /
-# :$LOCAL_WEB_PORT, default 30039/30040) instead of the published versions,
-# so edits to those tools' source are picked up on the very next rebuild --
-# no publish step in the loop.
-#
-# Set LOCAL_TOOL_URLS=0 once those tools are published and you want normal
-# registry resolution instead:
-#   LOCAL_TOOL_URLS=0 ./edit-rulebook.sh
-# In local-dev mode (the default), a `dotnet run`'d instance of each tool
-# must be listening on the configured port, or the build will fail loudly
-# (see container-entrypoint.sh's build-failure summary).
-LOCAL_TOOL_URLS="${LOCAL_TOOL_URLS:-1}"
-LOCAL_API_PORT="${LOCAL_API_PORT:-30039}"
-LOCAL_WEB_PORT="${LOCAL_WEB_PORT:-30040}"
-
 if [ ! -f "$RULEBOOK_FILE" ]; then
   echo "ERROR: rulebook file not found: $(pwd)/$RULEBOOK_FILE" >&2
   echo "  Set RULEBOOK_FILE to the correct path (relative to this script's" >&2
@@ -90,25 +71,45 @@ docker run -d \
   -p "${PG_PORT}:5432" \
   -v "$(pwd)/${RULEBOOK_FILE}:/app/effortless-rulebook/effortless-rulebook.json:ro" \
   -v "$HOME/.ssotme:/root/.ssotme-ro:ro" \
-  -e "LOCAL_TOOL_URLS=${LOCAL_TOOL_URLS}" \
-  -e "LOCAL_API_PORT=${LOCAL_API_PORT}" \
-  -e "LOCAL_WEB_PORT=${LOCAL_WEB_PORT}" \
   "$IMAGE_NAME"
 
-echo ""
-echo "effortless-rulebook-editor is starting up."
-echo "  API:  http://localhost:${API_PORT}/api/state"
-echo "  UI:   http://localhost:${UI_PORT}   (shows a live boot/progress page immediately --"
-echo "                                       no need to wait before opening it; it hands off"
-echo "                                       to the real app automatically once ready, and has"
-echo "                                       its own Rebuild button + log view at any time)"
-echo "  PG:   postgresql://postgres:postgres@localhost:${PG_PORT}/rulebookeditor"
-echo "                                       (DB is reseeded from the rulebook on every rebuild --"
-echo "                                       treat it as disposable/read-only for inspection)"
-echo ""
-echo "Edit effortless-rulebook/effortless-rulebook.json to trigger a rebuild -- the"
-echo "container watches the file (and the UI's Rebuild button) and rebuilds automatically."
-echo ""
+print_banner() {
+  echo ""
+  echo "effortless-rulebook-editor is starting up."
+  echo "  API:  http://localhost:${API_PORT}/api/state"
+  echo "  UI:   http://localhost:${UI_PORT}   (shows a live boot/progress page immediately --"
+  echo "                                       no need to wait before opening it; it hands off"
+  echo "                                       to the real app automatically once ready, and has"
+  echo "                                       its own Rebuild button + log view at any time)"
+  echo "  PG:   postgresql://postgres:postgres@localhost:${PG_PORT}/rulebookeditor"
+  echo "                                       (DB is reseeded from the rulebook on every rebuild --"
+  echo "                                       treat it as disposable/read-only for inspection)"
+  echo ""
+  echo "Edit effortless-rulebook/effortless-rulebook.json to trigger a rebuild -- the"
+  echo "container watches the file (and the UI's Rebuild button) and rebuilds automatically."
+  echo ""
+}
+
+print_banner
+
+# The banner above is only useful if it's still on screen when the user looks
+# up -- but `effortless build`'s full output (often hundreds of lines) is
+# about to stream from `docker logs -f` and scroll it away almost immediately.
+# Rather than blocking the terminal on the build finishing, poll /api/state
+# (booting -> building -> ready|error) in a background subshell that just
+# reprints the banner ONCE when the build settles, then exits -- the log tail
+# below starts immediately and isn't held up waiting on this.
+(
+  for i in $(seq 1 60); do
+    sleep 10
+    STATE=$(curl -sf "http://localhost:${API_PORT}/api/state" 2>/dev/null || true)
+    if [ "$STATE" = "ready" ] || [ "$STATE" = "error" ]; then
+      print_banner
+      break
+    fi
+  done
+) &
+
 echo "Following container logs now (Ctrl-C stops watching logs -- the container keeps running;"
 echo "re-run this script, or 'docker logs -f $CONTAINER_NAME', to watch again)..."
 echo ""
