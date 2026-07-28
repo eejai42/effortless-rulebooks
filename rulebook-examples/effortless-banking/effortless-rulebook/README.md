@@ -7,7 +7,7 @@ containerized rulebook editor/viewer for any Effortless project:
   CLI, baked once at image-build time.
 - `container-entrypoint.sh` -- boot sequence: start `boot-server.js`
   immediately (before anything else), start Postgres, run `effortless build`
-  (rulebook -> SQL -> API -> UI -> RuleSpeak -> RuleSpeak-DE -> XLSX export),
+  (rulebook -> SQL -> API -> UI -> RuleSpeak -> XLSX export),
   start the generated API + UI, then watch the mounted rulebook (and the
   boot page's Rebuild button) for changes and rebuild.
 - `boot-server.js` -- owns the external UI port for the container's whole
@@ -18,8 +18,8 @@ containerized rulebook editor/viewer for any Effortless project:
 - `effortless.editor.json` -- the fixed, generic pipeline config (copied into
   the image as `/app/effortless.json`), registering `rulebook-to-postgres`,
   its `-exec ./init-db.sh` step, `rulebook-to-node-postgres-api`,
-  `rulebook-to-vite-admin-portal`, `rulebook-to-rulespeak`,
-  `rulebook-to-rulespeak-de`, and `rulebook-to-xlsx`.
+  `rulebook-to-vite-admin-portal`, `rulebook-to-rulespeak` (all 10 languages,
+  via `languages=all`), and `rulebook-to-xlsx`.
 - `edit-rulebook.sh` -- thin launcher: `docker build` + `docker run` with the
   correct bind mounts (the rulebook, read-only; `~/.ssotme`, read-only, for
   CLI auth), then tails the container's logs in the launching terminal (use
@@ -52,24 +52,64 @@ that save path.
 
 The admin portal isn't just a table browser -- it's the single front end for
 everything this stack generates from the rulebook, as tabs alongside Tables:
-- **RuleSpeak** / **RuleSpeak (DE)** -- the plain-English (and German)
-  business-rules documents, rendered inline via iframe, served straight from
-  the container's `/app/rulespeak` and `/app/rulespeak-de` output.
+- **RuleSpeak** -- the business-rules document in all 10 supported languages
+  (English, German, Spanish, French, Portuguese, Italian, Dutch, Russian,
+  Japanese, Chinese), rendered inline via iframe, served straight from the
+  container's `/app/rulespeak` output. The portal's own language picker
+  (see below) passes `?lang=` into the iframe so it opens on the language
+  you're already using; the document's own in-page language selector still
+  works independently if you want to compare languages side by side.
 - **Export** -- a one-click download of the Excel workbook snapshot
   (`rulebook-to-xlsx`'s output), one sheet per table, regenerated on every
   build.
 
 These are served by `boot-server.js`'s static-file routes
-(`/__tools/rulespeak/...`, `/__tools/rulespeak-de/...`, `/__tools/xlsx/...`)
--- not by the Vite dev server itself, so they work even before/independent of
-the admin-portal UI finishing its own build.
+(`/__tools/rulespeak/...`, `/__tools/xlsx/...`) -- not by the Vite dev server
+itself, so they work even before/independent of the admin-portal UI finishing
+its own build.
+
+As of this version, RuleSpeak is unified into a single multilingual tab; the
+previously separate "RuleSpeak (DE)" tab (backed by the now-deprecated
+`rulebook-to-rulespeak-de` alias tool) has been removed. Projects with an
+already-generated `effortless.editor.json` keep their old two-tab pipeline
+until they re-run `effortless -install effortless-rulebook-editor`.
+
+## Language picker
+
+On first load, the portal shows a full-screen language chooser (10 flags);
+your choice is remembered in the browser's local storage, so it only appears
+once per browser. A picker in the top bar lets you change languages at any
+time afterward -- this re-labels the portal's own UI chrome (nav, buttons,
+messages) and, if you're on the RuleSpeak tab, switches that document's
+displayed language too.
 
 ## Local dev vs production tool resolution
 
-`rulebook-to-node-postgres-api` / `rulebook-to-vite-admin-portal` are under
-active local development, so `edit-rulebook.sh` defaults `LOCAL_TOOL_URLS=1`:
-the container points at the developer's own `dotnet run` processes via
-`host.docker.internal:30039` / `:30040`, so source edits to those tools are
-picked up on the very next rebuild -- no publish step in the loop. Once those
-tools are stable and you want normal registry resolution instead, run with
-`LOCAL_TOOL_URLS=0 ./edit-rulebook.sh`.
+By default, `edit-rulebook.sh` uses normal published-tool registry
+resolution for `rulebook-to-node-postgres-api` / `rulebook-to-vite-admin-portal`
+-- what every user other than this tool's own developer wants. Developers
+actively iterating on those two transpilers' source can opt into local-dev
+mode with `LOCAL_TOOL_URLS=1 ./edit-rulebook.sh`: the container then points
+at the developer's own `dotnet run` processes via `host.docker.internal:30039`
+/ `:30040`, so source edits are picked up on the very next rebuild -- no
+publish step in that loop.
+
+## Host ports
+
+`API_PORT` / `UI_PORT` / `PG_PORT` are unpinned by default -- Docker assigns
+free ephemeral host ports (`edit-rulebook.sh` prints the actual URLs once the
+container starts). Set `RULEBOOK_EDITOR_API_PORT` / `RULEBOOK_EDITOR_UI_PORT`
+/ `RULEBOOK_EDITOR_PG_PORT` to pin specific host ports instead.
+
+## Connecting to Postgres directly
+
+Postgres (internal 5432, user/pass `postgres`/`postgres`, db `rulebookeditor`)
+is published to the host like the other two ports -- there is no other
+supported way to reach it. `edit-rulebook.sh` prints the resolved connection
+string (`postgresql://postgres:postgres@localhost:<port>/rulebookeditor`) on
+every start; run `docker port <container-name> 5432/tcp` to look it up again
+later. Do NOT assume a specific port (5432, 5442, or any other number) --
+it is ephemeral/Docker-assigned unless you pinned it with
+`RULEBOOK_EDITOR_PG_PORT`. The DB is reseeded from the mounted rulebook on
+every rebuild, so treat it as disposable/read-only for inspection, not a
+place to persist manual changes.

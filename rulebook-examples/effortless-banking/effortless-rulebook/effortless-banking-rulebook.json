@@ -1990,7 +1990,7 @@
         "type": "calculated",
         "nullable": false,
         "Description": "Higher-order: true when this is a covenant-related system event (subject contains 'covenant').",
-        "formula": "=AND({{IsSystemEvent}}, NOT(IFERROR(FIND(\"covenant\", LOWER({{Subject}})), 0) = 0))"
+        "formula": "=AND({{IsSystemEvent}}, NOT(IFERROR(FIND(\"covenant breach\", LOWER({{Subject}})), 0) = 0))"
       }
     ],
     "data": [

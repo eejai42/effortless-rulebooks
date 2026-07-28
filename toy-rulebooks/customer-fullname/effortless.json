@@ -102,6 +102,14 @@
       "IsDisabled": false,
       "LastVersionUsed": "v2026.06.10.1308",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortless-rulebook-editor",
+      "RelativePath": "",
+      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json",
+      "IsDisabled": false,
+      "PinnedVersion": "v2026.07.27.1859"
     }
   ]
 }

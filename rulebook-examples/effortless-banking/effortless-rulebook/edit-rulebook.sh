@@ -21,6 +21,11 @@ IMAGE_NAME="effortless-rulebook-editor"
 CONTAINER_NAME="effortless-rulebook-editor"
 API_PORT="${RULEBOOK_EDITOR_API_PORT:-4241}"
 UI_PORT="${RULEBOOK_EDITOR_UI_PORT:-4242}"
+# Postgres (internal 5432, user/pass postgres/postgres, db rulebookeditor) is
+# published to the host so a psql client / GUI tool can connect directly for
+# debugging -- there was previously NO way to reach it from outside the
+# container at all (not on 5442, not on any port); this is the fix.
+PG_PORT="${RULEBOOK_EDITOR_PG_PORT:-5442}"
 
 # The rulebook file to mount, relative to this script's own directory. Default
 # assumes the standard layout (this script installed into a subfolder one
@@ -69,7 +74,7 @@ docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
 # this one) is holding them -- e.g. a different project's dev stack left
 # running on the same default port. Without this, `docker run` below fails
 # with "port is already allocated" instead of just taking over the port.
-for PORT_TO_FREE in "$API_PORT" "$UI_PORT"; do
+for PORT_TO_FREE in "$API_PORT" "$UI_PORT" "$PG_PORT"; do
   STALE_CIDS=$(docker ps -q --filter "publish=$PORT_TO_FREE")
   if [ -n "$STALE_CIDS" ]; then
     echo "Port $PORT_TO_FREE is in use by another container -- stopping it..."
@@ -82,6 +87,7 @@ docker run -d \
   --name "$CONTAINER_NAME" \
   -p "${API_PORT}:5177" \
   -p "${UI_PORT}:5174" \
+  -p "${PG_PORT}:5432" \
   -v "$(pwd)/${RULEBOOK_FILE}:/app/effortless-rulebook/effortless-rulebook.json:ro" \
   -v "$HOME/.ssotme:/root/.ssotme-ro:ro" \
   -e "LOCAL_TOOL_URLS=${LOCAL_TOOL_URLS}" \
@@ -96,6 +102,9 @@ echo "  UI:   http://localhost:${UI_PORT}   (shows a live boot/progress page imm
 echo "                                       no need to wait before opening it; it hands off"
 echo "                                       to the real app automatically once ready, and has"
 echo "                                       its own Rebuild button + log view at any time)"
+echo "  PG:   postgresql://postgres:postgres@localhost:${PG_PORT}/rulebookeditor"
+echo "                                       (DB is reseeded from the rulebook on every rebuild --"
+echo "                                       treat it as disposable/read-only for inspection)"
 echo ""
 echo "Edit effortless-rulebook/effortless-rulebook.json to trigger a rebuild -- the"
 echo "container watches the file (and the UI's Rebuild button) and rebuilds automatically."

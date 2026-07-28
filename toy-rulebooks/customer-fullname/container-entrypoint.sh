@@ -77,16 +77,6 @@ chown -R postgres:postgres /var/lib/postgresql
 if [ ! -s /var/lib/postgresql/data/PG_VERSION ]; then
   su postgres -c "/usr/lib/postgresql/*/bin/initdb -D /var/lib/postgresql/data" >/tmp/initdb.log 2>&1
 fi
-# initdb's default pg_hba.conf only trusts 127.0.0.1/::1 -- a host client
-# connecting through the published -p 5432 port arrives via Docker Desktop's
-# host-forwarding proxy, which does NOT present a Docker-internal bridge
-# address (varies by platform), so a scoped rule can't reliably match. This
-# is a disposable, reseeded-every-rebuild dev DB behind the user's own
-# firewall -- open trust to any host is fine here.
-if ! grep -q "0.0.0.0/0" /var/lib/postgresql/data/pg_hba.conf 2>/dev/null; then
-  echo "host    all             all             0.0.0.0/0               trust" >> /var/lib/postgresql/data/pg_hba.conf
-  echo "host    all             all             ::/0                    trust" >> /var/lib/postgresql/data/pg_hba.conf
-fi
 su postgres -c "/usr/lib/postgresql/*/bin/pg_ctl -D /var/lib/postgresql/data -l /tmp/postgres.log -o '-h 0.0.0.0' start"
 
 echo "[entrypoint] waiting for Postgres to accept connections..."
@@ -123,15 +113,15 @@ chmod +x /app/postgres/chmod-initdb.sh
 # other than the tool's own developer wants. Set LOCAL_TOOL_URLS=1 to opt
 # into the fast-iteration path (host.docker.internal -> a `dotnet run` on
 # the host) while actively developing the two consumed transpilers.
-# if [ "${LOCAL_TOOL_URLS:-0}" != "0" ] && [ -n "${LOCAL_TOOL_URLS:-0}" ]; then
-  # LOCAL_API_PORT="${LOCAL_API_PORT:-30039}"
-  # LOCAL_WEB_PORT="${LOCAL_WEB_PORT:-30040}"
-  # echo "[entrypoint] LOCAL_TOOL_URLS active (default) -- pointing consumed transpilers at host.docker.internal"
-  # effortless -setToolUrl rulebook-to-node-postgres-api=http://host.docker.internal:${LOCAL_API_PORT}
-  # effortless -setToolUrl rulebook-to-vite-admin-portal=http://host.docker.internal:${LOCAL_WEB_PORT}
-# else
-#   echo "[entrypoint] LOCAL_TOOL_URLS=0 -- using normal effortless tool resolution (production mode)"
-# fi
+if [ "${LOCAL_TOOL_URLS:-0}" != "0" ] && [ -n "${LOCAL_TOOL_URLS:-0}" ]; then
+  LOCAL_API_PORT="${LOCAL_API_PORT:-30039}"
+  LOCAL_WEB_PORT="${LOCAL_WEB_PORT:-30040}"
+  echo "[entrypoint] LOCAL_TOOL_URLS active (default) -- pointing consumed transpilers at host.docker.internal"
+  effortless -setToolUrl rulebook-to-node-postgres-api=http://host.docker.internal:${LOCAL_API_PORT}
+  effortless -setToolUrl rulebook-to-vite-admin-portal=http://host.docker.internal:${LOCAL_WEB_PORT}
+else
+  echo "[entrypoint] LOCAL_TOOL_URLS=0 -- using normal effortless tool resolution (production mode)"
+fi
 
 run_build() {
   echo "building" > "$BOOT_STATE_FILE"
@@ -156,19 +146,6 @@ run_build() {
   # regardless of exit code, and if any step failed, print a short,
   # unambiguous summary (which step, what error) before deciding whether to
   # continue.
-  #
-  # `effortless build` alone does NOT re-resolve `[latest]` for already-
-  # pinned transpilers -- effortless.json caches each step's LastUrl /
-  # LastVersionUsed from the last time it ran, so a newly published tool
-  # version sits unused until something re-pins it. `-upgradeAll` is the
-  # documented, project-scoped command for exactly this: it walks every
-  # registered ProjectTranspiler and updates its pinned version/URL to the
-  # current head, so this rebuild (and every rebuild after it) always
-  # consumes whatever is actually live, not a stale build-time snapshot.
-  # Runs every time, not just the first build, since a tool can be
-  # (re)published at any point while this container is up.
-  echo "[entrypoint] $(date -Iseconds) running effortless -upgradeAll to pick up any newly published tool versions..." >> "$BUILD_LOG_FILE"
-  (cd /app && effortless -upgradeAll) >> >(tee -a "$BUILD_LOG_FILE") 2>&1
   (cd /app && effortless build) >> >(tee -a "$BUILD_LOG_FILE") 2>&1
   build_status=$?
   echo "[entrypoint] $(date -Iseconds) effortless build finished (exit $build_status)" >> "$BUILD_LOG_FILE"
