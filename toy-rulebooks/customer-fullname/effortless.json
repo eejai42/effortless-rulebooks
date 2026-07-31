@@ -107,9 +107,9 @@
       "IsSSoTTranspiler": false,
       "Name": "effortless-rulebook-editor",
       "RelativePath": "",
-      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json",
+      "CommandLine": "effortless-rulebook-editor -latest -i effortless-rulebook/customer-fullname-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.07.27.2032"
+      "PinnedVersion": "v2026.07.28.0021"
     }
   ]
 }

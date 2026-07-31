@@ -2,8 +2,10 @@
 #
 # This image is DELIBERATELY generic: no rulebook content is baked in. The
 # consuming project's effortless-rulebook/ folder is bind-mounted at `docker
-# run` time (read-only, v1 scope). Only this Dockerfile + the pipeline config
-# + the entrypoint script are per-tool-version; everything about a specific
+# run` time (read-write -- the whole containing directory, so the container
+# can write the merged rulebook file back AND drop uncommitted-change log
+# files as siblings of it). Only this Dockerfile + the pipeline config + the
+# entrypoint script are per-tool-version; everything about a specific
 # project's schema/data/formulas comes from the mounted rulebook at runtime.
 #
 # Base image rationale: start FROM the .NET 8 SDK (Debian bookworm-slim
@@ -74,7 +76,9 @@ RUN chmod +x /app/container-entrypoint.sh
 
 # NOTE: /app/effortless-rulebook is intentionally NOT created/populated here.
 # It is bind-mounted at `docker run` time from the host project's
-# effortless-rulebook/ folder (read-only, v1 scope) -- see edit-rulebook.sh.
+# effortless-rulebook/ folder (read-write -- see edit-rulebook.sh), so both
+# the merged rulebook file and its sibling uncommitted-change log files can
+# be written back to the host.
 
 # Generated Node API (rulebook-to-node-postgres-api) listens on $PORT,
 # default 5177 (see that tool's generated index.js). The generated Vite UI

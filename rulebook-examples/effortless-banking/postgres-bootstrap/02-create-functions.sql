@@ -832,7 +832,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_covenants_has_active_waiver(p_covenants_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (NOT (COALESCE((SELECT current_waiver_through::timestamptz FROM covenants WHERE covenants_id = p_covenants_id), '') IS NULL))::boolean;
+  SELECT (NOT ((((SELECT current_waiver_through::timestamptz FROM covenants WHERE covenants_id = p_covenants_id)) IS NULL OR ((SELECT current_waiver_through::timestamptz FROM covenants WHERE covenants_id = p_covenants_id))::text = '')))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_risk_rating_history_loan_label

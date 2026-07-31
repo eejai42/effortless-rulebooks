@@ -21,10 +21,14 @@ CONTAINER_NAME="effortless-rulebook-editor-$(basename "$(pwd)")"
 
 # Host ports are UNPINNED by default -- Docker assigns free ephemeral ports
 # (docker run -P) so this never collides with anything else on the host.
-# Set RULEBOOK_EDITOR_API_PORT / RULEBOOK_EDITOR_UI_PORT to pin specific
-# host ports instead (e.g. for a stable bookmark or a scripted workflow).
+# Set RULEBOOK_EDITOR_API_PORT / RULEBOOK_EDITOR_UI_PORT / RULEBOOK_EDITOR_PG_PORT
+# to pin specific host ports instead (e.g. for a stable bookmark or a scripted
+# workflow). Postgres (container-internal 5432, user/pass postgres/postgres,
+# db effortless-rulebook) is published like the other two so a host psql client /
+# GUI tool can connect directly -- see the printed connection string below.
 API_PORT="${RULEBOOK_EDITOR_API_PORT:-}"
 UI_PORT="${RULEBOOK_EDITOR_UI_PORT:-}"
+PG_PORT="${RULEBOOK_EDITOR_PG_PORT:-}"
 
 # The rulebook file to mount, relative to this script's own directory.
 # Auto-detected since this script can land at different depths depending on
@@ -50,24 +54,6 @@ else
   RULEBOOK_FILE="${RULEBOOK_FILE:-./effortless-rulebook.json}"
 fi
 
-# --- LOCAL DEV vs PRODUCTION -------------------------------------------
-# Normal registry resolution (published, versioned tools) is the DEFAULT --
-# this is what every user other than the tool's own developer wants: the
-# container resolves rulebook-to-node-postgres-api / rulebook-to-vite-admin-portal
-# from the published registry, same as any other effortless transpiler.
-#
-# Tool developers actively iterating on those two transpilers' source can opt
-# INTO local-dev mode instead, which points the container at their own
-# `dotnet run` processes (host.docker.internal:$LOCAL_API_PORT /
-# :$LOCAL_WEB_PORT, default 30039/30040) so source edits are picked up on the
-# next rebuild with no publish step in the loop:
-#   LOCAL_TOOL_URLS=1 ./edit-rulebook.sh
-# In that mode, a `dotnet run`'d instance of each tool must be listening on
-# the configured port, or the build will fail loudly (see
-# container-entrypoint.sh's build-failure summary).
-LOCAL_TOOL_URLS="${LOCAL_TOOL_URLS:-0}"
-LOCAL_API_PORT="${LOCAL_API_PORT:-30039}"
-LOCAL_WEB_PORT="${LOCAL_WEB_PORT:-30040}"
 
 if [ ! -f "$RULEBOOK_FILE" ]; then
   echo "ERROR: rulebook file not found: $(pwd)/$RULEBOOK_FILE" >&2
@@ -90,7 +76,7 @@ docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
 # `docker run` below fails with "port is already allocated" instead of just
 # taking over the port. Unpinned (default) ports never need this -- Docker
 # always finds a free one.
-for PORT_TO_FREE in "$API_PORT" "$UI_PORT"; do
+for PORT_TO_FREE in "$API_PORT" "$UI_PORT" "$PG_PORT"; do
   [ -z "$PORT_TO_FREE" ] && continue
   STALE_CIDS=$(docker ps -q --filter "publish=$PORT_TO_FREE")
   if [ -n "$STALE_CIDS" ]; then
@@ -103,35 +89,84 @@ done
 # when not.
 API_PUBLISH="${API_PORT:+${API_PORT}:}5177"
 UI_PUBLISH="${UI_PORT:+${UI_PORT}:}5174"
+PG_PUBLISH="${PG_PORT:+${PG_PORT}:}5432"
 
 echo "Starting $CONTAINER_NAME container..."
+# The rulebook's CONTAINING DIRECTORY is bind-mounted read-write (NOT a
+# single-file :ro mount) for two reasons: (1) Save Changes needs to write the
+# merged effortless-rulebook.json back to the host, which a :ro mount would
+# reject outright; (2) the uncommitted-changes log
+# (effortless-rulebook.uncommitted-NN.json -- see the Node API's
+# uncommitted.js) lives as a SIBLING file next to the rulebook, and a
+# single-file bind mount has no writable directory to drop a sibling file
+# into at all, :ro or not. Mounting the directory instead of the file solves
+# both: the container sees a normal writable folder at
+# /app/effortless-rulebook, with the rulebook itself still landing at the
+# same in-container path (/app/effortless-rulebook/effortless-rulebook.json)
+# every other part of this stack (container-entrypoint.sh, the generated
+# API's RULEBOOK_FILE_PATH default) already assumes.
+RULEBOOK_HOST_DIR="$(cd "$(dirname "$RULEBOOK_FILE")" && pwd)"
+RULEBOOK_BASENAME="$(basename "$RULEBOOK_FILE")"
+if [ "$RULEBOOK_BASENAME" != "effortless-rulebook.json" ]; then
+  echo "NOTE: mounting $RULEBOOK_HOST_DIR as /app/effortless-rulebook; the container"
+  echo "      always looks for effortless-rulebook.json inside it, but your file is"
+  echo "      named '$RULEBOOK_BASENAME'. If that's not a plain rename/symlink of the"
+  echo "      same file, the container won't find it."
+fi
+
 docker run -d \
   --name "$CONTAINER_NAME" \
   -p "$API_PUBLISH" \
   -p "$UI_PUBLISH" \
-  -v "$(pwd)/${RULEBOOK_FILE}:/app/effortless-rulebook/effortless-rulebook.json:ro" \
+  -p "$PG_PUBLISH" \
+  -v "$RULEBOOK_HOST_DIR:/app/effortless-rulebook" \
   -v "$HOME/.ssotme:/root/.ssotme-ro:ro" \
-  -e "LOCAL_TOOL_URLS=${LOCAL_TOOL_URLS}" \
-  -e "LOCAL_API_PORT=${LOCAL_API_PORT}" \
-  -e "LOCAL_WEB_PORT=${LOCAL_WEB_PORT}" \
   "$IMAGE_NAME"
 
 # Resolve the actual host ports Docker assigned (identical to what was
 # requested when pinned; freshly picked when left unpinned).
 RESOLVED_API_PORT=$(docker port "$CONTAINER_NAME" 5177/tcp | head -n1 | cut -d: -f2)
 RESOLVED_UI_PORT=$(docker port "$CONTAINER_NAME" 5174/tcp | head -n1 | cut -d: -f2)
+RESOLVED_PG_PORT=$(docker port "$CONTAINER_NAME" 5432/tcp | head -n1 | cut -d: -f2)
 
-echo ""
-echo "effortless-rulebook-editor is starting up."
-echo "  API:  http://localhost:${RESOLVED_API_PORT}/api/state"
-echo "  UI:   http://localhost:${RESOLVED_UI_PORT}   (shows a live boot/progress page immediately --"
-echo "                                       no need to wait before opening it; it hands off"
-echo "                                       to the real app automatically once ready, and has"
-echo "                                       its own Rebuild button + log view at any time)"
-echo ""
-echo "Edit effortless-rulebook/effortless-rulebook.json to trigger a rebuild -- the"
-echo "container watches the file (and the UI's Rebuild button) and rebuilds automatically."
-echo ""
+print_banner() {
+  echo ""
+  echo "effortless-rulebook-editor is starting up."
+  echo "  API:  http://localhost:${RESOLVED_API_PORT}/api/state"
+  echo "  UI:   http://localhost:${RESOLVED_UI_PORT}   (shows a live boot/progress page immediately --"
+  echo "                                       no need to wait before opening it; it hands off"
+  echo "                                       to the real app automatically once ready, and has"
+  echo "                                       its own Rebuild button + log view at any time)"
+  echo "  PG:   postgresql://postgres:postgres@localhost:${RESOLVED_PG_PORT}/effortless-rulebook"
+  echo "                                       (for a host psql client / GUI tool -- this is the"
+  echo "                                       ONLY supported way to inspect data directly; the"
+  echo "                                       DB is reseeded from the rulebook on every rebuild)"
+  echo ""
+  echo "Edit effortless-rulebook/effortless-rulebook.json to trigger a rebuild -- the"
+  echo "container watches the file (and the UI's Rebuild button) and rebuilds automatically."
+  echo ""
+}
+
+print_banner
+
+# The banner above is only useful if it's still on screen when the user looks
+# up -- but `effortless build`'s full output (often hundreds of lines) is
+# about to stream from `docker logs -f` and scroll it away almost immediately.
+# Rather than blocking the terminal on the build finishing, poll /api/state
+# (booting -> building -> ready|error) in a background subshell that just
+# reprints the banner ONCE when the build settles, then exits -- the log tail
+# below starts immediately and isn't held up waiting on this.
+(
+  for i in $(seq 1 60); do
+    sleep 10
+    STATE=$(curl -sf "http://localhost:${RESOLVED_API_PORT}/api/state" 2>/dev/null || true)
+    if [ "$STATE" = "ready" ] || [ "$STATE" = "error" ]; then
+      print_banner
+      break
+    fi
+  done
+) &
+
 echo "Following container logs now (Ctrl-C stops watching logs -- the container keeps running;"
 echo "re-run this script, or 'docker logs -f $CONTAINER_NAME', to watch again)..."
 echo ""

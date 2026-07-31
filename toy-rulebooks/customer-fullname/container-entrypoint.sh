@@ -16,24 +16,41 @@
 #   3. start the generated Node API and Vite UI (Vite binds the INTERNAL port
 #      5175 -- boot-server.js proxies 5174 -> 5175 once the build succeeds)
 #   4. watch the mounted effortless-rulebook.json AND the boot server's
-#      rebuild-trigger file for changes; on either, kill+rebuild+restart
-#      everything. Loop forever.
+#      rebuild-trigger file for changes; on either, first check for pending
+#      uncommitted changes (see check_uncommitted_before_build below -- the
+#      very first build in step 2 is never gated, since nothing can be
+#      pending yet), then kill+rebuild+restart everything. Loop forever.
 
 set -uo pipefail
 
 RULEBOOK_PATH="/app/effortless-rulebook/effortless-rulebook.json"
+RULEBOOK_DIR="/app/effortless-rulebook"
 BOOT_STATE_FILE="/tmp/boot-state"
 BUILD_LOG_FILE="/tmp/current-build.log"
 REBUILD_TRIGGER_FILE="/tmp/rebuild-trigger"
+# Build-gating on pending uncommitted changes (see check_uncommitted_before_build
+# below). CONFLICT_CHOICE_FILE is the signal file boot-server.js's new
+# POST /__boot/resolve-conflict route writes to, following the exact same
+# poll-a-fixed-path pattern already used for BOOT_STATE_FILE/REBUILD_TRIGGER_FILE
+# above -- no new IPC mechanism invented for this.
+CONFLICT_CHOICE_FILE="/tmp/conflict-choice"
+# Port the generated Node API listens on -- same value start_services() below
+# already uses (PORT=5177). Needed here too so the "overwrite" resolution can
+# curl the API's own /api/save-changes merge endpoint directly, when that
+# instance of the API is still up and reachable (see the caveat in that
+# function).
+API_PORT=5177
 API_PID=""
 UI_PID=""
 BOOT_SERVER_PID=""
 
 echo "booting" > "$BOOT_STATE_FILE"
 touch "$BUILD_LOG_FILE" "$REBUILD_TRIGGER_FILE"
+rm -f "$CONFLICT_CHOICE_FILE"
 
 echo "[entrypoint] starting boot-server.js on :5174 (immediate progress page + log stream + rebuild button)..."
 BOOT_LOG_FILE="$BUILD_LOG_FILE" BOOT_STATE_FILE="$BOOT_STATE_FILE" BOOT_REBUILD_TRIGGER="$REBUILD_TRIGGER_FILE" \
+BOOT_CONFLICT_CHOICE_FILE="$CONFLICT_CHOICE_FILE" \
   node /app/boot-server.js > /tmp/boot-server.log 2>&1 &
 BOOT_SERVER_PID=$!
 
@@ -76,14 +93,14 @@ done
 
 # Ensure the app role + database exist (idempotent -- safe on restart loops).
 su postgres -c "psql -c \"ALTER USER postgres PASSWORD 'postgres';\" " >/dev/null 2>&1
-su postgres -c "createdb rulebookeditor" >/dev/null 2>&1 || true
+su postgres -c "createdb effortless-rulebook" >/dev/null 2>&1 || true
 
 export PGHOST=localhost
 export PGPORT=5432
 export PGUSER=postgres
 export PGPASSWORD=postgres
-export PGDATABASE=rulebookeditor
-export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/rulebookeditor"
+export PGDATABASE=effortless-rulebook
+export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/effortless-rulebook"
 
 # Tiny no-args wrapper the "chmodinitdb" pipeline step execs (see comment on
 # that step in effortless.editor.json: -exec passes NO arguments through to
@@ -98,6 +115,131 @@ chmod +x /app/postgres/init-db.sh 2>/dev/null || true
 EOF
 chmod +x /app/postgres/chmod-initdb.sh
 
+
+check_uncommitted_before_build() {
+  # Gate on pending uncommitted-changes log file(s) before any build EXCEPT
+  # the very first one at container boot (nothing can be pending yet -- the
+  # generated Node API hasn't even started). Called from the watch loop
+  # below, never from the first `run_build` at the bottom of this script.
+  #
+  # Pending files follow the SAME naming convention the generated Node API's
+  # uncommitted.js uses (see rulebook-to-node-postgres-api): sibling of the
+  # rulebook file, "<rulebookBaseName>.uncommitted-NN.json". We only need to
+  # detect them here, not parse/merge them ourselves -- merging is the Node
+  # API's job (mergeUncommittedIntoRulebook(), reused as-is by option 3 below).
+  local base
+  base="$(basename "$RULEBOOK_PATH" .json)"
+  local pending
+  pending=$(ls "$RULEBOOK_DIR"/${base}.uncommitted-*.json 2>/dev/null || true)
+  if [ -z "$pending" ]; then
+    return 0
+  fi
+
+  echo "[entrypoint] $(date -Iseconds) pending uncommitted changes found -- gating this build:" >> "$BUILD_LOG_FILE"
+  echo "$pending" | sed 's/^/[entrypoint]   /' >> "$BUILD_LOG_FILE"
+
+  # Surface the three-way prompt through the existing boot-server UI (the
+  # same page that already shows build progress/logs) instead of proceeding
+  # silently. Reuses the existing BOOT_STATE_FILE mechanism with a new state
+  # value, and the existing poll-a-fixed-path pattern (like
+  # REBUILD_TRIGGER_FILE) for waiting on the user's choice.
+  echo "awaiting-conflict-resolution" > "$BOOT_STATE_FILE"
+  rm -f "$CONFLICT_CHOICE_FILE"
+
+  echo "[entrypoint] waiting for a conflict-resolution choice via the boot page (or POST /__boot/resolve-conflict)..." >> "$BUILD_LOG_FILE"
+  while [ ! -f "$CONFLICT_CHOICE_FILE" ]; do
+    sleep 1
+  done
+  local choice
+  choice="$(cat "$CONFLICT_CHOICE_FILE")"
+  rm -f "$CONFLICT_CHOICE_FILE"
+  echo "[entrypoint] $(date -Iseconds) conflict resolution chosen: $choice" >> "$BUILD_LOG_FILE"
+
+  case "$choice" in
+    save-as-unresolved)
+      # Option 1 (safe default): move the pending file(s) aside into a single
+      # merge-conflict snapshot for later manual/LLM reconciliation, then
+      # clear the uncommitted log so the build proceeds on the rulebook file
+      # exactly as it currently sits on disk.
+      local ts
+      ts="$(date +%Y%m%dT%H%M%S)"
+      local dest="$RULEBOOK_DIR/${base}.merge-conflict-${ts}.json"
+      echo "[entrypoint] saving pending uncommitted change(s) to $dest (unresolved, for later reconciliation)" >> "$BUILD_LOG_FILE"
+      {
+        echo "{"
+        echo "  \"savedAt\": \"$(date -Iseconds)\","
+        echo "  \"reason\": \"rulebook changed externally while uncommitted changes were pending\","
+        echo "  \"sourceFiles\": ["
+        local first=1
+        for f in $pending; do
+          if [ "$first" -eq 1 ]; then first=0; else echo ","; fi
+          printf '    %s' "$(cat "$f")"
+        done
+        echo ""
+        echo "  ]"
+        echo "}"
+      } > "$dest"
+      rm -f $pending
+      ;;
+    discard)
+      # Option 2: throw away the pending log entirely -- equivalent to
+      # restarting fresh from whatever the rulebook file currently says.
+      echo "[entrypoint] discarding pending uncommitted change(s): $pending" >> "$BUILD_LOG_FILE"
+      rm -f $pending
+      ;;
+    overwrite)
+      # Option 3 (not recommended): merge the pending uncommitted log into
+      # the rulebook file BEFORE the build runs, so the live-edited version
+      # wins over whatever changed the file externally. The actual merge
+      # logic (mergeUncommittedIntoRulebook()) lives in the Node API's
+      # uncommitted.js -- this is bash, so we do NOT reimplement it here. We
+      # call the PREVIOUS API instance's own POST /api/save-changes if it's
+      # still up and reachable (start_services() hasn't been re-run yet at
+      # this point in the loop, so the process from before this rebuild may
+      # still be listening on :5177).
+      #
+      # KNOWN LIMITATION: this only works while the previous API process is
+      # still alive and reachable. If it already died/was killed (e.g. this
+      # gate is reached from a path where stop_services() already ran, or on
+      # first-boot-after-crash), there is no live merge endpoint to call, and
+      # this falls back to the safe "save-as-unresolved" behavior instead of
+      # silently doing nothing.
+      if curl -sf "http://127.0.0.1:${API_PORT}/api/health" >/dev/null 2>&1; then
+        echo "[entrypoint] previous API instance still reachable on :${API_PORT} -- calling POST /api/save-changes to merge uncommitted changes into the rulebook file..." >> "$BUILD_LOG_FILE"
+        curl -sf -X POST "http://127.0.0.1:${API_PORT}/api/save-changes" >> "$BUILD_LOG_FILE" 2>&1 || \
+          echo "[entrypoint] WARNING: POST /api/save-changes failed -- rulebook file was NOT overwritten with uncommitted changes" >> "$BUILD_LOG_FILE"
+      else
+        echo "[entrypoint] WARNING: previous API instance is not reachable on :${API_PORT} -- cannot merge via /api/save-changes." >> "$BUILD_LOG_FILE"
+        echo "[entrypoint]          falling back to 'save-as-unresolved' so no data is silently lost."  >> "$BUILD_LOG_FILE"
+        local ts2
+        ts2="$(date +%Y%m%dT%H%M%S)"
+        local dest2="$RULEBOOK_DIR/${base}.merge-conflict-${ts2}.json"
+        {
+          echo "{"
+          echo "  \"savedAt\": \"$(date -Iseconds)\","
+          echo "  \"reason\": \"overwrite was chosen but the previous API instance was not reachable\","
+          echo "  \"sourceFiles\": ["
+          local first2=1
+          for f in $pending; do
+            if [ "$first2" -eq 1 ]; then first2=0; else echo ","; fi
+            printf '    %s' "$(cat "$f")"
+          done
+          echo ""
+          echo "  ]"
+          echo "}"
+        } > "$dest2"
+      fi
+      rm -f $pending
+      ;;
+    *)
+      echo "[entrypoint] WARNING: unrecognized conflict-resolution choice '$choice' -- treating as 'save-as-unresolved'" >> "$BUILD_LOG_FILE"
+      local ts3
+      ts3="$(date +%Y%m%dT%H%M%S)"
+      cat $pending > "$RULEBOOK_DIR/${base}.merge-conflict-${ts3}.json" 2>/dev/null || true
+      rm -f $pending
+      ;;
+  esac
+}
 
 run_build() {
   echo "building" > "$BOOT_STATE_FILE"
@@ -173,7 +315,13 @@ start_services() {
     echo "[entrypoint] SKIPPING API start -- /app/api/index.js was not generated (rulebook-to-node-postgres-api did not produce expected output)." >> "$BUILD_LOG_FILE"
   else
     echo "[entrypoint] starting generated Node API (port 5177)..." >> "$BUILD_LOG_FILE"
-    (cd /app/api && npm install --omit=dev --silent && PORT=5177 node index.js) \
+    # setsid makes this chain (and everything npm/node fork under it) its own
+    # process-group leader, so stop_services can kill the WHOLE group with
+    # `kill -- -$PID` -- killing just $! (the setsid wrapper's own PID) would
+    # leave the real node process it exec's into still running, which is
+    # exactly the bug that let old Vite/API servers survive rebuilds and pile
+    # up on the same ports.
+    setsid bash -c 'cd /app/api && npm install --omit=dev --silent && PORT=5177 exec node index.js' \
       > /tmp/api.log 2>&1 &
     API_PID=$!
   fi
@@ -192,7 +340,7 @@ start_services() {
   # just data) is simpler to keep correct than wiring a second static-file
   # server + manual rebuild step. Bound to the INTERNAL port 5175 --
   # boot-server.js owns the EXTERNAL port 5174 and proxies to this once ready.
-  (cd /app/admin-portal && npm install --silent && API_PROXY_TARGET=http://127.0.0.1:5177 npx vite --host 0.0.0.0 --port 5175) \
+  setsid bash -c 'cd /app/admin-portal && npm install --silent && API_PROXY_TARGET=http://127.0.0.1:5177 exec npx vite --host 0.0.0.0 --port 5175' \
     > /tmp/ui.log 2>&1 &
   UI_PID=$!
 
@@ -207,9 +355,13 @@ start_services() {
 
 stop_services() {
   echo "[entrypoint] stopping API (pid $API_PID) and UI (pid $UI_PID)..."
-  [ -n "$API_PID" ] && kill "$API_PID" 2>/dev/null
-  [ -n "$UI_PID" ] && kill "$UI_PID" 2>/dev/null
-  # also reap anything still bound to the two ports (npm/vite spawn children)
+  # setsid made API_PID/UI_PID each the leader of their own process group, so
+  # `kill -- -$PID` (negative PID = kill the whole group) reaches npm AND the
+  # node/vite process it exec'd into -- not just the setsid wrapper itself.
+  [ -n "$API_PID" ] && kill -- "-$API_PID" 2>/dev/null
+  [ -n "$UI_PID" ] && kill -- "-$UI_PID" 2>/dev/null
+  # fuser is a backstop, not the primary mechanism, in case something outside
+  # these two process groups is still bound to the ports.
   fuser -k 5177/tcp 2>/dev/null || true
   fuser -k 5175/tcp 2>/dev/null || true
   sleep 1
@@ -230,6 +382,11 @@ echo "[entrypoint] watching $RULEBOOK_PATH and $REBUILD_TRIGGER_FILE for changes
 while true; do
   inotifywait -e modify -e close_write -e move -e create "$RULEBOOK_PATH" "$REBUILD_TRIGGER_FILE" >/tmp/watch.log 2>&1
   echo "[entrypoint] $(date -Iseconds) change detected (rulebook edit or Rebuild button) -- rebuilding..."
+  # Every build from here on (file-watcher-triggered OR Rebuild-button/
+  # rebuild-trigger-triggered) is gated on pending uncommitted changes -- the
+  # FIRST build above (before this loop) is deliberately NOT gated, since
+  # nothing can be pending yet at container boot.
+  check_uncommitted_before_build
   stop_services
   run_build
   start_services

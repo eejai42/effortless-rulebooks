@@ -21,9 +21,11 @@ containerized rulebook editor/viewer for any Effortless project:
   `rulebook-to-vite-admin-portal`, `rulebook-to-rulespeak` (all 10 languages,
   via `languages=all`), and `rulebook-to-xlsx`.
 - `edit-rulebook.sh` -- thin launcher: `docker build` + `docker run` with the
-  correct bind mounts (the rulebook, read-only; `~/.ssotme`, read-only, for
-  CLI auth), then tails the container's logs in the launching terminal (use
-  a second terminal / the in-app boot page for parallel monitoring).
+  correct bind mounts (the rulebook's containing directory, read-write, so
+  Save Changes and the uncommitted-change log can write back to it;
+  `~/.ssotme`, read-only, for CLI auth), then tails the container's logs in
+  the launching terminal (use a second terminal / the in-app boot page for
+  parallel monitoring).
 
 ## Usage
 
@@ -40,13 +42,25 @@ to the app automatically once ready. Edit the rulebook, or click the portal's
 Rebuild button, to trigger a rebuild; either path is watchable live from the
 boot page at any time, in any tab, not just during the first boot.
 
-## V1 scope
+## Live editing + Save Changes
 
-Table/entity data is read-only end to end. Name, Description, and `_meta`
-are editable from the UI (backed by the generated API's `PATCH /api/meta`)
--- but writing those edits through to the mounted rulebook FILE on disk is
-still out of scope; the mount stays read-only and a future version will add
-that save path.
+Row/column data is live-editable from the UI against the real Postgres DB
+(reads come from `vw_*` views, so calculated/lookup fields are always
+correct; writes go to base tables). Every write is also appended to an
+uncommitted-changes log file (`effortless-rulebook.uncommitted-NN.json`)
+living alongside the rulebook. A prominent Save Changes action merges the
+pending log(s) into `effortless-rulebook.json` on disk, in order, and
+triggers a real rebuild -- Name, Description, and `_meta` remain additionally
+editable via the generated API's `PATCH /api/meta`.
+
+If the rulebook file changes externally (hand-edited, or written by some
+other process) while uncommitted changes are still pending, any build --
+whether triggered by the file watcher or by Save Changes -- is gated: the
+boot page prompts for one of three resolutions (save the pending log as an
+unresolved merge file for later reconciliation, discard it, or overwrite the
+external change with the pending log) before the build proceeds. See
+`container-entrypoint.sh`'s `check_uncommitted_before_build` step and
+`boot-server.js`'s conflict-prompt route for the exact mechanics.
 
 ## Unified portal tabs
 
@@ -83,16 +97,6 @@ time afterward -- this re-labels the portal's own UI chrome (nav, buttons,
 messages) and, if you're on the RuleSpeak tab, switches that document's
 displayed language too.
 
-## Local dev vs production tool resolution
-
-By default, `edit-rulebook.sh` uses normal published-tool registry
-resolution for `rulebook-to-node-postgres-api` / `rulebook-to-vite-admin-portal`
--- what every user other than this tool's own developer wants. Developers
-actively iterating on those two transpilers' source can opt into local-dev
-mode with `LOCAL_TOOL_URLS=1 ./edit-rulebook.sh`: the container then points
-at the developer's own `dotnet run` processes via `host.docker.internal:30039`
-/ `:30040`, so source edits are picked up on the very next rebuild -- no
-publish step in that loop.
 
 ## Host ports
 

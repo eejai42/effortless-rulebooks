@@ -6,39 +6,65 @@
 # bind mounts. Refresh your browser after editing effortless-rulebook.json --
 # the container's filesystem watcher detects the change, re-runs
 # `effortless build`, and restarts the API + UI automatically.
-#
-# This script is expected to land at:
-#   <project-root>/effortless-rulebook/docker/edit-rulebook.sh
-# i.e. ONE level below effortless-rulebook/. The mount path below
-# (../effortless-rulebook.json's parent, "..") is relative to THIS script's
-# own directory -- adjust ../.. instead if you installed this tool at a
-# different RelativePath.
 
 set -euo pipefail
 cd "$(dirname "${BASH_SOURCE[0]}")"
 
+# The image is shared (same Dockerfile everywhere), but the CONTAINER name is
+# derived from this install's own directory name so that a project with
+# multiple rulebooks -- each with its own installed instance of this tool,
+# living alongside its own rulebook -- can run all of them side by side
+# without one instance's `docker rm -f`/`docker run --name` colliding with
+# another's.
 IMAGE_NAME="effortless-rulebook-editor"
-CONTAINER_NAME="effortless-rulebook-editor"
+CONTAINER_NAME="effortless-rulebook-editor-$(basename "$(pwd)")"
+
 # Fixed, memorable default ports (42441/42442/5442) so this project's stack
-# is reachable at the same URLs/connection string every run.
+# is reachable at the same URLs/connection string every run. Override via
+# RULEBOOK_EDITOR_API_PORT / RULEBOOK_EDITOR_UI_PORT / RULEBOOK_EDITOR_PG_PORT
+# if these collide with something else on the host. Postgres (container-
+# internal 5432, user/pass postgres/postgres, db rulebookeditor) is published
+# like the other two so a host psql client / GUI tool can connect directly --
+# see the printed connection string below.
+#
+# NOTE: this project pins fixed ports as a hand-edit to the generated file --
+# effortless-rulebook-editor's OWN default (unpinned/auto-picked ports) is
+# reapplied if edit-rulebook.sh is ever regenerated (deleted + `effortless
+# -buildLocal`). Re-apply this block after any such regen.
 API_PORT="${RULEBOOK_EDITOR_API_PORT:-42441}"
 UI_PORT="${RULEBOOK_EDITOR_UI_PORT:-42442}"
 PG_PORT="${RULEBOOK_EDITOR_PG_PORT:-5442}"
 
-# The rulebook file to mount, relative to this script's own directory. Default
-# assumes the standard layout (this script installed into a subfolder one
-# level below effortless-rulebook/, e.g. effortless-rulebook/docker/, with
-# effortless-rulebook.json as the filename). Override RULEBOOK_FILE when a
-# project's rulebook has a different name (e.g. effortless-banking-rulebook.json)
-# and/or the file isn't exactly one directory up from wherever this script
-# lives -- RULEBOOK_FILE may be any path relative to this script's directory.
-RULEBOOK_FILE="${RULEBOOK_FILE:-../effortless-rulebook.json}"
+# The rulebook file to mount, relative to this script's own directory.
+# Auto-detected since this script can land at different depths depending on
+# the RelativePath it was installed under (directly inside effortless-rulebook/,
+# a subfolder below it, the project root, ...). Checked in order:
+#   1. ./effortless-rulebook.json          (installed alongside the rulebook)
+#   2. ../effortless-rulebook.json         (installed one level below it)
+#   3. ./effortless-rulebook/effortless-rulebook.json   (installed at project root)
+#   4. the first *rulebook*.json found in any of the above locations
+#      (covers a differently-named rulebook, e.g. effortless-banking-rulebook.json)
+# Override RULEBOOK_FILE (any path relative to this script's directory) if
+# none of these match your layout.
+if [ -n "${RULEBOOK_FILE:-}" ]; then
+  : # explicit override wins, skip auto-detection
+elif [ -f "./effortless-rulebook.json" ]; then
+  RULEBOOK_FILE="./effortless-rulebook.json"
+elif [ -f "../effortless-rulebook.json" ]; then
+  RULEBOOK_FILE="../effortless-rulebook.json"
+elif [ -f "./effortless-rulebook/effortless-rulebook.json" ]; then
+  RULEBOOK_FILE="./effortless-rulebook/effortless-rulebook.json"
+else
+  RULEBOOK_FILE=$(find . .. -maxdepth 2 -iname "*rulebook*.json" 2>/dev/null | head -n1)
+  RULEBOOK_FILE="${RULEBOOK_FILE:-./effortless-rulebook.json}"
+fi
+
 
 if [ ! -f "$RULEBOOK_FILE" ]; then
   echo "ERROR: rulebook file not found: $(pwd)/$RULEBOOK_FILE" >&2
-  echo "  Set RULEBOOK_FILE to the correct path (relative to this script's" >&2
-  echo "  own directory) if your rulebook isn't named effortless-rulebook.json" >&2
-  echo "  or doesn't live one directory up, e.g.:" >&2
+  echo "  Auto-detection checked ./effortless-rulebook.json, ../effortless-rulebook.json," >&2
+  echo "  and ./effortless-rulebook/effortless-rulebook.json relative to this script's own" >&2
+  echo "  directory ($(pwd)) but found nothing. Set RULEBOOK_FILE explicitly, e.g.:" >&2
   echo "    RULEBOOK_FILE=../effortless-banking-rulebook.json ./edit-rulebook.sh" >&2
   exit 1
 fi
@@ -49,11 +75,14 @@ docker build -t "$IMAGE_NAME" -f Dockerfile .
 echo "Stopping any previous $CONTAINER_NAME container..."
 docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
 
-# Free the host ports even if some OTHER container (not just a previous run of
-# this one) is holding them -- e.g. a different project's dev stack left
-# running on the same default port. Without this, `docker run` below fails
-# with "port is already allocated" instead of just taking over the port.
+# If the user pinned a port explicitly, free it even if some OTHER container
+# (not just a previous run of this one) is holding it -- e.g. a different
+# project's dev stack left running on that same pinned port. Without this,
+# `docker run` below fails with "port is already allocated" instead of just
+# taking over the port. Unpinned (default) ports never need this -- Docker
+# always finds a free one.
 for PORT_TO_FREE in "$API_PORT" "$UI_PORT" "$PG_PORT"; do
+  [ -z "$PORT_TO_FREE" ] && continue
   STALE_CIDS=$(docker ps -q --filter "publish=$PORT_TO_FREE")
   if [ -n "$STALE_CIDS" ]; then
     echo "Port $PORT_TO_FREE is in use by another container -- stopping it..."
@@ -61,27 +90,62 @@ for PORT_TO_FREE in "$API_PORT" "$UI_PORT" "$PG_PORT"; do
   fi
 done
 
+# -p HOST:CONTAINER when pinned, -p CONTAINER (Docker picks a free host port)
+# when not.
+API_PUBLISH="${API_PORT:+${API_PORT}:}5177"
+UI_PUBLISH="${UI_PORT:+${UI_PORT}:}5174"
+PG_PUBLISH="${PG_PORT:+${PG_PORT}:}5432"
+
 echo "Starting $CONTAINER_NAME container..."
+# The rulebook's CONTAINING DIRECTORY is bind-mounted read-write (NOT a
+# single-file :ro mount) for two reasons: (1) Save Changes needs to write the
+# merged effortless-rulebook.json back to the host, which a :ro mount would
+# reject outright; (2) the uncommitted-changes log
+# (effortless-rulebook.uncommitted-NN.json -- see the Node API's
+# uncommitted.js) lives as a SIBLING file next to the rulebook, and a
+# single-file bind mount has no writable directory to drop a sibling file
+# into at all, :ro or not. Mounting the directory instead of the file solves
+# both: the container sees a normal writable folder at
+# /app/effortless-rulebook, with the rulebook itself still landing at the
+# same in-container path (/app/effortless-rulebook/effortless-rulebook.json)
+# every other part of this stack (container-entrypoint.sh, the generated
+# API's RULEBOOK_FILE_PATH default) already assumes.
+RULEBOOK_HOST_DIR="$(cd "$(dirname "$RULEBOOK_FILE")" && pwd)"
+RULEBOOK_BASENAME="$(basename "$RULEBOOK_FILE")"
+if [ "$RULEBOOK_BASENAME" != "effortless-rulebook.json" ]; then
+  echo "NOTE: mounting $RULEBOOK_HOST_DIR as /app/effortless-rulebook; the container"
+  echo "      always looks for effortless-rulebook.json inside it, but your file is"
+  echo "      named '$RULEBOOK_BASENAME'. If that's not a plain rename/symlink of the"
+  echo "      same file, the container won't find it."
+fi
+
 docker run -d \
   --name "$CONTAINER_NAME" \
-  -p "${API_PORT}:5177" \
-  -p "${UI_PORT}:5174" \
-  -p "${PG_PORT}:5432" \
-  -v "$(pwd)/${RULEBOOK_FILE}:/app/effortless-rulebook/effortless-rulebook.json:ro" \
+  -p "$API_PUBLISH" \
+  -p "$UI_PUBLISH" \
+  -p "$PG_PUBLISH" \
+  -v "$RULEBOOK_HOST_DIR:/app/effortless-rulebook" \
   -v "$HOME/.ssotme:/root/.ssotme-ro:ro" \
   "$IMAGE_NAME"
+
+# Resolve the actual host ports Docker assigned (identical to what was
+# requested when pinned; freshly picked when left unpinned).
+RESOLVED_API_PORT=$(docker port "$CONTAINER_NAME" 5177/tcp | head -n1 | cut -d: -f2)
+RESOLVED_UI_PORT=$(docker port "$CONTAINER_NAME" 5174/tcp | head -n1 | cut -d: -f2)
+RESOLVED_PG_PORT=$(docker port "$CONTAINER_NAME" 5432/tcp | head -n1 | cut -d: -f2)
 
 print_banner() {
   echo ""
   echo "effortless-rulebook-editor is starting up."
-  echo "  API:  http://localhost:${API_PORT}/api/state"
-  echo "  UI:   http://localhost:${UI_PORT}   (shows a live boot/progress page immediately --"
+  echo "  API:  http://localhost:${RESOLVED_API_PORT}/api/state"
+  echo "  UI:   http://localhost:${RESOLVED_UI_PORT}   (shows a live boot/progress page immediately --"
   echo "                                       no need to wait before opening it; it hands off"
   echo "                                       to the real app automatically once ready, and has"
   echo "                                       its own Rebuild button + log view at any time)"
-  echo "  PG:   postgresql://postgres:postgres@localhost:${PG_PORT}/rulebookeditor"
-  echo "                                       (DB is reseeded from the rulebook on every rebuild --"
-  echo "                                       treat it as disposable/read-only for inspection)"
+  echo "  PG:   postgresql://postgres:postgres@localhost:${RESOLVED_PG_PORT}/rulebookeditor"
+  echo "                                       (for a host psql client / GUI tool -- this is the"
+  echo "                                       ONLY supported way to inspect data directly; the"
+  echo "                                       DB is reseeded from the rulebook on every rebuild)"
   echo ""
   echo "Edit effortless-rulebook/effortless-rulebook.json to trigger a rebuild -- the"
   echo "container watches the file (and the UI's Rebuild button) and rebuilds automatically."
@@ -100,7 +164,7 @@ print_banner
 (
   for i in $(seq 1 60); do
     sleep 10
-    STATE=$(curl -sf "http://localhost:${API_PORT}/api/state" 2>/dev/null || true)
+    STATE=$(curl -sf "http://localhost:${RESOLVED_API_PORT}/api/state" 2>/dev/null || true)
     if [ "$STATE" = "ready" ] || [ "$STATE" = "error" ]; then
       print_banner
       break

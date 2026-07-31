@@ -9,16 +9,33 @@
 // the build finishes -- no manual reload-until-it-works.
 //
 // State transitions (read from BOOT_STATE_FILE, written by
-// container-entrypoint.sh): booting -> building -> ready | error
+// container-entrypoint.sh): booting -> building -> ready | error, with an
+// extra side-state -- awaiting-conflict-resolution -- entered before a
+// GATED rebuild (pending uncommitted changes + an externally-changed
+// rulebook file) and left only once POST /__boot/resolve-conflict writes a
+// choice; see check_uncommitted_before_build() in container-entrypoint.sh.
 
 const http = require('http');
 const fs = require('fs');
+
+// This process owns the one port (5174) meant to survive the whole
+// container lifetime -- if it dies, the browser gets a hard connection
+// reset with no indication why. A bug in any one request handler must not
+// take the whole server down, so uncaught errors are logged and swallowed
+// here rather than allowed to crash the process.
+process.on('uncaughtException', (err) => {
+  console.error('[boot-server] uncaught exception (server stays up):', err);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('[boot-server] unhandled rejection (server stays up):', err);
+});
 
 const EXTERNAL_PORT = 5174;
 const INTERNAL_UI_PORT = 5175;
 const STATE_FILE = process.env.BOOT_STATE_FILE || '/tmp/boot-state';
 const LOG_FILE = process.env.BOOT_LOG_FILE || '/tmp/current-build.log';
 const REBUILD_TRIGGER = process.env.BOOT_REBUILD_TRIGGER || '/tmp/rebuild-trigger';
+const CONFLICT_CHOICE_FILE = process.env.BOOT_CONFLICT_CHOICE_FILE || '/tmp/conflict-choice';
 
 function readState() {
   try {
@@ -109,6 +126,17 @@ const BOOT_PAGE = `<!doctype html>
   main{flex:1;overflow-y:auto;padding:14px 22px;font-size:12.5px;line-height:1.6;white-space:pre-wrap}
   .hint{padding:10px 22px;font-size:12px;color:#93a29d;border-top:1px solid #233033}
   @media (prefers-color-scheme:light){.hint{border-top-color:#d8dfdd}}
+  .dot.conflict{background:#e0a03a;animation:none}
+  .conflict-panel{display:none;flex-direction:column;gap:10px;margin:14px 22px;padding:16px 18px;
+    border:1px solid #e0a03a;border-radius:8px;background:rgba(224,160,58,.08)}
+  .conflict-panel.show{display:flex}
+  .conflict-panel h2{margin:0;font-size:13px;font-weight:650;color:#e0a03a}
+  .conflict-panel p{margin:0;font-size:12.5px;line-height:1.6;color:#d3dcd9}
+  @media (prefers-color-scheme:light){.conflict-panel p{color:#1a2320}}
+  .conflict-choices{display:flex;gap:10px;flex-wrap:wrap;margin-top:4px}
+  .conflict-choices button{padding:9px 14px}
+  .conflict-choices button.recommended{border-color:#4ea882}
+  .conflict-choices button.danger{border-color:#e05a3a}
 </style>
 </head>
 <body>
@@ -119,6 +147,26 @@ const BOOT_PAGE = `<!doctype html>
   <div class="spacer"></div>
   <button id="rebuildBtn">Rebuild</button>
 </header>
+<div class="conflict-panel" id="conflictPanel">
+  <h2>Pending changes conflict with an external rulebook edit</h2>
+  <p>
+    There are live edits not yet saved into <code>effortless-rulebook.json</code>, and the
+    rulebook file on disk just changed independently (hand-edited, or written by another
+    process) before those edits were saved. Pick how to proceed -- the build is paused until
+    you choose:
+  </p>
+  <div class="conflict-choices">
+    <button class="recommended" data-choice="save-as-unresolved">
+      Save as unresolved merge file (safe default)
+    </button>
+    <button data-choice="discard">
+      Discard my pending changes
+    </button>
+    <button class="danger" data-choice="overwrite">
+      Overwrite the external edit (not recommended)
+    </button>
+  </div>
+</div>
 <main id="log"></main>
 <div class="hint" id="hint">Waiting for the container to finish its first build. This page auto-refreshes into the app once it's ready.</div>
 <script>
@@ -127,6 +175,7 @@ const BOOT_PAGE = `<!doctype html>
   const stateLabel = document.getElementById('stateLabel');
   const hint = document.getElementById('hint');
   const rebuildBtn = document.getElementById('rebuildBtn');
+  const conflictPanel = document.getElementById('conflictPanel');
 
   function appendLine(line) {
     logEl.textContent += line + "\n";
@@ -135,12 +184,15 @@ const BOOT_PAGE = `<!doctype html>
 
   function setState(state) {
     stateLabel.textContent = state;
-    dot.className = 'dot' + (state === 'ready' ? ' ready' : state === 'error' ? ' error' : '');
+    dot.className = 'dot' + (state === 'ready' ? ' ready' : state === 'error' ? ' error' : state === 'awaiting-conflict-resolution' ? ' conflict' : '');
+    conflictPanel.classList.toggle('show', state === 'awaiting-conflict-resolution');
     if (state === 'ready') {
       hint.textContent = 'Build finished -- loading the app...';
       setTimeout(() => window.location.reload(), 600);
     } else if (state === 'error') {
       hint.textContent = 'Build failed -- see log above. Fix the rulebook and save, or click Rebuild.';
+    } else if (state === 'awaiting-conflict-resolution') {
+      hint.textContent = 'Build paused -- choose a resolution above before it continues.';
     } else {
       hint.textContent = 'Waiting for the container to finish its build. This page auto-refreshes into the app once ready.';
     }
@@ -161,6 +213,19 @@ const BOOT_PAGE = `<!doctype html>
       setTimeout(() => { rebuildBtn.disabled = false; }, 3000);
     });
   };
+
+  conflictPanel.querySelectorAll('button[data-choice]').forEach((btn) => {
+    btn.onclick = () => {
+      conflictPanel.querySelectorAll('button').forEach((b) => { b.disabled = true; });
+      fetch('/__boot/resolve-conflict', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ choice: btn.dataset.choice }),
+      }).catch(() => {}).finally(() => {
+        conflictPanel.querySelectorAll('button').forEach((b) => { b.disabled = false; });
+      });
+    };
+  });
 </script>
 </body>
 </html>
@@ -201,7 +266,12 @@ const STATIC_TOOL_DIRS = {
 const path = require('path');
 
 function serveStaticTool(req, res, urlPrefix, rootDir) {
-  const rel = decodeURIComponent(req.url.slice(urlPrefix.length));
+  // req.url still carries the query string (e.g. "?lang=zh" from the
+  // RuleSpeak language picker) -- strip it before treating the remainder as
+  // a filesystem path, or a request for rulespeak.html?lang=zh resolves to
+  // a literal (nonexistent) file named "rulespeak.html?lang=zh".
+  const urlPath = req.url.split('?')[0];
+  const rel = decodeURIComponent(urlPath.slice(urlPrefix.length));
 
   // A bare directory request (no filename) resolves to whatever single file
   // is actually in that directory, rather than a hardcoded name -- e.g.
@@ -285,6 +355,32 @@ const server = http.createServer((req, res) => {
       fs.writeFileSync(REBUILD_TRIGGER, String(Date.now()));
       res.writeHead(202, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ triggered: true }));
+      return;
+    }
+    if (req.url === '/__boot/resolve-conflict' && req.method === 'POST') {
+      let body = '';
+      req.on('data', (chunk) => { body += chunk; });
+      req.on('end', () => {
+        let choice = '';
+        try {
+          choice = (JSON.parse(body || '{}').choice || '').toString();
+        } catch {
+          choice = '';
+        }
+        const VALID_CHOICES = new Set(['save-as-unresolved', 'discard', 'overwrite']);
+        if (!VALID_CHOICES.has(choice)) {
+          res.writeHead(400, { 'content-type': 'application/json' });
+          res.end(JSON.stringify({ error: `invalid choice: ${choice || '(empty)'}` }));
+          return;
+        }
+        // container-entrypoint.sh's check_uncommitted_before_build() is
+        // blocked in a poll-until-file-exists loop on this exact path --
+        // writing it here is the entire hand-off. It reads the choice,
+        // deletes this file, and proceeds.
+        fs.writeFileSync(CONFLICT_CHOICE_FILE, choice);
+        res.writeHead(202, { 'content-type': 'application/json' });
+        res.end(JSON.stringify({ accepted: choice }));
+      });
       return;
     }
 

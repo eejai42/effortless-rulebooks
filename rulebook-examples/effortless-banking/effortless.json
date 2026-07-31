@@ -2,7 +2,7 @@
   "ShowHidden": false,
   "ShowAllFiles": false,
   "CurrentPath": "/effortless-rulebook",
-  "SSoTmeProjectFiles": [],
+  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "88f956dc-5967-4229-8dae-66746b75041e",
   "Name": "first-valley-bank",
   "ProjectSettings": [
@@ -68,8 +68,8 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i effortless-banking-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.07.27.1938",
-      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-27-1938-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.07.28.0021",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-07-28-0021-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ]
 }
