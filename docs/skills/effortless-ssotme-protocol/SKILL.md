@@ -53,25 +53,27 @@ Do not invent fields that are not listed here.
   "CurrentPath": "",
   "SSoTmeProjectFiles": null,
   "ProjectSettings": [
-    { "Name": "baseId",        "Value": "appXXXXXXXXXXXX" },
-    { "Name": "project-name",  "Value": "my-project" },
-    { "Name": "_apikey_",      "Value": "patXXX...XXX" }
+    { "Name": "project-name",  "Value": "my-project" }
   ],
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o effortless-rulebook.json -account airtable",
+      "Name": "rulebooktopostgres",
+      "RelativePath": "/postgres",
+      "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
       "LastVersionUsed": "v2026.04.23.1357",
       "LastUrl": "https://...",
       "Enabled": true,
-      "Description": "Pull rulebook from Airtable"
+      "Description": "Generate Postgres SQL from the rulebook"
     }
   ]
 }
 ```
+
+*(An Airtable-connected project additionally carries a `baseId` + `_apikey_` in
+`ProjectSettings` and an `airtabletorulebook` input-spoke entry. Airtable is one
+optional surface, a sibling of Excel/Notion — not a required part of the schema.)*
 
 ### Valid fields on a transpiler entry
 
@@ -126,27 +128,28 @@ effortless -install <transpiler-name> [flags]
 ### Standard installation paths and commands
 
 ```bash
-# From /bootstrap/
-effortless -install raw-text-to-rulebook -i requirements.txt -o bootstrap-rulebook.json
-
-# From /effortless-rulebook/
-effortless -install airtable-to-rulebook -o effortless-rulebook.json -account airtable
-
-# From /effortless-rulebook/push-to-airtable/
-# *** MUST be disabled — reverse-sync only, never runs in normal build ***
-effortless -install rulebook-to-airtable -i ../effortless-rulebook.json -account airtable
-
+# --- output spokes (the common core) ---
 # From /postgres/
 effortless -install rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json
 
 # From /docs/
 effortless -install rulebook-to-docs
+
+# --- input spokes (optional — only if seeding the hub from an upstream surface) ---
+# From /bootstrap/
+effortless -install raw-text-to-rulebook -i requirements.txt -o bootstrap-rulebook.json
+
+# From /effortless-rulebook/   (Airtable-connected projects only)
+effortless -install airtable-to-rulebook -o effortless-rulebook.json -account airtable
+
+# From /effortless-rulebook/push-to-airtable/   (Airtable-connected projects only)
+# *** MUST be disabled — reverse-sync only, never runs in normal build ***
+effortless -install rulebook-to-airtable -i ../effortless-rulebook.json -account airtable
 ```
 
-Every airtable-facing tool MUST include `-account airtable`.
-
-The `rulebook-to-airtable` transpiler MUST have `"IsDisabled": true` after
-install — set it manually if the CLI doesn't. It runs only via `effortless build -id`.
+Every airtable-facing tool MUST include `-account airtable`. If wired, the
+`rulebook-to-airtable` transpiler MUST have `"IsDisabled": true` after install —
+set it manually if the CLI doesn't. It runs only via `effortless build -id`.
 
 ---
 
@@ -166,7 +169,7 @@ read generated files afterwards to verify. Do not cat SQL into context.
 
 `effortless-rulebook.json` is the hub. Every transpiler either:
 - **Reads** it as input (output spokes: postgres, xlsx, docs, airtable reverse-sync), or
-- **Writes** it as output (input spokes: airtable-to-rulebook, raw-text-to-rulebook, LLM direct edits)
+- **Writes** it as output (input spokes: LLM direct edits — the default — plus optional raw-text-to-rulebook, airtable-to-rulebook, etc.)
 
 No transpiler may change the IR shape. If your transpiler needs more data, add
 fields to the rulebook, not to `effortless.json`.

@@ -64,6 +64,14 @@
       "RelativePath": "/python",
       "CommandLine": "http://localhost:4242/rulebook-to-python -i ../effortless-rulebook/traffic-ticket-contest-rulebook.json",
       "IsDisabled": false
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i traffic-ticket-contest-rulebook.json -p rulebookPath=traffic-ticket-contest-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "PinnedVersion": "v2026.08.11.2344"
     }
   ]
 }

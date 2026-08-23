@@ -77,7 +77,7 @@ SELECT * FROM vw_customers WHERE is_red_headed = true;
 
 ### Why This Matters:
 
-- Business logic belongs in the rulebook (Airtable formulas or rulebook-direct edits), not in ad-hoc queries
+- Business logic belongs in the rulebook (rulebook-direct edits, or Airtable formulas if connected), not in ad-hoc queries
 - Views contain pre-calculated fields that encapsulate business rules
 - Computing things yourself (e.g., `LOWER(field) = 'value'`) duplicates logic and risks inconsistency
 - The whole point of ERB is that the view already did the work for you
@@ -90,6 +90,32 @@ SELECT * FROM vw_customers WHERE is_red_headed = true;
 | INSERT | Base table |
 | UPDATE | Base table |
 | DELETE | Base table |
+
+### CRITICAL: Never JOIN one view onto another — add a lookup field
+
+The subtle violation of "read from views" is not a base-table read — it's **JOINing two `vw_*` views** to pull a related entity's field. This is a JOIN anti-pattern: the relationship belongs in the rulebook as a **lookup field**, not in app SQL.
+
+```sql
+-- WRONG: joining vw_wards onto vw_mail_items to get the ward's name
+SELECT m.mail_item_id, w.last_name AS ward_last_name
+  FROM vw_mail_items m
+  JOIN vw_wards w ON w.ward_id = m.ward
+ WHERE m.mail_item_id = $1;
+
+-- RIGHT: add a lookup field to the rulebook, then read one view
+--   MailItems.WardLastName  (type: lookup)
+--   formula: =INDEX(Wards!{{LastName}}, MATCH(MailItems!{{Ward}}, Wards!{{WardId}}, 0))
+SELECT mail_item_id, ward_last_name
+  FROM vw_mail_items
+ WHERE mail_item_id = $1;
+```
+
+Why this is the rule, not a style preference:
+- The view's whole job is to already contain every field a row needs, including cross-FK lookups. A JOIN means the rulebook was missing a lookup — fix the rulebook, don't join in the app.
+- Lookups compose: a lookup may target another table's **calculated** field (the generated `calc_*` function just calls the related `calc_*`), so even "display label" coalescing belongs on the source entity, not in app SQL.
+- Once the lookup exists, every consumer (board, API, export) gets the column for free with no repeated JOIN.
+
+If a JOIN is fetching N fields from a related table, add N lookup fields (or one calculated field on the *source* entity that the lookup targets), rebuild, then collapse the query to a single-view read. See `effortless-diagnostics` for the find-and-migrate workflow.
 
 ---
 

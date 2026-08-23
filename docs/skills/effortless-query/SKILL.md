@@ -23,6 +23,41 @@ audience: customer
 Python, etc.) to understand the schema.** Those files are projections — the rulebook
 is the source. Query it with targeted one-liners that produce minimal output.
 
+### Check for derived rulebooks first — climb the ladder, don't jump to the bottom
+
+If `minimize-rulebook` is registered in `effortless.json`'s `ProjectTranspilers`,
+the rulebook folder has increasingly high-fidelity derived files sitting right next
+to `effortless-rulebook.json`. **Always start at the top and only go one rung
+lower if the current file didn't answer the question:**
+
+1. `*.derived-read-me-1st.txt` — just table/field names, one line per table.
+   Read this FIRST, always. It's a complete map of the model in ~30 lines.
+2. `*.derived-schema.min.json` — schema without data, most compact form.
+3. `*.derived-schema.json` — schema without data, full fidelity (descriptions,
+   formulas, datatypes).
+4. Full `effortless-rulebook.json` — only if you genuinely need something the
+   schema files don't carry.
+5. `*.derived-data.json` — **on demand only.** This is the one file with actual
+   data rows; never read it just to "get a sense of things." Reach for it only
+   when the task requires seeing real row values.
+
+These exist because a `minimizerulebook` transpiler ran at the top of the build.
+Prefer reading these directly (they're small) over running a python one-liner
+against the full `effortless-rulebook.json` — it's less work for the same answer.
+Only fall back to the one-liners below if no derived files exist for this project,
+or if you need to write/mutate the rulebook (writing should go through code, not
+by reading tokens into context — see `effortless-workflow`).
+
+If no derived files exist for this project, ask the user whether to install
+`minimize-rulebook` — it makes querying and diffing far more token-efficient.
+
+**For planning specifically, the minimized schema is usually the whole job.**
+Adding a field, tracing a DAG dependency, deciding where a new table hooks
+in, sanity-checking a relationship — all of that can be reasoned about from
+`*.derived-schema.min.json` alone, without ever opening `*.derived-data.json`.
+Only implementation/debugging work that needs to see actual row values
+requires climbing further down the ladder to real data.
+
 ### Token Discipline
 
 > The canonical Token Discipline statement lives in `effortless-orchestrator`.

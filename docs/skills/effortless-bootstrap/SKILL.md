@@ -10,7 +10,8 @@ description: >
   requirements, or a description of a platform. Also known as the "Shadle steps"
   or "effortless-shadle-steps". Covers the full pipeline from raw input text
   through vocabulary extraction, glossary, narrative, mock data, schema
-  normalization, and initial Airtable setup via OMNI.
+  normalization, to a populated effortless-rulebook.json (optionally mirrored to
+  Airtable for teams that want a grid).
 
   **Scope (load gate):** Effortless projects, OR when the user explicitly asks to bootstrap a new Effortless project from raw text/requirements.
 audience: customer
@@ -18,13 +19,15 @@ audience: customer
 
 # Effortless Bootstrap — The Shadle Steps
 
-This skill describes the full bootstrap process for turning raw requirements or platform descriptions into a formal effortless rulebook connected to Airtable. This is how a new project goes from "here's what we're building" to "we're in the Leopold loop."
+This skill describes the full bootstrap process for turning raw requirements or platform descriptions into a formal `effortless-rulebook.json`. This is how a new project goes from "here's what we're building" to "we're in the effortless loop."
+
+The whole pipeline targets the **rulebook hub** — that's the destination (Rulebook-First, the best-practice default). If the team wants a human-friendly grid, Airtable is one optional surface you can populate from the rulebook afterward (a sibling of Excel/Notion); it's never a required step.
 
 ## User-facing documentation discipline
 
 Throughout this bootstrap — especially in any README or narrative description generated for the client — **lead with what the system does, not how it was built.**
 
-The rulebook, Airtable integration, calculated fields, and DAG structure are implementation details. They belong in CLAUDE.md and developer guides, not in user-facing materials. When generating glossaries, narratives, or mockups, focus on the business vocabulary and workflows, not the ERB infrastructure.
+The rulebook, any upstream-surface integration (Airtable/Excel), calculated fields, and DAG structure are implementation details. They belong in CLAUDE.md and developer guides, not in user-facing materials. When generating glossaries, narratives, or mockups, focus on the business vocabulary and workflows, not the ERB infrastructure.
 
 ## Overview
 
@@ -52,29 +55,26 @@ Mock Data & Scenarios (exercises every business rule)
 Normalized Schema (formal structure for every element)
     |
     v
-effortless-rulebook.json (DAG-structured, every vocab word appears)
+effortless-rulebook.json  ← THE HUB / SSoT
+    (DAG-structured; every vocab word appears; descriptions on every
+     table + field; seeded with mock data; extended with 1st/2nd/
+     higher-order inferences into a comprehensive DAG)
     |
     v
-OMNI Prompts (per-table, Name + compound key fields only)
-    |
-    v
-Airtable Tables Created via OMNI
-    |
-    v
-API: Add descriptions to every table and field
-    |
-    v
-API: Populate with mock data
-    |
-    v
-Extend model with 1st, 2nd, higher-order inferences (comprehensive DAG)
-    |
-    v
-airtable-to-rulebook syncs the Airtable spoke into the rulebook hub (SSoT)
-    |
-    v
-Now in the Leopold Loop
+Now in the loop
 ```
+
+Everything from the normalized schema onward is authored **directly in the
+rulebook JSON** — descriptions, mock data, and the full inference DAG. LLMs edit
+the rulebook natively, so there's no round-trip through an external tool.
+
+> **Optional — mirror to a grid.** If the team wants Airtable (or Excel) as a
+> human-friendly review surface, populate it *from* the finished rulebook via
+> `rulebook-to-airtable` (reverse-sync). That's a downstream convenience, not a
+> bootstrap step. The older flow that built tables in Airtable via OMNI first and
+> then pulled them back with `airtable-to-rulebook` still works for
+> Airtable-connected projects — see the optional appendix at the end — but it's no
+> longer the recommended path.
 
 ## Step-by-Step
 
@@ -115,56 +115,77 @@ Create an `effortless-rulebook.json` based on the normalized schema:
 - **Every vocabulary word must appear in at least 1 place** within the rulebook (as a table name, field name, description, or data value)
 - See `effortless-conventions` and `effortless-schema` skills for structural requirements
 
-### Step 8: OMNI Prompts for Initial Tables
+### Step 8: Descriptions on every table and field
 
-Generate OMNI prompts that, **per table**, create:
-- The `Name` field — a formula producing a kebab-cased-human-readable-compound-pk: `SUBSTITUTE(LOWER({Label}), " ", "-")`
-- The fields needed to construct that compound key from unique elements on the row
-- **Only these initial structural fields** — not the full schema yet
+In the rulebook JSON, give **every table and every field** a `Description`. This
+is part of the schema, not an afterthought — descriptions are what make the
+generated docs, the LLM's future edits, and any downstream grid legible.
 
-### Step 9: Create Tables via OMNI
+### Step 9: Seed mock data
 
-Use OMNI (via `omni-send.mjs`) to create the basic table infrastructure in Airtable, authenticated as the developer:
+Populate the rulebook's `data` arrays with the mock data and scenarios from
+Step 5, so a fresh `effortless build` produces a DB you can actually exercise.
 
-```bash
-node ~/.claude/skills/effortless-airtable-omni/omni-send.mjs <baseId> '<per-table prompt>'
-```
+### Step 10: Extend the model into a comprehensive DAG
 
-### Step 10: API — Add Descriptions
-
-Use the Airtable REST API to add descriptions to **every table and field**:
-
-```bash
-# Add field description
-curl -s -X PATCH "https://api.airtable.com/v0/meta/bases/{BASE_ID}/tables/{TABLE_ID}/fields/{FIELD_ID}" \
-  -H "Authorization: Bearer {API_KEY}" \
-  -H "Content-Type: application/json" \
-  -d '{"description": "..."}'
-```
-
-### Step 11: API — Populate Mock Data
-
-Use the Airtable REST API to populate every table with the mock data from Step 5.
-
-### Step 12: Extend the Model
-
-Extend the model with:
+Add the inference layers directly in the rulebook:
 - **1st-order inferences** — direct lookups and calculations from raw fields
 - **2nd-order inferences** — calculations that depend on 1st-order fields
 - **Higher-order inferences** — progressively derived fields creating a comprehensive DAG
 
-This builds out the full analytical power of the rulebook.
+This builds out the full analytical power of the rulebook. LLMs are strong at this
+— formulas, lookups, and rollups are just fields in the JSON.
 
-### Step 13: Sync the Airtable spoke into the hub
+### Step 10.5 — Rulebook editor (recommended default, not required)
 
-Run the airtable-to-rulebook transpiler to pull the now-fully-seeded Airtable base into the rulebook hub (the SSoT). This establishes Airtable as a *connected input spoke*, not as the SSoT itself — `effortless-rulebook.json` is the SSoT, and Airtable is one editing surface for it.
+Before entering the loop, install **effortless-rulebook-editor** (see that
+skill for why) — the human-readable sanity check for the rulebook you just
+authored, plus an instant DB, API, and admin UI:
 
 ```bash
-cd effortless-rulebook/
-effortless airtable-to-rulebook -account airtable -o effortless-rulebook.json
+cd effortless-rulebook
+effortless -install effortless-rulebook-editor \
+  -i effortless-rulebook.json \
+  -p rulebookPath=effortless-rulebook.json \
+  -p dockerfilePath=docker/Dockerfile
+bash edit-rulebook.sh
 ```
 
-At this point, we are fully in the **Leopold loop** — future changes can flow in via Airtable, via direct edits to the rulebook JSON (LLM-direct), or via reverse-sync, followed by `effortless build`.
+Both `-p` params are **required**: without them the tool emits `edit-rulebook.sh`
+and `docker/` into the project root, where the script bind-mounts the whole repo.
+See `effortless-rulebook-editor` for why.
+
+**No-Docker alternative:** `effortless-rulespeak` for the same documentation
+as static files:
+
+```bash
+mkdir -p rulespeak && cd rulespeak
+effortless -install rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json
+cd .. && effortless build
+```
+
+### Step 11: You're in the loop
+
+With the rulebook seeded and the DAG built out, `effortless build` projects it to
+Postgres (and every other output spoke). Future changes flow in via direct edits
+to the rulebook JSON (the default), or — if the project opted into one — an
+Airtable/Excel input spoke, each followed by `effortless build`.
+
+---
+
+## Optional appendix — building the schema in Airtable first (legacy path)
+
+Only for Airtable-connected projects whose team prefers to author in the grid.
+This is no longer the recommended path (Rulebook-First above is), but it still
+works. It replaces Steps 8–11 above with an Airtable round-trip:
+
+1. **OMNI prompts for initial tables** — per table, create the `Name` formula
+   (`SUBSTITUTE(LOWER({Label}), " ", "-")`) and the fields that build that compound
+   key. Only these structural fields at first. See `effortless-airtable-omni`.
+2. **Create tables via OMNI** — `node ~/.claude/skills/effortless-airtable-omni/omni-send.mjs <baseId> '<per-table prompt>'`.
+3. **Add descriptions + mock data via the Airtable REST API** — see `effortless-airtable` for the `PATCH .../fields/{id}` and record-create calls.
+4. **Extend the model** in Airtable (lookups/rollups via OMNI, scalars via the API).
+5. **Pull the grid into the hub** — `cd effortless-rulebook/ && effortless airtable-to-rulebook -account airtable -o effortless-rulebook.json`. This establishes Airtable as a connected *input spoke*; the rulebook is still the SSoT.
 
 ## CLI Tool for Bootstrap
 
@@ -188,17 +209,20 @@ This output is a **starting point** — it needs to be reviewed, normalized, and
 | Narrative | `bootstrap/narrative.md` | Full prose description using all vocab |
 | Mock data | `bootstrap/mock-data/` | Test data and scenarios |
 | Bootstrap rulebook | `bootstrap/bootstrap-rulebook.json` | Rough first-pass rulebook |
-| Final rulebook | `effortless-rulebook/effortless-rulebook.json` | Production rulebook (after Airtable sync) |
+| Final rulebook | `effortless-rulebook/effortless-rulebook.json` | Production rulebook (the hub / SSoT) |
+| Rulebook editor | `effortless-rulebook/edit-rulebook.sh` | Instant DB/API/admin UI + rule docs (recommended default) |
+| RuleSpeak (no-Docker alt) | `rulespeak/rulespeak.html` | Plain-English rules, static files |
 
 ## See also
 
 - `effortless-cli` — the `-install` and build commands used throughout.
 - `effortless-conventions` — naming and DAG rules the rulebook must follow.
 - `effortless-schema` — JSON structure the rulebook must conform to.
-- `effortless-airtable-omni` — OMNI automation for creating tables (Step 9).
-- `effortless-airtable` — API calls for descriptions and data (Steps 10–11).
-- `effortless-leopold-loop` — what you enter at Step 13 once the rulebook hub is seeded and synced.
-- `effortless-setup-postgres` — for projects that target Postgres, run after Step 13.
+- `effortless-loop` — what you enter at Step 11 once the rulebook hub is seeded.
+- `effortless-rulebook-editor` — Step 10.5's recommended default: instant DB/API/admin UI.
+- `effortless-rulespeak` — Step 10.5's no-Docker alternative for a static plain-English sibling.
+- `effortless-setup-postgres` — for projects that target Postgres, run once the rulebook is in place.
+- `effortless-airtable` / `effortless-airtable-omni` — *only* for the optional Airtable-first appendix path.
 
 ## LOCALHOST MODE — read before doing anything
 

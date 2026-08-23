@@ -149,7 +149,7 @@ The previous version stays addressable at its pinned URL — existing clients ke
 |---|---|
 | Run a project's full build pipeline | `effortless_build` (or `effortless build` from a shell — same effect) |
 | Call one transpiler in isolation | `mcp__effortless-mcp__<transpiler>` (direct HTTP to Control Plane — no local CLI needed) |
-| Inspect rulebook structure cheaply | `query_rulebook` (faster + smaller-context than reading the JSON) |
+| Inspect rulebook structure cheaply | **Use a local python one-liner** (see `effortless-query`) — `query_rulebook` adds a network round-trip for no benefit when the CLI is available |
 | Sanity-check rulebook before commit | `validate_dag` |
 | Scalar field add / CRUD | Airtable REST API (see `effortless-airtable`) — **not** the MCP transpiler tools |
 | Formula / lookup / rollup / new table | OMNI via Playwright (see `effortless-airtable-omni`) |

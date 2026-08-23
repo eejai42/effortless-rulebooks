@@ -22,7 +22,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-RULEBOOK="$REPO_ROOT/effortless-platform/effortless-rulebook/effortless-rulebook.json"
+RULEBOOK="$REPO_ROOT/effortless-rulebook/effortless-rulebook.json"
 SKILLS_DIR="$REPO_ROOT/docs/skills"
 LOCAL_SKILLS_DIR="$HOME/.claude/skills"
 

@@ -32,20 +32,21 @@ When CMCC is challenged, this is the receipt I reach for.
 
 ## What the Repo Is
 
-A single Airtable-shaped rulebook (extracted to `effortless-rulebook.json`) is
-projected into 11+ wildly different execution substrates. An `answer-key.json`
-defines the expected outputs for every calculated field across a known dataset.
-Each substrate is conformance-tested against that answer key, field-by-field.
+A single `effortless-rulebook.json` (in this repo, originally seeded from an
+Airtable grid) is projected into 11+ wildly different execution substrates. An
+`answer-key.json` defines the expected outputs for every calculated field across a
+known dataset. Each substrate is conformance-tested against that answer key,
+field-by-field.
 
 The architecture is the literal embodiment of "the rulebook is the invariant,
 substrates are coordinate projections":
 
 ```
-                 Airtable (editorial UI)
+       editing surface (rulebook-direct, or an optional Airtable/Excel grid)
                         |
-                airtable-to-rulebook
+                  (e.g. airtable-to-rulebook, if seeded from a grid)
                         v
-              effortless-rulebook.json   <-- the invariant
+              effortless-rulebook.json   <-- the invariant / hub
                         |
    ┌──────┬──────┬──────┼──────┬──────┬──────┬──────┐
    v      v      v      v      v      v      v      v
@@ -121,7 +122,7 @@ diff against the answer key, observe equivalence.
 
 - **CustomerDemo** — minimal. String concatenation across substrates. Useful as
   a smoke test.
-- **Talisman Workflow (BASIC + ADVANCED)** — 9-table enterprise
+- **Jessica Talisman's Workflow (BASIC + ADVANCED)** — 9-table enterprise
   workflow with delegation. Demonstrates that a real organizational ontology
   decomposes cleanly into SDLAF.
 - **StarTrek** — moderate complexity, hierarchical media catalog. Useful for

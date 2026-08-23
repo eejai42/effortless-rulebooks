@@ -39,7 +39,7 @@ The Effortless rulebook, the schema generation, the migration discipline, and th
 
 This skill applies **only** to `bases.effortlessapi.com`-hosted databases. Bases is the **one and only ERB deployment shape that uses migrations** — because the DB is shared/persistent and cannot be dropped + recreated. Ongoing schema changes go through `postgres/apply-migration.sh`.
 
-**Local-dev ERB projects work the opposite way.** Local Postgres is regenerated from scratch on every `effortless build` via `init-db.sh`. They have **no `migrations/` folder, no migrations tracking table, no incremental deltas**. Schema changes there go through Airtable → `effortless build` — see `effortless-workflow` "NO MIGRATIONS" section.
+**Local-dev ERB projects work the opposite way.** Local Postgres is regenerated from scratch on every `effortless build` via `init-db.sh`. They have **no `migrations/` folder, no migrations tracking table, no incremental deltas**. Schema changes there go through the rulebook → `effortless build` — see `effortless-workflow` "NO MIGRATIONS" section.
 
 **Tell which path you're on before doing anything:**
 - `BASES_DATABASE_URL` in `.env.example` OR a `## Bases is migration-only` block in CLAUDE.md → bases path, this skill applies.
@@ -123,7 +123,7 @@ The Node server's `POST /bases/register` is the smart provisioning endpoint. As 
 |----------------------|---------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Clone an existing base** | `{"sourceBaseId":"<uuid>","displayName":"...","createERBTables":true}`                                                              | Inherits PAT + Airtable base ID from source. The new DB is independent (own `database_name`). Use this when you don't want to deal with Airtable — pick any existing base of yours as the template, then immediately apply your own SQL on top.                                                                              |
 | **Real Airtable + PAT**    | `{"pat":"patXXX","baseId":"appXXX","displayName":"...","createERBTables":true}`                                                     | The "official" path. The base name on bases mirrors the Airtable base ID, and `effortless build` will airtable-to-rulebook from there.                                                                                                                                                                                       |
-| **`source:"empty"`**       | `{"source":"empty","createERBTables":false,"displayName":"..."}`                                                                    | **Local code only — not yet deployed.** When deployed, this skips Airtable entirely and provisions a blank base. Until then, use the clone path.                                                                                                                                                                             |
+| **`source:"empty"`**       | `{"source":"empty","createERBTables":false,"displayName":"..."}`                                                                    | **DEPLOYED now (Jul 2026).** Skips Airtable entirely and provisions a blank base — no PAT, no `sourceBaseId`, no Airtable base id needed. Preferred path when you just want a Postgres base to apply your own generated SQL onto. (Older notes said local-only — stale; it ships.)                                                                                                                                                                             |
 
 ```bash
 RESP=$(curl -sS -X POST "$BASES/bases/register" \
@@ -221,6 +221,45 @@ Once the base exists and has schema, the magic-links integration is for **your a
 4. **In your app**, send-code/verify-code through magic-links per-tenant endpoints; pass the resulting JWT as `Authorization: Bearer …` on every query against the base.
 
 See the `effortless-magic-links` skill for the generic shape; the bases-side hooks (`trusted-tenants`, `apply-privileges-template`, `generate-policy`) are the same as before.
+
+---
+
+## ⭐ Basic email-RLS needs NO PAT, NO Airtable, NO AppUsers table — just `setup-trusted-tenants`
+
+> **This is the fast path and the one to reach for.** `POST /bases/{baseId}/auth/setup-trusted-tenants` was FIXED and DEPLOYED (Jul 2026) so that basic magic-links RLS works on **ANY** base — including an empty-`source` base with nothing in it — **without a PAT, without Airtable, without an AppUsers table.** The whole two-part body is:
+
+```bash
+curl -sS -X POST "$BASES/bases/$BASE_ID/auth/setup-trusted-tenants" \
+  -H "Authorization: Bearer $JWT" -H 'Content-Type: application/json' \
+  -d "{\"tenantId\":\"$TENANT_ID\",\"publicKeyPem\":\"$PUBLIC_KEY_PEM\"}"
+# (optionally add "enabled":true)
+```
+
+Get `publicKeyPem` first from the tenant: `GET {MAGICLINK}/api/tenants/{tenantId}` → `.public_key_pem`.
+
+That one call, running as the operator **superuser** behind the endpoint, does everything:
+
+- installs the **core JWT helpers** — the plpython3u RS256 verifier plus `auth.set_jwt(token)`, `app.jwt_email()`, `app.jwt_claims()`, `app.jwt_tenant_id()`, and `app.has_role(role)`;
+- registers the trusted tenant in `auth.trusted_tenants`;
+- grants the `magiclink_consumer` privilege bucket to the base's `<db>_admin` / `<db>_anon` roles.
+
+So you do **not** hand-fetch `install.sql`, and you do **not** need app-side SQL to create the helpers.
+
+> ⚠️ **The helper install MUST go through this endpoint** — not app-side SQL. The bases Postgres server already has `plpython3u` + `PyJWT` installed, but the base **ADMIN** role cannot `CREATE EXTENSION`; only the operator superuser (which is what this endpoint runs as) can. That is precisely why helper creation is an endpoint call, not something you psql in as the admin.
+
+**What's now OPTIONAL (was wrongly required before):**
+
+- **PAT / Airtable "integration record" upsert** — now only runs *if a PAT already exists* on the base. Previously the endpoint hard-failed without a PAT (`"PAT not configured for this base"`), which wrongly blocked empty bases from ever getting RLS. **That gate is removed.** Any prior note here saying "a PAT is required to set up magic-links / RLS on a base" is stale — it is not.
+- **AppUsers-table integration** (`userTableName` / `emailField` / `roleField` / `isActiveField`) — only needed for **Tier-2 role-based RLS**. Basic per-email RLS (`owner`/`authenticated` policies keyed on `app.jwt_email()`) does NOT need it.
+
+**Verify the whole thing with one transaction** (returns the verified email if the RS256 verifier, tenant registration, and helpers are all wired):
+
+```sql
+BEGIN;
+  SELECT auth.set_jwt('<a-jwt-minted-by-that-tenant>');
+  SELECT app.jwt_email();   -- → the verified email
+COMMIT;
+```
 
 ---
 
@@ -357,7 +396,7 @@ JWTs minted at `/api/tenants/<shared>/verify-code` verify cleanly on both DBs. N
 
 - **Using `{MAGICLINK}/auth/verify-code` JWTs against bases.** The bases servers don't trust that tenant. Use `{BASES_API}/auth/magic-link` to get a JWT bases will accept.
 - **Looking for bases at `{BASES}/bases` (Node).** That endpoint exists but its underlying view is older than the .NET `{BASES_API}/api/bases`. List from the .NET service.
-- **Trying `source:"empty"`** against the deployed bases server today. The flag is in the source tree but not yet deployed (May 2026). Clone an existing base instead.
+- **Believing `source:"empty"` is undeployed.** It shipped (Jul 2026). `{"source":"empty",...}` provisions a blank base with no PAT and no Airtable — use it directly; you no longer need to clone a template base.
 - **Assuming `GET /bases/{baseId}/auth/credentials` works right after creation.** It returns 404 until you've applied the privilege template at least once. Apply it with `returnCredentials:true` to get the passwords on first call.
 - **Treating magic-links as a user store.** It isn't. `app_users` lives in the base.
 - **Asking magic-links for the private key.** Won't happen. `public_key_pem` only.
@@ -413,6 +452,6 @@ If down, run `bash magic-links-refactor/test-env/scripts/dev-stack-up.sh`.
 ## See also
 
 - `effortless-magic-links` — the generic magic-links flow for any Postgres app (when the DB is NOT on bases.effortlessapi.com).
-- `effortless-orchestrator` — for "AppUsers belongs in Airtable, not in `app.app_users` by hand".
+- `effortless-orchestrator` — for "AppUsers belongs in the rulebook, not in `app.app_users` by hand".
 - `effortless-sql` — for `*b-customize-*.sql` placement of `auth.trusted_tenants` and `app.jwt_*()` helpers.
 - `effortless-setup-postgres` — if you're standing up a brand-new local Postgres ERB project first.

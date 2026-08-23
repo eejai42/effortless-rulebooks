@@ -5669,7 +5669,10 @@
         "type": "relationship",
         "nullable": true,
         "Description": "Reverse: legal states of this machine.",
-        "formula": "MachineStates"
+        "RelatedTo": "MachineStates",
+        "isReversed": true,
+        "prefersSingleRecordLink": false,
+        "InverseField": "StateMachine"
       },
       {
         "name": "StateTransitionRules",
@@ -5677,7 +5680,10 @@
         "type": "relationship",
         "nullable": true,
         "Description": "Reverse: legal edges of this machine.",
-        "formula": "StateTransitionRules"
+        "RelatedTo": "StateTransitionRules",
+        "isReversed": true,
+        "prefersSingleRecordLink": false,
+        "InverseField": "StateMachine"
       },
       {
         "name": "StateTransitions",
@@ -5685,7 +5691,10 @@
         "type": "relationship",
         "nullable": true,
         "Description": "Reverse: instance transition log rows for this machine.",
-        "formula": "StateTransitions"
+        "RelatedTo": "StateTransitions",
+        "isReversed": true,
+        "prefersSingleRecordLink": false,
+        "InverseField": "StateMachine"
       },
       {
         "name": "StateCount",
@@ -5795,8 +5804,10 @@
         "type": "relationship",
         "nullable": false,
         "Description": "FK -> StateMachines.StateMachineId.",
-        "formula": "StateMachines",
-        "RelatedTo": "StateMachines"
+        "RelatedTo": "StateMachines",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "MachineStates"
       },
       {
         "name": "StateKey",
@@ -5839,7 +5850,10 @@
         "type": "relationship",
         "nullable": true,
         "Description": "Reverse: rules whose FromState is this state.",
-        "formula": "StateTransitionRules"
+        "RelatedTo": "StateTransitionRules",
+        "isReversed": true,
+        "prefersSingleRecordLink": false,
+        "InverseField": "FromState"
       },
       {
         "name": "ToTransitionRules",
@@ -5847,7 +5861,10 @@
         "type": "relationship",
         "nullable": true,
         "Description": "Reverse: rules whose ToState is this state.",
-        "formula": "StateTransitionRules"
+        "RelatedTo": "StateTransitionRules",
+        "isReversed": true,
+        "prefersSingleRecordLink": false,
+        "InverseField": "ToState"
       },
       {
         "name": "CreatedAt",
@@ -6164,8 +6181,10 @@
         "type": "relationship",
         "nullable": false,
         "Description": "FK -> StateMachines.StateMachineId.",
-        "formula": "StateMachines",
-        "RelatedTo": "StateMachines"
+        "RelatedTo": "StateMachines",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "StateTransitionRules"
       },
       {
         "name": "FromState",
@@ -6173,7 +6192,10 @@
         "type": "relationship",
         "nullable": false,
         "Description": "FK -> MachineStates.MachineStateId.",
-        "formula": "MachineStates"
+        "RelatedTo": "MachineStates",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "FromTransitionRules"
       },
       {
         "name": "ToState",
@@ -6181,7 +6203,10 @@
         "type": "relationship",
         "nullable": false,
         "Description": "FK -> MachineStates.MachineStateId.",
-        "formula": "MachineStates"
+        "RelatedTo": "MachineStates",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "ToTransitionRules"
       },
       {
         "name": "GuardDescription",
@@ -6571,8 +6596,10 @@
         "type": "relationship",
         "nullable": false,
         "Description": "FK -> StateMachines.StateMachineId.",
-        "formula": "StateMachines",
-        "RelatedTo": "StateMachines"
+        "RelatedTo": "StateMachines",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "StateTransitions"
       },
       {
         "name": "SubjectTableName",
@@ -25431,7 +25458,7 @@
         "type": "calculated",
         "nullable": false,
         "Description": "Days remaining (negative if overdue) until the response deadline, measured from AsOfDate.",
-        "formula": "={{ResponseDueDate}} - {{AsOfDate}}"
+        "formula": "=DAYS({{ResponseDueDate}}, {{AsOfDate}})"
       },
       {
         "name": "IsResponseOverdue",
@@ -25495,7 +25522,7 @@
         "type": "calculated",
         "nullable": false,
         "Description": "Date the fine is due: the later anchor (response deadline) plus the jurisdiction's days-to-pay window.",
-        "formula": "={{ResponseDueDate}} + {{DaysToPayAfterRuling}}"
+        "formula": "=DATEVALUE({{ResponseDueDate}}) + {{DaysToPayAfterRuling}}"
       },
       {
         "name": "IsPaymentLate",
@@ -25511,7 +25538,7 @@
         "type": "calculated",
         "nullable": false,
         "Description": "True when a late payment has remained unpaid past the jurisdiction's collections window.",
-        "formula": "=IF(AND({{IsPaymentLate}}, {{AsOfDate}} > ({{PaymentDueDate}} + {{DaysLateToCollections}})), TRUE, FALSE)"
+        "formula": "=IF(AND({{IsPaymentLate}}, {{AsOfDate}} > DATEVALUE({{PaymentDueDate}}) + {{DaysLateToCollections}}), TRUE, FALSE)"
       },
       {
         "name": "PaymentStatus",

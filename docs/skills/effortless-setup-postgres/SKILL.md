@@ -6,17 +6,17 @@
 ---
 name: effortless-setup-postgres
 description: >
-  Use when setting up an Effortless project with a postgres database from an
-  existing Airtable base. This is the FIRST thing to do in any Effortless
-  project that targets postgres — it installs the pipeline, pulls the
-  rulebook, generates SQL, and creates the database. Must be run before
-  writing any application code.
+  Use when setting up an Effortless project with a postgres database. This is the
+  FIRST thing to do in any Effortless project that targets postgres — it installs
+  the pipeline, gets a rulebook in place (hand-authored, or seeded from an
+  Airtable base / Excel / other surface if the project has one), generates SQL,
+  and creates the database. Must be run before writing any application code.
 
-  **Scope (load gate):** Effortless projects, OR when the user explicitly asks to set up a new Postgres-backed Effortless project from an existing Airtable base.
+  **Scope (load gate):** Effortless projects, OR when the user explicitly asks to set up a new Postgres-backed Effortless project.
 audience: customer
 ---
 
-# Effortless Setup: Postgres from Airtable
+# Effortless Setup: Postgres from the Rulebook
 
 > **Token Discipline pointer.** The canonical rule lives in
 > `effortless-orchestrator`: `effortless build` is atomic — run, commit,
@@ -28,13 +28,13 @@ audience: customer
 > **regenerate-from-scratch** database. `init-db.sh` drops the DB and
 > recreates it from the freshly generated SQL on every `effortless build`.
 > There is no `migrations/` folder, no migrations tracking table, no
-> incremental deltas. **Schema changes go through Airtable → `effortless
+> incremental deltas. **Schema changes go through the rulebook → `effortless
 > build`, never through `ALTER TABLE` or a migration file.** The single
 > exception is `bases.effortlessapi.com`-hosted DBs (see "Magic-links
 > refactor (v0.2)" at the bottom of this skill + `effortless-bases`) —
 > those use `postgres/apply-migration.sh` because they can't be dropped.
-> Even there, schema still originates in Airtable. If your instinct says
-> "write a migration," the answer is **"edit Airtable and rerun
+> Even there, schema still originates in the rulebook. If your instinct says
+> "write a migration," the answer is **"edit the rulebook and rerun
 > `effortless build`."** Full rule lives in `effortless-workflow`.
 
 > Long-tail material — the per-OS preflight install guidance for missing
@@ -44,11 +44,29 @@ audience: customer
 
 ---
 
-## When the only seed is a base id — pull it into the rulebook hub, then derive everything
+## Where the rulebook comes from
 
-`effortless-rulebook.json` is the SSoT. If the user gives you only an Airtable **base id** (e.g. `appXXXXXXXX`) and nothing else, use the base as the **seed input spoke** for that hub: pull the rulebook first, then derive everything you need from the rulebook (not from Airtable directly). Do NOT ask the user for a project name, table list, or description — those all live in the rulebook once you've pulled it.
+`effortless-rulebook.json` is the SSoT, and every path below ends at the same
+place: a populated rulebook that Steps 3+ project into Postgres. Pick by how the
+project is seeded:
 
-**Order of operations when only a base id is given:**
+- **Rulebook-First (best practice).** No upstream surface — the rulebook is
+  authored directly (LLM-direct, hand-edits, or `raw-text-to-rulebook` from
+  requirements; see `effortless-bootstrap`). Skip Step 2's `airtable-to-rulebook`
+  install entirely; put the rulebook in place at
+  `effortless-rulebook/effortless-rulebook.json`, then go straight to Step 3.
+- **Seeded from an upstream surface (Airtable, Excel, Notion, …).** The project
+  already has its schema in one of those. Wire that surface's `*-to-rulebook`
+  transpiler as the seed input spoke (for Airtable that's `airtable-to-rulebook`,
+  Step 2), pull once, then derive everything from the rulebook — not from the
+  surface directly.
+
+### Optional: when the only seed handed to you is an Airtable base id
+
+If the user gives you *only* an Airtable **base id** (e.g. `appXXXXXXXX`) and
+nothing else, treat the base as a one-time seed. Pull the rulebook first, then
+derive everything from the rulebook. Do NOT ask the user for a project name,
+table list, or description — those all live in the rulebook once you've pulled it.
 
 1. Pick a **temporary working slug** (e.g. `_bootstrap`) and create `<my-projects>/_bootstrap/` so you have somewhere to run `effortless -init` and `airtable-to-rulebook`.
 2. Run Steps 0–2 below inside that temp dir to get `effortless-rulebook/effortless-rulebook.json` populated.
@@ -57,7 +75,7 @@ audience: customer
    - **Base description** → goes into `README.md`.
    - **Table list + table descriptions** → `README.md` "Tables" section.
    - **Field list + field descriptions per table** → optional schema appendix in `README.md`, or skip if large.
-4. **Write `README.md` at the project root before continuing** with Steps 3+ of the setup. The README should contain: base name, base id, base description, one-line-per-table summary (name + description). This is the agent's own grounding doc — future turns read it instead of re-querying Airtable.
+4. **Write `README.md` at the project root before continuing** with Steps 3+ of the setup. The README should contain: base name, base id, base description, one-line-per-table summary (name + description). This is the agent's own grounding doc — future turns read it instead of re-querying the upstream surface.
 5. Continue with Step 3 (`rulebook-to-postgres`) onward. The DB name should be the project slug (or `<slug>_db` if the slug collides with a postgres reserved word).
 
 **Slugify rule (canonical):** `name.lower()` → replace any run of non-`[a-z0-9]` chars with `-` → strip leading/trailing `-`. Examples: `"My Cool Base!"` → `my-cool-base`; `"ACE-KPI / Amazon Ledger"` → `ace-kpi-amazon-ledger`.
@@ -67,9 +85,9 @@ audience: customer
 ## Prerequisites
 
 - `effortless` CLI installed and logged in (`effortless -login`) — see `effortless-cli` skill
-- Airtable API key configured (`effortless -setAccountAPIKey airtable=pat...`)
 - PostgreSQL running locally
 - Docker (optional — only required if the user wants the containerized postgres path)
+- *(Only if seeding from Airtable)* Airtable API key configured (`effortless -setAccountAPIKey airtable=pat...`)
 
 ## Step −1: Preflight — verify local tools BEFORE running setup
 
@@ -90,6 +108,8 @@ command -v git           >/dev/null 2>&1 && git --version              || echo "
 ---
 
 ## NEVER RUN `effortless airtable-to-rulebook` FROM THE PROJECT ROOT
+
+*(Applies only when seeding from Airtable — Step 2. Rulebook-First projects skip this.)*
 
 The rulebook lives at **`/effortless-rulebook/effortless-rulebook.json`** — NOT at the project root.
 
@@ -131,7 +151,7 @@ When this happens, the transpiler **does not get added to `effortless.json`** ev
 
 `effortless build` regenerates files under `effortless-rulebook/` and `postgres/` and **drops + re-inits** the local Postgres DB. Anything hand-edited inside those folders WILL be overwritten.
 
-The discipline below is what makes `git diff` a trustworthy view of what the build changed — letting the user keep ontology changes (Airtable → rulebook → generated SQL) cleanly separable from hand-written code (app, scripts, customizations) in their own commits.
+The discipline below is what makes `git diff` a trustworthy view of what the build changed — letting the user keep ontology changes (rulebook → generated SQL) cleanly separable from hand-written code (app, scripts, customizations) in their own commits.
 
 For every `effortless build` **after** the one-time setup commits documented below in Steps 0-6:
 
@@ -171,23 +191,26 @@ EOF
 cat > CLAUDE.md <<'EOF'
 # Project Conventions
 
-This is an **Effortless Rulebook (ERB)** project. Schema lives in Airtable
-(see `baseId` in `effortless.json`) and is pulled into
-`effortless-rulebook/effortless-rulebook.json`, then generated into Postgres
-SQL under `postgres/` and loaded into a local Postgres DB by `init-db.sh`.
+This is an **Effortless Rulebook (ERB)** project. The SSoT is
+`effortless-rulebook/effortless-rulebook.json`. It is generated into Postgres
+SQL under `postgres/` and loaded into a local Postgres DB by `init-db.sh`. The
+rulebook is edited directly (Rulebook-First, the best-practice default); if the
+project opted into an upstream surface (Airtable / Excel / Notion), that surface
+is one optional input spoke pulled into the rulebook via its `*-to-rulebook`
+transpiler.
 
 When working in this project, load the relevant `effortless-*` skills:
 
 - `effortless-orchestrator` — overview / entry point
 - `effortless-setup-postgres` — initial setup (already run for this project)
-- `effortless-workflow` — making changes (Airtable ↔ rulebook ↔ build)
-- `effortless-leopold-loop` — CHANGE-RULE → REBUILD → CONSUME-VIEWS cycle
+- `effortless-workflow` — making changes (edit the hub → build)
+- `effortless-loop` — CHANGE-RULE → REBUILD → CONSUME-VIEWS cycle
 - `effortless-sql` — `vw_*` view / function patterns; never read base tables
 - `effortless-query` — querying the rulebook JSON
 - `effortless-conventions` — naming, FK, DAG rules
 - `effortless-pipeline` — `effortless build` pipeline + `effortless.json`
 - `effortless-cli` — CLI flags / commands
-- `effortless-airtable` / `effortless-airtable-omni` — Airtable schema changes
+- `effortless-airtable` / `effortless-airtable-omni` — *only if* the project is Airtable-connected
 
 ## Posture on the methodology itself
 
@@ -249,7 +272,8 @@ This project's local Postgres DB is **regenerated from scratch on every
 deltas in this paradigm.
 
 **To change schema, RLS, calculated fields, or seed data:**
-1. Edit Airtable (or the rulebook for hand-authored projects).
+1. Edit the rulebook (or the Airtable/Excel/etc. surface, if the project is
+   connected to one).
 2. Run `effortless build`.
 3. The DB is wiped and rebuilt. Done.
 
@@ -261,12 +285,12 @@ deltas in this paradigm.
 - Edit generated `0*.sql` files in `postgres/` (they get overwritten).
 
 **The redirect:** if the answer feels like "write a migration," the
-answer is **"edit Airtable and rerun `effortless build`."**
+answer is **"edit the rulebook and rerun `effortless build`."**
 
 The single exception is `bases.effortlessapi.com`-hosted databases (tell:
 `BASES_DATABASE_URL` in `.env.example`) — those use
 `postgres/apply-migration.sh` because they can't be dropped + recreated.
-Even there, schema originates in Airtable. See the effortless-bases skill.
+Even there, schema originates in the rulebook. See the effortless-bases skill.
 
 ## Build discipline (applies every time)
 
@@ -291,16 +315,26 @@ git add CLAUDE.md .gitignore
 git commit -q -m "chore: bootstrap effortless project (CLAUDE.md + .gitignore)"
 ```
 
-### Step 1: Init project + record baseId
+### Step 1: Init project
 
 ```bash
 cd <PROJECT_ROOT>
 effortless -init
+# Only if seeding from an Airtable base, record its id:
 effortless -addSetting baseId=<BASE_ID>
-git add -A && git commit -q -m "chore: effortless -init (baseId=<BASE_ID>)"
+git add -A && git commit -q -m "chore: effortless -init"
 ```
 
-### Step 2: Install airtable-to-rulebook (this one works)
+### Step 2: Get a rulebook into `/effortless-rulebook/`
+
+**Rulebook-First (best practice):** author the rulebook directly. Create
+`effortless-rulebook/` and place `effortless-rulebook.json` there — hand-written,
+LLM-authored, or via `raw-text-to-rulebook` (see `effortless-bootstrap`). No
+`airtable-to-rulebook` install needed; skip straight to Step 3.
+
+**Seeded from Airtable (only if the project opted in):** install
+`airtable-to-rulebook` as the seed input spoke. (Other surfaces — Excel, etc. —
+use their own `*-to-rulebook` transpiler the same way.)
 
 ```bash
 mkdir -p effortless-rulebook && cd effortless-rulebook
@@ -308,7 +342,28 @@ effortless -install airtable-to-rulebook -account airtable -o effortless-ruleboo
 cd ..
 ```
 
-Verify: `effortless-rulebook/effortless-rulebook.json` exists, and `effortless.json` has a `RelativePath: /effortless-rulebook` entry.
+Verify (either path): `effortless-rulebook/effortless-rulebook.json` exists. If you installed a `*-to-rulebook` transpiler, `effortless.json` also has a `RelativePath: /effortless-rulebook` entry for it.
+
+**Step 2.5 — Rulebook editor (recommended default, not required):** before
+building the "real" local Postgres + hand-rolled app in Steps 3+, install
+**effortless-rulebook-editor** (see that skill for why) against the rulebook
+you just placed — an instant DB, API, and admin UI to look at first:
+
+```bash
+cd effortless-rulebook
+effortless -install effortless-rulebook-editor \
+  -i effortless-rulebook.json \
+  -p rulebookPath=effortless-rulebook.json \
+  -p dockerfilePath=docker/Dockerfile
+bash edit-rulebook.sh
+```
+
+Both `-p` params are **required**: without them the tool emits `edit-rulebook.sh`
+and `docker/` into the project root, where the script bind-mounts the whole repo.
+See `effortless-rulebook-editor` for why.
+
+**No-Docker alternative:** `effortless-rulespeak` for the same documentation
+as static files.
 
 ### Step 3: Install rulebook-to-postgres
 
@@ -391,7 +446,7 @@ If that prints the `startIndex` registration error, fall back to adding the entr
 ```
 
 After Step 5, `effortless build` from the project root will:
-1. Re-pull the rulebook from Airtable into `/effortless-rulebook/effortless-rulebook.json`
+1. Refresh the rulebook at `/effortless-rulebook/effortless-rulebook.json` (re-pulled from the connected input spoke, if one is wired — e.g. Airtable; otherwise it's whatever you authored directly)
 2. Re-generate SQL into `/postgres/` (RelativePath is honored at build time)
 3. Drop and re-init the database via `init-db.sh`
 
@@ -417,7 +472,7 @@ for t in d.get('ProjectTranspilers',[]):
   print(f\"{t['RelativePath']:30s} {t['CommandLine']}\")"
 ```
 
-You should see THREE entries: `/effortless-rulebook` (airtable-to-rulebook), `/postgres` (rulebook-to-postgres), `/postgres` (init-db.sh exec). Confirm DB views exist:
+You should see TWO entries for a Rulebook-First project: `/postgres` (rulebook-to-postgres) and `/postgres` (init-db.sh exec). If the project is seeded from Airtable, a third `/effortless-rulebook` (airtable-to-rulebook) entry appears as well. Confirm DB views exist:
 
 ```bash
 psql -d <dbname> -c "\dv vw_*"
@@ -425,7 +480,7 @@ psql -d <dbname> -c "\dv vw_*"
 
 ## Step 7: Scaffold the prototype app + `./start.sh`
 
-Once the DB is initialized, scaffold a **minimal Node prototype app** and a `start.sh` that boots it on a deterministic port pair. The contract, defaults, and full skeleton live in [REFERENCE.md → Step 7 prototype app](REFERENCE.md#step-7--scaffold-the-prototype-app--startsh) — load that section when you're ready to do this step. Do NOT inline a UI framework / design system without the user asking.
+Once the DB is initialized, scaffold a **minimal Node prototype app** and a `start.sh` that boots it on a **hard-coded odd/even port pair** (API = odd, SPA = odd+1). `./start.sh` must always kill both ports and restart. The contract, defaults, and full skeleton live in [REFERENCE.md → Step 7 prototype app](REFERENCE.md#step-7--scaffold-the-prototype-app--startsh) — load that section when you're ready to do this step. Do NOT inline a UI framework / design system without the user asking.
 
 ## After Setup — Querying the Schema (Lightweight)
 
@@ -449,10 +504,11 @@ something goes sideways.
 
 ## See also
 
+- `effortless-rulebook-editor` — Step 2.5's recommended default: instant DB/API/admin UI, before the Postgres+app steps below.
 - `effortless-orchestrator` — for the canonical Token Discipline + the bigger mental model.
 - `effortless-cli` — for installing / updating / using the `effortless` CLI binary if it's missing in preflight.
 - `effortless-cli` / `effortless-pipeline` — for the install / build commands this skill drives.
-- `effortless-leopold-loop` — for the iterative cycle once setup is done.
+- `effortless-loop` — for the iterative cycle once setup is done.
 - `effortless-bases` — switch to this skill instead if the Postgres database is hosted on `bases.effortlessapi.com`.
 - [REFERENCE.md](REFERENCE.md) — long-tail content (preflight install options per OS, Step 7 prototype-app skeleton, Common Issues troubleshooting).
 

@@ -6,25 +6,33 @@
 ---
 name: effortless-airtable
 description: >
-  Use when making schema or data changes via the Airtable API in an
-  Airtable-connected ERB project — adding fields, creating tables, modifying
-  existing fields, or when you need to understand Airtable API limitations
-  (e.g., formula fields cannot be created via API). Only relevant if the
-  project is *explicitly* Airtable-connected (see "Is this an Airtable project?"
-  below); otherwise this is a Rulebook-First project and edits go to the hub
-  directly.
+  Use when making schema or data changes via the Airtable API in a project that
+  has *explicitly opted in* to Airtable as an input spoke — adding fields,
+  creating tables, modifying existing fields, or understanding Airtable API
+  limitations (e.g., formula fields cannot be created via API). Airtable is one
+  optional editing surface (sibling to Excel/Notion), not the framework's center.
+  Only relevant if the project is Airtable-connected (see "Is this an Airtable
+  project?" below); otherwise this is a Rulebook-First project (the best-practice
+  default) and edits go to the hub directly.
 
   **Scope (load gate):** Effortless projects only — project root must contain `effortless.json` AND a CLAUDE.md identifying the project as ERB methodology. Do NOT load otherwise.
 audience: customer
 ---
 
-# Airtable as One (Optional) Input Spoke
+# Airtable — One Optional Spoke (Sibling to Excel / Notion)
 
 In ERB, **`effortless-rulebook.json` is the hub / single source of truth.** The
-**default** is Rulebook-First: edits go to the hub (LLM-direct or hand-edits)
-and Airtable is — at most — a *downstream consumer* mirrored via
-`rulebook-to-airtable`. Airtable only becomes an input spoke when the project
-has *explicitly opted in*.
+recommended best practice is **Rulebook-First**: edits go to the hub (LLM-direct
+or hand-edits) and `effortless build` projects everything downstream. Airtable is
+**one optional editing surface** — a peer of Excel, Notion, and other input
+surfaces, not the center of the framework. Most teams that want a human-friendly
+grid keep it **downstream** (mirrored via `rulebook-to-airtable`) for
+review/validate/QA; it only becomes an *input* spoke when the project has
+*explicitly opted in*.
+
+This skill is the canonical home for the Airtable-API mechanics — key
+resolution, the `-account airtable` flag, scalar field/table/CRUD calls. Other
+skills point here rather than repeating it.
 
 ## Is this an Airtable project?
 
@@ -204,23 +212,6 @@ curl -s -X POST "https://api.airtable.com/v0/meta/bases/{BASE_ID}/tables" \
     ]
   }'
 ```
-
-## Generating OMNI Prompts for Base Setup
-
-When creating prompts for Airtable's OMNI AI to set up tables, **always use the two-part split pattern** documented in the `effortless-omni-prompt` skill:
-
-- **Part 1**: Raw fields + `Link to another record` FKs + Name formula. No other computed fields.
-- **Part 2**: Lookups & formulas, **organized by table** (OMNI can only work on one table at a time). Excludes MANY-side rollups.
-
-This pattern ensures linked records are established first, making lookups trivial in Part 2. Never combine into a single file — OMNI will produce incorrect field types.
-
-### OMNI Prompt Field Rules
-
-1. **Table names are PascalCase** — `ShaclShapes`, NOT `shacl_shapes`
-2. **`Name` is ALWAYS the first field** — it is a formula that creates a lowercase, dash-separated compound key: `Name | formula | SUBSTITUTE(LOWER({{DisplayName}}), " ", "-")`
-3. **`DisplayName` (or `Title`/`Label`)** comes next — the human-readable natural language identifier
-4. **NEVER include `{Entity}Id` fields** — surrogate keys are managed by the substrate off-screen
-5. **Links use singular PascalCase**: `Schema | link:SDCSchemas`, `TargetClass | link:SDCTypes`
 
 ## When the Airtable API can't do something
 

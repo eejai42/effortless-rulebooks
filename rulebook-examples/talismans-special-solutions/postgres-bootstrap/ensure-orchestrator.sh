@@ -19,7 +19,7 @@ PORT=4242
 # This script lives in <repo>/rulebook-examples/talismans-special-solutions/postgres-bootstrap,
 # so the repo root is three levels up.
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../../.." && pwd)"
-PROXY_DIR="$REPO_ROOT/effortless-platform/ssotme-proxy"
+PROXY_DIR="$REPO_ROOT/rulebook-examples/legacy-runner/ssotme-proxy"
 
 ping_proxy() {
   python3 - "$PORT" <<'PY' 2>/dev/null

@@ -1,0 +1,559 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "created": "2025-12-11T16:56:51.997184",
+    "description": "EffortlessAPI project configuration and test data",
+    "project_type": "excel-as-universal-dsl"
+  },
+  "test_categories": {
+    "Description": "Categories of tests and their organizational rules for comprehensive test management",
+    "schema": [
+      {
+        "name": "CategoryID",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Primary key for test category"
+      },
+      {
+        "name": "name",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Human-readable category name"
+      },
+      {
+        "name": "description",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Detailed description of what this category tests"
+      },
+      {
+        "name": "icon",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Icon representing this test category"
+      },
+      {
+        "name": "priority",
+        "datatype": "number",
+        "type": "raw",
+        "Description": "Execution priority (1=highest, 5=lowest)"
+      },
+      {
+        "name": "execution_order",
+        "datatype": "number",
+        "type": "raw",
+        "Description": "Order in which categories should run"
+      },
+      {
+        "name": "dependencies",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "JSON array of category IDs this depends on"
+      },
+      {
+        "name": "parallel_allowed",
+        "datatype": "boolean",
+        "type": "raw",
+        "Description": "Whether tests in this category can run in parallel"
+      },
+      {
+        "name": "enabled",
+        "datatype": "boolean",
+        "type": "raw",
+        "Description": "Whether this test category is currently active"
+      },
+      {
+        "name": "background_color",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Background color for UI display"
+      }
+    ],
+    "data": [
+      {
+        "CategoryID": "data_transform",
+        "name": "Data Transformation",
+        "description": "Tests for data transformation and conversion between formats",
+        "icon": "\ud83d\udd04",
+        "priority": 1,
+        "execution_order": 1,
+        "dependencies": "[]",
+        "parallel_allowed": true,
+        "enabled": true,
+        "background_color": "#E8F5E9"
+      },
+      {
+        "CategoryID": "domain_logic",
+        "name": "Domain Logic",
+        "description": "Tests for core business logic and domain rules",
+        "icon": "\ud83e\udde0",
+        "priority": 2,
+        "execution_order": 2,
+        "dependencies": "[\"data_transform\"]",
+        "parallel_allowed": true,
+        "enabled": true,
+        "background_color": "#E3F2FD"
+      },
+      {
+        "CategoryID": "api_endpoints",
+        "name": "API Endpoints",
+        "description": "Tests for REST API endpoints and responses",
+        "icon": "\ud83c\udf10",
+        "priority": 2,
+        "execution_order": 3,
+        "dependencies": "[]",
+        "parallel_allowed": true,
+        "enabled": true,
+        "background_color": "#FFF3E0"
+      },
+      {
+        "CategoryID": "ui_components",
+        "name": "UI Components",
+        "description": "Tests for React components and user interface",
+        "icon": "\ud83c\udfa8",
+        "priority": 3,
+        "execution_order": 4,
+        "dependencies": "[\"api_endpoints\"]",
+        "parallel_allowed": false,
+        "enabled": true,
+        "background_color": "#F3E5F5"
+      },
+      {
+        "CategoryID": "file_system",
+        "name": "File System",
+        "description": "Tests for file operations and cross-platform compatibility",
+        "icon": "\ud83d\udcc1",
+        "priority": 4,
+        "execution_order": 5,
+        "dependencies": "[]",
+        "parallel_allowed": true,
+        "enabled": true,
+        "background_color": "#FFEBEE"
+      }
+    ]
+  },
+  "test_suites": {
+    "Description": "Groups of related tests that run together within categories",
+    "schema": [
+      {
+        "name": "SuiteID",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Primary key for test suite"
+      },
+      {
+        "name": "category_id",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "FK to test_categories.CategoryID"
+      },
+      {
+        "name": "name",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Human-readable suite name"
+      },
+      {
+        "name": "description",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Detailed description of test suite purpose"
+      },
+      {
+        "name": "setup_scripts",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "JSON array of setup commands to run before suite"
+      },
+      {
+        "name": "teardown_scripts",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "JSON array of cleanup commands to run after suite"
+      },
+      {
+        "name": "timeout_seconds",
+        "datatype": "number",
+        "type": "raw",
+        "Description": "Maximum time to allow suite to run"
+      },
+      {
+        "name": "enabled",
+        "datatype": "boolean",
+        "type": "raw",
+        "Description": "Whether this suite is currently active"
+      },
+      {
+        "name": "CategoryName",
+        "datatype": "string",
+        "type": "lookup",
+        "formula": "=_xlfn.INDEX(test_categories!name,_xlfn.MATCH({{category_id}},test_categories!CategoryID,0))",
+        "Description": "Name of parent category"
+      }
+    ],
+    "data": [
+      {
+        "SuiteID": "excel_json_conversion",
+        "category_id": "data_transform",
+        "name": "Excel\u2194JSON Conversion",
+        "description": "Test bidirectional conversion between Excel workbooks and JSON models",
+        "setup_scripts": "[]",
+        "teardown_scripts": "[\"rm -f test-*.xlsx test-*.json\"]",
+        "timeout_seconds": 120,
+        "enabled": true
+      },
+      {
+        "SuiteID": "json_uml_conversion",
+        "category_id": "data_transform",
+        "name": "JSON\u2192UML Generation",
+        "description": "Test JSON to UML diagram generation with validation",
+        "setup_scripts": "[]",
+        "teardown_scripts": "[\"rm -f test-*.uml test-*.png\"]",
+        "timeout_seconds": 60,
+        "enabled": true
+      },
+      {
+        "SuiteID": "api_data_endpoints",
+        "category_id": "api_endpoints",
+        "name": "API Data Endpoints",
+        "description": "Test all /api/* endpoints return expected data structures",
+        "setup_scripts": "[\"python web/api/main.py &\", \"sleep 2\"]",
+        "teardown_scripts": "[\"pkill -f main.py\"]",
+        "timeout_seconds": 45,
+        "enabled": true
+      },
+      {
+        "SuiteID": "file_operations",
+        "category_id": "file_system",
+        "name": "File Operations",
+        "description": "Test file reading, writing, and cross-platform path handling",
+        "setup_scripts": "[]",
+        "teardown_scripts": "[\"rm -f test-*\"]",
+        "timeout_seconds": 30,
+        "enabled": true
+      }
+    ]
+  },
+  "test_cases": {
+    "Description": "Individual test cases with specific inputs, expected outputs, and validation rules",
+    "schema": [
+      {
+        "name": "TestID",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Primary key for test case"
+      },
+      {
+        "name": "suite_id",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "FK to test_suites.SuiteID"
+      },
+      {
+        "name": "name",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Human-readable test case name"
+      },
+      {
+        "name": "description",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Detailed description of what this test validates"
+      },
+      {
+        "name": "test_type",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Type: unit, integration, functional, performance"
+      },
+      {
+        "name": "language",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Implementation language: python, javascript, typescript, shell"
+      },
+      {
+        "name": "command",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Command to execute the test"
+      },
+      {
+        "name": "input_data",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "JSON string of input data for the test"
+      },
+      {
+        "name": "expected_output",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Expected output or JSON string of expected results"
+      },
+      {
+        "name": "validation_rules",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "JSON array of validation rules to apply"
+      },
+      {
+        "name": "enabled",
+        "datatype": "boolean",
+        "type": "raw",
+        "Description": "Whether this test case is currently active"
+      },
+      {
+        "name": "estimated_duration_ms",
+        "datatype": "number",
+        "type": "raw",
+        "Description": "Estimated execution time in milliseconds"
+      },
+      {
+        "name": "SuiteName",
+        "datatype": "string",
+        "type": "lookup",
+        "formula": "=_xlfn.INDEX(test_suites!name,_xlfn.MATCH({{suite_id}},test_suites!SuiteID,0))",
+        "Description": "Name of parent suite"
+      },
+      {
+        "name": "CategoryID",
+        "datatype": "string",
+        "type": "lookup",
+        "formula": "=_xlfn.INDEX(test_suites!category_id,_xlfn.MATCH({{suite_id}},test_suites!SuiteID,0))",
+        "Description": "Category this test belongs to"
+      }
+    ],
+    "data": [
+      {
+        "TestID": "excel_to_json_basic",
+        "suite_id": "excel_json_conversion",
+        "name": "Excel to JSON Basic Conversion",
+        "description": "Test basic Excel workbook conversion to JSON format",
+        "test_type": "integration",
+        "language": "python",
+        "command": "python3 src/excel-to-json.py domain-specific-examples/tic-tac-toe/tic-tac-toe.xlsx",
+        "input_data": "domain-specific-examples/tic-tac-toe/tic-tac-toe.xlsx",
+        "expected_output": "Valid JSON with game state data",
+        "validation_rules": "[\"valid_json\", \"contains_game_data\", \"exit_code_zero\"]",
+        "enabled": true,
+        "estimated_duration_ms": 2000
+      },
+      {
+        "TestID": "json_to_excel_basic",
+        "suite_id": "excel_json_conversion",
+        "name": "JSON to Excel Basic Conversion",
+        "description": "Test basic JSON to Excel workbook conversion",
+        "test_type": "integration",
+        "language": "python",
+        "command": "python3 src/json-to-excel.py domain-specific-examples/tic-tac-toe/tic-tac-toe.json test-tic-tac-toe.xlsx",
+        "input_data": "domain-specific-examples/tic-tac-toe/tic-tac-toe.json",
+        "expected_output": "Valid Excel workbook",
+        "validation_rules": "[\"file_exists\", \"valid_excel\", \"exit_code_zero\"]",
+        "enabled": true,
+        "estimated_duration_ms": 3000
+      },
+      {
+        "TestID": "api_navigation",
+        "suite_id": "api_data_endpoints",
+        "name": "Navigation API",
+        "description": "Test /api/navigation endpoint returns navigation data",
+        "test_type": "integration",
+        "language": "shell",
+        "command": "curl -s http://localhost:8000/api/navigation",
+        "input_data": "",
+        "expected_output": "JSON array of navigation items",
+        "validation_rules": "[\"valid_json\", \"is_array\", \"contains_nav_items\", \"status_200\"]",
+        "enabled": true,
+        "estimated_duration_ms": 200
+      }
+    ]
+  },
+  "project_settings": {
+    "Description": "Project-specific configuration settings",
+    "schema": [
+      {
+        "name": "SettingID",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Unique identifier for the setting"
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Human-readable setting name"
+      },
+      {
+        "name": "Value",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Current value of the setting"
+      },
+      {
+        "name": "DefaultValue",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Default value for the setting"
+      },
+      {
+        "name": "DataType",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Data type: string, boolean, integer, number"
+      },
+      {
+        "name": "Category",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Setting category for organization"
+      },
+      {
+        "name": "Description",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Detailed description of what this setting controls"
+      },
+      {
+        "name": "IsUserEditable",
+        "datatype": "boolean",
+        "type": "raw",
+        "Description": "Whether users can modify this setting"
+      }
+    ],
+    "data": [
+      {
+        "SettingID": "project_name",
+        "Name": "Project Name",
+        "Value": "ERB_veritasium-power-laws-and-fractals",
+        "DefaultValue": "My Project",
+        "DataType": "string",
+        "Category": "project",
+        "Description": "Human-readable name for this project",
+        "IsUserEditable": true
+      },
+      {
+        "SettingID": "project_description",
+        "Name": "Project Description",
+        "Value": "Unifies several classic fractal / power-law phenomena into a single CMCC pattern with clean separation between fractal dimension and log\u2013log slope.",
+        "DefaultValue": "",
+        "DataType": "string",
+        "Category": "project",
+        "Description": "Brief description of the project",
+        "IsUserEditable": true
+      },
+      {
+        "SettingID": "pushOnEdit",
+        "Name": "Auto Push on Edit",
+        "Value": "true",
+        "DefaultValue": "false",
+        "DataType": "boolean",
+        "Category": "ui",
+        "Description": "Automatically update all model files, regardless of file type, whenever the SSOT is changed.",
+        "IsUserEditable": true
+      },
+      {
+        "SettingID": "showAiModels",
+        "Name": "Inline Model Selection",
+        "Value": "true",
+        "DefaultValue": "true",
+        "DataType": "boolean",
+        "Category": "ui",
+        "Description": "Display the model selection dropdown in the Discuss Concepts page.",
+        "IsUserEditable": true
+      },
+      {
+        "SettingID": "aiGuideNickname",
+        "Name": "AI Guide Nickname",
+        "Value": "Effortless Guide",
+        "DefaultValue": "Effortless Guide",
+        "DataType": "string",
+        "Category": "ui",
+        "Description": "Change the name of the AI Guide for this project.",
+        "IsUserEditable": true
+      },
+      {
+        "SettingID": "aiDefaultModel",
+        "Name": "AI Agent Model",
+        "Value": "gpt-4.1-mini",
+        "DefaultValue": "gpt-4.1-mini",
+        "DataType": "dropdown",
+        "Category": "ui",
+        "Choices": [
+          {
+            "value": "gpt-4.1-mini",
+            "label": "4.1-mini",
+            "maxTokens": 128000,
+            "tier": "free"
+          },
+          {
+            "value": "gpt-4.1-nano",
+            "label": "4.1-nano",
+            "maxTokens": 128000,
+            "tier": "free"
+          },
+          {
+            "value": "gpt-4.1",
+            "label": "4.1 (pro)",
+            "maxTokens": 128000,
+            "tier": "pro"
+          }
+        ],
+        "Description": "Choose which AI model powers your AI Guide.",
+        "IsUserEditable": true
+      }
+    ]
+  },
+  "git_settings": {
+    "Description": "Git-related configuration for this project",
+    "schema": [
+      {
+        "name": "SettingID",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Unique identifier for the git setting"
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Human-readable setting name"
+      },
+      {
+        "name": "Value",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "Current value"
+      },
+      {
+        "name": "Description",
+        "datatype": "string",
+        "type": "raw",
+        "Description": "What this setting controls"
+      }
+    ],
+    "data": [
+      {
+        "SettingID": "default_branch",
+        "Name": "Default Branch",
+        "Value": "main",
+        "Description": "Default git branch for this project"
+      },
+      {
+        "SettingID": "commit_message_prefix",
+        "Name": "Commit Message Prefix",
+        "Value": "",
+        "Description": "Prefix to add to all commit messages"
+      },
+      {
+        "SettingID": "auto_push",
+        "Name": "Auto Push",
+        "Value": "false",
+        "Description": "Automatically push commits to remote"
+      }
+    ]
+  },
+  "ssot_files": [
+    "ssot/ERB_veritasium-power-laws-and-fractals.json"
+  ]
+}

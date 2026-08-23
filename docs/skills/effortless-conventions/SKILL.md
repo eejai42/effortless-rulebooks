@@ -16,6 +16,13 @@ audience: customer
 
 # ERB Naming & Design Conventions
 
+**Format:** Standard JSON + Single Line Leaves.
+
+If a `minimize-rulebook` transpiler is registered, check the derived
+`*.derived-read-me-1st.txt` for a quick table/field map first — climb to
+`schema.min.json` / `schema.json` before the full rulebook. See
+`effortless-query` for the full escalation ladder.
+
 ## Table Names
 - **PascalCase**, no spaces, no symbols, no underscores
 - Plural for collections: `Customers`, `WorkflowSteps`, `TypesOfAgents`
@@ -39,6 +46,21 @@ Every table also has a `Name` **calculated** field — a human-readable display 
 - Compound pattern: `Name = ={{OrderNumber}} & "-" & {{Status}}` for tables where identity is composite.
 - Because `Name` is calculated, it works correctly even if the substrate swaps slug identifiers for UUIDs.
 - In Airtable contexts, `Name` maps to the primary field (first column).
+
+> ⚠️ **Compound-`Name` PK collapse (FIXED in published `rulebook-to-postgres`).**
+> A table whose logical key is a **calculated `Name` compounding a relationship +
+> a raw field** (e.g. `Publications.Name = ={{Video}} & " @ " & {{Channel}}`) used
+> to have its synthesized `<Table>Id` PK **collapsed onto just the first component**
+> — so distinct rows deduped and vanished (14 videos became 2). Two related
+> mis-selections went with it: an incidental `Id`-ending **attribute** field
+> (`CategoryId`, `PlaylistId`, `ExternalId`) could get picked as the PK over the
+> real calculated `Name`. **Both are fixed:** the PK now synthesizes from the full
+> compound value, and an author-intended `<Entity>Id` (`student_id` for `Students`,
+> etc.) still correctly wins. **Symptom → cause:** if a table's rows collapse /
+> dedupe in Postgres (fewer rows than the rulebook), OR you hit FK violations where
+> a compound-`Name` FK won't resolve, it was this bug — **just rebuild with the
+> published transpiler.** Do NOT work around it by materializing `Name` as a raw
+> field; no rulebook workaround is needed anymore.
 
 ## Every Table and Field Must Have a Description
 - Descriptions form the semantic backbone of the DAG
@@ -116,6 +138,18 @@ The rulebook IS a DAG. Understanding this is essential.
 - **Level 1**: Calculated fields that depend only on Level 0 raw fields
 - **Level 2+**: Calculated fields that depend on other calculated fields
 - Formula parsing must respect this ordering — compute Level 0 first, then Level 1, etc.
+
+### Cross-table reads are 1 hop only
+
+Same acyclicity discipline, applied to *reads* not just structure: a `lookup`
+or `aggregation` field crosses exactly **one** FK edge — current table to one
+directly-related table. No formula chains two relationships (`A -> B -> C`)
+or filters `A` by a condition that lives on `C`. If a value needs to cross
+two hops, flatten it: add a same-row field on `B` that captures the fact one
+hop from `C`, then read *that* field from `A` one hop from `B`. See
+`effortless-schema`'s "Hard limit: 1 hop only" for the formula-syntax detail
+and `effortless-cmcc`'s anti-pattern checklist for why this is load-bearing,
+not a current-tooling gap.
 
 ### Visualizing the DAG
 ```

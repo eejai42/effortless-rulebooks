@@ -18,6 +18,8 @@ audience: customer
 
 # ERB Change Workflow
 
+**Format:** Standard JSON + Single Line Leaves.
+
 ## Ask before modifying the hub or rebuilding
 
 Before modifying `effortless-rulebook.json` (directly, via Airtable, reverse-sync, or any other input spoke), or running `effortless build`, ask the user. These operations change the hub and cascade through every output spoke — the developer should be choosing when that cascade fires, not discovering it after the fact.
@@ -61,8 +63,16 @@ ergonomics, not by historical preference.
 The cleanest path, and the default for new LLM-driven projects. The rulebook is
 JSON — LLMs edit it natively.
 
+If `minimize-rulebook` is registered, orient with the derived files in order —
+`read-me-1st.txt` → `schema.min.json` → `schema.json` — instead of jumping to
+the full rulebook or `derived-data.json` (see `effortless-query` for the full
+escalation ladder). For the edit itself, prefer a small script (python/jq) that
+loads the full JSON, mutates the target table/field, and writes it back, over
+reading the whole file into context and hand-editing tokens — the mutation is
+the same either way, but code avoids paying for the read.
+
 1. **Edit `effortless-rulebook.json` directly** (with permission). Add/modify table objects, fields, formulas, lookups.
-2. **`effortless build`** — regenerates Postgres + every other output spoke.
+2. **`effortless build`** — regenerates every enabled output spoke (Postgres SQL, RuleSpeak® at `rulespeak/rulespeak.html`, etc.).
 3. If the project is also Airtable-connected and you want the human-friendly view in step: reverse-sync (Spoke 3) before the build.
 
 ```
@@ -75,16 +85,15 @@ effortless-rulebook.json  ← THE HUB
 All output spokes (regenerated)
 ```
 
-### Spoke 2: Airtable-connected
+### Spoke 2: An upstream grid (Airtable / Excel / …) — optional
 
-Use when the project has `airtable-to-rulebook` configured and the human prefers
-Airtable's UI for editing schema/data. Airtable is one good input spoke — not the
-SSoT.
+Use when the project has wired an upstream surface (e.g. `airtable-to-rulebook`)
+and the human prefers that grid's UI for editing schema/data. Airtable is one such
+surface, a sibling of Excel and Notion — one good input spoke, never the SSoT. The
+recipe below uses Airtable; other surfaces follow the same shape with their own
+`*-to-rulebook` transpiler.
 
-1. **Modify Airtable** — Add/change fields, data, or formulas in the Airtable base
-   - API key resolution: `AIRTABLE_API_KEY` env var > `~/.ssotme/ssotme.key` (`APIKeys.airtable`) > project settings
-   - Set the key via: `effortless -setAccountAPIKey airtable=patXXXXXXXX.XXXXXXXX`
-   - If no API key is available, tell the user — they may set it or make the change in Airtable UI
+1. **Modify Airtable** — Add/change fields, data, or formulas in the base. Key resolution, the `-account airtable` flag, and the API/OMNI split live in `effortless-airtable` / `effortless-airtable-omni`. If no API key is available, tell the user — they may set it or make the change in the Airtable UI.
 2. **`effortless build`** from the project root — `airtable-to-rulebook` pulls Airtable into the hub, then downstream transpilers regenerate every output spoke. Mandatory after every Airtable modification.
 
 ```
@@ -164,7 +173,8 @@ can't create formula fields, no API key, project isn't Airtable-connected at all
 ## See also
 
 - `effortless-orchestrator` — for the bigger mental model and the schema-change decision tree this skill operationalizes.
-- `effortless-leopold-loop` — for the iterative cycle every spoke produces.
+- `effortless-loop` — for the iterative cycle every spoke produces.
+- `effortless-rulespeak` — default plain-English sibling (`rulespeak/rulespeak.html`) on every new rulebook and every build.
 - `effortless-airtable` / `effortless-airtable-omni` — for *how* to make the change via the Airtable spoke (API vs OMNI).
 - `effortless-pipeline` — for the `-id` flag mechanics referenced in the reverse-sync spoke.
 - `effortless-sql` — for the rule that `*b-customize-*.sql` is the ONLY hand-edited surface, and never for business entities.

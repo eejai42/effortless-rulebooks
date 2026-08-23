@@ -43,9 +43,10 @@ the bases-specific flow (auto-RLS templates, `auth.trusted_tenants`,
 ## "AppUsers" / "Roles" / "Profiles" tables belong in the consuming app, NOT in `app.*`
 
 Magic-links stores no users. Your app does. If the app is an ERB project,
-that means `AppUsers` (or whatever you call it) is an **Airtable entity**,
-regenerated as `public.app_users` + `vw_app_users`. The `app.jwt_role()`
-helper reads from `vw_app_users`.
+that means `AppUsers` (or whatever you call it) is a **rulebook entity**
+(hand-authored, or via Airtable if the project opted in), regenerated as
+`public.app_users` + `vw_app_users`. The `app.jwt_role()` helper reads
+from `vw_app_users`.
 
 Do NOT create `app.app_users` (or `app.users`, `app.profiles`, etc.) by
 hand in `01b-customize-schema.sql`. That mirror will drift from the
@@ -66,6 +67,10 @@ debugs a broken magic-link login, **just do it** — don't ask "want me to
 proceed?" before each step. The user invoking the skill **is** the
 go-ahead.
 
+> **"Just do it" means: don't ask permission.** It does NOT mean skip
+> required clarifying questions. Two questions MUST be asked before minting
+> (see items 1 and 2 below). These are mandatory stops, not optional prompts.
+
 Run this checklist top-to-bottom:
 
 1. **Locate or mint the tenant.** Grep the project for an existing
@@ -74,18 +79,69 @@ Run this checklist top-to-bottom:
    ```bash
    curl -s "https://magiclink.effortlessapi.com/api/tenants/<id>" -w '\nHTTP %{http_code}\n'
    ```
-   404 `tenant_not_found` → re-mint (the upstream may have been wiped, or
-   the tenant was minted on a different magic-link instance). 200 with
-   `public_key_pem` → reuse it; just confirm the in-app public key matches.
+   404 `tenant_not_found` → re-mint. 200 with `public_key_pem` → reuse it.
    No tenant in the project → mint a new one.
+
+   > **STOP — mandatory pre-mint questions. Follow this exact sequence.**
+   >
+   > **Round 1 — what to customize (single multiSelect call, 1 question):**
+   > "Which parts of the login email do you want to customize?
+   > (Leave all unchecked for platform defaults.)"
+   > Options (multiSelect: true):
+   > - "Display name" — name in email subject line
+   > - "Brand colors" — primary color and optional gradient
+   > - "Custom SMTP" — send via your own mail server (from address is set here)
+   >
+   > Note: the tool always appends an "Other" option automatically — it
+   > is irrelevant for this question and users should ignore it.
+   > Note: "From address" is NOT a standalone option. A custom from
+   > address only works with custom SMTP, so it is collected in that flow.
+   > On platform SMTP, hello@effortlessapi.com is the sender.
+   >
+   > **Round 2+ — one `AskUserQuestion` call per selected item, in order:**
+   > Ask ONLY the questions for what the user selected. Each call has
+   > exactly ONE question (avoids the multi-tab submit problem).
+   >
+   > **If "Display name" selected:**
+   > - Call: "What name should appear in the email subject line?
+   >   (e.g. 'Sign-in code: 123456 for <name>')"
+   >   Options: inferred project name (state it explicitly),
+   >   "Magic Links (platform default)"
+   >   — user can type a custom name via Other
+   >
+   > **If "Brand colors" selected:**
+   > - Call 1: "Primary color for the login email? (hex, e.g. #3B82F6)"
+   >   Options: "Default blue", "Default teal"
+   >   — user types custom hex via Other
+   > - Call 2: "Gradient end color? (skip for solid)"
+   >   Options: "No gradient (solid color)", "Auto-darken primary"
+   >   — user types custom hex via Other
+   >
+   > **If "Custom SMTP" selected:**
+   > Do NOT use AskUserQuestion for SMTP fields — there are no useful
+   > predefined options and the tool requires 2 minimum. Instead, ask
+   > in a single plain-text message:
+   > "Please provide your SMTP details:
+   >  - From address (e.g. hello@yourdomain.com) — shown as the sender
+   >  - Host (e.g. mail.yourdomain.com or smtp.yourdomain.com)
+   >  - Port (587 for STARTTLS, 465 for TLS)
+   >  - Username (usually the same as your from address, e.g. hello@yourdomain.com)
+   >  - Password (your SMTP or mailbox password)"
+   > If they don't have their own SMTP server, tell them to skip this —
+   > the platform will send from hello@effortlessapi.com instead.
+   >
+   > Once all answers collected, proceed to Step 0 + mint + Step 1b.
+
    To mint: run Step 0 (self-auth) then Step 1 (POST `/api/tenants`)
    below. **Do not put this in the user's lap as "you go run these
    curls."** Claude drives the curls; the user only reads a code from
    their inbox.
+
 2. **Pick where the tenant config lives.** New project → env vars
    (`MAGICLINK_BASE_URL`, `MAGICLINK_TENANT_ID`, `MAGICLINK_PUBLIC_KEY_PEM`).
    Existing project that already hard-codes them → keep the same shape so
    you don't churn the diff.
+
 3. **Wire (or fix) the server-side proxy + verifier.** Two routes —
    `POST /api/auth/request-code` → upstream `/api/tenants/<id>/send-code`,
    and `POST /api/auth/verify-code` → upstream
@@ -140,8 +196,8 @@ MAGICLINK = https://magiclink.effortlessapi.com
 | `POST` | `/auth/send-code` | open | Self-auth: send code to **developer's** email. |
 | `POST` | `/auth/verify-code` | open | Self-auth: verify → JWT used to create tenants. |
 | `POST` | `/api/tenants` | self-auth Bearer | Mint a tenant. Server generates keypair. Returns `{tenant_id, public_key_pem}`. |
-| `GET`  | `/api/tenants/{id}` | open | Public info: `{tenant_id, public_key_pem, from_email, jwt_expires_in_seconds}`. |
-| `PATCH`| `/api/tenants/{id}` | self-auth + ownership | Update `from_email` / `jwt_expires_in_seconds`. |
+| `GET`  | `/api/tenants/{id}` | open | Public info: `{tenant_id, public_key_pem, from_email, jwt_expires_in_seconds, display_name?, brand_color?, gradient_to?, smtp_config?}`. Password stripped from smtp_config in response. |
+| `PATCH`| `/api/tenants/{id}` | self-auth + ownership | Update any of: `from_email`, `jwt_expires_in_seconds`, `display_name`, `brand_color`, `gradient_to`, `smtp_config`. Send only the fields you want to change; omitted fields are left as-is. Send `null` to clear a field. |
 | `DELETE`| `/api/tenants/{id}` | self-auth + ownership | Remove tenant. |
 | `POST` | `/api/tenants/{id}/send-code` | open | `{email, additional_claims?}` → `{ok:true}`. |
 | `POST` | `/api/tenants/{id}/verify-code` | open | `{email, code, additional_claims?}` → `{ok, jwt, expires_in}`. |
@@ -234,6 +290,74 @@ MAGICLINK_BASE_URL=https://magiclink.effortlessapi.com
 MAGICLINK_TENANT_ID=<tenant_id>
 MAGICLINK_PUBLIC_KEY_PEM=<public_key_pem multi-line>
 ```
+
+### Step 1b — apply branding (if user requested customization)
+
+Run a PATCH immediately after minting with whatever the user provided.
+Only include the fields the user asked for — omit the rest.
+
+```bash
+curl -sS -X PATCH "$MAGICLINK/api/tenants/$TENANT_ID" \
+  -H "Authorization: Bearer $SELF_JWT" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "display_name": "My App",
+    "brand_color":  "#FF5733",
+    "gradient_to":  "#C70039",
+    "from_email":   "hello@myapp.com",
+    "smtp_config": {
+      "host":     "smtp.sendgrid.net",
+      "port":     587,
+      "secure":   false,
+      "username": "apikey",
+      "password": "SG.xxxx"
+    }
+  }'
+```
+
+**Field reference:**
+| Field | Type | Effect |
+|---|---|---|
+| `display_name` | string | Shown in email subject: "Sign-in code: 123456 for **My App**" |
+| `brand_color` | CSS hex (e.g. `#98FF98`) | Primary background/button color in the email |
+| `gradient_to` | CSS hex | Second color for a gradient. Omit for solid `brand_color`. |
+| `from_email` | email string | Sender address. Requires valid SMTP if using custom SMTP. |
+| `smtp_config.host` | string | SMTP server hostname (e.g. `smtp.sendgrid.net`) |
+| `smtp_config.port` | integer | Usually 587 (STARTTLS) or 465 (TLS). Default: 587. |
+| `smtp_config.secure` | boolean | `true` for port 465 (TLS), `false` for 587 (STARTTLS). |
+| `smtp_config.username` | string | SMTP auth user (for SendGrid: literal `"apikey"`) |
+| `smtp_config.password` | string | SMTP auth password / API key. Stored encrypted; never returned in GET/PATCH responses. |
+
+Set `null` for any field to clear it back to platform defaults.
+
+### Token lifetime — arbitrary but BOUNDED to `[60s, 10 years]`; how to set 365 days
+
+The deployed service supports an **arbitrary per-tenant JWT lifetime** via
+`jwt_expires_in_seconds`, set on tenant create (`POST /api/tenants`) or later
+via `PATCH /api/tenants/{id}`. It is clamped to **`[60s, 10 years]`
+(60 … 315360000)**.
+
+```bash
+# Make sessions effectively never re-auth: 365-day tokens.
+curl -sS -X PATCH "$MAGICLINK/api/tenants/$TENANT_ID" \
+  -H "Authorization: Bearer $SELF_JWT" -H "Content-Type: application/json" \
+  -d '{"jwt_expires_in_seconds":31536000}'   # 365 days
+```
+
+> ⚠️ **There is deliberately NO "infinite" / claim-less token.** Every base's
+> Postgres verifier installs with `verify_exp:True` and hard-requires an `exp`
+> claim — an unbounded / exp-less token would fail *every* RLS query. So the
+> longest practical "don't make me sign in again" session is a large finite
+> lifetime (365 days = `31536000`), never an eternal token.
+
+The unified `/api` refresh grace was also raised to **3600s (1 h)** (matching
+v2), so a short-lived token silently refreshes if it's used within an hour of
+expiry.
+
+> ⚠️ **For a base's OWN auth** (your app talking to `bases.effortlessapi.com`),
+> the JWT is minted by the **bases magic-links tenant** — so to lengthen *that*
+> session, set `jwt_expires_in_seconds` on **that** tenant, not the one your
+> app's end-users use.
 
 ### Step 2 — install the JWT verification middleware (Node / Express)
 
@@ -427,7 +551,7 @@ references a column that no longer exists.
 
 - [REFERENCE.md](REFERENCE.md) — long-tail material kept out of the core: Python/FastAPI middleware, the role-resolver recursion gotcha, refresh flow, multi-database tenant sharing, full cheat sheet.
 - `effortless-bases` — switch to this skill if the project's database lives on `bases.effortlessapi.com`. Bases-specific endpoints (`/auth/generate-policy`, `/auth/apply-privileges-template`) and pre-installed `app.jwt_*()` helpers replace much of Steps 4–5 here.
-- `effortless-orchestrator` — if this is an ERB project, `AppUsers` belongs in Airtable, not in `app.app_users` by hand.
+- `effortless-orchestrator` — if this is an ERB project, `AppUsers` belongs in the rulebook, not in `app.app_users` by hand.
 - `effortless-sql` — for `*b-customize-*.sql` placement of `auth.trusted_tenants` and `app.jwt_*()` helpers in ERB projects.
 
 ---

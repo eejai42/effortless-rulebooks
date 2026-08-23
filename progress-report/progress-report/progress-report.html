@@ -1,0 +1,2192 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Delivery Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;700&family=Source+Sans+3:wght@300;400;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>:root{
+  --paper:#FBFAF7; --paper-2:#F3F2EC; --card:#FFFFFF;
+  --ink:#141B21; --ink-2:#3E4A52; --ink-3:#6B7780;
+  --rule:#C9CCC5; --rule-soft:#E3E4DE;
+  --blueprint:#1B4965; --blueprint-soft:#E8EEF2;
+  --rust:#B7410E; --verified:#3F6B4D; --verified-soft:#E7EFE9;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+  /* six delivery disciplines — validated, hue-ordered so no two adjacent
+     segments collide under deutan/protan simulation */
+  --d1:#2a78d6; --d2:#eda100; --d3:#1baf7a; --d4:#e34948; --d5:#4a3aa7; --d6:#eb6834;
+  --f-display:"Roboto Slab",Georgia,serif;
+  --f-body:"Source Sans 3","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"JetBrains Mono","SF Mono",Menlo,monospace;
+  --maxw:1340px;
+  /* the comfortable line length for running prose; structural blocks ignore it */
+  --measure:72ch;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --paper:#12171B; --paper-2:#191F24; --card:#171D22;
+  --ink:#E8EAE5; --ink-2:#B3BBC1; --ink-3:#828D95;
+  --rule:#2E373D; --rule-soft:#232B31;
+  --blueprint:#7FB2D4; --blueprint-soft:#1A252D;
+  --rust:#E0784A; --verified:#7FB394; --verified-soft:#18231C;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --d1:#3987e5; --d2:#c98500; --d3:#199e70; --d4:#e66767; --d5:#9085e9; --d6:#d95926;
+}}
+:root[data-theme="dark"]{
+  --paper:#12171B; --paper-2:#191F24; --card:#171D22;
+  --ink:#E8EAE5; --ink-2:#B3BBC1; --ink-3:#828D95;
+  --rule:#2E373D; --rule-soft:#232B31;
+  --blueprint:#7FB2D4; --blueprint-soft:#1A252D;
+  --rust:#E0784A; --verified:#7FB394; --verified-soft:#18231C;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+  --d1:#3987e5; --d2:#c98500; --d3:#199e70; --d4:#e66767; --d5:#9085e9; --d6:#d95926;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--f-body);font-size:15.5px;line-height:1.55;
+  -webkit-font-smoothing:antialiased}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 26px}
+h1,h2,h3,h4{font-family:var(--f-display);margin:0;text-wrap:balance}
+a{color:var(--blueprint)}
+
+/* ---- masthead ---- */
+.mast{border-bottom:2px solid var(--ink);padding:30px 0 20px}
+.mast .eyebrow{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--ink-3);margin-bottom:9px}
+.mast h1{font-size:clamp(1.75rem,3.6vw,2.5rem);font-weight:700;letter-spacing:-.02em;line-height:1.06}
+.mast .sub{font-family:var(--f-display);font-size:clamp(1.05rem,2.1vw,1.42rem);
+  font-weight:400;color:var(--ink-2);margin:7px 0 0;line-height:1.28;max-width:34ch}
+.mast p{color:var(--ink-2);margin:11px 0 0;max-width:70ch;font-size:15px}
+
+/* ---- filter bar ---- */
+.filters{position:sticky;top:0;z-index:40;background:var(--paper);
+  border-bottom:1px solid var(--rule);padding:11px 0;
+  box-shadow:0 1px 0 rgba(0,0,0,.02)}
+.frow{display:flex;flex-wrap:wrap;gap:9px 20px;align-items:center}
+.fgroup{display:flex;align-items:center;gap:7px;min-width:0}
+.flabel{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);white-space:nowrap}
+.crumb{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.sep{color:var(--rule);font-size:13px}
+select{font-family:var(--f-body);font-size:13.5px;padding:5px 27px 5px 9px;
+  border:1px solid var(--rule);border-radius:3px;background:var(--card);
+  color:var(--ink);cursor:pointer;max-width:270px;
+  appearance:none;
+  background-image:linear-gradient(45deg,transparent 50%,currentColor 50%),
+    linear-gradient(135deg,currentColor 50%,transparent 50%);
+  background-position:calc(100% - 15px) 52%,calc(100% - 10px) 52%;
+  background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+select:focus-visible,button:focus-visible,.tab:focus-visible{outline:2px solid var(--blueprint);outline-offset:2px}
+select.on{border-color:var(--rust);color:var(--rust);font-weight:600}
+.reset{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.05em;
+  text-transform:uppercase;background:none;border:1px solid var(--rule);
+  color:var(--ink-3);padding:5px 10px;border-radius:3px;cursor:pointer}
+.reset:hover{border-color:var(--rust);color:var(--rust)}
+.scope{margin-left:auto;font-family:var(--f-mono);font-size:11px;color:var(--ink-3);
+  white-space:nowrap}
+.scope b{color:var(--rust);font-weight:600}
+
+/* ---- hero stats ---- */
+.hero{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));
+  gap:1px;background:var(--rule-soft);border:1px solid var(--rule-soft);
+  border-radius:4px;overflow:hidden;margin:24px 0 0}
+.tile{background:var(--card);padding:15px 17px 16px}
+.tile .k{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);display:block;margin-bottom:7px}
+.tile .v{font-family:var(--f-mono);font-size:1.72rem;font-weight:600;
+  line-height:1.02;font-variant-numeric:tabular-nums;display:block;color:var(--ink)}
+.tile .v.hl{color:var(--blueprint)}
+.tile .v.price{color:var(--rust)}
+.tile .sub{font-size:12.5px;color:var(--ink-3);margin-top:5px;display:block;line-height:1.38}
+.meter{height:5px;background:var(--rule-soft);border-radius:3px;overflow:hidden;margin-top:9px}
+.meter i{display:block;height:100%;background:var(--blueprint);border-radius:3px;
+  min-width:2px;transition:width .18s ease}
+.meter i.v{background:var(--verified)}
+
+/* ---- section shell ---- */
+.sec{margin:34px 0 0}
+.sec>h2{font-size:1.16rem;font-weight:500;letter-spacing:-.008em}
+.sec>.hint{color:var(--ink-3);font-size:13.5px;margin:4px 0 0;max-width:78ch}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:16px;margin-top:14px}
+.card{background:var(--card);border:1px solid var(--rule-soft);border-radius:4px;padding:17px 19px}
+.card h3{font-size:.98rem;font-weight:500;margin-bottom:3px}
+.card .note{font-size:12.5px;color:var(--ink-3);margin:0 0 13px;line-height:1.4}
+
+/* ---- charts ---- */
+.bars{display:flex;flex-direction:column;gap:11px}
+.bar{display:grid;grid-template-columns:minmax(150px,232px) minmax(0,1fr) auto;
+  gap:12px;align-items:center;font-size:13px}
+.bar .nm{color:var(--ink-2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bar .track{background:var(--rule-soft);border-radius:3px;height:17px;overflow:hidden;
+  display:flex;position:relative}
+.bar .track i{display:block;height:100%;border-radius:0 3px 3px 0}
+.bar .amt{font-family:var(--f-mono);font-size:12px;font-variant-numeric:tabular-nums;
+  color:var(--ink-2);white-space:nowrap;min-width:62px;text-align:right}
+.bar .track i.seg{border-radius:0}
+.bar .track i.seg:first-child{border-radius:3px 0 0 3px}
+.bar .track i.seg:last-child{border-radius:0 3px 3px 0}
+.bar .track{gap:1px}
+.dlegend{display:flex;flex-wrap:wrap;gap:5px 14px;font-size:12px;color:var(--ink-2);
+  margin:12px 0 2px;padding-top:11px;border-top:1px solid var(--rule-soft)}
+.dlegend span{display:flex;align-items:center;gap:6px}
+.dsplit{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.dsplit li{display:grid;grid-template-columns:minmax(120px,168px) minmax(0,1fr) auto auto;
+  gap:12px;align-items:center;font-size:13.5px}
+.dsplit .nm{color:var(--ink-2)}
+.dsplit .tr{background:var(--rule-soft);border-radius:3px;height:15px;overflow:hidden}
+.dsplit .tr i{display:block;height:100%;border-radius:3px}
+.dsplit .pc{font-family:var(--f-mono);font-size:11.5px;color:var(--ink-3);
+  min-width:38px;text-align:right;font-variant-numeric:tabular-nums}
+.dsplit .amt{font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;
+  min-width:72px;text-align:right;color:var(--ink)}
+.pkg .split{display:flex;height:5px;border-radius:3px;overflow:hidden;gap:1px;margin-top:2px}
+.pkg .split i{display:block;height:100%}
+.dcards{display:grid;grid-template-columns:repeat(auto-fit,minmax(224px,1fr));gap:13px;margin-top:14px}
+.dcard{background:var(--card);border:1px solid var(--rule-soft);border-radius:4px;padding:15px 17px}
+.dcard .top{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.dcard .sw{width:11px;height:11px;border-radius:2px;flex:none}
+.dcard .t{font-family:var(--f-display);font-size:.96rem;font-weight:500}
+.dcard .v{font-family:var(--f-mono);font-size:1.32rem;font-weight:600;
+  font-variant-numeric:tabular-nums;display:block;margin-bottom:3px}
+.dcard .pc{font-family:var(--f-mono);font-size:11px;color:var(--ink-3)}
+.dcard .d{font-size:12.5px;color:var(--ink-3);line-height:1.45;margin-top:8px}
+.stack{display:flex;height:26px;border-radius:3px;overflow:hidden;gap:2px;margin:6px 0 11px}
+.stack i{display:block;height:100%;position:relative}
+.legend{display:flex;flex-wrap:wrap;gap:6px 15px;font-size:12.5px;color:var(--ink-2);margin-top:3px}
+.legend span{display:flex;align-items:center;gap:6px}
+.dot{width:9px;height:9px;border-radius:2px;flex:none}
+.donut{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:12px;
+  justify-content:center}
+.donut svg{flex:none}
+.pkey{display:flex;flex-direction:column;gap:7px;min-width:172px;flex:1 1 172px}
+.krow{display:grid;grid-template-columns:11px minmax(0,1fr) auto;gap:9px;
+  align-items:baseline;font-size:12.5px}
+.krow .kt{color:var(--ink-2);line-height:1.32}
+.krow .kv{font-family:var(--f-mono);font-size:12.5px;font-variant-numeric:tabular-nums;
+  color:var(--ink);white-space:nowrap}
+.krow .dot{margin-top:1px}
+.dlab{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* ---- tabs ---- */
+.tabs{display:flex;gap:3px;border-bottom:1px solid var(--rule);margin:30px 0 0;
+  overflow-x:auto;scrollbar-width:thin}
+.tab{font-family:var(--f-body);font-size:13.5px;background:none;border:none;
+  border-bottom:2px solid transparent;color:var(--ink-3);padding:9px 13px;
+  cursor:pointer;white-space:nowrap;margin-bottom:-1px}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{color:var(--rust);border-bottom-color:var(--rust);font-weight:600}
+.tab .ct{font-family:var(--f-mono);font-size:10.5px;color:var(--ink-3);margin-left:5px}
+.panel{padding-top:18px}
+.panel[hidden]{display:none}
+
+/* ---- package cards ---- */
+.pkgs{display:grid;grid-template-columns:repeat(auto-fill,minmax(268px,1fr));gap:13px}
+.pkg{background:var(--card);border:1px solid var(--rule-soft);border-radius:4px;
+  padding:15px 16px;cursor:pointer;text-align:left;font:inherit;color:inherit;
+  display:flex;flex-direction:column;gap:7px;transition:border-color .12s}
+.pkg:hover{border-color:var(--blueprint)}
+.pkg.on{border-color:var(--rust);background:var(--paper-2)}
+.pkg .t{font-family:var(--f-display);font-size:.98rem;font-weight:500;line-height:1.25}
+.pkg .d{font-size:12.5px;color:var(--ink-3);line-height:1.42;flex:1}
+.pkg .m{display:flex;justify-content:space-between;align-items:baseline;gap:10px;
+  font-family:var(--f-mono);font-size:11px;color:var(--ink-3);
+  border-top:1px solid var(--rule-soft);padding-top:8px}
+.pkg .m b{color:var(--rust);font-weight:600;font-size:13px}
+
+/* ---- tables ---- */
+.tscroll{overflow-x:auto;border:1px solid var(--rule-soft);border-radius:4px;background:var(--card)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:640px}
+th,td{padding:9px 13px;text-align:left;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+th{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-3);font-weight:600;background:var(--paper-2);position:sticky;top:0;
+  cursor:pointer;white-space:nowrap;z-index:2}
+th:hover{color:var(--rust)}
+td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--paper-2)}
+tfoot td{font-weight:600;background:var(--paper-2);border-top:2px solid var(--rule);
+  position:sticky;bottom:0}
+.chip{font-family:var(--f-mono);font-size:10px;padding:1.5px 6px;border-radius:2px;
+  border:1px solid var(--rule);color:var(--ink-2);white-space:nowrap;display:inline-block}
+.chip.g1{border-color:var(--s1);color:var(--s1)}
+.chip.g2{border-color:var(--s2);color:var(--s2)}
+.chip.g3{border-color:var(--s3);color:var(--s3)}
+.chip.g4{border-color:var(--s4);color:var(--s4)}
+.chip.blk{border-color:var(--rust);color:var(--rust)}
+.srow{cursor:pointer}
+.detail td{background:var(--paper-2);font-size:13px}
+.crit{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px}
+.crit li{display:grid;grid-template-columns:18px 1fr;gap:8px;line-height:1.45}
+.crit .b{color:var(--ink-3);font-family:var(--f-mono);font-size:11px}
+.crit .b.ok{color:var(--verified)}
+
+/* ---- story drill-down: criteria | work | blocking ---- */
+.dgrid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr) minmax(0,1fr);
+  gap:22px;padding:15px 4px 17px}
+@media (max-width:900px){.dgrid{grid-template-columns:1fr;gap:16px}}
+.dgrid h4{margin:0 0 8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-3);font-weight:600;
+  display:flex;align-items:baseline;gap:7px}
+.dgrid .cnt{font-family:var(--f-body);letter-spacing:0;font-size:11.5px;color:var(--ink-2)}
+.dgrid .none{color:var(--ink-3);font-size:13px;font-style:italic;margin:0}
+
+/* a criterion: tick it to see downstream effect */
+.tick{width:18px;height:18px;padding:0;border:1px solid var(--rule);border-radius:50%;
+  background:var(--card);color:var(--ink-3);cursor:pointer;line-height:1;
+  font-family:var(--f-mono);font-size:10px;display:grid;place-items:center}
+.tick:hover{border-color:var(--verified);color:var(--verified)}
+.tick.on{background:var(--verified-soft);border-color:var(--verified);color:var(--verified)}
+.tick.sim{border-style:dashed}
+.tick:focus-visible{outline:2px solid var(--blueprint);outline-offset:1px}
+.crit li.on .ct{color:var(--ink)}
+.crit li.wait .ct{color:var(--ink-3)}
+.crit .after{display:block;font-size:11.5px;color:var(--rust)}
+.crit .after a{color:inherit}
+.crit .rel{display:inline-block;margin-left:7px;font-size:11px;color:var(--verified)}
+
+/* work */
+.tasks{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.tasks li{font-size:13px;line-height:1.4}
+.tasks .tt{display:block;color:var(--ink-2)}
+.tasks .ta{display:inline-block;font-family:var(--f-mono);font-size:9.5px;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);margin:2px 0 3px}
+.tasks .tp{display:block;height:4px;background:var(--rule-soft);border-radius:2px;overflow:hidden}
+.tasks .tp>i{display:block;height:100%;background:var(--s1)}
+.tasks .tn{font-size:11.5px;color:var(--ink-3)}
+
+/* blocking: two kinds, and they clear differently */
+.bk{border-left:2px solid var(--rule);padding:2px 0 2px 11px;margin-bottom:11px;font-size:13px}
+.bk b{display:block;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+  font-family:var(--f-mono);margin-bottom:4px}
+.bk p{margin:0 0 3px}
+.bk .mut{color:var(--ink-3);font-size:12px}
+.bk ul{margin:0;padding-left:15px}
+.bk li{margin-bottom:3px;color:var(--ink-2)}
+.bk.dep{border-left-color:var(--s1)} .bk.dep b{color:var(--s1)}
+.bk.ext{border-left-color:var(--rust)} .bk.ext b{color:var(--rust)}
+
+/* ready / blocked sections */
+.ssec{margin:26px 0 4px;font-size:1rem;font-weight:600;
+  display:flex;align-items:baseline;gap:9px}
+.ssec .cnt{font-family:var(--f-mono);font-size:12px;color:var(--ink-3);font-weight:400}
+.ssec.blkd{color:var(--ink-2)}
+.chip.ok{border-color:var(--verified);color:var(--verified)}
+.simnote{border-left:2px solid var(--s4)}
+.srow.flash>td{background:var(--blueprint-soft);transition:background .3s}
+.linkish{background:none;border:0;padding:0;font:inherit;color:var(--blueprint);
+  text-decoration:underline;cursor:pointer}
+
+/* ---- invoice ---- */
+.inv{margin-top:14px}
+.inv .ph{background:var(--paper-2);font-weight:600}
+.inv .ep td{padding-left:26px}
+.inv .dl td{padding-left:44px;color:var(--ink-3);font-size:12.5px}
+.inv .dl td:first-child .dot{width:8px;height:8px;display:inline-block;margin-right:9px}
+.grand{display:flex;justify-content:space-between;align-items:baseline;gap:16px;
+  border-top:2px solid var(--ink);margin-top:16px;padding-top:14px;flex-wrap:wrap}
+.grand .l{font-family:var(--f-display);font-size:1.06rem;font-weight:500}
+.grand .r{font-family:var(--f-mono);font-size:1.7rem;font-weight:600;color:var(--rust);
+  font-variant-numeric:tabular-nums}
+.formula{background:var(--blueprint-soft);border:1px solid var(--rule-soft);
+  border-radius:4px;padding:14px 17px;margin:16px 0;font-size:13.5px;color:var(--ink-2)}
+.formula b{color:var(--ink)}
+.formula code{font-family:var(--f-mono);font-size:12.5px;background:var(--card);
+  padding:1px 5px;border-radius:2px;border:1px solid var(--rule-soft)}
+
+.empty{padding:38px 20px;text-align:center;color:var(--ink-3);font-size:14px}
+footer{border-top:1px solid var(--rule);margin-top:46px;padding:20px 0 44px;
+  font-family:var(--f-mono);font-size:11px;color:var(--ink-3);line-height:1.7}
+@media (max-width:720px){
+  .bar{grid-template-columns:minmax(76px,1fr) minmax(0,1.4fr) auto}
+  .scope{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ---------------- narrative (the proposal half) ---------------- */
+.pmast{border-bottom:2px solid var(--ink);padding:46px 0 26px}
+.pmast .meta{display:flex;flex-wrap:wrap;gap:9px 26px;font-family:var(--f-mono);
+  font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-3);
+  padding-bottom:22px}
+.pmast .meta b{color:var(--ink-2);font-weight:600}
+/* Headline and deck sit side by side on a wide screen: the h1 wants a short
+   measure to stay punchy, and setting the deck beside it uses the width that
+   would otherwise be blank to the right of a three-word title. */
+.pmast .head{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:14px 56px;align-items:end}
+.pmast h1{font-family:var(--f-display);font-weight:700;
+  font-size:clamp(2.2rem,5.2vw,3.7rem);line-height:1.03;letter-spacing:-.021em;
+  margin:0;max-width:15ch;text-wrap:balance}
+.pmast .dek{font-size:clamp(1.05rem,1.5vw,1.2rem);color:var(--ink-2);
+  max-width:52ch;margin:0 0 6px;font-weight:300;line-height:1.5}
+.pmast .dek em{color:var(--ink);font-style:normal;font-weight:600}
+@media(max-width:900px){
+  .pmast .head{grid-template-columns:1fr;align-items:start}
+  .pmast h1{max-width:none}
+}
+
+.thesis{background:var(--blueprint);color:#F4F7F9;margin:0;padding:34px 0}
+.thesis p{margin:0;max-width:74ch;font-family:var(--f-display);font-weight:300;
+  font-size:clamp(1.16rem,2.2vw,1.62rem);line-height:1.37;text-wrap:balance}
+.thesis p b{font-weight:700}
+
+/* The rail is a fixed label column; the body takes the rest. `--measure` caps
+   RUNNING PROSE only -- long lines genuinely hurt readability, so paragraphs
+   stay near 70ch. Structural blocks (the comparison columns, the stat row, the
+   step chain, callouts) are not prose and are free to use the full width,
+   which is what stops the page from being a narrow ribbon with a wide margin. */
+.nsec{display:grid;grid-template-columns:118px minmax(0,1fr);gap:30px;
+  padding:44px 0;border-bottom:1px solid var(--rule-soft)}
+.nsec .rail{display:flex;flex-direction:column;gap:5px;font-family:var(--f-mono);
+  font-size:10.5px;letter-spacing:.09em;text-transform:uppercase}
+.nsec .rail .num{color:var(--rust);font-weight:600}
+.nsec .rail .rl{color:var(--ink-3)}
+.nsec .rail .rl.dim{color:var(--rule)}
+.nsec .body{max-width:none}
+.nsec h2{font-family:var(--f-display);font-weight:500;font-size:clamp(1.35rem,2.7vw,1.85rem);
+  line-height:1.18;letter-spacing:-.012em;margin:0 0 16px;text-wrap:balance;
+  max-width:30ch}
+.nsec p{margin:0 0 14px;max-width:var(--measure)}
+.nsec p.lead{font-size:1.12rem;color:var(--ink-2);font-weight:300;
+  max-width:calc(var(--measure) + 4ch)}
+/* Two prose columns beat one narrow one with 400px of nothing beside it --
+   but only where there is enough text to fill both, and only on wide screens. */
+@media(min-width:1180px){
+  .nsec.flow .body>p{max-width:none}
+  .nsec.flow .body{columns:2;column-gap:46px}
+  .nsec.flow .body>h2{column-span:all}
+  .nsec.flow .body>.cols,.nsec.flow .body>.stats,
+  .nsec.flow .body>ol.steps,.nsec.flow .body>aside.note{column-span:all}
+}
+
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:22px 0 8px;
+  max-width:none}
+.cols .col{background:var(--paper-2);border:1px solid var(--rule-soft);
+  border-radius:8px;padding:16px 18px}
+.cols .col:last-child{background:var(--blueprint-soft);border-color:var(--blueprint)}
+.cols h4{margin:0 0 10px;font-family:var(--f-mono);font-size:10.5px;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.cols ul{margin:0;padding-left:17px}
+.cols li{margin-bottom:6px;font-size:.94rem;line-height:1.45}
+
+ol.steps{counter-reset:st;list-style:none;margin:18px 0 6px;padding:0}
+@media(min-width:1080px){
+  /* Long chains read down one column then the next; each step is a short
+     paragraph, so one full-width column would strand every line. */
+  ol.steps.long{columns:2;column-gap:52px}
+  ol.steps.long li{break-inside:avoid}
+  /* A SHORT chain (a three-beat cadence, say) splits 2/1 across two columns
+     and reads as a mistake. Lay those out as a row instead. */
+  ol.steps.short{display:grid;grid-template-columns:repeat(3,1fr);gap:0 30px}
+  ol.steps.short li{border-left:1px solid var(--rule-soft);padding-bottom:0}
+}
+ol.steps li{counter-increment:st;position:relative;padding:0 0 14px 40px;
+  border-left:1px solid var(--rule-soft);margin-left:11px}
+ol.steps li:last-child{border-left-color:transparent;padding-bottom:0}
+ol.steps li::before{content:counter(st);position:absolute;left:-11px;top:0;
+  width:22px;height:22px;border-radius:50%;background:var(--blueprint);
+  color:#fff;font-family:var(--f-mono);font-size:11px;display:grid;
+  place-items:center;font-weight:600}
+ol.steps b{display:block;font-weight:600;margin-bottom:2px}
+ol.steps span{color:var(--ink-2);font-size:.94rem;line-height:1.5;
+  display:block;max-width:var(--measure)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+  gap:20px;margin:24px 0 8px;max-width:none}
+.stats .stat{border-top:2px solid var(--ink);padding-top:9px}
+.stats .v{font-family:var(--f-mono);font-size:1.6rem;font-weight:600;
+  letter-spacing:-.02em;line-height:1}
+.stats .l{color:var(--ink-3);font-size:.86rem;margin-top:5px;line-height:1.35}
+
+aside.note{background:var(--verified-soft);border-left:3px solid var(--verified);
+  border-radius:0 8px 8px 0;padding:16px 20px;margin:20px 0;
+  max-width:calc(var(--measure) + 10ch)}
+aside.note h4{margin:0 0 6px;font-size:.95rem;font-weight:600}
+aside.note p{margin:0;font-size:.95rem;color:var(--ink-2)}
+
+@media(max-width:820px){
+  .nsec{grid-template-columns:1fr;gap:14px;padding:34px 0}
+  .nsec .rail{flex-direction:row;gap:14px}
+  .cols{grid-template-columns:1fr}
+  .nsec h2{max-width:none}
+}
+/* ---------------- scope selection & locked bid ---------------- */
+/* The scope control governs the WHOLE document, so it sits at the very top and
+   stays there. Everything below it -- the prose, the tables, the price -- is a
+   view of whatever is selected here. */
+.filters.top{position:sticky;top:0;z-index:60;background:var(--paper);
+  border-bottom:1px solid var(--rule);box-shadow:0 1px 0 rgba(0,0,0,.03)}
+.filters.top .frow{padding:10px 0}
+.filters.top .cust{margin-left:6px;background:var(--blueprint);color:#fff;
+  border:1px solid var(--blueprint);border-radius:6px;padding:5px 13px;
+  font:inherit;font-size:.86rem;font-weight:600;cursor:pointer}
+.filters.top .cust:hover{opacity:.9}
+.filters.top .cust[aria-expanded="true"]{background:var(--rust);border-color:var(--rust)}
+
+.scopenote{display:none;align-items:center;gap:12px;flex-wrap:wrap;
+  padding:0 0 10px;font-size:.88rem;color:var(--rust)}
+.scopenote.on{display:flex}
+.scopenote b{font-family:var(--f-mono);font-weight:600}
+.scopenote button{background:transparent;color:var(--rust);border:1px solid var(--rust);
+  border-radius:5px;padding:2px 9px;font:inherit;font-size:.82rem;cursor:pointer}
+.scopenote button:hover{background:var(--rust);color:#fff}
+
+/* ---- customize panel ---- */
+.custpanel{position:sticky;top:47px;z-index:55;background:var(--paper-2);
+  border-bottom:1px solid var(--rule);max-height:62vh;overflow:auto;
+  padding:18px 0 22px}
+.custpanel h3{margin:0 0 4px;font-family:var(--f-display);font-size:1.05rem;font-weight:600}
+.custpanel>.wrap>p{margin:0 0 14px;color:var(--ink-2);font-size:.92rem;max-width:78ch}
+.custtools{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.custtools input{flex:0 1 260px;padding:6px 10px;border:1px solid var(--rule);
+  border-radius:6px;font:inherit;font-size:.88rem;background:var(--card,#fff);color:var(--ink)}
+.custtools button{background:transparent;border:1px solid var(--rule);border-radius:6px;
+  padding:5px 12px;font:inherit;font-size:.85rem;cursor:pointer;color:var(--ink)}
+.custtools button:hover{border-color:var(--ink)}
+.custcount{margin-left:auto;font-family:var(--f-mono);font-size:.82rem;color:var(--ink-3)}
+
+.custtree{columns:2;column-gap:34px}
+@media(max-width:1100px){.custtree{columns:1}}
+.cartpack{break-inside:avoid;margin:0 0 18px;border:1px solid var(--rule-soft);
+  border-radius:9px;background:var(--card,#fff);overflow:hidden}
+.cartpack>header{display:flex;align-items:center;gap:10px;padding:9px 12px;
+  background:var(--paper-2);border-bottom:1px solid var(--rule-soft)}
+.pkgtoggle{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:.95rem}
+.pkgtoggle input{accent-color:var(--rust);cursor:pointer}
+.cartpack .pkgn{margin-left:auto;font-family:var(--f-mono);font-size:.78rem;
+  color:var(--ink-3);white-space:nowrap}
+.cartepic{padding:8px 12px 10px}
+.cartepic+.cartepic{border-top:1px solid var(--rule-soft)}
+.cartepic>h4{margin:0 0 5px;font-family:var(--f-mono);font-size:10px;
+  letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3);
+  display:flex;gap:8px;align-items:center}
+.cartepic>h4 .gcount{color:var(--rule)}
+
+.cartrow{display:flex;align-items:flex-start;gap:8px;padding:3px 0}
+.cartrow input{margin-top:4px;accent-color:var(--rust);cursor:pointer;flex:none}
+.cartrow .cl{min-width:0;flex:1}
+.cartrow .ct{display:block;width:100%;text-align:left;background:none;border:0;
+  padding:0;font:inherit;font-size:.9rem;line-height:1.35;color:var(--ink);
+  cursor:pointer}
+.cartrow .ct:hover{color:var(--blueprint)}
+.cartrow .rq{font-family:var(--f-mono);font-size:.76rem;color:var(--ink-3);
+  margin-right:5px}
+.cartrow .cmeta{display:flex;flex-wrap:wrap;gap:5px 9px;margin-top:2px;
+  font-size:.74rem;color:var(--ink-3);font-family:var(--f-mono)}
+.cartrow .cmeta .kids{color:var(--rust)}
+.cartrow .cmeta .needs{color:var(--blueprint);cursor:help;border-bottom:1px dotted
+  currentColor}
+
+/* ---- dependency confirmation ---- */
+.depdlg{position:fixed;inset:0;z-index:200;background:rgba(10,15,20,.45);
+  display:grid;place-items:center;padding:20px}
+.depbox{background:var(--paper);border-radius:12px;padding:22px 24px;
+  max-width:560px;width:100%;max-height:80vh;overflow:auto;
+  box-shadow:0 18px 50px rgba(0,0,0,.3)}
+.depbox h3{margin:0 0 6px;font-family:var(--f-display);font-size:1.1rem}
+.depbox>p{margin:0 0 10px;color:var(--ink-2);font-size:.93rem}
+.deplist{margin:0 0 14px;padding-left:18px;font-size:.9rem}
+.deplist li{margin-bottom:5px;line-height:1.4;color:var(--ink-2)}
+.deplist .rq{font-family:var(--f-mono);font-size:.78rem;color:var(--ink-3);
+  margin-right:5px}
+.depalways{display:flex;align-items:center;gap:7px;font-size:.88rem;
+  color:var(--ink-2);margin-bottom:14px;cursor:pointer}
+.depalways input{accent-color:var(--rust);cursor:pointer}
+.depbtns{display:flex;gap:9px}
+.depbtns .btn{background:var(--ink);color:var(--paper);border:0;border-radius:6px;
+  padding:8px 16px;font:inherit;font-weight:600;cursor:pointer}
+.depbtns .btn.sec{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+.depbtns .btn:hover{opacity:.87}
+/* A removal is destructive and irreversible-looking; it should not wear the
+   same button as an addition. Cancel is focused by default for the same
+   reason -- Enter must not confirm a cut. */
+.depbtns .btn.danger{background:var(--rust);color:#fff}
+.depbox.warn{border-top:4px solid var(--rust)}
+
+/* what the change costs, before it is made */
+.itotals{display:flex;gap:22px;flex-wrap:wrap;margin:0 0 14px;padding:12px 14px;
+  background:var(--paper-2);border-radius:9px}
+.itotals>div{display:flex;flex-direction:column;gap:1px}
+.itotals .iv{font-family:var(--f-display);font-size:1.28rem;font-weight:700;
+  letter-spacing:-.01em;line-height:1.1}
+.itotals .il{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-3)}
+.itotals .neg .iv{color:var(--rust)}
+.itotals .pos .iv{color:var(--verified)}
+.deplist.grouped{list-style:none;padding-left:0;max-height:34vh;overflow:auto}
+.deplist.grouped>li{margin-bottom:10px}
+.deplist.grouped .ig{font-weight:600;color:var(--ink)}
+.deplist.grouped .in{font-family:var(--f-mono);font-size:.75rem;color:var(--ink-3);
+  margin-left:7px}
+.deplist.grouped .in.all{color:var(--rust)}
+.isub{list-style:none;padding-left:0;margin:4px 0 0;
+  border-left:2px solid var(--rule-soft);padding-left:9px}
+.isub li{margin-bottom:3px;font-size:.85rem}
+.isub .imore{color:var(--ink-3);font-style:italic}
+
+/* undo */
+.undogrp{display:flex;gap:4px}
+.custtools .undogrp button:disabled{opacity:.38;cursor:default;
+  border-color:var(--rule-soft)}
+.custtools .undogrp button:disabled:hover{border-color:var(--rule-soft)}
+kbd{font-family:var(--f-mono);font-size:.78em;border:1px solid var(--rule);
+  border-bottom-width:2px;border-radius:4px;padding:0 4px;background:var(--paper-2)}
+
+.custsetto{display:flex;align-items:center;gap:6px;font-size:.85rem;color:var(--ink-3)}
+.custsetto select{padding:5px 8px;border:1px solid var(--rule);border-radius:6px;
+  font:inherit;font-size:.85rem;background:var(--card,#fff);color:var(--ink)}
+.cartrow .cmeta .blk{color:var(--rust)}
+.cartrow.off .ct{opacity:.42;text-decoration:line-through;
+  text-decoration-thickness:1px}
+.cartrow.off .cmeta{opacity:.42}
+.cartrow.open{background:var(--blueprint-soft);border-radius:7px;
+  padding:6px 8px;margin:3px -8px}
+
+.cdet{margin:8px 0 4px;padding:10px 12px;background:var(--card,#fff);
+  border:1px solid var(--rule-soft);border-radius:7px;font-size:.86rem}
+.cfacts{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+  gap:7px 14px;margin:0 0 9px}
+.cfacts dt{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.07em;
+  text-transform:uppercase;color:var(--ink-3)}
+.cfacts dd{margin:1px 0 0;font-size:.85rem}
+.cdet h5{margin:9px 0 4px;font-size:.8rem;font-weight:600;
+  font-family:var(--f-mono);letter-spacing:.05em;text-transform:uppercase;
+  color:var(--ink-2)}
+.cdet ul{margin:0;padding-left:16px}
+.cdet li{margin-bottom:3px;line-height:1.4;color:var(--ink-2)}
+.cdet .ctask li .ar{font-family:var(--f-mono);font-size:.72rem;color:var(--ink-3);
+  margin-left:6px}
+.cdep,.cblk{margin:0 0 7px;font-size:.84rem;color:var(--ink-2)}
+.cblk{color:var(--rust)}
+
+td.selcell{width:34px;text-align:center}
+input.selbox{width:15px;height:15px;accent-color:var(--rust);cursor:pointer}
+tr.off{opacity:.42}
+tr.off td:not(.selcell){text-decoration:line-through;text-decoration-thickness:1px}
+tr.cascaded input.selbox{opacity:.5}
+
+.bidstamp .btn{background:var(--ink);color:var(--paper);border:0;border-radius:6px;
+  padding:9px 18px;font:inherit;font-weight:600;cursor:pointer;margin-top:14px}
+.bidstamp .btn:hover{opacity:.86}
+.bidstamp .stampnote{margin:0 0 12px;color:var(--ink-2);font-size:.9rem;
+  max-width:64ch}
+
+/* ---- letter-of-intent terms ---- */
+.terms{border-top:2px solid var(--ink);margin:30px 0 10px;padding-top:18px}
+.terms h3{margin:0 0 8px;font-family:var(--f-display);font-size:1.05rem;font-weight:600}
+.terms p{margin:0 0 11px;color:var(--ink-2);font-size:.92rem;max-width:76ch}
+.terms ul{margin:0 0 12px;padding-left:18px;max-width:76ch}
+.terms li{margin-bottom:6px;font-size:.91rem;line-height:1.45;color:var(--ink-2)}
+.terms b{color:var(--ink)}
+.terms .tsmall{font-size:.85rem;color:var(--ink-3)}
+
+.bidstamp{border:2px solid var(--verified);border-radius:10px;
+  padding:18px 22px;margin:26px 0;background:var(--verified-soft)}
+.bidstamp h3{margin:0 0 8px;font-family:var(--f-display);font-size:1.12rem}
+.bidstamp dl{display:grid;grid-template-columns:auto 1fr;gap:5px 18px;margin:0;
+  font-size:.92rem}
+.bidstamp dt{color:var(--ink-3);font-family:var(--f-mono);font-size:10.5px;
+  letter-spacing:.07em;text-transform:uppercase;align-self:center}
+.bidstamp dd{margin:0;font-family:var(--f-mono);font-weight:600}
+
+@media print{
+  /* Anything that EDITS the bid has no meaning on paper -- the printed page is
+     the agreement, not the tool that produced it. */
+  .filters,.tabs,.scopebar,.scopenote,.custpanel,.depdlg,.bidstamp .btn,
+  td.selcell,th.selcell,.jump{display:none!important}
+  /* Print every tab -- a bid must be complete on paper, not dependent on
+     clicking. But the tabs overlap: Packages and Epics are rollups OF the
+     story list, and the reader has the story list plus the pricing detail.
+     Printing all six repeats the same money three times over ~40 pages. */
+  .panel[hidden]{display:block!important}
+  .panel[data-panel="packages"],.panel[data-panel="epics"],
+  .panel[data-panel="delivery"]{display:none!important}
+  /* Per-story drill-downs are a reading aid on screen. On paper they turn a
+     20-page bid into a 60-page one and repeat what the criteria list already
+     says, so print the story rows and leave the expansions closed. */
+  tr.detail,.cdet{display:none!important}
+  table{font-size:.82rem}
+  /* A whole section is usually taller than a page, so forbidding a break
+     inside one just pushes it wholesale to the next page and leaves half a
+     page blank. Keep the heading with its opening text, protect the small
+     indivisible blocks, and let the prose flow. */
+  /* The two-column grid (rail | body) cannot split across pages: the browser
+     keeps the whole grid together and pushes it wholesale, leaving most of a
+     page blank. Print it as one flowing column with the rail as a small
+     kicker above the heading. */
+  .nsec{display:block;border-bottom:1px solid #ccc;padding:16px 0}
+  .nsec .rail{display:block;margin-bottom:4px}
+  .nsec .rail span{display:inline;margin-right:10px}
+  .nsec h2{break-after:avoid;margin-top:0}
+  .nsec .body{max-width:none}
+  .nsec p{max-width:none}
+  .card,.stats,ol.steps li,aside.note,.cartpack,.bidstamp,
+  .cols .col,.cfacts{break-inside:avoid}
+  /* two columns do not paginate well; print one */
+  .nsec.flow .body{columns:1!important}
+  ol.steps.long{columns:1!important}
+  .bidstamp{border-color:#333;break-inside:avoid}
+  .terms{break-before:auto;break-inside:avoid}
+  body{background:#fff}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:.75em;color:#666}
+  @page{margin:14mm}
+}
+</style>
+</head><body>
+
+<div class="filters top" id="topbar"><div class="wrap"><div class="frow">
+  <span class="flabel">Showing</span>
+  <div class="fgroup">
+    <div class="crumb"><select id="fPhase" aria-label="Filter by phase"></select></div></div>
+  <span class="sep">›</span>
+  <div class="fgroup"><select id="fPkg" aria-label="Filter by package"></select></div>
+  <span class="sep">›</span>
+  <div class="fgroup"><select id="fEpic" aria-label="Filter by epic"></select></div>
+  <button class="cust" id="custBtn" aria-expanded="false">Customize scope</button>
+  <button class="reset" id="reset">Reset</button>
+  <span class="scope" id="scope"></span>
+</div>
+<div class="scopenote" id="scopebar"><span id="scopetext"></span>
+  <button id="selAll">Restore full scope</button></div>
+</div></div>
+
+<div class="custpanel" id="custpanel" hidden><div class="wrap">
+  <h3>Choose what you are buying</h3>
+  <p>This starts from whatever you were looking at. Tick to add, untick to
+  remove — whole packages at a time from the header, or story by story. Click
+  any story to read what it commits us to. Anything that depends on a story you
+  remove comes out with it — you will be shown exactly what and what it is
+  worth before it happens — and every figure in this document, the prose
+  included, re-derives for exactly what is left. <b>Undo</b> (or
+  <kbd>Ctrl</kbd>/<kbd>&#8984;</kbd>+<kbd>Z</kbd>) takes back any change.</p>
+  <div class="custtools">
+    <input type="search" id="custSearch" placeholder="Find a story…" aria-label="Find a story">
+    <button id="custAll">Everything</button>
+    <button id="custNone">Nothing</button>
+    <span class="undogrp">
+      <button id="undoBtn" disabled aria-label="Undo the last change">&#8630; Undo</button>
+      <button id="redoBtn" disabled aria-label="Redo">&#8631; Redo</button>
+    </span>
+    <span class="custsetto">Set to
+      <select id="custSetTo" aria-label="Replace the bid with a phase's stories">
+        <option value="">choose a phase…</option>
+      </select></span>
+    <span class="custcount" id="custCount"></span>
+  </div>
+  <div class="custtree" id="custtree"></div>
+</div></div>
+
+<header class="pmast"><div class="wrap">
+  <div class="meta">
+    <span>Scope <b><span class="lv" data-f="stories">53</span> stories · <span class="lv" data-f="criteria" data-fmt=",">106</span> acceptance criteria</b></span>
+    <span>Model <b>33 tables · 659 fields</b></span>
+    <span>Date <b>31 August 2026</b></span>
+  </div>
+  <div class="head">
+    <h1>The spine is already modelled.</h1>
+    <p class="dek">The specification, the data model, the security model and the acceptance process are already written. This document explains what that changes about <em>the price</em> and <em>the date</em>.</p>
+  </div>
+</div></header>
+
+<div class="thesis"><div class="wrap"><p>Most bids ask you to buy a promise about work that hasn&rsquo;t started. <b>This one asks you to inspect a model that already exists</b> &mdash; and to buy the platform built on top of it.</p></div></div>
+
+<main class="wrap">
+
+<section class="nsec flow" id="s-what-this-is"><div class="rail"><span class="num">&sect;&nbsp;1</span><span class="rl">What this is</span><span class="rl dim">Plain terms</span></div><div class="body"><h2>First, what a rulebook is</h2><p class="lead">This proposal rests on one unfamiliar idea, so it is worth thirty seconds before anything else. Everything that follows is a consequence of it.</p><p>Software is normally built by translating a specification into code. Someone writes down what the business needs — the rules, the permissions, the calculations — and then developers translate that document into an application. From that moment the document and the application begin to drift apart. The code becomes the real system; the specification becomes a description of what someone once intended. Every later change has to be made twice, and only one of the two is enforced.</p><p>A rulebook removes the translation step. The specification is written in a structured form that a machine can execute directly: every table, every field, every calculation, every permission, every business rule, stated once. The database, the security model and the documentation are then generated from it. There is no second copy to keep in sync, because the specification is not a description of the system — it is the system.</p><div class="cols"><div class="col"><h4>The conventional model</h4><ul><li>Specification, then code</li><li>The spec describes; the code decides</li><li>Rules are scattered across the application</li><li>Each feature must be reconciled with the last</li><li>Documentation drifts from behaviour</li><li>Permissions are checks a developer must remember</li><li>&ldquo;Why does it show this number?&rdquo; needs an engineer</li></ul></div><div class="col"><h4>The rulebook model</h4><ul><li>Specification as the system</li><li>The spec is executable; nothing overrides it</li><li>Rules live in one place, stated once</li><li>Features are added, not reconciled</li><li>Documentation is generated, so it cannot drift</li><li>Permissions are enforced by the database itself</li><li>&ldquo;Why does it show this number?&rdquo; is answered on screen</li></ul></div></div><p>For this platform, that rulebook already exists. It holds <strong>33 tables and 659 fields</strong> — 0 of them generated into the application and its security model, plus 33 that exist only to drive this proposal and the delivery report — covering the domain and the platform around it: every role, route, business rule, screen and acceptance criterion.</p><aside class="note"><h4>The consequence to hold on to</h4><p>Because the specification executes, the usual gap between &ldquo;what we agreed&rdquo; and &ldquo;what got built&rdquo; does not open in the first place. That is what makes the rest of this document possible: the price, the schedule, the fixed bid, and the fact that the core of the platform is modelled before the contract is signed.</p></aside></div></section><section class="nsec flow" id="s-cost-curve"><div class="rail"><span class="num">&sect;&nbsp;2</span><span class="rl">The claim</span><span class="rl dim">Cost curve</span></div><div class="body"><h2>The two-hundredth feature does not cost dramatically more than the twelfth</h2><p>In a conventional build, cost per feature climbs. Every new feature has to be reconciled against the ones already shipped — the code paths they share, the assumptions they made, the tests they broke. That compounding reconciliation is why software projects that start fast tend to finish slow.</p><p>Features here still interact; some are genuinely large, and a few will be hard for reasons that have nothing to do with architecture. What changes is that the most common category of cross-dependency is avoided rather than managed. The business logic lives in one declarative rulebook rather than spread across an application layer, so a new feature is largely a matter of adding to the model — not tracing what else in the codebase assumed the old behaviour.</p><p>This is not a claim about working harder, and it is not a claim that features are free or interchangeable. It is a claim about a different dependency structure, with a specific consequence: cost tends to scale roughly linearly with scope, instead of compounding.</p><div class="stats"><div class="stat"><div class="v">33</div><div class="l">Tables in the rulebook</div></div><div class="stat"><div class="v">393</div><div class="l">Of 659 fields, computed rather than typed</div></div><div class="stat"><div class="v"><span class="lv" data-f="modelled" data-fmt="">53</span></div><div class="l">Of the <span class="lv" data-f="stories" data-fmt="">53</span> stories need no new core entity modelling</div></div><div class="stat"><div class="v"><span class="lv" data-f="criteria" data-fmt=",">106</span></div><div class="l">Acceptance criteria, each linked to one costed task</div></div></div></div></section><section class="nsec" id="s-mechanism"><div class="rail"><span class="num">&sect;&nbsp;3</span><span class="rl">Mechanism</span><span class="rl dim">One chain</span></div><div class="body"><h2>Everything else in this proposal is a consequence of one decision</h2><p>We are not presenting a list of features we happen to have. Each item below follows from the one above it. Each step removes or measures a category of uncertainty; taken together they make the fixed-price phases a calculated commercial risk rather than a promise resting on incomplete discovery.</p><ol class="steps long"><li><b>The business logic lives in the rulebook.</b><span>Not in application code. One declarative file, authored directly, versioned in git.</span></li><li><b>The database is generated from it.</b><span>Schema, views and calculation functions — emitted, not hand-written.</span></li><li><b>Therefore every field can explain itself.</b><span>Any number on any screen traces back through its inputs to ground truth. Not logging — the derivation itself.</span></li><li><b>Therefore security is declared, not coded.</b><span>0 roles across all 0 secured tables, 0 fields carrying per-role grants, a row predicate for every role on every tenant-scoped table — enforced by the database.</span></li><li><b>Therefore the spec is live and editable.</b><span>Stories, dependencies, estimates, acceptance criteria and the security model are administered in the product, not in a document that drifts.</span></li><li><b>Therefore the whole thing exports.</b><span>A workbook with one sheet per table, plus the source JSON, and a plain-English rules document — both regenerated on every build.</span></li><li><b>Therefore audit evidence is queryable.</b><span>&ldquo;Which roles can read PII?&rdquo; is a SELECT, not an interview and a screenshot.</span></li><li><b>Therefore we can commit to a fixed price and a fixed date.</b><span>Not because we are cheaper. Because the thing that normally makes software estimates unreliable — accumulated coupling between features — is substantially reduced, and because we measure our own model against reality from week one.</span></li></ol></div></section><section class="nsec flow" id="s-cadence"><div class="rail"><span class="num">&sect;&nbsp;4</span><span class="rl">Cadence</span><span class="rl dim">Tue / Fri</span></div><div class="body"><h2>Two meetings a week, and a two-day turnaround</h2><p>The cost curve is the commercial argument. The thing you will actually feel is the latency: how long it takes for something you said out loud to become something you can click.</p><p>We meet twice weekly, Tuesday and Friday. Features discussed on Tuesday are typically ready for testing — and often for deployment — by Friday. Not every feature, every time; some are genuinely large, and some wait on decisions or third-party access. But most changes land inside one two-day cycle, and that is the normal rhythm rather than the exceptional sprint.</p><p>This is downstream of the same mechanism. A rule change is one edit to the rulebook; the database, the API, the permission model and the plain-English documentation are regenerated together. There is no window in which the code says one thing and the spec says another, because the spec is what produced the code.</p><p>The practical effect on scope control is worth naming: because acceptance criteria are rows in the same rulebook, &ldquo;is this done?&rdquo; is answered against a written criterion with a name and a timestamp on it, twice a week — not in a disputed conversation at the end of a phase.</p><ol class="steps short"><li><b>Tuesday</b><span>Review what shipped. Decide what&#x27;s next, against the live spec.</span></li><li><b>Wed — Thu</b><span>Rulebook edit → regenerate → build the surfaces that need hand work.</span></li><li><b>Friday</b><span>Most of it is testable. Accept it, or feed it back into Tuesday.</span></li></ol></div></section><section class="nsec" id="s-explainability"><div class="rail"><span class="num">&sect;&nbsp;5</span><span class="rl">Explainability</span><span class="rl dim">Provenance</span></div><div class="body"><h2>Every number on every screen can show its work</h2><p>Because the derivations are declared rather than implemented, the platform holds a complete dependency graph of how each value is computed. That graph is not a debugging tool for us — it is a product feature for your users.</p><p>Of the 659 fields in the model, <strong>393 are computed rather than typed</strong> (60%). Each can be expanded in place to show the inputs that produced it, and each of those inputs expanded in turn, all the way down to values a person typed. For a platform whose purpose is producing auditable submissions, an interface that cannot be questioned is a liability. This one answers.</p></div></section><section class="nsec flow" id="s-security"><div class="rail"><span class="num">&sect;&nbsp;6</span><span class="rl">Security</span><span class="rl dim">Audit posture</span></div><div class="body"><h2>Each role gets its own database schema</h2><p>Authorization here is not a middleware layer that every new endpoint must remember to call. It is the database&#x27;s own access control, generated from the rulebook.</p><p>Each of the 0 roles receives its own Postgres schema exposing only the tables and columns that role may touch. Row-level security narrows that further to the specific rows — by construction rather than by a WHERE clause someone remembered to write. A forgotten application-layer authorization check cannot expose a field that the role&#x27;s database schema does not contain.</p><p>The consequence worth stating plainly: this is a security model designed so that a tenant could, in principle, be handed a direct database connection and still see only their own data. That is a different category of model from one that depends on the application behaving correctly. Every tenant-scoped table carries a row predicate for every role, and the generator refuses to build if one is missing rather than defaulting to open access.</p><aside class="note"><h4>What this does to the audit</h4><p>Most platforms answer an auditor with policy documents, screenshots and interviews. Here the controls are data, so the evidence is a query. Which roles can read personally identifiable fields? Which rows can this role see? When did this permission change, and who changed it? Each is answerable directly from the same rulebook that generated the enforcement. This makes the platform audit-ready by construction — it is not a certification, and we are not bidding one.</p></aside></div></section><section class="nsec flow" id="s-lock-in"><div class="rail"><span class="num">&sect;&nbsp;7</span><span class="rl">Exit</span><span class="rl dim">No lock-in</span></div><div class="body"><h2>What you own, and what happens if we disappear</h2><p>Everyone who has commissioned custom software has been on the wrong end of it: the vendor holds the only copy of how it works, and the only artifact that fully describes the system is source code you cannot read and did not write.</p><p>Our answer is structural rather than contractual. The specification is data. The business logic is data. The security model is data. The acceptance record is data. All of it exports — and the running system underneath is standard PostgreSQL, not a proprietary runtime.</p></div></section><section class="nsec flow" id="s-outcome"><div class="rail"><span class="num">&sect;&nbsp;8</span><span class="rl">Commercial</span><span class="rl dim">What you buy</span></div><div class="body"><h2>You are buying an outcome, not a quantity of labour</h2><p>The deliverable is <strong><span class="lv" data-f="criteria" data-fmt=",">106</span> written acceptance criteria</strong>, met by a date. In the fixed-price phases you pay for accepted outcomes rather than hours: no headcount, no hours ledger, nothing to audit but the result. Whether a given week takes one person or fifteen is ours to arrange, and it will vary, which is exactly why it is a poor thing to be billed against.</p><p>Once acceptance is a written ledger, what was delivered is measurable precisely enough that how much effort it took stops being a meaningful metric.</p><div class="tbl-scroll"><table class="phasetbl"><thead><tr><th>Phase</th><th>Commercial basis</th><th>Stories</th><th>Acceptance criteria</th><th>Amount</th></tr></thead><tbody><tr class=""><td>Semantic Foundation</td><td>Fixed price</td><td class="n">8</td><td class="n">19</td><td class="n">$12,000</td></tr><tr class="bidrow"><td>Consistency Sweep <span class="onnow">on the table now</span></td><td>Fixed price</td><td class="n">15</td><td class="n">35</td><td class="n">$18,000</td></tr><tr class=""><td>Progress Instrumentation</td><td>Fixed price</td><td class="n">7</td><td class="n">15</td><td class="n">$9,000</td></tr><tr class=""><td>Root Platform Explorer</td><td>Priced option</td><td class="n">13</td><td class="n">22</td><td class="n">$15,000</td></tr><tr class=""><td>Catalog, Skills &amp; Legacy Retirement</td><td>Priced option</td><td class="n">10</td><td class="n">15</td><td class="n">$12,000</td></tr></tbody><tfoot><tr><td>The programme in full</td><td></td><td class="n">53</td><td class="n">106</td><td class="n">$66,000</td></tr></tfoot></table></div><p>Every row above is generated from the rulebook: the phases, their commercial basis, their acceptance-criteria counts and their prices. Change what a phase costs, or move a story from one phase to another, and this table &mdash; and every figure in the prose around it &mdash; says something different on the next build. There is no second copy to keep in step.</p><aside class="note"><h4>The feasibility check that keeps this honest</h4><p>Internally we do model effort — we would be reckless to commit to a date without testing whether it is achievable. Every phase carries a modelled effort and a capacity ratio against its committed duration. That instrument exists to keep our own promises honest, not to describe a staffing plan, which is why its outputs are not in the pricing table. The 0 external dependencies that no amount of engineering removes are modelled explicitly as roadblocks, and modelled concurrently — the schedule absorbs the worst single one, not their sum, because that is how waiting actually works.</p></aside></div></section>
+
+<section class="nsec" id="s-plan">
+  <div class="rail"><span class="num">&sect;&nbsp;9</span>
+    <span class="rl">The plan</span><span class="rl dim">Priced</span></div>
+  <div class="body">
+    <h2>What gets built, in what order, and what each part costs</h2>
+    <p>Everything below is derived from the same rulebook as the argument above.
+    Filter to any phase, package or epic and every figure recalculates for
+    exactly that scope. The address bar updates too, so any view can be shared
+    as a link.</p>
+    <p><b>You can also change what you are buying.</b> On the
+    <em>User stories</em> tab every story has a checkbox. Turn one off and
+    everything that depends on it goes too — the acceptance criteria, the
+    complexity weight it carried, and its share of the price.</p>
+  </div>
+</section>
+
+<div class="tscroll" style="margin:28px 0"><table id="commtable">
+  <thead><tr><th>Commercial basis</th><th>Acceptance criteria</th><th>Amount</th></tr></thead>
+  <tbody id="commrows"><tr><td><b>Fixed price</b> — 3 phases</td><td class="n">69</td><td class="n">$39,000</td></tr><tr class="sub"><td>Base bid — the committed programme</td><td class="n">69</td><td class="n">$39,000</td></tr><tr><td><b>Priced option</b>, separately exercised</td><td class="n">37</td><td class="n">$27,000</td></tr></tbody>
+  <tfoot><tr><td>Expected programme total</td>
+    <td class="n" id="commac">106</td>
+    <td class="n" id="commtotal">$66,000</td></tr></tfoot>
+</table></div>
+
+</main>
+
+<main class="wrap">
+  <div class="hero" id="hero"></div>
+
+  <div class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="overview">Overview</button>
+    <button class="tab" role="tab" data-tab="packages">Packages <span class="ct" id="cPkgs"></span></button>
+    <button class="tab" role="tab" data-tab="delivery">Delivery breakdown</button>
+    <button class="tab" role="tab" data-tab="epics">Epics <span class="ct" id="cEpics"></span></button>
+    <button class="tab" role="tab" data-tab="stories">User stories <span class="ct" id="cStories"></span></button>
+    <button class="tab" role="tab" data-tab="pricing">Pricing detail</button>
+  </div>
+
+  <section class="panel" data-panel="overview">
+    <div class="grid2">
+      <div class="card"><h3>Where the money goes, by phase</h3>
+        <p class="note">Priced for the current view. Phases with no work in scope are omitted.</p>
+        <div class="bars" id="phases"></div></div>
+      <div class="card"><h3>What the money buys</h3>
+        <p class="note">Every price divides across the same delivery disciplines.</p>
+        <div id="discPie"></div></div>
+      <div class="card"><h3>Complexity mix</h3>
+        <p class="note">Share of the work by complexity band, weighted by how demanding
+        each acceptance criterion is.</p>
+        <div id="bands"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Where the money goes, by epic</h3>
+      <p class="note">The epics that make up most of this view's price, with the smaller
+      ones grouped.</p>
+      <div id="epicPie"></div>
+      <div class="bars" id="epics" style="margin-top:22px;padding-top:18px;
+        border-top:1px solid var(--rule-soft)"></div></div>
+
+    <div class="formula">
+      <b>How a price is arrived at.</b> Every acceptance criterion is weighted by its story's
+      complexity band, so a demanding criterion carries more of the phase price than a
+      routine one. Each phase is priced as a whole, and its price is distributed across the
+      criteria it contains. Any slice you filter to — or select — is simply the sum of its own
+      criteria, which is why the parts always add back up to the total.
+    </div>
+  </section>
+
+  <section class="panel" data-panel="packages" hidden>
+    <h2 style="font-size:1.12rem;font-weight:500">Packages, grouped by the phase that delivers them</h2>
+    <p class="hint">Select a package to filter everything below it. Select it again to clear.</p>
+    <div class="card" style="margin-top:14px"><h3>Which packages cost the most</h3>
+      <p class="note">Share of the current view's price by package.</p>
+      <div id="pkgPie"></div></div>
+    <div id="pkgs" style="margin-top:6px"></div>
+  </section>
+
+  <section class="panel" data-panel="delivery" hidden>
+    <h2 style="font-size:1.12rem;font-weight:500">What the price is made of</h2>
+    <p class="hint">Every unit of work carries the same delivery disciplines, and they apply to
+      whatever is currently in view.</p>
+    <div class="card" style="margin-top:14px"><div id="discBars"></div></div>
+    <div class="dcards" id="discCards"></div>
+  </section>
+
+  <section class="panel" data-panel="epics" hidden>
+    <h2 style="font-size:1.12rem;font-weight:500">Epics in this view</h2>
+    <p class="hint">The 14 source epics, priced for the current selection.</p>
+    <div class="card" style="margin-top:13px"><div class="bars" id="epicsFull"></div></div>
+  </section>
+
+  <section class="panel" data-panel="stories" hidden>
+    <h2 style="font-size:1.12rem;font-weight:500">User stories</h2>
+    <p class="hint">Click a row to read its acceptance criteria. Click a column heading to sort.
+      <b>Untick a story to take it out of the bid</b> — everything that depends on it comes out
+      with it, and every figure in this document re-derives.</p>
+    <div id="stories" style="margin-top:13px"></div>
+  </section>
+
+  <section class="panel" data-panel="pricing" hidden>
+    <h2 style="font-size:1.12rem;font-weight:500">Pricing detail</h2>
+    <p class="hint">A full accounting for the current view — every phase, every epic, and what each costs.</p>
+    <div class="inv" id="invoice"></div>
+
+    <h3 style="margin:34px 0 4px;font-size:1rem;font-weight:500">The programme as quoted</h3>
+    <p class="hint">Phase prices are commercial commitments, not a multiple of anything.</p>
+    <div class="tscroll" style="margin-top:12px"><table>
+      <thead><tr><th>Phase</th><th>Basis</th><th>Months</th><th>Criteria</th>
+        <th>Monthly</th><th>Quoted</th></tr></thead>
+      <tbody><tr><td>Semantic Foundation</td><td class="n">fixed-price</td><td class="n">1</td><td class="n">19</td><td class="n">$12,000</td><td class="n">$12,000</td></tr><tr><td>Consistency Sweep</td><td class="n">fixed-price</td><td class="n">2</td><td class="n">35</td><td class="n">$9,000</td><td class="n">$18,000</td></tr><tr><td>Progress Instrumentation</td><td class="n">fixed-price</td><td class="n">1</td><td class="n">15</td><td class="n">$9,000</td><td class="n">$9,000</td></tr><tr><td>Root Platform Explorer</td><td class="n">priced-option</td><td class="n">2</td><td class="n">22</td><td class="n">$7,500</td><td class="n">$15,000</td></tr><tr><td>Catalog, Skills &amp; Legacy Retirement</td><td class="n">priced-option</td><td class="n">2</td><td class="n">15</td><td class="n">$6,000</td><td class="n">$12,000</td></tr></tbody>
+      <tfoot><tr><td>Programme total</td><td></td><td></td>
+        <td class="n">106</td><td></td>
+        <td class="n">$66,000</td></tr></tfoot>
+    </table></div>
+
+    <h3 style="margin:34px 0 4px;font-size:1rem;font-weight:500">Delivery disciplines</h3>
+    <p class="hint">How every price in this document divides.</p>
+    <div class="tscroll" style="margin-top:12px"><table>
+      <thead><tr><th>Discipline</th><th>Share</th><th>What it covers</th></tr></thead>
+      <tbody><tr><td>Rulebook Modelling</td><td class="n">35%</td><td>Authoring schema, relationships, formulas and seed data in the governing rulebook.</td></tr><tr><td>Generated Substrates</td><td class="n">20%</td><td>Postgres/docs/report outputs regenerated by effortless build; transpiler registration.</td></tr><tr><td>Application Integration</td><td class="n">15%</td><td>Portal and mobile surfaces consuming the vw_ views.</td></tr><tr><td>Conformance Verification</td><td class="n">15%</td><td>Balance checks, DAG validation, substrate conformance runs.</td></tr><tr><td>Documentation &amp; DevX</td><td class="n">15%</td><td>READMEs, rulespeak, doctrine files, skill catalog upkeep.</td></tr></tbody></table></div>
+
+    <h3 style="margin:34px 0 4px;font-size:1rem;font-weight:500">Complexity bands</h3>
+    <p class="hint">How much weight each acceptance criterion carries, by difficulty.</p>
+    <div class="tscroll" style="margin-top:12px"><table>
+      <thead><tr><th>Band</th><th>Weight</th><th>What it means</th></tr></thead>
+      <tbody><tr><td><span class="chip g1">G1</span> Routine</td><td class="n">×1</td><td></td></tr><tr><td><span class="chip g2">G2</span> Substantial</td><td class="n">×3</td><td></td></tr><tr><td><span class="chip g3">G3</span> Demanding</td><td class="n">×8</td><td></td></tr></tbody></table></div>
+  </section>
+
+  <div class="bidstamp" id="bidstamp">
+    <h3>This estimate</h3>
+    <p class="stampnote">Updates as you change the scope above. Downloading
+    fixes it in time: the PDF carries this reference, this scope and this
+    figure, dated at the moment you saved it.</p>
+    <dl>
+      <dt>Reference</dt><dd id="bidref"></dd>
+      <dt>Scope</dt><dd id="bidscope"></dd>
+      <dt>Criteria</dt><dd id="bidac"></dd>
+      <dt>Amount</dt><dd id="bidprice"></dd>
+      <dt>As of</dt><dd id="bidwhen">31 August 2026</dd>
+    </dl>
+    <button class="btn" id="pdfBtn">Download as PDF</button>
+  </div>
+
+  <section class="terms">
+    <h3>What this is, and what it is not</h3>
+    <p><b>This is a letter-of-intent level estimate, not a contract.</b> It
+    exists so the conversation has a concrete shape: a named scope, a written
+    set of acceptance criteria, and a figure that follows from them. Nothing
+    here is an offer capable of acceptance, and neither party is bound by it.</p>
+    <ul>
+      <li><b>Scope is what is listed.</b> The bid covers the user stories in
+      the scope above and the acceptance criteria attached to them. Anything
+      not listed is not included.</li>
+      <li><b>The figure moves with the scope.</b> Add or remove stories and it
+      re-derives. A figure quoted for one scope says nothing about another.</li>
+      <li><b>Terms are negotiated before anything is signed.</b> Payment
+      schedule, warranty, liability, IP assignment, acceptance procedure,
+      change control and termination are all still to be agreed. This document
+      takes no position on them.</li>
+      <li><b>Third-party costs are excluded</b> unless stated — licences,
+      vendor fees, hosting and certification are passed through at cost.</li>
+      <li><b>The estimate is valid for 30 days</b> from the date above, after
+      which it is worth re-deriving rather than assuming.</li>
+    </ul>
+    <p class="tsmall">Every figure in this document is generated from the
+    project rulebook rather than typed, so any number here can be traced to the
+    specification that produced it.</p>
+  </section>
+</main>
+
+<footer><div class="wrap">
+  Generated from the rulebook · 31 August 2026<br>
+  Every figure is derived from the specification that generates the database,
+  the security model and the documentation. Prices are commercial commitments
+  distributed across acceptance criteria by complexity, not an effort estimate.
+</div></footer>
+
+<script>const DATA={"stories":[{"id":"us-005","req":"US-005","text":"As a rulebook tender, I want every implicit foreign key (XxxId strings) materialized as a typed relationship with an inverse field, so lookups and aggregations have real edges to traverse.","phase":"phase-1","epic":"cat-inference-fabric","epicTitle":"Inference Fabric","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":9,"crit":[{"id":"us-005-ac1","t":"Every field whose Description says \"FK to\" has type relationship, RelatedTo and InverseField.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-005-ac2","t":"Every forward relationship has a reverse relationship field on the parent table.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-005-ac3","t":"No relationship value dangles (every FK value resolves to an existing PK).","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-006","req":"US-006","text":"As a rulebook tender, I want table-level cycles broken deliberately and documented, so the DAG stays acyclic on purpose rather than by accident.","phase":"phase-1","epic":"cat-inference-fabric","epicTitle":"Inference Fabric","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-006-ac1","t":"UserRoles.LandingScreenId and SubstrateContractPhases.Input/OutputArtifactId are raw soft references with the cycle reason in their Description.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-006-ac2","t":"A table-level cycle check over all relationship fields reports zero cycles.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-007","req":"US-007","text":"As a platform maintainer, I want five breadth-first inference loops across every table, so the governing rulebook demonstrates the ~50/50 raw/derived ratio the platform preaches.","phase":"phase-1","epic":"cat-inference-fabric","epicTitle":"Inference Fabric","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G3","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":24,"crit":[{"id":"us-007-ac1","t":"Every non-protocol table gains at least one derived field in every loop.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-007-ac2","t":"The balance check reports no MISSING references and no table stuck at order 0.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-007-ac3","t":"Derived fields (calculated + lookup + aggregation) are within 10 points of 50% of all fields.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-008","req":"US-008","text":"As a reviewer, I want every derived field labeled with its inference order and an honest description, so the loop discipline is auditable.","phase":"phase-1","epic":"cat-inference-fabric","epicTitle":"Inference Fabric","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-008-ac1","t":"Every derived field Description begins with \"Order N.\"","a":false,"d":null,"ds":null,"dt":null},{"id":"us-008-ac2","t":"No derived field is a plausible proxy for a structural fact that could have been modeled directly.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-001","req":"US-001","text":"As a platform maintainer, I want every project directory under rulebook-examples/ and toy-rulebooks/ modeled as a RulebookDomains row keyed by its slug, so the catalog and the filesystem can never silently diverge.","phase":"phase-1","epic":"cat-semantic-inventory","epicTitle":"Semantic Inventory","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":9,"crit":[{"id":"us-001-ac1","t":"RulebookDomains contains the root plus every direct directory under rulebook-examples/ and toy-rulebooks/ (41 governed rows in the 2026-08-30 scan), and no missing filesystem paths.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-001-ac2","t":"DomainId is domain-\u003cslug>; Area records rulebook-examples vs toy-rulebooks.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-001-ac3","t":"The two doctrine-sanctioned exception containers are flagged IsIntentionalException = TRUE.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-002","req":"US-002","text":"As a demo author, I want each domain row to carry its actual rulebook path and table count, so stale documentation references are queryable facts instead of folklore.","phase":"phase-1","epic":"cat-semantic-inventory","epicTitle":"Semantic Inventory","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-002-ac1","t":"RulebookPath matches the file actually on disk, including nonstandard locations.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-002-ac2","t":"TableCount matches the rulebook inventory (including __meta__).","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-003","req":"US-003","text":"As a platform maintainer, I want substrates, proxy routes, transpiler tools, skills, glossary terms, axioms and framing invariants each in a first-class table, so every semantic concept in the repo has exactly one home.","phase":"phase-1","epic":"cat-semantic-inventory","epicTitle":"Semantic Inventory","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-003-ac1","t":"Each concept table has a PK, a calculated Name, and a Description on every field.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-003-ac2","t":"No concept is modeled twice under different table names without an explicit FK bridge.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-004","req":"US-004","text":"As an agent working the repo, I want the skill catalog reconciled to the installed skill set including deprecations, so routing decisions come from data, not memory.","phase":"phase-1","epic":"cat-semantic-inventory","epicTitle":"Semantic Inventory","pkg":"pkg-meta-rulebook","pkgTitle":"Meta-Rulebook Foundation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-004-ac1","t":"ClaudeSkills has one row per skill in the effortless-claude skills repo (36) plus modeled deprecations.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-004-ac2","t":"Each row carries LoadGate, IsEntryPoint and Status.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-017","req":"US-017","text":"As a repo visitor, I want a README in every project, so no directory is a mystery.","phase":"phase-2","epic":"cat-doc-conformance","epicTitle":"Documentation Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-017-ac1","t":"Every project directory (39) has a README.md with purpose, layout and how to build.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-018","req":"US-018","text":"As a repo visitor, I want every README to end with the local-transpiler-bus section, so the localhost:4242 route catalog is discoverable from any demo.","phase":"phase-2","epic":"cat-doc-conformance","epicTitle":"Documentation Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-018-ac1","t":"Every README ends with the \"## Local transpiler bus (`localhost:4242`)\" block.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-018-ac2","t":"The transpiler count in the block matches the ssotme-proxy TRANSPILERS registry.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-019","req":"US-019","text":"As a platform consumer, I want every rulebook to carry the typed-row __meta__ table, so metaAsObject() works uniformly.","phase":"phase-2","epic":"cat-doc-conformance","epicTitle":"Documentation Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-019-ac1","t":"naive-set-theory and veritasium rulebooks gain a __meta__ table via migrate-meta-to-table.py.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-019-ac2","t":"No rulebook carries project metadata outside the __meta__ protocol.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-046","req":"US-046","text":"As a repository visitor, I want the root and every governed toy and example to have an executable ./start.sh, so every project has the same obvious launch command.","phase":"phase-2","epic":"cat-launch-contract","epicTitle":"Universal Project Launch Contract","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G3","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":24,"crit":[{"id":"us-046-ac1","t":"The root and every direct governed project under rulebook-examples/ and toy-rulebooks/ has an executable start.sh.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-046-ac2","t":"Each start.sh is syntax-checked, starts or cleanly restarts its declared experience, and prints every usable localhost URL.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-046-ac3","t":"Directories that are not projects are modeled as explicit intentional exceptions rather than silently omitted.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-047","req":"US-047","text":"As a new visitor, I want the root ./start.sh to start the platform explorer and required view-backed services, so the repository has one supported entry point.","phase":"phase-2","epic":"cat-launch-contract","epicTitle":"Universal Project Launch Contract","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-047-ac1","t":"Running root ./start.sh starts the root React explorer and every view-backed service it requires, then prints the explorer and editor URLs.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-047-ac2","t":"Root startup does not delegate platform ownership to rulebook-examples/legacy-runner/.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-013","req":"US-013","text":"As a demo reader, I want the rulespeak transpiler registered in every demo effortless.json, so every domain has a human-readable narrative output.","phase":"phase-2","epic":"cat-pipeline-conformance","epicTitle":"Pipeline Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-013-ac1","t":"Every effortless.json under rulebook-examples/ and toy-rulebooks/ (except the two exceptions) contains a rulebooktorulespeak entry.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-013-ac2","t":"effortless build emits rulespeak/rulespeak.md for each.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-014","req":"US-014","text":"As a maintainer, I want duplicate and misspelled transpiler names fixed, so effortless.json entries are unique and greppable.","phase":"phase-2","epic":"cat-pipeline-conformance","epicTitle":"Pipeline Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-014-ac1","t":"No effortless.json contains two ProjectTranspilers entries with the same Name.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-014-ac2","t":"Typo names (tocobcol, explainddag) and off-convention names (rulebook-to-postgres, effortlessrulebookeditor) are normalized.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-015","req":"US-015","text":"As a maintainer, I want every project to carry a real effortless.json, so effortless build works from any project root.","phase":"phase-2","epic":"cat-pipeline-conformance","epicTitle":"Pipeline Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-015-ac1","t":"naive-set-theory, planar-unit-discovery and turek-hitchens gain a minimal effortless.json with rulespeak.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-015-ac2","t":"veritasium's rulebook-shaped effortless.json is replaced by a real config.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-016","req":"US-016","text":"As a maintainer, I want legacy ssotme.json files retired, so there is one config file per project.","phase":"phase-2","epic":"cat-pipeline-conformance","epicTitle":"Pipeline Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-016-ac1","t":"guessing-game and veritasium no longer carry ssotme.json.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-016-ac2","t":"Their transpiler entries live in effortless.json.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-009","req":"US-009","text":"As a repo visitor, I want every demo rulebook at \u003cslug>/effortless-rulebook/\u003cslug>-rulebook.json, so one glob finds every ontology.","phase":"phase-2","epic":"cat-structural-conformance","epicTitle":"Structural Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":9,"crit":[{"id":"us-009-ac1","t":"causal-autoimmune-architecture, effortless-rulebooks, naive-set-theory, lazr-coulombs-law, turek-hitchens and veritasium are moved/renamed to the canonical path.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-009-ac2","t":"Each affected effortless.json -i/-o arguments point at the renamed file and effortless build passes.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-009-ac3","t":"The corresponding cr-01 findings are marked fixed.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-010","req":"US-010","text":"As a maintainer, I want duplicate rulebook copies removed, so there is exactly one hub per project.","phase":"phase-2","epic":"cat-structural-conformance","epicTitle":"Structural Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":3,"crit":[{"id":"us-010-ac1","t":"effortless-banking root-level effortless-rulebook.json is deleted.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-010-ac2","t":"traffic-ticket-contest keeps only traffic-ticket-contest-rulebook.json; the two sibling copies are removed.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-010-ac3","t":"job-search-rag SSoT/single-source-of-truth.json is removed or made a generated derivative.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-011","req":"US-011","text":"As a maintainer, I want committed scratch artifacts purged and gitignored, so the repo only carries hubs, customization seams and intentional derivatives.","phase":"phase-2","epic":"cat-structural-conformance","epicTitle":"Structural Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-011-ac1","t":".bak, __pycache__, node_modules and .app-launch.log files are removed from git.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-011-ac2","t":"A root .gitignore blocks them from returning.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-012","req":"US-012","text":"As a maintainer, I want the nested git repository in lazr-coulombs-law dissolved into the monorepo, so one git history governs every project.","phase":"phase-2","epic":"cat-structural-conformance","epicTitle":"Structural Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-012-ac1","t":"toy-rulebooks/lazr-coulombs-law/.git no longer exists.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-012-ac2","t":"The project files are tracked by the monorepo and its history is preserved or archived.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-020","req":"US-020","text":"As an agent reading CLAUDE.md, I want doctrine examples to match the filesystem, so instructions never point at directories that do not exist.","phase":"phase-2","epic":"cat-structural-conformance","epicTitle":"Structural Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-020-ac1","t":"CLAUDE.md no longer cites acme-llc/star-trek/talisman-basic as rulebook-examples paths.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-020-ac2","t":"volunteer-shift-scheduler-demo is documented under toy-rulebooks/.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-053","req":"US-053","text":"As a repository maintainer, I want the canonical project shape and strict filesystem witnesses modeled in the root rulebook, so coverage, readiness, classification, misfiling, and structural findings are derived rather than asserted.","phase":"phase-2","epic":"cat-structural-conformance","epicTitle":"Structural Conformance","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G3","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":5,"acc":0,"units":40,"crit":[{"id":"us-053-ac1","t":"ProjectLayoutSlots contains 18 canonical rows and ProjectSlotWitnesses contains one row for each of 41 governed projects x 18 slots.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-053-ac2","t":"RulebookDomains derives slot coverage, required coverage, full implementation, toy-by-coverage, expected area, misfiling, and readiness from witness rows.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-053-ac3","t":"The strict scanner exits successfully only when every present manifest/rulebook is valid and every governed directory is unambiguous and modeled.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-053-ac4","t":"The expanded 33-table rulebook validates at inference order 5 and effortless build regenerates RuleSpeak, the editor scaffold, progress report, and Postgres SQL successfully.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-053-ac5","t":"The live erb_effortless_rulebooks views return 18 layout slots, 738 witnesses, 41 governed projects, and the derived root readiness row.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-021","req":"US-021","text":"As a programme owner, I want the eight required progress-report tables present with the exact contract fields, so rulebook-to-progress-report renders without hand-editing.","phase":"phase-3","epic":"cat-progress-entities","epicTitle":"Progress Entity Set","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":9,"crit":[{"id":"us-021-ac1","t":"UserStories, AcceptanceCriteria, BuildPhases, ERBFeatures, ERBFeatureCategories, ERBPackages, EffortClasses and DeliveryDisciplines exist.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-021-ac2","t":"Every contract field named in RULEBOOK-CONTRACT.md is present with the right datatype.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-021-ac3","t":"The FK chain story→feature→category→package and story→phase/epic/effort-class joins up.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-022","req":"US-022","text":"As a programme owner, I want the contract guardrails honored in data, so the tool's hard refusals never fire.","phase":"phase-3","epic":"cat-progress-entities","epicTitle":"Progress Entity Set","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":3,"crit":[{"id":"us-022-ac1","t":"Exactly one BuildPhases row has IsCurrentBid = TRUE.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-022-ac2","t":"An EffortClasses row literally named G3 exists and every class has a non-zero ComplexityWeight.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-022-ac3","t":"Client-visible DeliveryDisciplines SharePercent sums to 100.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-023","req":"US-023","text":"As a stakeholder, I want the full consistency programme expressed as user stories with acceptance criteria, so progress is measured against agreed scope.","phase":"phase-3","epic":"cat-progress-entities","epicTitle":"Progress Entity Set","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-023-ac1","t":"Every feature has at least one story; every story has at least one acceptance criterion.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-023-ac2","t":"Every phase carrying a QuotedPrice contains stories with criteria.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-024","req":"US-024","text":"As a stakeholder, I want stories to carry status and progress percent, so the report reflects live reality.","phase":"phase-3","epic":"cat-progress-entities","epicTitle":"Progress Entity Set","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-024-ac1","t":"Every story has Status in {todo, in-progress, done} and DevProgressPercent 0-100.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-024-ac2","t":"Criteria carry IsMet so story completion can be derived rather than asserted.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-025","req":"US-025","text":"As a stakeholder, I want story→feature→epic→package→phase rollups computed as derived fields, so progress math lives in the SSoT, not in a spreadsheet.","phase":"phase-3","epic":"cat-progress-rollups","epicTitle":"Progress Rollups & Report","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-025-ac1","t":"ERBFeatures, ERBFeatureCategories, ERBPackages and BuildPhases each expose story counts and progress percentages as aggregation/calculated fields.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-025-ac2","t":"ProjectMetadata exposes programme-wide totals on its single row.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-026","req":"US-026","text":"As a stakeholder, I want rulebook-to-progress-report registered in the platform pipeline, so the report regenerates on every build.","phase":"phase-3","epic":"cat-progress-rollups","epicTitle":"Progress Rollups & Report","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-026-ac1","t":"The root effortless.json contains a rulebook-to-progress-report ProjectTranspilers entry.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-026-ac2","t":"effortless build writes progress-report/progress-report.html without contract errors.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-027","req":"US-027","text":"As a stakeholder, I want the generated progress report linked from the root explorer, so it is one tap away without using the legacy portal.","phase":"phase-3","epic":"cat-progress-rollups","epicTitle":"Progress Rollups & Report","pkg":"pkg-progress","pkgTitle":"Progress Instrumentation","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-027-ac1","t":"The root explorer has a deep-linkable progress route that links the generated report.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-048","req":"US-048","text":"As an explorer, I want every project page to show exact launch instructions and a health-gated localhost link when available, so running a project requires no source-code archaeology.","phase":"phase-4","epic":"cat-launch-contract","epicTitle":"Universal Project Launch Contract","pkg":"pkg-consistency","pkgTitle":"Repo Consistency Governance","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":9,"crit":[{"id":"us-048-ac1","t":"A first-class rulebook entity models each project's working directory, start command, experience description, primary local URL, optional health URL, and prerequisite notes.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-048-ac2","t":"Every project detail screen shows the exact launch command even when its services are stopped.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-048-ac3","t":"A localhost link is presented as available only when its modeled health request succeeds; failure is shown as not running with no fallback URL.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-032","req":"US-032","text":"As an explorer, I want deep-linkable routes for getting started, concepts, skills, toys, examples, projects, and tools modeled as data, so any destination can be shared.","phase":"phase-4","epic":"cat-mobile-routes","epicTitle":"Explorer Navigation & Guidance","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-032-ac1","t":"The route model contains root paths for getting started, concepts, skills, projects, toys, examples, project detail, consistency, progress, and tools.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-032-ac2","t":"Every route names the entities it reads.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-033","req":"US-033","text":"As an explorer, I want the custom root React app implemented against this rulebook's vw_ views, so classifications, counts, readiness, and priorities are never recomputed in JavaScript.","phase":"phase-4","epic":"cat-mobile-routes","epicTitle":"Explorer Navigation & Guidance","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G3","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":16,"crit":[{"id":"us-033-ac1","t":"The root app reads navigation and platform content through generated view-backed API endpoints.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-033-ac2","t":"Project classifications, coverage, counts, readiness, and finding priority are rendered from vw_* columns without JavaScript recomputation.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-034","req":"US-034","text":"As a governance reader, I want routes for the governing rulebook, axioms, invariants, consistency, findings, and progress, so the repository explains how it governs itself.","phase":"phase-4","epic":"cat-mobile-routes","epicTitle":"Explorer Navigation & Guidance","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-034-ac1","t":"The route model contains root explorer destinations for the governing rulebook, axioms, invariants, consistency rules, findings, and progress.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-035","req":"US-035","text":"As a maintainer, I want the root explorer's findings queue filterable by project, rule, and status at any viewport, so sweep triage is practical.","phase":"phase-4","epic":"cat-mobile-routes","epicTitle":"Explorer Navigation & Guidance","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":3,"crit":[{"id":"us-035-ac1","t":"/consistency supports project, rule, and status filters and remains usable at 375px width.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-049","req":"US-049","text":"As a first-time visitor, I want the root explorer to explain setup, concepts, skills, toys, and fully implemented examples, so I can understand the platform and choose what to run.","phase":"phase-4","epic":"cat-mobile-routes","epicTitle":"Explorer Navigation & Guidance","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G3","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":16,"crit":[{"id":"us-049-ac1","t":"The root explorer provides a shortest successful path from prerequisites to starting the root, opening the editor, and running one project.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-049-ac2","t":"Concepts, skills, toys, fully implemented examples, and project detail each have deep-linkable routes.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-050","req":"US-050","text":"As a rulebook tender, I want the root explorer to link prominently to the generated editor, RuleSpeak, and API health, so the custom guide complements rather than replaces generated surfaces.","phase":"phase-4","epic":"cat-mobile-routes","epicTitle":"Explorer Navigation & Guidance","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-050-ac1","t":"The root explorer links the generated editor UI, RuleSpeak document, progress report, and API documentation.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-050-ac2","t":"The custom app does not implement a second rulebook editor, formula evaluator, lookup resolver, or classification engine.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-028","req":"US-028","text":"As a visitor, I want one responsive navigation shell for the root explorer, so the same platform guide works on phones and desktops.","phase":"phase-4","epic":"cat-mobile-shell","epicTitle":"Responsive Explorer Shell","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-028-ac1","t":"The root explorer renders rulebook-modeled navigation in the declared order at desktop and phone widths.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-028-ac2","t":"The active navigation section is derived from the current route's modeled navigation relationship.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-029","req":"US-029","text":"As a visitor, I want the root explorer navigation plan stored as rulebook rows, so navigation changes originate in the hub.","phase":"phase-4","epic":"cat-mobile-shell","epicTitle":"Responsive Explorer Shell","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-029-ac1","t":"Navigation rows cover Home, Getting Started, Concepts, Skills, Projects, Consistency, Progress, and Tools with explicit ordering.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-030","req":"US-030","text":"As a visitor, I want every planned explorer screen mapped or consciously excluded from the route model, so no platform concept is stranded.","phase":"phase-4","epic":"cat-mobile-shell","epicTitle":"Responsive Explorer Shell","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-030-ac1","t":"Every target route in PLATFORM-EXPLORER-PLAN.md is represented by a route row or a documented exclusion.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-030-ac2","t":"The derived count of unexplained route gaps is zero.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-031","req":"US-031","text":"As a phone visitor, I want lists, tables, and navigation adapted responsively, so nothing requires horizontal page scrolling.","phase":"phase-4","epic":"cat-mobile-shell","epicTitle":"Responsive Explorer Shell","pkg":"pkg-mobile","pkgTitle":"Root Platform Explorer","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":3,"crit":[{"id":"us-031-ac1","t":"No mobile route renders a page that scrolls horizontally at 375px width.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-036","req":"US-036","text":"As a maintainer, I want a root-explorer work-queue screen reading vw_consistency_findings, so pruning inconsistency is ticking rows off, not re-auditing.","phase":"phase-4","epic":"cat-portal-governance","epicTitle":"Explorer Governance Surfaces","pkg":"pkg-portal","pkgTitle":"Explorer Governance Surfaces","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-036-ac1","t":"A root explorer route exists for the findings queue and reads vw_consistency_findings.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-036-ac2","t":"Marking a finding fixed writes through to the base table and the derived domain score updates on next read.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-037","req":"US-037","text":"As a stakeholder, I want a root consistency dashboard showing per-project scores from derived fields, so repository health is visible at a glance.","phase":"phase-4","epic":"cat-portal-governance","epicTitle":"Explorer Governance Surfaces","pkg":"pkg-portal","pkgTitle":"Explorer Governance Surfaces","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":3,"crit":[{"id":"us-037-ac1","t":"The dashboard reads vw_rulebook_domains conformance columns only; no score is recomputed in app code.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-038","req":"US-038","text":"As a catalog curator, I want every flavor card FK-linked to its domain row, so orphan cards and cardless domains are queryable.","phase":"phase-5","epic":"cat-catalog-reconciliation","epicTitle":"Catalog Reconciliation","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":2,"crit":[{"id":"us-038-ac1","t":"RulebookFlavors.Domain is a relationship to RulebookDomains populated for every card whose project exists.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-038-ac2","t":"RulebookDomains exposes a derived flag for domains without a flavor card.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-039","req":"US-039","text":"As a catalog curator, I want a flavor card for every non-exception domain, so the catalog page represents the whole repo.","phase":"phase-5","epic":"cat-catalog-reconciliation","epicTitle":"Catalog Reconciliation","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":3,"crit":[{"id":"us-039-ac1","t":"The derived count of cardless non-exception domains is zero.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-040","req":"US-040","text":"As a catalog curator, I want FlavorTags joined through real FKs, so tag orphans surface as derived flags.","phase":"phase-5","epic":"cat-catalog-reconciliation","epicTitle":"Catalog Reconciliation","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-040-ac1","t":"FlavorTags.Flavor and FlavorTags.Tag are relationships with reverse fields.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-041","req":"US-041","text":"As a catalog curator, I want every RulebookTag used at least once or retired, so the tag vocabulary stays honest.","phase":"phase-5","epic":"cat-catalog-reconciliation","epicTitle":"Catalog Reconciliation","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-041-ac1","t":"The derived count of unused tags is zero.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-051","req":"US-051","text":"As a platform maintainer, I want every legacy-runner capability assigned a promote, separate, replace, or retire decision, so retirement does not silently discard required behavior.","phase":"phase-5","epic":"cat-legacy-retirement","epicTitle":"Legacy Runner Retirement","pkg":"pkg-retirement","pkgTitle":"Legacy Runner Retirement","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-051-ac1","t":"The admin portal, proxy bus, CLI orchestration, cross-project build tooling, substrates, conformance harness, diagnostics, research artifacts, and devops scripts each have a recorded destination.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-051-ac2","t":"No new platform feature is implemented in legacy-runner while it is retiring.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-052","req":"US-052","text":"As a platform maintainer, I want the root experience independent of the legacy portal and two-rulebook overlay before runner removal, so the promoted platform has one explicit owner and source.","phase":"phase-5","epic":"cat-legacy-retirement","epicTitle":"Legacy Runner Retirement","pkg":"pkg-retirement","pkgTitle":"Legacy Runner Retirement","cls":"G3","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":3,"acc":0,"units":24,"crit":[{"id":"us-052-ac1","t":"The root explorer has no runtime dependency on the legacy admin portal or its two-rulebook overlay.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-052-ac2","t":"Every retained runner capability has an explicitly owned root or standalone home and all documentation points there.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-052-ac3","t":"Legacy-runner removal occurs only after dependents are zero and the user gives explicit consent.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-042","req":"US-042","text":"As an agent, I want ClaudeSkills to mirror the installed skill set with load gates and status, so skill discovery is data-driven.","phase":"phase-5","epic":"cat-skill-catalog","epicTitle":"Skill Catalog Integration","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-042-ac1","t":"ClaudeSkills rows equal the skills repo catalog; deprecated skills carry Status = deprecated and name their replacement.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-043","req":"US-043","text":"As a skills maintainer, I want the skills repo, the installed set and this table checked for drift at build time, so divergence is caught, not discovered.","phase":"phase-5","epic":"cat-skill-catalog","epicTitle":"Skill Catalog Integration","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":3,"crit":[{"id":"us-043-ac1","t":"clone-skills.sh fails the build when a skill exists in the repo but not in ClaudeSkills, or vice versa.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-044","req":"US-044","text":"As an agent, I want the orchestrator's routing table modeled as SkillRoutes edges, so \"which skill next\" is a query.","phase":"phase-5","epic":"cat-skill-catalog","epicTitle":"Skill Catalog Integration","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G1","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":1,"acc":0,"units":1,"crit":[{"id":"us-044-ac1","t":"SkillRoutes has one edge per row of the orchestrator routing table, plus the see-also edges of the core skills.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null},{"id":"us-045","req":"US-045","text":"As a skills maintainer, I want every SKILL.md see-also cross-reference round-tripped into SkillRoutes, so the meta-conversation inside the skill set is part of this rulebook.","phase":"phase-5","epic":"cat-skill-catalog","epicTitle":"Skill Catalog Integration","pkg":"pkg-catalog","pkgTitle":"Catalog & Skills Unification","cls":"G2","role":null,"version":null,"depth":0,"dep":null,"depReq":null,"depText":null,"desc":[],"extWait":false,"spike":0,"modelled":true,"gap":null,"ac":2,"acc":0,"units":6,"crit":[{"id":"us-045-ac1","t":"A generator parses every SKILL.md \"See also\" section into SkillRoutes rows.","a":false,"d":null,"ds":null,"dt":null},{"id":"us-045-ac2","t":"The derived count of skills with zero inbound and zero outbound edges is zero.","a":false,"d":null,"ds":null,"dt":null}],"tasks":[],"rb":null}],"phases":[{"id":"phase-1","num":1,"title":"Semantic Foundation","desc":null,"kind":"fixed-price","months":1,"price":12000,"units":60,"acs":19,"stories":8,"rate":200,"monthly":12000,"inBid":true,"base":true,"fixed":true,"tm":false,"bid":false},{"id":"phase-2","num":2,"title":"Consistency Sweep","desc":null,"kind":"fixed-price","months":2,"price":18000,"units":109,"acs":35,"stories":15,"rate":165.13761467889907,"monthly":9000,"inBid":true,"base":true,"fixed":true,"tm":false,"bid":true},{"id":"phase-3","num":3,"title":"Progress Instrumentation","desc":null,"kind":"fixed-price","months":1,"price":9000,"units":29,"acs":15,"stories":7,"rate":310.3448275862069,"monthly":9000,"inBid":true,"base":true,"fixed":true,"tm":false,"bid":false},{"id":"phase-4","num":4,"title":"Root Platform Explorer","desc":null,"kind":"priced-option","months":2,"price":15000,"units":78,"acs":22,"stories":13,"rate":192.30769230769232,"monthly":7500,"inBid":false,"base":false,"fixed":false,"tm":false,"bid":false},{"id":"phase-5","num":5,"title":"Catalog, Skills & Legacy Retirement","desc":null,"kind":"priced-option","months":2,"price":12000,"units":48,"acs":15,"stories":10,"rate":250,"monthly":6000,"inBid":false,"base":false,"fixed":false,"tm":false,"bid":false}],"packages":[{"id":"pkg-meta-rulebook","title":"Meta-Rulebook Foundation","desc":null,"phase":"phase-1","sort":1},{"id":"pkg-consistency","title":"Repo Consistency Governance","desc":null,"phase":"phase-2","sort":2},{"id":"pkg-progress","title":"Progress Instrumentation","desc":null,"phase":"phase-3","sort":3},{"id":"pkg-mobile","title":"Root Platform Explorer","desc":null,"phase":"phase-4","sort":4},{"id":"pkg-portal","title":"Explorer Governance Surfaces","desc":null,"phase":"phase-4","sort":5},{"id":"pkg-catalog","title":"Catalog & Skills Unification","desc":null,"phase":"phase-5","sort":6},{"id":"pkg-retirement","title":"Legacy Runner Retirement","desc":null,"phase":"phase-5","sort":7}],"epics":[{"id":"cat-semantic-inventory","title":"Semantic Inventory","desc":null,"pkg":"pkg-meta-rulebook","sort":1},{"id":"cat-inference-fabric","title":"Inference Fabric","desc":null,"pkg":"pkg-meta-rulebook","sort":2},{"id":"cat-structural-conformance","title":"Structural Conformance","desc":null,"pkg":"pkg-consistency","sort":3},{"id":"cat-pipeline-conformance","title":"Pipeline Conformance","desc":null,"pkg":"pkg-consistency","sort":4},{"id":"cat-doc-conformance","title":"Documentation Conformance","desc":null,"pkg":"pkg-consistency","sort":5},{"id":"cat-progress-entities","title":"Progress Entity Set","desc":null,"pkg":"pkg-progress","sort":6},{"id":"cat-progress-rollups","title":"Progress Rollups & Report","desc":null,"pkg":"pkg-progress","sort":7},{"id":"cat-mobile-shell","title":"Responsive Explorer Shell","desc":null,"pkg":"pkg-mobile","sort":8},{"id":"cat-mobile-routes","title":"Explorer Navigation & Guidance","desc":null,"pkg":"pkg-mobile","sort":9},{"id":"cat-portal-governance","title":"Explorer Governance Surfaces","desc":null,"pkg":"pkg-portal","sort":10},{"id":"cat-catalog-reconciliation","title":"Catalog Reconciliation","desc":null,"pkg":"pkg-catalog","sort":11},{"id":"cat-skill-catalog","title":"Skill Catalog Integration","desc":null,"pkg":"pkg-catalog","sort":12},{"id":"cat-launch-contract","title":"Universal Project Launch Contract","desc":null,"pkg":"pkg-consistency","sort":13},{"id":"cat-legacy-retirement","title":"Legacy Runner Retirement","desc":null,"pkg":"pkg-retirement","sort":14}],"bands":[{"id":"G1","title":"Routine","w":1,"desc":null,"sort":1},{"id":"G2","title":"Substantial","w":3,"desc":null,"sort":2},{"id":"G3","title":"Demanding","w":8,"desc":null,"sort":3}],"disc":[{"id":"disc-rulebook-modelling","title":"Rulebook Modelling","share":35,"desc":"Authoring schema, relationships, formulas and seed data in the governing rulebook.","basis":null,"sort":1},{"id":"disc-generated-substrates","title":"Generated Substrates","share":20,"desc":"Postgres/docs/report outputs regenerated by effortless build; transpiler registration.","basis":null,"sort":2},{"id":"disc-app-integration","title":"Application Integration","share":15,"desc":"Portal and mobile surfaces consuming the vw_ views.","basis":null,"sort":3},{"id":"disc-conformance","title":"Conformance Verification","share":15,"desc":"Balance checks, DAG validation, substrate conformance runs.","basis":null,"sort":4},{"id":"disc-docs-devx","title":"Documentation & DevX","share":15,"desc":"READMEs, rulespeak, doctrine files, skill catalog upkeep.","basis":null,"sort":5}],"blocks":[],"generated":"31 August 2026","totalUnits":324,"months":[8,10]};</script>
+<script>const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const money=n=>"$"+Math.round(n).toLocaleString("en-US");
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const BAND={G1:"var(--s1)",G2:"var(--s2)",G3:"var(--s3)",G4:"var(--s4)"};
+/* Disciplines are stages of one process, not independent categories, so they take
+   an ordered ramp rather than categorical hues. Each segment is direct-labelled. */
+const DISC={pm:"var(--d1)",modelling:"var(--d2)",design:"var(--d3)",
+            build:"var(--d4)",qa:"var(--d5)",deploy:"var(--d6)"};
+const dcol=id=>DISC[id]||"var(--blueprint)";
+/* split a price across the six disciplines */
+const split=amt=>DATA.disc.map(d=>({...d,amt:amt*d.share/100}));
+const segs=amt=>split(amt).map(d=>
+  `<i class="seg" style="width:${d.share}%;background:${dcol(d.id)}" title="${esc(d.title)}: ${money(d.amt)}"></i>`).join("");
+
+let F={phase:"",pkg:"",epic:"",tab:"overview"};
+
+/* ---------------- URL state (deep links) ---------------- */
+function readHash(){
+  const h=location.hash.replace(/^#\/?/,"");
+  const [path,q]=h.split("?");
+  const p=(path||"").split("/").map(decodeURIComponent);
+  F.phase=p[0]&&p[0]!=="all"?p[0]:"";
+  F.pkg  =p[1]&&p[1]!=="all"?p[1]:"";
+  F.epic =p[2]&&p[2]!=="all"?p[2]:"";
+  const sp=new URLSearchParams(q||"");
+  F.tab=sp.get("tab")||"overview";
+  if(typeof selFromHash==="function")selFromHash(sp.get("sel"));
+  /* the "locked" flag from older links is ignored: there is no lock */
+}
+function writeHash(){
+  const seg=[F.phase||"all",F.pkg||"all",F.epic||"all"];
+  while(seg.length>1&&seg[seg.length-1]==="all")seg.pop();
+  const qs=new URLSearchParams();
+  if(F.tab&&F.tab!=="overview")qs.set("tab",F.tab);
+  const sv=(typeof selToHash==="function")?selToHash():"";
+  if(sv)qs.set("sel",sv);
+  const q=qs.toString()?"?"+qs.toString():"";
+  const next="#/"+seg.join("/")+q;
+  if(location.hash!==next)history.replaceState(null,"",next);
+}
+
+/* ---------------- readiness engine ----------------
+   The rulebook computes this in Postgres:
+     AcceptanceCriteria.DependsOnCriterionAccepted =
+       INDEX(AcceptanceCriteria!IsAccepted, MATCH(DependsOnCriterion, ...))
+     AcceptanceCriteria.IsReadyForAcceptance =
+       IF(DependsOnCriterion<>BLANK(), DependsOnCriterionAccepted=TRUE, TRUE)
+   There is no database here, so we mirror it. Readiness is DERIVED, never
+   stored -- which is what makes the what-if below honest: tick a criterion
+   and everything downstream recomputes from the same rule.
+
+   SIM holds criteria the viewer has ticked in this session only. It is never
+   written back to the rulebook and never leaves the page. */
+const SIM=new Set();
+/* Which drill-downs are expanded. Ticking a criterion re-renders the table,
+   and without this the row you are working in would collapse under you --
+   making it impossible to accept several criteria in one sitting. */
+const OPEN=new Set();
+const AC={};                       /* id -> criterion, across all stories */
+DATA.stories.forEach(s=>s.crit.forEach(c=>{AC[c.id]=c;}));
+
+function isAccepted(c){ return c.a || SIM.has(c.id); }
+function isReady(c){
+  if(!c.d) return true;            /* no prerequisite -> this is a start point */
+  const dep=AC[c.d];
+  return dep?isAccepted(dep):true; /* prerequisite outside this set: not a blocker */
+}
+/* Two different questions, and both matter.
+
+   A STORY is ready when its prerequisite story is fully accepted -- that is
+   UserStories.DependsOnStory, a tree over all 223 with exactly two roots
+   (AUTH-01 and PUB-01). That is the "where do we start" answer, and it is
+   why the list is not uniformly blocked: something always has to be first.
+
+   A CRITERION is ready when the criterion before it in its own story is
+   accepted. That is the finer chain shown inside the drill-down. */
+const BY_ID={}; DATA.stories.forEach(s=>{BY_ID[s.id]=s;});
+function storyDone(s){ return s.crit.length?s.crit.every(isAccepted):false; }
+function storyReady(s){
+  if(!s.dep) return true;              /* a root: nothing comes before it */
+  const d=BY_ID[s.dep];
+  return d?storyDone(d):true;          /* prerequisite outside this set: not a blocker */
+}
+/* What accepting this criterion would release. */
+function unlocks(id){
+  const out=[];
+  for(const k in AC) if(AC[k].d===id&&!isAccepted(AC[k])) out.push(AC[k]);
+  return out;
+}
+
+/* ---------------- filtering ---------------- */
+function scope(){
+  return DATA.stories.filter(s=>
+    !SEL.has(s.id)&&
+    (!F.phase||s.phase===F.phase)&&(!F.pkg||s.pkg===F.pkg)&&(!F.epic||s.epic===F.epic));
+}
+const PH=Object.fromEntries(DATA.phases.map(p=>[p.id,p]));
+function agg(rows){
+  const o={n:rows.length,ac:0,acc:0,units:0,epics:new Set(),pkgs:new Set(),
+           extWait:0,byBand:{G1:0,G2:0,G3:0,G4:0},price:0,spikeUnits:0,
+           months:0,phases:new Set(),modelled:0,proto:0};
+  for(const s of rows){
+    o.ac+=s.ac;
+    /* count criteria the same way the story table does, so a what-if
+       tick moves the headline tile and the row together */
+    o.acc+=(typeof isAccepted==="function")
+      ? s.crit.filter(isAccepted).length : s.acc;
+    o.units+=s.units;
+    o.epics.add(s.epic); o.pkgs.add(s.pkg);
+    if(s.extWait)o.extWait++;
+    o.byBand[s.cls]=(o.byBand[s.cls]||0)+s.units;
+    o.spikeUnits+=s.units*(s.spike||0)/100;
+    if(s.modelled)o.modelled++;
+    if((s.spike||0)>0)o.proto++;
+    const ph=PH[s.phase];
+    if(ph){o.price+=s.units*ph.rate; o.phases.add(ph.id);}
+  }
+  /* A monthly figure is only meaningful per phase: that phase's quoted price
+     over its committed duration. Across several phases we show the average of
+     those rates weighted by duration; it is an expected average run rate, not
+     a billing schedule. */
+  let mo=0, wsum=0;
+  for(const pid of o.phases){
+    const ph=PH[pid]; if(!ph||!ph.months)continue;
+    mo+=ph.months; wsum+=ph.price;
+  }
+  o.months=Math.round(mo*10)/10;
+  o.monthly=mo?wsum/mo:0;
+  o.wholePhases=o.phases.size;
+  o.units=Math.round(o.units*100)/100;
+  return o;
+}
+
+/* ---------------- controls ---------------- */
+/* Each control offers only what the ones ABOVE it leave available, and
+   availability is derived from the STORIES IN SCOPE -- never from a catalog
+   field like ERBPackages.PrimaryPhase or ERBFeatureCategories.ERBPackage.
+   Those describe where something nominally belongs, not where its work landed:
+   for Phase 1 MVP no package declares that phase as primary, yet four packages
+   have stories in it. Deriving from stories also means a customize-panel cut
+   empties a menu entry the moment its last story goes. */
+function fillSelects(){
+  const ph=$("#fPhase"),pk=$("#fPkg"),ep=$("#fEpic");
+
+  /* the pool each control sees: everything still selected, narrowed by the
+     controls to its left only -- so a control never hides its own options */
+  const live=DATA.stories.filter(s=>!SEL.has(s.id));
+  const inPhase=live.filter(s=>!F.phase||s.phase===F.phase);
+  const inPkg=inPhase.filter(s=>!F.pkg||s.pkg===F.pkg);
+
+  const count=(rows,key)=>{
+    const m=new Map();
+    rows.forEach(s=>m.set(s[key],(m.get(s[key])||0)+1));
+    return m;
+  };
+  const phN=count(live,"phase"), pkN=count(inPhase,"pkg"), epN=count(inPkg,"epic");
+
+  /* ★ marks the option currently in view, so the menu says which list you are
+     looking at rather than leaving it to the closed-select text alone. */
+  const star=sel=>sel?"★ ":"";
+
+  const opts=(items,n,idk,titlek,cur)=>items
+    .filter(x=>n.has(x[idk]))
+    .map(x=>`<option value="${x[idk]}">${star(x[idk]===cur)}${esc(x[titlek])}`+
+             ` (${n.get(x[idk])})</option>`)
+    .join("");
+
+  /* The PHASE menu is a list of DESTINATIONS, not a view of what is selected:
+     every phase stays listed whether or not the bid contains any of its
+     stories, because the reader needs to be able to navigate to one. Its
+     count is therefore the phase's own size -- what you would be looking at
+     if you picked it -- not how much of it survives the current selection,
+     which would read "(0)" beside a phase that plainly has work in it. */
+  const phaseSize=count(DATA.stories,"phase");
+  const phaseOpts=DATA.phases.map(p=>
+    `<option value="${p.id}">${star(!CUSTOM&&F.phase===p.id)}${esc(p.title)}`+
+    ` (${phaseSize.get(p.id)||0})</option>`).join("");
+
+  const custOpt=cartExists()
+    ? `<option value="__custom">${star(CUSTOM)}My bid (${cartSize()} stories)</option>`
+    : "";
+
+  ph.innerHTML=`<option value="">${star(!CUSTOM&&!F.phase)}`+
+    `The whole programme (${DATA.stories.length})</option>`+custOpt+phaseOpts;
+  pk.innerHTML=`<option value="">${star(!F.pkg)}All packages</option>`+
+    opts(DATA.packages,pkN,"id","title",F.pkg);
+  ep.innerHTML=`<option value="">${star(!F.epic)}All epics</option>`+
+    opts(DATA.epics,epN,"id","title",F.epic);
+
+  /* a selection the pool above no longer offers is stale -- drop it rather
+     than leaving a filter applied that the control cannot show */
+  /* F.phase is NOT cleared when its count drops to zero: the phase is still a
+     valid destination and the reader may have navigated there deliberately.
+     Only package and epic, whose menus really are views of what is in scope. */
+  if(F.pkg&&!pkN.has(F.pkg))F.pkg="";
+  if(F.epic&&!epN.has(F.epic))F.epic="";
+
+  ph.value=CUSTOM?"__custom":F.phase; pk.value=F.pkg; ep.value=F.epic;
+  [[ph,CUSTOM||F.phase],[pk,F.pkg],[ep,F.epic]]
+    .forEach(([el,v])=>el.classList.toggle("on",!!v));
+}
+
+/* ---------------- render ---------------- */
+function render(){
+  fillSelects(); writeHash();
+  const rows=scope(), a=agg(rows);
+  const all=agg(DATA.stories);
+  const inBid=DATA.phases.filter(p=>p.inBid).reduce((t,p)=>t+p.price,0);
+
+  /* scope line */
+  const bits=[];
+  if(F.phase){const p=DATA.phases.find(x=>x.id===F.phase);bits.push("Phase "+p.num);}
+  /* a monthly figure only means something across a phase or the whole programme;
+     on a narrow slice it would imply a run-rate nobody is quoting */
+  const wide=!F.pkg&&!F.epic;
+  if(F.pkg){const p=DATA.packages.find(x=>x.id===F.pkg);bits.push(p.title);}
+  if(F.epic){const e=DATA.epics.find(x=>x.id===F.epic);bits.push(e.title);}
+  $("#scope").innerHTML=bits.length
+    ? "Viewing <b>"+bits.map(esc).join(" › ")+"</b>"
+    : "Viewing <b>the whole programme</b>";
+
+  /* hero tiles */
+  const share=all.units?a.units/all.units:0;
+  $("#hero").innerHTML=`
+    ${tile("Scope in view",a.n.toLocaleString(),
+      `${a.epics.size} epic${a.epics.size===1?"":"s"} · ${a.pkgs.size} package${a.pkgs.size===1?"":"s"} · ${a.ac.toLocaleString()} acceptance criteria`)}
+    ${tile("Share of programme",Math.round(share*100)+"%",
+      `${a.n} of ${DATA.stories.length} user stories · ${a.ac.toLocaleString()} acceptance criteria`,"hl",share)}
+    ${wide
+      ? tile("Average monthly cost",money(a.monthly),
+          (F.phase
+            ? `this phase · ${a.months} months · ${money(a.price)} total`
+            : `average across all phases · ${DATA.months[0]}–${DATA.months[1]} months overall · ${money(a.price)} total`),"price")
+      : tile("Price for this scope",money(a.price),
+          `${a.ac.toLocaleString()} acceptance criteria · billed within its phase, not separately`,"price")}
+    ${tile("Core entities modelled",pct(a.modelled,a.n)+"%",
+      `${a.modelled} of ${a.n} stories need no new core schema — most of it came straight `+
+      `from the RFP package. The rest are modelled too, but flagged underspecified until a `+
+      `vendor payload or a product decision settles their shape.`,
+      "hl",a.n?a.modelled/a.n:0)}
+    ${tile("Accepted",a.acc+"&thinsp;/&thinsp;"+a.ac,
+      pct(a.acc,a.ac)+"% of criteria signed off","",a.ac?a.acc/a.ac:0,true)}
+    ${tile("Committed calendar",cal(a).label,cal(a).sub)}`;
+
+  if(typeof scopeSummary==="function")scopeSummary();
+  if(typeof liveFacts==="function")liveFacts();
+  if(typeof stampNow==="function")stampNow();
+  if(typeof drawCust==="function"&&!$("#custpanel")?.hasAttribute("hidden"))drawCust();
+  if(typeof drawComm==="function")drawComm();
+  if(typeof drawUndo==="function")drawUndo();
+  drawBands(a); drawPhases(rows); drawEpics(rows); drawPkgs(rows); drawDisc(a);
+  drawStories(rows); drawInvoice(rows); drawTabCounts(rows,a);
+}
+/* Calendar for the current view. A single phase shows a range around its own
+   modelled duration; several phases overlap, so anything wider than one phase
+   reports the committed programme window rather than a sum. */
+function cal(a){
+  if(F.phase){
+    const ph=DATA.phases.find(x=>x.id===F.phase);
+    if(ph&&ph.months){
+      const lo=Math.max(1,Math.round(ph.months-0.5));
+      const hi=Math.round(ph.months+0.5);
+      return {label:(lo===hi?lo:lo+"–"+hi)+" mo",
+        sub:`this phase, within the ${DATA.months[0]}–${DATA.months[1]} month programme`};
+    }
+  }
+  const ids=[...a.phases];
+  if(ids.length===1){
+    const ph=DATA.phases.find(x=>x.id===ids[0]);
+    if(ph&&ph.months){
+      const lo=Math.max(1,Math.round(ph.months-0.5));
+      const hi=Math.round(ph.months+0.5);
+      return {label:(lo===hi?lo:lo+"–"+hi)+" mo",
+        sub:`${esc(ph.title)}, within the ${DATA.months[0]}–${DATA.months[1]} month programme`};
+    }
+  }
+  return {label:DATA.months[0]+"–"+DATA.months[1]+" mo",
+    sub:`all four phases · the cadence follows from the model being built before the build`};
+}
+function tile(k,v,sub,cls="",meter=null,verified=false){
+  return `<div class="tile"><span class="k">${k}</span><span class="v ${cls}">${v}</span>
+    ${meter!==null?`<div class="meter"><i class="${verified?"v":""}" style="width:${Math.max(0,Math.min(1,meter))*100}%"></i></div>`:""}
+    <span class="sub">${sub}</span></div>`;
+}
+const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function drawBands(a){
+  const tot=Object.values(a.byBand).reduce((x,y)=>x+y,0);
+  if(!tot){$("#bands").innerHTML=`<p class="empty">No work in scope.</p>`;return;}
+  const parts=DATA.bands.map(b=>({t:b.title,v:a.byBand[b.id]||0,c:BAND[b.id],
+    lab:Math.round((a.byBand[b.id]||0)/tot*100)+"%"})).filter(p=>p.v>0);
+  $("#bands").innerHTML=`<div class="donut">${donut(parts,160)}${key(parts)}</div>`;
+}
+
+function drawPhases(rows){
+  const by={}; for(const s of rows){(by[s.phase]=by[s.phase]||[]).push(s);}
+  const max=Math.max(1,...DATA.phases.map(p=>{const r=by[p.id];return r?agg(r).price:0;}));
+  const PC=["var(--s1)","var(--s3)","var(--s4)","var(--s2)"];
+  const parts=DATA.phases.map((p,i)=>{
+    const r=by[p.id]||[]; if(!r.length)return null;
+    const g=agg(r);
+    return {t:p.title.replace(/^Phase \d+\s*[—-]\s*/,""),v:g.price,
+            c:PC[i%PC.length],lab:money(g.price)};
+  }).filter(Boolean);
+  $("#phases").innerHTML=parts.length
+    ? `<div class="donut">${donut(parts)}${key(parts)}</div>`
+    : `<p class="empty">No phases in scope.</p>`;
+}
+
+function drawEpics(rows){
+  const by={}; for(const s of rows){(by[s.epic]=by[s.epic]||[]).push(s);}
+  const list=DATA.epics.map(e=>({e,r:by[e.id]||[]})).filter(x=>x.r.length)
+    .map(x=>({...x,g:agg(x.r)})).sort((a,b)=>b.g.price-a.g.price);
+  const max=Math.max(1,...list.map(x=>x.g.price));
+  /* Six validated hues + grey for the tail. Six is the honest limit for this
+     palette: a seventh generated hue fails CVD separation, so the remainder is
+     grouped rather than given a colour it cannot carry. */
+  const EP=["var(--s1)","var(--s3)","var(--s4)","var(--s2)","var(--d5)","var(--d4)"];
+  let cut=Math.min(list.length,EP.length);
+  let epie=list.slice(0,cut).map((x,i)=>({t:x.e.title.replace(/^EPIC-\d+:\s*/,""),
+    v:x.g.price,c:EP[i%EP.length],lab:money(x.g.price)}));
+  if(list.length>cut){
+    const rest=list.slice(cut).reduce((t,x)=>t+x.g.price,0);
+    if(rest>0)epie.push({t:`Other (${list.length-cut} smaller epics)`,v:rest,
+      c:"var(--rule)",lab:money(rest)});
+  }
+  const ep=$("#epicPie");
+  if(ep)ep.innerHTML=epie.length
+    ? `<div class="donut">${donut(epie,178)}${key(epie)}</div>`
+    : `<p class="empty">No epics in scope.</p>`;
+
+  const html=list.length?list.map(({e,g})=>
+    `<div class="bar"><span class="nm" title="${esc(e.title)}">${esc(e.title)}</span>
+     <span class="track" style="width:${g.price/max*100}%">${segs(g.price)}</span>
+     <span class="amt">${money(g.price)}</span></div>`).join("")+dlegend()
+    :`<p class="empty">No epics in scope.</p>`;
+  $("#epics").innerHTML=html;
+  $$("#epics .nm,#epicsFull .nm").forEach(n=>{
+    n.textContent=n.textContent.replace(/^EPIC-\d+:\s*/,"");});
+  const full=$("#epicsFull");
+  if(full)full.innerHTML=list.length?list.map(({e,g})=>
+    `<div class="bar"><span class="nm" title="${esc(e.title)}">${esc(e.title)}</span>
+     <span class="track" style="width:${g.price/max*100}%">${segs(g.price)}</span>
+     <span class="amt">${money(g.price)}</span></div>`).join("")+dlegend()
+    :`<p class="empty">No epics in scope.</p>`;
+}
+
+function drawPkgs(rows){
+  const by={}; for(const s of rows){(by[s.pkg]=by[s.pkg]||[]).push(s);}
+  const groups={};
+  for(const p of DATA.packages){(groups[p.phase]=groups[p.phase]||[]).push(p);}
+  let out="";
+  for(const ph of DATA.phases){
+    const list=(groups[ph.id]||[]).filter(p=>(by[p.id]||[]).length);
+    if(!list.length)continue;
+    out+=`<h3 style="margin:22px 0 3px;font-size:.95rem;font-weight:500">${esc(ph.title)}</h3>
+      <p class="note" style="margin-bottom:11px">${esc(ph.desc||"")}</p><div class="pkgs">`;
+    for(const p of list){
+      const g=agg(by[p.id]);
+      out+=`<button class="pkg ${F.pkg===p.id?"on":""}" data-pkg="${p.id}">
+        <span class="t">${esc(p.title)}</span>
+        <span class="d">${esc(p.desc||"")}</span>
+        <span class="m"><span>${g.n} stories · ${g.ac} criteria</span><b>${money(g.price)}</b></span>
+      </button>`;
+    }
+    out+=`</div>`;
+  }
+  /* which packages cost the most - part-to-whole across the current view */
+  const PP=["var(--s1)","var(--s3)","var(--s4)","var(--s2)","var(--d5)","var(--d4)","var(--d6)"];
+  const ranked=DATA.packages.map(p=>({p,r:by[p.id]||[]})).filter(x=>x.r.length)
+    .map(x=>({t:x.p.title,v:agg(x.r).price})).sort((a,b)=>b.v-a.v);
+  const TOP=7;
+  let pie=ranked.slice(0,TOP).map((x,i)=>({...x,c:PP[i%PP.length],lab:money(x.v)}));
+  if(ranked.length>TOP){
+    const rest=ranked.slice(TOP).reduce((t,x)=>t+x.v,0);
+    if(rest>0)pie.push({t:`Other (${ranked.length-TOP} packages)`,v:rest,
+      c:"var(--rule)",lab:money(rest)});
+  }
+  const pp=$("#pkgPie");
+  if(pp)pp.innerHTML=pie.length
+    ? `<div class="donut">${donut(pie,178)}${key(pie)}</div>`
+    : `<p class="empty">No packages in scope.</p>`;
+  $("#pkgs").innerHTML=out||`<p class="empty">No packages in scope.</p>`;
+  $$("#pkgs .pkg").forEach(b=>b.onclick=()=>{
+    F.pkg=F.pkg===b.dataset.pkg?"":b.dataset.pkg; F.epic=""; render();});
+}
+
+let sortKey="req",sortDir=1;
+function drawStories(rows){
+  const sortRows=list=>[...list].sort((a,b)=>{
+    const k=sortKey; let x=a[k],y=b[k];
+    if(typeof x==="string"||typeof y==="string"){x=String(x??"");y=String(y??"");
+      return x.localeCompare(y)*sortDir;}
+    return ((x??0)-(y??0))*sortDir;});
+
+  /* Ready vs blocked, by the STORY dependency tree (UserStories.DependsOnStory).
+     Two stories are roots -- AUTH-01 and PUB-01 -- so there is always somewhere
+     to start; the old report showed everything blocked, which is unusable.
+     Accepting a story's criteria releases whatever depended on it. */
+  const ready=sortRows(rows.filter(storyReady));
+  const blocked=sortRows(rows.filter(s=>!storyReady(s)));
+
+  const row=s=>{
+    const ph=DATA.phases.find(p=>p.id===s.phase);
+    const price=ph?s.units*ph.rate:0;
+    const done=storyDone(s), acc=s.crit.filter(isAccepted).length;
+    const chips=[`<span class="chip ${s.cls.toLowerCase()}">${esc(s.cls)}</span>`];
+    if(done)chips.push('<span class="chip ok">complete</span>');
+    if(s.rb)chips.push('<span class="chip blk">waiting on client</span>');
+    const off=SEL.has(s.id);
+    return `<tr class="srow${off?" off":""}" data-id="${esc(s.id)}">
+      <td class="selcell"><input type="checkbox" class="selbox" data-sel="${esc(s.id)}"${off?"":" checked"} aria-label="Include ${esc(s.req)}"></td>
+      <td class="n">${esc(s.req)}</td>
+      <td>${esc(s.text)}</td>
+      <td>${esc(s.epicTitle)}</td>
+      <td>${chips.join(" ")}</td>
+      <td class="n">${acc}/${s.ac}</td>
+      <td class="n">${money(price)}</td></tr>
+      <tr class="detail"${OPEN.has(s.id)?"":" hidden"} data-for="${esc(s.id)}"><td colspan="7">${detail(s)}</td></tr>`;};
+
+  const table=(list,id)=>`<div class="tscroll"><table>
+    <thead><tr>
+      <th class="selcell"></th><th data-k="req">Req</th><th data-k="text">User story</th><th data-k="epicTitle">Epic</th>
+      <th data-k="cls">Status</th><th data-k="acc">Accepted</th><th data-k="units">Price</th>
+    </tr></thead><tbody>${list.map(row).join("")}</tbody></table></div>`;
+
+  const simNote=SIM.size
+    ? `<p class="note simnote">Showing a what-if: <b>${SIM.size}</b> criteri${SIM.size===1?"on":"a"}
+       marked accepted in this browser only. Nothing is saved, and the rulebook is unchanged.
+       <button id="simReset" class="linkish">Clear</button></p>` : "";
+
+  $("#stories").innerHTML = rows.length ? `
+    ${simNote}
+    <h3 class="ssec">Ready to start <span class="cnt">${ready.length}</span></h3>
+    <p class="note">Every criterion here is either already accepted or has nothing in front of it.
+       This is where work begins.</p>
+    ${ready.length?table(ready):`<p class="empty">Nothing is ready in this view.</p>`}
+    <h3 class="ssec blkd">Waiting on earlier work <span class="cnt">${blocked.length}</span></h3>
+    <p class="note">Each of these needs an earlier criterion accepted first. Tick a criterion
+       in the section above to see what it releases.</p>
+    ${blocked.length?table(blocked):`<p class="empty">Nothing is blocked in this view.</p>`}`
+    :`<p class="empty">No stories match this view.</p>`;
+
+  $$("#stories th").forEach(th=>th.onclick=()=>{
+    const k=th.dataset.k; sortDir=(k===sortKey)?-sortDir:1; sortKey=k; drawStories(rows);});
+  $$("#stories .srow").forEach(tr=>tr.onclick=e=>{
+    if(e.target.closest(".tick"))return;
+    const id=tr.dataset.id;
+    const d=$(`#stories .detail[data-for="${CSS.escape(id)}"]`);
+    if(!d)return;
+    d.hidden=!d.hidden;
+    d.hidden?OPEN.delete(id):OPEN.add(id);});
+  $$("#stories .tick").forEach(b=>b.onclick=e=>{
+    e.stopPropagation();
+    const id=b.dataset.ac;
+    SIM.has(id)?SIM.delete(id):SIM.add(id);
+    /* Accepting a criterion can move its story from Waiting to Ready, which
+       re-orders the table under the pointer. Hold the viewport where the user
+       left it so a run of ticks stays a run of ticks. */
+    const y=window.scrollY;
+    render();
+    window.scrollTo({top:y,behavior:"instant"});
+    /* put focus back on the same control, so keyboard use survives too */
+    const again=$(`#stories .tick[data-ac="${CSS.escape(id)}"]`);
+    if(again)again.focus({preventScroll:true});});
+  const sr=$("#simReset"); if(sr)sr.onclick=()=>{SIM.clear();render();};
+  /* follow a blocker to the story that owns it */
+  $$("#stories .jump").forEach(a=>a.onclick=e=>{
+    e.preventDefault(); e.stopPropagation();
+    const id=a.dataset.story; if(!id)return;
+    const tr=$(`#stories .srow[data-id="${CSS.escape(id)}"]`);
+    if(!tr){alert("That story is outside the current filter. Reset the filter to see it.");return;}
+    const d=$(`#stories .detail[data-for="${CSS.escape(id)}"]`);
+    if(d){d.hidden=false; OPEN.add(id);}
+    tr.scrollIntoView({behavior:"smooth",block:"center"});
+    tr.classList.add("flash"); setTimeout(()=>tr.classList.remove("flash"),1200);
+  });
+}
+
+/* The three things a reader needs about one story: what must be true to
+   accept it, what work delivers it, and what is in the way. */
+function detail(s){
+  const acc=s.crit.filter(isAccepted).length;
+  const crit=s.crit.map(c=>{
+    const on=isAccepted(c), rdy=isReady(c), sim=SIM.has(c.id);
+    const rel=unlocks(c.id).length;
+    const blockedBy=(!rdy&&c.d)
+      ? `<span class="after">after <a href="#" class="jump" data-story="${esc(c.ds||"")}">${esc(c.dt||c.d)}</a></span>` : "";
+    return `<li class="${on?"on":(rdy?"rdy":"wait")}">
+      <button class="tick ${on?"on":""} ${sim?"sim":""}" data-ac="${esc(c.id)}"
+        title="${on?"Mark not accepted (what-if)":"Mark accepted (what-if)"}"
+        aria-pressed="${on}">${on?"✓":"○"}</button>
+      <span class="ct">${esc(c.t)}${blockedBy}
+        ${rel&&on?`<span class="rel">releases ${rel}</span>`:""}</span></li>`;}).join("");
+
+  const tasks=s.tasks.length?s.tasks.map(t=>`
+    <li><span class="tt">${esc(t.t)}</span>
+      <span class="ta">${esc(t.arch||"")}</span>
+      <span class="tp"><i style="width:${Math.max(2,t.prog)}%"></i></span>
+      <span class="tn">${t.prog?t.prog+"% built":"not started"}${t.n?` · ${t.n} criteri${t.n===1?"on":"a"}`:""}</span>
+    </li>`).join(""):`<li class="none">No tasks recorded.</li>`;
+
+  /* Two kinds of blocking, and they clear differently: a dependency clears by
+     doing the earlier work, a roadblock clears by someone outside answering. */
+  const waiting=s.crit.filter(c=>!isReady(c));
+  let blocks="";
+  if(s.dep&&!storyReady(s)) blocks+=`<div class="bk dep"><b>This story comes after</b>
+    <p><a href="#" class="jump" data-story="${esc(s.dep)}">${esc(s.depReq||s.dep)}</a>
+       — ${esc(s.depText||"")}</p>
+    <p class="mut">All of its criteria must be accepted before this story starts.</p></div>`;
+  if(waiting.length) blocks+=`<div class="bk dep"><b>Earlier work</b>
+    <ul>${waiting.map(c=>`<li>${esc(c.t)} — needs
+      <a href="#" class="jump" data-story="${esc(c.ds||"")}">${esc(c.dt||c.d)}</a></li>`).join("")}</ul></div>`;
+  if(s.rb) blocks+=`<div class="bk ext"><b>Outside the build${s.rb.cust?" — yours to clear":""}</b>
+    <p>${esc(s.rb.t)}${s.rb.owner?` · owner: ${esc(s.rb.owner)}`:""}${
+      s.rb.days?` · ~${s.rb.days} days expected`:""}</p>
+    ${s.rb.note?`<p class="mut">${esc(s.rb.note)}</p>`:""}</div>`;
+  if(!blocks) blocks=`<p class="none">Nothing is blocking this story.</p>`;
+
+  return `<div class="dgrid">
+    <div><h4>Acceptance criteria <span class="cnt">${acc}/${s.ac}</span></h4>
+      <ul class="crit">${crit||'<li class="none">None recorded.</li>'}</ul></div>
+    <div><h4>Work <span class="cnt">${s.tasks.length}</span></h4>
+      <ul class="tasks">${tasks}</ul></div>
+    <div><h4>Blocking</h4>${blocks}</div>
+  </div>`;
+}
+
+function drawInvoice(rows){
+  const byPh={}; for(const s of rows){(byPh[s.phase]=byPh[s.phase]||[]).push(s);}
+  let out="",grand=0;
+  for(const p of DATA.phases){
+    const r=byPh[p.id]; if(!r||!r.length)continue;
+    const g=agg(r); grand+=g.price;
+    out+=`<tr class="ph"><td>${esc(p.title)}</td>
+      <td class="n">${g.n}</td><td class="n">${g.ac}</td>
+      <td class="n">${money(g.price)}</td></tr>`;
+    out+=split(g.price).map(d=>
+      `<tr class="dl"><td><i class="dot" style="background:${dcol(d.id)}"></i>${esc(d.title)}</td>
+        <td></td><td class="n">${d.share}%</td><td class="n">${money(d.amt)}</td></tr>`).join("");
+    const byEp={}; for(const s of r){(byEp[s.epic]=byEp[s.epic]||[]).push(s);}
+    for(const e of DATA.epics){
+      const er=byEp[e.id]; if(!er)continue;
+      const eg=agg(er);
+      out+=`<tr class="ep"><td>${esc(e.title)}</td>
+        <td class="n">${eg.n}</td><td class="n">${eg.ac}</td>
+        <td class="n">${money(eg.price)}</td></tr>`;
+    }
+  }
+  const ga=agg(rows);
+  $("#invoice").innerHTML=out?`<div class="tscroll"><table>
+    <thead><tr><th>Phase / epic</th><th>Stories</th><th>Criteria</th>
+      <th>Amount</th></tr></thead>
+    <tbody>${out}</tbody></table></div>
+    ${(!F.pkg&&!F.epic)?`<div class="grand">
+      <span class="l">Rough expected average monthly cost<br>
+        <span style="font-family:var(--f-body);font-size:12.5px;font-weight:400;color:var(--ink-3)">
+        each phase's price over its own duration — phases overlap, so the programme runs
+        ${DATA.months[0]}–${DATA.months[1]} months overall. Milestones are delivered
+        acceptance criteria.</span></span>
+      <span class="r">${money(ga.monthly)}<span style="font-size:13px;color:var(--ink-3)"> / mo</span></span>
+    </div>`:""}
+    <div class="grand" style="border-top:1px solid var(--rule);margin-top:10px;padding-top:12px">
+      <span class="l">Total for this view</span><span class="r">${money(grand)}</span></div>`
+    :`<p class="empty">Nothing in scope to price.</p>`;
+}
+
+/* Donut for part-to-whole composition. Every slice is direct-labelled in the
+   accompanying key, which is also the relief for the sub-3:1 contrast WARN. */
+function donut(parts,size=178){
+  const tot=parts.reduce((t,p)=>t+p.v,0)||1;
+  const R=size/2, r=R-13, ir=r*0.60;
+  let a0=-Math.PI/2, out="";
+  for(const p of parts){
+    if(p.v<=0)continue;
+    const a1=a0+(p.v/tot)*Math.PI*2;
+    const big=(a1-a0)>Math.PI?1:0;
+    const x0=R+r*Math.cos(a0), y0=R+r*Math.sin(a0);
+    const x1=R+r*Math.cos(a1), y1=R+r*Math.sin(a1);
+    const X0=R+ir*Math.cos(a1), Y0=R+ir*Math.sin(a1);
+    const X1=R+ir*Math.cos(a0), Y1=R+ir*Math.sin(a0);
+    out+=`<path d="M${x0} ${y0} A${r} ${r} 0 ${big} 1 ${x1} ${y1} L${X0} ${Y0} `+
+         `A${ir} ${ir} 0 ${big} 0 ${X1} ${Y1} Z" fill="${p.c}" `+
+         `stroke="var(--card)" stroke-width="2"><title>${esc(p.t)}: ${p.lab}</title></path>`;
+    a0=a1;
+  }
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" role="img"
+    aria-label="Composition chart; values listed alongside">${out}</svg>`;
+}
+function key(parts){
+  return `<div class="pkey">`+parts.filter(p=>p.v>0).map(p=>
+    `<div class="krow"><i class="dot" style="background:${p.c}"></i>
+      <span class="kt">${esc(p.t)}</span>
+      <span class="kv">${p.lab}</span></div>`).join("")+`</div>`;
+}
+function dlegend(){
+  return `<div class="dlegend">`+DATA.disc.map(d=>
+    `<span><i class="dot" style="background:${dcol(d.id)}"></i>${esc(d.title)}
+      <span class="dlab">${d.share}%</span></span>`).join("")+`</div>`;
+}
+function drawDisc(a){
+  const parts=split(a.price);
+  const pie=parts.map(d=>({t:d.title,v:d.amt,c:dcol(d.id),lab:money(d.amt)}));
+  const dp=$("#discPie");
+  if(dp)dp.innerHTML=a.price?`<div class="donut">${donut(pie,160)}${key(pie)}</div>`
+    :`<p class="empty">Nothing in scope.</p>`;
+  const max=Math.max(...parts.map(p=>p.amt),1);
+  $("#discBars").innerHTML=`<ul class="dsplit">`+parts.map(d=>
+    `<li><span class="nm">${esc(d.title)}</span>
+      <span class="tr"><i style="width:${d.amt/max*100}%;background:${dcol(d.id)}"></i></span>
+      <span class="pc">${d.share}%</span>
+      <span class="amt">${money(d.amt)}</span></li>`).join("")+`</ul>`;
+  $("#discCards").innerHTML=parts.map(d=>
+    `<div class="dcard">
+      <div class="top"><i class="sw" style="background:${dcol(d.id)}"></i>
+        <span class="t">${esc(d.title)}</span></div>
+      <span class="v">${money(d.amt)}</span>
+      <span class="pc">${d.share}% of this scope</span>
+      <p class="d">${esc(d.desc)}</p>
+    </div>`).join("");
+}
+function drawTabCounts(rows,a){
+  $("#cStories").textContent=rows.length;
+  $("#cEpics").textContent=a.epics.size;
+  $("#cPkgs").textContent=a.pkgs.size;
+}
+
+/* ---------------- wire up ---------------- */
+function tabTo(id){
+  F.tab=id;
+  $$(".tab").forEach(t=>{const on=t.dataset.tab===id;
+    t.setAttribute("aria-selected",on);});
+  $$(".panel").forEach(p=>p.hidden=p.dataset.panel!==id);
+  writeHash();
+}
+addEventListener("DOMContentLoaded",()=>{
+  readHash();
+  $("#fPhase").onchange=e=>{
+    const v=e.target.value;
+    if(v==="__custom"){          /* returning to the saved bid */
+      showCustom();render();return;
+    }
+    /* Viewing a phase just changes the view; the saved bid is untouched and
+       still selectable in this menu, so the two can be compared. */
+    showAll();
+    F.phase=v;F.pkg="";F.epic="";render();
+  };
+  $("#fPkg").onchange  =e=>{F.pkg=e.target.value;F.epic="";render();};
+  $("#fEpic").onchange =e=>{F.epic=e.target.value;render();};
+  $("#reset").onclick  =()=>{F.phase=F.pkg=F.epic="";render();};
+  $$(".tab").forEach(t=>t.onclick=()=>tabTo(t.dataset.tab));
+  addEventListener("hashchange",()=>{readHash();render();tabTo(F.tab);});
+  render(); tabTo(F.tab);
+});
+
+document.addEventListener("DOMContentLoaded",()=>{
+  document.addEventListener("change",e=>{
+    const b=e.target.closest(".selbox"); if(!b) return;
+    const id=b.dataset.sel;
+    cartEdit(id,b.checked);
+    const y=window.scrollY; render(); window.scrollTo(0,y);
+  });
+  document.addEventListener("click",e=>{
+    if(e.target.closest(".selbox")) e.stopPropagation();
+    /* drill into a cart line without toggling it */
+    const d=e.target.closest("[data-drill]");
+    if(d){
+      const id=d.dataset.drill;
+      CUST_OPEN.has(id)?CUST_OPEN.delete(id):CUST_OPEN.add(id);
+      drawCust();
+    }
+  },true);
+  /* A package header ticks or clears everything under it in one go. It goes
+     through the same impact dialog as a single story, because a package
+     removal reaches further, not less far: its stories carry dependents in
+     OTHER packages, and those leave too. */
+  document.addEventListener("change",e=>{
+    const g=e.target.closest(".grpbox"); if(!g) return;
+    if(!CUSTOM) showCustom();
+    const pid=g.dataset.grp;
+    const rows=DATA.stories.filter(s=>s.pkg===pid);
+    const title=(DATA.packages.find(p=>p.id===pid)||{}).title||"this package";
+    if(g.checked){
+      /* everything upstream that the package's own stories still need */
+      const need=new Set();
+      rows.forEach(s=>missingDeps(s.id).forEach(d=>{
+        if(!rows.some(r=>r.id===d)) need.add(d);
+      }));
+      const apply=()=>{
+        pushUndo("adding "+title);
+        rows.forEach(s=>cartAdd(s.id,true));
+      };
+      if(!need.size){ apply(); afterCartChange(); return; }
+      askPackageImpact("add",title,[...need],apply);
+      return;
+    }
+    /* dependents OUTSIDE the package -- inside it they are going anyway */
+    const own=new Set(rows.map(s=>s.id));
+    const going=new Set();
+    rows.forEach(s=>dependentsInCart(s.id).forEach(d=>{
+      if(!own.has(d)) going.add(d);
+    }));
+    const apply=()=>{
+      pushUndo("removing "+title);
+      rows.forEach(s=>cartRemove(s.id));
+    };
+    if(!going.size){ apply(); afterCartChange(); return; }
+    askPackageImpact("remove",title,[...going],apply);
+  });
+});
+</script>
+<script>/* ---------------- scope selection ----------------
+   SEL holds the stories currently OUT of view. Empty means the whole
+   programme, so a bare URL is the full proposal and older links keep working.
+   It is always DERIVED (see recomputeSel) -- never patched in place. */
+const SEL=new Set();
+
+/* The custom bid is a SAVED SET, not a mode. It always exists, sits alongside
+   the phases in the menu, and survives switching to Phase 1 and back -- so a
+   reader can compare their bid against a standard phase and return to it.
+   Only VIEW is transient. */
+let CUSTOM=false;                 /* is the custom set the current view? */
+let CART=null;                    /* Set of story ids in the bid, or null = never built */
+const LS="proposal.cart.v1";
+
+function cartExists(){ return CART!==null; }
+function cartSize(){ return CART?CART.size:0; }
+
+/* ---- persistence -------------------------------------------------------
+   Everything lives in localStorage so a reload keeps the bid. Storage can
+   throw (private mode, blocked site data), so every access is guarded and the
+   document works correctly with none of it. */
+function saveCart(){
+  try{
+    if(CART) localStorage.setItem(LS,JSON.stringify([...CART]));
+    else localStorage.removeItem(LS);
+  }catch{}
+}
+function loadCart(){
+  try{
+    const raw=localStorage.getItem(LS);
+    if(!raw) return;
+    const ids=JSON.parse(raw);
+    if(!Array.isArray(ids)) return;
+    /* A rulebook edit can retire a story. Keep what still resolves and drop
+       the rest rather than discarding the reader's work. */
+    CART=new Set(ids.filter(id=>BY_ID[id]));
+  }catch{ CART=null; }
+}
+
+/* ---- deriving SEL ------------------------------------------------------
+   SEL is "out of view". In custom view that is everything not in the cart;
+   otherwise nothing (the phase/package/epic filters do the narrowing). */
+function recomputeSel(){
+  SEL.clear();
+  if(CUSTOM&&CART) DATA.stories.forEach(s=>{ if(!CART.has(s.id)) SEL.add(s.id); });
+}
+
+/* ---- building the cart -------------------------------------------------
+   Seed from whatever is on screen: filter to a phase showing 27 stories and
+   the cart starts with those 27. */
+function seedCart(){
+  CART=new Set(scope().map(s=>s.id));
+  saveCart();
+}
+function showCustom(){
+  if(!CART) seedCart();
+  CUSTOM=true; F.phase=""; F.pkg=""; F.epic="";
+  recomputeSel();
+}
+function showAll(){ CUSTOM=false; recomputeSel(); }
+
+/* Stories `id` needs that the cart does not hold yet, nearest first. */
+function missingDeps(id){
+  const out=[], seen=new Set([id]);
+  for(let p=BY_ID[id]?.dep;p&&!seen.has(p);p=BY_ID[p]?.dep){
+    seen.add(p);
+    if(CART&&!CART.has(p)) out.push(p);
+  }
+  return out;
+}
+/* Everything in the cart that depends on `id` -- what leaves if it goes. */
+function dependentsInCart(id){
+  return (BY_ID[id]?.desc||[]).filter(d=>CART&&CART.has(d));
+}
+
+function cartAdd(id,withDeps){
+  if(!CART) seedCart();
+  CART.add(id);
+  if(withDeps) missingDeps(id).forEach(d=>CART.add(d));
+  saveCart(); recomputeSel();
+}
+function cartRemove(id){
+  if(!CART) seedCart();
+  CART.delete(id);
+  dependentsInCart(id).forEach(d=>CART.delete(d));
+  saveCart(); recomputeSel();
+}
+function cartSetAll(on){
+  CART=new Set(on?DATA.stories.map(s=>s.id):[]);
+  saveCart(); recomputeSel();
+}
+/* "Set to >" -- replace the cart with a named phase's stories. */
+/* ---- adding, with prerequisites -----------------------------------------
+   A story whose prerequisite is missing cannot be built, so adding one has to
+   bring its chain with it. That is a change to what is being bid, so it is
+   confirmed rather than done silently -- once, or always, at the reader's
+   choice. */
+let ALWAYS_DEPS=false;
+try{ ALWAYS_DEPS=localStorage.getItem("proposal.alwaysDeps")==="1"; }catch{}
+
+/* Every cart edit goes through here, so undo is captured in exactly one place
+   and the impact dialog cannot be bypassed by a new call site.
+
+   Both directions of the graph are honoured, and both are confirmed when they
+   reach past the story the reader clicked:
+     removing -- the full transitive DOWNSTREAM branch (BY_ID[id].desc), since
+       nothing built on it can survive without it;
+     adding   -- the full UPSTREAM chain (missingDeps walks .dep to the root),
+       filling every gap between this story and the ground it stands on.
+   A removal is never silent: taking a branch out can be six figures, and it
+   used to happen on one unannounced click. */
+function cartEdit(id,on){
+  if(!CUSTOM) showCustom();
+  if(!on){
+    const going=dependentsInCart(id);
+    if(!going.length){
+      pushUndo("removing "+(BY_ID[id]?.req||"a story"));
+      cartRemove(id); afterCartChange(); return;
+    }
+    askImpact("remove",id,going,()=>{
+      pushUndo("removing "+(BY_ID[id]?.req||"a story")+" and "+going.length+" more");
+      cartRemove(id);
+    });
+    return;
+  }
+  const need=missingDeps(id);
+  if(!need.length){
+    pushUndo("adding "+(BY_ID[id]?.req||"a story"));
+    cartAdd(id,true); afterCartChange(); return;
+  }
+  if(ALWAYS_DEPS){
+    pushUndo("adding "+(BY_ID[id]?.req||"a story")+" and "+need.length+" more");
+    cartAdd(id,true); afterCartChange(); return;
+  }
+  askImpact("add",id,need,()=>{
+    pushUndo("adding "+(BY_ID[id]?.req||"a story")+" and "+need.length+" more");
+    cartAdd(id,true);
+  });
+}
+
+function afterCartChange(){
+  const y=window.scrollY; render(); window.scrollTo(0,y);
+}
+
+/* "Set to >" -- replace the cart with a named phase's stories. */
+function cartSetPhase(pid){
+  CART=new Set(DATA.stories.filter(s=>s.phase===pid).map(s=>s.id));
+  saveCart(); recomputeSel();
+}
+
+function isOn(s){return !SEL.has(s.id);}
+
+function selectedStories(){return DATA.stories.filter(isOn);}
+
+/* Called from render(), so the sticky bar can never show a stale figure while
+   the rest of the page has re-derived. */
+function scopeSummary(){
+  const off=SEL.size, all=DATA.stories.length;
+  const bar=$("#scopebar");
+  if(!bar) return;
+  bar.classList.toggle("on",off>0);
+  if(off>0){
+    const sel=all-off, a=agg(selectedStories());
+    $("#scopetext").innerHTML="Custom scope — <b>"+sel+"</b> of "+all+
+      " stories selected · <b>"+a.ac.toLocaleString()+"</b> acceptance criteria · <b>$"+
+      Math.round(a.price).toLocaleString()+"</b>";
+  }
+}
+
+/* ---- hash: the reader's CUTS ride alongside the existing filter path ----
+   The link carries the CART -- exactly what is being bid. Empty means no
+   custom set, so a bare URL is the full programme and older links still work.
+   Ids that no longer resolve are dropped rather than failing the load. */
+function selToHash(){return CUSTOM&&CART?[...CART].sort().join(","):"";}
+function selFromHash(v){
+  const ids=(v||"").split(",").filter(Boolean).filter(id=>BY_ID[id]);
+  if(!ids.length){ CUSTOM=false; recomputeSel(); return; }
+  CART=new Set(ids); CUSTOM=true; saveCart(); recomputeSel();
+}
+
+/* ---- the bid stamp -----------------------------------------------------
+   Not a lock -- a live description of the current estimate that becomes the
+   header of the downloaded PDF. The reference is derived from the selection,
+   so the same scope always produces the same reference and two people reading
+   the same printout are quoting the same thing. */
+function bidRef(){
+  /* Derived from the stories actually in scope -- NOT from the cart, which is
+     null whenever a plain phase filter is doing the narrowing. Keying off the
+     cart gave two genuinely different bids the same reference. Same scope
+     always yields the same reference, so two people reading the same printout
+     are quoting the same thing. */
+  let h=0;
+  const src=scope().map(s=>s.id).sort().join(",")+"|"+DATA.stories.length;
+  for(let i=0;i<src.length;i++){h=(h*31+src.charCodeAt(i))>>>0;}
+  return "BID-"+h.toString(36).toUpperCase().padStart(7,"0").slice(0,7);
+}
+
+function stampNow(){
+  const rows=scope(), a=agg(rows);
+  const set=(id,v)=>{ const el=$(id); if(el) el.textContent=v; };
+  set("#bidref",bidRef());
+  set("#bidscope",rows.length+" of "+DATA.stories.length+" user stories");
+  set("#bidac",a.ac.toLocaleString()+" acceptance criteria");
+  set("#bidprice","$"+Math.round(a.price).toLocaleString());
+  set("#bidwhen",new Date().toLocaleString(undefined,
+    {dateStyle:"long",timeStyle:"short"}));
+}
+
+/* ---- the prose restates itself -----------------------------------------
+   Every scope-dependent number in the narrative is a <span class="lv">. When
+   the selection changes, rewrite them, so the argument above the tables never
+   contradicts the tables below it. Facts that describe the MODEL (how many
+   tables, how many roles) carry no span and never move. */
+function liveFacts(){
+  const rows=scope(), a=agg(rows);
+  const v={
+    stories:rows.length,
+    criteria:a.ac,
+    modelled:a.modelled,
+    hardStories:rows.filter(s=>s.cls==="G3").length,
+    total:Math.round(a.price),
+    accepted:a.acc,
+  };
+  $$(".lv").forEach(el=>{
+    const f=el.dataset.f;
+    if(!(f in v)) return;
+    const n=v[f];
+    el.textContent=(el.dataset.fmt||"").indexOf(",")>=0?n.toLocaleString():String(n);
+  });
+}
+
+/* ---- the commercial basis, re-derived ----------------------------------
+   This table used to be baked into the HTML at generation time, so it kept
+   quoting the whole programme while every other figure on the page moved with
+   the selection -- the one table a reader would take to be the bid was the one
+   table that was not. It is now grouped from exactly the stories in scope.
+
+   The grouping mirrors the rulebook formulas the model carries:
+       IsInBaseBid  = {{PhaseKind}} <> "priced-option"
+       IsFixedPrice = {{PhaseKind}} =  "fixed-price"
+   A priced option is in neither commitment: it sits outside the base bid and
+   is exercised separately, so it is never folded into a total that reads as
+   committed. */
+function drawComm(){
+  const body=$("#commrows"); if(!body) return;
+  const rows=scope();
+  const by=new Map();
+  rows.forEach(s=>{ if(!by.has(s.phase)) by.set(s.phase,[]); by.get(s.phase).push(s); });
+
+  /* Only phases that actually have work in this scope carry a commitment. */
+  const live=DATA.phases.filter(p=>(by.get(p.id)||[]).length);
+  const roll=list=>list.reduce((o,p)=>{
+    const g=agg(by.get(p.id));
+    o.ac+=g.ac; o.price+=g.price; return o;
+  },{ac:0,price:0});
+
+  const fixed=live.filter(p=>p.fixed);
+  const tm=live.filter(p=>p.tm);
+  const base=live.filter(p=>p.inBid);
+  const opt=live.filter(p=>!p.inBid);
+
+  const cell=(g)=>`<td class="n">${g.ac.toLocaleString()}</td>`+
+    `<td class="n">${money(g.price)}</td>`;
+  let out="";
+  if(fixed.length) out+=`<tr><td><b>Fixed price</b> — ${fixed.length} phase`+
+    `${fixed.length===1?"":"s"}</td>${cell(roll(fixed))}</tr>`;
+  if(tm.length) out+=`<tr><td><b>Time &amp; materials</b>, against an `+
+    `estimated budget</td>${cell(roll(tm))}</tr>`;
+  if(opt.length){
+    out+=`<tr class="sub"><td>Base bid — the committed programme</td>`+
+      `${cell(roll(base))}</tr>`;
+    out+=`<tr><td><b>Priced option</b>, separately exercised</td>`+
+      `${cell(roll(opt))}</tr>`;
+  }
+  body.innerHTML=out||`<tr><td colspan="3" class="empty">`+
+    `Nothing is currently in scope.</td></tr>`;
+
+  const a=agg(rows);
+  const ac=$("#commac"), tot=$("#commtotal");
+  if(ac) ac.textContent=a.ac.toLocaleString();
+  if(tot) tot.textContent=money(a.price);
+}
+
+/* ---- undo --------------------------------------------------------------
+   A single click can remove a branch worth six figures. The impact dialog
+   makes that visible before it happens; undo makes it recoverable after.
+   The stack holds whole cart snapshots -- cheap (a few hundred ids) and
+   exactly right, because a cart edit is never a single-story delta once the
+   dependency graph is involved. */
+const UNDO=[], REDO=[];
+const UNDO_MAX=50;
+
+function snapshot(){
+  return {cart:CART?[...CART]:null, custom:CUSTOM};
+}
+function restore(st){
+  CART=st.cart?new Set(st.cart):null;
+  CUSTOM=st.custom;
+  saveCart(); recomputeSel();
+}
+/* Call BEFORE mutating the cart. `label` describes the edit being made, so the
+   undo button can say what it will take back. */
+function pushUndo(label){
+  UNDO.push({...snapshot(),label:label||"change"});
+  if(UNDO.length>UNDO_MAX) UNDO.shift();
+  REDO.length=0;
+}
+function undo(){
+  if(!UNDO.length) return;
+  const st=UNDO.pop();
+  REDO.push({...snapshot(),label:st.label});
+  restore(st); afterCartChange();
+}
+function redo(){
+  if(!REDO.length) return;
+  const st=REDO.pop();
+  UNDO.push({...snapshot(),label:st.label});
+  restore(st); afterCartChange();
+}
+function drawUndo(){
+  const u=$("#undoBtn"), r=$("#redoBtn");
+  if(u){
+    u.disabled=!UNDO.length;
+    u.title=UNDO.length?"Undo "+UNDO[UNDO.length-1].label:"Nothing to undo";
+  }
+  if(r){
+    r.disabled=!REDO.length;
+    r.title=REDO.length?"Redo "+REDO[REDO.length-1].label:"Nothing to redo";
+  }
+}
+
+/* ---- what a change actually costs --------------------------------------
+   Both directions of the graph, priced. Removing a story takes everything
+   downstream of it; adding one pulls in everything upstream it needs. Either
+   way the reader sees the stories, the criteria and the dollars before the
+   change lands, not after. */
+function impact(ids){
+  const rows=ids.map(i=>BY_ID[i]).filter(Boolean);
+  const a=agg(rows);
+  /* Grouped by epic, because "42 stories" means nothing but "the whole of
+     Authentication and half of Reporting" does. */
+  const byEpic=new Map();
+  rows.forEach(s=>{
+    if(!byEpic.has(s.epic)) byEpic.set(s.epic,{t:s.epicTitle,rows:[]});
+    byEpic.get(s.epic).rows.push(s);
+  });
+  const groups=[...byEpic.values()].sort((x,y)=>y.rows.length-x.rows.length);
+  return {rows,n:rows.length,ac:a.ac,price:a.price,groups};
+}
+
+/* How much of each epic goes -- "all 9" reads very differently from "3 of 9". */
+function epicShare(eid){
+  return DATA.stories.filter(s=>s.epic===eid&&CART&&CART.has(s.id)).length;
+}
+
+function impactList(im){
+  return im.groups.map(g=>{
+    const total=DATA.stories.filter(s=>s.epic===g.rows[0].epic).length;
+    const inCart=epicShare(g.rows[0].epic);
+    const whole=g.rows.length>=inCart&&inCart>0;
+    return `<li><span class="ig">${esc(g.t)}</span>
+      <span class="in${whole?" all":""}">${whole?"all ":""}${g.rows.length}
+        ${g.rows.length===1?"story":"stories"}</span>
+      <ul class="isub">${g.rows.slice(0,6).map(s=>
+        `<li><span class="rq">${esc(s.req)}</span> ${esc(s.text)}</li>`).join("")}
+        ${g.rows.length>6?`<li class="imore">and ${g.rows.length-6} more</li>`:""}
+      </ul></li>`;
+  }).join("");
+}
+
+/* One dialog for both directions. `kind` is "remove" or "add"; the difference
+   is the wording and which way the graph was walked, never the arithmetic. */
+function askImpact(kind,id,ids,onOk){
+  const s=BY_ID[id], n=ids.length;
+  askImpactDlg(kind,ids,
+    kind==="remove"
+      ? `Removing ${esc(s.req)} also removes ${n} ${n===1?"story":"stories"} `+
+        `that depend on it`
+      : `${esc(s.req)} needs ${n} other ${n===1?"story":"stories"} first`,
+    onOk);
+}
+
+/* Same dialog, headed by a package. A package edit reaches FURTHER than a
+   single story, not less far -- its stories have dependents in other packages
+   -- so it gets the same confirmation rather than a quieter one. */
+function askPackageImpact(kind,title,ids,onOk){
+  const n=ids.length;
+  askImpactDlg(kind,ids,
+    kind==="remove"
+      ? `Removing ${esc(title)} also removes ${n} ${n===1?"story":"stories"} `+
+        `in other packages that depend on it`
+      : `${esc(title)} needs ${n} ${n===1?"story":"stories"} from elsewhere first`,
+    onOk);
+}
+
+function askImpactDlg(kind,ids,heading,onOk){
+  const im=impact(ids);
+  const removing=kind==="remove";
+  const el=document.createElement("div");
+  el.className="depdlg";
+  el.innerHTML=`<div class="depbox ${removing?"warn":""}" role="dialog"
+      aria-modal="true" aria-labelledby="depttl">
+    <h3 id="depttl">${heading}</h3>
+    <p>${removing
+      ? `Nothing downstream of this can be built without it. Taking it out of
+         the bid takes all of the following with it:`
+      : `This cannot be built on its own. Adding it also adds everything it is
+         built on:`}</p>
+    <div class="itotals">
+      <div><span class="iv">${im.n}</span><span class="il">stories</span></div>
+      <div><span class="iv">${im.ac.toLocaleString()}</span>
+        <span class="il">acceptance criteria</span></div>
+      <div class="${removing?"neg":"pos"}"><span class="iv">${
+        removing?"−":"+"}${money(im.price)}</span>
+        <span class="il">${removing?"off the bid":"added to the bid"}</span></div>
+    </div>
+    <ul class="deplist grouped">${impactList(im)}</ul>
+    ${removing?"":`<label class="depalways"><input type="checkbox" id="depAlways">
+      Always add what is needed, don't ask again</label>`}
+    <div class="depbtns">
+      <button class="btn${removing?" danger":""}" id="depOk">${removing
+        ? `Remove all ${im.n+1}` : `Add all ${im.n+1}`}</button>
+      <button class="btn sec" id="depNo">Cancel</button>
+    </div></div>`;
+  document.body.appendChild(el);
+  const close=()=>el.remove();
+  el.querySelector("#depOk").onclick=()=>{
+    const always=el.querySelector("#depAlways");
+    if(always&&always.checked){
+      ALWAYS_DEPS=true;
+      try{ localStorage.setItem("proposal.alwaysDeps","1"); }catch{}
+    }
+    close(); onOk(); afterCartChange();
+  };
+  el.querySelector("#depNo").onclick=()=>{ close(); afterCartChange(); };
+  el.onclick=e=>{ if(e.target===el){ close(); afterCartChange(); } };
+  document.addEventListener("keydown",function esc2(e){
+    if(e.key==="Escape"){ close(); afterCartChange();
+      document.removeEventListener("keydown",esc2); }
+  });
+  el.querySelector("#depNo").focus();
+}
+
+/* ---- customize panel ----------------------------------------------------
+   The whole tree, grouped by epic, every story a checkbox. Unticking one takes
+   its branch with it -- the count beside a story says how many others ride on
+   it, so the reader can see the size of a cut before making it. */
+let CUST_Q="";
+const CUST_OPEN=new Set();   /* stories expanded for a closer look */
+
+/* One story, as a cart line: tick to include, click to read what it actually
+   commits us to. The `+n` badge is the size of the branch riding on it, so the
+   cost of removing it is visible before it is removed. */
+function cartRow(s){
+  const off=SEL.has(s.id), n=(s.desc||[]).length, open=CUST_OPEN.has(s.id);
+  const ph=PH[s.phase];
+  const price=ph?s.units*ph.rate:0;
+  return `<div class="cartrow${off?" off":""}${open?" open":""}">
+    <input type="checkbox" class="selbox" data-sel="${esc(s.id)}"${off?"":" checked"}
+      id="c-${esc(s.id)}" aria-label="Include ${esc(s.req)}">
+    <div class="cl">
+      <button class="ct" data-drill="${esc(s.id)}" aria-expanded="${open}">
+        <span class="rq">${esc(s.req)}</span>${esc(s.text)}</button>
+      <div class="cmeta">
+        <span class="chip ${s.cls.toLowerCase()}">${esc(s.cls)}</span>
+        <span>${s.ac} criteri${s.ac===1?"on":"a"}</span>
+        <span>${money(price)}</span>
+        ${n?`<span class="kids">+${n} depend on this</span>`:""}
+        ${s.rb?`<span class="blk">waiting on client</span>`:""}
+        ${(off&&missingDeps(s.id).length)?`<span class="needs"
+          title="Adding this also adds ${missingDeps(s.id).length} it depends on: ${
+            esc(missingDeps(s.id).map(d=>BY_ID[d].req).join(", "))
+          }">&#9432; needs ${missingDeps(s.id).length} more</span>`:""}
+      </div>
+      ${open?cartDetail(s):""}
+    </div></div>`;
+}
+
+/* The drill-in. Everything here is already in the rulebook -- this is the same
+   record the pricing tables use, shown as prose rather than a row. */
+function cartDetail(s){
+  const ph=PH[s.phase];
+  const crit=s.crit.map(c=>`<li>${esc(c.t)}</li>`).join("");
+  const tasks=(s.tasks||[]).map(t=>
+    `<li>${esc(t.t)}<span class="ar">${esc(t.arch||"")}</span></li>`).join("");
+  const facts=[
+    ["Phase", ph?ph.title:s.phase],
+    ["Package", s.pkgTitle],
+    ["Epic", s.epicTitle],
+    ["For", s.role||"—"],
+    ["Included in", s.version||"—"],
+    ["Complexity", s.cls],
+  ].map(([k,v])=>`<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join("");
+  return `<div class="cdet">
+    <dl class="cfacts">${facts}</dl>
+    ${s.dep?`<p class="cdep"><b>Needs first:</b>
+      <span class="rq">${esc(s.depReq||"")}</span> ${esc(s.depText||"")}</p>`:""}
+    ${s.rb?`<p class="cblk"><b>External dependency:</b> ${esc(s.rb.t)}
+      — owned by ${esc(s.rb.owner||"the client")}.</p>`:""}
+    <h5>What we commit to (${s.ac})</h5><ul class="ccrit">${crit}</ul>
+    ${tasks?`<h5>What it takes</h5><ul class="ctask">${tasks}</ul>`:""}
+  </div>`;
+}
+
+/* Package band -> epic -> stories, mirroring how the price rolls up elsewhere,
+   so the cart reconciles visually with the tables below it. */
+function drawCust(){
+  const host=$("#custtree"); if(!host) return;
+  const q=CUST_Q.trim().toLowerCase();
+  const match=s=>!q||((s.req||"")+" "+(s.text||"")+" "+(s.epicTitle||"")).toLowerCase().includes(q);
+
+  const packs=new Map();
+  DATA.stories.filter(match).forEach(s=>{
+    if(!packs.has(s.pkg)) packs.set(s.pkg,{t:s.pkgTitle,eps:new Map()});
+    const p=packs.get(s.pkg);
+    if(!p.eps.has(s.epic)) p.eps.set(s.epic,{t:s.epicTitle,rows:[]});
+    p.eps.get(s.epic).rows.push(s);
+  });
+
+  host.innerHTML = packs.size ? [...packs].map(([pid,p])=>{
+    const all=[...p.eps.values()].flatMap(e=>e.rows);
+    const on=all.filter(s=>!SEL.has(s.id));
+    const price=on.reduce((t,s)=>t+(PH[s.phase]?s.units*PH[s.phase].rate:0),0);
+    return `<section class="cartpack">
+      <header>
+        <label class="pkgtoggle">
+          <input type="checkbox" class="grpbox" data-grp="${esc(pid)}"
+            ${on.length?(on.length===all.length?"checked":""):""}
+            ${on.length&&on.length<all.length?'data-mixed="1"':""}
+            aria-label="Include all of ${esc(p.t)}">
+          <b>${esc(p.t)}</b></label>
+        <span class="pkgn">${on.length}/${all.length} · ${money(price)}</span>
+      </header>
+      ${[...p.eps].map(([eid,e])=>`
+        <div class="cartepic">
+          <h4>${esc(e.t)}<span class="gcount">${
+            e.rows.filter(s=>!SEL.has(s.id)).length}/${e.rows.length}</span></h4>
+          ${e.rows.map(cartRow).join("")}
+        </div>`).join("")}
+    </section>`;
+  }).join("") : `<p class="empty">No story matches that search.</p>`;
+
+  const sel=DATA.stories.length-SEL.size;
+  const a=agg(DATA.stories.filter(s=>!SEL.has(s.id)));
+  const c=$("#custCount");
+  if(c) c.innerHTML=`<b>${sel}</b> of ${DATA.stories.length} stories · `+
+    `<b>${a.ac.toLocaleString()}</b> criteria · <b>${money(a.price)}</b>`;
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+  const all=$("#selAll"), none=$("#selNone");
+  const cb=$("#custBtn"), cp=$("#custpanel");
+  if(cb&&cp) cb.onclick=()=>{
+    const open=cp.hasAttribute("hidden");
+    if(open){
+      /* First open seeds from what is on screen; afterwards the saved bid is
+         shown as it stands -- opening the panel must never silently discard
+         a bid the reader has been building. */
+      showCustom();
+      cp.removeAttribute("hidden");
+      render();
+    } else cp.setAttribute("hidden","");
+    cb.setAttribute("aria-expanded",open?"true":"false");
+    cb.textContent=open?"Done customizing":"Customize scope";
+  };
+  /* "Set to >" jumps the bid straight to a phase's stories, so a reader can
+     start from Phase 2 rather than ticking their way there. */
+  const st=$("#custSetTo");
+  if(st){
+    st.innerHTML='<option value="">choose a phase…</option>'+
+      DATA.phases.map(p=>`<option value="${p.id}">${esc(p.title)}</option>`).join("");
+    st.onchange=e=>{
+      const v=e.target.value; if(!v) return;
+      pushUndo("replacing the bid with "+(PH[v]?PH[v].title:"a phase"));
+      showCustom(); cartSetPhase(v); e.target.value=""; render();
+    };
+  }
+  /* The browser's own print-to-PDF: it already honours the @media print rules,
+     needs no library, and works offline. Lock first so the printed page reads
+     as the agreement rather than as a page with controls on it. */
+  const pdf=$("#pdfBtn");
+  /* Stamp the moment of download, then hand off to the browser's own print --
+     no library, works offline, honours the @media print rules. */
+  if(pdf) pdf.onclick=()=>{ stampNow(); setTimeout(()=>window.print(),120); };
+
+  const q=$("#custSearch");
+  if(q) q.oninput=()=>{CUST_Q=q.value; drawCust();};
+  const ca=$("#custAll"), cn=$("#custNone");
+  /* "Everything" leaves the custom set behind entirely -- it IS the full
+     programme, so it should read as that in the menu, not as a custom scope
+     that happens to contain all 223. */
+  if(ca) ca.onclick=()=>{pushUndo("selecting everything");showCustom();cartSetAll(true);render();};
+  if(cn) cn.onclick=()=>{pushUndo("clearing the bid");showCustom();cartSetAll(false);render();};
+  if(all) all.onclick=()=>{showAll();F.phase="";F.pkg="";F.epic="";render();};
+  if(none) none.onclick=()=>{pushUndo("clearing the bid");showCustom();cartSetAll(false);render();};
+
+  /* Ctrl/Cmd-Z anywhere on the page, except while typing in the search box. */
+  document.addEventListener("keydown",e=>{
+    if(!(e.metaKey||e.ctrlKey)||e.key.toLowerCase()!=="z") return;
+    if(/^(INPUT|TEXTAREA)$/.test(e.target.tagName)&&e.target.type!=="checkbox") return;
+    e.preventDefault();
+    e.shiftKey?redo():undo();
+  });
+  const ub=$("#undoBtn"), rb=$("#redoBtn");
+  if(ub) ub.onclick=()=>undo();
+  if(rb) rb.onclick=()=>redo();
+  scopeSummary();
+});
+</script>
+</body></html>

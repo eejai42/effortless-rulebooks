@@ -72,21 +72,21 @@ not "this time it's different."
 
 ### "Why Airtable? That's a toy."
 
-Airtable is the **editorial UI**, not the runtime. The runtime is Postgres (or
-any other substrate). The architecture is exactly:
+You don't need Airtable at all. The hub is `effortless-rulebook.json`, and the
+best-practice default is **Rulebook-First**: edit the JSON directly (LLMs do this
+natively) and project it to Postgres. The architecture is:
 
 ```
-Airtable (editorial)  →  effortless-rulebook.json (IR)  →  Postgres (runtime)
+editing surface (rulebook-direct, or optional Airtable/Excel)
+        →  effortless-rulebook.json (IR / hub)  →  Postgres (runtime)
 ```
 
-Airtable's value is that domain experts can edit the rulebook *directly*, in a
-substrate they already understand (spreadsheets), without needing developer
-mediation. The IR detaches the editing surface from the execution surface.
-
-If Airtable disappeared tomorrow, the IR + transpilers would still work. The
-editing surface is replaceable; the rulebook is the invariant. Receipt: see
-the [effortlessapi/effortless-rulebooks](https://github.com/effortlessapi/effortless-rulebooks)
-README, which describes Airtable as the hub and the rulebook as a disposable IR.
+Airtable is **one optional editing surface** — a sibling of Excel and Notion — for
+teams whose domain experts prefer a grid they already understand. It's never the
+runtime and never the source of truth; the IR detaches the editing surface from
+the execution surface, so the surface is replaceable. If Airtable disappeared
+tomorrow, the IR + transpilers would still work unchanged — many projects never
+touch it. The rulebook is the invariant; Airtable is a convenience.
 
 ### "A single source of truth is fragile — one bug poisons everything."
 

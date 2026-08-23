@@ -144,9 +144,12 @@ effortless -init -projectName "My Project"   # creates effortless.json
 effortless -init force                       # nested sub-project
 ```
 
-For the full project-init walkthrough (directory structure, CLAUDE.md, start.sh, Airtable connection), see **effortless-init**.
+For the full project-init walkthrough (directory structure, CLAUDE.md, start.sh, and the optional upstream-surface connection), see **effortless-init**.
 
-## API Key Management
+## API Key Management (only for projects that talk to Airtable)
+
+Rulebook-First projects need no API key. This applies only when the project opted
+into Airtable as an input spoke.
 
 ```bash
 effortless -setAccountAPIKey airtable=patXXXXXXXX.XXXXXXXX
@@ -169,7 +172,7 @@ Stored in `~/.ssotme/ssotme.key`:
 effortless airtable-to-rulebook -o effortless-rulebook.json -account airtable
 ```
 
-`effortless.env` is the dotenv alternative for project-scoped secrets: `AIRTABLE_API_KEY=patXXX...`.
+`effortless.env` is the dotenv alternative for project-scoped secrets: `AIRTABLE_API_KEY=patXXX...`. Full Airtable mechanics live in `effortless-airtable`.
 
 ## Installing transpilers
 
@@ -181,15 +184,18 @@ effortless -install <transpiler> -p key=value -i input.txt -o output.json
 
 ### Standard installation paths
 
+Output spokes are the common core. Input-spoke transpilers are optional — they
+appear only in a project that seeds the hub from an upstream surface.
+
 | Directory | Command | Notes |
 |---|---|---|
-| `/bootstrap/` | `effortless -install raw-text-to-rulebook -i requirements.txt -o bootstrap-rulebook.json` | Rough starting rulebook |
-| `/effortless-rulebook/` | `effortless -install airtable-to-rulebook -o effortless-rulebook.json -account airtable` | Main rulebook sync |
-| `/effortless-rulebook/push-to-airtable/` | `effortless -install rulebook-to-airtable -i ../effortless-rulebook.json -account airtable` | **MUST be `IsDisabled: true`** |
-| `/postgres/` | `effortless -install rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json` | SQL generation |
-| `/docs/` | `effortless -install rulebook-to-docs` | Doc generation |
+| `/postgres/` | `effortless -install rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json` | SQL generation (output) |
+| `/docs/` | `effortless -install rulebook-to-docs` | Doc generation (output) |
+| `/bootstrap/` | `effortless -install raw-text-to-rulebook -i requirements.txt -o bootstrap-rulebook.json` | Rough starting rulebook (optional input) |
+| `/effortless-rulebook/` | `effortless -install airtable-to-rulebook -o effortless-rulebook.json -account airtable` | Airtable input spoke (optional) |
+| `/effortless-rulebook/push-to-airtable/` | `effortless -install rulebook-to-airtable -i ../effortless-rulebook.json -account airtable` | Reverse-sync (optional) — **MUST be `IsDisabled: true`** |
 
-`rulebook-to-airtable` must be disabled so it doesn't run on a normal `effortless build` — only `effortless build -id` runs it.
+If wired, `rulebook-to-airtable` must be disabled so it doesn't run on a normal `effortless build` — only `effortless build -id` runs it.
 
 ## Building
 
@@ -225,21 +231,20 @@ effortless -cleanAll
 {
   "Name": "Project Name",
   "ProjectSettings": [
-    { "Name": "baseId", "Value": "appXXXXXXXXXXXX" },
     { "Name": "project-name", "Value": "my-project" }
   ],
   "ProjectTranspilers": [
     {
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "effortless airtable-to-rulebook -o effortless-rulebook.json -account airtable",
+      "Name": "rulebooktopostgres",
+      "RelativePath": "/postgres",
+      "CommandLine": "effortless rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false
     }
   ]
 }
 ```
 
-The `baseId` setting is the Airtable base ID, shared across all airtable-facing tools.
+An Airtable-connected project additionally carries a `baseId` setting (the Airtable base ID, shared across all airtable-facing tools) and an `airtabletorulebook` transpiler entry.
 
 ## Smoke tests
 
