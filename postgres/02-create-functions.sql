@@ -1586,6 +1586,69 @@ RETURNS DATE AS $$
   SELECT (SELECT witnessed_on FROM project_slot_witnesses WHERE project_slot_witness_id = p_project_slot_witness_id);
 $$ LANGUAGE sql STABLE;
 
+-- get_project_launch_profiles_working_directory
+-- Helper function: Get WorkingDirectory from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_working_directory(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT working_directory FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_launch_profiles_start_command
+-- Helper function: Get StartCommand from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_start_command(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT start_command FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_launch_profiles_experience_description
+-- Helper function: Get ExperienceDescription from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_experience_description(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT experience_description FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_launch_profiles_prerequisite_notes
+-- Helper function: Get PrerequisiteNotes from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_prerequisite_notes(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT prerequisite_notes FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_launch_profiles_experience_kind
+-- Helper function: Get ExperienceKind from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_experience_kind(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT experience_kind FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_launch_profiles_is_start_required
+-- Helper function: Get IsStartRequired from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_is_start_required(p_project_launch_profile_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_start_required FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_launch_profiles_requires_local_url
+-- Helper function: Get RequiresLocalUrl from ProjectLaunchProfiles by ProjectLaunchProfileId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_launch_profiles_requires_local_url(p_project_launch_profile_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT requires_local_url FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id);
+$$ LANGUAGE sql STABLE;
+
 -- calc_rulebook_domains_name
 -- Field: RulebookDomains.Name
 -- Type: calculated | DataType: string | Returns: TEXT
@@ -1964,6 +2027,151 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_readiness_state(p_domain_id TEXT)
 RETURNS TEXT AS $$
   WITH __erb_dedup_v1 AS (SELECT calc_rulebook_domains_is_fully_implemented(p_domain_id) AS val) SELECT (CASE WHEN COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE) THEN ('intentional-exception')::text ELSE (CASE WHEN (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'root' THEN (CASE WHEN (SELECT val FROM __erb_dedup_v1) THEN ('root-ready')::text ELSE ('root-incomplete')::text END)::text ELSE (CASE WHEN calc_rulebook_domains_is_toy_by_coverage(p_domain_id) THEN ('toy')::text ELSE (CASE WHEN (SELECT val FROM __erb_dedup_v1) THEN ('example-ready')::text ELSE ('example-incomplete')::text END)::text END)::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- get_project_local_services_service_role
+-- Helper function: Get ServiceRole from ProjectLocalServices by ProjectLocalServiceId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_local_services_service_role(p_project_local_service_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT service_role FROM project_local_services WHERE project_local_service_id = p_project_local_service_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_local_services_local_url
+-- Helper function: Get LocalUrl from ProjectLocalServices by ProjectLocalServiceId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_local_services_local_url(p_project_local_service_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT local_url FROM project_local_services WHERE project_local_service_id = p_project_local_service_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_local_services_health_url
+-- Helper function: Get HealthUrl from ProjectLocalServices by ProjectLocalServiceId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_local_services_health_url(p_project_local_service_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT health_url FROM project_local_services WHERE project_local_service_id = p_project_local_service_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_local_services_sort_order
+-- Helper function: Get SortOrder from ProjectLocalServices by ProjectLocalServiceId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_local_services_sort_order(p_project_local_service_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT sort_order FROM project_local_services WHERE project_local_service_id = p_project_local_service_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_project_local_services_is_primary_flag
+-- Helper function: Get IsPrimaryFlag from ProjectLocalServices by ProjectLocalServiceId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_project_local_services_is_primary_flag(p_project_local_service_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT is_primary_flag FROM project_local_services WHERE project_local_service_id = p_project_local_service_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_name
+-- Field: ProjectLaunchProfiles.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_name(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(domain, '') FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id), ' launch'))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_primary_service_count
+-- Field: ProjectLaunchProfiles.PrimaryServiceCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_primary_service_count(p_project_launch_profile_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COALESCE(SUM((is_primary_flag)::numeric), 0) FROM project_local_services WHERE launch_profile = p_project_launch_profile_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_service_count
+-- Field: ProjectLaunchProfiles.ServiceCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_service_count(p_project_launch_profile_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM project_local_services WHERE launch_profile = (SELECT NULLIF(project_launch_profile_id, '') FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_has_complete_instructions
+-- Field: ProjectLaunchProfiles.HasCompleteInstructions
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_has_complete_instructions(p_project_launch_profile_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(working_directory, '') FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id) IS NOT NULL AND (SELECT NULLIF(start_command, '') FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id) IS NOT NULL AND (SELECT NULLIF(experience_description, '') FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id) IS NOT NULL))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_has_primary_service
+-- Field: ProjectLaunchProfiles.HasPrimaryService
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_has_primary_service(p_project_launch_profile_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_project_launch_profiles_primary_service_count(p_project_launch_profile_id))::NUMERIC = 1)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_is_launch_contract_complete
+-- Field: ProjectLaunchProfiles.IsLaunchContractComplete
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_is_launch_contract_complete(p_project_launch_profile_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_project_launch_profiles_has_complete_instructions(p_project_launch_profile_id) AND (NOT (COALESCE((SELECT requires_local_url FROM project_launch_profiles WHERE project_launch_profile_id = p_project_launch_profile_id), FALSE)) OR calc_project_launch_profiles_has_primary_service(p_project_launch_profile_id))))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_local_services_name
+-- Field: ProjectLocalServices.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_project_local_services_name(p_project_local_service_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(launch_profile, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id), ' ', (SELECT NULLIF(service_role, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_local_services_has_health_url
+-- Field: ProjectLocalServices.HasHealthUrl
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_local_services_has_health_url(p_project_local_service_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(health_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_local_services_is_http_service
+-- Field: ProjectLocalServices.IsHttpService
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_local_services_is_http_service(p_project_local_service_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((LEFT(((SELECT NULLIF(local_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id))::text, (7)::integer) = 'http://' OR LEFT(((SELECT NULLIF(local_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id))::text, (8)::integer) = 'https://'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_local_services_is_complete
+-- Field: ProjectLocalServices.IsComplete
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_local_services_is_complete(p_project_local_service_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(local_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id) IS NOT NULL AND (SELECT NULLIF(health_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id) IS NOT NULL))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_flavors_domain_area
@@ -5350,6 +5558,32 @@ RETURNS TEXT AS $$
     SELECT STRING_AGG(project_slot_witness_id::TEXT, ', ' ORDER BY project_slot_witness_id)
     FROM project_slot_witnesses
     WHERE domain = p_domain_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_rulebook_domains_launch_profiles
+-- Field: RulebookDomains.LaunchProfiles
+-- Type: Inverse relationship (reverse FK lookup from ProjectLaunchProfiles.Domain)
+
+CREATE OR REPLACE FUNCTION calc_rulebook_domains_launch_profiles(p_domain_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(project_launch_profile_id::TEXT, ', ' ORDER BY project_launch_profile_id)
+    FROM project_launch_profiles
+    WHERE domain = p_domain_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_launch_profiles_local_services
+-- Field: ProjectLaunchProfiles.LocalServices
+-- Type: Inverse relationship (reverse FK lookup from ProjectLocalServices.LaunchProfile)
+
+CREATE OR REPLACE FUNCTION calc_project_launch_profiles_local_services(p_project_launch_profile_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(project_local_service_id::TEXT, ', ' ORDER BY project_local_service_id)
+    FROM project_local_services
+    WHERE launch_profile = p_project_launch_profile_id
   );
 $$ LANGUAGE sql STABLE;
 

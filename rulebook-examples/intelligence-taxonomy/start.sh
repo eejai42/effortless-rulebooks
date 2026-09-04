@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
-# Taxonomy of Intelligence — interactive launcher.
+# Taxonomy of Intelligence — project launcher.
 # Usage: ./start.sh [all|server|web|db|db-reset|build|stop]
 
 set -euo pipefail
 
 ROOT="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$ROOT"
+PROJECT_NAME='intelligence-taxonomy'
+EXPERIENCE_DESCRIPTION='Interactive intelligence taxonomy and calculated-field explorer'
+START_COMMAND='./start.sh'
 DB_NAME="${DB_NAME:-erb_intelligence_taxonomy}"
 DB_USER="${DB_USER:-postgres}"
 DB_HOST="${DB_HOST:-localhost}"
@@ -12,42 +16,23 @@ DB_PORT="${DB_PORT:-5432}"
 DATABASE_URL="${DATABASE_URL:-postgresql://${DB_USER}@${DB_HOST}:${DB_PORT}/${DB_NAME}}"
 SERVER_PORT="${SERVER_PORT:-3032}"
 WEB_PORT="${WEB_PORT:-5175}"
+PRIMARY_URL="http://localhost:${WEB_PORT}"
+HEALTH_URL="http://localhost:${SERVER_PORT}/healthz"
+export DATABASE_URL SERVER_PORT WEB_PORT
 
-cmd="${1:-}"
+cmd="${1:-all}"
 
-prompt_cmd() {
-  echo "What would you like to do?"
-  echo "  1) all      — build, apply db updates, then start server + web"
-  echo "  2) server   — start the Express API (port ${SERVER_PORT})"
-  echo "  3) web      — start the Vite dev server (port ${WEB_PORT})"
-  echo "  4) db       — apply schema/data updates in place (idempotent; preserves edits)"
-  echo "  5) db-reset — TRUNCATE all tables and re-seed from the rulebook (wipes edits)"
-  echo "  6) build    — regenerate postgres-bootstrap/ + explainer-dag/ from the rulebook"
-  echo "  7) stop     — stop anything listening on :${SERVER_PORT} and :${WEB_PORT}"
-  read -rp "Choice [all]: " choice
-  case "${choice:-all}" in
-    1|all) cmd="all" ;;
-    2|server) cmd="server" ;;
-    3|web) cmd="web" ;;
-    4|db) cmd="db" ;;
-    5|db-reset) cmd="db-reset" ;;
-    6|build) cmd="build" ;;
-    7|stop) cmd="stop" ;;
-    *) echo "unknown choice: $choice" >&2; exit 1 ;;
-  esac
-}
-
-[[ -z "$cmd" ]] && prompt_cmd
+die() { echo "[start] ERROR: $*" >&2; exit 1; }
 
 build() {
   cd "$ROOT"
+  command -v effortless >/dev/null 2>&1 || die "effortless is required for the explicit build command"
   echo "[build] effortless build"
   effortless build
 }
 
 port_pids() {
-  # All pids with this TCP port open (listeners or established). One per line.
-  lsof -nP -iTCP:"$1" -t 2>/dev/null || true
+  lsof -nP -tiTCP:"$1" -sTCP:LISTEN 2>/dev/null || true
 }
 
 kill_port() {
@@ -73,15 +58,10 @@ kill_port() {
 }
 
 stop_server() {
-  # Kill the tsx watch supervisor first — otherwise tsx respawns the node
-  # listener as soon as we kill its child and the port never frees up.
-  # Matching by absolute node_modules path scopes this to THIS project.
-  pkill -f "${ROOT}/server/node_modules" 2>/dev/null || true
   kill_port "$SERVER_PORT"
 }
 
 stop_web() {
-  pkill -f "${ROOT}/web/node_modules" 2>/dev/null || true
   kill_port "$WEB_PORT"
 }
 
@@ -91,16 +71,37 @@ stop_services() {
 }
 
 ensure_db_exists() {
-  if ! psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d postgres-bootstrap -tAc \
-        "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'" | grep -q 1 ; then
+  if [ "$(psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d postgres -tAc \
+        "SELECT 1 FROM pg_database WHERE datname='${DB_NAME}'" 2>/dev/null || true)" != "1" ]; then
     echo "[db] database ${DB_NAME} does not exist — creating"
-    psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d postgres-bootstrap \
+    psql -U "$DB_USER" -h "$DB_HOST" -p "$DB_PORT" -d postgres \
       -c "CREATE DATABASE ${DB_NAME};"
   fi
 }
 
+preflight() {
+  for command in npm psql lsof curl; do
+    command -v "$command" >/dev/null 2>&1 || die "$command is required"
+  done
+  for file in server/package.json server/src/index.ts web/package.json \
+    web/vite.config.ts effortless-rulebook/intelligence-taxonomy-rulebook.json; do
+    [ -f "$ROOT/$file" ] || die "missing required file: $ROOT/$file"
+  done
+}
+
+preflight_db() {
+  local ready
+  ready="$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc \
+    "SELECT 1 FROM information_schema.views WHERE table_schema='public' AND table_name='vw_intelligences' LIMIT 1" \
+    2>/dev/null || true)"
+  [ "$ready" = "1" ] \
+    || die "$DATABASE_URL is unavailable or missing vw_intelligences; run ./start.sh db after loading generated artifacts"
+}
+
 db() {
   cd "$ROOT"
+  [ -f postgres-bootstrap/init-db.sh ] \
+    || die "missing generated artifact: $ROOT/postgres-bootstrap/init-db.sh"
   ensure_db_exists
   echo "[db] applying schema + data in place (idempotent)"
   chmod +x postgres-bootstrap/init-db.sh
@@ -109,9 +110,11 @@ db() {
 
 db_reset() {
   cd "$ROOT"
+  [ -f postgres-bootstrap/init-db.sh ] \
+    || die "missing generated artifact: $ROOT/postgres-bootstrap/init-db.sh"
   ensure_db_exists
   echo "[db-reset] TRUNCATE assessments, intelligences, capabilities CASCADE"
-  psql "$DATABASE_URL" -c "TRUNCATE assessments, intelligences, capabilities CASCADE;" || true
+  psql "$DATABASE_URL" -c "TRUNCATE assessments, intelligences, capabilities CASCADE;"
   chmod +x postgres-bootstrap/init-db.sh
   echo "[db-reset] re-seeding from rulebook"
   DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/init-db.sh
@@ -119,6 +122,7 @@ db_reset() {
 
 server() {
   stop_server
+  preflight_db
   cd "$ROOT/server"
   if [[ ! -d node_modules ]]; then
     echo "[server] npm install"
@@ -140,16 +144,27 @@ web() {
 }
 
 all() {
-  build
-  db
+  preflight
+  preflight_db
   stop_services
-  echo "[all] launching server and web in parallel (Ctrl-C to stop both)"
+  echo "[start] project: $PROJECT_NAME"
+  echo "[start] starting: $EXPERIENCE_DESCRIPTION"
+  echo "[start] primary:  $PRIMARY_URL"
+  echo "[start] API:      http://localhost:$SERVER_PORT"
+  echo "[start] health:   $HEALTH_URL"
   (server) &
   PID_SERVER=$!
   trap 'kill $PID_SERVER 2>/dev/null || true; stop_services' EXIT INT TERM
-  sleep 1
+  for _ in $(seq 1 40); do
+    curl -sf "$HEALTH_URL" >/dev/null 2>&1 && break
+    sleep 0.25
+  done
+  curl -sf "$HEALTH_URL" >/dev/null 2>&1 \
+    || die "API did not become healthy at $HEALTH_URL"
   web
 }
+
+preflight
 
 case "$cmd" in
   build)    build ;;

@@ -7,10 +7,16 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
+PROJECT_NAME='Volunteer Shift Scheduler Demo'
+EXPERIENCE_DESCRIPTION='Hand-built volunteer scheduling comparison application'
+START_COMMAND='./start.sh'
 PROJECT_DIR="$(pwd)"
 DB_NAME="volunteer_shift_scheduler"
 API_PORT="${API_PORT:-4017}"
 WEB_PORT="${WEB_PORT:-5179}"
+PRIMARY_URL="http://localhost:${WEB_PORT}/"
+API_URL="http://localhost:${API_PORT}"
+HEALTH_URL="${API_URL}/api/events"
 LOG_DIR="$PROJECT_DIR/.run"
 mkdir -p "$LOG_DIR"
 API_LOG="$LOG_DIR/api.log"
@@ -22,6 +28,19 @@ c_green() { printf "\033[32m%s\033[0m\n" "$1"; }
 c_blue()  { printf "\033[34m%s\033[0m\n" "$1"; }
 c_red()   { printf "\033[31m%s\033[0m\n" "$1"; }
 c_dim()   { printf "\033[2m%s\033[0m\n" "$1"; }
+
+for command_name in node npm psql pg_isready createdb lsof curl grep; do
+  command -v "$command_name" >/dev/null 2>&1 || {
+    c_red "Required command '$command_name' was not found."
+    exit 1
+  }
+done
+for required_file in schema/generate.mjs server/package.json web/package.json db/schema.sql db/seed.sql; do
+  [[ -f "$PROJECT_DIR/$required_file" ]] || {
+    c_red "Required file is missing: $PROJECT_DIR/$required_file"
+    exit 1
+  }
+done
 
 stop_pid() {
   local pidfile="$1"
@@ -76,7 +95,7 @@ case "${1:-}" in
       c_red "Postgres is not running. Start it and try again."
       exit 1
     fi
-    if ! psql -d postgres-bootstrap -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" | grep -q 1; then
+    if ! psql -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" | grep -q 1; then
       c_blue "Creating database '$DB_NAME'..."
       createdb "$DB_NAME"
     fi
@@ -127,7 +146,7 @@ if ! pg_isready -q; then
   exit 1
 fi
 
-if ! psql -d postgres-bootstrap -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" | grep -q 1; then
+if ! psql -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" | grep -q 1; then
   c_blue "Creating database '$DB_NAME'..."
   createdb "$DB_NAME"
 fi
@@ -197,7 +216,10 @@ elif command -v xdg-open >/dev/null 2>&1; then
 fi
 
 c_green ""
-c_green "Volunteer Shift Scheduler is running."
+c_green "Project: $PROJECT_NAME"
+c_green "Experience: $EXPERIENCE_DESCRIPTION"
+c_green "Application: $PRIMARY_URL"
+c_dim   "  health: $HEALTH_URL"
 c_dim   "  api : http://localhost:$API_PORT   (logs: $API_LOG)"
 c_dim   "  web : $WEB_URL                     (logs: $WEB_LOG)"
 c_dim   "Stop with: ./start.sh stop"

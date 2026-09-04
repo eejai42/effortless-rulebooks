@@ -5,8 +5,21 @@
 # Just run: ./start.sh
 #
 
+set -euo pipefail
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
+
+PROJECT_NAME='veritasium-power-laws-and-fractals'
+EXPERIENCE_DESCRIPTION='Interactive multi-substrate power-law and fractal validation lab'
+START_COMMAND='./start.sh'
+
+die() { echo "[start] ERROR: $*" >&2; exit 1; }
+command -v python3 >/dev/null 2>&1 || die "python3 is required"
+for file in orchestrator.py visualizer/generate_report.py \
+  ssot/ERB_veritasium-power-laws-and-fractals.json README.md; do
+    [ -f "$file" ] || die "missing required file: $SCRIPT_DIR/$file"
+done
 
 # Colors
 GREEN='\033[0;32m'
@@ -52,11 +65,13 @@ open_report() {
     python3 "$SCRIPT_DIR/visualizer/generate_report.py"
     
     if [[ "$OSTYPE" == "darwin"* ]]; then
+        command -v open >/dev/null 2>&1 || die "open is required to display the report on macOS"
         open "$SCRIPT_DIR/visualizer/report.html"
     elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        xdg-open "$SCRIPT_DIR/visualizer/report.html" 2>/dev/null || echo "Open visualizer/report.html in your browser"
+        command -v xdg-open >/dev/null 2>&1 || die "xdg-open is required to display the report on Linux"
+        xdg-open "$SCRIPT_DIR/visualizer/report.html"
     else
-        echo "Open visualizer/report.html in your browser"
+        die "unsupported OSTYPE '$OSTYPE'; report generated at $SCRIPT_DIR/visualizer/report.html"
     fi
 }
 
@@ -93,12 +108,9 @@ run_golang() {
     echo -e "${CYAN}Running Go tests...${NC}"
     echo ""
     cd "$SCRIPT_DIR/golang"
-    if command -v go &> /dev/null; then
-        go run .
-    else
-        echo -e "${YELLOW}Go not found. Install Go to run this test.${NC}"
-        echo -e "See: ${BLUE}golang/README.md${NC}"
-    fi
+    command -v go >/dev/null 2>&1 \
+      || die "Go is required for the Go validation option; see golang/README.md"
+    go run .
     cd "$SCRIPT_DIR"
     echo ""
     echo -e "${YELLOW}Press Enter to continue...${NC}"
@@ -109,13 +121,9 @@ run_postgres() {
     echo ""
     echo -e "${CYAN}Running PostgreSQL tests...${NC}"
     echo ""
-    if command -v psql &> /dev/null; then
-        python3 "$SCRIPT_DIR/postgres/run-tests.py"
-    else
-        echo -e "${YELLOW}psql not found. Install PostgreSQL client tools.${NC}"
-        echo -e "On macOS: ${BLUE}brew install libpq${NC}"
-        echo -e "See: ${BLUE}postgres/README.md${NC}"
-    fi
+    command -v psql >/dev/null 2>&1 \
+      || die "psql is required for PostgreSQL validation; see postgres/README.md"
+    python3 "$SCRIPT_DIR/postgres/run-tests.py"
     echo ""
     echo -e "${YELLOW}Press Enter to continue...${NC}"
     read
@@ -159,12 +167,9 @@ run_jupyter() {
     echo -e "${CYAN}Starting Jupyter Notebook...${NC}"
     echo ""
     cd "$SCRIPT_DIR/jupyter"
-    if command -v jupyter &> /dev/null; then
-        jupyter notebook power-laws-and-fractals.ipynb
-    else
-        echo -e "${YELLOW}Jupyter not found. Install with: pip install jupyter${NC}"
-        echo -e "Then run: ${BLUE}jupyter notebook jupyter/power-laws-and-fractals.ipynb${NC}"
-    fi
+    command -v jupyter >/dev/null 2>&1 \
+      || die "jupyter is required for the notebook option"
+    jupyter notebook power-laws-and-fractals.ipynb
     cd "$SCRIPT_DIR"
     echo ""
     echo -e "${YELLOW}Press Enter to continue...${NC}"
@@ -175,6 +180,7 @@ view_ssot() {
     echo ""
     echo -e "${CYAN}Source of Truth (first 50 lines):${NC}"
     echo ""
+    command -v head >/dev/null 2>&1 || die "head is required to preview the SSoT"
     head -50 "$SCRIPT_DIR/ssot/ERB_veritasium-power-laws-and-fractals.json"
     echo ""
     echo -e "${YELLOW}Full file: ssot/ERB_veritasium-power-laws-and-fractals.json${NC}"
@@ -185,17 +191,17 @@ view_ssot() {
 
 view_readme() {
     echo ""
-    if command -v less &> /dev/null; then
-        less "$SCRIPT_DIR/README.md"
-    else
-        cat "$SCRIPT_DIR/README.md"
-    fi
+    command -v less >/dev/null 2>&1 || die "less is required to view README.md"
+    less "$SCRIPT_DIR/README.md"
     echo ""
     echo -e "${YELLOW}Press Enter to continue...${NC}"
     read
 }
 
 # Main loop
+echo "[start] project: $PROJECT_NAME"
+echo "[start] starting: $EXPERIENCE_DESCRIPTION"
+echo "[start] command:  $START_COMMAND"
 while true; do
     show_menu
     read -r choice

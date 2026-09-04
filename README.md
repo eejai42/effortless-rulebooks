@@ -6,6 +6,23 @@ The repo's own rulebook, [effortless-rulebook/effortless-rulebook.json](effortle
 
 The active continuation is [Platform Explorer and Repository Consistency Plan](PLATFORM-EXPLORER-PLAN.md): promote the root rulebook, generated editor, and a new root React explorer; make `./start.sh` universal across the root, toys, and examples; then retire the transitional legacy runner capability by capability.
 
+## Start the root experience
+
+```bash
+./start.sh
+```
+
+The root launcher cleanly restarts the Phase 2 React shell and generated
+rulebook editor, validates the generated business views, and prints every
+service URL:
+
+- root explorer: `http://localhost:42440`
+- generated API: `http://localhost:42441`
+- generated editor: `http://localhost:42442`
+
+Run `./start.sh stop` to stop the root-owned services. Every governed toy and
+example uses the same `./start.sh` command from its own project directory.
+
 ## The shape
 
 Every project — the root included, the legacy runner included — fills the same slots:
@@ -45,7 +62,7 @@ Two physical folders, one concept: in the rulebook they are all project rows. `r
 ```bash
 cd <project>                      # the root, an example, a toy — same commands
 effortless build                  # regenerate every registered output from the rulebook
-cd effortless-rulebook && bash edit-rulebook.sh   # browser editor + live DB + API (examples)
+./start.sh                         # cleanly restart the declared local experience
 ```
 
 Edit the rulebook JSON; everything else is derived. Read computed values from the `vw_<table>` views, never recompute them.
@@ -70,6 +87,7 @@ After `effortless build` at the root, the database `erb_effortless_rulebooks` ho
 - `vw_project_metadata` — one row with findings/rule/programme fields plus `layout_slot_count` and `fully_implemented_count`.
 - `vw_rulebook_domains` — one row per governed project with `slot_coverage_percent`, `required_slot_coverage_percent`, `is_fully_implemented`, `is_toy_by_coverage`, `readiness_state`, `is_misfiled`, `open_finding_count`, and `consistency_grade`.
 - `vw_project_layout_slots` and `vw_project_slot_witnesses` — the canonical contract and exact observed pass/gap evidence.
+- `vw_project_launch_profiles` and `vw_project_local_services` — exact working directories, commands, experiences, localhost URLs, and health contracts.
 - `vw_consistency_findings` — the sweep work queue, with a derived `priority` (P1/P2/P3).
 - `progress-report/progress-report/progress-report.html` — the delivery report rendered from the story corpus.
 

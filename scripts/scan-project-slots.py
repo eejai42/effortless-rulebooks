@@ -17,9 +17,11 @@ import argparse
 import datetime as dt
 import json
 import os
+import subprocess
 from collections import OrderedDict, defaultdict
 from pathlib import Path
 from typing import Any
+from urllib.parse import urlparse
 
 
 SLOTS: tuple[dict[str, Any], ...] = (
@@ -189,6 +191,46 @@ SLOTS: tuple[dict[str, Any], ...] = (
         "example": True,
         "toy": True,
         "description": "The universal fail-loud run/restart entry point.",
+    },
+    {
+        "id": "slot-start-sh-syntax",
+        "title": "start.sh syntax",
+        "kind": "start-script-syntax",
+        "pattern": "bash -n start.sh",
+        "root": True,
+        "example": True,
+        "toy": True,
+        "description": "The universal launcher parses successfully as Bash.",
+    },
+    {
+        "id": "slot-start-sh-restart",
+        "title": "start.sh restart contract",
+        "kind": "start-script-restart",
+        "pattern": "declared-port cleanup before launch",
+        "root": True,
+        "example": True,
+        "toy": True,
+        "description": "Launchers with local services own clean restart behavior for their declared ports.",
+    },
+    {
+        "id": "slot-start-sh-urls",
+        "title": "start.sh URL declarations",
+        "kind": "start-script-urls",
+        "pattern": "PROJECT_NAME, EXPERIENCE_DESCRIPTION, START_COMMAND, PRIMARY_URL, HEALTH_URL",
+        "root": True,
+        "example": True,
+        "toy": True,
+        "description": "The launcher identifies its project and prints every modeled localhost URL.",
+    },
+    {
+        "id": "slot-start-sh-health",
+        "title": "start.sh health contract",
+        "kind": "start-script-health",
+        "pattern": "modeled primary service and explicit health URL",
+        "root": True,
+        "example": True,
+        "toy": True,
+        "description": "Every URL-bearing experience has one modeled primary service and explicit health endpoint.",
     },
     {
         "id": "slot-tests",
@@ -415,7 +457,7 @@ def ensure_slot_model(rulebook: OrderedDict[str, Any], repo_root: Path) -> None:
             "string",
             "raw",
             False,
-            "file | directory | executable | manifest | rulebook | rulebook-table | readme-final-section | transpiler | init-db | one-of-directories.",
+            "file | directory | executable | manifest | rulebook | rulebook-table | readme-final-section | transpiler | init-db | one-of-directories | start-script-syntax | start-script-restart | start-script-urls | start-script-health.",
         ),
         field("Pattern", "string", "raw", False, "The exact path or manifest condition checked."),
         field(
@@ -1043,6 +1085,17 @@ def relative(repo_root: Path, path: Path) -> str:
     return value or "."
 
 
+def local_http_url(value: Any) -> bool:
+    if not isinstance(value, str) or not value:
+        return False
+    parsed = urlparse(value)
+    return (
+        parsed.scheme in {"http", "https"}
+        and parsed.hostname in {"localhost", "127.0.0.1"}
+        and parsed.port is not None
+    )
+
+
 def observe_slot(
     slot: dict[str, Any],
     project_dir: Path,
@@ -1095,6 +1148,102 @@ def observe_slot(
         if not os.access(path, os.X_OK):
             return False, relative(repo_root, path), f"{pattern} exists but is not executable"
         return True, relative(repo_root, path), f"{pattern} exists and is executable"
+
+    if kind == "start-script-syntax":
+        path = project_dir / "start.sh"
+        if not path.is_file():
+            return False, None, "cannot syntax-check missing start.sh"
+        result = subprocess.run(
+            ["bash", "-n", str(path)],
+            check=False,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        detail = (result.stderr or result.stdout).strip()
+        return (
+            result.returncode == 0,
+            relative(repo_root, path),
+            "bash -n passes"
+            if result.returncode == 0
+            else f"bash -n failed: {detail or f'exit {result.returncode}'}",
+        )
+
+    if kind == "start-script-restart":
+        path = project_dir / "start.sh"
+        if not path.is_file():
+            return False, None, "cannot inspect restart behavior; start.sh is missing"
+        profile = observation["launch_profile"]
+        if not profile["RequiresLocalUrl"]:
+            return (
+                True,
+                relative(repo_root, path),
+                "declared experience has no local service process to restart",
+            )
+        text = path.read_text(encoding="utf-8")
+        present = "lsof" in text and "kill" in text
+        return (
+            present,
+            relative(repo_root, path),
+            "launcher performs declared-port cleanup"
+            if present
+            else "URL-bearing launcher lacks port-scoped lsof/kill restart behavior",
+        )
+
+    if kind == "start-script-urls":
+        path = project_dir / "start.sh"
+        if not path.is_file():
+            return False, None, "cannot inspect declarations; start.sh is missing"
+        profile = observation["launch_profile"]
+        text = path.read_text(encoding="utf-8")
+        required_tokens = [
+            "PROJECT_NAME=",
+            "EXPERIENCE_DESCRIPTION=",
+            "START_COMMAND=",
+        ]
+        if profile["RequiresLocalUrl"]:
+            required_tokens.extend(("PRIMARY_URL=", "HEALTH_URL="))
+        missing = [token.rstrip("=") for token in required_tokens if token not in text]
+        service_ports = {
+            urlparse(service["LocalUrl"]).port
+            for service in observation["launch_services"]
+            if local_http_url(service.get("LocalUrl"))
+        }
+        missing_ports = sorted(port for port in service_ports if str(port) not in text)
+        present = not missing and not missing_ports
+        detail_parts: list[str] = []
+        if missing:
+            detail_parts.append(f"missing declarations {missing}")
+        if missing_ports:
+            detail_parts.append(f"modeled ports absent from script {missing_ports}")
+        return (
+            present,
+            relative(repo_root, path),
+            "project identity and modeled localhost services are declared"
+            if present
+            else "; ".join(detail_parts),
+        )
+
+    if kind == "start-script-health":
+        profile = observation["launch_profile"]
+        services = observation["launch_services"]
+        if not profile["RequiresLocalUrl"]:
+            return True, profile["ProjectLaunchProfileId"], "launch profile explicitly requires no local URL"
+        primary = [service for service in services if service["IsPrimaryFlag"] == 1]
+        malformed = [
+            service["ProjectLocalServiceId"]
+            for service in services
+            if not local_http_url(service.get("LocalUrl"))
+            or not local_http_url(service.get("HealthUrl"))
+        ]
+        present = len(primary) == 1 and not malformed
+        if len(primary) != 1:
+            detail = f"expected exactly one primary local service; found {len(primary)}"
+        elif malformed:
+            detail = f"services lack explicit localhost HTTP health contracts: {malformed}"
+        else:
+            detail = f"primary and health URLs modeled for {len(services)} local service(s)"
+        return present, profile["ProjectLaunchProfileId"], detail
 
     if kind == "rulebook":
         hub_path = observation["hub_path"]
@@ -1214,7 +1363,11 @@ def update_findings(
     for witness in witnesses:
         if not witness["IsGap"]:
             continue
-        rule_id = "cr-17" if witness["Slot"] == "slot-start-sh" else "cr-19"
+        rule_id = (
+            "cr-17"
+            if witness["Slot"].startswith("slot-start-sh")
+            else "cr-19"
+        )
         finding_id = f"{rule_id}-slot-{witness['Domain']}-{witness['Slot']}"
         detail = (
             f"{witness['Domain']} fails {witness['Slot']}: "
@@ -1262,9 +1415,32 @@ def refresh_witness_data(
     project_id = rulebook["ProjectMetadata"]["data"][0]["ProjectId"]
     witnesses: list[OrderedDict[str, Any]] = []
     scan_errors: list[str] = []
+    launch_profiles = rulebook["ProjectLaunchProfiles"]["data"]
+    launch_profiles_by_domain = {
+        row["Domain"]: row for row in launch_profiles
+    }
+    require(
+        len(launch_profiles_by_domain) == len(launch_profiles),
+        "ProjectLaunchProfiles contains duplicate Domain relationships",
+    )
+    domain_ids = {domain["DomainId"] for domain, _, _ in projects}
+    require(
+        set(launch_profiles_by_domain) == domain_ids,
+        "Every governed row must have exactly one launch profile: "
+        f"missing={sorted(domain_ids - set(launch_profiles_by_domain))} "
+        f"extra={sorted(set(launch_profiles_by_domain) - domain_ids)}",
+    )
+    launch_services_by_profile: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for service in rulebook["ProjectLocalServices"]["data"]:
+        launch_services_by_profile[service["LaunchProfile"]].append(service)
 
     for domain, project_dir, slug in projects:
         observation = inspect_project(project_dir, slug, scan_errors)
+        launch_profile = launch_profiles_by_domain[domain["DomainId"]]
+        observation["launch_profile"] = launch_profile
+        observation["launch_services"] = launch_services_by_profile[
+            launch_profile["ProjectLaunchProfileId"]
+        ]
         area = domain["Area"]
         is_exception = domain["IsIntentionalException"]
         for slot in SLOTS:
@@ -1332,9 +1508,9 @@ def refresh_witness_data(
     existing_ids = {row["ProjectSlotWitnessId"] for row in existing_witnesses}
     new_ids = {row["ProjectSlotWitnessId"] for row in witnesses}
     require(
-        not existing_ids or existing_ids == new_ids,
-        "Witness identity set changed; refusing to delete or silently add around stale rows: "
-        f"added={sorted(new_ids - existing_ids)} removed={sorted(existing_ids - new_ids)}",
+        not existing_ids or existing_ids <= new_ids,
+        "Witness identity set lost canonical rows; refusing destructive refresh: "
+        f"removed={sorted(existing_ids - new_ids)}",
     )
     rulebook["ProjectSlotWitnesses"]["data"] = witnesses
 
@@ -1386,8 +1562,8 @@ def refresh_witness_data(
     existing_slot_ids = {row["ProjectLayoutSlotId"] for row in existing_slots}
     canonical_slot_ids = {row["ProjectLayoutSlotId"] for row in slot_rows}
     require(
-        not existing_slot_ids or existing_slot_ids == canonical_slot_ids,
-        "ProjectLayoutSlots identity set differs from the scanner's canonical set",
+        not existing_slot_ids or existing_slot_ids <= canonical_slot_ids,
+        "ProjectLayoutSlots lost canonical rows; refusing destructive refresh",
     )
     rulebook["ProjectLayoutSlots"]["data"] = slot_rows
 

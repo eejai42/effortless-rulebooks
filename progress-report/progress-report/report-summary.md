@@ -4,13 +4,13 @@ Generated 31 August 2026.
 
 | | |
 |---|---|
-| User stories | 53 |
-| Acceptance criteria | 106 |
+| User stories | 54 |
+| Acceptance criteria | 109 |
 | Build phases | 5 |
 | Programme total | $66,000 |
-| Units of work | 324 |
-| Rulebook tables | 33 |
-| Rulebook fields | 659 (60% computed) |
+| Units of work | 333 |
+| Rulebook tables | 35 |
+| Rulebook fields | 687 (59% computed) |
 | Open roadblocks | 0 |
 
 ## 4 section(s) still generic

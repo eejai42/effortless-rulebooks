@@ -41,7 +41,7 @@ The partial refactor established useful foundations:
 - Most former platform and orchestration files were moved into `rulebook-examples/legacy-runner/`.
 - Root `README.md` and `CLAUDE.md` establish “the repo is the platform.”
 
-This is not yet the completed architecture:
+At the Phase 1 handoff, this was not yet the completed architecture:
 
 - there is no root `start.sh`;
 - there is no custom root React application;
@@ -80,11 +80,25 @@ The root build now has an explicit `init-db` step through `scripts/init-root-db.
 - Formula-dialect traps that will silently corrupt Phase 1 derivations if forgotten: `ISBLANK` mistranslates to NULL; `COALESCE({{X}}, "") <> ""` compiles to an always-true test (use bare `{{X}} <> ""` / `{{X}} = ""`); `COUNTIFS` drops the second criteria pair (use a 0/1 child flag + `SUMIFS`); `INDEX/MATCH` only matches on the target's `<Entity>Id` from a local FK.
 - Editor conflict with doctrine: the root rulebook carries `__meta__` (required by the meta-table doctrine), but the generated editor stack treats `__meta__` as reserved and reports it as a broken view — §2's "`GET /api/view-health` must pass" cannot hold until the editor tool is fixed or the requirement is scoped to business tables.
 
-**Startup**
+**Startup baseline**
 
 - There is no root `start.sh`. 25 of the 40 project directories have some `start.sh`; none have been checked against the §4 contract; 15 have nothing.
 - The runner's split-aware portal overlay (merged loader/saver in `admin-portal/server.js`, `TOP_DB_NAME = "erb_effortless_rulebooks"`) parses but has never been booted post-refactor; per this plan it is migration baseline, not architecture.
 - The runner's Docker repoints (compose `context: ../..`, Dockerfile `WORKDIR /app/rulebook-examples/legacy-runner`) have never been exercised.
+
+**Phase 2 outcome (2026-08-31).** The root and every non-exception governed
+project now have an executable `start.sh`; the strict scanner records 41
+governed rows x 22 slots = 902 witnesses. The five startup slots (executable,
+syntax, restart, URL declaration, and health contract) have zero implementation
+gaps and every generated `cr-17` startup finding is fixed. The governing
+rulebook now holds 41 `ProjectLaunchProfiles` rows and 40
+`ProjectLocalServices` rows, including explicit root explorer, editor UI, and
+editor API services. Root startup was smoke-tested at `:42440`, `:42441`, and
+`:42442`, without a legacy-runner dependency. The generated editor still
+misclassifies the deliberately transpiler-ignored `__meta__` table as a missing
+`vw_meta`; root startup therefore validates every business view and accepts
+only that exact, loudly reported reserved-table exclusion. Any other broken
+view still fails startup.
 
 ## Target architecture
 
@@ -274,16 +288,16 @@ No legacy-runner file is deleted merely because this plan says “retire.” Del
 
 ### Phase 2 — Establish universal startup
 
-- [ ] Define launch information in the root rulebook.
-- [ ] Add root `start.sh`.
-- [ ] Add or repair `start.sh` in every governed toy and example.
-- [ ] Make each script print its declared localhost URLs.
-- [ ] Add syntax, executable-bit, restart, and health witnesses.
-- [ ] Turn every missing or broken startup contract into a consistency finding.
+- [x] Define launch information in the root rulebook.
+- [x] Add root `start.sh`.
+- [x] Add or repair `start.sh` in every governed toy and example.
+- [x] Make each script print its declared localhost URLs.
+- [x] Add syntax, executable-bit, restart, and health witnesses.
+- [x] Turn every missing or broken startup contract into a consistency finding.
 
 ### Phase 3 — Build the root explorer
 
-- [ ] Scaffold the root React app under `app/`.
+- [x] Scaffold the root React app under `app/` (minimal Phase 2 launch shell; explorer routes remain Phase 3).
 - [ ] Connect it to the generated, view-backed root API.
 - [ ] Implement responsive shell and primary navigation.
 - [ ] Implement getting-started and concepts.
@@ -336,4 +350,4 @@ Start here, not in the historical chat:
 2. Check `git status` and the diff of the root rulebook before any command that can touch it.
 3. Query the root rulebook narrowly for `UserStories`, `AcceptanceCriteria`, `ConsistencyRules`, `ConsistencyFindings`, `RulebookDomains`, and mobile route tables.
 4. Ask permission before editing the root rulebook or running `effortless build`.
-5. Phase 0 is complete and the Phase 1 model, scanner, build, database, and live views are green. Next reconcile the route model, then establish universal startup before implementing the React explorer. Do not recompute classifications that the slot witnesses already derive.
+5. Phases 0–2 are complete. The launch shell, generated editor/API, 41 launch profiles, 40 local services, and 902 slot witnesses are green; generated startup findings are zero. Next reconcile the stale `/m/*` route model, then implement the Phase 3 explorer against the generated views. Do not recompute classifications or launch facts already exposed by the rulebook.

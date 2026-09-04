@@ -13,8 +13,13 @@
 #   --port=N    Override portal port (portal mode only).
 # =============================================================================
 
-set -e
+set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$SCRIPT_DIR"
+
+PROJECT_NAME='legacy-runner'
+EXPERIENCE_DESCRIPTION='Transitional CLI orchestration and optional legacy admin portal'
+START_COMMAND='./start.sh'
 
 MODE="cli"
 PASSTHROUGH=()

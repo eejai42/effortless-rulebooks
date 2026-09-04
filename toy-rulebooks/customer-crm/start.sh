@@ -6,8 +6,29 @@ export DATABASE_URL="${DATABASE_URL:-postgresql://postgres@localhost:5432/erb_cu
 
 cmd="${1:-all}"
 
-SERVER_PORT="${SERVER_PORT:-3032}"
-WEB_PORT="${WEB_PORT:-5175}"
+PROJECT_NAME='Customer CRM'
+EXPERIENCE_DESCRIPTION='View-backed customer relationship React application'
+START_COMMAND='./start.sh'
+SERVER_PORT=3032
+WEB_PORT=5175
+PRIMARY_URL="http://localhost:${WEB_PORT}/"
+API_URL="http://localhost:${SERVER_PORT}"
+HEALTH_URL="${API_URL}/healthz"
+
+fail() {
+  printf 'ERROR: %s\n' "$*" >&2
+  exit 1
+}
+
+require_runtime() {
+  for command_name in node npm psql lsof curl; do
+    command -v "$command_name" >/dev/null 2>&1 || fail "Required command '$command_name' was not found."
+  done
+  [[ -f server/package.json ]] || fail "Required file is missing: $PWD/server/package.json"
+  [[ -f web/package.json ]] || fail "Required file is missing: $PWD/web/package.json"
+  psql "$DATABASE_URL" -c 'SELECT 1' >/dev/null 2>&1 ||
+    fail "Required database from DATABASE_URL is unavailable: $DATABASE_URL"
+}
 
 # Free any lingering server/web processes from a previous run so reruns of
 # ./start.sh don't fail with EADDRINUSE.
@@ -31,9 +52,9 @@ build() {
 
 db() {
   echo "[db] re-initializing $DATABASE_URL"
-  psql -U postgres-bootstrap -h localhost -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='erb_customer_crm'" >/dev/null || true
-  psql -U postgres-bootstrap -h localhost -c "DROP DATABASE IF EXISTS erb_customer_crm"
-  psql -U postgres-bootstrap -h localhost -c "CREATE DATABASE erb_customer_crm"
+  psql -U postgres -h localhost -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='erb_customer_crm'" >/dev/null || true
+  psql -U postgres -h localhost -d postgres -c "DROP DATABASE IF EXISTS erb_customer_crm"
+  psql -U postgres -h localhost -d postgres -c "CREATE DATABASE erb_customer_crm"
   chmod +x postgres-bootstrap/init-db.sh
   bash postgres-bootstrap/init-db.sh
 }
@@ -51,7 +72,14 @@ web() {
 }
 
 all() {
+  require_runtime
   stop
+  printf '%s\n' \
+    "Project: $PROJECT_NAME" \
+    "Experience: $EXPERIENCE_DESCRIPTION" \
+    "Application: $PRIMARY_URL" \
+    "API: $API_URL" \
+    "Health: $HEALTH_URL"
   ( server ) &
   spid=$!
   ( web ) &
@@ -67,8 +95,8 @@ refresh_xlsx() {
 case "$cmd" in
   build)        build ;;
   db)           db ;;
-  server)       stop; server ;;
-  web)          stop; web ;;
+  server)       require_runtime; stop; server ;;
+  web)          require_runtime; stop; web ;;
   all)          all ;;
   stop)         stop ;;
   refresh-xlsx) refresh_xlsx ;;

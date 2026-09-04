@@ -20,11 +20,32 @@ set -euo pipefail
 # This script lives at the talismans-special-solutions project root; the web app lives in app/.
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$HERE"
+cd "$PROJECT_ROOT"
+PROJECT_NAME='talismans-special-solutions'
+EXPERIENCE_DESCRIPTION='Workflow ontology release console with Postgres and OWL/SHACL engines'
+START_COMMAND='./start.sh'
 BACKEND="$HERE/app/backend"
 FRONTEND="$HERE/app/frontend"
 MODE="${1:-dev}"
 API_PORT="${PORT:-8088}"
 WEB_PORT="${WEB_PORT:-5173}"
+if [ "$MODE" = "prod" ]; then
+  PRIMARY_URL="http://localhost:${API_PORT}"
+else
+  PRIMARY_URL="http://localhost:${WEB_PORT}"
+fi
+HEALTH_URL="http://localhost:${API_PORT}/api/health"
+
+die() { echo "[start] ERROR: $*" >&2; exit 1; }
+for command in npm python3 lsof curl; do
+  command -v "$command" >/dev/null 2>&1 || die "$command is required"
+done
+for file in app/backend/package.json app/backend/server.ts app/backend/db.json \
+  app/backend/reasoner/requirements.txt app/frontend/package.json \
+  app/frontend/vite.config.js \
+  effortless-rulebook/talismans-special-solutions-rulebook.json; do
+  [ -f "$PROJECT_ROOT/$file" ] || die "missing required file: $PROJECT_ROOT/$file"
+done
 
 # --- preflight: the reasoner needs the generated ontology -------------------
 # These artifacts are COMMITTED, so a fresh clone already has them and this block
@@ -60,12 +81,21 @@ fi
 kill_port() {
   local port="$1"
   local pids
-  pids="$(lsof -ti tcp:"$port" 2>/dev/null || true)"
+  pids="$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
   if [ -n "$pids" ]; then
-    echo "Freeing port $port (killing: $pids)" >&2
-    kill $pids 2>/dev/null || true
+    echo "Freeing declared port $port (PIDs: $(echo "$pids" | tr '\n' ' '))" >&2
+    # shellcheck disable=SC2086
+    kill $pids
     sleep 1
+    pids="$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+    if [ -n "$pids" ]; then
+      # shellcheck disable=SC2086
+      kill -KILL $pids
+      sleep 1
+    fi
   fi
+  [ -z "$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)" ] \
+    || die "port $port is still occupied"
 }
 
 # --- deps ------------------------------------------------------------------
@@ -78,14 +108,29 @@ if [ "$MODE" = "prod" ]; then
   kill_port "$API_PORT"
   echo "Building frontend…"
   (cd "$FRONTEND" && npm run build)
-  echo "Serving API + UI on http://localhost:$API_PORT"
+  echo "[start] project: $PROJECT_NAME"
+  echo "[start] starting: $EXPERIENCE_DESCRIPTION"
+  echo "[start] primary:  $PRIMARY_URL"
+  echo "[start] health:   $HEALTH_URL"
   cd "$BACKEND" && PORT="$API_PORT" exec npx tsx server.ts
-else
+elif [ "$MODE" = "dev" ]; then
   kill_port "$API_PORT"
   kill_port "$WEB_PORT"
-  echo "Starting Express API on :$API_PORT and Vite dev server on :$WEB_PORT"
-  ( cd "$BACKEND" && PORT="$API_PORT" npx tsx server.ts ) &
+  echo "[start] project: $PROJECT_NAME"
+  echo "[start] starting: $EXPERIENCE_DESCRIPTION"
+  echo "[start] primary:  $PRIMARY_URL"
+  echo "[start] API:      http://localhost:$API_PORT"
+  echo "[start] health:   $HEALTH_URL"
+  ( cd "$BACKEND" && PROJECT_NAME="$PROJECT_NAME" PORT="$API_PORT" npx tsx server.ts ) &
   API_PID=$!
   trap 'kill $API_PID 2>/dev/null || true' EXIT INT TERM
-  cd "$FRONTEND" && BACKEND_URL="http://localhost:$API_PORT" exec npx vite --port "$WEB_PORT"
+  for _ in $(seq 1 80); do
+    curl -sf "$HEALTH_URL" >/dev/null 2>&1 && break
+    sleep 0.25
+  done
+  curl -sf "$HEALTH_URL" >/dev/null 2>&1 \
+    || die "backend did not become healthy at $HEALTH_URL"
+  cd "$FRONTEND" && BACKEND_URL="http://localhost:$API_PORT" exec npx vite --port "$WEB_PORT" --strictPort
+else
+  die "usage: ./start.sh [dev|prod]"
 fi

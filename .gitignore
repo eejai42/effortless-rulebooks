@@ -64,3 +64,7 @@ rulebook-examples/community-event-planner/walkthrough/*.webm
 rulebook-examples/talisman-basic/bootstrap/jessica-talisman-git-ignored-source.txt
 **/**jessica-talisman**
 rulebook-examples/simpsons-paradox/temp.txt
+
+# Root explorer local build and runtime output
+/app/dist/
+/.run/

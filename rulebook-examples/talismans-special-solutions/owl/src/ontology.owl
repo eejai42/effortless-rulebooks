@@ -571,7 +571,7 @@ effortless-ntwf:consumedBySteps a owl:ObjectProperty ;
     rdfs:domain effortless-ntwf:Datasets ;
     rdfs:range effortless-ntwf:WorkflowSteps ;
     rdfs:label "ConsumedBySteps" ;
-    rdfs:comment "Back-reference to WorkflowSteps that consume this dataset. Inverse of WorkflowSteps.ConsumesDataset." .
+    rdfs:comment "Back-reference to WorkflowSteps that consume this dataset. Inverse of WorkflowSteps.ConsumesDataset. Marked isReversed so every substrate DERIVES it from the forward FK (a reverse lookup over WorkflowSteps.ConsumesDataset) instead of storing it — keeping the two sides from drifting when the forward FK is edited." .
 
 effortless-ntwf:isConsumed a owl:DatatypeProperty ;
     rdfs:domain effortless-ntwf:Datasets ;
@@ -1388,7 +1388,7 @@ effortless-ntwf:workflow a owl:ObjectProperty ;
     rdfs:domain effortless-ntwf:WorkflowSteps ;
     rdfs:range effortless-ntwf:Workflows ;
     rdfs:label "Workflow" ;
-    rdfs:comment "Foreign key to the parent workflow. Represents the inverse of ntwf:hasStep, enabling navigation from step to its containing workflow (ntwf:isStepOf)." .
+    rdfs:comment "Forward foreign key to the parent workflow (ntwf:isStepOf) — the authoritative stored link from step to its containing workflow; every per-workflow rollup (CountOfNonProposedSteps, the department-owned counts, etc.) reads it. This IS the stored column, not a derived inverse: isReversed is false." .
 
 effortless-ntwf:precedingStepCount a owl:DatatypeProperty ;
     rdfs:domain effortless-ntwf:WorkflowSteps ;

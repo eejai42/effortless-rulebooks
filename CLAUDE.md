@@ -92,3 +92,18 @@ Never invent a publish procedure; see the global CLAUDE.md. `rulebook-to-progres
 # Making a video about a project? Load the `effortless-video` skill.
 
 Videos live in the sibling producer repo (`../effortless-vid-01-full-name/videos/<NN-slug>/`); each is an Effortless project whose story is changed by editing its rulebook and running `effortless build`. Invoke the skill first; the reference example is `videos/03-closure`.
+
+After a repository-tour video is published, its collection README must show a
+large clickable player card, not a bare text link. GitHub strips YouTube
+iframes, so store the video's finished hero thumbnail under the collection's
+`assets/`, add a centered YouTube-style play glyph (red rounded rectangle with
+a white triangle), and wrap that local image in the real YouTube watch URL:
+
+```markdown
+[![Watch the repository tour](assets/<video>-player.png)](https://www.youtube.com/watch?v=<real-id>)
+```
+
+The sibling producer's shared brand rulebook owns the reusable series themes:
+Toy videos use `gen-hero-thumbnail.py --theme toy`; full rulebook-example videos
+use `--theme rulebook`. Publish first and use the returned ID. Never insert a
+placeholder URL or use `img.youtube.com` in the README.

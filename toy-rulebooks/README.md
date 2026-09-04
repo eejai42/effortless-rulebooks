@@ -2,6 +2,14 @@
 
 These are demonstration toys — intentionally small domains whose job is to show the *breadth* of the platform, not the depth of a real domain.
 
+## Watch the repository tour
+
+[![One Rulebook, Many Runtimes — watch the Toy Rulebooks repository tour](assets/toy-rulebooks-repository-tour-player.png)](https://www.youtube.com/watch?v=oJ5xAI0R2sw)
+
+▶ [**Play: One Rulebook, Many Runtimes | Toy Rulebooks Tour**](https://www.youtube.com/watch?v=oJ5xAI0R2sw)
+
+The video opens the ACME LLC rulebook, follows one formula into multiple generated runtimes, changes the rule once, and shows why generated files follow the rulebook rather than replace it. Learn more at [EffortlessAPI](https://www.effortlessapi.com/rulebook/).
+
 The defining property here is the **substrate matrix**: one rulebook, many runtimes. [acme-llc](acme-llc/) is the canonical example — three tables, six calculated fields — run through all 17 substrates (Postgres, Python, Go, COBOL, Excel, OWL, English, and more), all conformant. The domain is simple by design so that what the demo brings is the *substrate matrix*, not the complexity of the subject matter.
 
 Because this repo is also used as a live demonstration environment, some toy domains may show partially-completed loop steps at any given moment. A full `effortless build` on any domain resets it to its defined state.

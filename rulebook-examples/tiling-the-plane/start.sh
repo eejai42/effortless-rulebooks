@@ -14,13 +14,36 @@
 # Always kills whatever is on its ports first — restart is one command.
 # ============================================================================
 set -euo pipefail
-cd "$(dirname "${BASH_SOURCE[0]}")"
+PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "$PROJECT_ROOT"
 
+PROJECT_NAME='tiling-the-plane'
+EXPERIENCE_DESCRIPTION='View-backed tiling catalog and generative control panel'
+START_COMMAND='./start.sh'
 SERVER_PORT="${SERVER_PORT:-3032}"
 WEB_PORT="${WEB_PORT:-5175}"
 export DATABASE_URL="${DATABASE_URL:-postgresql://postgres@localhost:5432/erb_tiling_the_plane}"
-export PROJECT_NAME="${PROJECT_NAME:-tiling-the-plane}"
-export SERVER_PORT WEB_PORT
+export PROJECT_NAME SERVER_PORT WEB_PORT
+PRIMARY_URL="http://localhost:${WEB_PORT}"
+HEALTH_URL="http://localhost:${SERVER_PORT}/healthz"
+
+die() { echo "[start] ERROR: $*" >&2; exit 1; }
+for command in npm psql lsof curl; do
+  command -v "$command" >/dev/null 2>&1 || die "$command is required"
+done
+for file in server/package.json server/src/index.ts web/package.json \
+  web/vite.config.ts effortless-rulebook/tiling-the-plane-rulebook.json; do
+  [ -f "$file" ] || die "missing required file: $PROJECT_ROOT/$file"
+done
+
+preflight_db() {
+  local ready
+  ready="$(psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -tAc \
+    "SELECT 1 FROM information_schema.views WHERE table_schema='public' AND table_name='vw_tilings' LIMIT 1" \
+    2>/dev/null || true)"
+  [ "$ready" = "1" ] \
+    || die "$DATABASE_URL is unavailable or missing vw_tilings; load the committed postgres-bootstrap artifacts first"
+}
 # Ensure the effortless CLI is on PATH for the Excel-export endpoint (it shells out
 # to `effortless rulebook-to-xlsx`). Prepend the dir of whatever `effortless` resolves to.
 if command -v effortless >/dev/null 2>&1; then
@@ -30,9 +53,21 @@ fi
 kill_port() {
   local p="$1"
   local pids
-  pids="$(lsof -ti:"$p" 2>/dev/null || true)"
-  [ -n "$pids" ] && { echo "[start] freeing port $p"; kill $pids 2>/dev/null || true; sleep 0.4; }
-  return 0
+  pids="$(lsof -nP -tiTCP:"$p" -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -n "$pids" ]; then
+    echo "[start] freeing declared port $p (PIDs: $(echo "$pids" | tr '\n' ' '))"
+    # shellcheck disable=SC2086
+    kill $pids
+    sleep 1
+    pids="$(lsof -nP -tiTCP:"$p" -sTCP:LISTEN 2>/dev/null || true)"
+    if [ -n "$pids" ]; then
+      # shellcheck disable=SC2086
+      kill -KILL $pids
+      sleep 1
+    fi
+  fi
+  [ -z "$(lsof -nP -tiTCP:"$p" -sTCP:LISTEN 2>/dev/null || true)" ] \
+    || die "port $p is still occupied"
 }
 
 ensure_deps() {
@@ -50,6 +85,7 @@ cmd_build() {
 }
 
 cmd_server() {
+  preflight_db
   kill_port "$SERVER_PORT"
   ensure_deps server
   echo "[start] API → http://localhost:$SERVER_PORT"
@@ -70,15 +106,26 @@ cmd_stop() {
 }
 
 cmd_all() {
+  preflight_db
   kill_port "$SERVER_PORT"
   kill_port "$WEB_PORT"
   ensure_deps server
   ensure_deps web
-  echo "[start] API → http://localhost:$SERVER_PORT   web → http://localhost:$WEB_PORT"
+  echo "[start] project: $PROJECT_NAME"
+  echo "[start] starting: $EXPERIENCE_DESCRIPTION"
+  echo "[start] primary:  $PRIMARY_URL"
+  echo "[start] API:      http://localhost:$SERVER_PORT"
+  echo "[start] health:   $HEALTH_URL"
   ( cd server && PORT="$SERVER_PORT" npm run dev ) &
   SERVER_PID=$!
   trap 'kill $SERVER_PID 2>/dev/null || true' EXIT INT TERM
-  ( cd web && npm run dev )
+  for _ in $(seq 1 40); do
+    curl -sf "$HEALTH_URL" >/dev/null 2>&1 && break
+    sleep 0.25
+  done
+  curl -sf "$HEALTH_URL" >/dev/null 2>&1 \
+    || die "API did not become healthy at $HEALTH_URL"
+  ( cd web && npm run dev -- --port "$WEB_PORT" --strictPort )
 }
 
 case "${1:-all}" in
