@@ -50,7 +50,7 @@ Remote transpiler: `effortless rulebook-to-sql-server` (catalog:
 | `04-create-policies.sql` | Row-level security (security policies + predicate functions) |
 | `05-insert-data.sql` | `MERGE` seed data from rulebook |
 | `99-fk-constraints.sql` | FK enforcement (skipped unless `EFFORTLESS_ENFORCE_FKS=true`) |
-| `*b-customize-*.sql` | Persistent customization slots (survive rebuild) |
+| `*b-customize-*.sql` | Hand-edited customization slots; seeded once, never overwritten |
 | `init-db.sh` | Runs all `NN[b]?-*.sql` in lex order via **sqlcmd** |
 
 Default generation mode: **check-add** (stage **dev**) — safe re-runs; does

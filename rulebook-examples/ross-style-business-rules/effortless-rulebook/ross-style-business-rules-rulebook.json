@@ -418,7 +418,7 @@
         "type": "calculated",
         "nullable": true,
         "Description": "All of the following must be true for a claim to be considered valid: it references an incident; at least one of the incident claimant's or the additional claimant's current policy is active; if an additional claimant exists, that claimant's favorite color is red; and the claimant of record is not high-risk (DR-2). Note: DR-4's fourth condition intentionally references the named high-risk rule rather than restating the incident-count threshold.",
-        "formula": "=AND({{ReferencesIncident}}, OR({{IncidentClaimantPolicyActive}}, {{AdditionalClaimantPolicyActive}}), IF({{HasAdditionalClaimant}}, LOWER({{AdditionalClaimantFavoriteColor}}) = \"red\", TRUE), NOT({{ClaimantOfRecordIsHighRisk}}))"
+        "formula": "=AND({{ReferencesIncident}}, OR({{IncidentClaimantPolicyActive}}, {{AdditionalClaimantPolicyActive}}), OR(NOT({{HasAdditionalClaimant}}), LOWER({{AdditionalClaimantFavoriteColor}}) = \"red\"), NOT({{ClaimantOfRecordIsHighRisk}}))"
       },
       {
         "name": "ValidityDecidingFactor",

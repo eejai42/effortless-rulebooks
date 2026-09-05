@@ -16,6 +16,10 @@ Planar unit-distance discovery: the rulebook is the territory (points, distances
 
 This is an ordinary governed project of the effortless-rulebooks repository: `effortless.json`, the hub under `effortless-rulebook/`, a typed `__meta__` table, this file, a README ending with the *Local transpiler bus* section, and an executable `./start.sh` that starts the project's intended local experience and prints its URLs. Readiness and consistency are derived in the root rulebook from witnessed slots; do not hand-assert them here.
 
+## App
+
+`app/` (Express `server.js` on `:43303`, Vite/React on `:43103`, launched by `./start.sh`) is the project's local experience against database `erb_planar_unit_discovery` (default `PGDATABASE`, derived from the slug). It reads views only — `SELECT * FROM vw_<entity>`, optionally `WHERE <fk> = $1` — and displays view columns verbatim; it never recomputes a derived field, and a view that fails is surfaced as a 500 / on-screen error rather than worked around. Every view answers `SELECT *` (2026-09-05): the `Name` formulas that concatenated with `-`/`/` were rewritten with `CONCAT`, and the 49 `LOOKUP(...)` fields were rewritten as `INDEX(Target!{{Field}}, MATCH({{LocalFK}}, Target!{{TargetId}}, 0))`, the only lookup shape the transpiler translates. Keep new formulas in those shapes.
+
 ## Loop
 
 ```bash

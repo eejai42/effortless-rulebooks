@@ -1,4 +1,4 @@
-// Renders a RuleNode tree as a nested outline — the RuleSpeak way to lay out a
+// Renders a RuleNode tree as a nested outline — the RuleSpeak® way to lay out a
 // priority ladder or a multi-condition (AND/OR) rule. Leaves are linkified so the
 // field references inside each clause stay clickable.
 //

@@ -276,7 +276,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_claims_is_valid(p_claim_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_claims_references_incident(p_claim_id) AND (calc_claims_incident_claimant_policy_active(p_claim_id) OR calc_claims_additional_claimant_policy_active(p_claim_id)) AND CASE WHEN calc_claims_has_additional_claimant(p_claim_id) THEN (LOWER(calc_claims_additional_claimant_favorite_color(p_claim_id)) = 'red')::text ELSE (TRUE)::text END AND NOT (calc_claims_claimant_of_record_is_high_risk(p_claim_id))))::boolean;
+  SELECT ((calc_claims_references_incident(p_claim_id) AND (calc_claims_incident_claimant_policy_active(p_claim_id) OR calc_claims_additional_claimant_policy_active(p_claim_id)) AND (NOT (calc_claims_has_additional_claimant(p_claim_id)) OR LOWER(calc_claims_additional_claimant_favorite_color(p_claim_id)) = 'red') AND NOT (calc_claims_claimant_of_record_is_high_risk(p_claim_id))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_claims_validity_deciding_factor

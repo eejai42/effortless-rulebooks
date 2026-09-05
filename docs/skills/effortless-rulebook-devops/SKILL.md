@@ -44,9 +44,22 @@ visible on one admin page, and impossible to fake.**
 
 > **The one sentence to remember:** the **rulebook → dev** hop is a *generated
 > mirror* (drop + reseed), and **dev → staging → beta → production** is a chain of
-> *bespoke, human/agent-authored migrations* over *one derived ledger*. Nothing is
+> *additive, human/agent-authored migrations* over *one derived ledger*. Nothing is
 > ever auto-synced between two live databases, and staging/beta/production are
 > **only ever** moved by a migration.
+
+> **The second sentence, which halves the work:** a migration carries **only
+> table and column changes**. Views, `calc_*` functions, RLS policies and role
+> schemas are *derived* — they hold no data, they are a pure function of the
+> rulebook, and the rulebook ships in the same commit. So they are **dropped and
+> recreated from the rulebook on every promotion**, in every tier including
+> production, by one generated script (`update-effortless-schema.sql`).
+>
+> Hand-migrating a view is not merely redundant — it is the largest single source
+> of promotion failures. A migration full of `DROP VIEW` / `CREATE VIEW` DDL is
+> doing by hand, fallibly, once per release, what one generated script does
+> correctly every time. **If your migration contains view or function DDL, delete
+> it and re-run the derived-layer script instead.**
 
 Everything below is a consequence of that sentence.
 
@@ -58,7 +71,7 @@ Everything below is a consequence of that sentence.
    ┌──────────────── RULEBOOK  (HEAD, in git) ────────────────┐
    │  effortless-rulebook.json  +  admin portal (MOCK data)   │
    └───────────┬──────────────────────────────────────────────┘
-               │  effortless build → init-db.sh
+               │  effortless build → reset-rulebook-db.sh
                │  LOCALHOST ONLY · DROP + RESEED · "the effortless loop"
                │  (dev's rulebook-owned config = the rulebook, row-for-row)
                ▼
@@ -68,8 +81,12 @@ Everything below is a consequence of that sentence.
         │ mock data  │              │ mock data │             │ prod copy│            │ LIVE data  │
         │  = HEAD     │             │ migs only │             │ migs only│            │ migs only  │
         └───────────┘               └───────────┘             └──────────┘            └────────────┘
-        rebuilt by init-db          never dropped             never dropped           never dropped
+        reset-rulebook-db.sh        tables never dropped      tables never dropped    tables never dropped
         (the loop)                  own DB, dev's code         own DB + own code       own DB + own code
+
+        Every tier, every promotion, also runs update-effortless-schema.sql:
+        views / calc_* / RLS / role schemas are DROPPED + RECREATED from the
+        rulebook. Only TABLES are migrated. Derived objects are never migrated.
 
         ◄──────────── restore (refresh a soak env from prod) ─────────────
         prod → beta/UAT is EXPECTED; prod → staging is allowed. Never the reverse.

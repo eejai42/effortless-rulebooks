@@ -74,9 +74,38 @@ To show a witness can fire, the violation is seeded, the column is confirmed red
 ## Building
 
 ```bash
-effortless build      # runs rulebook-to-rulespeak -> rulespeak/
+effortless build      # runs rulebook-to-rulespeak -> rulespeak/, rulebook-to-postgres
+                      # -> postgres-bootstrap/, then ./init-db.sh
+./init-db.sh          # DROP + CREATE erb_procedural_knowledge_ontology, then load it
 ./start.sh            # validate + regenerate all projections + run tests
 ```
+
+### Loading the database
+
+`./init-db.sh` at the project root **drops and recreates**
+`erb_procedural_knowledge_ontology` (`WITH (FORCE)`) and then execs
+`postgres-bootstrap/init-db.sh`, which loads a freshly created, empty database
+to completion in one run — consistency rule cr-20: no step may require schema a
+later step creates. The load runs in three phases:
+
+1. **Phase A — `00`–`05[b]`**: tables, `calc_*` functions, `vw_*` views,
+   RLS-enable, seed data, plus the `NNb-customize-*` seams.
+2. **Phase B — regenerate `06-access-control.sql`**: `tools/generate_access_ddl.py`
+   first installs the fixed `app.jwt_*` accessor prelude, then `EXPLAIN`s every
+   policy predicate against its real `public.<table>` and intersects every
+   granted column with the real `vw_*` columns — the schema Phase A just
+   created. An invalid predicate aborts the load here, before any security DDL
+   is applied. This is strict validation, not a fallback.
+3. **Phase C — `06+`**: the access-control DDL (roles, RLS policies, role
+   schemas and narrowed views); `99-fk-constraints.sql` stays opt-in
+   (`EFFORTLESS_ENFORCE_FKS=true`).
+
+`postgres-bootstrap/init-db.sh` was emitted `overwrite: Never` by the pinned
+transpiler and is project-owned: the phase ordering lives there. Before this,
+the generator ran before Phase A and a fresh database could never load — the
+root wrapper created the database but never dropped it, and `01-*.sql` is
+check-add, so rows whose PKs were removed from the rulebook survived every
+init. The fresh-load proof: 82 `vw_*` views, 194 RLS policies, 194 role views.
 
 `./start.sh` is the restart story for this domain. It has no server — its deliverables are documents — so start.sh validates the rulebook, regenerates every projection, exercises the BPM process-export adapter, and runs the tests. `./start.sh validate|test|open` narrow that.
 
@@ -147,7 +176,7 @@ verified to exist before the test counts.
 
 | Tool | Purpose |
 |---|---|
-| `tools/generate_access_ddl.py` | Emits `postgres-bootstrap/06-access-control.sql`. Validates every predicate with `EXPLAIN` against the live DB and refuses to emit if any fails; intersects granted columns against live view columns (the catalog can be ahead of the DB). |
+| `tools/generate_access_ddl.py` | Emits `postgres-bootstrap/06-access-control.sql`. Runs in Phase B of `init-db.sh`, after `00`–`05` exist: installs the `app.jwt_*` accessors, validates every predicate with `EXPLAIN` against the live DB and refuses to emit if any fails; intersects granted columns against live view columns (the catalog can be ahead of the DB). |
 | `tools/run_denial_witnesses.py` | Runs the witnesses as each principal, writes results back from the substrate. |
 | `tools/check_rulebook_integrity.py` | Gates transpiler-defect classes: relationship-with-`formula`, `IIF`, multi-criteria `COUNTIFS`, non-PK `INDEX/MATCH`. |
 | `tools/verify_access_control.sh` | The acceptance test. |

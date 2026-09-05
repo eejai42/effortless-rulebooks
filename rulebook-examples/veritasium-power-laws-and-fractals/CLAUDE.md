@@ -20,11 +20,16 @@ This is an ordinary governed project of the effortless-rulebooks repository: `ef
 
 The hub is `effortless-rulebook/effortless-rulebook.json` (moved from the pre-canonical `ssot/ERB_*.json` on 2026-09-05; the old model name is kept in `__meta__` as `legacy_model_name`). Project metadata lives only in the `__meta__` table. The database is `erb_veritasium_power_laws_and_fractals`, recreated by the root `init-db.sh` wrapper on every build because the generated SQL is check-add. Do not hand-edit `postgres/init-db.sh`: the transpiler preserves an existing copy, and the hand-edited relic that lived there ignored `DATABASE_URL` and loaded a different database.
 
-`rulebook-to-postgres` does not translate `NULLIF`; the 14 ratio fields that use it read as NULL from their views (see `postgres/errors.txt`). Rewrite them with `IF({{X}} = 0, ...)` when the formulas are next touched.
+`rulebook-to-postgres` has no `NULLIF` and mis-emits single-argument `COUNTIF`: the 14 ratio fields are written `IF({{denominator}} = 0, 0, …)` (they read 0, not NULL, at a zero denominator) and `system_stats.PointCount` is a `COUNTIFS`. Keep it that way; every view must answer `SELECT *`.
+
+## App
+
+`app/` is the view-backed app that `./start.sh` launches: `app/server.js` (Express + pg, port 43305) and a Vite + React UI (port 43105, proxying `/api`), against database `erb_veritasium_power_laws_and_fractals` (`PG*` env vars override). It reads views only — `GET /api/views`, `GET /api/views/:name`, and a few `WHERE system = $1` domain routes over `vw_systems`, `vw_system_stats`, `vw_scales`, `vw_observed_scales` — and never recomputes a derived value in JS; nulls (including the untranslated `NULLIF` ratio fields) render as `—`. `SELECT *` on `vw_system_stats` currently raises because the generated `calc_system_stats_point_count()` emits a bare `NULLIF`; the app surfaces that error rather than hiding it. The former interactive CLI lab menu (orchestrator, substrates, visualizer) is preserved unchanged as `./lab.sh`.
 
 ## Loop
 
 ```bash
 effortless build   # regenerate every registered output from the rulebook
-./start.sh         # start the local experience declared in the root rulebook's launch profile
+./start.sh         # start the view-backed app (API :43305, UI :43105)
+./lab.sh           # legacy interactive multi-substrate lab menu
 ```

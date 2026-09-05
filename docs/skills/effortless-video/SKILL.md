@@ -138,6 +138,28 @@ Key derivations already in the rulebook — **do not recompute these by hand**:
 writes `NativeDurationSeconds` back to the Asset from `ffprobe`; the renderer
 frame-locks each scene to its VO. Never hand-tune a duration to "make it fit."
 
+### 🗣️ Scene.Script is spoken words ONLY — and it goes straight to a TTS engine
+`Script` gets fed to ElevenLabs/`say` verbatim, so anything in it that isn't
+meant to be heard out loud (speaker labels, parenthetical SFX/camera notes,
+director's notes) gets read aloud by mistake — that belongs in `Purpose` or
+`ShotBrief` instead, never in `Script`.
+
+**Known TTS mispronunciations — write these phonetically in `Script` every
+time, even though it looks like a typo:**
+
+| Written normally | Write in `Script` as | Why |
+|---|---|---|
+| "row" (a database row) | **"roe"** | The TTS engine reads "row" ambiguously/wrong often enough that this repo has standardized on the phonetic spelling everywhere it appears in narration. |
+| "effortlessAPI" / "effortlessapi.com" | **"effortless A P I"** (spaced, capitalized as three letters) | Run together, the engine tends to read it as one blended word ("effortless-uh-pee") instead of the three letters A-P-I. Spacing/capitalizing them as their own token makes the engine say the letters. |
+| em dash (—) or en dash (–) | never — use a period, comma, or "and" | The ElevenLabs voice reads a bare dash as a stray Japanese syllable, 100% reproducible (see the project CLAUDE.md's own NO EM DASHES rule). |
+
+This list grows whenever a new mispronunciation is caught — **add the finding
+here** (the shared, checked-in skill) rather than only noting it in a private
+memory, so every future video benefits, not just the session that found it.
+**Always listen back to a scene that introduces a new proper noun, acronym, or
+one of the words above before treating it as final** — a rendered take is the
+only reliable way to catch a misread.
+
 ## Commands
 
 ```bash
@@ -167,6 +189,19 @@ authoring. The craft is real and reproducible:
 2. **Land it in the body before naming it.** Act I used Anna/Ben/Cara ages — the
    viewer *feels* the inference before hearing "transitive closure." Concrete →
    iconic → symbolic (Bruner). Earn the jargon; never open with it.
+2b. **Assume the viewer has never heard of a rulebook.** Every video in this
+   series gets watched cold — there is no "watch the earlier ones first"
+   guarantee, and even a numbered part-N-of-N sequel needs its own on-ramp.
+   Before the video leans on "the rulebook" to explain anything, it must first
+   show, briefly, what a rulebook *is* and *why reading one beats reading code*
+   — a sentence or a short beat is enough, this is not a lecture. **Asserting an
+   advantage ("one query, deterministic, done") without ever grounding what's
+   being queried and why that's different from code is the single most common
+   failure mode in this repo's scripts.** A viewer who doesn't already buy the
+   premise will read the whole video as a magic trick, not a demonstration. If a
+   scene name-drops "the rulebook" and a first-time viewer wouldn't yet know
+   what that word refers to, that's the gap to fix, before polishing anything
+   else.
 3. **Make the abstraction manipulable.** Act II is one continuous live page the
    viewer watches get poked. Assert 4 → get 10 is the payoff beat.
 4. **Counter-examples do the real teaching (variation theory).** Closure had
@@ -248,3 +283,8 @@ per-scene generator pattern and `closure_kit.py` for the shared kit.
   rules, the `indent=1` rule in procedural-knowledge-ontology, etc.).
 - Keep attribution/neutrality obligations from the subject domain (e.g. PKO's
   `NOTICE.md` — align, don't imply endorsement).
+- **Every demo app or screenshot filmed for a video — except the rulebook
+  editor itself — must be colorful and mobile-friendly.** Frame it for a BIG
+  mobile device (a large phone or tablet is fine), never a desktop-targeted
+  layout. The rulebook editor is the one exception because it's a dev tool,
+  not something being demoed to an end user.

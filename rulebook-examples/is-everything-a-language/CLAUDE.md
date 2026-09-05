@@ -152,6 +152,10 @@ Edit the `data` section of a table in `is-everything-a-language-rulebook.json`. 
 
 The rulebook uses **Excel-compatible formulas**: `IF()`, `AND()`, `CONCAT()`, `SUM()`, etc. Check the formula syntax against the Excel spec. Conformance tests will catch mismatches across substrates.
 
+## App (`app/`)
+
+`app/` is the view-backed app for this project: `app/server.js` (Express + pg) on port **43301** and a Vite + React classification board on port **43101**, launched together by `./start.sh`. It connects to Postgres database `erb_is_everything_a_language` (override with `PGHOST/PGUSER/PGPASSWORD/PGPORT/PGDATABASE`) and **reads views only** — `vw_language_candidates` and `vw_is_everything_a_language` via `GET /api/views`, `GET /api/views/:name`, and `GET /api/candidates/:id`. Verdicts (`predicted_answer`, `prediction_fail`, `prediction_predicates`, `is_open_closed_world_conflicted`, …) are displayed straight from view columns; never recompute them in JS. If the DB or a view is missing the API returns 500 naming what was expected and the UI shows that error.
+
 ---
 
 **The rulebook is the specification. Everything else is derived.**

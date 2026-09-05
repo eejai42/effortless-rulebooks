@@ -621,6 +621,17 @@ def ensure_slot_model(rulebook: OrderedDict[str, Any], repo_root: Path) -> None:
         ),
         lookup(
             "ProjectSlotWitnesses",
+            "DomainKind",
+            "Domain",
+            "RulebookDomains",
+            "DomainId",
+            "Kind",
+            "string",
+            1,
+            "The declared Kind (root | toy | example) of the witnessed project.",
+        ),
+        lookup(
+            "ProjectSlotWitnesses",
             "DomainIsException",
             "Domain",
             "RulebookDomains",
@@ -633,14 +644,14 @@ def ensure_slot_model(rulebook: OrderedDict[str, Any], repo_root: Path) -> None:
         calc(
             "IsRequiredHere",
             "boolean",
-            '=AND(NOT(COALESCE({{DomainIsException}}, FALSE())), OR(AND({{DomainArea}} = "root", COALESCE({{SlotRequiredForRoot}}, FALSE())), AND({{DomainArea}} = "rulebook-examples", COALESCE({{SlotRequiredForExample}}, FALSE())), AND({{DomainArea}} = "toy-rulebooks", COALESCE({{SlotRequiredForToy}}, FALSE()))))',
+            '=AND(NOT(COALESCE({{DomainIsException}}, FALSE())), OR(AND({{DomainKind}} = "root", COALESCE({{SlotRequiredForRoot}}, FALSE())), AND({{DomainKind}} = "example", COALESCE({{SlotRequiredForExample}}, FALSE())), AND({{DomainKind}} = "toy", COALESCE({{SlotRequiredForToy}}, FALSE()))))',
             2,
-            "The slot is required for this row's physical area.",
+            "The slot is required for this row's declared Kind.",
         ),
         calc(
             "ImplementationGapFlag",
             "number",
-            '=IF(AND(NOT({{IsPresent}}), NOT(COALESCE({{DomainIsException}}, FALSE())), OR(AND({{DomainArea}} = "root", COALESCE({{SlotRequiredForRoot}}, FALSE())), AND({{DomainArea}} <> "root", COALESCE({{SlotRequiredForExample}}, FALSE())))), 1, 0)',
+            '=IF(AND(NOT({{IsPresent}}), NOT(COALESCE({{DomainIsException}}, FALSE())), OR(AND({{DomainKind}} = "root", COALESCE({{SlotRequiredForRoot}}, FALSE())), AND({{DomainKind}} <> "root", COALESCE({{SlotRequiredForExample}}, FALSE())))), 1, 0)',
             2,
             "1 when this absence prevents full implementation.",
         ),
@@ -812,11 +823,11 @@ def ensure_slot_model(rulebook: OrderedDict[str, Any], repo_root: Path) -> None:
             "The root/example-complete contract is fully witnessed.",
         ),
         calc(
-            "IsToyByCoverage",
+            "IsToy",
             "boolean",
-            '=AND({{Area}} <> "root", NOT({{IsIntentionalException}}), {{SlotCoveragePercent}} < 60)',
-            4,
-            "Implements less than 60 percent of the full canonical shape.",
+            '={{Kind}} = "toy"',
+            1,
+            "Declared as a toy (Kind = toy).",
         ),
         calc(
             "FullyImplementedFlag",
@@ -835,23 +846,23 @@ def ensure_slot_model(rulebook: OrderedDict[str, Any], repo_root: Path) -> None:
         calc(
             "ExpectedArea",
             "string",
-            '=IF({{Area}} = "root", "root", IF({{IsToyByCoverage}}, "toy-rulebooks", "rulebook-examples"))',
-            5,
-            "Folder implied by root/toy/example readiness.",
+            '=IF({{Kind}} = "root", "root", IF({{IsToy}}, "toy-rulebooks", "rulebook-examples"))',
+            2,
+            "Folder implied by the declared Kind.",
         ),
         calc(
             "IsMisfiled",
             "boolean",
-            '=AND(NOT({{IsIntentionalException}}), {{Area}} <> "root", OR(AND({{IsToyByCoverage}}, {{Area}} <> "toy-rulebooks"), AND(NOT({{IsToyByCoverage}}), {{Area}} <> "rulebook-examples")))',
-            5,
-            "Physical folder disagrees with the witnessed classification.",
+            '=AND(NOT({{IsIntentionalException}}), {{Area}} <> {{ExpectedArea}})',
+            3,
+            "The physical folder disagrees with the declared Kind.",
         ),
         calc(
             "ReadinessState",
             "string",
-            '=IF({{IsIntentionalException}}, "intentional-exception", IF({{Area}} = "root", IF({{IsFullyImplemented}}, "root-ready", "root-incomplete"), IF({{IsToyByCoverage}}, "toy", IF({{IsFullyImplemented}}, "example-ready", "example-incomplete"))))',
+            '=IF({{IsIntentionalException}}, "intentional-exception", IF({{Kind}} = "root", IF({{IsFullyImplemented}}, "root-ready", "root-incomplete"), IF({{IsToy}}, "toy", IF({{IsFullyImplemented}}, "example-ready", "example-incomplete"))))',
             5,
-            "intentional-exception | root-ready | root-incomplete | toy | example-ready | example-incomplete.",
+            "intentional-exception | root-ready | root-incomplete | toy | example-ready | example-incomplete. Toy/example is declared (Kind); ready/incomplete is witnessed.",
         ),
     )
     for domain_field in domain_fields:
@@ -859,6 +870,9 @@ def ensure_slot_model(rulebook: OrderedDict[str, Any], repo_root: Path) -> None:
 
     area = schema_field(domains, "Area")
     require(area is not None, "RulebookDomains.Area is missing")
+    require(schema_field(domains, "Kind") is not None, "RulebookDomains.Kind is missing (run scripts/migrate-phase5-declared-kind.py)")
+    for row in domains["data"]:
+        require(row.get("Kind") in {"root", "toy", "example"}, f"{row['DomainId']}: Kind must be root, toy or example, got {row.get('Kind')!r}")
     area["Description"] = (
         "Witnessed physical container: root, rulebook-examples, or toy-rulebooks. "
         "Classification is derived separately."
@@ -1442,6 +1456,7 @@ def refresh_witness_data(
             launch_profile["ProjectLaunchProfileId"]
         ]
         area = domain["Area"]
+        kind = domain["Kind"]
         is_exception = domain["IsIntentionalException"]
         for slot in SLOTS:
             present, witnessed_path, detail = observe_slot(
@@ -1452,18 +1467,18 @@ def refresh_witness_data(
                 implementation_required = False
                 universal_required = False
             else:
-                if area == "root":
+                if kind == "root":
                     required_here = slot["root"]
                     implementation_required = slot["root"]
-                elif area == "rulebook-examples":
+                elif kind == "example":
                     required_here = slot["example"]
                     implementation_required = slot["example"]
-                elif area == "toy-rulebooks":
+                elif kind == "toy":
                     required_here = slot["toy"]
                     implementation_required = slot["example"]
                 else:
                     raise ScanError(
-                        f"Unsupported RulebookDomains.Area {area!r} on {domain['DomainId']}"
+                        f"Unsupported RulebookDomains.Kind {kind!r} on {domain['DomainId']}"
                     )
                 universal_required = slot["toy"]
 
@@ -1487,6 +1502,7 @@ def refresh_witness_data(
                         ("SlotRequiredForExample", slot["example"]),
                         ("SlotRequiredForToy", slot["toy"]),
                         ("DomainArea", area),
+                        ("DomainKind", kind),
                         ("DomainIsException", is_exception),
                         ("IsRequiredHere", required_here),
                         ("ImplementationGapFlag", 1 if implementation_gap else 0),
@@ -1583,20 +1599,16 @@ def refresh_witness_data(
         )
         is_exception = domain["IsIntentionalException"]
         is_fully_implemented = not is_exception and implementation_gap_count == 0
-        is_toy = (
-            domain["Area"] != "root"
-            and not is_exception
-            and slot_coverage < 60
-        )
+        is_toy = domain["Kind"] == "toy"
         expected_area = (
             "root"
-            if domain["Area"] == "root"
+            if domain["Kind"] == "root"
             else ("toy-rulebooks" if is_toy else "rulebook-examples")
         )
         is_misfiled = not is_exception and domain["Area"] != expected_area
         if is_exception:
             readiness = "intentional-exception"
-        elif domain["Area"] == "root":
+        elif domain["Kind"] == "root":
             readiness = "root-ready" if is_fully_implemented else "root-incomplete"
         elif is_toy:
             readiness = "toy"
@@ -1617,7 +1629,7 @@ def refresh_witness_data(
                     ("RequiredPresentCount", required_present),
                     ("RequiredGapCount", required_gap_count),
                     ("IsFullyImplemented", is_fully_implemented),
-                    ("IsToyByCoverage", is_toy),
+                    ("IsToy", is_toy),
                     ("FullyImplementedFlag", 1 if is_fully_implemented else 0),
                     ("RequiredSlotCoveragePercent", required_coverage),
                     ("ExpectedArea", expected_area),

@@ -942,7 +942,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_platform_naviation_depth(p_platform_naviation_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT (CASE WHEN (SELECT NULLIF(parent_route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id) IS NULL THEN (0)::text ELSE ((COALESCE(CASE WHEN (LENGTH((SELECT NULLIF(route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (LENGTH((SELECT NULLIF(route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id)))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN (LENGTH(REPLACE((SELECT NULLIF(route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id), '.', '')))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (LENGTH(REPLACE((SELECT NULLIF(route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id), '.', '')))::numeric ELSE NULL END, 0)))::text END)::integer;
+  SELECT (CASE WHEN (SELECT NULLIF(parent_route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id) IS NULL THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(route_key, '') FROM platform_naviation WHERE platform_naviation_id = p_platform_naviation_id), '.', ''))) AS v) __safe_numeric), 0)))::text END)::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_platform_naviation_full_path
@@ -1916,6 +1916,276 @@ RETURNS BOOLEAN AS $$
   SELECT (SELECT is_active::boolean FROM erb_packages WHERE erb_package_id = (SELECT erb_package FROM state_machines WHERE state_machine_id = p_state_machine_id));
 $$ LANGUAGE sql STABLE;
 
+-- get_machine_states_state_key
+-- Helper function: Get StateKey from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_state_key(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT state_key FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_title
+-- Helper function: Get Title from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_title(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT title FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_order_index
+-- Helper function: Get OrderIndex from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_order_index(p_machine_state_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT order_index FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_is_initial
+-- Helper function: Get IsInitial from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_is_initial(p_machine_state_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_initial FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_is_terminal
+-- Helper function: Get IsTerminal from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_is_terminal(p_machine_state_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_terminal FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_created_at
+-- Helper function: Get CreatedAt from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_created_at(p_machine_state_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT created_at FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_created_by
+-- Helper function: Get CreatedBy from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_created_by(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT created_by FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_modified_at
+-- Helper function: Get ModifiedAt from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_modified_at(p_machine_state_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT modified_at FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_modified_by
+-- Helper function: Get ModifiedBy from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_modified_by(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT modified_by FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_machine_states_modified_by_model
+-- Helper function: Get ModifiedByModel from MachineStates by MachineStateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_machine_states_modified_by_model(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT modified_by_model FROM machine_states WHERE machine_state_id = p_machine_state_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_guard_description
+-- Helper function: Get GuardDescription from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_guard_description(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT guard_description FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_rule_refs
+-- Helper function: Get RuleRefs from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_rule_refs(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT rule_refs FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_trigger_endpoint
+-- Helper function: Get TriggerEndpoint from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_trigger_endpoint(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT trigger_endpoint FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_triggered_by_role
+-- Helper function: Get TriggeredByRole from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_triggered_by_role(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT triggered_by_role FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_created_at
+-- Helper function: Get CreatedAt from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_created_at(p_state_transition_rule_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT created_at FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_created_by
+-- Helper function: Get CreatedBy from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_created_by(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT created_by FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_modified_at
+-- Helper function: Get ModifiedAt from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_modified_at(p_state_transition_rule_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT modified_at FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_modified_by
+-- Helper function: Get ModifiedBy from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_modified_by(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT modified_by FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transition_rules_modified_by_model
+-- Helper function: Get ModifiedByModel from StateTransitionRules by StateTransitionRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transition_rules_modified_by_model(p_state_transition_rule_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT modified_by_model FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_subject_table_name
+-- Helper function: Get SubjectTableName from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_subject_table_name(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT subject_table_name FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_from_state_key
+-- Helper function: Get FromStateKey from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_from_state_key(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT from_state_key FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_to_state_key
+-- Helper function: Get ToStateKey from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_to_state_key(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT to_state_key FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_transition_at
+-- Helper function: Get TransitionAt from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_transition_at(p_state_transition_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT transition_at FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_triggered_by_role
+-- Helper function: Get TriggeredByRole from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_triggered_by_role(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT triggered_by_role FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_reason
+-- Helper function: Get Reason from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_reason(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT reason FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_created_at
+-- Helper function: Get CreatedAt from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_created_at(p_state_transition_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT created_at FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_created_by
+-- Helper function: Get CreatedBy from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_created_by(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT created_by FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_modified_at
+-- Helper function: Get ModifiedAt from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_modified_at(p_state_transition_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT modified_at FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_modified_by
+-- Helper function: Get ModifiedBy from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_modified_by(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT modified_by FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_state_transitions_modified_by_model
+-- Helper function: Get ModifiedByModel from StateTransitions by StateTransitionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_state_transitions_modified_by_model(p_state_transition_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT modified_by_model FROM state_transitions WHERE state_transition_id = p_state_transition_id);
+$$ LANGUAGE sql STABLE;
+
 -- calc_state_machines_name
 -- Field: StateMachines.Name
 -- Type: calculated | DataType: string | Returns: TEXT
@@ -2057,96 +2327,6 @@ RETURNS TEXT AS $$
   SELECT (SELECT state_key::text FROM machine_states WHERE machine_state_id = (SELECT to_state FROM state_transition_rules WHERE state_transition_rule_id = p_state_transition_rule_id));
 $$ LANGUAGE sql STABLE;
 
--- get_machine_states_state_key
--- Helper function: Get StateKey from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_state_key(p_machine_state_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT state_key FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_title
--- Helper function: Get Title from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_title(p_machine_state_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT title FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_order_index
--- Helper function: Get OrderIndex from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_order_index(p_machine_state_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT (SELECT order_index FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_is_initial
--- Helper function: Get IsInitial from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_is_initial(p_machine_state_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT (SELECT is_initial FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_is_terminal
--- Helper function: Get IsTerminal from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_is_terminal(p_machine_state_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT (SELECT is_terminal FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_created_at
--- Helper function: Get CreatedAt from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_created_at(p_machine_state_id TEXT)
-RETURNS TIMESTAMPTZ AS $$
-  SELECT (SELECT created_at FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_created_by
--- Helper function: Get CreatedBy from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_created_by(p_machine_state_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT created_by FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_modified_at
--- Helper function: Get ModifiedAt from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_modified_at(p_machine_state_id TEXT)
-RETURNS TIMESTAMPTZ AS $$
-  SELECT (SELECT modified_at FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_modified_by
--- Helper function: Get ModifiedBy from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_modified_by(p_machine_state_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT modified_by FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
--- get_machine_states_modified_by_model
--- Helper function: Get ModifiedByModel from MachineStates by MachineStateId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_machine_states_modified_by_model(p_machine_state_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT modified_by_model FROM machine_states WHERE machine_state_id = p_machine_state_id);
-$$ LANGUAGE sql STABLE;
-
 -- calc_state_transition_rules_name
 -- Field: StateTransitionRules.Name
 -- Type: calculated | DataType: string | Returns: TEXT
@@ -2214,7 +2394,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_work_queue_items_is_overdue(p_work_queue_item_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (CASE WHEN calc_work_queue_items_due_in_days(p_work_queue_item_id) IS NULL THEN (FALSE)::text ELSE ((calc_work_queue_items_due_in_days(p_work_queue_item_id))::NUMERIC < 0)::text END)::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_work_queue_items_due_in_days(p_work_queue_item_id) AS val) SELECT (CASE WHEN (SELECT val FROM __erb_dedup_v1) IS NULL THEN (FALSE)::text ELSE (((SELECT val FROM __erb_dedup_v1))::NUMERIC < 0)::text END)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_work_queue_items_urgency_bucket
@@ -2224,7 +2404,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_work_queue_items_urgency_bucket(p_work_queue_item_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CASE WHEN calc_work_queue_items_due_in_days(p_work_queue_item_id) IS NULL THEN ('follow-up')::text ELSE (CASE WHEN (calc_work_queue_items_due_in_days(p_work_queue_item_id))::NUMERIC <= 0 THEN ('urgent')::text ELSE (CASE WHEN (calc_work_queue_items_due_in_days(p_work_queue_item_id))::NUMERIC <= 3 THEN ('due-3-days')::text ELSE ('upcoming')::text END)::text END)::text END)::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_work_queue_items_due_in_days(p_work_queue_item_id) AS val) SELECT (CASE WHEN (SELECT val FROM __erb_dedup_v1) IS NULL THEN ('follow-up')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC <= 0 THEN ('urgent')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC <= 3 THEN ('due-3-days')::text ELSE ('upcoming')::text END)::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_work_queue_items_is_urgent
@@ -2720,7 +2900,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_assistant_turns_total_tokens(p_assistant_turn_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN ((SELECT input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id)) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_assistant_turns_billable_input_tokens
@@ -2730,7 +2910,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_assistant_turns_billable_input_tokens(p_assistant_turn_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN ((SELECT input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id)) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_assistant_turns_input_cost
@@ -2740,7 +2920,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_assistant_turns_input_cost(p_assistant_turn_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(1000000, 0), 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_assistant_turns_billable_input_tokens(p_assistant_turn_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_assistant_turns_input_price_per_m_tok(p_assistant_turn_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT cached_input_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_assistant_turns_cached_input_price_per_m_tok(p_assistant_turn_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE(1000000, 0), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_assistant_turns_output_cost
@@ -2750,7 +2930,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_assistant_turns_output_cost(p_assistant_turn_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_output_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_output_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN (calc_assistant_turns_output_price_per_m_tok(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_output_price_per_m_tok(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(1000000, 0), 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT output_tokens FROM assistant_turns WHERE assistant_turn_id = p_assistant_turn_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_assistant_turns_output_price_per_m_tok(p_assistant_turn_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE(1000000, 0), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_assistant_turns_total_cost
@@ -2760,7 +2940,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_assistant_turns_total_cost(p_assistant_turn_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_assistant_turns_input_cost(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_input_cost(p_assistant_turn_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_assistant_turns_output_cost(p_assistant_turn_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_assistant_turns_output_cost(p_assistant_turn_id))::numeric ELSE NULL END, 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_assistant_turns_input_cost(p_assistant_turn_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_assistant_turns_output_cost(p_assistant_turn_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- get_erb_tables_table_name
@@ -4103,105 +4283,6 @@ RETURNS TEXT AS $$
   SELECT (SELECT modified_by_model FROM subject_state_instances WHERE subject_state_instance_id = p_subject_state_instance_id);
 $$ LANGUAGE sql STABLE;
 
--- get_state_transitions_subject_table_name
--- Helper function: Get SubjectTableName from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_subject_table_name(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT subject_table_name FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_from_state_key
--- Helper function: Get FromStateKey from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_from_state_key(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT from_state_key FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_to_state_key
--- Helper function: Get ToStateKey from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_to_state_key(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT to_state_key FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_transition_at
--- Helper function: Get TransitionAt from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_transition_at(p_state_transition_id TEXT)
-RETURNS TIMESTAMPTZ AS $$
-  SELECT (SELECT transition_at FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_triggered_by_role
--- Helper function: Get TriggeredByRole from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_triggered_by_role(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT triggered_by_role FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_reason
--- Helper function: Get Reason from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_reason(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT reason FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_created_at
--- Helper function: Get CreatedAt from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_created_at(p_state_transition_id TEXT)
-RETURNS TIMESTAMPTZ AS $$
-  SELECT (SELECT created_at FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_created_by
--- Helper function: Get CreatedBy from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_created_by(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT created_by FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_modified_at
--- Helper function: Get ModifiedAt from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_modified_at(p_state_transition_id TEXT)
-RETURNS TIMESTAMPTZ AS $$
-  SELECT (SELECT modified_at FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_modified_by
--- Helper function: Get ModifiedBy from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_modified_by(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT modified_by FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
--- get_state_transitions_modified_by_model
--- Helper function: Get ModifiedByModel from StateTransitions by StateTransitionId
--- Used for join-free cross-table references in aggregations
-
-CREATE OR REPLACE FUNCTION get_state_transitions_modified_by_model(p_state_transition_id TEXT)
-RETURNS TEXT AS $$
-  SELECT (SELECT modified_by_model FROM state_transitions WHERE state_transition_id = p_state_transition_id);
-$$ LANGUAGE sql STABLE;
-
 -- calc_subject_state_instances_name
 -- Field: SubjectStateInstances.Name
 -- Type: calculated | DataType: string | Returns: TEXT
@@ -4364,7 +4445,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_drivers_license_status(p_driver_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CASE WHEN calc_drivers_active_points(p_driver_id) >= calc_drivers_suspension_threshold(p_driver_id) THEN ('Suspended')::text ELSE (CASE WHEN calc_drivers_active_points(p_driver_id) >= calc_drivers_warning_threshold(p_driver_id) THEN ('Warning')::text ELSE ('Valid')::text END)::text END)::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_drivers_active_points(p_driver_id) AS val) SELECT (CASE WHEN (SELECT val FROM __erb_dedup_v1) >= calc_drivers_suspension_threshold(p_driver_id) THEN ('Suspended')::text ELSE (CASE WHEN (SELECT val FROM __erb_dedup_v1) >= calc_drivers_warning_threshold(p_driver_id) THEN ('Warning')::text ELSE ('Valid')::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_driver_label
@@ -4951,7 +5032,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_response_due_date(p_citation_id TEXT)
 RETURNS DATE AS $$
-  SELECT ((((SELECT issued_on::timestamptz FROM citations WHERE citation_id = p_citation_id))::date + (COALESCE(CASE WHEN (calc_citations_days_to_respond(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_days_to_respond(p_citation_id))::numeric ELSE NULL END, 0))::integer))::date;
+  SELECT ((((SELECT issued_on::timestamptz FROM citations WHERE citation_id = p_citation_id))::date + (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_citations_days_to_respond(p_citation_id)) AS v) __safe_numeric), 0))::integer))::date;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_days_until_response_due
@@ -4961,7 +5042,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_days_until_response_due(p_citation_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_citations_response_due_date(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_response_due_date(p_citation_id))::numeric ELSE NULL END, 0) - COALESCE((SELECT as_of_date::timestamptz FROM citations WHERE citation_id = p_citation_id), 0)))::integer;
+  SELECT (((calc_citations_response_due_date(p_citation_id))::date - ((SELECT as_of_date::timestamptz FROM citations WHERE citation_id = p_citation_id))::date))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_is_response_overdue
@@ -4991,7 +5072,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_latest_hearing_outcome(p_citation_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((SELECT MAX(outcome::text) FROM hearings WHERE citation = calc_citations_name(p_citation_id) AND scheduled_for = (SELECT MAX(scheduled_for) FROM hearings WHERE citation = calc_citations_name(p_citation_id))))::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_citations_name(p_citation_id) AS val) SELECT ((SELECT MAX(outcome::text) FROM hearings WHERE citation = (SELECT val FROM __erb_dedup_v1) AND scheduled_for = (SELECT MAX(scheduled_for) FROM hearings WHERE citation = (SELECT val FROM __erb_dedup_v1))))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_contest_status
@@ -5001,7 +5082,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_contest_status(p_citation_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CASE WHEN NOT (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE)) THEN ('NotContested')::text ELSE (CASE WHEN (calc_citations_count_of_hearings(p_citation_id))::NUMERIC = 0 THEN ('HearingRequested')::text ELSE (CASE WHEN (calc_citations_latest_hearing_outcome(p_citation_id) = 'Pending' OR ((calc_citations_latest_hearing_outcome(p_citation_id)) IS NULL OR (calc_citations_latest_hearing_outcome(p_citation_id))::text = '')) THEN ('Scheduled')::text ELSE ('Heard')::text END)::text END)::text END)::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_citations_latest_hearing_outcome(p_citation_id) AS val) SELECT (CASE WHEN NOT (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE)) THEN ('NotContested')::text ELSE (CASE WHEN (calc_citations_count_of_hearings(p_citation_id))::NUMERIC = 0 THEN ('HearingRequested')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1) = 'Pending' OR (((SELECT val FROM __erb_dedup_v1)) IS NULL OR ((SELECT val FROM __erb_dedup_v1))::text = '')) THEN ('Scheduled')::text ELSE ('Heard')::text END)::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_is_dismissed
@@ -5021,7 +5102,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_is_guilty(p_citation_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (CASE WHEN (calc_citations_latest_hearing_outcome(p_citation_id) = 'Guilty' OR calc_citations_latest_hearing_outcome(p_citation_id) = 'Upheld' OR (calc_citations_is_response_overdue(p_citation_id) AND NOT (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE)))) THEN TRUE ELSE FALSE END)::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_citations_latest_hearing_outcome(p_citation_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1) = 'Guilty' OR (SELECT val FROM __erb_dedup_v1) = 'Upheld' OR (calc_citations_is_response_overdue(p_citation_id) AND NOT (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE)))) THEN TRUE ELSE FALSE END)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_amount_due_usd
@@ -5031,7 +5112,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_amount_due_usd(p_citation_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN calc_citations_is_dismissed(p_citation_id) THEN (0)::text ELSE (CASE WHEN calc_citations_is_payment_late(p_citation_id) THEN ((COALESCE(CASE WHEN (calc_citations_base_fine_usd(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_base_fine_usd(p_citation_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN ((COALESCE(1, 0) + COALESCE(CASE WHEN (calc_citations_late_penalty_pct(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_late_penalty_pct(p_citation_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(1, 0) + COALESCE(CASE WHEN (calc_citations_late_penalty_pct(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_late_penalty_pct(p_citation_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::text ELSE (calc_citations_base_fine_usd(p_citation_id))::text END)::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_citations_base_fine_usd(p_citation_id) AS val) SELECT (CASE WHEN calc_citations_is_dismissed(p_citation_id) THEN (0)::text ELSE (CASE WHEN calc_citations_is_payment_late(p_citation_id) THEN ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE(1, 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_citations_late_penalty_pct(p_citation_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::text ELSE ((SELECT val FROM __erb_dedup_v1))::text END)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_payment_due_date
@@ -5041,7 +5122,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_payment_due_date(p_citation_id TEXT)
 RETURNS DATE AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_citations_response_due_date(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_response_due_date(p_citation_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_citations_days_to_pay_after_ruling(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_days_to_pay_after_ruling(p_citation_id))::numeric ELSE NULL END, 0)))::date;
+  SELECT ((((calc_citations_response_due_date(p_citation_id))::date)::date + (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_citations_days_to_pay_after_ruling(p_citation_id)) AS v) __safe_numeric), 0))::integer))::date;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_is_payment_late
@@ -5061,7 +5142,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_is_in_collections(p_citation_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (CASE WHEN (calc_citations_is_payment_late(p_citation_id) AND (SELECT as_of_date::timestamptz FROM citations WHERE citation_id = p_citation_id) > (COALESCE(CASE WHEN (calc_citations_payment_due_date(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_payment_due_date(p_citation_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_citations_days_late_to_collections(p_citation_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_citations_days_late_to_collections(p_citation_id))::numeric ELSE NULL END, 0))) THEN TRUE ELSE FALSE END)::boolean;
+  SELECT (CASE WHEN (calc_citations_is_payment_late(p_citation_id) AND (SELECT as_of_date::timestamptz FROM citations WHERE citation_id = p_citation_id) > (((calc_citations_payment_due_date(p_citation_id))::date)::date + (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_citations_days_late_to_collections(p_citation_id)) AS v) __safe_numeric), 0))::integer)) THEN TRUE ELSE FALSE END)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citations_payment_status
@@ -5091,7 +5172,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_citations_citation_status(p_citation_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CASE WHEN (NOT ((((SELECT paid_on::timestamptz FROM citations WHERE citation_id = p_citation_id)) IS NULL OR ((SELECT paid_on::timestamptz FROM citations WHERE citation_id = p_citation_id))::text = '')) OR calc_citations_is_dismissed(p_citation_id)) THEN ('Closed')::text ELSE (CASE WHEN (calc_citations_latest_hearing_outcome(p_citation_id) = 'Guilty' OR calc_citations_latest_hearing_outcome(p_citation_id) = 'Upheld' OR (calc_citations_is_response_overdue(p_citation_id) AND NOT (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE)))) THEN ('Adjudicated')::text ELSE (CASE WHEN (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE) AND (calc_citations_count_of_hearings(p_citation_id))::NUMERIC > 0) THEN ('InContest')::text ELSE (CASE WHEN NOT ((((SELECT responded_on::timestamptz FROM citations WHERE citation_id = p_citation_id)) IS NULL OR ((SELECT responded_on::timestamptz FROM citations WHERE citation_id = p_citation_id))::text = '')) THEN ('Responded')::text ELSE ('Issued')::text END)::text END)::text END)::text END)::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_citations_latest_hearing_outcome(p_citation_id) AS val) SELECT (CASE WHEN (NOT ((((SELECT paid_on::timestamptz FROM citations WHERE citation_id = p_citation_id)) IS NULL OR ((SELECT paid_on::timestamptz FROM citations WHERE citation_id = p_citation_id))::text = '')) OR calc_citations_is_dismissed(p_citation_id)) THEN ('Closed')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1) = 'Guilty' OR (SELECT val FROM __erb_dedup_v1) = 'Upheld' OR (calc_citations_is_response_overdue(p_citation_id) AND NOT (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE)))) THEN ('Adjudicated')::text ELSE (CASE WHEN (COALESCE((SELECT contest_requested FROM citations WHERE citation_id = p_citation_id), FALSE) AND (calc_citations_count_of_hearings(p_citation_id))::NUMERIC > 0) THEN ('InContest')::text ELSE (CASE WHEN NOT ((((SELECT responded_on::timestamptz FROM citations WHERE citation_id = p_citation_id)) IS NULL OR ((SELECT responded_on::timestamptz FROM citations WHERE citation_id = p_citation_id))::text = '')) THEN ('Responded')::text ELSE ('Issued')::text END)::text END)::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_hearings_citation_label
@@ -5411,7 +5492,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_test_case_expectation_count(p_test_case_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((SELECT COUNT(*) FROM test_expectation))::numeric;
+  SELECT (((SELECT COUNT(*) FROM test_expectation)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- get_test_case_title
@@ -5949,6 +6030,71 @@ RETURNS TEXT AS $$
     SELECT STRING_AGG(app_user_id::TEXT, ', ' ORDER BY app_user_id)
     FROM app_users
     WHERE role = p_role_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_state_machines_machine_states
+-- Field: StateMachines.MachineStates
+-- Type: Inverse relationship (reverse FK lookup from MachineStates.StateMachine)
+
+CREATE OR REPLACE FUNCTION calc_state_machines_machine_states(p_state_machine_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(machine_state_id::TEXT, ', ' ORDER BY machine_state_id)
+    FROM machine_states
+    WHERE state_machine = p_state_machine_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_state_machines_state_transition_rules
+-- Field: StateMachines.StateTransitionRules
+-- Type: Inverse relationship (reverse FK lookup from StateTransitionRules.StateMachine)
+
+CREATE OR REPLACE FUNCTION calc_state_machines_state_transition_rules(p_state_machine_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(state_transition_rule_id::TEXT, ', ' ORDER BY state_transition_rule_id)
+    FROM state_transition_rules
+    WHERE state_machine = p_state_machine_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_state_machines_state_transitions
+-- Field: StateMachines.StateTransitions
+-- Type: Inverse relationship (reverse FK lookup from StateTransitions.StateMachine)
+
+CREATE OR REPLACE FUNCTION calc_state_machines_state_transitions(p_state_machine_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(state_transition_id::TEXT, ', ' ORDER BY state_transition_id)
+    FROM state_transitions
+    WHERE state_machine = p_state_machine_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_machine_states_from_transition_rules
+-- Field: MachineStates.FromTransitionRules
+-- Type: Inverse relationship (reverse FK lookup from StateTransitionRules.FromState)
+
+CREATE OR REPLACE FUNCTION calc_machine_states_from_transition_rules(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(state_transition_rule_id::TEXT, ', ' ORDER BY state_transition_rule_id)
+    FROM state_transition_rules
+    WHERE from_state = p_machine_state_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_machine_states_to_transition_rules
+-- Field: MachineStates.ToTransitionRules
+-- Type: Inverse relationship (reverse FK lookup from StateTransitionRules.ToState)
+
+CREATE OR REPLACE FUNCTION calc_machine_states_to_transition_rules(p_machine_state_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(state_transition_rule_id::TEXT, ', ' ORDER BY state_transition_rule_id)
+    FROM state_transition_rules
+    WHERE to_state = p_machine_state_id
   );
 $$ LANGUAGE sql STABLE;
 

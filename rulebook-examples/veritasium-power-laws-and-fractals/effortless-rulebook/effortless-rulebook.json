@@ -392,15 +392,15 @@
         "name": "ScaleRatio",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{Scale}} / NULLIF({{BaseScale}}, 0)",
-        "Description": "How many times larger than base scale (multiplicative factor)."
+        "formula": "=IF({{BaseScale}} = 0, 0, {{Scale}} / {{BaseScale}})",
+        "Description": "How many times larger than base scale (multiplicative factor). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "LogScaleNormalized",
         "datatype": "number",
         "type": "calculated",
-        "formula": "=({{LogScale}} - {{SystemMinLogScale}}) / NULLIF({{SystemDeltaLogScale}}, 0)",
-        "Description": "Position within system's log-scale range as 0-1 value."
+        "formula": "=IF({{SystemDeltaLogScale}} = 0, 0, ({{LogScale}} - {{SystemMinLogScale}}) / {{SystemDeltaLogScale}})",
+        "Description": "Position within system's log-scale range as 0-1 value. Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       }
     ],
     "data": [
@@ -1296,7 +1296,7 @@
         "name": "PointCount",
         "datatype": "integer",
         "type": "aggregation",
-        "formula": "=COUNTIF(scales!{{System}}, {{System}})",
+        "formula": "=COUNTIFS(scales!{{System}}, system_stats!{{System}})",
         "Description": "Rollup: Count of scale measurements for this system."
       },
       {
@@ -1345,8 +1345,8 @@
         "name": "EmpiricalLogLogSlope",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{DeltaLogMeasure}} / NULLIF({{DeltaLogScale}}, 0)",
-        "Description": "Calculated: Slope of log-log line from empirical data."
+        "formula": "=IF({{DeltaLogScale}} = 0, 0, {{DeltaLogMeasure}} / {{DeltaLogScale}})",
+        "Description": "Calculated: Slope of log-log line from empirical data. Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "SlopeError",
@@ -1401,8 +1401,8 @@
         "name": "SlopeToNoiseRatio",
         "datatype": "number",
         "type": "calculated",
-        "formula": "=ABS({{EmpiricalLogLogSlope}}) / NULLIF({{NoiseSigma}}, 0)",
-        "Description": "Signal-to-noise ratio (slope magnitude vs. noise level)."
+        "formula": "=IF({{NoiseSigma}} = 0, 0, ABS({{EmpiricalLogLogSlope}}) / {{NoiseSigma}})",
+        "Description": "Signal-to-noise ratio (slope magnitude vs. noise level). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "DeviationScore",
@@ -1429,15 +1429,15 @@
         "name": "DataDensity",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{PointCount}} / NULLIF({{LogLogArea}}, 0)",
-        "Description": "Number of data points per unit area in log-log space."
+        "formula": "=IF({{LogLogArea}} = 0, 0, {{PointCount}} / {{LogLogArea}})",
+        "Description": "Number of data points per unit area in log-log space. Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "RelativeSlopeError",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{SlopeError}} / NULLIF({{TheoreticalLogLogSlope}}, 0)",
-        "Description": "Slope error as fraction of theoretical slope (percentage)."
+        "formula": "=IF({{TheoreticalLogLogSlope}} = 0, 0, {{SlopeError}} / {{TheoreticalLogLogSlope}})",
+        "Description": "Slope error as fraction of theoretical slope (percentage). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       }
     ],
     "data": [
@@ -1655,8 +1655,8 @@
         "name": "OutlierRate",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{OutlierCount}} / NULLIF({{TotalPointCount}}, 0)",
-        "Description": "Fraction of points that are outliers (quality metric)."
+        "formula": "=IF({{TotalPointCount}} = 0, 0, {{OutlierCount}} / {{TotalPointCount}})",
+        "Description": "Fraction of points that are outliers (quality metric). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "EffectivePointCount",
@@ -1914,8 +1914,8 @@
         "name": "StandardizedResidual",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{Residual}} / NULLIF({{ResidualRMS}}, 0)",
-        "Description": "Residual in units of RMS (number of standard deviations)."
+        "formula": "=IF({{ResidualRMS}} = 0, 0, {{Residual}} / {{ResidualRMS}})",
+        "Description": "Residual in units of RMS (number of standard deviations). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "IsOutlier",
@@ -1928,8 +1928,8 @@
         "name": "ScaleRatio",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{Scale}} / NULLIF({{BaseScale}}, 0)",
-        "Description": "Scale relative to base scale (multiplicative factor)."
+        "formula": "=IF({{BaseScale}} = 0, 0, {{Scale}} / {{BaseScale}})",
+        "Description": "Scale relative to base scale (multiplicative factor). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "AbsResidual",
@@ -2829,8 +2829,8 @@
         "name": "SlopeConfidenceInterval",
         "datatype": "number",
         "type": "calculated",
-        "formula": "=1.96 * ({{ResidualRMS}} / NULLIF(SQRT({{PointCount}}), 0))",
-        "Description": "Approximate 95% confidence interval for slope (simplified formula)."
+        "formula": "=IF({{PointCount}} = 0, 0, 1.96 * {{ResidualRMS}} / SQRT({{PointCount}}))",
+        "Description": "Approximate 95% confidence interval for slope (simplified formula). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "MinLogScale",
@@ -2892,22 +2892,22 @@
         "name": "FitEfficiency",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{R2}} / NULLIF({{OnePlusResidualRMS}}, 0)",
-        "Description": "Quality per unit error (higher is better)."
+        "formula": "=IF({{OnePlusResidualRMS}} = 0, 0, {{R2}} / {{OnePlusResidualRMS}})",
+        "Description": "Quality per unit error (higher is better). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "NormalizedRMSE",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{ResidualRMS}} / NULLIF({{LogMeasureRange}}, 0)",
-        "Description": "RMSE as fraction of total log measure range."
+        "formula": "=IF({{LogMeasureRange}} = 0, 0, {{ResidualRMS}} / {{LogMeasureRange}})",
+        "Description": "RMSE as fraction of total log measure range. Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "SlopeToTheoreticalRatio",
         "datatype": "number",
         "type": "calculated",
-        "formula": "={{FittedSlope}} / NULLIF({{TheoreticalLogLogSlope}}, 0)",
-        "Description": "Ratio of fitted to theoretical slope (1.0 = perfect match)."
+        "formula": "=IF({{TheoreticalLogLogSlope}} = 0, 0, {{FittedSlope}} / {{TheoreticalLogLogSlope}})",
+        "Description": "Ratio of fitted to theoretical slope (1.0 = perfect match). Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "OneMinusR2",
@@ -2934,8 +2934,8 @@
         "name": "AdjustedR2",
         "datatype": "number",
         "type": "calculated",
-        "formula": "=1 - {{OneMinusR2}} * {{PointCountMinusOne}} / NULLIF({{PointCountMinusTwo}}, 0)",
-        "Description": "R² adjusted for degrees of freedom."
+        "formula": "=IF({{PointCountMinusTwo}} = 0, 0, 1 - {{OneMinusR2}} * {{PointCountMinusOne}} / {{PointCountMinusTwo}})",
+        "Description": "R² adjusted for degrees of freedom. Reads 0 when the denominator is 0 (the transpiler has no NULLIF)."
       },
       {
         "name": "ResidualRMSSquared",

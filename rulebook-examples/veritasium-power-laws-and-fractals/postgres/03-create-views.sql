@@ -68,8 +68,8 @@ SELECT
   calc_scales_system_min_log_scale(t.scale_id) AS system_min_log_scale,         -- Minimum log scale for the system (for normalization).
   calc_scales_system_max_log_scale(t.scale_id) AS system_max_log_scale,         -- Maximum log scale for the system (for normalization).
   calc_scales_system_delta_log_scale(t.scale_id) AS system_delta_log_scale,     -- Total log scale range for the system.
-  calc_scales_scale_ratio(t.scale_id) AS scale_ratio,                           -- How many times larger than base scale (multiplicative factor).
-  calc_scales_log_scale_normalized(t.scale_id) AS log_scale_normalized          -- Position within system's log-scale range as 0-1 value.
+  calc_scales_scale_ratio(t.scale_id) AS scale_ratio,                           -- How many times larger than base scale (multiplicative factor). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
+  calc_scales_log_scale_normalized(t.scale_id) AS log_scale_normalized          -- Position within system's log-scale range as 0-1 value. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
 FROM scales t;
 
 -- ----------------------------------------------------------------------------
@@ -92,7 +92,7 @@ SELECT
   calc_system_stats_max_log_measure(t.system_stats_id) AS max_log_measure,      -- Rollup: Maximum log10(Measure) across child scales.
   calc_system_stats_delta_log_measure(t.system_stats_id) AS delta_log_measure,  -- Calculated: Difference between min and max log measure (numerator for slope).
   calc_system_stats_delta_log_scale(t.system_stats_id) AS delta_log_scale,      -- Calculated: Difference between max and min log scale (denominator for slope).
-  calc_system_stats_empirical_log_log_slope(t.system_stats_id) AS empirical_log_log_slope,-- Calculated: Slope of log-log line from empirical data.
+  calc_system_stats_empirical_log_log_slope(t.system_stats_id) AS empirical_log_log_slope,-- Calculated: Slope of log-log line from empirical data. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_system_stats_slope_error(t.system_stats_id) AS slope_error,              -- Calculated: Difference between empirical and theoretical slopes.
   calc_system_stats_fitted_slope(t.system_stats_id) AS fitted_slope,            -- Fitted slope from inference_runs on observed data.
   calc_system_stats_fitted_vs_empirical_delta(t.system_stats_id) AS fitted_vs_empirical_delta,-- Difference between fitted slope (noisy obs) and empirical slope (ideal data).
@@ -100,12 +100,12 @@ SELECT
   calc_system_stats_quality_weighted_slope(t.system_stats_id) AS quality_weighted_slope,-- Fitted slope weighted by confidence (R²).
   calc_system_stats_residual_rms(t.system_stats_id) AS residual_rms,            -- RMS residual from fitted model.
   calc_system_stats_noise_sigma(t.system_stats_id) AS noise_sigma,              -- Noise level parameter from measurement model.
-  calc_system_stats_slope_to_noise_ratio(t.system_stats_id) AS slope_to_noise_ratio,-- Signal-to-noise ratio (slope magnitude vs. noise level).
+  calc_system_stats_slope_to_noise_ratio(t.system_stats_id) AS slope_to_noise_ratio,-- Signal-to-noise ratio (slope magnitude vs. noise level). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_system_stats_deviation_score(t.system_stats_id) AS deviation_score,      -- Composite error metric from inference_runs.
   calc_system_stats_abs_delta_log_measure(t.system_stats_id) AS abs_delta_log_measure,-- Absolute value of delta log measure.
   calc_system_stats_log_log_area(t.system_stats_id) AS log_log_area,            -- Area in log-log space (product of ranges).
-  calc_system_stats_data_density(t.system_stats_id) AS data_density,            -- Number of data points per unit area in log-log space.
-  calc_system_stats_relative_slope_error(t.system_stats_id) AS relative_slope_error-- Slope error as fraction of theoretical slope (percentage).
+  calc_system_stats_data_density(t.system_stats_id) AS data_density,            -- Number of data points per unit area in log-log space. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
+  calc_system_stats_relative_slope_error(t.system_stats_id) AS relative_slope_error-- Slope error as fraction of theoretical slope (percentage). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
 FROM system_stats t;
 
 -- ----------------------------------------------------------------------------
@@ -128,7 +128,7 @@ SELECT
   calc_measurement_models_mean_absolute_residual(t.measurement_model_id) AS mean_absolute_residual,-- Average absolute residual from fitted model for observations using this model.
   calc_measurement_models_outlier_count(t.measurement_model_id) AS outlier_count,-- Number of outlier points (|standardized residual| > 2.5) in observed_scales.
   calc_measurement_models_total_point_count(t.measurement_model_id) AS total_point_count,-- Total number of observed data points using this measurement model.
-  calc_measurement_models_outlier_rate(t.measurement_model_id) AS outlier_rate, -- Fraction of points that are outliers (quality metric).
+  calc_measurement_models_outlier_rate(t.measurement_model_id) AS outlier_rate, -- Fraction of points that are outliers (quality metric). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_measurement_models_effective_point_count(t.measurement_model_id) AS effective_point_count,-- Number of non-outlier points (usable for analysis).
   calc_measurement_models_residual_rms_from_inference(t.measurement_model_id) AS residual_rms_from_inference,-- RMS residual from inference_runs (total fit error).
   calc_measurement_models_cutoff_log_min_scale(t.measurement_model_id) AS cutoff_log_min_scale,-- Log10 of minimum cutoff scale.
@@ -161,9 +161,9 @@ SELECT
   calc_observed_scales_predicted_log_measure(t.observed_scale_id) AS predicted_log_measure,-- Predicted log measure from fitted model.
   calc_observed_scales_residual(t.observed_scale_id) AS residual,               -- Vertical distance from fitted line in log-log space.
   calc_observed_scales_residual_squared(t.observed_scale_id) AS residual_squared,-- Squared residual for aggregation into RMS calculations.
-  calc_observed_scales_standardized_residual(t.observed_scale_id) AS standardized_residual,-- Residual in units of RMS (number of standard deviations).
+  calc_observed_scales_standardized_residual(t.observed_scale_id) AS standardized_residual,-- Residual in units of RMS (number of standard deviations). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_observed_scales_is_outlier(t.observed_scale_id) AS is_outlier,           -- Outlier detection flag (>2.5 RMS units from fit).
-  calc_observed_scales_scale_ratio(t.observed_scale_id) AS scale_ratio,         -- Scale relative to base scale (multiplicative factor).
+  calc_observed_scales_scale_ratio(t.observed_scale_id) AS scale_ratio,         -- Scale relative to base scale (multiplicative factor). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_observed_scales_abs_residual(t.observed_scale_id) AS abs_residual        -- Absolute value of residual for aggregation.
 FROM observed_scales t;
 
@@ -189,7 +189,7 @@ SELECT
   t.residual_max_abs,                                                           -- Maximum absolute residual in log10 space.
   t.orthogonal_rms,                                                             -- RMS orthogonal distance to the fitted log-log line in (logScale, logMeasure) coordinates.
   t.deviation_score,                                                            -- Composite deviation score combining residual RMS and slope delta (units: log10 + slope).
-  calc_inference_runs_slope_confidence_interval(t.inference_run_id) AS slope_confidence_interval,-- Approximate 95% confidence interval for slope (simplified formula).
+  calc_inference_runs_slope_confidence_interval(t.inference_run_id) AS slope_confidence_interval,-- Approximate 95% confidence interval for slope (simplified formula). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_inference_runs_min_log_scale(t.inference_run_id) AS min_log_scale,       -- Minimum log scale in the observed data.
   calc_inference_runs_max_log_scale(t.inference_run_id) AS max_log_scale,       -- Maximum log scale in the observed data.
   calc_inference_runs_min_log_measure(t.inference_run_id) AS min_log_measure,   -- Minimum log measure in the observed data.
@@ -198,13 +198,13 @@ SELECT
   calc_inference_runs_abs_slope_delta(t.inference_run_id) AS abs_slope_delta,   -- Absolute value of slope delta.
   calc_inference_runs_slope_is_significant(t.inference_run_id) AS slope_is_significant,-- True if deviation from theory exceeds confidence interval (statistically significant).
   calc_inference_runs_one_plus_residual_rms(t.inference_run_id) AS one_plus_residual_rms,-- One plus residual RMS for efficiency calculation.
-  calc_inference_runs_fit_efficiency(t.inference_run_id) AS fit_efficiency,     -- Quality per unit error (higher is better).
-  calc_inference_runs_normalized_rmse(t.inference_run_id) AS normalized_rmse,   -- RMSE as fraction of total log measure range.
-  calc_inference_runs_slope_to_theoretical_ratio(t.inference_run_id) AS slope_to_theoretical_ratio,-- Ratio of fitted to theoretical slope (1.0 = perfect match).
+  calc_inference_runs_fit_efficiency(t.inference_run_id) AS fit_efficiency,     -- Quality per unit error (higher is better). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
+  calc_inference_runs_normalized_rmse(t.inference_run_id) AS normalized_rmse,   -- RMSE as fraction of total log measure range. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
+  calc_inference_runs_slope_to_theoretical_ratio(t.inference_run_id) AS slope_to_theoretical_ratio,-- Ratio of fitted to theoretical slope (1.0 = perfect match). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_inference_runs_one_minus_r2(t.inference_run_id) AS one_minus_r2,         -- One minus R² for adjusted R² calculation.
   calc_inference_runs_point_count_minus_one(t.inference_run_id) AS point_count_minus_one,-- Point count minus one (degrees of freedom).
   calc_inference_runs_point_count_minus_two(t.inference_run_id) AS point_count_minus_two,-- Point count minus two (degrees of freedom for regression).
-  calc_inference_runs_adjusted_r2(t.inference_run_id) AS adjusted_r2,           -- R² adjusted for degrees of freedom.
+  calc_inference_runs_adjusted_r2(t.inference_run_id) AS adjusted_r2,           -- R² adjusted for degrees of freedom. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).
   calc_inference_runs_residual_rms_squared(t.inference_run_id) AS residual_rms_squared,-- Squared residual RMS for BIC calculation.
   calc_inference_runs_log_residual_rms_squared(t.inference_run_id) AS log_residual_rms_squared,-- Log of squared residual RMS.
   calc_inference_runs_log_point_count(t.inference_run_id) AS log_point_count,   -- Natural log of point count.

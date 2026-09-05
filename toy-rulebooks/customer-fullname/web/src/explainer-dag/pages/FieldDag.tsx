@@ -63,7 +63,7 @@ function FieldDagInner({ table, field }: { table: string; field: string }): JSX.
   // the first paint already reflects the remembered choices (no flash).
   const pageClasses = useDocElementClasses();
 
-  // The baked RuleSpeak rule for this field (rendered at transpile time by the
+  // The baked RuleSpeak® rule for this field (rendered at transpile time by the
   // shared rulebook-rulespeak-core engine) + any deontic obligations keyed on it.
   const ruleSpeak = useMemo(() => ruleSpeakForField(table, field), [table, field]);
   const obligations = useMemo(() => obligationsForField(table, field), [table, field]);
@@ -95,7 +95,7 @@ function FieldDagInner({ table, field }: { table: string; field: string }): JSX.
   }
 
   // The fields this rule references, with the humanized labels used in the prose.
-  // Drives clickable refs in the RuleSpeak and English views (the formula view has
+  // Drives clickable refs in the RuleSpeak® and English views (the formula view has
   // its own chips). renderRef turns one matched label into a drill-in chip.
   const refs = ruleSpeak?.refs ?? [];
   const renderRef = (r: RuleSpeakRef, matched: string, key: number) => (
@@ -125,7 +125,7 @@ function FieldDagInner({ table, field }: { table: string; field: string }): JSX.
         // its own `.elem-<key>` block — the gear shows any combination at once
         // (all three stacked, or just one). CSS gates visibility; each card still
         // states its own empty case honestly (a formula-less roll-up has a
-        // RuleSpeak rule but no formula / English sentence, so those say so).
+        // RuleSpeak® rule but no formula / English sentence, so those say so).
         <>
           <div className="elem elem-rulespeak">
             <RuleSpeakCard
@@ -284,7 +284,7 @@ function FormulaCard({
       ) : (
         <p className="dag-english-text muted">
           This {kind} has no spreadsheet formula — it is a roll-up defined
-          structurally over a relationship. Switch to <strong>RuleSpeak</strong> to
+          structurally over a relationship. Switch to <strong>RuleSpeak®</strong> to
           see how it&rsquo;s defined.
         </p>
       )}
@@ -294,7 +294,7 @@ function FormulaCard({
 
 // English view: the formula read as a plain sentence ("True when …"), with each
 // referenced field a clickable in-prose link (drill into its DAG). A formula-less
-// roll-up has no formula to read aloud, so it says so and points to RuleSpeak.
+// roll-up has no formula to read aloud, so it says so and points to RuleSpeak®.
 function EnglishCard({
   english, refs, renderRef, kind,
 }: {
@@ -320,7 +320,7 @@ function EnglishCard({
         <p className="dag-english-text muted">
           This {kind} has no spreadsheet formula to read as a sentence — it is a
           roll-up defined structurally over a relationship. Switch to{" "}
-          <strong>RuleSpeak</strong> to see how it&rsquo;s defined.
+          <strong>RuleSpeak®</strong> to see how it&rsquo;s defined.
         </p>
       )}
     </section>
@@ -347,7 +347,7 @@ function InputCard({ node }: { node: FieldNode }): JSX.Element {
   const tone = typeTone(node.type);
   const FieldLink = useFieldLink();
 
-  // The input card always prefers the baked RuleSpeak rule (the headline reading),
+  // The input card always prefers the baked RuleSpeak® rule (the headline reading),
   // falling back to the formula-English so a field with no rendered rule still reads.
   const ruleSpeak = useMemo(
     () => ruleSpeakForField(node.table, node.field),
@@ -385,7 +385,7 @@ function InputCard({ node }: { node: FieldNode }): JSX.Element {
   );
 }
 
-// The RuleSpeak counterpart of FormulaCard: the same node, narrated as a
+// The RuleSpeak® counterpart of FormulaCard: the same node, narrated as a
 // declarative rule (rendered at transpile time by the shared engine) instead of
 // as a formula. Any deontic obligations keyed on this field appear beneath it.
 function RuleSpeakCard({
@@ -411,7 +411,7 @@ function RuleSpeakCard({
       {rule ? (
         <div className="dag-english dag-rs-rule">
           <span className="dag-english-label">
-            In RuleSpeak
+            In RuleSpeak®
             {mechanical && (
               <span className="dag-rs-mech" title="Faithful but clunky wording — a flag for an optional reword pass">
                 {" "}⚠︎ mechanical
@@ -445,8 +445,8 @@ function RuleSpeakCard({
 
       <p className="dag-formula-hint muted">
         {hasFormula
-          ? "This is the same logic the formula encodes, written as a business rule — rendered from the rulebook by the shared RuleSpeak engine."
-          : "Rendered from the rulebook by the shared RuleSpeak engine."}
+          ? "This is the same logic the formula encodes, written as a business rule — rendered from the rulebook by the shared RuleSpeak® engine."
+          : "Rendered from the rulebook by the shared RuleSpeak® engine."}
       </p>
     </section>
   );

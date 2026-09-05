@@ -18,6 +18,13 @@ What it emits, in order:
   4. RLS policies         -- the vertical cut, on public base tables
   5. CREATE SCHEMA + views-- the horizontal cut; the principal's only search_path
 
+Needs the live database to hold the generated schema (tables, calc_*
+functions, vw_* views -- postgres-bootstrap 01..05) because it validates every
+predicate with EXPLAIN against the real table and intersects granted columns
+with the real view columns. init-db.sh therefore runs it AFTER 00-05 and
+BEFORE applying 06. The app.* accessors the predicates call are installed by
+the generator itself before validation (see install_accessor_prelude).
+
 Refuses to emit a predicate that sub-selects its own table: Postgres raises
 'infinite recursion detected in policy for relation' at query time, which is a
 runtime failure the generator can prevent at build time.
@@ -67,6 +74,58 @@ def live_view_columns():
         v, c = line.split("\x1f")
         out.setdefault(v, set()).add(c)
     return out
+
+
+def accessor_prelude_sql():
+    """The app.* JWT accessor DDL, as lines. Fixed and idempotent (CREATE
+    SCHEMA IF NOT EXISTS / CREATE OR REPLACE), and NOT derived from rulebook
+    data -- policy predicates call these functions to read the caller."""
+    L = []
+    w = L.append
+    w("CREATE SCHEMA IF NOT EXISTS app;")
+    w("")
+    for fn, guc in [("jwt_email", "app.jwt_email"),
+                    ("jwt_principal", "app.jwt_principal"),
+                    ("jwt_organization", "app.jwt_organization"),
+                    ("jwt_role", "app.jwt_role"),
+                    ("jwt_user", "app.jwt_user")]:
+        w(f"CREATE OR REPLACE FUNCTION app.{fn}() RETURNS text")
+        w("  LANGUAGE sql STABLE AS $$")
+        w(f"    SELECT nullif(current_setting({sql_str(guc)}, true), '')")
+        w("  $$;")
+        w("")
+    w("CREATE OR REPLACE FUNCTION app.jwt_is_admin() RETURNS boolean")
+    w("  LANGUAGE sql STABLE AS $$")
+    w("    SELECT coalesce(current_setting('app.jwt_is_admin', true) = 'true',"
+      " false)")
+    w("  $$;")
+    w("")
+    return L
+
+
+def install_accessor_prelude():
+    """Install the app.* accessors into the live database BEFORE validating.
+
+    Predicates such as `owner_role = app.jwt_role()` reference these
+    functions, and until this existed the generator emitted them only as
+    section 1 of its own output -- so EXPLAIN could succeed only on a
+    database that had already loaded a previous 06-access-control.sql. On a
+    freshly created database every such predicate failed with 'schema "app"
+    does not exist' and the load could never complete (consistency rule
+    cr-20: no init step may require schema a later step creates). The
+    prelude is idempotent and carries no rulebook data, so applying it here
+    is safe; it is still emitted into the file so 06 stays self-contained.
+    """
+    import subprocess
+    db = os.environ.get(
+        "DATABASE_URL",
+        "postgresql://postgres@localhost:5432/erb_procedural_knowledge_ontology")
+    r = subprocess.run(
+        ["psql", db, "-qtA", "-v", "ON_ERROR_STOP=1", "-f", "-"],
+        input="\n".join(accessor_prelude_sql()), capture_output=True, text=True)
+    if r.returncode != 0:
+        raise SystemExit(
+            f"FATAL: cannot install app.* JWT accessors into {db}: {r.stderr}")
 
 
 def validate_predicates(policies, tables):
@@ -166,6 +225,7 @@ def main():
     # and then aborts the whole file mid-way -- leaving a half-applied security
     # configuration, which is worse than none.
     if not os.environ.get("SKIP_PREDICATE_CHECK"):
+        install_accessor_prelude()
         errors += validate_predicates(policies, tables)
 
     if errors:
@@ -197,24 +257,7 @@ def main():
     w("-- ---------- 1. JWT accessors -------------------------------------")
     w("-- Transaction-local GUCs, set once per request from a VERIFIED token.")
     w("-- Policies call these; they never read current_setting() directly.")
-    w("CREATE SCHEMA IF NOT EXISTS app;")
-    w("")
-    for fn, guc in [("jwt_email", "app.jwt_email"),
-                    ("jwt_principal", "app.jwt_principal"),
-                    ("jwt_organization", "app.jwt_organization"),
-                    ("jwt_role", "app.jwt_role"),
-                    ("jwt_user", "app.jwt_user")]:
-        w(f"CREATE OR REPLACE FUNCTION app.{fn}() RETURNS text")
-        w("  LANGUAGE sql STABLE AS $$")
-        w(f"    SELECT nullif(current_setting({sql_str(guc)}, true), '')")
-        w("  $$;")
-        w("")
-    w("CREATE OR REPLACE FUNCTION app.jwt_is_admin() RETURNS boolean")
-    w("  LANGUAGE sql STABLE AS $$")
-    w("    SELECT coalesce(current_setting('app.jwt_is_admin', true) = 'true',"
-      " false)")
-    w("  $$;")
-    w("")
+    L.extend(accessor_prelude_sql())
 
     # ---- 2. SECURITY DEFINER pass -----------------------------------------
     w("-- ---------- 2. SECURITY DEFINER pass ------------------------------")

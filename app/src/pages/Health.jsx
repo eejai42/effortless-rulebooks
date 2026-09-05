@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { fetchRows, fetchOne, num } from "../api.js";
+import { fetchRows, fetchOne, num, setFindingStatus } from "../api.js";
 import { useTables } from "../hooks.js";
 import { Async, Panel, Pill, DataTable, Progress, Stat, ExternalLink } from "../components.jsx";
 
@@ -8,6 +8,8 @@ export function Consistency() {
   const [statusFilter, setStatusFilter] = useState("open");
   const [ruleFilter, setRuleFilter] = useState("");
   const [projectFilter, setProjectFilter] = useState("");
+  const [version, setVersion] = useState(0);
+  const [closing, setClosing] = useState(null); // { id, error? }
   const state = useTables(["ConsistencyRules", "ConsistencyFindings", "RulebookDomains", "ProjectMetadata"], async () => {
     const [rules, findings, domains, meta] = await Promise.all([
       fetchRows("ConsistencyRules"),
@@ -23,7 +25,18 @@ export function Consistency() {
       slugByDomain,
       meta,
     };
-  });
+  }, version);
+
+  async function close(id, status) {
+    setClosing({ id });
+    try {
+      await setFindingStatus(id, status);
+      setClosing(null);
+      setVersion((v) => v + 1); // re-read every derived score from the views
+    } catch (error) {
+      setClosing({ id, error: error.message });
+    }
+  }
 
   return (
     <Async state={state} what="consistency">
@@ -42,6 +55,8 @@ export function Consistency() {
               <p className="summary">
                 Rules compare the canonical shape with what the filesystem scan witnessed. Every violation is a finding
                 row; fixed findings keep their history. Priority, sole-blocker and last-mile flags are rulebook formulas.
+                Closing a finding here writes its status into the rulebook and the base table; scanner-derived findings
+                close only by re-running the scan.
               </p>
               <nav className="subnav">
                 <Link className="active" to="/consistency">Consistency</Link>
@@ -126,6 +141,22 @@ export function Consistency() {
                   { key: "detail", label: "Detail" },
                   { key: "status", label: "Status", render: (f) => <Pill value={f.status} /> },
                   { key: "flags", label: "Flags", render: (f) => <>{f.is_sole_blocker && <Pill value="sole blocker" tone="bad" />} {f.is_last_mile && <Pill value="last mile" tone="info" />}</> },
+                  {
+                    key: "action",
+                    label: "Close",
+                    render: (f) => {
+                      if (!f.is_open) return <span className="muted">—</span>;
+                      if (!f.is_hand_closable) return <span className="muted">re-run <code>scripts/scan-project-slots.py</code></span>;
+                      const busy = closing && closing.id === f.consistency_finding_id;
+                      return (
+                        <span className="actions">
+                          <button className="chip" disabled={Boolean(closing)} onClick={() => close(f.consistency_finding_id, "fixed")}>{busy && !closing.error ? "closing…" : "mark fixed"}</button>{" "}
+                          <button className="chip" disabled={Boolean(closing)} onClick={() => close(f.consistency_finding_id, "accepted-exception")}>accept exception</button>
+                          {busy && closing.error && <span className="error-inline">{closing.error}</span>}
+                        </span>
+                      );
+                    },
+                  },
                 ]}
               />
             </Panel>

@@ -174,6 +174,25 @@ This demonstrates that the ERB platform isn't just for business domains:
 
 ---
 
+## App
+
+`app/` is an Express + React classification board that reads **only** the
+rulebook's Postgres views (`vw_language_candidates`,
+`vw_is_everything_a_language`) from database `erb_is_everything_a_language`.
+Each language candidate is a card showing the eight criteria the
+`PredictedAnswer` formula combines (the two negated ones marked `¬`), the
+Family Feud answer (`IsLanguage`) beside the rulebook's `PredictedAnswer`, the
+view's `PredictionPredicates` sentence, and `PredictionFail` when the two
+disagree. The `IsEverythingALanguage` argument steps sit in a framing panel;
+steps that cite a candidate highlight its card. A secondary "All views" tab
+browses every `vw_*` view raw. Nothing is recomputed in the app.
+
+```bash
+./start.sh        # web http://localhost:43101  ·  API http://localhost:43301/api/views
+```
+
+---
+
 ## Local transpiler bus (`localhost:4242`)
 
 > **All 13 local transpilers live on `localhost:4242`.** Start the bus with

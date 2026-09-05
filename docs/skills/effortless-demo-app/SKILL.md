@@ -282,7 +282,7 @@ These are non-obvious things that will bite if you don't plan for them:
    `"2026-05-01 00:00:00-05"`, not `"2026-05-01"`). Workaround: add
    a raw `<Thing>Key` field, set it server-side to the desired slug,
    and make `Name = ={{<Thing>Key}}`.
-4. **Don't put `LEFT JOIN` in `*b-customize-views.sql`.** If a lookup
+4. **Don't put `LEFT JOIN` in a `Views` ERBCustomizations row.** If a lookup
   isn't resolving, the bug is in the rulebook FK pattern (almost
    always: FK column holds a `Name` value instead of a `<Entity>Id`
    value), not something to paper over with a JOIN view. The

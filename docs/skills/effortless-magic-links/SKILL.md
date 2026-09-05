@@ -49,7 +49,7 @@ that means `AppUsers` (or whatever you call it) is a **rulebook entity**
 from `vw_app_users`.
 
 Do NOT create `app.app_users` (or `app.users`, `app.profiles`, etc.) by
-hand in `01b-customize-schema.sql`. That mirror will drift from the
+hand in a schema customization. That mirror will drift from the
 rulebook, never appear in views, and collide with the real entity once
 someone adds it the right way.
 
@@ -552,7 +552,7 @@ references a column that no longer exists.
 - [REFERENCE.md](REFERENCE.md) — long-tail material kept out of the core: Python/FastAPI middleware, the role-resolver recursion gotcha, refresh flow, multi-database tenant sharing, full cheat sheet.
 - `effortless-bases` — switch to this skill if the project's database lives on `bases.effortlessapi.com`. Bases-specific endpoints (`/auth/generate-policy`, `/auth/apply-privileges-template`) and pre-installed `app.jwt_*()` helpers replace much of Steps 4–5 here.
 - `effortless-orchestrator` — if this is an ERB project, `AppUsers` belongs in the rulebook, not in `app.app_users` by hand.
-- `effortless-sql` — for `*b-customize-*.sql` placement of `auth.trusted_tenants` and `app.jwt_*()` helpers in ERB projects.
+- `effortless-sql` — for placing `auth.trusted_tenants` and `app.jwt_*()` helpers in a customization (`ERBCustomizations` row preferred, `*b-customize-*` file also works).
 
 ---
 

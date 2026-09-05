@@ -2,6 +2,14 @@
 
 A **witnessed dependency graph** that turns Simpson's paradox from a textbook curiosity into a computational object. **299 studies** (290 real, 9 synthetic) share one entity model — the original 238-study Simpson's-paradox corpus plus a **250-candidate control-corpus wave** of non-paradox studies across 25 additional domains, added specifically to test whether the instrument's geometry is a selection artifact or a real regularity. Every derived value falls out of formulas declared in the rulebook; modeling choices are centralized there, not scattered in app code. The paradox itself is never modeled — it **emerges** as a derived fact from raw counts.
 
+## Watch the repository tour
+
+[![A Wins Twice. B Wins Overall. — watch the Rulebook Examples repository tour](assets/simpsons-paradox-repository-tour-player.png)](https://www.youtube.com/watch?v=lZmS67gkUes)
+
+▶ [**Play: A Wins Twice. B Wins Overall. | Rulebook Examples Tour**](https://www.youtube.com/watch?v=lZmS67gkUes)
+
+The video follows this project's kidney-stone counts through the inspectable ontology until `IsReversal` emerges as a derived value, zooms out across the full 299-study corpus, and shows `H-econ-zero` being retired when new economics data breaks an earlier observation. It finishes with the repeatable loop: read the README, run the project, change one formula, run `effortless build`, and inspect every projection that follows.
+
 **Start at `/discovery` or `/conclusions`.** Formal epistemic claims live in the rulebook `Conclusions` table — tiered by claim type (theorem · instrument · corpus snapshot). `DiscoveryHypotheses` split into **consistency checks** (definition-linked, e.g. H-purity) vs **corpus hypotheses** (contingent, provisional). SSoT is the rulebook JSON; the explorer reads `vw_*` views only. Run `./start.sh` → [Discovery Research](http://localhost:5173/discovery) · [Conclusions & Findings](http://localhost:5173/conclusions).
 
 [`simpsons-paradox-summary.pdf`](simpsons-paradox-summary.pdf) is a static export of the same tiered state (regenerated on `./init-db.sh`). For framing caveats — geometric vs causal, deductive vs empirical, convenience-sample limits — see [What this is not](#what-this-is-not) below.

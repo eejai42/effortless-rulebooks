@@ -16,6 +16,10 @@ A rulebook formalizing naive set theory with three-valued (Strong Kleene) member
 
 This is an ordinary governed project of the effortless-rulebooks repository: `effortless.json`, the hub under `effortless-rulebook/`, a typed `__meta__` table, this file, a README ending with the *Local transpiler bus* section, and an executable `./start.sh` that starts the project's intended local experience and prints its URLs. Readiness and consistency are derived in the root rulebook from witnessed slots; do not hand-assert them here.
 
+## App
+
+`app/` (Express `server.js` on port 43302, Vite + React on port 43102, launched by `./start.sh`) reads views only: every value on screen is a column of a `vw_*` view in `erb_naive_set_theory` (`PGDATABASE` overrides). It never recomputes a derived value in JS and never falls back silently; a missing view or unreachable database is a 500 that names what was expected, shown in the UI. The rulebook-to-postgres output is loaded with `./init-db.sh`.
+
 ## Loop
 
 ```bash

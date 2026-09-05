@@ -55,7 +55,7 @@ effortless-rulebooks/            ← the platform IS the repo; itself a project
 └── toy-rulebooks/<slug>/        ← projects that implement a piece or two
 ```
 
-Two physical folders, one concept: in the rulebook they are all project rows. `rulebook-examples/` projects target the full shape; `toy-rulebooks/` projects target the universal slots. `Area` records physical placement only; `IsToyByCoverage`, `IsFullyImplemented`, `ReadinessState`, `ExpectedArea`, and `IsMisfiled` are derived from witnessed slots.
+Two physical folders, one concept: in the rulebook they are all project rows. `Kind` declares whether a project is the root, a toy or an example; `Area` records physical placement only. `IsFullyImplemented`, `ReadinessState`, `ExpectedArea`, and `IsMisfiled` are derived from witnessed slots against the declared kind.
 
 ## Working with any project
 

@@ -18,7 +18,7 @@ interface Props {
   //   "pill"   — upstream/downstream card-list rendering with more space
   //   "inline" — a subtle in-prose link that wraps the EXACT words already in the
   //              sentence (passed as `children`); no glyph, no relabeling — so the
-  //              RuleSpeak / English text reads naturally but every ref is clickable
+  //              RuleSpeak® / English text reads naturally but every ref is clickable
   variant?: "chip" | "pill" | "inline";
   // How to display the foreign table prefix on the chip.
   //   "auto"  → show the table only when it differs from `pageTable`

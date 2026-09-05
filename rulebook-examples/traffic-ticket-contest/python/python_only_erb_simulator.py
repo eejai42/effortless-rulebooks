@@ -1729,8 +1729,8 @@ def calc_citations_response_due_date():
 
 
 def calc_citations_days_until_response_due():
-    """ERROR: Could not parse formula: ={{ResponseDueDate}} - {{AsOfDate}}
-    Error: '-'
+    """ERROR: Could not parse formula: =DAYS({{ResponseDueDate}}, {{AsOfDate}})
+    Error: Unknown function: DAYS
     """
     raise NotImplementedError("Formula parsing failed")
 
@@ -1777,8 +1777,8 @@ def calc_citations_amount_due_usd():
 
 
 def calc_citations_payment_due_date():
-    """ERROR: Could not parse formula: ={{ResponseDueDate}} + {{DaysToPayAfterRuling}}
-    Error: '+'
+    """ERROR: Could not parse formula: =DATEVALUE({{ResponseDueDate}}) + {{DaysToPayAfterRuling}}
+    Error: Unknown function: DATEVALUE
     """
     raise NotImplementedError("Formula parsing failed")
 
@@ -1793,8 +1793,8 @@ def calc_citations_is_payment_late():
 
 
 def calc_citations_is_in_collections():
-    """ERROR: Could not parse formula: =IF(AND({{IsPaymentLate}}, {{AsOfDate}} > ({{PaymentDueDate}} + {{DaysLateToCollections}})), TRUE, FALSE)
-    Error: '+'
+    """ERROR: Could not parse formula: =IF(AND({{IsPaymentLate}}, {{AsOfDate}} > DATEVALUE({{PaymentDueDate}}) + {{DaysLateToCollections}}), TRUE, FALSE)
+    Error: Unknown function: DATEVALUE
     """
     raise NotImplementedError("Formula parsing failed")
 

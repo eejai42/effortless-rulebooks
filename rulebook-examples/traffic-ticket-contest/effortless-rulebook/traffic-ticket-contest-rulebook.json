@@ -2,54 +2,6 @@
   "$schema": "https://example.com/cmcc-schema/v1",
   "Name": "traffic-ticket-contest",
   "Description": "A production-grade ERB platform (admin/state-machine/jurisdiction/routing/feature-catalog machinery, extracted from the industrial-ui-services portal) with traffic-ticket contest as the example domain. The platform tables carry the full production conventions; tickets are one domain riding on top.",
-  "_meta": {
-    "_CMCC_Summary": "Airtable export with schema-first type mapping: Schemas, Data, Relationships (FK links), Lookups (INDEX/MATCH), Aggregations (SUMIFS/COUNTIFS/Rollups), and Calculated fields (formulas) in Excel dialect. Field types are determined from Airtable's schema metadata FIRST (no coercion), with intelligent fallback to formula/data analysis only when schema is unavailable.",
-    "_conversion_metadata": {
-      "source_base_id": "appEBe2X4jsw5thxT",
-      "table_count": 30,
-      "tool_version": "2.0.0",
-      "field_type_mapping": "checkbox→boolean, number→number/integer, multipleRecordLinks→relationship, multipleLookupValues→lookup, rollup→aggregation, count→aggregation, formula→calculated",
-      "export_mode": "schema_first_type_mapping",
-      "type_inference": {
-        "enabled": true,
-        "priority": "airtable_metadata (NO COERCION) → formula_analysis → reference_resolution → data_analysis (fallback only)",
-        "airtable_type_mapping": "checkbox→boolean, singleLineText→string, multilineText→string, number→number/integer, datetime→datetime, singleSelect→string, email→string, url→string, phoneNumber→string",
-        "data_coercion_hierarchy": "Only used as fallback when Airtable schema unavailable: datetime → number → integer → boolean → base64 → json → string",
-        "nullable_support": true,
-        "error_value_handling": "#NUM!, #ERROR!, #N/A, #REF!, #DIV/0!, #VALUE!, #NAME? are treated as NULL"
-      }
-    },
-    "intake-protocol": {
-      "version": "1",
-      "claim-ref-source": "folder-slug",
-      "manifest-filename": "claim-datapoints.json",
-      "minimum-import-fields": [
-        "client-name",
-        "claim-number"
-      ],
-      "llm": {
-        "use-llm-parameter": "optional-on-transitions",
-        "default": false,
-        "fail-loud-without-key": true,
-        "lazy-enrich-default": true,
-        "rep-initiated-claim-update": "allowed-gated"
-      },
-      "stale": {
-        "definition": "per-file local.mtime < remote.mtime OR local missing",
-        "computed-in": "rulebook-views",
-        "workbench-window-days-default": 14
-      },
-      "cache": {
-        "layout": "{sftp-local-dir}/{claim-ref}/",
-        "pull-granularity": "per-file"
-      },
-      "sftp": {
-        "remote-dir-poc": "/Examples",
-        "remote-dir-production": "/LiveClaims",
-        "port": 8000
-      }
-    }
-  },
   "BusinessRules": {
     "schema": [
       {
@@ -26500,6 +26452,24 @@
         "ValueType": "string",
         "StringValue": "The traffic-ticket-contest rulebook is a fully-specified, buildable platform spec: 90+ features each with SourceText + RuleRefs + a nav route + tests; 57 business rules; 36 API actions; 4 complete state machines; 194 conformance test cases; 525+ screen/field display hints; all FKs and refs consistency-gated.",
         "JsonValue": null
+      },
+      {
+        "MetaKey": "cmcc_summary",
+        "ValueType": "string",
+        "StringValue": "Airtable export with schema-first type mapping: Schemas, Data, Relationships (FK links), Lookups (INDEX/MATCH), Aggregations (SUMIFS/COUNTIFS/Rollups), and Calculated fields (formulas) in Excel dialect. Field types are determined from Airtable's schema metadata FIRST (no coercion), with intelligent fallback to formula/data analysis only when schema is unavailable.",
+        "JsonValue": null
+      },
+      {
+        "MetaKey": "conversion_metadata",
+        "ValueType": "object",
+        "StringValue": null,
+        "JsonValue": "{\"source_base_id\": \"appEBe2X4jsw5thxT\", \"table_count\": 30, \"tool_version\": \"2.0.0\", \"field_type_mapping\": \"checkbox→boolean, number→number/integer, multipleRecordLinks→relationship, multipleLookupValues→lookup, rollup→aggregation, count→aggregation, formula→calculated\", \"export_mode\": \"schema_first_type_mapping\", \"type_inference\": {\"enabled\": true, \"priority\": \"airtable_metadata (NO COERCION) → formula_analysis → reference_resolution → data_analysis (fallback only)\", \"airtable_type_mapping\": \"checkbox→boolean, singleLineText→string, multilineText→string, number→number/integer, datetime→datetime, singleSelect→string, email→string, url→string, phoneNumber→string\", \"data_coercion_hierarchy\": \"Only used as fallback when Airtable schema unavailable: datetime → number → integer → boolean → base64 → json → string\", \"nullable_support\": true, \"error_value_handling\": \"#NUM!, #ERROR!, #N/A, #REF!, #DIV/0!, #VALUE!, #NAME? are treated as NULL\"}}"
+      },
+      {
+        "MetaKey": "intake_protocol",
+        "ValueType": "object",
+        "StringValue": null,
+        "JsonValue": "{\"version\": \"1\", \"claim-ref-source\": \"folder-slug\", \"manifest-filename\": \"claim-datapoints.json\", \"minimum-import-fields\": [\"client-name\", \"claim-number\"], \"llm\": {\"use-llm-parameter\": \"optional-on-transitions\", \"default\": false, \"fail-loud-without-key\": true, \"lazy-enrich-default\": true, \"rep-initiated-claim-update\": \"allowed-gated\"}, \"stale\": {\"definition\": \"per-file local.mtime < remote.mtime OR local missing\", \"computed-in\": \"rulebook-views\", \"workbench-window-days-default\": 14}, \"cache\": {\"layout\": \"{sftp-local-dir}/{claim-ref}/\", \"pull-granularity\": \"per-file\"}, \"sftp\": {\"remote-dir-poc\": \"/Examples\", \"remote-dir-production\": \"/LiveClaims\", \"port\": 8000}}"
       }
     ]
   },

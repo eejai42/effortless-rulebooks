@@ -156,10 +156,10 @@ effortless -install rulebook-to-airtable -i ../effortless-rulebook.json -account
 ## Pipeline Flow
 
 ```
-Airtable Base (optional input spoke)
-    |  airtable-to-rulebook
-    v
-effortless-rulebook.json  ← THE HUB / SSoT
+LLM-direct / hand edits (default)     Airtable Base (optional, if connected)
+    |                                     |  airtable-to-rulebook
+    v                                     v
+              effortless-rulebook.json  ← THE HUB / SSoT
     |                    |                    |
     |  rulebook-to-      |  rulebook-to-      |  json-hbars-
     |  postgres          |  xlsx              |  transform
@@ -171,9 +171,11 @@ postgres/            output.xlsx          README.SCHEMA.md
 Running PostgreSQL Database
 ```
 
-Other input spokes can also write to the hub — LLM-direct edits, hand edits, or
-reverse-sync — and any of them feed the same downstream transpilers. Airtable is one
-optional input, not the source of truth.
+Most projects write to the hub directly (LLM-direct or hand edits) — that's the
+default and needs no transpiler. Airtable is one optional input spoke, only present
+if the project connected it; reverse-sync is another. All of them feed the same
+downstream transpilers — the hub, not any particular input spoke, is the source of
+truth.
 
 ## Two deployment shapes — and only one of them uses migrations
 

@@ -1886,19 +1886,19 @@
         "ValueType": "string",
         "StringValue": "debate / philosophy of religion",
         "JsonValue": null
+      },
+      {
+        "MetaKey": "cmcc_summary",
+        "ValueType": "string",
+        "StringValue": "Shadle-steps bootstrap of a philosophical debate into a DAG-structured rulebook hub.",
+        "JsonValue": null
+      },
+      {
+        "MetaKey": "conversion_metadata",
+        "ValueType": "object",
+        "StringValue": null,
+        "JsonValue": "{\"source\": \"VCU 'Does God Exist?' debate transcript (Hitchens vs Turek)\", \"method\": \"effortless-bootstrap (Shadle steps) 1-10, Rulebook-First\", \"table_count\": 11, \"tool_version\": \"shadle-manual-1.1\", \"dag_depth\": 3, \"field_type_mapping\": \"raw, calculated, relationship, aggregation\", \"copyright_note\": \"Quotations stored as paraphrased gists, never long verbatim.\"}"
       }
     ]
-  },
-  "_meta": {
-    "_CMCC_Summary": "Shadle-steps bootstrap of a philosophical debate into a DAG-structured rulebook hub.",
-    "_conversion_metadata": {
-      "source": "VCU 'Does God Exist?' debate transcript (Hitchens vs Turek)",
-      "method": "effortless-bootstrap (Shadle steps) 1-10, Rulebook-First",
-      "table_count": 11,
-      "tool_version": "shadle-manual-1.1",
-      "dag_depth": 3,
-      "field_type_mapping": "raw, calculated, relationship, aggregation",
-      "copyright_note": "Quotations stored as paraphrased gists, never long verbatim."
-    }
   }
 }

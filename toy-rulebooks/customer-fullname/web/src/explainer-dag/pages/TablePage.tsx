@@ -1,5 +1,5 @@
 // One table, all its columns. Each column shows its type, a one-line explanation
-// (the formula's English, or its RuleSpeak rule — following the global toggle),
+// (the formula's English, or its RuleSpeak® rule — following the global toggle),
 // and links into that column's full DAG page. Reached by clicking a table name
 // anywhere, or from the tables index.
 

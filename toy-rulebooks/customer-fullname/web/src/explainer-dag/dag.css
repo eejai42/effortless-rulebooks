@@ -790,11 +790,11 @@
 .dag-xlsx-download svg { display: block; }
 .dag-xlsx-label { letter-spacing: 0.02em; }
 
-/* ── Narration toggle (Formula ⇄ RuleSpeak) ──────────────────────────────────
+/* ── Narration toggle (Formula ⇄ RuleSpeak®) ──────────────────────────────────
    Mirrors the provenance-graph toggle; the choice is remembered in localStorage.
-   RuleSpeak gets its own accent (deep green — the "obligation / rule" register). */
+   RuleSpeak® gets its own accent (deep green — the "obligation / rule" register). */
 :root {
-  --dag-rs:    #1f6b46;  /* RuleSpeak green */
+  --dag-rs:    #1f6b46;  /* RuleSpeak® green */
   --dag-rs-bg: #e8f3ec;
 }
 /* ── Top bar: back · home · breadcrumb  +  global narration slider ─────────── */
@@ -932,7 +932,7 @@
 .dag-gear-reset:hover { text-decoration: underline; }
 
 /* In-prose clickable field reference (the words themselves become a quiet link
-   in the English / RuleSpeak text). Type-tinted underline; no glyph, no relabel. */
+   in the English / RuleSpeak® text). Type-tinted underline; no glyph, no relabel. */
 .fc-inline {
   text-decoration: none;
   color: inherit;
@@ -949,7 +949,7 @@
 .fc-inline-rel    { color: var(--dag-rel); }
 .fc-inline-lookup { color: var(--dag-lookup); }
 
-/* ── RuleSpeak card ──────────────────────────────────────────────────────────
+/* ── RuleSpeak® card ──────────────────────────────────────────────────────────
    The declarative-rule counterpart of the formula card. */
 .dag-rulespeak { border-left: 4px solid var(--dag-rs); }
 .dag-rs-rule { background: var(--dag-rs-bg); }
@@ -1072,7 +1072,7 @@
 .dag-col-rel-target:hover { background: color-mix(in srgb, var(--dag-rel) 16%, #fff); }
 
 /* ── RuleTree: nested outline for priority ladders & AND/OR rules ────────────
-   RuleSpeak lays multi-condition / priority rules out as a list, not a run-on
+   RuleSpeak® lays multi-condition / priority rules out as a list, not a run-on
    sentence. Cases are numbered; AND/OR groups nest as indented bullets. */
 .dag-rt { font-size: 15px; line-height: 1.5; color: #16341f; }
 .dag-rt-headline { margin: 0 0 8px; font-weight: 600; }

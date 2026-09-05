@@ -1,5 +1,5 @@
 // Hover-triggered micro page for a DagCell's field. Shows the SAME single
-// dialect the full /dag/:table/:field page shows — RuleSpeak · English · Formula
+// dialect the full /dag/:table/:field page shows — RuleSpeak® · English · Formula
 // — following the same global narration choice (lib/dagPrefs), so the card and
 // the page never disagree and a presenter sees exactly one explanation at a time.
 //
@@ -48,7 +48,7 @@ export function DagHoverCard({ dag, anchor, onMouseEnter, onMouseLeave }: Props)
   const tone = typeTone(dag.type);
   // The hovercard is a compact 360px preview, so it shows ONE narration — the
   // first enabled in the gear (rulespeak → english → formula), defaulting to
-  // RuleSpeak if all three are off. The roomy /dag page stacks all enabled ones.
+  // RuleSpeak® if all three are off. The roomy /dag page stacks all enabled ones.
   const docs = useDocElements();
   const mode: "rulespeak" | "english" | "formula" =
     docs.rulespeak ? "rulespeak" : docs.english ? "english" : docs.formula ? "formula" : "rulespeak";
@@ -70,7 +70,7 @@ export function DagHoverCard({ dag, anchor, onMouseEnter, onMouseLeave }: Props)
   }, [dag.formula]);
 
   // The fields this rule references — drives clickable in-prose refs in the
-  // RuleSpeak / English dialects (the formula dialect chips its own fields).
+  // RuleSpeak® / English dialects (the formula dialect chips its own fields).
   // Same renderRef shape the full page uses, so a ref looks identical here.
   const refs = ruleSpeak?.refs ?? [];
   const renderRef = (r: RuleSpeakRef, matched: string, key: number) => (
@@ -154,11 +154,11 @@ export function DagHoverCard({ dag, anchor, onMouseEnter, onMouseLeave }: Props)
           </span>
         )}
 
-        {/* The one dialect the global toggle selects — exactly one of RuleSpeak /
+        {/* The one dialect the global toggle selects — exactly one of RuleSpeak® /
             English / Formula, never two at once, and ALWAYS the chosen one (the
             toggle must never feel dead). Raw / relationship cells have no rule to
             narrate, so this block is skipped for them. A formula-less roll-up has
-            a RuleSpeak rule but no formula / English — those dialects say so. */}
+            a RuleSpeak® rule but no formula / English — those dialects say so. */}
         {(dag.type !== "raw" && dag.type !== "relationship") && (
           mode === "rulespeak"
           ? <HoverRuleSpeak ruleSpeak={ruleSpeak} refs={refs} renderRef={renderRef} />
@@ -205,11 +205,11 @@ function HoverRuleSpeak({
   renderRef: (r: RuleSpeakRef, matched: string, key: number) => ReactNode;
 }): JSX.Element {
   // The hover is a compact 360px preview, so it always shows the flat
-  // single-sentence RuleSpeak rule (refs still clickable) — the full nested
+  // single-sentence RuleSpeak® rule (refs still clickable) — the full nested
   // priority/AND-OR outline is reserved for the roomy /dag page (RuleTree).
   return (
     <span className="dag-hovercard-english">
-      <span className="dag-hovercard-label">In RuleSpeak</span>
+      <span className="dag-hovercard-label">In RuleSpeak®</span>
       {ruleSpeak?.rule ? (
         <span className="dag-hovercard-english-text">{renderRuleRich(ruleSpeak.rule, refs, renderRef)}.</span>
       ) : (
@@ -232,7 +232,7 @@ function HoverEnglish({
       <span className={`dag-hovercard-english-text${english ? "" : " dag-hovercard-muted"}`}>
         {english
           ? <>{linkifyText(english, refs, renderRef)}.</>
-          : "No formula — a structural roll-up. See RuleSpeak."}
+          : "No formula — a structural roll-up. See RuleSpeak®."}
       </span>
     </span>
   );
@@ -254,7 +254,7 @@ function HoverFormula({
         </span>
       ) : (
         <span className="dag-hovercard-english-text dag-hovercard-muted">
-          No formula — a structural roll-up. See RuleSpeak.
+          No formula — a structural roll-up. See RuleSpeak®.
         </span>
       )}
     </span>

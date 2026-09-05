@@ -14,9 +14,8 @@
       "RelativePath": "/rulespeak-english",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.06.10.1308",
-      "LastVersionUsed": "v2026.06.10.1308",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,

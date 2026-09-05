@@ -489,11 +489,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_scales_scale_ratio(p_scale_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{Scale}} / NULLIF({{BaseScale}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_scales_base_scale(p_scale_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_scales_scale(p_scale_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_scales_log_scale_normalized
@@ -503,11 +499,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_scales_log_scale_normalized(p_scale_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   =({{LogScale}} - {{SystemMinLogScale}}) / NULLIF({{SystemDeltaLogScale}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_scales_system_delta_log_scale(p_scale_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_scales_log_scale(p_scale_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_scales_system_min_log_scale(p_scale_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_system_stats_system_display_name
@@ -594,7 +586,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_system_stats_point_count(p_system_stats_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((SELECT COUNT(*) FROM scales WHERE NULLIF = (SELECT NULLIF("system", '') FROM system_stats WHERE system_stats_id = p_system_stats_id)))::integer;
+  SELECT ((SELECT COUNT(*) FROM scales WHERE "system" = (SELECT NULLIF("system", '') FROM system_stats WHERE system_stats_id = p_system_stats_id)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_system_stats_min_log_scale
@@ -664,11 +656,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_system_stats_empirical_log_log_slope(p_system_stats_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{DeltaLogMeasure}} / NULLIF({{DeltaLogScale}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_system_stats_delta_log_scale(p_system_stats_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_system_stats_delta_log_measure(p_system_stats_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_system_stats_slope_error
@@ -708,11 +696,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_system_stats_slope_to_noise_ratio(p_system_stats_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   =ABS({{EmpiricalLogLogSlope}}) / NULLIF({{NoiseSigma}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_system_stats_noise_sigma(p_system_stats_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (ABS(calc_system_stats_empirical_log_log_slope(p_system_stats_id))) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_system_stats_abs_delta_log_measure
@@ -742,11 +726,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_system_stats_data_density(p_system_stats_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{PointCount}} / NULLIF({{LogLogArea}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_system_stats_log_log_area(p_system_stats_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_system_stats_point_count(p_system_stats_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_system_stats_relative_slope_error
@@ -756,11 +736,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_system_stats_relative_slope_error(p_system_stats_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{SlopeError}} / NULLIF({{TheoreticalLogLogSlope}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_system_stats_theoretical_log_log_slope(p_system_stats_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_system_stats_slope_error(p_system_stats_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_measurement_models_residual_rms_from_inference
@@ -811,11 +787,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_measurement_models_outlier_rate(p_measurement_model_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{OutlierCount}} / NULLIF({{TotalPointCount}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_measurement_models_total_point_count(p_measurement_model_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_measurement_models_outlier_count(p_measurement_model_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_measurement_models_effective_point_count
@@ -990,11 +962,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_observed_scales_standardized_residual(p_observed_scale_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{Residual}} / NULLIF({{ResidualRMS}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_observed_scales_residual_rms(p_observed_scale_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_observed_scales_residual(p_observed_scale_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_observed_scales_is_outlier
@@ -1014,11 +982,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_observed_scales_scale_ratio(p_observed_scale_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{Scale}} / NULLIF({{BaseScale}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_observed_scales_base_scale(p_observed_scale_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_observed_scales_scale(p_observed_scale_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_observed_scales_abs_residual
@@ -1038,11 +1002,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_inference_runs_slope_confidence_interval(p_inference_run_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   =1.96 * ({{ResidualRMS}} / NULLIF(SQRT({{PointCount}}), 0))
-*/
-NULL::numeric;
+  SELECT (CASE WHEN ((SELECT point_count FROM inference_runs WHERE inference_run_id = p_inference_run_id))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE(1.96, 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT residual_rms FROM inference_runs WHERE inference_run_id = p_inference_run_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (SQRT(((SELECT point_count FROM inference_runs WHERE inference_run_id = p_inference_run_id))::NUMERIC)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_inference_runs_min_log_scale
@@ -1132,11 +1092,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_inference_runs_fit_efficiency(p_inference_run_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{R2}} / NULLIF({{OnePlusResidualRMS}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_inference_runs_one_plus_residual_rms(p_inference_run_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT r2 FROM inference_runs WHERE inference_run_id = p_inference_run_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_inference_runs_normalized_rmse
@@ -1146,11 +1102,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_inference_runs_normalized_rmse(p_inference_run_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{ResidualRMS}} / NULLIF({{LogMeasureRange}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_inference_runs_log_measure_range(p_inference_run_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT residual_rms FROM inference_runs WHERE inference_run_id = p_inference_run_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_inference_runs_slope_to_theoretical_ratio
@@ -1160,11 +1112,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_inference_runs_slope_to_theoretical_ratio(p_inference_run_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   ={{FittedSlope}} / NULLIF({{TheoreticalLogLogSlope}}, 0)
-*/
-NULL::numeric;
+  SELECT (CASE WHEN ((SELECT theoretical_log_log_slope FROM inference_runs WHERE inference_run_id = p_inference_run_id))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT fitted_slope FROM inference_runs WHERE inference_run_id = p_inference_run_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT theoretical_log_log_slope FROM inference_runs WHERE inference_run_id = p_inference_run_id)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_inference_runs_one_minus_r2
@@ -1204,11 +1152,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_inference_runs_adjusted_r2(p_inference_run_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: Function 'NULLIF' is not supported yet
-   Original Airtable formula:
-   =1 - {{OneMinusR2}} * {{PointCountMinusOne}} / NULLIF({{PointCountMinusTwo}}, 0)
-*/
-NULL::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_inference_runs_point_count_minus_two(p_inference_run_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE(1, 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_inference_runs_one_minus_r2(p_inference_run_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_inference_runs_point_count_minus_one(p_inference_run_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_inference_runs_residual_rms_squared

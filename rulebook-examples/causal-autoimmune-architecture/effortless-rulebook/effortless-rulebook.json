@@ -17322,18 +17322,20 @@
         "ValueType": "boolean",
         "Description": "Total-coverage contract toggle: assert every DAG node linked to the patient down to ground truth contributes a fragment or a named suppression (tfs-report-covers-every-dag-node).",
         "Source": "design-decision-2026-06-19"
+      },
+      {
+        "MetaKey": "cmcc_summary",
+        "ValueType": "string",
+        "StringValue": "Loop 0: solve-by-inference rulebook for the Causal Autoimmune Architecture Platform. The keystone IndividualPredictions.IsClinicallyActionable is derived through a calculated-field DAG bottoming out only in raw observations. The per-patient diagnosis report is a derived, total-coverage projection: every patient word and every linked DAG node down to ground truth renders as predicate-gated structured natural language assembled from per-row narrative fragment fields (each one spreadsheet-cell simple), drawing reusable phrases and band thresholds from the __meta__ settings table.",
+        "JsonValue": null
+      },
+      {
+        "MetaKey": "conversion_metadata",
+        "ValueType": "object",
+        "StringValue": null,
+        "JsonValue": "{\"source\": \"shadle-bootstrap\", \"table_count\": 22, \"tool_version\": \"loop-0-solve-by-inference-2026-06-19\", \"export_mode\": \"rulebook_first\", \"vocabulary_coverage\": \"all domain terms in descriptions, field names, and data values\"}"
       }
     ]
-  },
-  "_meta": {
-    "_CMCC_Summary": "Loop 0: solve-by-inference rulebook for the Causal Autoimmune Architecture Platform. The keystone IndividualPredictions.IsClinicallyActionable is derived through a calculated-field DAG bottoming out only in raw observations. The per-patient diagnosis report is a derived, total-coverage projection: every patient word and every linked DAG node down to ground truth renders as predicate-gated structured natural language assembled from per-row narrative fragment fields (each one spreadsheet-cell simple), drawing reusable phrases and band thresholds from the __meta__ settings table.",
-    "_conversion_metadata": {
-      "source": "shadle-bootstrap",
-      "table_count": 22,
-      "tool_version": "loop-0-solve-by-inference-2026-06-19",
-      "export_mode": "rulebook_first",
-      "vocabulary_coverage": "all domain terms in descriptions, field names, and data values"
-    }
   },
   "DiseaseDomainConcepts": {
     "Description": "v2 vocabulary completeness: every disease-domain concept the v1 audit named, with its modeling status and the challenge-stressor TYPE it instantiates. Makes the coverage claim checkable by grep, not by trust.",

@@ -2,7 +2,7 @@
   "schema_version": "erb.explain_spec.v1",
   "rulebook": {
     "name": "traffic-ticket-contest",
-    "rulebook_hash": "sha256:58edaa75bd4c46b8110f886df502b9b7"
+    "rulebook_hash": "sha256:c2e2cfc85065c7f9f581a769d52c442d"
   },
   "semantics": {
     "profile": "excel",
@@ -15125,8 +15125,8 @@
           "description": "Deadline to respond: IssuedOn + the jurisdiction's response window."
         },
         "DaysUntilResponseDue": {
-          "formula_source": "={{ResponseDueDate}} - {{AsOfDate}}",
-          "template_hash": "sha256:215370f71630f050",
+          "formula_source": "=DAYS({{ResponseDueDate}}, {{AsOfDate}})",
+          "template_hash": "sha256:465de3224a96fffa",
           "root_node": "n_result_DaysUntilResponseDue",
           "nodes": {
             "n_ref_1": {
@@ -15139,9 +15139,9 @@
               "field": "AsOfDate",
               "field_snake": "as_of_date"
             },
-            "n_op_3": {
-              "kind": "op",
-              "name": "-",
+            "n_fn_3": {
+              "kind": "fn",
+              "name": "DAYS",
               "args": [
                 "n_ref_1",
                 "n_ref_2"
@@ -15152,21 +15152,21 @@
               "field": "DaysUntilResponseDue",
               "field_snake": "days_until_response_due",
               "in": [
-                "n_op_3"
+                "n_fn_3"
               ]
             }
           },
           "edges": [
             [
               "n_ref_1",
-              "n_op_3"
+              "n_fn_3"
             ],
             [
               "n_ref_2",
-              "n_op_3"
+              "n_fn_3"
             ],
             [
-              "n_op_3",
+              "n_fn_3",
               "n_result_DaysUntilResponseDue"
             ]
           ],
@@ -15862,8 +15862,8 @@
           "description": "Amount currently owed: 0 if dismissed; otherwise the base fine plus the jurisdiction's late penalty if the payment is late."
         },
         "PaymentDueDate": {
-          "formula_source": "={{ResponseDueDate}} + {{DaysToPayAfterRuling}}",
-          "template_hash": "sha256:a412a8b76271d938",
+          "formula_source": "=DATEVALUE({{ResponseDueDate}}) + {{DaysToPayAfterRuling}}",
+          "template_hash": "sha256:fdb60a73773fc234",
           "root_node": "n_result_PaymentDueDate",
           "nodes": {
             "n_ref_1": {
@@ -15871,17 +15871,24 @@
               "field": "ResponseDueDate",
               "field_snake": "response_due_date"
             },
-            "n_ref_2": {
+            "n_fn_2": {
+              "kind": "fn",
+              "name": "DATEVALUE",
+              "args": [
+                "n_ref_1"
+              ]
+            },
+            "n_ref_3": {
               "kind": "field_ref",
               "field": "DaysToPayAfterRuling",
               "field_snake": "days_to_pay_after_ruling"
             },
-            "n_op_3": {
+            "n_op_4": {
               "kind": "op",
               "name": "+",
               "args": [
-                "n_ref_1",
-                "n_ref_2"
+                "n_fn_2",
+                "n_ref_3"
               ]
             },
             "n_result_PaymentDueDate": {
@@ -15889,21 +15896,25 @@
               "field": "PaymentDueDate",
               "field_snake": "payment_due_date",
               "in": [
-                "n_op_3"
+                "n_op_4"
               ]
             }
           },
           "edges": [
             [
               "n_ref_1",
-              "n_op_3"
+              "n_fn_2"
             ],
             [
-              "n_ref_2",
-              "n_op_3"
+              "n_fn_2",
+              "n_op_4"
             ],
             [
-              "n_op_3",
+              "n_ref_3",
+              "n_op_4"
+            ],
+            [
+              "n_op_4",
               "n_result_PaymentDueDate"
             ]
           ],
@@ -16031,8 +16042,8 @@
           "description": "True when the driver is liable, has not paid in full, and the payment due date has passed as of AsOfDate."
         },
         "IsInCollections": {
-          "formula_source": "=IF(AND({{IsPaymentLate}}, {{AsOfDate}} > ({{PaymentDueDate}} + {{DaysLateToCollections}})), TRUE, FALSE)",
-          "template_hash": "sha256:497e48481683a057",
+          "formula_source": "=IF(AND({{IsPaymentLate}}, {{AsOfDate}} > DATEVALUE({{PaymentDueDate}}) + {{DaysLateToCollections}}), TRUE, FALSE)",
+          "template_hash": "sha256:219a7e4391cfff42",
           "root_node": "n_result_IsInCollections",
           "nodes": {
             "n_ref_1": {
@@ -16050,52 +16061,59 @@
               "field": "PaymentDueDate",
               "field_snake": "payment_due_date"
             },
-            "n_ref_4": {
+            "n_fn_4": {
+              "kind": "fn",
+              "name": "DATEVALUE",
+              "args": [
+                "n_ref_3"
+              ]
+            },
+            "n_ref_5": {
               "kind": "field_ref",
               "field": "DaysLateToCollections",
               "field_snake": "days_late_to_collections"
             },
-            "n_op_5": {
+            "n_op_6": {
               "kind": "op",
               "name": "+",
               "args": [
-                "n_ref_3",
-                "n_ref_4"
+                "n_fn_4",
+                "n_ref_5"
               ]
             },
-            "n_op_6": {
+            "n_op_7": {
               "kind": "op",
               "name": ">",
               "args": [
                 "n_ref_2",
-                "n_op_5"
+                "n_op_6"
               ]
             },
-            "n_fn_7": {
+            "n_fn_8": {
               "kind": "fn",
               "name": "AND",
               "args": [
                 "n_ref_1",
-                "n_op_6"
+                "n_op_7"
               ]
             },
-            "n_const_8": {
+            "n_const_9": {
               "kind": "const",
               "value": true,
               "type": "boolean"
             },
-            "n_const_9": {
+            "n_const_10": {
               "kind": "const",
               "value": false,
               "type": "boolean"
             },
-            "n_fn_10": {
+            "n_fn_11": {
               "kind": "fn",
               "name": "IF",
               "args": [
-                "n_fn_7",
-                "n_const_8",
-                "n_const_9"
+                "n_fn_8",
+                "n_const_9",
+                "n_const_10"
               ]
             },
             "n_result_IsInCollections": {
@@ -16103,49 +16121,53 @@
               "field": "IsInCollections",
               "field_snake": "is_in_collections",
               "in": [
-                "n_fn_10"
+                "n_fn_11"
               ]
             }
           },
           "edges": [
             [
               "n_ref_3",
-              "n_op_5"
+              "n_fn_4"
             ],
             [
-              "n_ref_4",
-              "n_op_5"
+              "n_fn_4",
+              "n_op_6"
+            ],
+            [
+              "n_ref_5",
+              "n_op_6"
             ],
             [
               "n_ref_2",
-              "n_op_6"
-            ],
-            [
-              "n_op_5",
-              "n_op_6"
-            ],
-            [
-              "n_ref_1",
-              "n_fn_7"
+              "n_op_7"
             ],
             [
               "n_op_6",
-              "n_fn_7"
+              "n_op_7"
             ],
             [
-              "n_fn_7",
-              "n_fn_10"
+              "n_ref_1",
+              "n_fn_8"
             ],
             [
-              "n_const_8",
-              "n_fn_10"
+              "n_op_7",
+              "n_fn_8"
+            ],
+            [
+              "n_fn_8",
+              "n_fn_11"
             ],
             [
               "n_const_9",
-              "n_fn_10"
+              "n_fn_11"
             ],
             [
-              "n_fn_10",
+              "n_const_10",
+              "n_fn_11"
+            ],
+            [
+              "n_fn_11",
               "n_result_IsInCollections"
             ]
           ],

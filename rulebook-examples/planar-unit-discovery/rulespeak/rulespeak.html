@@ -1086,15 +1086,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A point set member's <a class="ref" href="#en-f-pointsetmembers-name">name</a> is computed as the <a class="ref" href="#en-f-pointsetmembers-pointset">point set</a> divided by the <a class="ref" href="#en-f-pointsetmembers-point">point</a>.</p>
+        <p class="view-body">A point set member's <a class="ref" href="#en-f-pointsetmembers-name">name</a> is computed as the <a class="ref" href="#en-f-pointsetmembers-pointset">point set</a>, followed by a slash, followed by the <a class="ref" href="#en-f-pointsetmembers-point">point</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-pointsetmembers-pointset">Point set</a> divided by <a class="ref" href="#en-f-pointsetmembers-point">point</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-pointsetmembers-pointset">Point set</a>, &quot;/&quot;, joined with <a class="ref" href="#en-f-pointsetmembers-point">point</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-pointsetmembers-pointset">Point Set</a>/<a class="fx-chip" href="#en-f-pointsetmembers-point">Point</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-pointsetmembers-pointset">Point Set</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-pointsetmembers-point">Point</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1192,15 +1192,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A point pair's <a class="ref" href="#en-f-pointpairs-name">name</a> is computed as the <a class="ref" href="#en-f-pointpairs-pointset">point set</a> divided by the <a class="ref" href="#en-f-pointpairs-pointa">point a</a> minus the <a class="ref" href="#en-f-pointpairs-pointb">point b</a>.</p>
+        <p class="view-body">A point pair's <a class="ref" href="#en-f-pointpairs-name">name</a> is computed as the <a class="ref" href="#en-f-pointpairs-pointset">point set</a>, followed by a slash, followed by the <a class="ref" href="#en-f-pointpairs-pointa">point a</a>, followed by a hyphen, followed by the <a class="ref" href="#en-f-pointpairs-pointb">point b</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-pointpairs-pointset">point set</a> divided by <a class="ref" href="#en-f-pointpairs-pointa">point a</a>) minus <a class="ref" href="#en-f-pointpairs-pointb">point b</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-pointpairs-pointset">Point set</a>, &quot;/&quot;, <a class="ref" href="#en-f-pointpairs-pointa">point a</a>, &quot;-&quot;, joined with <a class="ref" href="#en-f-pointpairs-pointb">point b</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-pointpairs-pointset">Point Set</a>/<a class="fx-chip" href="#en-f-pointpairs-pointa">Point a</a>-<a class="fx-chip" href="#en-f-pointpairs-pointb">Point B</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-pointpairs-pointset">Point Set</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-pointpairs-pointa">Point a</a>, &quot;-&quot;, <a class="fx-chip" href="#en-f-pointpairs-pointb">Point B</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1379,11 +1379,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-points-x">x</a>, <a class="ref" href="#en-f-pointpairs-pointa">point a</a>, point ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-points-x">x</a> of the linked <a class="ref" href="#en-f-pointpairs-pointa">point a</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-points-x">X</a>, <a class="fx-chip" href="#en-f-pointpairs-pointa">Point a</a>, <span class="fx-chip">Point ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-points-x">X</a>, MATCH(<a class="fx-chip" href="#en-f-pointpairs-pointa">Point a</a>, <span class="fx-chip">Point ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1461,11 +1461,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-points-y">y</a>, <a class="ref" href="#en-f-pointpairs-pointa">point a</a>, point ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-points-y">y</a> of the linked <a class="ref" href="#en-f-pointpairs-pointa">point a</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-points-y">Y</a>, <a class="fx-chip" href="#en-f-pointpairs-pointa">Point a</a>, <span class="fx-chip">Point ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-points-y">Y</a>, MATCH(<a class="fx-chip" href="#en-f-pointpairs-pointa">Point a</a>, <span class="fx-chip">Point ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1542,11 +1542,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-points-x">x</a>, <a class="ref" href="#en-f-pointpairs-pointb">point b</a>, point ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-points-x">x</a> of the linked <a class="ref" href="#en-f-pointpairs-pointb">point b</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-points-x">X</a>, <a class="fx-chip" href="#en-f-pointpairs-pointb">Point B</a>, <span class="fx-chip">Point ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-points-x">X</a>, MATCH(<a class="fx-chip" href="#en-f-pointpairs-pointb">Point B</a>, <span class="fx-chip">Point ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1623,11 +1623,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-points-y">y</a>, <a class="ref" href="#en-f-pointpairs-pointb">point b</a>, point ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-points-y">y</a> of the linked <a class="ref" href="#en-f-pointpairs-pointb">point b</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-points-y">Y</a>, <a class="fx-chip" href="#en-f-pointpairs-pointb">Point B</a>, <span class="fx-chip">Point ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-points-y">Y</a>, MATCH(<a class="fx-chip" href="#en-f-pointpairs-pointb">Point B</a>, <span class="fx-chip">Point ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1716,11 +1716,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-pointpairs-pointbx">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Point BX</span><span class="input-table">Point Pair</span></span>
-          <span class="input-en">Lookup(x, point b, point ID).</span>
+          <span class="input-en">The x of the linked point b.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-pointpairs-pointax">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Point AX</span><span class="input-table">Point Pair</span></span>
-          <span class="input-en">Lookup(x, point a, point ID).</span>
+          <span class="input-en">The x of the linked point a.</span>
         </a>
       </div>
     </details>
@@ -1794,11 +1794,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-pointpairs-pointby">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Point BY</span><span class="input-table">Point Pair</span></span>
-          <span class="input-en">Lookup(y, point b, point ID).</span>
+          <span class="input-en">The y of the linked point b.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-pointpairs-pointay">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Point AY</span><span class="input-table">Point Pair</span></span>
-          <span class="input-en">Lookup(y, point a, point ID).</span>
+          <span class="input-en">The y of the linked point a.</span>
         </a>
       </div>
     </details>
@@ -2328,15 +2328,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A unit distance graph's <a class="ref" href="#en-f-unitdistancegraphs-name">name</a> is computed as the <a class="ref" href="#en-f-unitdistancegraphs-pointset">point set</a> minus the graph.</p>
+        <p class="view-body">A unit distance graph's <a class="ref" href="#en-f-unitdistancegraphs-name">name</a> is computed as the <a class="ref" href="#en-f-unitdistancegraphs-pointset">point set</a>, followed by “-graph”.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-unitdistancegraphs-pointset">Point set</a> minus graph.</p>
+        <p class="view-body"><a class="ref" href="#en-f-unitdistancegraphs-pointset">Point set</a> joined with &quot;-graph&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-unitdistancegraphs-pointset">Point Set</a>-graph</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-unitdistancegraphs-pointset">Point Set</a>, &quot;-graph&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -2392,11 +2392,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-pointsets-pointcount">point count</a>, <a class="ref" href="#en-f-unitdistancegraphs-pointset">point set</a>, point set ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-pointsets-pointcount">point count</a> of the linked <a class="ref" href="#en-f-unitdistancegraphs-pointset">point set</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-pointsets-pointcount">Point Count</a>, <a class="fx-chip" href="#en-f-unitdistancegraphs-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-pointsets-pointcount">Point Count</a>, MATCH(<a class="fx-chip" href="#en-f-unitdistancegraphs-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -2448,11 +2448,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-pointsets-unitdistancepaircount">unit distance pair count</a>, <a class="ref" href="#en-f-unitdistancegraphs-pointset">point set</a>, point set ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-pointsets-unitdistancepaircount">unit distance pair count</a> of the linked <a class="ref" href="#en-f-unitdistancegraphs-pointset">point set</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-pointsets-unitdistancepaircount">Unit Distance Pair Count</a>, <a class="fx-chip" href="#en-f-unitdistancegraphs-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-pointsets-unitdistancepaircount">Unit Distance Pair Count</a>, MATCH(<a class="fx-chip" href="#en-f-unitdistancegraphs-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -2521,7 +2521,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-unitdistancegraphs-vertexcount">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Vertex Count</span><span class="input-table">Unit Distance Graph</span></span>
-          <span class="input-en">Lookup(point count, point set, point set ID).</span>
+          <span class="input-en">The point count of the linked point set.</span>
         </a>
       </div>
     </details>
@@ -2568,7 +2568,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-unitdistancegraphs-edgecount">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Edge Count</span><span class="input-table">Unit Distance Graph</span></span>
-          <span class="input-en">Lookup(unit distance pair count, point set, point set ID).</span>
+          <span class="input-en">The unit distance pair count of the linked point set.</span>
         </a>
         <a class="input tone-calc" href="#en-f-unitdistancegraphs-maxpossibleedges">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Max Possible Edges</span><span class="input-table">Unit Distance Graph</span></span>
@@ -2620,11 +2620,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-unitdistancegraphs-edgecount">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Edge Count</span><span class="input-table">Unit Distance Graph</span></span>
-          <span class="input-en">Lookup(unit distance pair count, point set, point set ID).</span>
+          <span class="input-en">The unit distance pair count of the linked point set.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-unitdistancegraphs-vertexcount">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Vertex Count</span><span class="input-table">Unit Distance Graph</span></span>
-          <span class="input-en">Lookup(point count, point set, point set ID).</span>
+          <span class="input-en">The point count of the linked point set.</span>
         </a>
       </div>
     </details>
@@ -3406,15 +3406,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A prime ideal's <a class="ref" href="#en-f-primeideals-name">name</a> is computed as the <a class="ref" href="#en-f-primeideals-numberfield">number field</a> divided by the <a class="ref" href="#en-f-primeideals-generatordescription">generator description</a>.</p>
+        <p class="view-body">A prime ideal's <a class="ref" href="#en-f-primeideals-name">name</a> is computed as the <a class="ref" href="#en-f-primeideals-numberfield">number field</a>, followed by a slash, followed by the <a class="ref" href="#en-f-primeideals-generatordescription">generator description</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-primeideals-numberfield">Number field</a> divided by <a class="ref" href="#en-f-primeideals-generatordescription">generator description</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-primeideals-numberfield">Number field</a>, &quot;/&quot;, joined with <a class="ref" href="#en-f-primeideals-generatordescription">generator description</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-primeideals-numberfield">Number Field</a>/<a class="fx-chip" href="#en-f-primeideals-generatordescription">Generator Description</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-primeideals-numberfield">Number Field</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-primeideals-generatordescription">Generator Description</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -3654,15 +3654,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A minkowski lattice's <a class="ref" href="#en-f-minkowskilattices-name">name</a> is computed as the <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a> minus the lattice.</p>
+        <p class="view-body">A minkowski lattice's <a class="ref" href="#en-f-minkowskilattices-name">name</a> is computed as the <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>, followed by “-lattice”.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-minkowskilattices-numberfield">Number field</a> minus lattice.</p>
+        <p class="view-body"><a class="ref" href="#en-f-minkowskilattices-numberfield">Number field</a> joined with &quot;-lattice&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>-lattice</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, &quot;-lattice&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -3737,11 +3737,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-ambientlatticedimension">ambient lattice dimension</a>, <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-ambientlatticedimension">ambient lattice dimension</a> of the linked <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-ambientlatticedimension">Ambient Lattice Dimension</a>, <a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-ambientlatticedimension">Ambient Lattice Dimension</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -3794,11 +3794,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-discriminant">discriminant</a>, <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-discriminant">discriminant</a> of the linked <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-discriminant">Discriminant</a>, <a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-discriminant">Discriminant</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -3925,7 +3925,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-minkowskilattices-fielddiscriminant">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Field Discriminant</span><span class="input-table">Minkowski Lattice</span></span>
-          <span class="input-en">Lookup(discriminant, number field, number field ID).</span>
+          <span class="input-en">The discriminant of the linked number field.</span>
         </a>
       </div>
     </details>
@@ -4133,11 +4133,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-degree">degree</a>, <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-degree">degree</a> of the linked <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-degree">Degree</a>, <a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-degree">Degree</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -4182,11 +4182,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-satisfiesgolodshafarevich">satisfies golod shafarevich</a>, <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-satisfiesgolodshafarevich">satisfies golod shafarevich</a> of the linked <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-satisfiesgolodshafarevich">Satisfies Golod Shafarevich</a>, <a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-satisfiesgolodshafarevich">Satisfies Golod Shafarevich</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -4233,11 +4233,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-isalgebraicsourcecandidate">is algebraic source candidate</a>, <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-isalgebraicsourcecandidate">is algebraic source candidate</a> of the linked <a class="ref" href="#en-f-minkowskilattices-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-isalgebraicsourcecandidate">Is Algebraic Source Candidate</a>, <a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-isalgebraicsourcecandidate">Is Algebraic Source Candidate</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskilattices-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -4452,7 +4452,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-minkowskilattices-sourcefieldisalgebraicsourcecandidate">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Source Field is Algebraic Source Candidate</span><span class="input-table">Minkowski Lattice</span></span>
-          <span class="input-en">Lookup(is algebraic source candidate, number field, number field ID).</span>
+          <span class="input-en">The is algebraic source candidate of the linked number field.</span>
         </a>
         <a class="input tone-agg" href="#en-f-minkowskilattices-shortvectorcount">
           <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Short Vector Count</span><span class="input-table">Minkowski Lattice</span></span>
@@ -4532,15 +4532,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A short vector's <a class="ref" href="#en-f-shortvectors-name">name</a> is computed as the <a class="ref" href="#en-f-shortvectors-minkowskilattice">minkowski lattice</a> divided by the <a class="ref" href="#en-f-shortvectors-coordsjson">coords JSON</a>.</p>
+        <p class="view-body">A short vector's <a class="ref" href="#en-f-shortvectors-name">name</a> is computed as the <a class="ref" href="#en-f-shortvectors-minkowskilattice">minkowski lattice</a>, followed by a slash, followed by the <a class="ref" href="#en-f-shortvectors-coordsjson">coords JSON</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-shortvectors-minkowskilattice">Minkowski lattice</a> divided by <a class="ref" href="#en-f-shortvectors-coordsjson">coords JSON</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-shortvectors-minkowskilattice">Minkowski lattice</a>, &quot;/&quot;, joined with <a class="ref" href="#en-f-shortvectors-coordsjson">coords JSON</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-shortvectors-minkowskilattice">Minkowski Lattice</a>/<a class="fx-chip" href="#en-f-shortvectors-coordsjson">Coords JSON</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-shortvectors-minkowskilattice">Minkowski Lattice</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-shortvectors-coordsjson">Coords JSON</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -4669,11 +4669,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-minkowskilattices-shortvectorthresholdsquared">short vector threshold squared</a>, <a class="ref" href="#en-f-shortvectors-minkowskilattice">minkowski lattice</a>, minkowski lattice ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-minkowskilattices-shortvectorthresholdsquared">short vector threshold squared</a> of the linked <a class="ref" href="#en-f-shortvectors-minkowskilattice">minkowski lattice</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-minkowskilattices-shortvectorthresholdsquared">Short Vector Threshold Squared</a>, <a class="fx-chip" href="#en-f-shortvectors-minkowskilattice">Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-minkowskilattices-shortvectorthresholdsquared">Short Vector Threshold Squared</a>, MATCH(<a class="fx-chip" href="#en-f-shortvectors-minkowskilattice">Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -4756,7 +4756,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-shortvectors-thresholdsquared">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Threshold Squared</span><span class="input-table">Short Vector</span></span>
-          <span class="input-en">Lookup(short vector threshold squared, minkowski lattice, minkowski lattice ID).</span>
+          <span class="input-en">The short vector threshold squared of the linked minkowski lattice.</span>
         </a>
       </div>
     </details>
@@ -5003,11 +5003,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-satisfiesgolodshafarevich">satisfies golod shafarevich</a>, <a class="ref" href="#en-f-constructionfamilies-sourcenumberfield">source number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-satisfiesgolodshafarevich">satisfies golod shafarevich</a> of the linked <a class="ref" href="#en-f-constructionfamilies-sourcenumberfield">source number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-satisfiesgolodshafarevich">Satisfies Golod Shafarevich</a>, <a class="fx-chip" href="#en-f-constructionfamilies-sourcenumberfield">Source Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-satisfiesgolodshafarevich">Satisfies Golod Shafarevich</a>, MATCH(<a class="fx-chip" href="#en-f-constructionfamilies-sourcenumberfield">Source Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5070,11 +5070,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">is load bearing for unit distance construction</a>, <a class="ref" href="#en-f-constructionfamilies-sourceminkowskilattice">source minkowski lattice</a>, minkowski lattice ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">is load bearing for unit distance construction</a> of the linked <a class="ref" href="#en-f-constructionfamilies-sourceminkowskilattice">source minkowski lattice</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">Is Load Bearing for Unit Distance Construction</a>, <a class="fx-chip" href="#en-f-constructionfamilies-sourceminkowskilattice">Source Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">Is Load Bearing for Unit Distance Construction</a>, MATCH(<a class="fx-chip" href="#en-f-constructionfamilies-sourceminkowskilattice">Source Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5157,11 +5157,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-constructionfamilies-sourcefieldsatisfiesgolodshafarevich">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Source Field Satisfies Golod Shafarevich</span><span class="input-table">Construction Family</span></span>
-          <span class="input-en">Lookup(satisfies golod shafarevich, source number field, number field ID).</span>
+          <span class="input-en">The satisfies golod shafarevich of the linked source number field.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-constructionfamilies-sourcelatticeisloadbearing">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Source Lattice is Load Bearing</span><span class="input-table">Construction Family</span></span>
-          <span class="input-en">Lookup(is load bearing for unit distance construction, source minkowski lattice, minkowski lattice ID).</span>
+          <span class="input-en">The is load bearing for unit distance construction of the linked source minkowski lattice.</span>
         </a>
       </div>
     </details>
@@ -5232,15 +5232,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A construction instance's <a class="ref" href="#en-f-constructioninstances-name">name</a> is computed as the value of ConstructionFamily-nParamN.</p>
+        <p class="view-body">A construction instance's <a class="ref" href="#en-f-constructioninstances-name">name</a> is computed as the <a class="ref" href="#en-f-constructioninstances-constructionfamily">construction family</a>, followed by “-n”, followed by the <a class="ref" href="#en-f-constructioninstances-paramn">param n</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">{{ConstructionFamily}}-n{{ParamN}}.</p>
+        <p class="view-body"><a class="ref" href="#en-f-constructioninstances-constructionfamily">Construction family</a>, &quot;-n&quot;, joined with <a class="ref" href="#en-f-constructioninstances-paramn">param n</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-constructioninstances-constructionfamily">Construction Family</a>-n<a class="fx-chip" href="#en-f-constructioninstances-paramn">Param N</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-constructioninstances-constructionfamily">Construction Family</a>, &quot;-n&quot;, <a class="fx-chip" href="#en-f-constructioninstances-paramn">Param N</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5366,11 +5366,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-pointsets-pointcount">point count</a>, <a class="ref" href="#en-f-constructioninstances-pointset">point set</a>, point set ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-pointsets-pointcount">point count</a> of the linked <a class="ref" href="#en-f-constructioninstances-pointset">point set</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-pointsets-pointcount">Point Count</a>, <a class="fx-chip" href="#en-f-constructioninstances-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-pointsets-pointcount">Point Count</a>, MATCH(<a class="fx-chip" href="#en-f-constructioninstances-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5420,11 +5420,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-pointsets-unitdistancepaircount">unit distance pair count</a>, <a class="ref" href="#en-f-constructioninstances-pointset">point set</a>, point set ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-pointsets-unitdistancepaircount">unit distance pair count</a> of the linked <a class="ref" href="#en-f-constructioninstances-pointset">point set</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-pointsets-unitdistancepaircount">Unit Distance Pair Count</a>, <a class="fx-chip" href="#en-f-constructioninstances-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-pointsets-unitdistancepaircount">Unit Distance Pair Count</a>, MATCH(<a class="fx-chip" href="#en-f-constructioninstances-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5480,11 +5480,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-pointsets-densityexponentestimate">density exponent estimate</a>, <a class="ref" href="#en-f-constructioninstances-pointset">point set</a>, point set ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-pointsets-densityexponentestimate">density exponent estimate</a> of the linked <a class="ref" href="#en-f-constructioninstances-pointset">point set</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-pointsets-densityexponentestimate">Density Exponent Estimate</a>, <a class="fx-chip" href="#en-f-constructioninstances-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-pointsets-densityexponentestimate">Density Exponent Estimate</a>, MATCH(<a class="fx-chip" href="#en-f-constructioninstances-pointset">Point Set</a>, <span class="fx-chip">Point Set ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5569,7 +5569,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-constructioninstances-pointcount">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Point Count</span><span class="input-table">Construction Instance</span></span>
-          <span class="input-en">Lookup(point count, point set, point set ID).</span>
+          <span class="input-en">The point count of the linked point set.</span>
         </a>
       </div>
     </details>
@@ -5600,11 +5600,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-constructionfamilies-isalgebraicconstruction">is algebraic construction</a>, <a class="ref" href="#en-f-constructioninstances-constructionfamily">construction family</a>, construction family ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-constructionfamilies-isalgebraicconstruction">is algebraic construction</a> of the linked <a class="ref" href="#en-f-constructioninstances-constructionfamily">construction family</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-constructionfamilies-isalgebraicconstruction">Is Algebraic Construction</a>, <a class="fx-chip" href="#en-f-constructioninstances-constructionfamily">Construction Family</a>, <span class="fx-chip">Construction Family ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-constructionfamilies-isalgebraicconstruction">Is Algebraic Construction</a>, MATCH(<a class="fx-chip" href="#en-f-constructioninstances-constructionfamily">Construction Family</a>, <span class="fx-chip">Construction Family ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5681,7 +5681,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-constructioninstances-densityexponentestimate">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Density Exponent Estimate</span><span class="input-table">Construction Instance</span></span>
-          <span class="input-en">Lookup(density exponent estimate, point set, point set ID).</span>
+          <span class="input-en">The density exponent estimate of the linked point set.</span>
         </a>
       </div>
     </details>
@@ -5736,7 +5736,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-constructioninstances-familyisalgebraic">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Family is Algebraic</span><span class="input-table">Construction Instance</span></span>
-          <span class="input-en">Lookup(is algebraic construction, construction family, construction family ID).</span>
+          <span class="input-en">The is algebraic construction of the linked construction family.</span>
         </a>
         <a class="input tone-calc" href="#en-f-constructioninstances-isexplicitsuperlinear">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Explicit Superlinear</span><span class="input-table">Construction Instance</span></span>
@@ -5796,15 +5796,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A growth sequence's <a class="ref" href="#en-f-growthsequences-name">name</a> is computed as the <a class="ref" href="#en-f-growthsequences-constructionfamily">construction family</a> minus the growth.</p>
+        <p class="view-body">A growth sequence's <a class="ref" href="#en-f-growthsequences-name">name</a> is computed as the <a class="ref" href="#en-f-growthsequences-constructionfamily">construction family</a>, followed by “-growth”.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-growthsequences-constructionfamily">Construction family</a> minus growth.</p>
+        <p class="view-body"><a class="ref" href="#en-f-growthsequences-constructionfamily">Construction family</a> joined with &quot;-growth&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-growthsequences-constructionfamily">Construction Family</a>-growth</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-growthsequences-constructionfamily">Construction Family</a>, &quot;-growth&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -5972,7 +5972,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-constructioninstances-edgecount">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Edge Count</span><span class="input-table">Construction Instance</span></span>
-          <span class="input-en">Lookup(unit distance pair count, point set, point set ID).</span>
+          <span class="input-en">The unit distance pair count of the linked point set.</span>
         </a>
         <a class="input tone-rel" href="#en-f-constructioninstances-constructionfamily">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Construction Family</span><span class="input-table">Construction Instance</span></span>
@@ -6027,7 +6027,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-constructioninstances-densityexponentestimate">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Density Exponent Estimate</span><span class="input-table">Construction Instance</span></span>
-          <span class="input-en">Lookup(density exponent estimate, point set, point set ID).</span>
+          <span class="input-en">The density exponent estimate of the linked point set.</span>
         </a>
         <a class="input tone-rel" href="#en-f-constructioninstances-constructionfamily">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Construction Family</span><span class="input-table">Construction Instance</span></span>
@@ -6704,11 +6704,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-growthsequences-maxobserveddensityexponentestimate">max observed density exponent estimate</a>, <a class="ref" href="#en-f-asymptoticlowerbounds-growthsequence">growth sequence</a>, growth sequence ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-growthsequences-maxobserveddensityexponentestimate">max observed density exponent estimate</a> of the linked <a class="ref" href="#en-f-asymptoticlowerbounds-growthsequence">growth sequence</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-growthsequences-maxobserveddensityexponentestimate">Max Observed Density Exponent Estimate</a>, <a class="fx-chip" href="#en-f-asymptoticlowerbounds-growthsequence">Growth Sequence</a>, <span class="fx-chip">Growth Sequence ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-growthsequences-maxobserveddensityexponentestimate">Max Observed Density Exponent Estimate</a>, MATCH(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-growthsequence">Growth Sequence</a>, <span class="fx-chip">Growth Sequence ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -6789,7 +6789,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-asymptoticlowerbounds-witnessedbymaxdensityexponent">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Witnessed by Max Density Exponent</span><span class="input-table">Asymptotic Lower Bound</span></span>
-          <span class="input-en">Lookup(max observed density exponent estimate, growth sequence, growth sequence ID).</span>
+          <span class="input-en">The max observed density exponent estimate of the linked growth sequence.</span>
         </a>
         <a class="input tone-raw" href="#en-f-asymptoticlowerbounds-exponent">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Exponent</span><span class="input-table">Asymptotic Lower Bound</span></span>
@@ -6848,11 +6848,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-growthsequences-constructionfamily">construction family</a>, <a class="ref" href="#en-f-asymptoticlowerbounds-growthsequence">growth sequence</a>, growth sequence ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-growthsequences-constructionfamily">construction family</a> of the linked <a class="ref" href="#en-f-asymptoticlowerbounds-growthsequence">growth sequence</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-growthsequences-constructionfamily">Construction Family</a>, <a class="fx-chip" href="#en-f-asymptoticlowerbounds-growthsequence">Growth Sequence</a>, <span class="fx-chip">Growth Sequence ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-growthsequences-constructionfamily">Construction Family</a>, MATCH(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-growthsequence">Growth Sequence</a>, <span class="fx-chip">Growth Sequence ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -6909,11 +6909,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-constructionfamilies-isalgebraicconstruction">is algebraic construction</a>, <a class="ref" href="#en-f-asymptoticlowerbounds-witnesssourcefamily">witness source family</a>, construction family ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-constructionfamilies-isalgebraicconstruction">is algebraic construction</a> of the linked <a class="ref" href="#en-f-asymptoticlowerbounds-witnesssourcefamily">witness source family</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-constructionfamilies-isalgebraicconstruction">Is Algebraic Construction</a>, <a class="fx-chip" href="#en-f-asymptoticlowerbounds-witnesssourcefamily">Witness Source Family</a>, <span class="fx-chip">Construction Family ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-constructionfamilies-isalgebraicconstruction">Is Algebraic Construction</a>, MATCH(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-witnesssourcefamily">Witness Source Family</a>, <span class="fx-chip">Construction Family ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -6925,7 +6925,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-asymptoticlowerbounds-witnesssourcefamily">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Witness Source Family</span><span class="input-table">Asymptotic Lower Bound</span></span>
-          <span class="input-en">Lookup(construction family, growth sequence, growth sequence ID).</span>
+          <span class="input-en">The construction family of the linked growth sequence.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Construction Family ID</span><span class="input-table">Construction Family</span></span>
@@ -7003,7 +7003,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-asymptoticlowerbounds-witnessfamilyisalgebraic">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Witness Family is Algebraic</span><span class="input-table">Asymptotic Lower Bound</span></span>
-          <span class="input-en">Lookup(is algebraic construction, witness source family, construction family ID).</span>
+          <span class="input-en">The is algebraic construction of the linked witness source family.</span>
         </a>
         <a class="input tone-calc" href="#en-f-asymptoticlowerbounds-issuperlinear">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Superlinear</span><span class="input-table">Asymptotic Lower Bound</span></span>
@@ -7756,11 +7756,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-exponent">exponent</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-exponent">exponent</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-exponent">Exponent</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-exponent">Exponent</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -7812,11 +7812,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-issuperlinear">is superlinear</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-issuperlinear">is superlinear</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-issuperlinear">Is Superlinear</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-issuperlinear">Is Superlinear</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -7903,7 +7903,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundexponent">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound Exponent</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(exponent, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The exponent of the linked anchored lower bound.</span>
         </a>
       </div>
     </details>
@@ -7941,11 +7941,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-witnessconsistent">witness consistent</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-witnessconsistent">witness consistent</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-witnessconsistent">Witness Consistent</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-witnessconsistent">Witness Consistent</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8011,11 +8011,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-isalgebraicallyanchored">is algebraically anchored</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-isalgebraicallyanchored">is algebraically anchored</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-isalgebraicallyanchored">Is Algebraically Anchored</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-isalgebraicallyanchored">Is Algebraically Anchored</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8113,15 +8113,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundissuperlinear">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound is Superlinear</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(is superlinear, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The is superlinear of the linked anchored lower bound.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundwitnessconsistent">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound Witness Consistent</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(witness consistent, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The witness consistent of the linked anchored lower bound.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundisalgebraicallyanchored">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound is Algebraically Anchored</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(is algebraically anchored, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The is algebraically anchored of the linked anchored lower bound.</span>
         </a>
       </div>
     </details>
@@ -8188,11 +8188,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticfunctions-displayname">display name</a>, <a class="ref" href="#en-f-theorems-asymptoticfunction">asymptotic function</a>, asymptotic function ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticfunctions-displayname">display name</a> of the linked <a class="ref" href="#en-f-theorems-asymptoticfunction">asymptotic function</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticfunctions-displayname">Display Name</a>, <a class="fx-chip" href="#en-f-theorems-asymptoticfunction">Asymptotic Function</a>, <span class="fx-chip">Asymptotic Function ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticfunctions-displayname">Display Name</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-asymptoticfunction">Asymptotic Function</a>, <span class="fx-chip">Asymptotic Function ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8276,11 +8276,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-allobligationssatisfied">all obligations satisfied</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-allobligationssatisfied">all obligations satisfied</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-allobligationssatisfied">All Obligations Satisfied</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-allobligationssatisfied">All Obligations Satisfied</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8332,11 +8332,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-openobligationcount">open obligation count</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-openobligationcount">open obligation count</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-openobligationcount">Open Obligation Count</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-openobligationcount">Open Obligation Count</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8397,7 +8397,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundallobligationssatisfied">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound All Obligations Satisfied</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(all obligations satisfied, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The all obligations satisfied of the linked anchored lower bound.</span>
         </a>
       </div>
     </details>
@@ -8524,11 +8524,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">is currently valid</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">is currently valid</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">Is Currently Valid</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">Is Currently Valid</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8596,7 +8596,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundiscurrentlyvalid">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound is Currently Valid</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(is currently valid, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The is currently valid of the linked anchored lower bound.</span>
         </a>
       </div>
     </details>
@@ -8633,11 +8633,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-isauditableviaitspathway">is auditable via its pathway</a>, <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-isauditableviaitspathway">is auditable via its pathway</a> of the linked <a class="ref" href="#en-f-theorems-anchoredlowerbound">anchored lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-isauditableviaitspathway">Is Auditable Via Its Pathway</a>, <a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-isauditableviaitspathway">Is Auditable Via Its Pathway</a>, MATCH(<a class="fx-chip" href="#en-f-theorems-anchoredlowerbound">Anchored Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -8737,7 +8737,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-theorems-anchoredboundisauditableviaitspathway">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Anchored Bound is Auditable Via Its Pathway</span><span class="input-table">Theorem</span></span>
-          <span class="input-en">Lookup(is auditable via its pathway, anchored lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The is auditable via its pathway of the linked anchored lower bound.</span>
         </a>
       </div>
     </details>
@@ -9008,15 +9008,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A field embedding's <a class="ref" href="#en-f-fieldembeddings-name">name</a> is computed as the <a class="ref" href="#en-f-fieldembeddings-numberfield">number field</a> divided by the <a class="ref" href="#en-f-fieldembeddings-embeddingtype">embedding type</a> minus the <a class="ref" href="#en-f-fieldembeddings-indexinsignature">index in signature</a>.</p>
+        <p class="view-body">A field embedding's <a class="ref" href="#en-f-fieldembeddings-name">name</a> is computed as the <a class="ref" href="#en-f-fieldembeddings-numberfield">number field</a>, followed by a slash, followed by the <a class="ref" href="#en-f-fieldembeddings-embeddingtype">embedding type</a>, followed by a hyphen, followed by the <a class="ref" href="#en-f-fieldembeddings-indexinsignature">index in signature</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-fieldembeddings-numberfield">number field</a> divided by <a class="ref" href="#en-f-fieldembeddings-embeddingtype">embedding type</a>) minus <a class="ref" href="#en-f-fieldembeddings-indexinsignature">index in signature</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-fieldembeddings-numberfield">Number field</a>, &quot;/&quot;, <a class="ref" href="#en-f-fieldembeddings-embeddingtype">embedding type</a>, &quot;-&quot;, joined with <a class="ref" href="#en-f-fieldembeddings-indexinsignature">index in signature</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-fieldembeddings-numberfield">Number Field</a>/<a class="fx-chip" href="#en-f-fieldembeddings-embeddingtype">Embedding Type</a>-<a class="fx-chip" href="#en-f-fieldembeddings-indexinsignature">Index in Signature</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-fieldembeddings-numberfield">Number Field</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-fieldembeddings-embeddingtype">Embedding Type</a>, &quot;-&quot;, <a class="fx-chip" href="#en-f-fieldembeddings-indexinsignature">Index in Signature</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -9237,15 +9237,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A minkowski embedding's <a class="ref" href="#en-f-minkowskiembeddings-name">name</a> is computed as the <a class="ref" href="#en-f-minkowskiembeddings-numberfield">number field</a> minus the minkowski minus the embedding.</p>
+        <p class="view-body">A minkowski embedding's <a class="ref" href="#en-f-minkowskiembeddings-name">name</a> is computed as the <a class="ref" href="#en-f-minkowskiembeddings-numberfield">number field</a>, followed by “-minkowski-embedding”.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-minkowskiembeddings-numberfield">number field</a> minus minkowski) minus embedding.</p>
+        <p class="view-body"><a class="ref" href="#en-f-minkowskiembeddings-numberfield">Number field</a> joined with &quot;-minkowski-embedding&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-minkowskiembeddings-numberfield">Number Field</a>-minkowski-embedding</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-minkowskiembeddings-numberfield">Number Field</a>, &quot;-minkowski-embedding&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -9317,11 +9317,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-ambientlatticedimension">ambient lattice dimension</a>, <a class="ref" href="#en-f-minkowskiembeddings-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-ambientlatticedimension">ambient lattice dimension</a> of the linked <a class="ref" href="#en-f-minkowskiembeddings-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-ambientlatticedimension">Ambient Lattice Dimension</a>, <a class="fx-chip" href="#en-f-minkowskiembeddings-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-ambientlatticedimension">Ambient Lattice Dimension</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskiembeddings-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -9372,11 +9372,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-minkowskilattices-dimension">dimension</a>, <a class="ref" href="#en-f-minkowskiembeddings-targetlattice">target lattice</a>, minkowski lattice ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-minkowskilattices-dimension">dimension</a> of the linked <a class="ref" href="#en-f-minkowskiembeddings-targetlattice">target lattice</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-minkowskilattices-dimension">Dimension</a>, <a class="fx-chip" href="#en-f-minkowskiembeddings-targetlattice">Target Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-minkowskilattices-dimension">Dimension</a>, MATCH(<a class="fx-chip" href="#en-f-minkowskiembeddings-targetlattice">Target Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -9384,7 +9384,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-minkowskilattices-dimension">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Dimension</span><span class="input-table">Minkowski Lattice</span></span>
-          <span class="input-en">Lookup(ambient lattice dimension, number field, number field ID).</span>
+          <span class="input-en">The ambient lattice dimension of the linked number field.</span>
         </a>
         <a class="input tone-rel" href="#en-f-minkowskiembeddings-targetlattice">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Target Lattice</span><span class="input-table">Minkowski Embedding</span></span>
@@ -9442,11 +9442,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-minkowskiembeddings-ambientdimension">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Ambient Dimension</span><span class="input-table">Minkowski Embedding</span></span>
-          <span class="input-en">Lookup(ambient lattice dimension, number field, number field ID).</span>
+          <span class="input-en">The ambient lattice dimension of the linked number field.</span>
         </a>
         <a class="input tone-lookup" href="#en-f-minkowskiembeddings-targetlatticedimension">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Target Lattice Dimension</span><span class="input-table">Minkowski Embedding</span></span>
-          <span class="input-en">Lookup(dimension, target lattice, minkowski lattice ID).</span>
+          <span class="input-en">The dimension of the linked target lattice.</span>
         </a>
       </div>
     </details>
@@ -9516,15 +9516,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A gram matrice's <a class="ref" href="#en-f-grammatrices-name">name</a> is computed as the <a class="ref" href="#en-f-grammatrices-minkowskilattice">minkowski lattice</a> minus the gram.</p>
+        <p class="view-body">A gram matrice's <a class="ref" href="#en-f-grammatrices-name">name</a> is computed as the <a class="ref" href="#en-f-grammatrices-minkowskilattice">minkowski lattice</a>, followed by “-gram”.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-grammatrices-minkowskilattice">Minkowski lattice</a> minus gram.</p>
+        <p class="view-body"><a class="ref" href="#en-f-grammatrices-minkowskilattice">Minkowski lattice</a> joined with &quot;-gram&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-grammatrices-minkowskilattice">Minkowski Lattice</a>-gram</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-grammatrices-minkowskilattice">Minkowski Lattice</a>, &quot;-gram&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -9577,11 +9577,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-minkowskilattices-dimension">dimension</a>, <a class="ref" href="#en-f-grammatrices-minkowskilattice">minkowski lattice</a>, minkowski lattice ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-minkowskilattices-dimension">dimension</a> of the linked <a class="ref" href="#en-f-grammatrices-minkowskilattice">minkowski lattice</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-minkowskilattices-dimension">Dimension</a>, <a class="fx-chip" href="#en-f-grammatrices-minkowskilattice">Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-minkowskilattices-dimension">Dimension</a>, MATCH(<a class="fx-chip" href="#en-f-grammatrices-minkowskilattice">Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -9589,7 +9589,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-minkowskilattices-dimension">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Dimension</span><span class="input-table">Minkowski Lattice</span></span>
-          <span class="input-en">Lookup(ambient lattice dimension, number field, number field ID).</span>
+          <span class="input-en">The ambient lattice dimension of the linked number field.</span>
         </a>
         <a class="input tone-rel" href="#en-f-grammatrices-minkowskilattice">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Minkowski Lattice</span><span class="input-table">Gram Matrice</span></span>
@@ -9628,11 +9628,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-minkowskilattices-determinant">determinant</a>, <a class="ref" href="#en-f-grammatrices-minkowskilattice">minkowski lattice</a>, minkowski lattice ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-minkowskilattices-determinant">determinant</a> of the linked <a class="ref" href="#en-f-grammatrices-minkowskilattice">minkowski lattice</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-minkowskilattices-determinant">Determinant</a>, <a class="fx-chip" href="#en-f-grammatrices-minkowskilattice">Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-minkowskilattices-determinant">Determinant</a>, MATCH(<a class="fx-chip" href="#en-f-grammatrices-minkowskilattice">Minkowski Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -10171,11 +10171,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">is load bearing for unit distance construction</a>, <a class="ref" href="#en-f-planarprojections-sourcelattice">source lattice</a>, minkowski lattice ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">is load bearing for unit distance construction</a> of the linked <a class="ref" href="#en-f-planarprojections-sourcelattice">source lattice</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">Is Load Bearing for Unit Distance Construction</a>, <a class="fx-chip" href="#en-f-planarprojections-sourcelattice">Source Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-minkowskilattices-isloadbearingforunitdistanceconstruction">Is Load Bearing for Unit Distance Construction</a>, MATCH(<a class="fx-chip" href="#en-f-planarprojections-sourcelattice">Source Lattice</a>, <span class="fx-chip">Minkowski Lattice ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -10242,15 +10242,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A projected short vector's <a class="ref" href="#en-f-projectedshortvectors-name">name</a> is computed as the <a class="ref" href="#en-f-projectedshortvectors-shortvector">short vector</a> divided by the <a class="ref" href="#en-f-projectedshortvectors-planarprojection">planar projection</a>.</p>
+        <p class="view-body">A projected short vector's <a class="ref" href="#en-f-projectedshortvectors-name">name</a> is computed as the <a class="ref" href="#en-f-projectedshortvectors-shortvector">short vector</a>, followed by a slash, followed by the <a class="ref" href="#en-f-projectedshortvectors-planarprojection">planar projection</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-projectedshortvectors-shortvector">Short vector</a> divided by <a class="ref" href="#en-f-projectedshortvectors-planarprojection">planar projection</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-projectedshortvectors-shortvector">Short vector</a>, &quot;/&quot;, joined with <a class="ref" href="#en-f-projectedshortvectors-planarprojection">planar projection</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-projectedshortvectors-shortvector">Short Vector</a>/<a class="fx-chip" href="#en-f-projectedshortvectors-planarprojection">Planar Projection</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-projectedshortvectors-shortvector">Short Vector</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-projectedshortvectors-planarprojection">Planar Projection</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -10536,11 +10536,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-shortvectors-normsquared">norm squared</a>, <a class="ref" href="#en-f-projectedshortvectors-shortvector">short vector</a>, short vector ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-shortvectors-normsquared">norm squared</a> of the linked <a class="ref" href="#en-f-projectedshortvectors-shortvector">short vector</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-shortvectors-normsquared">Norm Squared</a>, <a class="fx-chip" href="#en-f-projectedshortvectors-shortvector">Short Vector</a>, <span class="fx-chip">Short Vector ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-shortvectors-normsquared">Norm Squared</a>, MATCH(<a class="fx-chip" href="#en-f-projectedshortvectors-shortvector">Short Vector</a>, <span class="fx-chip">Short Vector ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -10590,11 +10590,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-shortvectors-isshort">is short</a>, <a class="ref" href="#en-f-projectedshortvectors-shortvector">short vector</a>, short vector ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-shortvectors-isshort">is short</a> of the linked <a class="ref" href="#en-f-projectedshortvectors-shortvector">short vector</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-shortvectors-isshort">Is Short</a>, <a class="fx-chip" href="#en-f-projectedshortvectors-shortvector">Short Vector</a>, <span class="fx-chip">Short Vector ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-shortvectors-isshort">Is Short</a>, MATCH(<a class="fx-chip" href="#en-f-projectedshortvectors-shortvector">Short Vector</a>, <span class="fx-chip">Short Vector ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -10783,7 +10783,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-projectedshortvectors-sourceisshort">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Source is Short</span><span class="input-table">Projected Short Vector</span></span>
-          <span class="input-en">Lookup(is short, short vector, short vector ID).</span>
+          <span class="input-en">The is short of the linked short vector.</span>
         </a>
         <a class="input tone-calc" href="#en-f-projectedshortvectors-projectstounitdistancevector">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Projects to Unit Distance Vector</span><span class="input-table">Projected Short Vector</span></span>
@@ -10835,7 +10835,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-projectedshortvectors-sourcenormsquared">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Source Norm Squared</span><span class="input-table">Projected Short Vector</span></span>
-          <span class="input-en">Lookup(norm squared, short vector, short vector ID).</span>
+          <span class="input-en">The norm squared of the linked short vector.</span>
         </a>
         <a class="input tone-calc" href="#en-f-projectedshortvectors-projectednormsquared">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Projected Norm Squared</span><span class="input-table">Projected Short Vector</span></span>
@@ -10889,15 +10889,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A golod shafarevich criteria's <a class="ref" href="#en-f-golodshafarevichcriteria-name">name</a> is computed as the <a class="ref" href="#en-f-golodshafarevichcriteria-numberfield">number field</a> minus the gs.</p>
+        <p class="view-body">A golod shafarevich criteria's <a class="ref" href="#en-f-golodshafarevichcriteria-name">name</a> is computed as the <a class="ref" href="#en-f-golodshafarevichcriteria-numberfield">number field</a>, followed by “-gs”.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-golodshafarevichcriteria-numberfield">Number field</a> minus gs.</p>
+        <p class="view-body"><a class="ref" href="#en-f-golodshafarevichcriteria-numberfield">Number field</a> joined with &quot;-gs&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-golodshafarevichcriteria-numberfield">Number Field</a>-gs</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-golodshafarevichcriteria-numberfield">Number Field</a>, &quot;-gs&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -11048,11 +11048,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-numberfields-degree">degree</a>, <a class="ref" href="#en-f-golodshafarevichcriteria-numberfield">number field</a>, number field ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-numberfields-degree">degree</a> of the linked <a class="ref" href="#en-f-golodshafarevichcriteria-numberfield">number field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-numberfields-degree">Degree</a>, <a class="fx-chip" href="#en-f-golodshafarevichcriteria-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-numberfields-degree">Degree</a>, MATCH(<a class="fx-chip" href="#en-f-golodshafarevichcriteria-numberfield">Number Field</a>, <span class="fx-chip">Number Field ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -11816,15 +11816,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A semantic route step's <a class="ref" href="#en-f-semanticroutesteps-name">name</a> is computed as the <a class="ref" href="#en-f-semanticroutesteps-semanticroute">semantic route</a> minus the <a class="ref" href="#en-f-semanticroutesteps-steporder">step order</a>.</p>
+        <p class="view-body">A semantic route step's <a class="ref" href="#en-f-semanticroutesteps-name">name</a> is computed as the <a class="ref" href="#en-f-semanticroutesteps-semanticroute">semantic route</a>, followed by a hyphen, followed by the <a class="ref" href="#en-f-semanticroutesteps-steporder">step order</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-semanticroutesteps-semanticroute">Semantic route</a> minus <a class="ref" href="#en-f-semanticroutesteps-steporder">step order</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-semanticroutesteps-semanticroute">Semantic route</a>, &quot;-&quot;, joined with <a class="ref" href="#en-f-semanticroutesteps-steporder">step order</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-semanticroutesteps-semanticroute">Semantic Route</a>-<a class="fx-chip" href="#en-f-semanticroutesteps-steporder">Step Order</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-semanticroutesteps-semanticroute">Semantic Route</a>, &quot;-&quot;, <a class="fx-chip" href="#en-f-semanticroutesteps-steporder">Step Order</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -11940,11 +11940,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-semanticbridges-isloadbearing">is load bearing</a>, <a class="ref" href="#en-f-semanticroutesteps-bridgeused">bridge used</a>, semantic bridge ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-semanticbridges-isloadbearing">is load bearing</a> of the linked <a class="ref" href="#en-f-semanticroutesteps-bridgeused">bridge used</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-semanticbridges-isloadbearing">Is Load Bearing</a>, <a class="fx-chip" href="#en-f-semanticroutesteps-bridgeused">Bridge Used</a>, <span class="fx-chip">Semantic Bridge ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-semanticbridges-isloadbearing">Is Load Bearing</a>, MATCH(<a class="fx-chip" href="#en-f-semanticroutesteps-bridgeused">Bridge Used</a>, <span class="fx-chip">Semantic Bridge ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13059,15 +13059,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A proof obligation's <a class="ref" href="#en-f-proofobligations-name">name</a> is computed as the <a class="ref" href="#en-f-proofobligations-parentbound">parent bound</a> divided by the <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>.</p>
+        <p class="view-body">A proof obligation's <a class="ref" href="#en-f-proofobligations-name">name</a> is computed as the <a class="ref" href="#en-f-proofobligations-parentbound">parent bound</a>, followed by a slash, followed by the <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-proofobligations-parentbound">Parent bound</a> divided by <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-proofobligations-parentbound">Parent bound</a>, &quot;/&quot;, joined with <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-proofobligations-parentbound">Parent Bound</a>/<a class="fx-chip" href="#en-f-proofobligations-requiredlemma">Required Lemma</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-proofobligations-parentbound">Parent Bound</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-proofobligations-requiredlemma">Required Lemma</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13237,11 +13237,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-lemmas-isloaded">is loaded</a>, <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>, lemma ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-lemmas-isloaded">is loaded</a> of the linked <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-lemmas-isloaded">Is Loaded</a>, <a class="fx-chip" href="#en-f-proofobligations-requiredlemma">Required Lemma</a>, <span class="fx-chip">Lemma ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-lemmas-isloaded">Is Loaded</a>, MATCH(<a class="fx-chip" href="#en-f-proofobligations-requiredlemma">Required Lemma</a>, <span class="fx-chip">Lemma ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13285,11 +13285,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-lemmas-isloadbearing">is load bearing</a>, <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>, lemma ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-lemmas-isloadbearing">is load bearing</a> of the linked <a class="ref" href="#en-f-proofobligations-requiredlemma">required lemma</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-lemmas-isloadbearing">Is Load Bearing</a>, <a class="fx-chip" href="#en-f-proofobligations-requiredlemma">Required Lemma</a>, <span class="fx-chip">Lemma ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-lemmas-isloadbearing">Is Load Bearing</a>, MATCH(<a class="fx-chip" href="#en-f-proofobligations-requiredlemma">Required Lemma</a>, <span class="fx-chip">Lemma ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13333,11 +13333,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-exponent">exponent</a>, <a class="ref" href="#en-f-proofobligations-parentbound">parent bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-exponent">exponent</a> of the linked <a class="ref" href="#en-f-proofobligations-parentbound">parent bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-exponent">Exponent</a>, <a class="fx-chip" href="#en-f-proofobligations-parentbound">Parent Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-exponent">Exponent</a>, MATCH(<a class="fx-chip" href="#en-f-proofobligations-parentbound">Parent Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13489,15 +13489,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A citation link's <a class="ref" href="#en-f-citationlinks-name">name</a> is computed as the <a class="ref" href="#en-f-citationlinks-citingsource">citing source</a> minus the cites minus the <a class="ref" href="#en-f-citationlinks-citedsource">cited source</a>.</p>
+        <p class="view-body">A citation link's <a class="ref" href="#en-f-citationlinks-name">name</a> is computed as the <a class="ref" href="#en-f-citationlinks-citingsource">citing source</a>, followed by “-cites-”, followed by the <a class="ref" href="#en-f-citationlinks-citedsource">cited source</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-citationlinks-citingsource">citing source</a> minus cites) minus <a class="ref" href="#en-f-citationlinks-citedsource">cited source</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-citationlinks-citingsource">Citing source</a>, &quot;-cites-&quot;, joined with <a class="ref" href="#en-f-citationlinks-citedsource">cited source</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-citationlinks-citingsource">Citing Source</a>-cites-<a class="fx-chip" href="#en-f-citationlinks-citedsource">Cited Source</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-citationlinks-citingsource">Citing Source</a>, &quot;-cites-&quot;, <a class="fx-chip" href="#en-f-citationlinks-citedsource">Cited Source</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13682,11 +13682,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-sourcereferences-year">year</a>, <a class="ref" href="#en-f-citationlinks-citingsource">citing source</a>, source reference ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-sourcereferences-year">year</a> of the linked <a class="ref" href="#en-f-citationlinks-citingsource">citing source</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-sourcereferences-year">Year</a>, <a class="fx-chip" href="#en-f-citationlinks-citingsource">Citing Source</a>, <span class="fx-chip">Source Reference ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-sourcereferences-year">Year</a>, MATCH(<a class="fx-chip" href="#en-f-citationlinks-citingsource">Citing Source</a>, <span class="fx-chip">Source Reference ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13730,11 +13730,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-sourcereferences-year">year</a>, <a class="ref" href="#en-f-citationlinks-citedsource">cited source</a>, source reference ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-sourcereferences-year">year</a> of the linked <a class="ref" href="#en-f-citationlinks-citedsource">cited source</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-sourcereferences-year">Year</a>, <a class="fx-chip" href="#en-f-citationlinks-citedsource">Cited Source</a>, <span class="fx-chip">Source Reference ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-sourcereferences-year">Year</a>, MATCH(<a class="fx-chip" href="#en-f-citationlinks-citedsource">Cited Source</a>, <span class="fx-chip">Source Reference ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -13848,15 +13848,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An answer key's <a class="ref" href="#en-f-answerkey-name">name</a> is computed as the <a class="ref" href="#en-f-answerkey-targettable">target table</a> divided by the <a class="ref" href="#en-f-answerkey-targetrowid">target row ID</a> divided by the <a class="ref" href="#en-f-answerkey-targetfield">target field</a>.</p>
+        <p class="view-body">An answer key's <a class="ref" href="#en-f-answerkey-name">name</a> is computed as the <a class="ref" href="#en-f-answerkey-targettable">target table</a>, followed by a slash, followed by the <a class="ref" href="#en-f-answerkey-targetrowid">target row ID</a>, followed by a slash, followed by the <a class="ref" href="#en-f-answerkey-targetfield">target field</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-answerkey-targettable">target table</a> divided by <a class="ref" href="#en-f-answerkey-targetrowid">target row ID</a>) divided by <a class="ref" href="#en-f-answerkey-targetfield">target field</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-answerkey-targettable">Target table</a>, &quot;/&quot;, <a class="ref" href="#en-f-answerkey-targetrowid">target row ID</a>, &quot;/&quot;, joined with <a class="ref" href="#en-f-answerkey-targetfield">target field</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-answerkey-targettable">Target Table</a>/<a class="fx-chip" href="#en-f-answerkey-targetrowid">Target Row ID</a>/<a class="fx-chip" href="#en-f-answerkey-targetfield">Target Field</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-answerkey-targettable">Target Table</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-answerkey-targetrowid">Target Row ID</a>, &quot;/&quot;, <a class="fx-chip" href="#en-f-answerkey-targetfield">Target Field</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14323,7 +14323,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-lowerboundvalidityatsnapshot-boundexponent">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Bound Exponent</span><span class="input-table">Lower Bound Validity At Snapshot</span></span>
-          <span class="input-en">Lookup(exponent, asymptotic lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The exponent of the linked asymptotic lower bound.</span>
         </a>
         <a class="input tone-rel" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Temporal Snapshot</span><span class="input-table">Lower Bound Validity At Snapshot</span></span>
@@ -14379,7 +14379,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-lookup" href="#en-f-lowerboundvalidityatsnapshot-boundexponent">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Bound Exponent</span><span class="input-table">Lower Bound Validity At Snapshot</span></span>
-          <span class="input-en">Lookup(exponent, asymptotic lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The exponent of the linked asymptotic lower bound.</span>
         </a>
         <a class="input tone-rel" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Temporal Snapshot</span><span class="input-table">Lower Bound Validity At Snapshot</span></span>
@@ -14447,7 +14447,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-lowerboundvalidityatsnapshot-boundiscurrentlyvalid">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Bound is Currently Valid</span><span class="input-table">Lower Bound Validity At Snapshot</span></span>
-          <span class="input-en">Lookup(is currently valid, asymptotic lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The is currently valid of the linked asymptotic lower bound.</span>
         </a>
       </div>
     </details>
@@ -14526,15 +14526,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A lower bound validity at snapshot's <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-name">name</a> is computed as the <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a> minus the at minus the <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">temporal snapshot</a>.</p>
+        <p class="view-body">A lower bound validity at snapshot's <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-name">name</a> is computed as the <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>, followed by “-at-”, followed by the <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">temporal snapshot</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a> minus at) minus <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">temporal snapshot</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic lower bound</a>, &quot;-at-&quot;, joined with <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">temporal snapshot</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>-at-<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">Temporal Snapshot</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCAT(<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, &quot;-at-&quot;, <a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">Temporal Snapshot</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14620,11 +14620,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-exponent">exponent</a>, <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-exponent">exponent</a> of the linked <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-exponent">Exponent</a>, <a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-exponent">Exponent</a>, MATCH(<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14675,11 +14675,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-validfrom">valid from</a>, <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-validfrom">valid from</a> of the linked <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-validfrom">Valid From</a>, <a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-validfrom">Valid From</a>, MATCH(<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14723,11 +14723,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-validto">valid to</a>, <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-validto">valid to</a> of the linked <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-validto">Valid to</a>, <a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-validto">Valid to</a>, MATCH(<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14771,11 +14771,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-temporalsnapshots-snapshotdate">snapshot date</a>, <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">temporal snapshot</a>, temporal snapshot ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-temporalsnapshots-snapshotdate">snapshot date</a> of the linked <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">temporal snapshot</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-temporalsnapshots-snapshotdate">Snapshot Date</a>, <a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">Temporal Snapshot</a>, <span class="fx-chip">Temporal Snapshot ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-temporalsnapshots-snapshotdate">Snapshot Date</a>, MATCH(<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-temporalsnapshot">Temporal Snapshot</a>, <span class="fx-chip">Temporal Snapshot ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14841,11 +14841,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Lookup(<a class="ref" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">is currently valid</a>, <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>, asymptotic lower bound ID).</p>
+        <p class="view-body">The <a class="ref" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">is currently valid</a> of the linked <a class="ref" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">asymptotic lower bound</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LOOKUP(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">Is Currently Valid</a>, <a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>INDEX(<a class="fx-chip" href="#en-f-asymptoticlowerbounds-iscurrentlyvalid">Is Currently Valid</a>, MATCH(<a class="fx-chip" href="#en-f-lowerboundvalidityatsnapshot-asymptoticlowerbound">Asymptotic Lower Bound</a>, <span class="fx-chip">Asymptotic Lower Bound ID</span>, 0))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -14914,7 +14914,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-lookup" href="#en-f-lowerboundvalidityatsnapshot-boundiscurrentlyvalid">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Bound is Currently Valid</span><span class="input-table">Lower Bound Validity At Snapshot</span></span>
-          <span class="input-en">Lookup(is currently valid, asymptotic lower bound, asymptotic lower bound ID).</span>
+          <span class="input-en">The is currently valid of the linked asymptotic lower bound.</span>
         </a>
       </div>
     </details>

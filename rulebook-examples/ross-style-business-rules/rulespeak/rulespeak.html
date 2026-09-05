@@ -1472,15 +1472,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <div class="view-body"><p class="rt-headline">A claim is considered valid if all of the following:</p><ol class="rt-priority"><ul class="rt-group"><li>the <a class="ref" href="#en-f-claims-referencesincident">references incident</a> flag is set</li><li><span class="rt-group-label">any of these hold:</span><ul class="rt-group"><li>the <a class="ref" href="#en-f-claims-incidentclaimantpolicyactive">incident claimant policy active</a> flag is set</li><li>the <a class="ref" href="#en-f-claims-additionalclaimantpolicyactive">additional claimant policy active</a> flag is set</li></ul></li><li>the <a class="ref" href="#en-f-claims-additionalclaimantfavoritecolor">additional claimant favorite color</a> is “red”, or else the <a class="ref" href="#en-f-claims-hasadditionalclaimant">additional claimant</a> flag is not set</li><li>the <a class="ref" href="#en-f-claims-claimantofrecordishighrisk">claimant of record is high risk</a> flag is not set</li></ul></ol></div>
+        <div class="view-body"><p class="rt-headline">A claim is considered valid if all of the following:</p><ol class="rt-priority"><ul class="rt-group"><li>the <a class="ref" href="#en-f-claims-referencesincident">references incident</a> flag is set</li><li><span class="rt-group-label">any of these hold:</span><ul class="rt-group"><li>the <a class="ref" href="#en-f-claims-incidentclaimantpolicyactive">incident claimant policy active</a> flag is set</li><li>the <a class="ref" href="#en-f-claims-additionalclaimantpolicyactive">additional claimant policy active</a> flag is set</li></ul></li><li><span class="rt-group-label">any of these hold:</span><ul class="rt-group"><li>the <a class="ref" href="#en-f-claims-hasadditionalclaimant">additional claimant</a> flag is not set</li><li>the <a class="ref" href="#en-f-claims-additionalclaimantfavoritecolor">additional claimant favorite color</a> is “red”</li></ul></li><li>the <a class="ref" href="#en-f-claims-claimantofrecordishighrisk">claimant of record is high risk</a> flag is not set</li></ul></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-claims-referencesincident">References incident</a>, <a class="ref" href="#en-f-claims-incidentclaimantpolicyactive">incident claimant policy active</a> or <a class="ref" href="#en-f-claims-additionalclaimantpolicyactive">additional claimant policy active</a>, if <a class="ref" href="#en-f-claims-hasadditionalclaimant">has additional claimant</a> then <a class="ref" href="#en-f-claims-additionalclaimantfavoritecolor">additional claimant favorite color</a> lowercased is &quot;red&quot;, otherwise yes, and not <a class="ref" href="#en-f-claims-claimantofrecordishighrisk">claimant of record is high risk</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-claims-referencesincident">References incident</a>, <a class="ref" href="#en-f-claims-incidentclaimantpolicyactive">incident claimant policy active</a> or <a class="ref" href="#en-f-claims-additionalclaimantpolicyactive">additional claimant policy active</a>, not <a class="ref" href="#en-f-claims-hasadditionalclaimant">has additional claimant</a> or <a class="ref" href="#en-f-claims-additionalclaimantfavoritecolor">additional claimant favorite color</a> lowercased is &quot;red&quot;, and not <a class="ref" href="#en-f-claims-claimantofrecordishighrisk">claimant of record is high risk</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>AND(<a class="fx-chip" href="#en-f-claims-referencesincident">References Incident</a>, OR(<a class="fx-chip" href="#en-f-claims-incidentclaimantpolicyactive">Incident Claimant Policy Active</a>, <a class="fx-chip" href="#en-f-claims-additionalclaimantpolicyactive">Additional Claimant Policy Active</a>), IF(<a class="fx-chip" href="#en-f-claims-hasadditionalclaimant">Has Additional Claimant</a>, LOWER(<a class="fx-chip" href="#en-f-claims-additionalclaimantfavoritecolor">Additional Claimant Favorite Color</a>) = &quot;red&quot;, TRUE), NOT(<a class="fx-chip" href="#en-f-claims-claimantofrecordishighrisk">Claimant of Record is High Risk</a>))</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>AND(<a class="fx-chip" href="#en-f-claims-referencesincident">References Incident</a>, OR(<a class="fx-chip" href="#en-f-claims-incidentclaimantpolicyactive">Incident Claimant Policy Active</a>, <a class="fx-chip" href="#en-f-claims-additionalclaimantpolicyactive">Additional Claimant Policy Active</a>), OR(NOT(<a class="fx-chip" href="#en-f-claims-hasadditionalclaimant">Has Additional Claimant</a>), LOWER(<a class="fx-chip" href="#en-f-claims-additionalclaimantfavoritecolor">Additional Claimant Favorite Color</a>) = &quot;red&quot;), NOT(<a class="fx-chip" href="#en-f-claims-claimantofrecordishighrisk">Claimant of Record is High Risk</a>))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -1564,7 +1564,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-claims-isvalid">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Valid</span><span class="input-table">Claim</span></span>
-          <span class="input-en">References incident, incident claimant policy active or additional claimant policy active, if has additional claimant then additional claimant favorite color lowercased is &quot;red&quot;, otherwise yes, and not claimant of record is high risk.</span>
+          <span class="input-en">References incident, incident claimant policy active or additional claimant policy active, not has additional claimant or additional claimant favorite color lowercased is &quot;red&quot;, and not claimant of record is high risk.</span>
         </a>
         <a class="input tone-calc" href="#en-f-claims-referencesincident">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">References Incident</span><span class="input-table">Claim</span></span>
@@ -1636,7 +1636,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-claims-isvalid">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Valid</span><span class="input-table">Claim</span></span>
-          <span class="input-en">References incident, incident claimant policy active or additional claimant policy active, if has additional claimant then additional claimant favorite color lowercased is &quot;red&quot;, otherwise yes, and not claimant of record is high risk.</span>
+          <span class="input-en">References incident, incident claimant policy active or additional claimant policy active, not has additional claimant or additional claimant favorite color lowercased is &quot;red&quot;, and not claimant of record is high risk.</span>
         </a>
         <a class="input tone-raw" href="#en-f-claims-isflaggedforreview">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Is Flagged for Review</span><span class="input-table">Claim</span></span>
@@ -1699,7 +1699,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-calc" href="#en-f-claims-isvalid">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Valid</span><span class="input-table">Claim</span></span>
-          <span class="input-en">References incident, incident claimant policy active or additional claimant policy active, if has additional claimant then additional claimant favorite color lowercased is &quot;red&quot;, otherwise yes, and not claimant of record is high risk.</span>
+          <span class="input-en">References incident, incident claimant policy active or additional claimant policy active, not has additional claimant or additional claimant favorite color lowercased is &quot;red&quot;, and not claimant of record is high risk.</span>
         </a>
         <a class="input tone-raw" href="#en-f-claims-isflaggedforreview">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Is Flagged for Review</span><span class="input-table">Claim</span></span>

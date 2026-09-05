@@ -1,10 +1,10 @@
-// Thin accessor over the baked RuleSpeak data (embedded-rulespeak.ts).
+// Thin accessor over the baked RuleSpeak® data (embedded-rulespeak.ts).
 //
 // The rule SENTENCES themselves are produced at transpile time by the shared
 // rulebook-rulespeak-core C# engine — the SAME engine rulebook-to-rulespeak uses
 // to render its markdown document. Nothing here re-derives rule logic; this file
 // only looks the pre-rendered strings up by "Table.Field" and lets the FieldDag
-// page render them when the user toggles narration to RuleSpeak mode.
+// page render them when the user toggles narration to RuleSpeak® mode.
 
 import {
   rulespeakFields,
@@ -20,7 +20,7 @@ import type {
 
 export type { RuleSpeakFieldRule, RuleSpeakObligation, RuleSpeakRef, RuleNode };
 
-// The definitional RuleSpeak rule for one derived field, or null if the field is
+// The definitional RuleSpeak® rule for one derived field, or null if the field is
 // raw / a relationship / otherwise has no rendered rule.
 export function ruleSpeakForField(
   table: string,
@@ -59,7 +59,7 @@ export function structuralRulesForTable(table: string): string[] {
 
 // Render the inline markdown emphasis our rule strings use (**bold**, *italic*)
 // into React nodes — small + dependency-free so the explainer stays self-contained.
-// Recognizes the RuleSpeak keywords we bold (must / must not / should / only if).
+// Recognizes the RuleSpeak® keywords we bold (must / must not / should / only if).
 import type { ReactNode } from "react";
 import { Fragment, createElement } from "react";
 
@@ -85,7 +85,7 @@ export function renderRuleMarkdown(md: string): ReactNode {
 
 // ── Linkify field references inside rendered prose ──────────────────────────
 //
-// The RuleSpeak rule (and its English transliteration) is plain prose, but every
+// The RuleSpeak® rule (and its English transliteration) is plain prose, but every
 // field it mentions appears with the SAME humanized label the engine baked into
 // `refs`. We linkify by scanning the text for those exact labels as whole-word
 // substrings (LONGEST label first, so "client readiness avg" wins over "client"),

@@ -10,14 +10,14 @@
 -- Customers: Seed data for Customers
 -- ----------------------------------------------------------------------------
 INSERT INTO customers (customer_id, first_name, last_name)
-VALUES ('jane-smith-email-com', 'Jane', 'Smith') ON CONFLICT (customer_id) DO NOTHING;
+VALUES ('jane-smith-email-com', 'Jane', 'Smith') ON CONFLICT (customer_id) DO UPDATE SET first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 
 INSERT INTO customers (customer_id, first_name, last_name)
-VALUES ('john-doe-email-com', 'John', 'Doe') ON CONFLICT (customer_id) DO NOTHING;
+VALUES ('john-doe-email-com', 'John', 'Doe') ON CONFLICT (customer_id) DO UPDATE SET first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 
 INSERT INTO customers (customer_id, first_name, last_name)
-VALUES ('emily-jones-email-com', 'Emily', 'Jones') ON CONFLICT (customer_id) DO NOTHING;
+VALUES ('emily-jones-email-com', 'Emily', 'Jones') ON CONFLICT (customer_id) DO UPDATE SET first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 
 INSERT INTO customers (customer_id, first_name, last_name)
-VALUES ('alice-cooper', 'Mary', 'Gutknecht') ON CONFLICT (customer_id) DO NOTHING;
+VALUES ('alice-cooper', 'Mary', 'Gutknecht') ON CONFLICT (customer_id) DO UPDATE SET first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 

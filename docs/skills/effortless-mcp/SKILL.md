@@ -151,8 +151,9 @@ The previous version stays addressable at its pinned URL — existing clients ke
 | Call one transpiler in isolation | `mcp__effortless-mcp__<transpiler>` (direct HTTP to Control Plane — no local CLI needed) |
 | Inspect rulebook structure cheaply | **Use a local python one-liner** (see `effortless-query`) — `query_rulebook` adds a network round-trip for no benefit when the CLI is available |
 | Sanity-check rulebook before commit | `validate_dag` |
-| Scalar field add / CRUD | Airtable REST API (see `effortless-airtable`) — **not** the MCP transpiler tools |
-| Formula / lookup / rollup / new table | OMNI via Playwright (see `effortless-airtable-omni`) |
+| Scalar field add / CRUD (rulebook-direct, default) | Edit `effortless-rulebook.json` directly |
+| Scalar field add / CRUD (Airtable-connected projects only) | Airtable REST API (see `effortless-airtable`) — **not** the MCP transpiler tools |
+| Formula / lookup / rollup / new table (Airtable-connected projects only) | OMNI via Playwright (see `effortless-airtable-omni`) |
 
 The MCP server's transpiler tools are equivalent in effect to running the corresponding `effortless <transpiler>` CLI command, but they POST directly to Control Plane — useful when the CLI isn't installed (Cursor on a teammate's laptop, ChatGPT in the browser, etc.).
 

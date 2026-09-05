@@ -86,7 +86,8 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i talismans-special-solutions-rulebook.json -p rulebookPath=talismans-special-solutions-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.02.0241"
+      "LastVersionUsed": "v2026.09.02.0241",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ],
   "ShowHidden": false,

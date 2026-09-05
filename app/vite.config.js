@@ -2,6 +2,7 @@ import { defineConfig } from "vite";
 import path from "node:path";
 import fs from "node:fs/promises";
 import { fileURLToPath } from "node:url";
+import { execFile } from "node:child_process";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -83,8 +84,93 @@ function generatedFilesPlugin() {
   };
 }
 
+// Close a consistency finding from the work queue (US-036).
+// The rulebook JSON is HEAD, so the write goes through scripts/mark-finding-fixed.py
+// (the same diff-minimal path the CLI uses; it refuses non-open and scanner-derived
+// findings). The editor's base table is then PATCHed so the live views recompute at
+// once; the editor's own save-changes is NOT used because it rewrites the whole
+// file (finding cr-21-01).
+const REPO_ROOT = path.resolve(__dirname, "..");
+const RULEBOOK = "effortless-rulebook/effortless-rulebook.json";
+const FINDING_STATUSES = new Set(["fixed", "accepted-exception"]);
+
+function readJsonBody(req) {
+  return new Promise((resolve, reject) => {
+    let raw = "";
+    req.on("data", (chunk) => (raw += chunk));
+    req.on("end", () => {
+      try {
+        resolve(raw ? JSON.parse(raw) : {});
+      } catch (error) {
+        reject(error);
+      }
+    });
+    req.on("error", reject);
+  });
+}
+
+function markFindingInRulebook(id, status) {
+  return new Promise((resolve, reject) => {
+    execFile(
+      "python3",
+      ["scripts/mark-finding-fixed.py", RULEBOOK, "--status", status, id],
+      { cwd: REPO_ROOT },
+      (error, stdout, stderr) => (error ? reject(new Error((stderr || stdout || error.message).trim())) : resolve(stdout.trim())),
+    );
+  });
+}
+
+function findingStatusPlugin() {
+  return {
+    name: "erb-finding-status",
+    configureServer(server) {
+      server.middlewares.use("/__findings", async (req, res) => {
+        res.setHeader("Content-Type", "application/json");
+        const match = /^\/([A-Za-z0-9-]+)\/status$/.exec(new URL(req.url, "http://localhost").pathname);
+        if (req.method !== "POST" || !match) {
+          res.statusCode = 404;
+          res.end(JSON.stringify({ ok: false, error: "POST /__findings/<id>/status" }));
+          return;
+        }
+        const id = match[1];
+        let status;
+        try {
+          ({ status } = await readJsonBody(req));
+        } catch (error) {
+          res.statusCode = 400;
+          res.end(JSON.stringify({ ok: false, error: `malformed JSON body: ${error.message}` }));
+          return;
+        }
+        if (!FINDING_STATUSES.has(status)) {
+          res.statusCode = 400;
+          res.end(JSON.stringify({ ok: false, error: `status must be one of ${[...FINDING_STATUSES].join(", ")}` }));
+          return;
+        }
+        try {
+          await markFindingInRulebook(id, status);
+        } catch (error) {
+          res.statusCode = 400;
+          res.end(JSON.stringify({ ok: false, error: error.message }));
+          return;
+        }
+        const patch = await fetch(`${EDITOR_API}/api/tables/ConsistencyFindings/rows/${encodeURIComponent(id)}`, {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ Status: status }),
+        }).catch((error) => ({ ok: false, status: 0, text: async () => String(error.message || error) }));
+        if (!patch.ok) {
+          res.statusCode = 502;
+          res.end(JSON.stringify({ ok: false, error: `${RULEBOOK} now says ${id} is ${status}, but the editor API refused the base-table write (HTTP ${patch.status}): ${await patch.text()}` }));
+          return;
+        }
+        res.end(JSON.stringify({ ok: true, id, status }));
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [healthProbePlugin(), generatedFilesPlugin()],
+  plugins: [healthProbePlugin(), generatedFilesPlugin(), findingStatusPlugin()],
   server: {
     proxy: {
       "/api": { target: EDITOR_API, changeOrigin: true },

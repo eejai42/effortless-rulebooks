@@ -71,14 +71,14 @@ SELECT
   calc_project_metadata_skill_count(t.project_id) AS skill_count,               -- Order 1. Number of Claude skills in the catalog (including deprecated).
   calc_project_metadata_consistency_rule_count(t.project_id) AS consistency_rule_count,-- Order 1. Number of consistency rules governing the repo.
   calc_project_metadata_phase_count(t.project_id) AS phase_count,               -- Order 1. Number of delivery phases in the programme.
-  calc_project_metadata_toy_domain_count(t.project_id) AS toy_domain_count,     -- Order 2. Domains under toy-rulebooks/.
+  calc_project_metadata_toy_domain_count(t.project_id) AS toy_domain_count,     -- Order 3. Domains declared toys (Kind = toy).
   calc_project_metadata_deprecated_skill_count(t.project_id) AS deprecated_skill_count,-- Order 2. Deprecated skills still modeled.
   calc_project_metadata_priced_phase_count(t.project_id) AS priced_phase_count, -- Order 2. Phases carrying a quoted price.
   calc_project_metadata_story_total(t.project_id) AS story_total,               -- Order 2. All user stories across phases.
   calc_project_metadata_open_finding_total(t.project_id) AS open_finding_total, -- Order 3. Open consistency findings across every rule.
   calc_project_metadata_isolated_skill_count(t.project_id) AS isolated_skill_count,-- Order 3. Skills with no routing edges.
   calc_project_metadata_done_story_total(t.project_id) AS done_story_total,     -- Order 3. Stories asserted done across all phases.
-  calc_project_metadata_toy_share(t.project_id) AS toy_share,                   -- Order 3. Percent of containers that are toys.
+  calc_project_metadata_toy_share(t.project_id) AS toy_share,                   -- Order 4. Percent of containers that are toys.
   calc_project_metadata_clean_domain_count(t.project_id) AS clean_domain_count, -- Order 4. Domains with zero open findings.
   calc_project_metadata_satisfied_rule_count(t.project_id) AS satisfied_rule_count,-- Order 4. Rules with zero open findings.
   calc_project_metadata_cardless_domain_count(t.project_id) AS cardless_domain_count,-- Order 4. Real projects missing a flavor card.
@@ -220,6 +220,7 @@ CREATE VIEW vw_rulebook_domains WITH (security_invoker = ON) AS
 SELECT
   t.domain_id,
   t.area,                                                                       -- Witnessed physical container: root, rulebook-examples, or toy-rulebooks. Classification is derived separately.
+  t.kind,                                                                       -- Declared classification: root | toy | example. A toy is a statement of intent (a small teaching rulebook), not a count of files; change this value to re-classify a project. The folder it lives in is witnessed separately as Area.
   t.is_intentional_exception,                                                   -- True only for the two doctrine-sanctioned containers that deliberately carry no rulebook (naked-claude-vs-effortless-claude, volunteer-shift-scheduler-demo).
   calc_rulebook_domains_name(t.domain_id) AS name,                              -- Order 1. Display alias (calculated). Order 1.
   t.domain_name,
@@ -237,8 +238,8 @@ SELECT
   t.project,                                                                    -- FK to ProjectMetadata — roots this catalog row to the platform row so repo-wide rollups exist on one dashboard record.
   calc_rulebook_domains_consistency_findings(t.domain_id) AS consistency_findings,-- Reverse relationship: findings against this domain.
   calc_rulebook_domains_slug(t.domain_id) AS slug,                              -- Order 1. Directory slug parsed from the slug-keyed DomainId (domain-<slug>).
-  calc_rulebook_domains_is_toy(t.domain_id) AS is_toy,                          -- Order 1. Lives under toy-rulebooks/.
-  calc_rulebook_domains_toy_flag(t.domain_id) AS toy_flag,                      -- Order 1. 1 for toys — rollup carrier.
+  calc_rulebook_domains_is_toy(t.domain_id) AS is_toy,                          -- Order 1. Declared as a toy (Kind = toy).
+  calc_rulebook_domains_toy_flag(t.domain_id) AS toy_flag,                      -- Order 2. 1 for declared toys — rollup carrier.
   calc_rulebook_domains_has_rulebook(t.domain_id) AS has_rulebook,              -- Order 1. A rulebook file exists for this container.
   calc_rulebook_domains_finding_count(t.domain_id) AS finding_count,            -- Order 1. Consistency findings ever recorded against this domain (any status).
   calc_rulebook_domains_flavor_card_count(t.domain_id) AS flavor_card_count,    -- Order 1. Flavor cards describing this domain.
@@ -268,12 +269,11 @@ SELECT
   calc_rulebook_domains_required_present_count(t.domain_id) AS required_present_count,-- Order 4. Required-here slots currently present.
   calc_rulebook_domains_required_gap_count(t.domain_id) AS required_gap_count,  -- Order 4. Required-here slots currently absent.
   calc_rulebook_domains_is_fully_implemented(t.domain_id) AS is_fully_implemented,-- Order 4. The root/example-complete contract is fully witnessed.
-  calc_rulebook_domains_is_toy_by_coverage(t.domain_id) AS is_toy_by_coverage,  -- Order 4. Implements less than 60 percent of the full canonical shape.
   calc_rulebook_domains_fully_implemented_flag(t.domain_id) AS fully_implemented_flag,-- Order 4. 1 when fully implemented.
   calc_rulebook_domains_required_slot_coverage_percent(t.domain_id) AS required_slot_coverage_percent,-- Order 5. Percent of slots required for this physical area that are present.
-  calc_rulebook_domains_expected_area(t.domain_id) AS expected_area,            -- Order 5. Folder implied by root/toy/example readiness.
-  calc_rulebook_domains_is_misfiled(t.domain_id) AS is_misfiled,                -- Order 5. Physical folder disagrees with the witnessed classification.
-  calc_rulebook_domains_readiness_state(t.domain_id) AS readiness_state,        -- Order 5. intentional-exception | root-ready | root-incomplete | toy | example-ready | example-incomplete.
+  calc_rulebook_domains_expected_area(t.domain_id) AS expected_area,            -- Order 2. Folder implied by the declared Kind.
+  calc_rulebook_domains_is_misfiled(t.domain_id) AS is_misfiled,                -- Order 3. The physical folder disagrees with the declared Kind.
+  calc_rulebook_domains_readiness_state(t.domain_id) AS readiness_state,        -- Order 5. intentional-exception | root-ready | root-incomplete | toy | example-ready | example-incomplete. Toy/example is declared (Kind); ready/incomplete is witnessed.
   calc_rulebook_domains_launch_profiles(t.domain_id) AS launch_profiles         -- Reverse relationship: explicit launch instructions for this governed row.
 FROM rulebook_domains t;
 
@@ -821,6 +821,7 @@ SELECT
   t.check_mechanism,                                                            -- How the rule is verified (shell/jq sketch or derived-field reference).
   t.fix_playbook,                                                               -- How to bring a violating project into conformance.
   t.source_doctrine,                                                            -- Where the rule is stated (CLAUDE.md section or skill).
+  t.is_scanner_derived,                                                         -- True when this rule's findings are re-derived by scripts/scan-project-slots.py; they close by re-running the scan, never by hand.
   t.project,                                                                    -- FK to ProjectMetadata.
   calc_consistency_rules_consistency_findings(t.consistency_rule_id) AS consistency_findings,-- Reverse relationship: findings of this rule.
   calc_consistency_rules_finding_count(t.consistency_rule_id) AS finding_count, -- Order 1. Findings recorded under this rule (any status).
@@ -856,9 +857,11 @@ SELECT
   calc_consistency_findings_open_flag(t.consistency_finding_id) AS open_flag,   -- Order 1. 1 when open — rollup carrier.
   calc_consistency_findings_is_repo_scope(t.consistency_finding_id) AS is_repo_scope,-- Order 1. Finding is not tied to a single domain.
   calc_consistency_findings_rule_severity(t.consistency_finding_id) AS rule_severity,-- Order 1. Severity of the violated rule.
+  calc_consistency_findings_rule_is_scanner_derived(t.consistency_finding_id) AS rule_is_scanner_derived,-- Order 1. Whether the violated rule's findings are scanner-derived.
   calc_consistency_findings_rule_code(t.consistency_finding_id) AS rule_code,   -- Order 1. Code of the violated rule.
   calc_consistency_findings_domain_name(t.consistency_finding_id) AS domain_name,-- Order 1. Name of the domain (blank for repo scope).
   calc_consistency_findings_is_open_critical(t.consistency_finding_id) AS is_open_critical,-- Order 2. Open and critical.
+  calc_consistency_findings_is_hand_closable(t.consistency_finding_id) AS is_hand_closable,-- Order 2. Open and not scanner-derived: the work queue may mark it fixed or accepted-exception by hand.
   calc_consistency_findings_domain_finding_count(t.consistency_finding_id) AS domain_finding_count,-- Order 2. Total findings on the same domain.
   calc_consistency_findings_rule_finding_count(t.consistency_finding_id) AS rule_finding_count,-- Order 2. Total findings under the same rule.
   calc_consistency_findings_domain_open_finding_count(t.consistency_finding_id) AS domain_open_finding_count,-- Order 3. Open findings on the same domain.
@@ -1034,8 +1037,9 @@ SELECT
   calc_project_slot_witnesses_slot_required_for_example(t.project_slot_witness_id) AS slot_required_for_example,-- Order 1. Whether the slot is required for full example implementation.
   calc_project_slot_witnesses_slot_required_for_toy(t.project_slot_witness_id) AS slot_required_for_toy,-- Order 1. Whether the slot is universal for toys.
   calc_project_slot_witnesses_domain_area(t.project_slot_witness_id) AS domain_area,-- Order 1. Physical project area.
+  calc_project_slot_witnesses_domain_kind(t.project_slot_witness_id) AS domain_kind,-- Order 1. The declared Kind (root | toy | example) of the witnessed project.
   calc_project_slot_witnesses_domain_is_exception(t.project_slot_witness_id) AS domain_is_exception,-- Order 1. Whether the row is a doctrine-sanctioned non-project container.
-  calc_project_slot_witnesses_is_required_here(t.project_slot_witness_id) AS is_required_here,-- Order 2. The slot is required for this row's physical area.
+  calc_project_slot_witnesses_is_required_here(t.project_slot_witness_id) AS is_required_here,-- Order 2. The slot is required for this row's declared Kind.
   calc_project_slot_witnesses_implementation_gap_flag(t.project_slot_witness_id) AS implementation_gap_flag,-- Order 2. 1 when this absence prevents full implementation.
   calc_project_slot_witnesses_universal_gap_flag(t.project_slot_witness_id) AS universal_gap_flag,-- Order 2. 1 when a universal slot is absent.
   calc_project_slot_witnesses_is_gap(t.project_slot_witness_id) AS is_gap,      -- Order 3. Required here and absent.

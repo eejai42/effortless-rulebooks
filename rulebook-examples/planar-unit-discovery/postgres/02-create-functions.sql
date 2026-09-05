@@ -200,7 +200,48 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_point_set_members_name(p_point_set_member_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(point_set, '') FROM point_set_members WHERE point_set_member_id = p_point_set_member_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(point, '') FROM point_set_members WHERE point_set_member_id = p_point_set_member_id)) AS v) __safe_numeric), 0), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(point_set, '') FROM point_set_members WHERE point_set_member_id = p_point_set_member_id), '/', (SELECT NULLIF(point, '') FROM point_set_members WHERE point_set_member_id = p_point_set_member_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_point_pairs_point_ax
+-- Field: PointPairs.PointAX
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: X from related Points
+
+
+CREATE OR REPLACE FUNCTION calc_point_pairs_point_ax(p_point_pair_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT x::numeric FROM points WHERE point_id = (SELECT point_a FROM point_pairs WHERE point_pair_id = p_point_pair_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_point_pairs_point_ay
+-- Field: PointPairs.PointAY
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: Y from related Points
+
+CREATE OR REPLACE FUNCTION calc_point_pairs_point_ay(p_point_pair_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT y::numeric FROM points WHERE point_id = (SELECT point_a FROM point_pairs WHERE point_pair_id = p_point_pair_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_point_pairs_point_bx
+-- Field: PointPairs.PointBX
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: X from related Points
+
+CREATE OR REPLACE FUNCTION calc_point_pairs_point_bx(p_point_pair_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT x::numeric FROM points WHERE point_id = (SELECT point_b FROM point_pairs WHERE point_pair_id = p_point_pair_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_point_pairs_point_by
+-- Field: PointPairs.PointBY
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: Y from related Points
+
+CREATE OR REPLACE FUNCTION calc_point_pairs_point_by(p_point_pair_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT y::numeric FROM points WHERE point_id = (SELECT point_b FROM point_pairs WHERE point_pair_id = p_point_pair_id));
 $$ LANGUAGE sql STABLE;
 
 -- calc_point_pairs_name
@@ -209,60 +250,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_point_pairs_name(p_point_pair_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(point_set, '') FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(point_a, '') FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(point_b, '') FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_point_pairs_point_ax
--- Field: PointPairs.PointAX
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-
-CREATE OR REPLACE FUNCTION calc_point_pairs_point_ax(p_point_pair_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'PointPairs!{{PointA}}', 'Points!{{PointId}}'
-   Original Airtable formula:
-   =LOOKUP(Points!{{X}}, PointPairs!{{PointA}}, Points!{{PointId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
--- calc_point_pairs_point_ay
--- Field: PointPairs.PointAY
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_point_pairs_point_ay(p_point_pair_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'PointPairs!{{PointA}}', 'Points!{{PointId}}'
-   Original Airtable formula:
-   =LOOKUP(Points!{{Y}}, PointPairs!{{PointA}}, Points!{{PointId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
--- calc_point_pairs_point_bx
--- Field: PointPairs.PointBX
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_point_pairs_point_bx(p_point_pair_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'PointPairs!{{PointB}}', 'Points!{{PointId}}'
-   Original Airtable formula:
-   =LOOKUP(Points!{{X}}, PointPairs!{{PointB}}, Points!{{PointId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
--- calc_point_pairs_point_by
--- Field: PointPairs.PointBY
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_point_pairs_point_by(p_point_pair_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'PointPairs!{{PointB}}', 'Points!{{PointId}}'
-   Original Airtable formula:
-   =LOOKUP(Points!{{Y}}, PointPairs!{{PointB}}, Points!{{PointId}})
-*/
-NULL::numeric;
+  SELECT (CONCAT((SELECT NULLIF(point_set, '') FROM point_pairs WHERE point_pair_id = p_point_pair_id), '/', (SELECT NULLIF(point_a, '') FROM point_pairs WHERE point_pair_id = p_point_pair_id), '-', (SELECT NULLIF(point_b, '') FROM point_pairs WHERE point_pair_id = p_point_pair_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_point_pairs_delta_x
@@ -271,7 +259,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_point_pairs_delta_x(p_point_pair_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT point_bx FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT point_ax FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_point_pairs_point_bx(p_point_pair_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_point_pairs_point_ax(p_point_pair_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_point_pairs_delta_y
@@ -280,7 +268,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_point_pairs_delta_y(p_point_pair_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT point_by FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT point_ay FROM point_pairs WHERE point_pair_id = p_point_pair_id)) AS v) __safe_numeric), 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_point_pairs_point_by(p_point_pair_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_point_pairs_point_ay(p_point_pair_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_point_pairs_delta_x_squared
@@ -339,39 +327,33 @@ RETURNS BOOLEAN AS $$
   SELECT (calc_point_pairs_distance_from_unit(p_point_pair_id) <= (SELECT tolerance FROM point_pairs WHERE point_pair_id = p_point_pair_id))::boolean;
 $$ LANGUAGE sql STABLE;
 
+-- calc_unit_distance_graphs_vertex_count
+-- Field: UnitDistanceGraphs.VertexCount
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: PointCount from related PointSets
+
+CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_vertex_count(p_unit_distance_graph_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_point_sets_point_count((SELECT point_set FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_unit_distance_graphs_edge_count
+-- Field: UnitDistanceGraphs.EdgeCount
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: UnitDistancePairCount from related PointSets
+
+CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_edge_count(p_unit_distance_graph_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_point_sets_unit_distance_pair_count((SELECT point_set FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id));
+$$ LANGUAGE sql STABLE;
+
 -- calc_unit_distance_graphs_name
 -- Field: UnitDistanceGraphs.Name
 -- Type: calculated | DataType: string | Returns: TEXT
 
 CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_name(p_unit_distance_graph_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(point_set, '') FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (graph) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_unit_distance_graphs_vertex_count
--- Field: UnitDistanceGraphs.VertexCount
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_vertex_count(p_unit_distance_graph_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'UnitDistanceGraphs!{{PointSet}}', 'PointSets!{{PointSetId}}'
-   Original Airtable formula:
-   =LOOKUP(PointSets!{{PointCount}}, UnitDistanceGraphs!{{PointSet}}, PointSets!{{PointSetId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_unit_distance_graphs_edge_count
--- Field: UnitDistanceGraphs.EdgeCount
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_edge_count(p_unit_distance_graph_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'UnitDistanceGraphs!{{PointSet}}', 'PointSets!{{PointSetId}}'
-   Original Airtable formula:
-   =LOOKUP(PointSets!{{UnitDistancePairCount}}, UnitDistanceGraphs!{{PointSet}}, PointSets!{{PointSetId}})
-*/
-NULL::integer;
+  SELECT (CONCAT((SELECT NULLIF(point_set, '') FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id), '-graph'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_unit_distance_graphs_max_possible_edges
@@ -380,7 +362,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_max_possible_edges(p_unit_distance_graph_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT vertex_count FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT vertex_count FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id)) AS v) __safe_numeric), 0) - COALESCE(1, 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE(2, 0), 0))) AS v) __safe_numeric), 0)))::integer;
+  WITH __erb_dedup_v1 AS (SELECT calc_unit_distance_graphs_vertex_count(p_unit_distance_graph_id) AS val) SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0) - COALESCE(1, 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE(2, 0), 0))) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_unit_distance_graphs_edge_density
@@ -389,7 +371,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_edge_density(p_unit_distance_graph_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT edge_count FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_unit_distance_graphs_max_possible_edges(p_unit_distance_graph_id)) AS v) __safe_numeric), 0), 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_unit_distance_graphs_edge_count(p_unit_distance_graph_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_unit_distance_graphs_max_possible_edges(p_unit_distance_graph_id)) AS v) __safe_numeric), 0), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_unit_distance_graphs_density_exponent_estimate
@@ -399,7 +381,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_unit_distance_graphs_density_exponent_estimate(p_unit_distance_graph_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LOG(((SELECT edge_count FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id))::NUMERIC)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LOG(((SELECT vertex_count FROM unit_distance_graphs WHERE unit_distance_graph_id = p_unit_distance_graph_id))::NUMERIC)) AS v) __safe_numeric), 0), 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LOG((calc_unit_distance_graphs_edge_count(p_unit_distance_graph_id))::NUMERIC)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LOG((calc_unit_distance_graphs_vertex_count(p_unit_distance_graph_id))::NUMERIC)) AS v) __safe_numeric), 0), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- get_prime_ideals_generator_description
@@ -607,7 +589,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_prime_ideals_name(p_prime_ideal_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(number_field, '') FROM prime_ideals WHERE prime_ideal_id = p_prime_ideal_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(generator_description, '') FROM prime_ideals WHERE prime_ideal_id = p_prime_ideal_id)) AS v) __safe_numeric), 0), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(number_field, '') FROM prime_ideals WHERE prime_ideal_id = p_prime_ideal_id), '/', (SELECT NULLIF(generator_description, '') FROM prime_ideals WHERE prime_ideal_id = p_prime_ideal_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_prime_ideals_is_small_norm
@@ -617,6 +599,58 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_prime_ideals_is_small_norm(p_prime_ideal_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT ((SELECT norm FROM prime_ideals WHERE prime_ideal_id = p_prime_ideal_id) <= (SELECT norm_threshold FROM prime_ideals WHERE prime_ideal_id = p_prime_ideal_id))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_minkowski_lattices_dimension
+-- Field: MinkowskiLattices.Dimension
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: AmbientLatticeDimension from related NumberFields
+
+CREATE OR REPLACE FUNCTION calc_minkowski_lattices_dimension(p_minkowski_lattice_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_number_fields_ambient_lattice_dimension((SELECT number_field FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_minkowski_lattices_field_discriminant
+-- Field: MinkowskiLattices.FieldDiscriminant
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Discriminant from related NumberFields
+
+CREATE OR REPLACE FUNCTION calc_minkowski_lattices_field_discriminant(p_minkowski_lattice_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT discriminant::integer FROM number_fields WHERE number_field_id = (SELECT number_field FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_minkowski_lattices_source_field_degree
+-- Field: MinkowskiLattices.SourceFieldDegree
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Degree from related NumberFields
+
+
+CREATE OR REPLACE FUNCTION calc_minkowski_lattices_source_field_degree(p_minkowski_lattice_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT degree::integer FROM number_fields WHERE number_field_id = (SELECT number_field FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_minkowski_lattices_source_field_satisfies_golod_shafarevic
+-- Field: MinkowskiLattices.SourceFieldSatisfiesGolodShafarevich
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: SatisfiesGolodShafarevich from related NumberFields
+
+
+CREATE OR REPLACE FUNCTION calc_minkowski_lattices_source_field_satisfies_golod_shafarevic(p_minkowski_lattice_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_number_fields_satisfies_golod_shafarevich((SELECT number_field FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_minkowski_lattices_source_field_is_algebraic_source_candid
+-- Field: MinkowskiLattices.SourceFieldIsAlgebraicSourceCandidate
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAlgebraicSourceCandidate from related NumberFields
+
+CREATE OR REPLACE FUNCTION calc_minkowski_lattices_source_field_is_algebraic_source_candid(p_minkowski_lattice_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_number_fields_is_algebraic_source_candidate((SELECT number_field FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id));
 $$ LANGUAGE sql STABLE;
 
 -- get_short_vectors_coords_json
@@ -708,33 +742,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_minkowski_lattices_name(p_minkowski_lattice_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(number_field, '') FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (lattice) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_lattices_dimension
--- Field: MinkowskiLattices.Dimension
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_minkowski_lattices_dimension(p_minkowski_lattice_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiLattices!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{AmbientLatticeDimension}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_lattices_field_discriminant
--- Field: MinkowskiLattices.FieldDiscriminant
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_minkowski_lattices_field_discriminant(p_minkowski_lattice_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiLattices!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{Discriminant}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::integer;
+  SELECT (CONCAT((SELECT NULLIF(number_field, '') FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id), '-lattice'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_minkowski_lattices_determinant_squared
@@ -752,7 +760,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_minkowski_lattices_absolute_field_discriminant(p_minkowski_lattice_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (ABS((SELECT field_discriminant FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id)))::numeric;
+  SELECT (ABS(calc_minkowski_lattices_field_discriminant(p_minkowski_lattice_id)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_minkowski_lattices_determinant_squared_equals_discriminant
@@ -772,47 +780,6 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_minkowski_lattices_short_vector_count(p_minkowski_lattice_id TEXT)
 RETURNS INTEGER AS $$
   SELECT ((SELECT COUNT(*) FROM short_vectors WHERE minkowski_lattice = (SELECT NULLIF(minkowski_lattice_id, '') FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id) AND calc_short_vectors_is_short(short_vector_id) = TRUE))::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_lattices_source_field_degree
--- Field: MinkowskiLattices.SourceFieldDegree
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-
-CREATE OR REPLACE FUNCTION calc_minkowski_lattices_source_field_degree(p_minkowski_lattice_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiLattices!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{Degree}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_lattices_source_field_satisfies_golod_shafarevich
--- Field: MinkowskiLattices.SourceFieldSatisfiesGolodShafarevich
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_minkowski_lattices_source_field_satisfies_golod_shafarevich(p_minkowski_lattice_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiLattices!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{SatisfiesGolodShafarevich}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_lattices_source_field_is_algebraic_source_candidate
--- Field: MinkowskiLattices.SourceFieldIsAlgebraicSourceCandidate
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_minkowski_lattices_source_field_is_algebraic_source_candidate(p_minkowski_lattice_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiLattices!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{IsAlgebraicSourceCandidate}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_minkowski_lattices_projection_count
@@ -842,7 +809,17 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_minkowski_lattices_is_load_bearing_for_unit_distance_const(p_minkowski_lattice_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((COALESCE((SELECT source_field_is_algebraic_source_candidate FROM minkowski_lattices WHERE minkowski_lattice_id = p_minkowski_lattice_id), FALSE) AND (calc_minkowski_lattices_short_vector_count(p_minkowski_lattice_id))::NUMERIC > 0 AND calc_minkowski_lattices_has_any_planar_projection(p_minkowski_lattice_id)));
+  SELECT (((calc_minkowski_lattices_source_field_is_algebraic_source_candid(p_minkowski_lattice_id) = 'true') AND (calc_minkowski_lattices_short_vector_count(p_minkowski_lattice_id))::NUMERIC > 0 AND calc_minkowski_lattices_has_any_planar_projection(p_minkowski_lattice_id)));
+$$ LANGUAGE sql STABLE;
+
+-- calc_short_vectors_threshold_squared
+-- Field: ShortVectors.ThresholdSquared
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: ShortVectorThresholdSquared from related MinkowskiLattices
+
+CREATE OR REPLACE FUNCTION calc_short_vectors_threshold_squared(p_short_vector_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT short_vector_threshold_squared::numeric FROM minkowski_lattices WHERE minkowski_lattice_id = (SELECT minkowski_lattice FROM short_vectors WHERE short_vector_id = p_short_vector_id));
 $$ LANGUAGE sql STABLE;
 
 -- get_minkowski_lattices_determinant
@@ -885,20 +862,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_short_vectors_name(p_short_vector_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(minkowski_lattice, '') FROM short_vectors WHERE short_vector_id = p_short_vector_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(coords_json, '') FROM short_vectors WHERE short_vector_id = p_short_vector_id)) AS v) __safe_numeric), 0), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_short_vectors_threshold_squared
--- Field: ShortVectors.ThresholdSquared
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_short_vectors_threshold_squared(p_short_vector_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ShortVectors!{{MinkowskiLattice}}', 'MinkowskiLattices!{{MinkowskiLatticeId}}'
-   Original Airtable formula:
-   =LOOKUP(MinkowskiLattices!{{ShortVectorThresholdSquared}}, ShortVectors!{{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})
-*/
-NULL::numeric;
+  SELECT (CONCAT((SELECT NULLIF(minkowski_lattice, '') FROM short_vectors WHERE short_vector_id = p_short_vector_id), '/', (SELECT NULLIF(coords_json, '') FROM short_vectors WHERE short_vector_id = p_short_vector_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_short_vectors_is_short
@@ -907,7 +871,28 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_short_vectors_is_short(p_short_vector_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((SELECT norm_squared FROM short_vectors WHERE short_vector_id = p_short_vector_id) <= (SELECT threshold_squared FROM short_vectors WHERE short_vector_id = p_short_vector_id))::boolean;
+  SELECT ((SELECT norm_squared FROM short_vectors WHERE short_vector_id = p_short_vector_id) <= calc_short_vectors_threshold_squared(p_short_vector_id))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_construction_families_source_field_satisfies_golod_shafare
+-- Field: ConstructionFamilies.SourceFieldSatisfiesGolodShafarevich
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: SatisfiesGolodShafarevich from related NumberFields
+
+
+CREATE OR REPLACE FUNCTION calc_construction_families_source_field_satisfies_golod_shafare(p_construction_family_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_number_fields_satisfies_golod_shafarevich((SELECT source_number_field FROM construction_families WHERE construction_family_id = p_construction_family_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_construction_families_source_lattice_is_load_bearing
+-- Field: ConstructionFamilies.SourceLatticeIsLoadBearing
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsLoadBearingForUnitDistanceConstruction from related MinkowskiLattices
+
+CREATE OR REPLACE FUNCTION calc_construction_families_source_lattice_is_load_bearing(p_construction_family_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_minkowski_lattices_is_load_bearing_for_unit_distance_const((SELECT source_minkowski_lattice FROM construction_families WHERE construction_family_id = p_construction_family_id));
 $$ LANGUAGE sql STABLE;
 
 -- get_construction_instances_param_n
@@ -936,33 +921,6 @@ RETURNS INTEGER AS $$
   SELECT ((SELECT COUNT(*) FROM construction_instances WHERE construction_family = (SELECT NULLIF(construction_family_id, '') FROM construction_families WHERE construction_family_id = p_construction_family_id)))::integer;
 $$ LANGUAGE sql STABLE;
 
--- calc_construction_families_source_field_satisfies_golod_shafarevich
--- Field: ConstructionFamilies.SourceFieldSatisfiesGolodShafarevich
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_construction_families_source_field_satisfies_golod_shafarevich(p_construction_family_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ConstructionFamilies!{{SourceNumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{SatisfiesGolodShafarevich}}, ConstructionFamilies!{{SourceNumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_construction_families_source_lattice_is_load_bearing
--- Field: ConstructionFamilies.SourceLatticeIsLoadBearing
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_construction_families_source_lattice_is_load_bearing(p_construction_family_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ConstructionFamilies!{{SourceMinkowskiLattice}}', 'MinkowskiLattices!{{MinkowskiLatticeId}}'
-   Original Airtable formula:
-   =LOOKUP(MinkowskiLattices!{{IsLoadBearingForUnitDistanceConstruction}}, ConstructionFamilies!{{SourceMinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
 -- calc_construction_families_is_algebraic_construction
 -- Field: ConstructionFamilies.IsAlgebraicConstruction
 -- Type: calculated | DataType: boolean | Returns: BOOLEAN
@@ -970,7 +928,48 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_construction_families_is_algebraic_construction(p_construction_family_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((COALESCE((SELECT source_field_satisfies_golod_shafarevich FROM construction_families WHERE construction_family_id = p_construction_family_id), FALSE) AND COALESCE((SELECT source_lattice_is_load_bearing FROM construction_families WHERE construction_family_id = p_construction_family_id), FALSE)))::boolean;
+  SELECT (((calc_construction_families_source_field_satisfies_golod_shafare(p_construction_family_id) = 'true') AND calc_construction_families_source_lattice_is_load_bearing(p_construction_family_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_construction_instances_point_count
+-- Field: ConstructionInstances.PointCount
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: PointCount from related PointSets
+
+CREATE OR REPLACE FUNCTION calc_construction_instances_point_count(p_construction_instance_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_point_sets_point_count((SELECT point_set FROM construction_instances WHERE construction_instance_id = p_construction_instance_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_construction_instances_edge_count
+-- Field: ConstructionInstances.EdgeCount
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: UnitDistancePairCount from related PointSets
+
+CREATE OR REPLACE FUNCTION calc_construction_instances_edge_count(p_construction_instance_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_point_sets_unit_distance_pair_count((SELECT point_set FROM construction_instances WHERE construction_instance_id = p_construction_instance_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_construction_instances_density_exponent_estimate
+-- Field: ConstructionInstances.DensityExponentEstimate
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: DensityExponentEstimate from related PointSets
+
+CREATE OR REPLACE FUNCTION calc_construction_instances_density_exponent_estimate(p_construction_instance_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_point_sets_density_exponent_estimate((SELECT point_set FROM construction_instances WHERE construction_instance_id = p_construction_instance_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_construction_instances_family_is_algebraic
+-- Field: ConstructionInstances.FamilyIsAlgebraic
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAlgebraicConstruction from related ConstructionFamilies
+
+
+CREATE OR REPLACE FUNCTION calc_construction_instances_family_is_algebraic(p_construction_instance_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_construction_families_is_algebraic_construction((SELECT construction_family FROM construction_instances WHERE construction_instance_id = p_construction_instance_id));
 $$ LANGUAGE sql STABLE;
 
 -- get_construction_families_display_name
@@ -1004,46 +1003,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_construction_instances_name(p_construction_instance_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(construction_family, '') FROM construction_instances WHERE construction_instance_id = p_construction_instance_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (n(SELECT param_n FROM construction_instances WHERE construction_instance_id = p_construction_instance_id)) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_construction_instances_point_count
--- Field: ConstructionInstances.PointCount
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_construction_instances_point_count(p_construction_instance_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ConstructionInstances!{{PointSet}}', 'PointSets!{{PointSetId}}'
-   Original Airtable formula:
-   =LOOKUP(PointSets!{{PointCount}}, ConstructionInstances!{{PointSet}}, PointSets!{{PointSetId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_construction_instances_edge_count
--- Field: ConstructionInstances.EdgeCount
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_construction_instances_edge_count(p_construction_instance_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ConstructionInstances!{{PointSet}}', 'PointSets!{{PointSetId}}'
-   Original Airtable formula:
-   =LOOKUP(PointSets!{{UnitDistancePairCount}}, ConstructionInstances!{{PointSet}}, PointSets!{{PointSetId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_construction_instances_density_exponent_estimate
--- Field: ConstructionInstances.DensityExponentEstimate
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_construction_instances_density_exponent_estimate(p_construction_instance_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ConstructionInstances!{{PointSet}}', 'PointSets!{{PointSetId}}'
-   Original Airtable formula:
-   =LOOKUP(PointSets!{{DensityExponentEstimate}}, ConstructionInstances!{{PointSet}}, PointSets!{{PointSetId}})
-*/
-NULL::numeric;
+  SELECT (CONCAT((SELECT NULLIF(construction_family, '') FROM construction_instances WHERE construction_instance_id = p_construction_instance_id), '-n', (SELECT param_n FROM construction_instances WHERE construction_instance_id = p_construction_instance_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_construction_instances_param_n_matches_point_count
@@ -1053,21 +1013,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_construction_instances_param_n_matches_point_count(p_construction_instance_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((SELECT param_n FROM construction_instances WHERE construction_instance_id = p_construction_instance_id) = (SELECT point_count FROM construction_instances WHERE construction_instance_id = p_construction_instance_id))::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_construction_instances_family_is_algebraic
--- Field: ConstructionInstances.FamilyIsAlgebraic
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_construction_instances_family_is_algebraic(p_construction_instance_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ConstructionInstances!{{ConstructionFamily}}', 'ConstructionFamilies!{{ConstructionFamilyId}}'
-   Original Airtable formula:
-   =LOOKUP(ConstructionFamilies!{{IsAlgebraicConstruction}}, ConstructionInstances!{{ConstructionFamily}}, ConstructionFamilies!{{ConstructionFamilyId}})
-*/
-NULL::boolean;
+  SELECT ((SELECT param_n FROM construction_instances WHERE construction_instance_id = p_construction_instance_id) = calc_construction_instances_point_count(p_construction_instance_id))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_construction_instances_is_explicit_superlinear
@@ -1077,7 +1023,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_construction_instances_is_explicit_superlinear(p_construction_instance_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT density_exponent_estimate FROM construction_instances WHERE construction_instance_id = p_construction_instance_id))::NUMERIC > 1)::boolean;
+  SELECT ((calc_construction_instances_density_exponent_estimate(p_construction_instance_id))::NUMERIC > 1)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_construction_instances_is_algebraic_superlinear_witness
@@ -1087,7 +1033,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_construction_instances_is_algebraic_superlinear_witness(p_construction_instance_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((COALESCE((SELECT family_is_algebraic FROM construction_instances WHERE construction_instance_id = p_construction_instance_id), FALSE) AND calc_construction_instances_is_explicit_superlinear(p_construction_instance_id)))::boolean;
+  SELECT ((calc_construction_instances_family_is_algebraic(p_construction_instance_id) AND calc_construction_instances_is_explicit_superlinear(p_construction_instance_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_growth_sequences_name
@@ -1096,7 +1042,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_growth_sequences_name(p_growth_sequence_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(construction_family, '') FROM growth_sequences WHERE growth_sequence_id = p_growth_sequence_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (growth) AS v) __safe_numeric), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(construction_family, '') FROM growth_sequences WHERE growth_sequence_id = p_growth_sequence_id), '-growth'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_growth_sequences_observed_instance_count
@@ -1287,6 +1233,38 @@ RETURNS NUMERIC AS $$
   SELECT ((SELECT COALESCE(MAX((exponent)::numeric), 0) FROM asymptotic_lower_bounds WHERE asymptotic_function = p_asymptotic_function_id AND is_currently_valid = FALSE))::numeric;
 $$ LANGUAGE sql STABLE;
 
+-- calc_asymptotic_lower_bounds_witnessed_by_max_density_exponent
+-- Field: AsymptoticLowerBounds.WitnessedByMaxDensityExponent
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: MaxObservedDensityExponentEstimate from related GrowthSequences
+
+CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witnessed_by_max_density_exponent(p_asymptotic_lower_bound_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_growth_sequences_max_observed_density_exponent_estimate((SELECT growth_sequence FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_asymptotic_lower_bounds_witness_source_family
+-- Field: AsymptoticLowerBounds.WitnessSourceFamily
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: ConstructionFamily from related GrowthSequences
+
+
+CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witness_source_family(p_asymptotic_lower_bound_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT construction_family::text FROM growth_sequences WHERE growth_sequence_id = (SELECT growth_sequence FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_asymptotic_lower_bounds_witness_family_is_algebraic
+-- Field: AsymptoticLowerBounds.WitnessFamilyIsAlgebraic
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAlgebraicConstruction from related ConstructionFamilies
+
+
+CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witness_family_is_algebraic(p_asymptotic_lower_bound_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_construction_families_is_algebraic_construction(calc_asymptotic_lower_bounds_witness_source_family(p_asymptotic_lower_bound_id));
+$$ LANGUAGE sql STABLE;
+
 -- get_asymptotic_functions_display_name
 -- Helper function: Get DisplayName from AsymptoticFunctions by AsymptoticFunctionId
 -- Used for join-free cross-table references in aggregations
@@ -1330,19 +1308,6 @@ RETURNS BOOLEAN AS $$
   SELECT (((SELECT exponent FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id))::NUMERIC >= 1)::boolean;
 $$ LANGUAGE sql STABLE;
 
--- calc_asymptotic_lower_bounds_witnessed_by_max_density_exponent
--- Field: AsymptoticLowerBounds.WitnessedByMaxDensityExponent
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witnessed_by_max_density_exponent(p_asymptotic_lower_bound_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'AsymptoticLowerBounds!{{GrowthSequence}}', 'GrowthSequences!{{GrowthSequenceId}}'
-   Original Airtable formula:
-   =LOOKUP(GrowthSequences!{{MaxObservedDensityExponentEstimate}}, AsymptoticLowerBounds!{{GrowthSequence}}, GrowthSequences!{{GrowthSequenceId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
 -- calc_asymptotic_lower_bounds_witness_consistent
 -- Field: AsymptoticLowerBounds.WitnessConsistent
 -- Type: calculated | DataType: boolean | Returns: BOOLEAN
@@ -1350,35 +1315,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witness_consistent(p_asymptotic_lower_bound_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((SELECT witnessed_by_max_density_exponent FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id) >= (SELECT exponent FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id))::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_asymptotic_lower_bounds_witness_source_family
--- Field: AsymptoticLowerBounds.WitnessSourceFamily
--- Type: lookup | DataType: string | Returns: TEXT
-
-
-CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witness_source_family(p_asymptotic_lower_bound_id TEXT)
-RETURNS TEXT AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'AsymptoticLowerBounds!{{GrowthSequence}}', 'GrowthSequences!{{GrowthSequenceId}}'
-   Original Airtable formula:
-   =LOOKUP(GrowthSequences!{{ConstructionFamily}}, AsymptoticLowerBounds!{{GrowthSequence}}, GrowthSequences!{{GrowthSequenceId}})
-*/
-NULL::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_asymptotic_lower_bounds_witness_family_is_algebraic
--- Field: AsymptoticLowerBounds.WitnessFamilyIsAlgebraic
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_witness_family_is_algebraic(p_asymptotic_lower_bound_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'AsymptoticLowerBounds!{{WitnessSourceFamily}}', 'ConstructionFamilies!{{ConstructionFamilyId}}'
-   Original Airtable formula:
-   =LOOKUP(ConstructionFamilies!{{IsAlgebraicConstruction}}, AsymptoticLowerBounds!{{WitnessSourceFamily}}, ConstructionFamilies!{{ConstructionFamilyId}})
-*/
-NULL::boolean;
+  SELECT (calc_asymptotic_lower_bounds_witnessed_by_max_density_exponent(p_asymptotic_lower_bound_id) >= (SELECT exponent FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_asymptotic_lower_bounds_is_algebraically_anchored
@@ -1388,7 +1325,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_asymptotic_lower_bounds_is_algebraically_anchored(p_asymptotic_lower_bound_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_asymptotic_lower_bounds_witness_consistent(p_asymptotic_lower_bound_id) AND COALESCE((SELECT witness_family_is_algebraic FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id), FALSE) AND calc_asymptotic_lower_bounds_is_superlinear(p_asymptotic_lower_bound_id)))::boolean;
+  SELECT ((calc_asymptotic_lower_bounds_witness_consistent(p_asymptotic_lower_bound_id) AND calc_asymptotic_lower_bounds_witness_family_is_algebraic(p_asymptotic_lower_bound_id) AND calc_asymptotic_lower_bounds_is_superlinear(p_asymptotic_lower_bound_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_asymptotic_lower_bounds_obligation_count
@@ -1456,6 +1393,102 @@ RETURNS BOOLEAN AS $$
   WITH __erb_dedup_v1 AS (SELECT calc_asymptotic_lower_bounds_witness_consistent(p_asymptotic_lower_bound_id) AS val) SELECT (((calc_asymptotic_lower_bounds_is_algebraic_tower_proof(p_asymptotic_lower_bound_id) AND calc_asymptotic_lower_bounds_is_algebraically_anchored(p_asymptotic_lower_bound_id)) OR (calc_asymptotic_lower_bounds_is_combinatorial_proof(p_asymptotic_lower_bound_id) AND calc_asymptotic_lower_bounds_all_obligations_satisfied(p_asymptotic_lower_bound_id) AND (SELECT val FROM __erb_dedup_v1)) OR ((SELECT NULLIF(proof_pathway, '') FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = p_asymptotic_lower_bound_id) = 'witness-only' AND (SELECT val FROM __erb_dedup_v1))))::boolean;
 $$ LANGUAGE sql STABLE;
 
+-- calc_theorems_anchored_bound_exponent
+-- Field: Theorems.AnchoredBoundExponent
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: Exponent from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_exponent(p_theorem_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT exponent::numeric FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_is_superlinear
+-- Field: Theorems.AnchoredBoundIsSuperlinear
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsSuperlinear from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_superlinear(p_theorem_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_asymptotic_lower_bounds_is_superlinear((SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_witness_consistent
+-- Field: Theorems.AnchoredBoundWitnessConsistent
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: WitnessConsistent from related AsymptoticLowerBounds
+
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_witness_consistent(p_theorem_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_asymptotic_lower_bounds_witness_consistent((SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_is_algebraically_anchored
+-- Field: Theorems.AnchoredBoundIsAlgebraicallyAnchored
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAlgebraicallyAnchored from related AsymptoticLowerBounds
+
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_algebraically_anchored(p_theorem_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_asymptotic_lower_bounds_is_algebraically_anchored((SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_applies_to_function
+-- Field: Theorems.AppliesToFunction
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: DisplayName from related AsymptoticFunctions
+
+
+CREATE OR REPLACE FUNCTION calc_theorems_applies_to_function(p_theorem_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT display_name::text FROM asymptotic_functions WHERE asymptotic_function_id = (SELECT asymptotic_function FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_all_obligations_satisfied
+-- Field: Theorems.AnchoredBoundAllObligationsSatisfied
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: AllObligationsSatisfied from related AsymptoticLowerBounds
+
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_all_obligations_satisfied(p_theorem_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_asymptotic_lower_bounds_all_obligations_satisfied((SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_open_obligation_count
+-- Field: Theorems.AnchoredBoundOpenObligationCount
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: OpenObligationCount from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_open_obligation_count(p_theorem_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_asymptotic_lower_bounds_open_obligation_count((SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_is_currently_valid
+-- Field: Theorems.AnchoredBoundIsCurrentlyValid
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsCurrentlyValid from related AsymptoticLowerBounds
+
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_currently_valid(p_theorem_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_currently_valid::boolean FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_theorems_anchored_bound_is_auditable_via_its_pathway
+-- Field: Theorems.AnchoredBoundIsAuditableViaItsPathway
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsAuditableViaItsPathway from related AsymptoticLowerBounds
+
+
+CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_auditable_via_its_pathway(p_theorem_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_asymptotic_lower_bounds_is_auditable_via_its_pathway((SELECT anchored_lower_bound FROM theorems WHERE theorem_id = p_theorem_id));
+$$ LANGUAGE sql STABLE;
+
 -- calc_theorems_name
 -- Field: Theorems.Name
 -- Type: calculated | DataType: string | Returns: TEXT
@@ -1465,32 +1498,6 @@ RETURNS TEXT AS $$
   SELECT (REPLACE(LOWER((SELECT NULLIF(display_name, '') FROM theorems WHERE theorem_id = p_theorem_id)), ' ', '-'))::text;
 $$ LANGUAGE sql STABLE;
 
--- calc_theorems_anchored_bound_exponent
--- Field: Theorems.AnchoredBoundExponent
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_exponent(p_theorem_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{Exponent}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_anchored_bound_is_superlinear
--- Field: Theorems.AnchoredBoundIsSuperlinear
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_superlinear(p_theorem_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{IsSuperlinear}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
 -- calc_theorems_anchor_matches_bound_exponent
 -- Field: Theorems.AnchorMatchesBoundExponent
 -- Type: calculated | DataType: boolean | Returns: BOOLEAN
@@ -1498,35 +1505,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_theorems_anchor_matches_bound_exponent(p_theorem_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((ABS((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT claimed_exponent FROM theorems WHERE theorem_id = p_theorem_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT anchored_bound_exponent FROM theorems WHERE theorem_id = p_theorem_id)) AS v) __safe_numeric), 0))))::NUMERIC < 0.0001)::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_anchored_bound_witness_consistent
--- Field: Theorems.AnchoredBoundWitnessConsistent
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_witness_consistent(p_theorem_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{WitnessConsistent}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_anchored_bound_is_algebraically_anchored
--- Field: Theorems.AnchoredBoundIsAlgebraicallyAnchored
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_algebraically_anchored(p_theorem_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{IsAlgebraicallyAnchored}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
+  SELECT ((ABS((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT claimed_exponent FROM theorems WHERE theorem_id = p_theorem_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_theorems_anchored_bound_exponent(p_theorem_id)) AS v) __safe_numeric), 0))))::NUMERIC < 0.0001)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_theorems_algebraic_chain_closed
@@ -1536,21 +1515,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_theorems_algebraic_chain_closed(p_theorem_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_theorems_anchor_matches_bound_exponent(p_theorem_id) AND COALESCE((SELECT anchored_bound_is_superlinear FROM theorems WHERE theorem_id = p_theorem_id), FALSE) AND COALESCE((SELECT anchored_bound_witness_consistent FROM theorems WHERE theorem_id = p_theorem_id), FALSE) AND COALESCE((SELECT anchored_bound_is_algebraically_anchored FROM theorems WHERE theorem_id = p_theorem_id), FALSE)))::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_applies_to_function
--- Field: Theorems.AppliesToFunction
--- Type: lookup | DataType: string | Returns: TEXT
-
-
-CREATE OR REPLACE FUNCTION calc_theorems_applies_to_function(p_theorem_id TEXT)
-RETURNS TEXT AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AsymptoticFunction}}', 'AsymptoticFunctions!{{AsymptoticFunctionId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticFunctions!{{DisplayName}}, Theorems!{{AsymptoticFunction}}, AsymptoticFunctions!{{AsymptoticFunctionId}})
-*/
-NULL::text;
+  SELECT ((calc_theorems_anchor_matches_bound_exponent(p_theorem_id) AND calc_theorems_anchored_bound_is_superlinear(p_theorem_id) AND calc_theorems_anchored_bound_witness_consistent(p_theorem_id) AND calc_theorems_anchored_bound_is_algebraically_anchored(p_theorem_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_theorems_is_unit_distance_theorem
@@ -1563,33 +1528,6 @@ RETURNS BOOLEAN AS $$
   SELECT ((SELECT NULLIF(asymptotic_function, '') FROM theorems WHERE theorem_id = p_theorem_id) = 'u-n')::boolean;
 $$ LANGUAGE sql STABLE;
 
--- calc_theorems_anchored_bound_all_obligations_satisfied
--- Field: Theorems.AnchoredBoundAllObligationsSatisfied
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_all_obligations_satisfied(p_theorem_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{AllObligationsSatisfied}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_anchored_bound_open_obligation_count
--- Field: Theorems.AnchoredBoundOpenObligationCount
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_open_obligation_count(p_theorem_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{OpenObligationCount}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
 -- calc_theorems_fully_audited_and_closed
 -- Field: Theorems.FullyAuditedAndClosed
 -- Type: calculated | DataType: boolean | Returns: BOOLEAN
@@ -1597,21 +1535,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_theorems_fully_audited_and_closed(p_theorem_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_theorems_algebraic_chain_closed(p_theorem_id) AND COALESCE((SELECT anchored_bound_all_obligations_satisfied FROM theorems WHERE theorem_id = p_theorem_id), FALSE)))::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_anchored_bound_is_currently_valid
--- Field: Theorems.AnchoredBoundIsCurrentlyValid
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_currently_valid(p_theorem_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{IsCurrentlyValid}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
+  SELECT ((calc_theorems_algebraic_chain_closed(p_theorem_id) AND calc_theorems_anchored_bound_all_obligations_satisfied(p_theorem_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_theorems_is_historically_anchored
@@ -1621,21 +1545,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_theorems_is_historically_anchored(p_theorem_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT is_currently_valid FROM theorems WHERE theorem_id = p_theorem_id) = TRUE AND (SELECT anchored_bound_is_currently_valid FROM theorems WHERE theorem_id = p_theorem_id) = TRUE))::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_theorems_anchored_bound_is_auditable_via_its_pathway
--- Field: Theorems.AnchoredBoundIsAuditableViaItsPathway
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_theorems_anchored_bound_is_auditable_via_its_pathway(p_theorem_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'Theorems!{{AnchoredLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{IsAuditableViaItsPathway}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
+  SELECT (((SELECT is_currently_valid FROM theorems WHERE theorem_id = p_theorem_id) = TRUE AND calc_theorems_anchored_bound_is_currently_valid(p_theorem_id) = TRUE))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_theorems_is_audited_and_closed
@@ -1645,7 +1555,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_theorems_is_audited_and_closed(p_theorem_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_theorems_is_historically_anchored(p_theorem_id) AND COALESCE((SELECT anchored_bound_is_auditable_via_its_pathway FROM theorems WHERE theorem_id = p_theorem_id), FALSE)))::boolean;
+  SELECT ((calc_theorems_is_historically_anchored(p_theorem_id) AND calc_theorems_anchored_bound_is_auditable_via_its_pathway(p_theorem_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_metrics_name
@@ -1681,7 +1591,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_field_embeddings_name(p_field_embedding_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(number_field, '') FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(embedding_type, '') FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT index_in_signature FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id)) AS v) __safe_numeric), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(number_field, '') FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id), '/', (SELECT NULLIF(embedding_type, '') FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id), '-', (SELECT index_in_signature FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_field_embeddings_is_real_embedding
@@ -1702,39 +1612,33 @@ RETURNS BOOLEAN AS $$
   SELECT (((SELECT target_space_dim FROM field_embeddings WHERE field_embedding_id = p_field_embedding_id))::NUMERIC = 2)::boolean;
 $$ LANGUAGE sql STABLE;
 
+-- calc_minkowski_embeddings_ambient_dimension
+-- Field: MinkowskiEmbeddings.AmbientDimension
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: AmbientLatticeDimension from related NumberFields
+
+CREATE OR REPLACE FUNCTION calc_minkowski_embeddings_ambient_dimension(p_minkowski_embedding_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_number_fields_ambient_lattice_dimension((SELECT number_field FROM minkowski_embeddings WHERE minkowski_embedding_id = p_minkowski_embedding_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_minkowski_embeddings_target_lattice_dimension
+-- Field: MinkowskiEmbeddings.TargetLatticeDimension
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Dimension from related MinkowskiLattices
+
+CREATE OR REPLACE FUNCTION calc_minkowski_embeddings_target_lattice_dimension(p_minkowski_embedding_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_minkowski_lattices_dimension((SELECT target_lattice FROM minkowski_embeddings WHERE minkowski_embedding_id = p_minkowski_embedding_id));
+$$ LANGUAGE sql STABLE;
+
 -- calc_minkowski_embeddings_name
 -- Field: MinkowskiEmbeddings.Name
 -- Type: calculated | DataType: string | Returns: TEXT
 
 CREATE OR REPLACE FUNCTION calc_minkowski_embeddings_name(p_minkowski_embedding_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(number_field, '') FROM minkowski_embeddings WHERE minkowski_embedding_id = p_minkowski_embedding_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (minkowski) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (embedding) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_embeddings_ambient_dimension
--- Field: MinkowskiEmbeddings.AmbientDimension
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_minkowski_embeddings_ambient_dimension(p_minkowski_embedding_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiEmbeddings!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{AmbientLatticeDimension}}, MinkowskiEmbeddings!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_minkowski_embeddings_target_lattice_dimension
--- Field: MinkowskiEmbeddings.TargetLatticeDimension
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_minkowski_embeddings_target_lattice_dimension(p_minkowski_embedding_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'MinkowskiEmbeddings!{{TargetLattice}}', 'MinkowskiLattices!{{MinkowskiLatticeId}}'
-   Original Airtable formula:
-   =LOOKUP(MinkowskiLattices!{{Dimension}}, MinkowskiEmbeddings!{{TargetLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})
-*/
-NULL::integer;
+  SELECT (CONCAT((SELECT NULLIF(number_field, '') FROM minkowski_embeddings WHERE minkowski_embedding_id = p_minkowski_embedding_id), '-minkowski-embedding'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_minkowski_embeddings_dimension_match
@@ -1743,7 +1647,27 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_minkowski_embeddings_dimension_match(p_minkowski_embedding_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((SELECT ambient_dimension FROM minkowski_embeddings WHERE minkowski_embedding_id = p_minkowski_embedding_id) = (SELECT target_lattice_dimension FROM minkowski_embeddings WHERE minkowski_embedding_id = p_minkowski_embedding_id))::boolean;
+  SELECT (calc_minkowski_embeddings_ambient_dimension(p_minkowski_embedding_id) = calc_minkowski_embeddings_target_lattice_dimension(p_minkowski_embedding_id))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_gram_matrices_dimension
+-- Field: GramMatrices.Dimension
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Dimension from related MinkowskiLattices
+
+CREATE OR REPLACE FUNCTION calc_gram_matrices_dimension(p_gram_matrix_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT calc_minkowski_lattices_dimension((SELECT minkowski_lattice FROM gram_matrices WHERE gram_matrix_id = p_gram_matrix_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_gram_matrices_lattice_determinant
+-- Field: GramMatrices.LatticeDeterminant
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: Determinant from related MinkowskiLattices
+
+CREATE OR REPLACE FUNCTION calc_gram_matrices_lattice_determinant(p_gram_matrix_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT determinant::numeric FROM minkowski_lattices WHERE minkowski_lattice_id = (SELECT minkowski_lattice FROM gram_matrices WHERE gram_matrix_id = p_gram_matrix_id));
 $$ LANGUAGE sql STABLE;
 
 -- calc_gram_matrices_name
@@ -1752,33 +1676,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_gram_matrices_name(p_gram_matrix_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(minkowski_lattice, '') FROM gram_matrices WHERE gram_matrix_id = p_gram_matrix_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (gram) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_gram_matrices_dimension
--- Field: GramMatrices.Dimension
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_gram_matrices_dimension(p_gram_matrix_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'GramMatrices!{{MinkowskiLattice}}', 'MinkowskiLattices!{{MinkowskiLatticeId}}'
-   Original Airtable formula:
-   =LOOKUP(MinkowskiLattices!{{Dimension}}, GramMatrices!{{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_gram_matrices_lattice_determinant
--- Field: GramMatrices.LatticeDeterminant
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_gram_matrices_lattice_determinant(p_gram_matrix_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'GramMatrices!{{MinkowskiLattice}}', 'MinkowskiLattices!{{MinkowskiLatticeId}}'
-   Original Airtable formula:
-   =LOOKUP(MinkowskiLattices!{{Determinant}}, GramMatrices!{{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})
-*/
-NULL::numeric;
+  SELECT (CONCAT((SELECT NULLIF(minkowski_lattice, '') FROM gram_matrices WHERE gram_matrix_id = p_gram_matrix_id), '-gram'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_gram_matrices_encodes_valid_lattice_metric
@@ -1789,6 +1687,16 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_gram_matrices_encodes_valid_lattice_metric(p_gram_matrix_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT ((COALESCE((SELECT is_symmetric FROM gram_matrices WHERE gram_matrix_id = p_gram_matrix_id), FALSE) AND COALESCE((SELECT is_positive_definite FROM gram_matrices WHERE gram_matrix_id = p_gram_matrix_id), FALSE)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_planar_projections_source_lattice_is_load_bearing
+-- Field: PlanarProjections.SourceLatticeIsLoadBearing
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsLoadBearingForUnitDistanceConstruction from related MinkowskiLattices
+
+CREATE OR REPLACE FUNCTION calc_planar_projections_source_lattice_is_load_bearing(p_planar_projection_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_minkowski_lattices_is_load_bearing_for_unit_distance_const((SELECT source_lattice FROM planar_projections WHERE planar_projection_id = p_planar_projection_id));
 $$ LANGUAGE sql STABLE;
 
 -- get_projected_short_vectors_projected_x
@@ -1870,17 +1778,24 @@ RETURNS NUMERIC AS $$
   SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_planar_projections_unit_distance_vector_count(p_planar_projection_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_planar_projections_projected_short_vector_count(p_planar_projection_id)) AS v) __safe_numeric), 0), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
--- calc_planar_projections_source_lattice_is_load_bearing
--- Field: PlanarProjections.SourceLatticeIsLoadBearing
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- calc_projected_short_vectors_source_norm_squared
+-- Field: ProjectedShortVectors.SourceNormSquared
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: NormSquared from related ShortVectors
 
-CREATE OR REPLACE FUNCTION calc_planar_projections_source_lattice_is_load_bearing(p_planar_projection_id TEXT)
+CREATE OR REPLACE FUNCTION calc_projected_short_vectors_source_norm_squared(p_projected_short_vector_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT norm_squared::numeric FROM short_vectors WHERE short_vector_id = (SELECT short_vector FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_projected_short_vectors_source_is_short
+-- Field: ProjectedShortVectors.SourceIsShort
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsShort from related ShortVectors
+
+CREATE OR REPLACE FUNCTION calc_projected_short_vectors_source_is_short(p_projected_short_vector_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'PlanarProjections!{{SourceLattice}}', 'MinkowskiLattices!{{MinkowskiLatticeId}}'
-   Original Airtable formula:
-   =LOOKUP(MinkowskiLattices!{{IsLoadBearingForUnitDistanceConstruction}}, PlanarProjections!{{SourceLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})
-*/
-NULL::boolean;
+  SELECT calc_short_vectors_is_short((SELECT short_vector FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id));
 $$ LANGUAGE sql STABLE;
 
 -- calc_projected_short_vectors_name
@@ -1889,7 +1804,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_projected_short_vectors_name(p_projected_short_vector_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(short_vector, '') FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(planar_projection, '') FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id)) AS v) __safe_numeric), 0), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(short_vector, '') FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id), '/', (SELECT NULLIF(planar_projection, '') FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_projected_short_vectors_projected_x_squared
@@ -1920,32 +1835,6 @@ RETURNS NUMERIC AS $$
   SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_projected_short_vectors_projected_x_squared(p_projected_short_vector_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_projected_short_vectors_projected_y_squared(p_projected_short_vector_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
--- calc_projected_short_vectors_source_norm_squared
--- Field: ProjectedShortVectors.SourceNormSquared
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_projected_short_vectors_source_norm_squared(p_projected_short_vector_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ProjectedShortVectors!{{ShortVector}}', 'ShortVectors!{{ShortVectorId}}'
-   Original Airtable formula:
-   =LOOKUP(ShortVectors!{{NormSquared}}, ProjectedShortVectors!{{ShortVector}}, ShortVectors!{{ShortVectorId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
--- calc_projected_short_vectors_source_is_short
--- Field: ProjectedShortVectors.SourceIsShort
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_projected_short_vectors_source_is_short(p_projected_short_vector_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ProjectedShortVectors!{{ShortVector}}', 'ShortVectors!{{ShortVectorId}}'
-   Original Airtable formula:
-   =LOOKUP(ShortVectors!{{IsShort}}, ProjectedShortVectors!{{ShortVector}}, ShortVectors!{{ShortVectorId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
 -- calc_projected_short_vectors_distance_squared_from_unit
 -- Field: ProjectedShortVectors.DistanceSquaredFromUnit
 -- Type: calculated | DataType: decimal | Returns: NUMERIC
@@ -1972,7 +1861,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_projected_short_vectors_is_valid_witness(p_projected_short_vector_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((COALESCE((SELECT source_is_short FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id), FALSE) AND calc_projected_short_vectors_projects_to_unit_distance_vector(p_projected_short_vector_id)))::boolean;
+  SELECT ((calc_projected_short_vectors_source_is_short(p_projected_short_vector_id) AND calc_projected_short_vectors_projects_to_unit_distance_vector(p_projected_short_vector_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_projected_short_vectors_norm_preserved_under_projection
@@ -1982,7 +1871,17 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_projected_short_vectors_norm_preserved_under_projection(p_projected_short_vector_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (ABS((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT source_norm_squared FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_projected_short_vectors_projected_norm_squared(p_projected_short_vector_id)) AS v) __safe_numeric), 0))) < (SELECT unit_tolerance FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id))::boolean;
+  SELECT (ABS((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_projected_short_vectors_source_norm_squared(p_projected_short_vector_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_projected_short_vectors_projected_norm_squared(p_projected_short_vector_id)) AS v) __safe_numeric), 0))) < (SELECT unit_tolerance FROM projected_short_vectors WHERE projected_short_vector_id = p_projected_short_vector_id))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_golod_shafarevich_criteria_field_degree
+-- Field: GolodShafarevichCriteria.FieldDegree
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Degree from related NumberFields
+
+CREATE OR REPLACE FUNCTION calc_golod_shafarevich_criteria_field_degree(p_golod_shafarevich_criterion_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT degree::integer FROM number_fields WHERE number_field_id = (SELECT number_field FROM golod_shafarevich_criteria WHERE golod_shafarevich_criterion_id = p_golod_shafarevich_criterion_id));
 $$ LANGUAGE sql STABLE;
 
 -- get_source_references_short_label
@@ -2081,20 +1980,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_golod_shafarevich_criteria_name(p_golod_shafarevich_criterion_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(number_field, '') FROM golod_shafarevich_criteria WHERE golod_shafarevich_criterion_id = p_golod_shafarevich_criterion_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (gs) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_golod_shafarevich_criteria_field_degree
--- Field: GolodShafarevichCriteria.FieldDegree
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_golod_shafarevich_criteria_field_degree(p_golod_shafarevich_criterion_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'GolodShafarevichCriteria!{{NumberField}}', 'NumberFields!{{NumberFieldId}}'
-   Original Airtable formula:
-   =LOOKUP(NumberFields!{{Degree}}, GolodShafarevichCriteria!{{NumberField}}, NumberFields!{{NumberFieldId}})
-*/
-NULL::integer;
+  SELECT (CONCAT((SELECT NULLIF(number_field, '') FROM golod_shafarevich_criteria WHERE golod_shafarevich_criterion_id = p_golod_shafarevich_criterion_id), '-gs'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_golod_shafarevich_criteria_criterion_threshold
@@ -2246,6 +2132,16 @@ RETURNS BOOLEAN AS $$
   SELECT (calc_semantic_routes_validated_step_count(p_semantic_route_id) = calc_semantic_routes_step_count(p_semantic_route_id))::boolean;
 $$ LANGUAGE sql STABLE;
 
+-- calc_semantic_route_steps_bridge_is_load_bearing
+-- Field: SemanticRouteSteps.BridgeIsLoadBearing
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsLoadBearing from related SemanticBridges
+
+CREATE OR REPLACE FUNCTION calc_semantic_route_steps_bridge_is_load_bearing(p_semantic_route_step_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_load_bearing::boolean FROM semantic_bridges WHERE semantic_bridge_id = (SELECT bridge_used FROM semantic_route_steps WHERE semantic_route_step_id = p_semantic_route_step_id));
+$$ LANGUAGE sql STABLE;
+
 -- get_semantic_routes_display_name
 -- Helper function: Get DisplayName from SemanticRoutes by SemanticRouteId
 -- Used for join-free cross-table references in aggregations
@@ -2359,20 +2255,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_semantic_route_steps_name(p_semantic_route_step_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(semantic_route, '') FROM semantic_route_steps WHERE semantic_route_step_id = p_semantic_route_step_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT step_order FROM semantic_route_steps WHERE semantic_route_step_id = p_semantic_route_step_id)) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_semantic_route_steps_bridge_is_load_bearing
--- Field: SemanticRouteSteps.BridgeIsLoadBearing
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_semantic_route_steps_bridge_is_load_bearing(p_semantic_route_step_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'SemanticRouteSteps!{{BridgeUsed}}', 'SemanticBridges!{{SemanticBridgeId}}'
-   Original Airtable formula:
-   =LOOKUP(SemanticBridges!{{IsLoadBearing}}, SemanticRouteSteps!{{BridgeUsed}}, SemanticBridges!{{SemanticBridgeId}})
-*/
-NULL::boolean;
+  SELECT (CONCAT((SELECT NULLIF(semantic_route, '') FROM semantic_route_steps WHERE semantic_route_step_id = p_semantic_route_step_id), '-', (SELECT step_order FROM semantic_route_steps WHERE semantic_route_step_id = p_semantic_route_step_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_source_references_name
@@ -2551,6 +2434,36 @@ RETURNS BOOLEAN AS $$
   SELECT ((SELECT is_resolved FROM conjectures WHERE conjecture_id = p_conjecture_id) = FALSE)::boolean;
 $$ LANGUAGE sql STABLE;
 
+-- calc_proof_obligations_is_lemma_loaded
+-- Field: ProofObligations.IsLemmaLoaded
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsLoaded from related Lemmas
+
+CREATE OR REPLACE FUNCTION calc_proof_obligations_is_lemma_loaded(p_proof_obligation_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_loaded::boolean FROM lemmas WHERE lemma_id = (SELECT required_lemma FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_proof_obligations_is_lemma_load_bearing
+-- Field: ProofObligations.IsLemmaLoadBearing
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsLoadBearing from related Lemmas
+
+CREATE OR REPLACE FUNCTION calc_proof_obligations_is_lemma_load_bearing(p_proof_obligation_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_load_bearing::boolean FROM lemmas WHERE lemma_id = (SELECT required_lemma FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_proof_obligations_bound_claimed_exponent
+-- Field: ProofObligations.BoundClaimedExponent
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: Exponent from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_proof_obligations_bound_claimed_exponent(p_proof_obligation_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT exponent::numeric FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT parent_bound FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id));
+$$ LANGUAGE sql STABLE;
+
 -- get_lemmas_label
 -- Helper function: Get Label from Lemmas by LemmaId
 -- Used for join-free cross-table references in aggregations
@@ -2639,7 +2552,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_proof_obligations_name(p_proof_obligation_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(parent_bound, '') FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(required_lemma, '') FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id)) AS v) __safe_numeric), 0), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(parent_bound, '') FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id), '/', (SELECT NULLIF(required_lemma, '') FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_proof_obligations_is_necessary
@@ -2649,45 +2562,6 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_proof_obligations_is_necessary(p_proof_obligation_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT ((SELECT NULLIF(obligation_kind, '') FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id) = 'necessary')::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_proof_obligations_is_lemma_loaded
--- Field: ProofObligations.IsLemmaLoaded
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_proof_obligations_is_lemma_loaded(p_proof_obligation_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ProofObligations!{{RequiredLemma}}', 'Lemmas!{{LemmaId}}'
-   Original Airtable formula:
-   =LOOKUP(Lemmas!{{IsLoaded}}, ProofObligations!{{RequiredLemma}}, Lemmas!{{LemmaId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_proof_obligations_is_lemma_load_bearing
--- Field: ProofObligations.IsLemmaLoadBearing
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-CREATE OR REPLACE FUNCTION calc_proof_obligations_is_lemma_load_bearing(p_proof_obligation_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ProofObligations!{{RequiredLemma}}', 'Lemmas!{{LemmaId}}'
-   Original Airtable formula:
-   =LOOKUP(Lemmas!{{IsLoadBearing}}, ProofObligations!{{RequiredLemma}}, Lemmas!{{LemmaId}})
-*/
-NULL::boolean;
-$$ LANGUAGE sql STABLE;
-
--- calc_proof_obligations_bound_claimed_exponent
--- Field: ProofObligations.BoundClaimedExponent
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_proof_obligations_bound_claimed_exponent(p_proof_obligation_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'ProofObligations!{{ParentBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{Exponent}}, ProofObligations!{{ParentBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_proof_obligations_is_currently_open
@@ -2700,13 +2574,33 @@ RETURNS BOOLEAN AS $$
   SELECT ((SELECT is_satisfied FROM proof_obligations WHERE proof_obligation_id = p_proof_obligation_id) = FALSE)::boolean;
 $$ LANGUAGE sql STABLE;
 
+-- calc_citation_links_citing_year
+-- Field: CitationLinks.CitingYear
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Year from related SourceReferences
+
+CREATE OR REPLACE FUNCTION calc_citation_links_citing_year(p_citation_link_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT year::integer FROM source_references WHERE source_reference_id = (SELECT citing_source FROM citation_links WHERE citation_link_id = p_citation_link_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_citation_links_cited_year
+-- Field: CitationLinks.CitedYear
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Year from related SourceReferences
+
+CREATE OR REPLACE FUNCTION calc_citation_links_cited_year(p_citation_link_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT year::integer FROM source_references WHERE source_reference_id = (SELECT cited_source FROM citation_links WHERE citation_link_id = p_citation_link_id));
+$$ LANGUAGE sql STABLE;
+
 -- calc_citation_links_name
 -- Field: CitationLinks.Name
 -- Type: calculated | DataType: string | Returns: TEXT
 
 CREATE OR REPLACE FUNCTION calc_citation_links_name(p_citation_link_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(citing_source, '') FROM citation_links WHERE citation_link_id = p_citation_link_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (cites) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(cited_source, '') FROM citation_links WHERE citation_link_id = p_citation_link_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(citing_source, '') FROM citation_links WHERE citation_link_id = p_citation_link_id), '-cites-', (SELECT NULLIF(cited_source, '') FROM citation_links WHERE citation_link_id = p_citation_link_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_citation_links_is_dependency
@@ -2727,39 +2621,13 @@ RETURNS BOOLEAN AS $$
   SELECT ((SELECT NULLIF(citation_kind, '') FROM citation_links WHERE citation_link_id = p_citation_link_id) = 'improves')::boolean;
 $$ LANGUAGE sql STABLE;
 
--- calc_citation_links_citing_year
--- Field: CitationLinks.CitingYear
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_citation_links_citing_year(p_citation_link_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'CitationLinks!{{CitingSource}}', 'SourceReferences!{{SourceReferenceId}}'
-   Original Airtable formula:
-   =LOOKUP(SourceReferences!{{Year}}, CitationLinks!{{CitingSource}}, SourceReferences!{{SourceReferenceId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
--- calc_citation_links_cited_year
--- Field: CitationLinks.CitedYear
--- Type: lookup | DataType: integer | Returns: INTEGER
-
-CREATE OR REPLACE FUNCTION calc_citation_links_cited_year(p_citation_link_id TEXT)
-RETURNS INTEGER AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'CitationLinks!{{CitedSource}}', 'SourceReferences!{{SourceReferenceId}}'
-   Original Airtable formula:
-   =LOOKUP(SourceReferences!{{Year}}, CitationLinks!{{CitedSource}}, SourceReferences!{{SourceReferenceId}})
-*/
-NULL::integer;
-$$ LANGUAGE sql STABLE;
-
 -- calc_answer_key_name
 -- Field: AnswerKey.Name
 -- Type: calculated | DataType: string | Returns: TEXT
 
 CREATE OR REPLACE FUNCTION calc_answer_key_name(p_answer_key_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(target_table, '') FROM answer_key WHERE answer_key_id = p_answer_key_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(target_row_id, '') FROM answer_key WHERE answer_key_id = p_answer_key_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(target_field, '') FROM answer_key WHERE answer_key_id = p_answer_key_id)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0), 0)))::text;
+  SELECT (CONCAT((SELECT NULLIF(target_table, '') FROM answer_key WHERE answer_key_id = p_answer_key_id), '/', (SELECT NULLIF(target_row_id, '') FROM answer_key WHERE answer_key_id = p_answer_key_id), '/', (SELECT NULLIF(target_field, '') FROM answer_key WHERE answer_key_id = p_answer_key_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_answer_key_is_blocking
@@ -2830,6 +2698,57 @@ RETURNS INTEGER AS $$
   SELECT ((SELECT COUNT(*) FROM lower_bound_validity_at_snapshot WHERE temporal_snapshot = (SELECT NULLIF(temporal_snapshot_id, '') FROM temporal_snapshots WHERE temporal_snapshot_id = p_temporal_snapshot_id)))::integer;
 $$ LANGUAGE sql STABLE;
 
+-- calc_lower_bound_validity_at_snapshot_bound_exponent
+-- Field: LowerBoundValidityAtSnapshot.BoundExponent
+-- Type: lookup | DataType: decimal | Returns: NUMERIC
+-- Lookup: Exponent from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_exponent(p_lower_bound_validity_at_snapshot_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT exponent::numeric FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT asymptotic_lower_bound FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_lower_bound_validity_at_snapshot_bound_valid_from
+-- Field: LowerBoundValidityAtSnapshot.BoundValidFrom
+-- Type: lookup | DataType: string | Returns: DATE
+-- Lookup: ValidFrom from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_valid_from(p_lower_bound_validity_at_snapshot_id TEXT)
+RETURNS DATE AS $$
+  SELECT (SELECT valid_from::date FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT asymptotic_lower_bound FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_lower_bound_validity_at_snapshot_bound_valid_to
+-- Field: LowerBoundValidityAtSnapshot.BoundValidTo
+-- Type: lookup | DataType: string | Returns: DATE
+-- Lookup: ValidTo from related AsymptoticLowerBounds
+
+CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_valid_to(p_lower_bound_validity_at_snapshot_id TEXT)
+RETURNS DATE AS $$
+  SELECT (SELECT valid_to::date FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT asymptotic_lower_bound FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_lower_bound_validity_at_snapshot_snapshot_date
+-- Field: LowerBoundValidityAtSnapshot.SnapshotDate
+-- Type: lookup | DataType: string | Returns: DATE
+-- Lookup: SnapshotDate from related TemporalSnapshots
+
+CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_snapshot_date(p_lower_bound_validity_at_snapshot_id TEXT)
+RETURNS DATE AS $$
+  SELECT (SELECT snapshot_date::date FROM temporal_snapshots WHERE temporal_snapshot_id = (SELECT temporal_snapshot FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_lower_bound_validity_at_snapshot_bound_is_currently_valid
+-- Field: LowerBoundValidityAtSnapshot.BoundIsCurrentlyValid
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsCurrentlyValid from related AsymptoticLowerBounds
+
+
+CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_is_currently_valid(p_lower_bound_validity_at_snapshot_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_currently_valid::boolean FROM asymptotic_lower_bounds WHERE asymptotic_lower_bound_id = (SELECT asymptotic_lower_bound FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id));
+$$ LANGUAGE sql STABLE;
+
 -- get_temporal_snapshots_label
 -- Helper function: Get Label from TemporalSnapshots by TemporalSnapshotId
 -- Used for join-free cross-table references in aggregations
@@ -2870,73 +2789,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_name(p_lower_bound_validity_at_snapshot_id TEXT)
 RETURNS TEXT AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(asymptotic_lower_bound, '') FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (at) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT NULLIF(temporal_snapshot, '') FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_lower_bound_validity_at_snapshot_bound_exponent
--- Field: LowerBoundValidityAtSnapshot.BoundExponent
--- Type: lookup | DataType: decimal | Returns: NUMERIC
-
-CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_exponent(p_lower_bound_validity_at_snapshot_id TEXT)
-RETURNS NUMERIC AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{Exponent}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::numeric;
-$$ LANGUAGE sql STABLE;
-
--- calc_lower_bound_validity_at_snapshot_bound_valid_from
--- Field: LowerBoundValidityAtSnapshot.BoundValidFrom
--- Type: lookup | DataType: string | Returns: TEXT
-
-CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_valid_from(p_lower_bound_validity_at_snapshot_id TEXT)
-RETURNS TEXT AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{ValidFrom}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_lower_bound_validity_at_snapshot_bound_valid_to
--- Field: LowerBoundValidityAtSnapshot.BoundValidTo
--- Type: lookup | DataType: string | Returns: TEXT
-
-CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_valid_to(p_lower_bound_validity_at_snapshot_id TEXT)
-RETURNS TEXT AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{ValidTo}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_lower_bound_validity_at_snapshot_snapshot_date
--- Field: LowerBoundValidityAtSnapshot.SnapshotDate
--- Type: lookup | DataType: string | Returns: TEXT
-
-CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_snapshot_date(p_lower_bound_validity_at_snapshot_id TEXT)
-RETURNS TEXT AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'LowerBoundValidityAtSnapshot!{{TemporalSnapshot}}', 'TemporalSnapshots!{{TemporalSnapshotId}}'
-   Original Airtable formula:
-   =LOOKUP(TemporalSnapshots!{{SnapshotDate}}, LowerBoundValidityAtSnapshot!{{TemporalSnapshot}}, TemporalSnapshots!{{TemporalSnapshotId}})
-*/
-NULL::text;
-$$ LANGUAGE sql STABLE;
-
--- calc_lower_bound_validity_at_snapshot_bound_is_currently_valid
--- Field: LowerBoundValidityAtSnapshot.BoundIsCurrentlyValid
--- Type: lookup | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_bound_is_currently_valid(p_lower_bound_validity_at_snapshot_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT /* WARNING: Formula translation failed: LOOKUP() table arguments must be shaped Table[Column]: got 'LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}', 'AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}'
-   Original Airtable formula:
-   =LOOKUP(AsymptoticLowerBounds!{{IsCurrentlyValid}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})
-*/
-NULL::boolean;
+  SELECT (CONCAT((SELECT NULLIF(asymptotic_lower_bound, '') FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id), '-at-', (SELECT NULLIF(temporal_snapshot, '') FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id)))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_lower_bound_validity_at_snapshot_is_curator_confirmed_at_t
@@ -2946,7 +2799,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_lower_bound_validity_at_snapshot_is_curator_confirmed_at_t(p_lower_bound_validity_at_snapshot_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((COALESCE((SELECT is_valid_at_this_snapshot FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id), FALSE) AND (SELECT bound_is_currently_valid FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id) = TRUE))::boolean;
+  SELECT ((COALESCE((SELECT is_valid_at_this_snapshot FROM lower_bound_validity_at_snapshot WHERE lower_bound_validity_at_snapshot_id = p_lower_bound_validity_at_snapshot_id), FALSE) AND calc_lower_bound_validity_at_snapshot_bound_is_currently_valid(p_lower_bound_validity_at_snapshot_id) = TRUE))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- ============================================================================

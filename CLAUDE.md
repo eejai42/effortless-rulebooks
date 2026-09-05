@@ -18,13 +18,15 @@ There is no privileged child folder. The repo root is an Effortless project (`ef
 
 The authoritative list is `ProjectLayoutSlots` in the root rulebook. The universal slots are: `effortless.json`; `effortless-rulebook/` holding the hub named **either** `effortless-rulebook.json` **or** `<slug>-rulebook.json` (both valid — the protocol does not dictate one; the folder disambiguates); a `__meta__` table; `README.md` ending with the *Local transpiler bus* section; `CLAUDE.md`; `rulebooktorulespeak` registered; and an executable `start.sh`. **The `start.sh` requirement applies to the root, every toy, and every example.** The root and fully implemented examples additionally require `rulebooktopostgres` + an init-db step, the `effortless-rulebook-editor`, and an app that reads the views.
 
-`rulebook-examples/` and `toy-rulebooks/` are two physical folders for one concept. They are all project rows and `Area` records the witnessed folder. `IsToyByCoverage`, `IsFullyImplemented`, `ReadinessState`, `ExpectedArea`, and `IsMisfiled` are derived from slot witnesses; folder placement is not proof of implementation status.
+`rulebook-examples/` and `toy-rulebooks/` are two physical folders for one concept. They are all project rows: `Area` records the witnessed folder and `Kind` (root | toy | example) is the **declared** classification, a statement of intent that a file count cannot change. `IsFullyImplemented` and `ReadinessState` are derived from slot witnesses against the declared kind; `IsMisfiled` means the folder disagrees with the declaration. To re-classify a project, change its `Kind` and move the folder.
 
 Two containers deliberately carry no rulebook and are flagged `IsIntentionalException`: `toy-rulebooks/naked-claude-vs-effortless-claude/` (an experiment tree) and `toy-rulebooks/volunteer-shift-scheduler-demo/` (a scaffold consuming its sibling's rulebook).
 
 ## Consistency governance
 
 Inconsistency is pruned by working `ConsistencyFindings` to zero — not by editing prose. When you discover a repeatable trap, the fix goes to a place the whole team sees: a rule row + finding rows in the root rulebook, a guard in code, or this file. When you fix a finding, mark its `Status` `fixed` (never delete witnessed rows); when a rule was wrong, correct the rule and record that as a `cr-15` finding. Re-run `python3 scripts/scan-project-slots.py effortless-rulebook/effortless-rulebook.json .` after moving or creating projects; it refreshes `ProjectSlotWitnesses`, preserves finding history, and exits nonzero on malformed or ambiguous project artifacts.
+
+**Do not close findings through the editor's save path.** The generated editor's `POST /api/save-changes` rewrites the whole rulebook (keys reordered, every derived column baked into `data`; finding cr-21-01). Close hand-recorded findings with `scripts/mark-finding-fixed.py` or the root explorer's work queue on `/consistency`, which runs that script and then PATCHes the editor's base table so the views recompute at once. A rule's `IsScannerDerived` flag decides which findings may be closed by hand; the rest close only by re-running the scan.
 
 Every new project must register `rulebooktorulespeak` and end its README with this block (count matches the runner's `ssotme-proxy` registry):
 
@@ -80,8 +82,16 @@ There is no repo-wide "active project" scratchpad. The user's message names the 
 - `INDEX/MATCH` must match on the target's `<Entity>Id`, from a local FK field. No `MATCH(TRUE(), …)`.
 - All references are 1 hop. Flatten a 2-hop need into a field at each hop.
 - `{{Field}}` refs, lowercase `formula` key, `CONCAT(...)`/`&` for strings, `ROUND(x, n)` with both args.
+- `NULLIF(...)` is not translated (the field reads NULL, and inside an aggregation it is emitted as a bare identifier that breaks the whole view). Guard with `IF({{Denominator}} = 0, 0, ...)`.
+- Single-argument `COUNTIF(Child!{{FK}}, {{Id}})` is mis-emitted; write `COUNTIFS(Child!{{FK}}, Parent!{{Id}})`.
+- Bare `LOOKUP(Target!{{Field}}, Local!{{FK}}, Target!{{Id}})` is not translated; write `INDEX(Target!{{Field}}, MATCH({{FK}}, Target!{{Id}}, 0))`.
+- A string formula such as `={{A}}-{{B}}` or `={{A}}/{{B}}` is parsed as arithmetic and emits invalid SQL; use `CONCAT({{A}}, "-", {{B}})`.
+
+Every generated `vw_*` view must answer `SELECT *`; the database loads even when a `calc_*` body is invalid, because SQL-function bodies are checked at call time. After a build, probe every view (`SELECT count(*) FROM vw_x`) before trusting it. The transpiler also preserves an existing `postgres/init-db.sh` instead of regenerating it, so a hand-edited relic there survives builds; delete it and rebuild if it does not honour `DATABASE_URL`.
 
 The generated `01-*.sql` runs in check-add mode (`CREATE TABLE IF NOT EXISTS`, no `DROP`) even with `drop_all=true`, so rows whose PKs were removed from the rulebook survive a plain init. The root's `scripts/init-root-db.sh` therefore drops and recreates `erb_effortless_rulebooks` on every build; in child projects, `dropdb`/`createdb` before `init-db` after renaming or removing PKs. Keep `rulebooktopostgres` **unpinned** (`[latest]`) — a stale pin to a decommissioned host silently broke every build once.
+
+The generated editor container builds its API with cloud tools (`rulebook-to-node-postgres-api` among them); when Control Plane is unhealthy it boots "degraded" with no API and the explorer's `/api` proxy answers 502. Run the tool locally (its `start.sh` under `Versioned-Stable-SSoTme-Tools/tools/effortless/`), then inside the container `docker exec <id> effortless -setUrl rulebook-to-node-postgres-api=http://host.docker.internal:<port>` and `touch /tmp/rebuild-trigger`; the override lives only in that container. Read `GET /__boot/errors` on the UI port to see which step failed.
 
 The generated editor container watches the rulebook, but Docker Desktop does not reliably propagate host file events into the bind mount: after a host-side edit the editor API can keep serving stale rows with `build-status` reporting nothing. The root's `init-root-db.sh` touches the container's `/tmp/rebuild-trigger` after every init; do the same (`docker exec <id> touch /tmp/rebuild-trigger`) in any project whose editor looks stale. The regenerated `edit-rulebook.sh` also assigns **random host ports** unless `RULEBOOK_EDITOR_API_PORT` / `_UI_PORT` / `_PG_PORT` are set; a `start.sh` that declares fixed ports must pin them (the root's does) and must find the container by published port, not by name.
 

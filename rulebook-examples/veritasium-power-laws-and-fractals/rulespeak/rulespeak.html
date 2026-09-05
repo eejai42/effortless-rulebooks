@@ -1543,7 +1543,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-system-stats-empiricalloglogslope">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Empirical Log Log Slope</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Delta log measure divided by nullif(delta log scale, 0).</span>
+          <span class="input-en">If delta log scale equals 0 then 0, otherwise (delta log measure divided by delta log scale).</span>
         </a>
         <a class="input tone-rel" href="#en-f-scales-system">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">System</span><span class="input-table">scale</span></span>
@@ -1558,13 +1558,13 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Empirical slope from system_stats for residual calculation.</p>
@@ -1752,27 +1752,27 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A scale's <a class="ref" href="#en-f-scales-scaleratio">scale ratio</a> is computed as the <a class="ref" href="#en-f-scales-scale">scale</a> divided by the NULLIF of the <a class="ref" href="#en-f-scales-basescale">base scale</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The scale's <a class="ref" href="#en-f-scales-scaleratio">scale ratio</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-scales-basescale">base scale</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-scales-scale">scale</a> divided by the <a class="ref" href="#en-f-scales-basescale">base scale</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-scales-scale">Scale</a> divided by nullif(<a class="ref" href="#en-f-scales-basescale">base scale</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-scales-basescale">base scale</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-scales-scale">scale</a> divided by <a class="ref" href="#en-f-scales-basescale">base scale</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-scales-scale">Scale</a> / NULLIF(<a class="fx-chip" href="#en-f-scales-basescale">Base Scale</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-scales-basescale">Base Scale</a> = 0, 0, <a class="fx-chip" href="#en-f-scales-scale">Scale</a> / <a class="fx-chip" href="#en-f-scales-basescale">Base Scale</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-calc" href="#en-f-scales-scale">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Scale</span><span class="input-table">scale</span></span>
-          <span class="input-en">Base scale times scale factor power.</span>
-        </a>
         <a class="input tone-lookup" href="#en-f-scales-basescale">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Base Scale</span><span class="input-table">scale</span></span>
           <span class="input-en">The base scale of the linked system.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-scales-scale">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Scale</span><span class="input-table">scale</span></span>
+          <span class="input-en">Base scale times scale factor power.</span>
         </a>
       </div>
     </details>
@@ -1786,7 +1786,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">How many times larger than base scale (multiplicative factor).</p>
+    <p class="field-note elem elem-desc">How many times larger than base scale (multiplicative factor). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-scales-logscalenormalized" data-entity="scale" data-field="Log Scale Normalized">
     <div class="field-head">
@@ -1800,20 +1800,24 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A scale's <a class="ref" href="#en-f-scales-logscalenormalized">log scale normalized</a> is computed as the <a class="ref" href="#en-f-scales-logscale">log scale</a> minus the <a class="ref" href="#en-f-scales-systemminlogscale">system min log scale</a> divided by the NULLIF of the <a class="ref" href="#en-f-scales-systemdeltalogscale">system delta log scale</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The scale's <a class="ref" href="#en-f-scales-logscalenormalized">log scale normalized</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-scales-systemdeltalogscale">system delta log scale</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-scales-logscale">log scale</a> minus the <a class="ref" href="#en-f-scales-systemminlogscale">system min log scale</a> divided by the <a class="ref" href="#en-f-scales-systemdeltalogscale">system delta log scale</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(<a class="ref" href="#en-f-scales-logscale">log scale</a> minus <a class="ref" href="#en-f-scales-systemminlogscale">system min log scale</a>) divided by nullif(<a class="ref" href="#en-f-scales-systemdeltalogscale">system delta log scale</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-scales-systemdeltalogscale">system delta log scale</a> equals 0 then 0, otherwise ((<a class="ref" href="#en-f-scales-logscale">log scale</a> minus <a class="ref" href="#en-f-scales-systemminlogscale">system min log scale</a>) divided by <a class="ref" href="#en-f-scales-systemdeltalogscale">system delta log scale</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>(<a class="fx-chip" href="#en-f-scales-logscale">Log Scale</a> - <a class="fx-chip" href="#en-f-scales-systemminlogscale">System Min Log Scale</a>) / NULLIF(<a class="fx-chip" href="#en-f-scales-systemdeltalogscale">System Delta Log Scale</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-scales-systemdeltalogscale">System Delta Log Scale</a> = 0, 0, (<a class="fx-chip" href="#en-f-scales-logscale">Log Scale</a> - <a class="fx-chip" href="#en-f-scales-systemminlogscale">System Min Log Scale</a>) / <a class="fx-chip" href="#en-f-scales-systemdeltalogscale">System Delta Log Scale</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
+        <a class="input tone-lookup" href="#en-f-scales-systemdeltalogscale">
+          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">System Delta Log Scale</span><span class="input-table">scale</span></span>
+          <span class="input-en">The delta log scale of the linked system.</span>
+        </a>
         <a class="input tone-calc" href="#en-f-scales-logscale">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Log Scale</span><span class="input-table">scale</span></span>
           <span class="input-en">Log10(scale).</span>
@@ -1821,10 +1825,6 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="input tone-lookup" href="#en-f-scales-systemminlogscale">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">System Min Log Scale</span><span class="input-table">scale</span></span>
           <span class="input-en">The min log scale of the linked system.</span>
-        </a>
-        <a class="input tone-lookup" href="#en-f-scales-systemdeltalogscale">
-          <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">System Delta Log Scale</span><span class="input-table">scale</span></span>
-          <span class="input-en">The delta log scale of the linked system.</span>
         </a>
       </div>
     </details>
@@ -1839,7 +1839,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Position within system's log-scale range as 0-1 value.</p>
+    <p class="field-note elem elem-desc">Position within system's log-scale range as 0-1 value. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
 </section>
 <section class="entity" id="en-t-system-stats" data-entity="system stat">
@@ -2041,11 +2041,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">Countif(<a class="ref" href="#en-f-scales-system">system</a>, <a class="ref" href="#en-f-system-stats-system">system</a>).</p>
+        <p class="view-body">Count of <a class="ref" href="#en-t-scales">scales</a> whose <a class="ref" href="#en-f-scales-system">system</a> is <a class="ref" href="#en-f-system-stats-system">system</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIF(<a class="fx-chip" href="#en-f-scales-system">System</a>, <a class="fx-chip" href="#en-f-system-stats-system">System</a>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-scales-system">System</a>, <a class="fx-chip" href="#en-f-system-stats-system">System</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -2488,27 +2488,27 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A system stat's <a class="ref" href="#en-f-system-stats-empiricalloglogslope">empirical log log slope</a> is computed as the <a class="ref" href="#en-f-system-stats-deltalogmeasure">delta log measure</a> divided by the NULLIF of the <a class="ref" href="#en-f-system-stats-deltalogscale">delta log scale</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The system stat's <a class="ref" href="#en-f-system-stats-empiricalloglogslope">empirical log log slope</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-system-stats-deltalogscale">delta log scale</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-system-stats-deltalogmeasure">delta log measure</a> divided by the <a class="ref" href="#en-f-system-stats-deltalogscale">delta log scale</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-system-stats-deltalogmeasure">Delta log measure</a> divided by nullif(<a class="ref" href="#en-f-system-stats-deltalogscale">delta log scale</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-system-stats-deltalogscale">delta log scale</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-system-stats-deltalogmeasure">delta log measure</a> divided by <a class="ref" href="#en-f-system-stats-deltalogscale">delta log scale</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-system-stats-deltalogmeasure">Delta Log Measure</a> / NULLIF(<a class="fx-chip" href="#en-f-system-stats-deltalogscale">Delta Log Scale</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-system-stats-deltalogscale">Delta Log Scale</a> = 0, 0, <a class="fx-chip" href="#en-f-system-stats-deltalogmeasure">Delta Log Measure</a> / <a class="fx-chip" href="#en-f-system-stats-deltalogscale">Delta Log Scale</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-calc" href="#en-f-system-stats-deltalogmeasure">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Delta Log Measure</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Min log measure minus max log measure.</span>
-        </a>
         <a class="input tone-calc" href="#en-f-system-stats-deltalogscale">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Delta Log Scale</span><span class="input-table">system stat</span></span>
           <span class="input-en">Max log scale minus min log scale.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-system-stats-deltalogmeasure">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Delta Log Measure</span><span class="input-table">system stat</span></span>
+          <span class="input-en">Min log measure minus max log measure.</span>
         </a>
       </div>
     </details>
@@ -2525,16 +2525,16 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Calculated: Slope of log-log line from empirical data.</p>
+    <p class="field-note elem elem-desc">Calculated: Slope of log-log line from empirical data. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-system-stats-slopeerror" data-entity="system stat" data-field="Slope Error">
     <div class="field-head">
@@ -2564,7 +2564,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-system-stats-empiricalloglogslope">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Empirical Log Log Slope</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Delta log measure divided by nullif(delta log scale, 0).</span>
+          <span class="input-en">If delta log scale equals 0 then 0, otherwise (delta log measure divided by delta log scale).</span>
         </a>
         <a class="input tone-lookup" href="#en-f-system-stats-theoreticalloglogslope">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Theoretical Log Log Slope</span><span class="input-table">system stat</span></span>
@@ -2581,13 +2581,13 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">8</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-theoreticalloglogslope">● Theoretical Log Log Slope <span class="ref-pill-tbl">system</span></a>
       </div>
     </details>
@@ -2682,7 +2682,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-calc" href="#en-f-system-stats-empiricalloglogslope">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Empirical Log Log Slope</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Delta log measure divided by nullif(delta log scale, 0).</span>
+          <span class="input-en">If delta log scale equals 0 then 0, otherwise (delta log measure divided by delta log scale).</span>
         </a>
       </div>
     </details>
@@ -2692,12 +2692,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Difference between fitted slope (noisy obs) and empirical slope (ideal data).</p>
@@ -2923,45 +2923,45 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A system stat's <a class="ref" href="#en-f-system-stats-slopetonoiseratio">slope to noise ratio</a> is computed as the absolute value of the <a class="ref" href="#en-f-system-stats-empiricalloglogslope">empirical log log slope</a> divided by the NULLIF of the <a class="ref" href="#en-f-system-stats-noisesigma">noise sigma</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The system stat's <a class="ref" href="#en-f-system-stats-slopetonoiseratio">slope to noise ratio</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-system-stats-noisesigma">noise sigma</a> is 0</span></li><li><span class="rt-value">the absolute value of the <a class="ref" href="#en-f-system-stats-empiricalloglogslope">empirical log log slope</a> divided by the <a class="ref" href="#en-f-system-stats-noisesigma">noise sigma</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">The absolute value of <a class="ref" href="#en-f-system-stats-empiricalloglogslope">empirical log log slope</a> divided by nullif(<a class="ref" href="#en-f-system-stats-noisesigma">noise sigma</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-system-stats-noisesigma">noise sigma</a> equals 0 then 0, otherwise (the absolute value of <a class="ref" href="#en-f-system-stats-empiricalloglogslope">empirical log log slope</a> divided by <a class="ref" href="#en-f-system-stats-noisesigma">noise sigma</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>ABS(<a class="fx-chip" href="#en-f-system-stats-empiricalloglogslope">Empirical Log Log Slope</a>) / NULLIF(<a class="fx-chip" href="#en-f-system-stats-noisesigma">Noise Sigma</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-system-stats-noisesigma">Noise Sigma</a> = 0, 0, ABS(<a class="fx-chip" href="#en-f-system-stats-empiricalloglogslope">Empirical Log Log Slope</a>) / <a class="fx-chip" href="#en-f-system-stats-noisesigma">Noise Sigma</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-calc" href="#en-f-system-stats-empiricalloglogslope">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Empirical Log Log Slope</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Delta log measure divided by nullif(delta log scale, 0).</span>
-        </a>
         <a class="input tone-lookup" href="#en-f-system-stats-noisesigma">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Noise Sigma</span><span class="input-table">system stat</span></span>
           <span class="input-en">The noise sigma of the linked system.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-system-stats-empiricalloglogslope">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Empirical Log Log Slope</span><span class="input-table">system stat</span></span>
+          <span class="input-en">If delta log scale equals 0 then 0, otherwise (delta log measure divided by delta log scale).</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">9</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-measurement-models-noisesigma">● Noise Sigma <span class="ref-pill-tbl">measurement model</span></a>
         <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-measurement-models-system">⇢ System <span class="ref-pill-tbl">measurement model</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-measurement-models-noisesigma">● Noise Sigma <span class="ref-pill-tbl">measurement model</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-measurement-models-system">⇢ System <span class="ref-pill-tbl">measurement model</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Signal-to-noise ratio (slope magnitude vs. noise level).</p>
+    <p class="field-note elem elem-desc">Signal-to-noise ratio (slope magnitude vs. noise level). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-lookup" id="en-f-system-stats-deviationscore" data-entity="system stat" data-field="Deviation Score">
     <div class="field-head">
@@ -3130,43 +3130,43 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A system stat's <a class="ref" href="#en-f-system-stats-datadensity">data density</a> is computed as the <a class="ref" href="#en-f-system-stats-pointcount">point count</a> divided by the NULLIF of the <a class="ref" href="#en-f-system-stats-loglogarea">log log area</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The system stat's <a class="ref" href="#en-f-system-stats-datadensity">data density</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-system-stats-loglogarea">log log area</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-system-stats-pointcount">point count</a> divided by the <a class="ref" href="#en-f-system-stats-loglogarea">log log area</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-system-stats-pointcount">Point count</a> divided by nullif(<a class="ref" href="#en-f-system-stats-loglogarea">log log area</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-system-stats-loglogarea">log log area</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-system-stats-pointcount">point count</a> divided by <a class="ref" href="#en-f-system-stats-loglogarea">log log area</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-system-stats-pointcount">Point Count</a> / NULLIF(<a class="fx-chip" href="#en-f-system-stats-loglogarea">Log Log Area</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-system-stats-loglogarea">Log Log Area</a> = 0, 0, <a class="fx-chip" href="#en-f-system-stats-pointcount">Point Count</a> / <a class="fx-chip" href="#en-f-system-stats-loglogarea">Log Log Area</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-agg" href="#en-f-system-stats-pointcount">
-          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Point Count</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Countif(system, system).</span>
-        </a>
         <a class="input tone-calc" href="#en-f-system-stats-loglogarea">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Log Log Area</span><span class="input-table">system stat</span></span>
           <span class="input-en">Delta log scale times abs delta log measure.</span>
+        </a>
+        <a class="input tone-agg" href="#en-f-system-stats-pointcount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Point Count</span><span class="input-table">system stat</span></span>
+          <span class="input-en">Count of scales whose system is system.</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">7</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Number of data points per unit area in log-log space.</p>
+    <p class="field-note elem elem-desc">Number of data points per unit area in log-log space. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-system-stats-relativeslopeerror" data-entity="system stat" data-field="Relative Slope Error">
     <div class="field-head">
@@ -3180,44 +3180,44 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A system stat's <a class="ref" href="#en-f-system-stats-relativeslopeerror">relative slope error</a> is computed as the <a class="ref" href="#en-f-system-stats-slopeerror">slope error</a> divided by the NULLIF of the <a class="ref" href="#en-f-system-stats-theoreticalloglogslope">theoretical log log slope</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The system stat's <a class="ref" href="#en-f-system-stats-relativeslopeerror">relative slope error</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-system-stats-theoreticalloglogslope">theoretical log log slope</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-system-stats-slopeerror">slope error</a> divided by the <a class="ref" href="#en-f-system-stats-theoreticalloglogslope">theoretical log log slope</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-system-stats-slopeerror">Slope error</a> divided by nullif(<a class="ref" href="#en-f-system-stats-theoreticalloglogslope">theoretical log log slope</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-system-stats-theoreticalloglogslope">theoretical log log slope</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-system-stats-slopeerror">slope error</a> divided by <a class="ref" href="#en-f-system-stats-theoreticalloglogslope">theoretical log log slope</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-system-stats-slopeerror">Slope Error</a> / NULLIF(<a class="fx-chip" href="#en-f-system-stats-theoreticalloglogslope">Theoretical Log Log Slope</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-system-stats-theoreticalloglogslope">Theoretical Log Log Slope</a> = 0, 0, <a class="fx-chip" href="#en-f-system-stats-slopeerror">Slope Error</a> / <a class="fx-chip" href="#en-f-system-stats-theoreticalloglogslope">Theoretical Log Log Slope</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-calc" href="#en-f-system-stats-slopeerror">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Slope Error</span><span class="input-table">system stat</span></span>
-          <span class="input-en">Empirical log log slope minus theoretical log log slope.</span>
-        </a>
         <a class="input tone-lookup" href="#en-f-system-stats-theoreticalloglogslope">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Theoretical Log Log Slope</span><span class="input-table">system stat</span></span>
           <span class="input-en">The theoretical log log slope of the linked system.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-system-stats-slopeerror">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Slope Error</span><span class="input-table">system stat</span></span>
+          <span class="input-en">Empirical log log slope minus theoretical log log slope.</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">8</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-systems-theoreticalloglogslope">● Theoretical Log Log Slope <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-rel" href="#en-f-system-stats-system">⇢ System <span class="ref-pill-tbl">system stat</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
+        <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-scales-system">⇢ System <span class="ref-pill-tbl">scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-scales-iteration">● Iteration <span class="ref-pill-tbl">scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-systems-theoreticalloglogslope">● Theoretical Log Log Slope <span class="ref-pill-tbl">system</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-scales-measure">● Measure <span class="ref-pill-tbl">scale</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Slope error as fraction of theoretical slope (percentage).</p>
+    <p class="field-note elem elem-desc">Slope error as fraction of theoretical slope (percentage). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
 </section>
 <section class="entity" id="en-t-measurement-models" data-entity="measurement model">
@@ -3474,16 +3474,16 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-pills">
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-measurementmodel">⇢ Measurement Model <span class="ref-pill-tbl">observed scale</span></a>
         <span class="ref-pill tone-raw">● Measurement Model ID <span class="ref-pill-tbl">measurement model</span></span>
-        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-system">⇢ System <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-iteration">● Iteration <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedintercept">● Fitted Intercept <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Number of outlier points (|standardized residual| &gt; 2.5) in observed_scales.</p>
@@ -3552,27 +3552,27 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A measurement model's <a class="ref" href="#en-f-measurement-models-outlierrate">outlier rate</a> is computed as the <a class="ref" href="#en-f-measurement-models-outliercount">outlier count</a> divided by the NULLIF of the <a class="ref" href="#en-f-measurement-models-totalpointcount">total point count</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The measurement model's <a class="ref" href="#en-f-measurement-models-outlierrate">outlier rate</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-measurement-models-totalpointcount">total point count</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-measurement-models-outliercount">outlier count</a> divided by the <a class="ref" href="#en-f-measurement-models-totalpointcount">total point count</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-measurement-models-outliercount">Outlier count</a> divided by nullif(<a class="ref" href="#en-f-measurement-models-totalpointcount">total point count</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-measurement-models-totalpointcount">total point count</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-measurement-models-outliercount">outlier count</a> divided by <a class="ref" href="#en-f-measurement-models-totalpointcount">total point count</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-measurement-models-outliercount">Outlier Count</a> / NULLIF(<a class="fx-chip" href="#en-f-measurement-models-totalpointcount">Total Point Count</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-measurement-models-totalpointcount">Total Point Count</a> = 0, 0, <a class="fx-chip" href="#en-f-measurement-models-outliercount">Outlier Count</a> / <a class="fx-chip" href="#en-f-measurement-models-totalpointcount">Total Point Count</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-agg" href="#en-f-measurement-models-outliercount">
-          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Outlier Count</span><span class="input-table">measurement model</span></span>
-          <span class="input-en">Count of observed scales whose measurement model is measurement model ID and is outlier is yes.</span>
-        </a>
         <a class="input tone-agg" href="#en-f-measurement-models-totalpointcount">
           <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Total Point Count</span><span class="input-table">measurement model</span></span>
           <span class="input-en">Count of observed scales whose measurement model is measurement model ID.</span>
+        </a>
+        <a class="input tone-agg" href="#en-f-measurement-models-outliercount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Outlier Count</span><span class="input-table">measurement model</span></span>
+          <span class="input-en">Count of observed scales whose measurement model is measurement model ID and is outlier is yes.</span>
         </a>
       </div>
     </details>
@@ -3581,19 +3581,19 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-pills">
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-measurementmodel">⇢ Measurement Model <span class="ref-pill-tbl">observed scale</span></a>
         <span class="ref-pill tone-raw">● Measurement Model ID <span class="ref-pill-tbl">measurement model</span></span>
-        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-system">⇢ System <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-iteration">● Iteration <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedintercept">● Fitted Intercept <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Fraction of points that are outliers (quality metric).</p>
+    <p class="field-note elem elem-desc">Fraction of points that are outliers (quality metric). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-measurement-models-effectivepointcount" data-entity="measurement model" data-field="Effective Point Count">
     <div class="field-head">
@@ -3636,16 +3636,16 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-pills">
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-measurementmodel">⇢ Measurement Model <span class="ref-pill-tbl">observed scale</span></a>
         <span class="ref-pill tone-raw">● Measurement Model ID <span class="ref-pill-tbl">measurement model</span></span>
-        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-system">⇢ System <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-iteration">● Iteration <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedintercept">● Fitted Intercept <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Number of non-outlier points (usable for analysis).</p>
@@ -4761,27 +4761,27 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An observed scale's <a class="ref" href="#en-f-observed-scales-standardizedresidual">standardized residual</a> is computed as the <a class="ref" href="#en-f-observed-scales-residual">residual</a> divided by the NULLIF of the <a class="ref" href="#en-f-observed-scales-residualrms">residual RMS</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The observed scale's <a class="ref" href="#en-f-observed-scales-standardizedresidual">standardized residual</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-observed-scales-residualrms">residual RMS</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-observed-scales-residual">residual</a> divided by the <a class="ref" href="#en-f-observed-scales-residualrms">residual RMS</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-observed-scales-residual">Residual</a> divided by nullif(<a class="ref" href="#en-f-observed-scales-residualrms">residual RMS</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-observed-scales-residualrms">residual RMS</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-observed-scales-residual">residual</a> divided by <a class="ref" href="#en-f-observed-scales-residualrms">residual RMS</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-observed-scales-residual">Residual</a> / NULLIF(<a class="fx-chip" href="#en-f-observed-scales-residualrms">Residual RMS</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-observed-scales-residualrms">Residual RMS</a> = 0, 0, <a class="fx-chip" href="#en-f-observed-scales-residual">Residual</a> / <a class="fx-chip" href="#en-f-observed-scales-residualrms">Residual RMS</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-calc" href="#en-f-observed-scales-residual">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Residual</span><span class="input-table">observed scale</span></span>
-          <span class="input-en">Log measure minus predicted log measure.</span>
-        </a>
         <a class="input tone-lookup" href="#en-f-observed-scales-residualrms">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Residual RMS</span><span class="input-table">observed scale</span></span>
           <span class="input-en">The residual RMS of the linked system.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-observed-scales-residual">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Residual</span><span class="input-table">observed scale</span></span>
+          <span class="input-en">Log measure minus predicted log measure.</span>
         </a>
       </div>
     </details>
@@ -4797,19 +4797,19 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">10</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-system">⇢ System <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-iteration">● Iteration <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedintercept">● Fitted Intercept <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Residual in units of RMS (number of standard deviations).</p>
+    <p class="field-note elem elem-desc">Residual in units of RMS (number of standard deviations). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-observed-scales-isoutlier" data-entity="observed scale" data-field="Is Outlier">
     <div class="field-head">
@@ -4839,7 +4839,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-observed-scales-standardizedresidual">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Standardized Residual</span><span class="input-table">observed scale</span></span>
-          <span class="input-en">Residual divided by nullif(residual RMS, 0).</span>
+          <span class="input-en">If residual RMS equals 0 then 0, otherwise (residual divided by residual RMS).</span>
         </a>
       </div>
     </details>
@@ -4854,16 +4854,16 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">10</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-system">⇢ System <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-systems-basescale">● Base Scale <span class="ref-pill-tbl">system</span></a>
         <span class="ref-pill tone-raw">● System ID <span class="ref-pill-tbl">system</span></span>
         <a class="ref-pill tone-raw" href="#en-f-systems-scalefactor">● Scale Factor <span class="ref-pill-tbl">system</span></a>
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-iteration">● Iteration <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedintercept">● Fitted Intercept <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Outlier detection flag (&gt;2.5 RMS units from fit).</p>
@@ -4880,27 +4880,27 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An observed scale's <a class="ref" href="#en-f-observed-scales-scaleratio">scale ratio</a> is computed as the <a class="ref" href="#en-f-observed-scales-scale">scale</a> divided by the NULLIF of the <a class="ref" href="#en-f-observed-scales-basescale">base scale</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The observed scale's <a class="ref" href="#en-f-observed-scales-scaleratio">scale ratio</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-observed-scales-basescale">base scale</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-observed-scales-scale">scale</a> divided by the <a class="ref" href="#en-f-observed-scales-basescale">base scale</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-observed-scales-scale">Scale</a> divided by nullif(<a class="ref" href="#en-f-observed-scales-basescale">base scale</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-observed-scales-basescale">base scale</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-observed-scales-scale">scale</a> divided by <a class="ref" href="#en-f-observed-scales-basescale">base scale</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-observed-scales-scale">Scale</a> / NULLIF(<a class="fx-chip" href="#en-f-observed-scales-basescale">Base Scale</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-observed-scales-basescale">Base Scale</a> = 0, 0, <a class="fx-chip" href="#en-f-observed-scales-scale">Scale</a> / <a class="fx-chip" href="#en-f-observed-scales-basescale">Base Scale</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-calc" href="#en-f-observed-scales-scale">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Scale</span><span class="input-table">observed scale</span></span>
-          <span class="input-en">Base scale times scale factor power.</span>
-        </a>
         <a class="input tone-lookup" href="#en-f-observed-scales-basescale">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Base Scale</span><span class="input-table">observed scale</span></span>
           <span class="input-en">The base scale of the linked system.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-observed-scales-scale">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Scale</span><span class="input-table">observed scale</span></span>
+          <span class="input-en">Base scale times scale factor power.</span>
         </a>
       </div>
     </details>
@@ -4914,7 +4914,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-iteration">● Iteration <span class="ref-pill-tbl">observed scale</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Scale relative to base scale (multiplicative factor).</p>
+    <p class="field-note elem elem-desc">Scale relative to base scale (multiplicative factor). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-observed-scales-absresidual" data-entity="observed scale" data-field="Abs Residual">
     <div class="field-head">
@@ -5297,27 +5297,27 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An inference run's <a class="ref" href="#en-f-inference-runs-slopeconfidenceinterval">slope confidence interval</a> is computed as 1.96 times the <a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a> divided by the NULLIF of the square root of the <a class="ref" href="#en-f-inference-runs-pointcount">point count</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The inference run's <a class="ref" href="#en-f-inference-runs-slopeconfidenceinterval">slope confidence interval</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-inference-runs-pointcount">point count</a> is 0</span></li><li><span class="rt-value">1.96 times the <a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a> divided by the square root of the <a class="ref" href="#en-f-inference-runs-pointcount">point count</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">1.96 times (<a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a> divided by nullif(sqrt(<a class="ref" href="#en-f-inference-runs-pointcount">point count</a>), 0)).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-inference-runs-pointcount">point count</a> equals 0 then 0, otherwise ((1.96 times <a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a>) divided by sqrt(<a class="ref" href="#en-f-inference-runs-pointcount">point count</a>)).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>1.96 * (<a class="fx-chip" href="#en-f-inference-runs-residualrms">Residual RMS</a> / NULLIF(SQRT(<a class="fx-chip" href="#en-f-inference-runs-pointcount">Point Count</a>), 0))</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-inference-runs-pointcount">Point Count</a> = 0, 0, 1.96 * <a class="fx-chip" href="#en-f-inference-runs-residualrms">Residual RMS</a> / SQRT(<a class="fx-chip" href="#en-f-inference-runs-pointcount">Point Count</a>))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-inference-runs-residualrms">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Residual RMS</span><span class="input-table">inference run</span></span>
-          <span class="input-en muted">Root-mean-square residual in log10 space (vertical residuals).</span>
-        </a>
         <a class="input tone-raw" href="#en-f-inference-runs-pointcount">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Point Count</span><span class="input-table">inference run</span></span>
           <span class="input-en muted">Count of observed points used in fit (measured).</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-inference-runs-residualrms">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Residual RMS</span><span class="input-table">inference run</span></span>
+          <span class="input-en muted">Root-mean-square residual in log10 space (vertical residuals).</span>
         </a>
       </div>
     </details>
@@ -5330,11 +5330,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-pointcount">● Point Count <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Approximate 95% confidence interval for slope (simplified formula).</p>
+    <p class="field-note elem elem-desc">Approximate 95% confidence interval for slope (simplified formula). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-agg" id="en-f-inference-runs-minlogscale" data-entity="inference run" data-field="Min Log Scale">
     <div class="field-head">
@@ -5686,7 +5686,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-calc" href="#en-f-inference-runs-slopeconfidenceinterval">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Slope Confidence Interval</span><span class="input-table">inference run</span></span>
-          <span class="input-en">1.96 times (residual RMS divided by nullif(sqrt(point count), 0)).</span>
+          <span class="input-en">If point count equals 0 then 0, otherwise ((1.96 times residual RMS) divided by sqrt(point count)).</span>
         </a>
       </div>
     </details>
@@ -5694,8 +5694,8 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <summary>Ground truth at the leaves <span class="count">3</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-slopedelta">● Slope Delta <span class="ref-pill-tbl">inference run</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-pointcount">● Point Count <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">True if deviation from theory exceeds confidence interval (statistically significant).</p>
@@ -5758,38 +5758,38 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An inference run's <a class="ref" href="#en-f-inference-runs-fitefficiency">fit efficiency</a> is computed as the <a class="ref" href="#en-f-inference-runs-r2">r2</a> divided by the NULLIF of the <a class="ref" href="#en-f-inference-runs-oneplusresidualrms">one plus residual RMS</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The inference run's <a class="ref" href="#en-f-inference-runs-fitefficiency">fit efficiency</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-inference-runs-oneplusresidualrms">one plus residual RMS</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-inference-runs-r2">r2</a> divided by the <a class="ref" href="#en-f-inference-runs-oneplusresidualrms">one plus residual RMS</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-inference-runs-r2">R2</a> divided by nullif(<a class="ref" href="#en-f-inference-runs-oneplusresidualrms">one plus residual RMS</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-inference-runs-oneplusresidualrms">one plus residual RMS</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-inference-runs-r2">r2</a> divided by <a class="ref" href="#en-f-inference-runs-oneplusresidualrms">one plus residual RMS</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-inference-runs-r2">R2</a> / NULLIF(<a class="fx-chip" href="#en-f-inference-runs-oneplusresidualrms">One Plus Residual RMS</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-inference-runs-oneplusresidualrms">One Plus Residual RMS</a> = 0, 0, <a class="fx-chip" href="#en-f-inference-runs-r2">R2</a> / <a class="fx-chip" href="#en-f-inference-runs-oneplusresidualrms">One Plus Residual RMS</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-inference-runs-r2">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">R2</span><span class="input-table">inference run</span></span>
-          <span class="input-en muted">Coefficient of determination for the log-log fit.</span>
-        </a>
         <a class="input tone-calc" href="#en-f-inference-runs-oneplusresidualrms">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">One Plus Residual RMS</span><span class="input-table">inference run</span></span>
           <span class="input-en">1 plus residual RMS.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-inference-runs-r2">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">R2</span><span class="input-table">inference run</span></span>
+          <span class="input-en muted">Coefficient of determination for the log-log fit.</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-r2">● R2 <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-r2">● R2 <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Quality per unit error (higher is better).</p>
+    <p class="field-note elem elem-desc">Quality per unit error (higher is better). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-inference-runs-normalizedrmse" data-entity="inference run" data-field="Normalized RMSE">
     <div class="field-head">
@@ -5803,40 +5803,40 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An inference run's <a class="ref" href="#en-f-inference-runs-normalizedrmse">normalized RMSE</a> is computed as the <a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a> divided by the NULLIF of the <a class="ref" href="#en-f-inference-runs-logmeasurerange">log measure range</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The inference run's <a class="ref" href="#en-f-inference-runs-normalizedrmse">normalized RMSE</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-inference-runs-logmeasurerange">log measure range</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a> divided by the <a class="ref" href="#en-f-inference-runs-logmeasurerange">log measure range</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-inference-runs-residualrms">Residual RMS</a> divided by nullif(<a class="ref" href="#en-f-inference-runs-logmeasurerange">log measure range</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-inference-runs-logmeasurerange">log measure range</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-inference-runs-residualrms">residual RMS</a> divided by <a class="ref" href="#en-f-inference-runs-logmeasurerange">log measure range</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-inference-runs-residualrms">Residual RMS</a> / NULLIF(<a class="fx-chip" href="#en-f-inference-runs-logmeasurerange">Log Measure Range</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-inference-runs-logmeasurerange">Log Measure Range</a> = 0, 0, <a class="fx-chip" href="#en-f-inference-runs-residualrms">Residual RMS</a> / <a class="fx-chip" href="#en-f-inference-runs-logmeasurerange">Log Measure Range</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-inference-runs-residualrms">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Residual RMS</span><span class="input-table">inference run</span></span>
-          <span class="input-en muted">Root-mean-square residual in log10 space (vertical residuals).</span>
-        </a>
         <a class="input tone-calc" href="#en-f-inference-runs-logmeasurerange">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Log Measure Range</span><span class="input-table">inference run</span></span>
           <span class="input-en">Max log measure minus min log measure.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-inference-runs-residualrms">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Residual RMS</span><span class="input-table">inference run</span></span>
+          <span class="input-en muted">Root-mean-square residual in log10 space (vertical residuals).</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">4</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-observed-scales-measure">● Measure <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-observed-scales-system">⇢ System <span class="ref-pill-tbl">observed scale</span></a>
         <a class="ref-pill tone-rel" href="#en-f-inference-runs-system">⇢ System <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-residualrms">● Residual RMS <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">RMSE as fraction of total log measure range.</p>
+    <p class="field-note elem elem-desc">RMSE as fraction of total log measure range. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-inference-runs-slopetotheoreticalratio" data-entity="inference run" data-field="Slope to Theoretical Ratio">
     <div class="field-head">
@@ -5850,38 +5850,38 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An inference run's <a class="ref" href="#en-f-inference-runs-slopetotheoreticalratio">slope to theoretical ratio</a> is computed as the <a class="ref" href="#en-f-inference-runs-fittedslope">fitted slope</a> divided by the NULLIF of the <a class="ref" href="#en-f-inference-runs-theoreticalloglogslope">theoretical log log slope</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The inference run's <a class="ref" href="#en-f-inference-runs-slopetotheoreticalratio">slope to theoretical ratio</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-inference-runs-theoreticalloglogslope">theoretical log log slope</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-inference-runs-fittedslope">fitted slope</a> divided by the <a class="ref" href="#en-f-inference-runs-theoreticalloglogslope">theoretical log log slope</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-inference-runs-fittedslope">Fitted slope</a> divided by nullif(<a class="ref" href="#en-f-inference-runs-theoreticalloglogslope">theoretical log log slope</a>, 0).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-inference-runs-theoreticalloglogslope">theoretical log log slope</a> equals 0 then 0, otherwise (<a class="ref" href="#en-f-inference-runs-fittedslope">fitted slope</a> divided by <a class="ref" href="#en-f-inference-runs-theoreticalloglogslope">theoretical log log slope</a>).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-inference-runs-fittedslope">Fitted Slope</a> / NULLIF(<a class="fx-chip" href="#en-f-inference-runs-theoreticalloglogslope">Theoretical Log Log Slope</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-inference-runs-theoreticalloglogslope">Theoretical Log Log Slope</a> = 0, 0, <a class="fx-chip" href="#en-f-inference-runs-fittedslope">Fitted Slope</a> / <a class="fx-chip" href="#en-f-inference-runs-theoreticalloglogslope">Theoretical Log Log Slope</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-inference-runs-fittedslope">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Fitted Slope</span><span class="input-table">inference run</span></span>
-          <span class="input-en muted">Estimated slope from observed data under FitMethod.</span>
-        </a>
         <a class="input tone-raw" href="#en-f-inference-runs-theoreticalloglogslope">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Theoretical Log Log Slope</span><span class="input-table">inference run</span></span>
           <span class="input-en muted">Fixed-point slope for the system.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-inference-runs-fittedslope">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Fitted Slope</span><span class="input-table">inference run</span></span>
+          <span class="input-en muted">Estimated slope from observed data under FitMethod.</span>
         </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-theoreticalloglogslope">● Theoretical Log Log Slope <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-fittedslope">● Fitted Slope <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Ratio of fitted to theoretical slope (1.0 = perfect match).</p>
+    <p class="field-note elem elem-desc">Ratio of fitted to theoretical slope (1.0 = perfect match). Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-inference-runs-oneminusr2" data-entity="inference run" data-field="One Minus R2">
     <div class="field-head">
@@ -6033,20 +6033,24 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">An inference run's <a class="ref" href="#en-f-inference-runs-adjustedr2">adjusted r2</a> is computed as 1 minus the <a class="ref" href="#en-f-inference-runs-oneminusr2">one minus r2</a> times the <a class="ref" href="#en-f-inference-runs-pointcountminusone">point count minus one</a> divided by the NULLIF of the <a class="ref" href="#en-f-inference-runs-pointcountminustwo">point count minus two</a> and 0.</p>
+        <div class="view-body"><p class="rt-headline">The inference run's <a class="ref" href="#en-f-inference-runs-adjustedr2">adjusted r2</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-inference-runs-pointcountminustwo">point count minus two</a> is 0</span></li><li><span class="rt-value">1 minus the <a class="ref" href="#en-f-inference-runs-oneminusr2">one minus r2</a> times the <a class="ref" href="#en-f-inference-runs-pointcountminusone">point count minus one</a> divided by the <a class="ref" href="#en-f-inference-runs-pointcountminustwo">point count minus two</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">1 minus ((<a class="ref" href="#en-f-inference-runs-oneminusr2">one minus r2</a> times <a class="ref" href="#en-f-inference-runs-pointcountminusone">point count minus one</a>) divided by nullif(<a class="ref" href="#en-f-inference-runs-pointcountminustwo">point count minus two</a>, 0)).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-inference-runs-pointcountminustwo">point count minus two</a> equals 0 then 0, otherwise (1 minus ((<a class="ref" href="#en-f-inference-runs-oneminusr2">one minus r2</a> times <a class="ref" href="#en-f-inference-runs-pointcountminusone">point count minus one</a>) divided by <a class="ref" href="#en-f-inference-runs-pointcountminustwo">point count minus two</a>)).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>1 - <a class="fx-chip" href="#en-f-inference-runs-oneminusr2">One Minus R2</a> * <a class="fx-chip" href="#en-f-inference-runs-pointcountminusone">Point Count Minus One</a> / NULLIF(<a class="fx-chip" href="#en-f-inference-runs-pointcountminustwo">Point Count Minus Two</a>, 0)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-inference-runs-pointcountminustwo">Point Count Minus Two</a> = 0, 0, 1 - <a class="fx-chip" href="#en-f-inference-runs-oneminusr2">One Minus R2</a> * <a class="fx-chip" href="#en-f-inference-runs-pointcountminusone">Point Count Minus One</a> / <a class="fx-chip" href="#en-f-inference-runs-pointcountminustwo">Point Count Minus Two</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
+        <a class="input tone-calc" href="#en-f-inference-runs-pointcountminustwo">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Point Count Minus Two</span><span class="input-table">inference run</span></span>
+          <span class="input-en">Point count minus 2.</span>
+        </a>
         <a class="input tone-calc" href="#en-f-inference-runs-oneminusr2">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">One Minus R2</span><span class="input-table">inference run</span></span>
           <span class="input-en">1 minus r2.</span>
@@ -6055,20 +6059,16 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Point Count Minus One</span><span class="input-table">inference run</span></span>
           <span class="input-en">Point count minus 1.</span>
         </a>
-        <a class="input tone-calc" href="#en-f-inference-runs-pointcountminustwo">
-          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Point Count Minus Two</span><span class="input-table">inference run</span></span>
-          <span class="input-en">Point count minus 2.</span>
-        </a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-inference-runs-r2">● R2 <span class="ref-pill-tbl">inference run</span></a>
         <a class="ref-pill tone-raw" href="#en-f-inference-runs-pointcount">● Point Count <span class="ref-pill-tbl">inference run</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-inference-runs-r2">● R2 <span class="ref-pill-tbl">inference run</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">R² adjusted for degrees of freedom.</p>
+    <p class="field-note elem elem-desc">R² adjusted for degrees of freedom. Reads 0 when the denominator is 0 (the transpiler has no NULLIF).</p>
     </article>
   <article class="field tone-calc" id="en-f-inference-runs-residualrmssquared" data-entity="inference run" data-field="Residual RMS Squared">
     <div class="field-head">

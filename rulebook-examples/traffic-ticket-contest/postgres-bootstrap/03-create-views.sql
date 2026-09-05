@@ -262,11 +262,38 @@ FROM platform_naviation t;
 -- vw_jurisdictions: View for Jurisdictions
 -- Combines base table columns with calculated/lookup/aggregation fields.
 -- ----------------------------------------------------------------------------
+-- ----------------------------------------------------------------------------
+-- vw_jurisdictions: View for Jurisdictions
+-- SELF-REFERENTIAL SETTLE: Jurisdictions has lookup field(s) reading a computed
+-- column of its own table through a self-FK. Settled level-by-level (seeds first,
+-- then each row once its drivers are settled) via a jsonb accumulator carried
+-- through ONE recursive self-reference. No cache: re-settles on every read.
+-- Settle targets: name. Drivers: parent_jurisdiction.
+-- ----------------------------------------------------------------------------
 DROP VIEW IF EXISTS vw_jurisdictions CASCADE;
 CREATE VIEW vw_jurisdictions WITH (security_invoker = ON) AS
+WITH RECURSIVE acc AS (
+  SELECT 1 AS step,
+    COALESCE((SELECT jsonb_object_agg(t.jurisdiction_id, jsonb_build_object(
+      'name', CONCAT(LOWER((SELECT NULLIF(t.state::text,''))), '-us')
+    ))
+    FROM jurisdictions t WHERE NULLIF(t.parent_jurisdiction,'') IS NULL), '{}'::jsonb) AS settled
+  UNION ALL
+  SELECT a.step + 1, a.settled || COALESCE((
+    SELECT jsonb_object_agg(t.jurisdiction_id, jsonb_build_object(
+      'name', CONCAT(LOWER((SELECT NULLIF(t.state::text,''))), '-us')
+    ))
+    FROM jurisdictions t
+    WHERE NOT (a.settled ? t.jurisdiction_id) AND NOT (NULLIF(t.parent_jurisdiction,'') IS NULL) AND (NULLIF(t.parent_jurisdiction,'') IS NULL OR a.settled ? t.parent_jurisdiction)
+  ), '{}'::jsonb)
+  FROM acc a
+  WHERE EXISTS (SELECT 1 FROM jurisdictions t
+    WHERE NOT (a.settled ? t.jurisdiction_id) AND NOT (NULLIF(t.parent_jurisdiction,'') IS NULL) AND (NULLIF(t.parent_jurisdiction,'') IS NULL OR a.settled ? t.parent_jurisdiction))
+),
+settled AS (SELECT s.settled FROM acc s ORDER BY s.step DESC LIMIT 1)
 SELECT
   t.jurisdiction_id,
-  calc_jurisdictions_name(t.jurisdiction_id) AS name,
+  (SELECT settled #>> ARRAY[t.jurisdiction_id::text, 'name'] FROM settled)::text AS name,
   t.state,
   t.notes,
   t.jurisdiction_type,
@@ -280,7 +307,7 @@ SELECT
   t.point_warning_threshold,                                                    -- Total active license points at or above which a driver receives an advisory warning (below suspension).
   t.traffic_school_point_cap,                                                   -- Maximum violation points for which traffic school is offered as a points-reducing option in this jurisdiction.
   t.parent_jurisdiction,                                                        -- The parent jurisdiction in the hierarchy (e.g., US for California). Empty for root jurisdictions like countries.
-  calc_jurisdictions_parent_jurisdiction_name(t.jurisdiction_id) AS parent_jurisdiction_name,
+  (SELECT settled #>> ARRAY[NULLIF(t.parent_jurisdiction,''), 'name'] FROM settled)::text AS parent_jurisdiction_name,
   t.child_jurisdictions,                                                        -- The child jurisdictions under this parent (e.g., all 50 states roll up to US).
   t.jurisdiction_rules,
   calc_jurisdictions_is_root_jurisdiction(t.jurisdiction_id) AS is_root_jurisdiction,
@@ -487,9 +514,9 @@ SELECT
   t.subject_state_column,                                                       -- Name of the raw column on the subject that holds its current state (e.g. 'ChecklistStatus', 'CurrentStateKey').
   t.erb_package,                                                                -- FK -> ERBPackages.ERBPackageId. The package that owns this state machine.
   calc_state_machines_package_is_active(t.state_machine_id) AS package_is_active,-- Lookup: ERBPackage.IsActive — is this machine's owning package enabled? UI hides the machine when false.
-  t.machine_states,                                                             -- Reverse: legal states of this machine.
-  t.state_transition_rules,                                                     -- Reverse: legal edges of this machine.
-  t.state_transitions,                                                          -- Reverse: instance transition log rows for this machine.
+  calc_state_machines_machine_states(t.state_machine_id) AS machine_states,     -- Reverse: legal states of this machine.
+  calc_state_machines_state_transition_rules(t.state_machine_id) AS state_transition_rules,-- Reverse: legal edges of this machine.
+  calc_state_machines_state_transitions(t.state_machine_id) AS state_transitions,-- Reverse: instance transition log rows for this machine.
   calc_state_machines_state_count(t.state_machine_id) AS state_count,           -- Count of MachineStates in this machine.
   calc_state_machines_transition_rule_count(t.state_machine_id) AS transition_rule_count,-- Count of StateTransitionRules in this machine.
   t.created_at,                                                                 -- Audit: when this row was first inserted. Auto-stamped by the audit trigger (now() on INSERT); immutable thereafter.
@@ -514,8 +541,8 @@ SELECT
   t.order_index,                                                                -- Sort order of this state within the machine.
   t.is_initial,                                                                 -- TRUE if this is the machine's entry state.
   t.is_terminal,                                                                -- TRUE if this is a terminal/end state.
-  t.from_transition_rules,                                                      -- Reverse: rules whose FromState is this state.
-  t.to_transition_rules,                                                        -- Reverse: rules whose ToState is this state.
+  calc_machine_states_from_transition_rules(t.machine_state_id) AS from_transition_rules,-- Reverse: rules whose FromState is this state.
+  calc_machine_states_to_transition_rules(t.machine_state_id) AS to_transition_rules,-- Reverse: rules whose ToState is this state.
   t.created_at,                                                                 -- Audit: when this row was first inserted. Auto-stamped by the audit trigger (now() on INSERT); immutable thereafter.
   t.created_by,                                                                 -- Audit: the OWNER — the JWT user (auth.email()) who created this row. Auto-stamped on INSERT; immutable thereafter. NULL for build-time seed rows (no signed-in user).
   t.modified_at,                                                                -- Audit: when this row was last written. Auto-stamped by the audit trigger (now() on every INSERT/UPDATE).

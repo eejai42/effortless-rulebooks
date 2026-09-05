@@ -98,6 +98,20 @@ The executable semantics (priority-IF, `AND(IsValid, NOT(flagged))`, raw-vs-calc
 
 After `effortless build`, open [rulespeak/rulespeak.html](rulespeak/rulespeak.html) to read every rule in plain English, traceable to its formula.
 
+## App
+
+`app/` is a small Express + React app that reads **only** the `vw_*` views of
+`erb_ross_style_business_rules`. The primary screen is a claims desk: one card per
+Claim showing incident, incident claimant, additional claimant, claimant of record,
+the review flag, the `IsValid` / `IsApprovable` verdicts with their deciding-factor
+text, and (expandable) every derived rule column beside the rule's RuleSpeak
+wording from the hub's field descriptions. Tabs show Policies, Claimants and
+Incidents, plus an "All views" browser.
+
+```bash
+./start.sh        # web http://localhost:43104 · API http://localhost:43304/api/views
+```
+
 ---
 
 ## Local transpiler bus (`localhost:4242`)

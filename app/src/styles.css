@@ -144,6 +144,10 @@ button.chip { cursor: pointer; font: inherit; }
 .linklist li { padding: 0.5rem 0; border-top: 1px solid var(--line); }
 .linklist li:first-child { border-top: 0; }
 .linklist li p { margin: 0.15rem 0 0; font-size: 0.9rem; }
+.actions { display: inline-flex; flex-direction: column; gap: 0.3rem; align-items: flex-start; }
+.actions .chip { white-space: nowrap; }
+button.chip:disabled { opacity: 0.5; cursor: default; }
+.error-inline { color: var(--bad-fg); font-size: 0.82rem; }
 .linkbtn { background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; font: inherit; }
 .linkbtn:hover { text-decoration: underline; }
 .filters { display: flex; gap: 1rem; align-items: center; font-size: 0.9rem; }

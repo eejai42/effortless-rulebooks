@@ -507,7 +507,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{PointSet}}/{{Point}}"
+        "formula": "=CONCAT({{PointSet}}, \"/\", {{Point}})"
       },
       {
         "name": "PointSet",
@@ -621,7 +621,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{PointSet}}/{{PointA}}-{{PointB}}"
+        "formula": "=CONCAT({{PointSet}}, \"/\", {{PointA}}, \"-\", {{PointB}})"
       },
       {
         "name": "PointSet",
@@ -646,25 +646,25 @@
         "datatype": "decimal",
         "type": "lookup",
         "Description": "Lookup of PointA.X.",
-        "formula": "=LOOKUP(Points!{{X}}, PointPairs!{{PointA}}, Points!{{PointId}})"
+        "formula": "=INDEX(Points!{{X}}, MATCH({{PointA}}, Points!{{PointId}}, 0))"
       },
       {
         "name": "PointAY",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(Points!{{Y}}, PointPairs!{{PointA}}, Points!{{PointId}})"
+        "formula": "=INDEX(Points!{{Y}}, MATCH({{PointA}}, Points!{{PointId}}, 0))"
       },
       {
         "name": "PointBX",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(Points!{{X}}, PointPairs!{{PointB}}, Points!{{PointId}})"
+        "formula": "=INDEX(Points!{{X}}, MATCH({{PointB}}, Points!{{PointId}}, 0))"
       },
       {
         "name": "PointBY",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(Points!{{Y}}, PointPairs!{{PointB}}, Points!{{PointId}})"
+        "formula": "=INDEX(Points!{{Y}}, MATCH({{PointB}}, Points!{{PointId}}, 0))"
       },
       {
         "name": "DeltaX",
@@ -884,7 +884,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{PointSet}}-graph"
+        "formula": "=CONCAT({{PointSet}}, \"-graph\")"
       },
       {
         "name": "PointSet",
@@ -896,13 +896,13 @@
         "name": "VertexCount",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(PointSets!{{PointCount}}, UnitDistanceGraphs!{{PointSet}}, PointSets!{{PointSetId}})"
+        "formula": "=INDEX(PointSets!{{PointCount}}, MATCH({{PointSet}}, PointSets!{{PointSetId}}, 0))"
       },
       {
         "name": "EdgeCount",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(PointSets!{{UnitDistancePairCount}}, UnitDistanceGraphs!{{PointSet}}, PointSets!{{PointSetId}})"
+        "formula": "=INDEX(PointSets!{{UnitDistancePairCount}}, MATCH({{PointSet}}, PointSets!{{PointSetId}}, 0))"
       },
       {
         "name": "MaxPossibleEdges",
@@ -1117,7 +1117,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{NumberField}}/{{GeneratorDescription}}"
+        "formula": "=CONCAT({{NumberField}}, \"/\", {{GeneratorDescription}})"
       },
       {
         "name": "NumberField",
@@ -1243,7 +1243,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{NumberField}}-lattice"
+        "formula": "=CONCAT({{NumberField}}, \"-lattice\")"
       },
       {
         "name": "NumberField",
@@ -1255,13 +1255,13 @@
         "name": "Dimension",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{AmbientLatticeDimension}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})"
+        "formula": "=INDEX(NumberFields!{{AmbientLatticeDimension}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))"
       },
       {
         "name": "FieldDiscriminant",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{Discriminant}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})"
+        "formula": "=INDEX(NumberFields!{{Discriminant}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))"
       },
       {
         "name": "Determinant",
@@ -1315,14 +1315,14 @@
         "name": "SourceFieldDegree",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{Degree}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})",
+        "formula": "=INDEX(NumberFields!{{Degree}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))",
         "Description": "The degree [K:Q] of the source field, surfaced on the lattice for downstream chain checks."
       },
       {
         "name": "SourceFieldSatisfiesGolodShafarevich",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{SatisfiesGolodShafarevich}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})",
+        "formula": "=INDEX(NumberFields!{{SatisfiesGolodShafarevich}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))",
         "important": true,
         "Description": "The single most important upstream gate. TRUE means the field-side ingredient (GS tower) is satisfied — a necessary condition for the lattice to carry enough short vectors for a superlinear unit-distance construction."
       },
@@ -1330,7 +1330,7 @@
         "name": "SourceFieldIsAlgebraicSourceCandidate",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{IsAlgebraicSourceCandidate}}, MinkowskiLattices!{{NumberField}}, NumberFields!{{NumberFieldId}})"
+        "formula": "=INDEX(NumberFields!{{IsAlgebraicSourceCandidate}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))"
       },
       {
         "name": "Projections",
@@ -1402,7 +1402,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{MinkowskiLattice}}/{{CoordsJSON}}"
+        "formula": "=CONCAT({{MinkowskiLattice}}, \"/\", {{CoordsJSON}})"
       },
       {
         "name": "MinkowskiLattice",
@@ -1424,7 +1424,7 @@
         "name": "ThresholdSquared",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(MinkowskiLattices!{{ShortVectorThresholdSquared}}, ShortVectors!{{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})"
+        "formula": "=INDEX(MinkowskiLattices!{{ShortVectorThresholdSquared}}, MATCH({{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}}, 0))"
       },
       {
         "name": "IsShort",
@@ -1566,14 +1566,14 @@
         "name": "SourceFieldSatisfiesGolodShafarevich",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{SatisfiesGolodShafarevich}}, ConstructionFamilies!{{SourceNumberField}}, NumberFields!{{NumberFieldId}})",
+        "formula": "=INDEX(NumberFields!{{SatisfiesGolodShafarevich}}, MATCH({{SourceNumberField}}, NumberFields!{{NumberFieldId}}, 0))",
         "Description": "The GS-satisfaction of the source field, inherited via SourceNumberField. Null if the family is non-algebraic (no source field set)."
       },
       {
         "name": "SourceLatticeIsLoadBearing",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(MinkowskiLattices!{{IsLoadBearingForUnitDistanceConstruction}}, ConstructionFamilies!{{SourceMinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})"
+        "formula": "=INDEX(MinkowskiLattices!{{IsLoadBearingForUnitDistanceConstruction}}, MATCH({{SourceMinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}}, 0))"
       },
       {
         "name": "IsAlgebraicConstruction",
@@ -1637,7 +1637,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{ConstructionFamily}}-n{{ParamN}}"
+        "formula": "=CONCAT({{ConstructionFamily}}, \"-n\", {{ParamN}})"
       },
       {
         "name": "ConstructionFamily",
@@ -1660,19 +1660,19 @@
         "name": "PointCount",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(PointSets!{{PointCount}}, ConstructionInstances!{{PointSet}}, PointSets!{{PointSetId}})"
+        "formula": "=INDEX(PointSets!{{PointCount}}, MATCH({{PointSet}}, PointSets!{{PointSetId}}, 0))"
       },
       {
         "name": "EdgeCount",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(PointSets!{{UnitDistancePairCount}}, ConstructionInstances!{{PointSet}}, PointSets!{{PointSetId}})"
+        "formula": "=INDEX(PointSets!{{UnitDistancePairCount}}, MATCH({{PointSet}}, PointSets!{{PointSetId}}, 0))"
       },
       {
         "name": "DensityExponentEstimate",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(PointSets!{{DensityExponentEstimate}}, ConstructionInstances!{{PointSet}}, PointSets!{{PointSetId}})"
+        "formula": "=INDEX(PointSets!{{DensityExponentEstimate}}, MATCH({{PointSet}}, PointSets!{{PointSetId}}, 0))"
       },
       {
         "name": "ParamNMatchesPointCount",
@@ -1685,7 +1685,7 @@
         "name": "FamilyIsAlgebraic",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(ConstructionFamilies!{{IsAlgebraicConstruction}}, ConstructionInstances!{{ConstructionFamily}}, ConstructionFamilies!{{ConstructionFamilyId}})",
+        "formula": "=INDEX(ConstructionFamilies!{{IsAlgebraicConstruction}}, MATCH({{ConstructionFamily}}, ConstructionFamilies!{{ConstructionFamilyId}}, 0))",
         "Description": "Surfaces the family-level algebraic-construction flag onto each instance so per-row checks can see it."
       },
       {
@@ -1757,7 +1757,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{ConstructionFamily}}-growth"
+        "formula": "=CONCAT({{ConstructionFamily}}, \"-growth\")"
       },
       {
         "name": "ConstructionFamily",
@@ -1970,7 +1970,7 @@
         "name": "WitnessedByMaxDensityExponent",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(GrowthSequences!{{MaxObservedDensityExponentEstimate}}, AsymptoticLowerBounds!{{GrowthSequence}}, GrowthSequences!{{GrowthSequenceId}})"
+        "formula": "=INDEX(GrowthSequences!{{MaxObservedDensityExponentEstimate}}, MATCH({{GrowthSequence}}, GrowthSequences!{{GrowthSequenceId}}, 0))"
       },
       {
         "name": "WitnessConsistent",
@@ -1984,14 +1984,14 @@
         "name": "WitnessSourceFamily",
         "datatype": "string",
         "type": "lookup",
-        "formula": "=LOOKUP(GrowthSequences!{{ConstructionFamily}}, AsymptoticLowerBounds!{{GrowthSequence}}, GrowthSequences!{{GrowthSequenceId}})",
+        "formula": "=INDEX(GrowthSequences!{{ConstructionFamily}}, MATCH({{GrowthSequence}}, GrowthSequences!{{GrowthSequenceId}}, 0))",
         "Description": "Surfaces the ConstructionFamily backing this bound's witness, two FK hops upstream."
       },
       {
         "name": "WitnessFamilyIsAlgebraic",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(ConstructionFamilies!{{IsAlgebraicConstruction}}, AsymptoticLowerBounds!{{WitnessSourceFamily}}, ConstructionFamilies!{{ConstructionFamilyId}})",
+        "formula": "=INDEX(ConstructionFamilies!{{IsAlgebraicConstruction}}, MATCH({{WitnessSourceFamily}}, ConstructionFamilies!{{ConstructionFamilyId}}, 0))",
         "important": true,
         "Description": "TRUE iff the family providing this bound's finite witness is an algebraic construction with GS-passing source field. Distinguishes 'algebraically-anchored bound' from 'bound with a generic geometric witness'."
       },
@@ -2240,13 +2240,13 @@
         "name": "AnchoredBoundExponent",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{Exponent}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})"
+        "formula": "=INDEX(AsymptoticLowerBounds!{{Exponent}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))"
       },
       {
         "name": "AnchoredBoundIsSuperlinear",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{IsSuperlinear}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})"
+        "formula": "=INDEX(AsymptoticLowerBounds!{{IsSuperlinear}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))"
       },
       {
         "name": "ClaimedExponent",
@@ -2266,14 +2266,14 @@
         "name": "AnchoredBoundWitnessConsistent",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{WitnessConsistent}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{WitnessConsistent}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "Description": "Surfaces the bound-level finite-witness consistency onto the theorem row."
       },
       {
         "name": "AnchoredBoundIsAlgebraicallyAnchored",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{IsAlgebraicallyAnchored}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{IsAlgebraicallyAnchored}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "important": true,
         "Description": "Surfaces the bound-level algebraic-anchoring onto the theorem row."
       },
@@ -2289,7 +2289,7 @@
         "name": "AppliesToFunction",
         "datatype": "string",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticFunctions!{{DisplayName}}, Theorems!{{AsymptoticFunction}}, AsymptoticFunctions!{{AsymptoticFunctionId}})",
+        "formula": "=INDEX(AsymptoticFunctions!{{DisplayName}}, MATCH({{AsymptoticFunction}}, AsymptoticFunctions!{{AsymptoticFunctionId}}, 0))",
         "Description": "Human-readable name of the function the theorem talks about. Multi-anchor support — different theorems anchor different functions in the same neighborhood."
       },
       {
@@ -2303,7 +2303,7 @@
         "name": "AnchoredBoundAllObligationsSatisfied",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{AllObligationsSatisfied}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{AllObligationsSatisfied}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "nullable": true,
         "Description": "Surfaces the anchored bound's full-obligation status onto the theorem row."
       },
@@ -2311,7 +2311,7 @@
         "name": "AnchoredBoundOpenObligationCount",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{OpenObligationCount}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{OpenObligationCount}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "nullable": true
       },
       {
@@ -2356,7 +2356,7 @@
         "name": "AnchoredBoundIsCurrentlyValid",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{IsCurrentlyValid}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{IsCurrentlyValid}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "nullable": true,
         "Description": "Surfaces the anchored bound's current-validity onto the theorem. If the anchored bound got retracted, this goes FALSE — and the theorem either needs re-anchoring or also needs retraction."
       },
@@ -2372,7 +2372,7 @@
         "name": "AnchoredBoundIsAuditableViaItsPathway",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{IsAuditableViaItsPathway}}, Theorems!{{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{IsAuditableViaItsPathway}}, MATCH({{AnchoredLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "nullable": true,
         "Description": "Surfaces the anchored bound's pathway-appropriate audit gate onto the theorem."
       },
@@ -2624,7 +2624,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{NumberField}}/{{EmbeddingType}}-{{IndexInSignature}}"
+        "formula": "=CONCAT({{NumberField}}, \"/\", {{EmbeddingType}}, \"-\", {{IndexInSignature}})"
       },
       {
         "name": "NumberField",
@@ -2750,7 +2750,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{NumberField}}-minkowski-embedding"
+        "formula": "=CONCAT({{NumberField}}, \"-minkowski-embedding\")"
       },
       {
         "name": "NumberField",
@@ -2770,13 +2770,13 @@
         "name": "AmbientDimension",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{AmbientLatticeDimension}}, MinkowskiEmbeddings!{{NumberField}}, NumberFields!{{NumberFieldId}})"
+        "formula": "=INDEX(NumberFields!{{AmbientLatticeDimension}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))"
       },
       {
         "name": "TargetLatticeDimension",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(MinkowskiLattices!{{Dimension}}, MinkowskiEmbeddings!{{TargetLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})",
+        "formula": "=INDEX(MinkowskiLattices!{{Dimension}}, MATCH({{TargetLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}}, 0))",
         "nullable": true
       },
       {
@@ -2856,7 +2856,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{MinkowskiLattice}}-gram"
+        "formula": "=CONCAT({{MinkowskiLattice}}, \"-gram\")"
       },
       {
         "name": "MinkowskiLattice",
@@ -2868,13 +2868,13 @@
         "name": "Dimension",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(MinkowskiLattices!{{Dimension}}, GramMatrices!{{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})"
+        "formula": "=INDEX(MinkowskiLattices!{{Dimension}}, MATCH({{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}}, 0))"
       },
       {
         "name": "LatticeDeterminant",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(MinkowskiLattices!{{Determinant}}, GramMatrices!{{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})"
+        "formula": "=INDEX(MinkowskiLattices!{{Determinant}}, MATCH({{MinkowskiLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}}, 0))"
       },
       {
         "name": "MatrixJSON",
@@ -3077,7 +3077,7 @@
         "name": "SourceLatticeIsLoadBearing",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(MinkowskiLattices!{{IsLoadBearingForUnitDistanceConstruction}}, PlanarProjections!{{SourceLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}})"
+        "formula": "=INDEX(MinkowskiLattices!{{IsLoadBearingForUnitDistanceConstruction}}, MATCH({{SourceLattice}}, MinkowskiLattices!{{MinkowskiLatticeId}}, 0))"
       },
       {
         "name": "Description",
@@ -3169,7 +3169,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{ShortVector}}/{{PlanarProjection}}"
+        "formula": "=CONCAT({{ShortVector}}, \"/\", {{PlanarProjection}})"
       },
       {
         "name": "ShortVector",
@@ -3217,13 +3217,13 @@
         "name": "SourceNormSquared",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(ShortVectors!{{NormSquared}}, ProjectedShortVectors!{{ShortVector}}, ShortVectors!{{ShortVectorId}})"
+        "formula": "=INDEX(ShortVectors!{{NormSquared}}, MATCH({{ShortVector}}, ShortVectors!{{ShortVectorId}}, 0))"
       },
       {
         "name": "SourceIsShort",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(ShortVectors!{{IsShort}}, ProjectedShortVectors!{{ShortVector}}, ShortVectors!{{ShortVectorId}})"
+        "formula": "=INDEX(ShortVectors!{{IsShort}}, MATCH({{ShortVector}}, ShortVectors!{{ShortVectorId}}, 0))"
       },
       {
         "name": "UnitTolerance",
@@ -3383,7 +3383,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{NumberField}}-gs"
+        "formula": "=CONCAT({{NumberField}}, \"-gs\")"
       },
       {
         "name": "NumberField",
@@ -3407,7 +3407,7 @@
         "name": "FieldDegree",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(NumberFields!{{Degree}}, GolodShafarevichCriteria!{{NumberField}}, NumberFields!{{NumberFieldId}})"
+        "formula": "=INDEX(NumberFields!{{Degree}}, MATCH({{NumberField}}, NumberFields!{{NumberFieldId}}, 0))"
       },
       {
         "name": "CriterionThreshold",
@@ -3799,7 +3799,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{SemanticRoute}}-{{StepOrder}}"
+        "formula": "=CONCAT({{SemanticRoute}}, \"-\", {{StepOrder}})"
       },
       {
         "name": "SemanticRoute",
@@ -3834,7 +3834,7 @@
         "name": "BridgeIsLoadBearing",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(SemanticBridges!{{IsLoadBearing}}, SemanticRouteSteps!{{BridgeUsed}}, SemanticBridges!{{SemanticBridgeId}})",
+        "formula": "=INDEX(SemanticBridges!{{IsLoadBearing}}, MATCH({{BridgeUsed}}, SemanticBridges!{{SemanticBridgeId}}, 0))",
         "nullable": true
       },
       {
@@ -4860,7 +4860,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{ParentBound}}/{{RequiredLemma}}"
+        "formula": "=CONCAT({{ParentBound}}, \"/\", {{RequiredLemma}})"
       },
       {
         "name": "ParentBound",
@@ -4897,21 +4897,21 @@
         "name": "IsLemmaLoaded",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(Lemmas!{{IsLoaded}}, ProofObligations!{{RequiredLemma}}, Lemmas!{{LemmaId}})",
+        "formula": "=INDEX(Lemmas!{{IsLoaded}}, MATCH({{RequiredLemma}}, Lemmas!{{LemmaId}}, 0))",
         "nullable": true
       },
       {
         "name": "IsLemmaLoadBearing",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(Lemmas!{{IsLoadBearing}}, ProofObligations!{{RequiredLemma}}, Lemmas!{{LemmaId}})",
+        "formula": "=INDEX(Lemmas!{{IsLoadBearing}}, MATCH({{RequiredLemma}}, Lemmas!{{LemmaId}}, 0))",
         "nullable": true
       },
       {
         "name": "BoundClaimedExponent",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{Exponent}}, ProofObligations!{{ParentBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})"
+        "formula": "=INDEX(AsymptoticLowerBounds!{{Exponent}}, MATCH({{ParentBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))"
       },
       {
         "name": "IsCurrentlyOpen",
@@ -5087,7 +5087,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{CitingSource}}-cites-{{CitedSource}}"
+        "formula": "=CONCAT({{CitingSource}}, \"-cites-\", {{CitedSource}})"
       },
       {
         "name": "CitingSource",
@@ -5130,14 +5130,14 @@
         "name": "CitingYear",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(SourceReferences!{{Year}}, CitationLinks!{{CitingSource}}, SourceReferences!{{SourceReferenceId}})",
+        "formula": "=INDEX(SourceReferences!{{Year}}, MATCH({{CitingSource}}, SourceReferences!{{SourceReferenceId}}, 0))",
         "nullable": true
       },
       {
         "name": "CitedYear",
         "datatype": "integer",
         "type": "lookup",
-        "formula": "=LOOKUP(SourceReferences!{{Year}}, CitationLinks!{{CitedSource}}, SourceReferences!{{SourceReferenceId}})",
+        "formula": "=INDEX(SourceReferences!{{Year}}, MATCH({{CitedSource}}, SourceReferences!{{SourceReferenceId}}, 0))",
         "nullable": true
       },
       {
@@ -5330,7 +5330,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{TargetTable}}/{{TargetRowId}}/{{TargetField}}"
+        "formula": "=CONCAT({{TargetTable}}, \"/\", {{TargetRowId}}, \"/\", {{TargetField}})"
       },
       {
         "name": "TargetTable",
@@ -5876,7 +5876,7 @@
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "formula": "={{AsymptoticLowerBound}}-at-{{TemporalSnapshot}}"
+        "formula": "=CONCAT({{AsymptoticLowerBound}}, \"-at-\", {{TemporalSnapshot}})"
       },
       {
         "name": "AsymptoticLowerBound",
@@ -5894,26 +5894,26 @@
         "name": "BoundExponent",
         "datatype": "decimal",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{Exponent}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})"
+        "formula": "=INDEX(AsymptoticLowerBounds!{{Exponent}}, MATCH({{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))"
       },
       {
         "name": "BoundValidFrom",
         "datatype": "string",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{ValidFrom}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})"
+        "formula": "=INDEX(AsymptoticLowerBounds!{{ValidFrom}}, MATCH({{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))"
       },
       {
         "name": "BoundValidTo",
         "datatype": "string",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{ValidTo}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{ValidTo}}, MATCH({{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "nullable": true
       },
       {
         "name": "SnapshotDate",
         "datatype": "string",
         "type": "lookup",
-        "formula": "=LOOKUP(TemporalSnapshots!{{SnapshotDate}}, LowerBoundValidityAtSnapshot!{{TemporalSnapshot}}, TemporalSnapshots!{{TemporalSnapshotId}})"
+        "formula": "=INDEX(TemporalSnapshots!{{SnapshotDate}}, MATCH({{TemporalSnapshot}}, TemporalSnapshots!{{TemporalSnapshotId}}, 0))"
       },
       {
         "name": "IsValidAtThisSnapshot",
@@ -5925,7 +5925,7 @@
         "name": "BoundIsCurrentlyValid",
         "datatype": "boolean",
         "type": "lookup",
-        "formula": "=LOOKUP(AsymptoticLowerBounds!{{IsCurrentlyValid}}, LowerBoundValidityAtSnapshot!{{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}})",
+        "formula": "=INDEX(AsymptoticLowerBounds!{{IsCurrentlyValid}}, MATCH({{AsymptoticLowerBound}}, AsymptoticLowerBounds!{{AsymptoticLowerBoundId}}, 0))",
         "nullable": true,
         "Description": "Surfaces the bound's curator-set IsCurrentlyValid onto the junction. Distinguishes 'bitemporally valid by date' from 'curator-confirmed valid'."
       },

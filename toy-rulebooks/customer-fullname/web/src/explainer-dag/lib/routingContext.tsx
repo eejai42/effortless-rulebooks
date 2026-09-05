@@ -84,24 +84,31 @@ export const defaultRouting: Required<ExplainerDagRouting> = {
 // Fill any missing handlers on a partial routing prop with the defaults above.
 //
 // Hosts commonly wire only FieldLink + navigate (e.g. a react-router app that has
-// just the field route). If we filled TableLink/navigateTable with the *hash*
-// defaults (#/dag/...), those collide with a path router: from /dag/Customers a
-// relative "#/dag/Customers" appends to the path → /dag/Customers/#/dag/Customers/.
-// So before falling back to the hash defaults we DERIVE the table handlers from
-// whatever path-based navigation the host DID supply:
-//   • navigateTable ← host.navigate(table, "")  (the table page is the field route
-//     with an empty field, which every host that has /dag/:table/:field can honor;
-//     hosts with a dedicated /dag/:table should pass their own navigateTable)
-//   • TableLink ← a button-style <a> that calls the (now-resolved) navigateTable,
-//     so the click goes through the host's router instead of a hash href.
-// Only when the host supplied NOTHING navigational do we keep the pure-hash
-// defaults (a standalone, router-less embedding).
+// just the field route). The defaults above emit *hash* URLs (#/dag/..., #/).
+// A path router (BrowserRouter) silently IGNORES a hash change: the hash updates,
+// the route does not, and the user bounces to the "/" root node. So the rule when
+// merging is: **if the host wired ANY path-based navigation, no handler may fall
+// back to a hash URL.** We derive the missing path handlers from whatever the host
+// DID supply, and only keep the pure-hash defaults when the host gave NOTHING
+// navigational (a standalone, router-less embedding).
+//
+//   • navigateTable ← host.navigateTable, else host.navigate(table, "")  (the
+//     table page is the field route with an empty field, which a host with
+//     /dag/:table/:field can honor; hosts with a dedicated /dag/:table should
+//     pass their own navigateTable — this app does).
+//   • TableLink ← a button-style <a> that routes through navigateTable.
+//   • onHome ← host.onHome, else (for a path host) navigateTable("") — i.e. "leave
+//     the explainer the same way the Tables crumb does," NOT the hash "#/". A host
+//     that wants a distinct home target should pass onHome explicitly.
 export function mergeRouting(
   r: ExplainerDagRouting | undefined,
 ): Required<ExplainerDagRouting> {
   const hostNavigate = r?.navigate;
+  // "Path host" = the host wired real path navigation. For these we must never
+  // hand back a hash-URL handler (it would no-op against their router).
+  const isPathHost = !!(r?.navigate || r?.navigateTable || r?.onHome);
 
-  // Resolve navigateTable first — TableLink below depends on it.
+  // Resolve navigateTable first — TableLink and onHome below depend on it.
   const navigateTable: (table: string) => void =
     r?.navigateTable ??
     (hostNavigate
@@ -127,11 +134,18 @@ export function mergeRouting(
         )
       : defaultRouting.TableLink);
 
+  // onHome: a path host that didn't supply one leaves the explainer via the
+  // resolved navigateTable("") (its index / leave-explainer route), so Home never
+  // dead-ends on the ignored hash "#/". Only a router-less host keeps the hash.
+  const onHome: () => void =
+    r?.onHome ??
+    (isPathHost ? () => navigateTable("") : defaultRouting.onHome);
+
   return {
     FieldLink: r?.FieldLink ?? defaultRouting.FieldLink,
     TableLink,
     onBack: r?.onBack ?? defaultRouting.onBack,
-    onHome: r?.onHome ?? defaultRouting.onHome,
+    onHome,
     navigate: hostNavigate ?? defaultRouting.navigate,
     navigateTable,
   };

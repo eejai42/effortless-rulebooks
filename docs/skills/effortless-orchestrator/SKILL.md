@@ -83,7 +83,7 @@ Inside an ERB project, the transpilers are the code authors. I'm a **rulebook
 tender** — the places where my work persists are:
 
 1. The **hub** (`effortless-rulebook.json` directly, or via any connected input spoke — Airtable, reverse-sync, hand-edits with permission).
-2. The **customization seams** (`*b-customize-*` files, the `ERBCustomizations` table) and the **application layer** that consumes the generated views.
+2. The **customization seams** — `ERBCustomizations` rows in the rulebook (preferred) and the hand-edited `*b-customize-*` files — and the **application layer** that consumes the generated views.
 
 Everything else — generated `00`-`05` SQL, generated Python/Go/docs — is
 mechanical output. It's fine to read or even edit those files to test a
@@ -119,11 +119,11 @@ The shorthand: **the user is asking me to think *with* the methodology, not *abo
 
 ## ORCHESTRATION RULE — `effortless-rulebook.json` LIVES IN `/effortless-rulebook/`
 
-**Always** at `/effortless-rulebook/effortless-rulebook.json`. NEVER at the project root.
+**Always** at `/effortless-rulebook/effortless-rulebook.json`. NEVER at the project root. This applies to every project — Rulebook-First (the default) and Airtable-connected alike.
 
-Before running ANY `effortless airtable-to-rulebook` or `effortless -install airtable-to-rulebook`, you MUST `cd effortless-rulebook` first. Running from the root dumps the rulebook in the wrong place AND poisons every subsequent build.
+Before installing or running ANY transpiler that writes to `effortless-rulebook.json` — `raw-text-to-rulebook`, hand-authoring the file, or (only if the project is Airtable-connected) `effortless airtable-to-rulebook` / `effortless -install airtable-to-rulebook` — you MUST `cd effortless-rulebook` first. Running from the root dumps the rulebook in the wrong place AND poisons every subsequent build.
 
-If `effortless-rulebook.json` ever appears at the project root: bug — delete it, fix `effortless.json` so `airtable-to-rulebook` has `RelativePath: /effortless-rulebook`, redo the install from inside `/effortless-rulebook/`.
+If `effortless-rulebook.json` ever appears at the project root: bug — delete it, fix `effortless.json` so the relevant transpiler has `RelativePath: /effortless-rulebook`, redo the install from inside `/effortless-rulebook/`.
 
 ## Critical Guardrails
 

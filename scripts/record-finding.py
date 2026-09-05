@@ -50,7 +50,7 @@ def main() -> None:
         rb["ConsistencyRules"]["data"].append({
             "ConsistencyRuleId": args.rule, "RuleCode": args.code, "Severity": args.severity, "Scope": args.scope,
             "Statement": args.statement, "CheckMechanism": args.check, "FixPlaybook": args.fix,
-            "SourceDoctrine": args.doctrine, "Project": "erb-001",
+            "SourceDoctrine": args.doctrine, "IsScannerDerived": False, "Project": "erb-001",
         })
         print(f"added rule {args.rule} ({args.code})")
 

@@ -27,6 +27,15 @@ RETURNS TEXT AS $$
   SELECT (SELECT area FROM rulebook_domains WHERE domain_id = p_domain_id);
 $$ LANGUAGE sql STABLE;
 
+-- get_rulebook_domains_kind
+-- Helper function: Get Kind from RulebookDomains by DomainId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_rulebook_domains_kind(p_domain_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT kind FROM rulebook_domains WHERE domain_id = p_domain_id);
+$$ LANGUAGE sql STABLE;
+
 -- get_rulebook_domains_is_intentional_exception
 -- Helper function: Get IsIntentionalException from RulebookDomains by DomainId
 -- Used for join-free cross-table references in aggregations
@@ -328,6 +337,15 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION get_consistency_rules_source_doctrine(p_consistency_rule_id TEXT)
 RETURNS TEXT AS $$
   SELECT (SELECT source_doctrine FROM consistency_rules WHERE consistency_rule_id = p_consistency_rule_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_consistency_rules_is_scanner_derived
+-- Helper function: Get IsScannerDerived from ConsistencyRules by ConsistencyRuleId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_consistency_rules_is_scanner_derived(p_consistency_rule_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_scanner_derived FROM consistency_rules WHERE consistency_rule_id = p_consistency_rule_id);
 $$ LANGUAGE sql STABLE;
 
 -- get_mobile_nav_tabs_label
@@ -1798,7 +1816,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_is_toy(p_domain_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'toy-rulebooks')::boolean;
+  SELECT ((SELECT NULLIF(kind, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'toy')::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_domains_toy_flag
@@ -1808,7 +1826,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_toy_flag(p_domain_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'toy-rulebooks' THEN (1)::text ELSE (0)::text END)::numeric;
+  SELECT (CASE WHEN calc_rulebook_domains_is_toy(p_domain_id) THEN (1)::text ELSE (0)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_domains_has_rulebook
@@ -2091,16 +2109,6 @@ RETURNS BOOLEAN AS $$
   SELECT (((calc_rulebook_domains_implementation_gap_count(p_domain_id))::NUMERIC = 0 AND NOT (COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE))));
 $$ LANGUAGE sql STABLE;
 
--- calc_rulebook_domains_is_toy_by_coverage
--- Field: RulebookDomains.IsToyByCoverage
--- Type: calculated | DataType: boolean | Returns: BOOLEAN
-
-
-CREATE OR REPLACE FUNCTION calc_rulebook_domains_is_toy_by_coverage(p_domain_id TEXT)
-RETURNS BOOLEAN AS $$
-  SELECT (((SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) <> 'root' AND NOT (COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE)) AND (calc_rulebook_domains_slot_coverage_percent(p_domain_id))::NUMERIC < 60));
-$$ LANGUAGE sql STABLE;
-
 -- calc_rulebook_domains_fully_implemented_flag
 -- Field: RulebookDomains.FullyImplementedFlag
 -- Type: calculated | DataType: number | Returns: NUMERIC
@@ -2128,7 +2136,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_expected_area(p_domain_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CASE WHEN (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'root' THEN ('root')::text ELSE (CASE WHEN calc_rulebook_domains_is_toy_by_coverage(p_domain_id) THEN ('toy-rulebooks')::text ELSE ('rulebook-examples')::text END)::text END)::text;
+  SELECT (CASE WHEN (SELECT NULLIF(kind, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'root' THEN ('root')::text ELSE (CASE WHEN calc_rulebook_domains_is_toy(p_domain_id) THEN ('toy-rulebooks')::text ELSE ('rulebook-examples')::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_domains_is_misfiled
@@ -2138,7 +2146,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_is_misfiled(p_domain_id TEXT)
 RETURNS BOOLEAN AS $$
-  WITH __erb_dedup_v1 AS (SELECT calc_rulebook_domains_is_toy_by_coverage(p_domain_id) AS val) SELECT ((NOT (COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE)) AND (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) <> 'root' AND (((SELECT val FROM __erb_dedup_v1) AND (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) <> 'toy-rulebooks') OR (NOT ((SELECT val FROM __erb_dedup_v1)) AND (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) <> 'rulebook-examples'))))::boolean;
+  SELECT ((NOT (COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE)) AND (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) <> calc_rulebook_domains_expected_area(p_domain_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_domains_readiness_state
@@ -2148,7 +2156,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_readiness_state(p_domain_id TEXT)
 RETURNS TEXT AS $$
-  WITH __erb_dedup_v1 AS (SELECT calc_rulebook_domains_is_fully_implemented(p_domain_id) AS val) SELECT (CASE WHEN COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE) THEN ('intentional-exception')::text ELSE (CASE WHEN (SELECT NULLIF(area, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'root' THEN (CASE WHEN (SELECT val FROM __erb_dedup_v1) THEN ('root-ready')::text ELSE ('root-incomplete')::text END)::text ELSE (CASE WHEN calc_rulebook_domains_is_toy_by_coverage(p_domain_id) THEN ('toy')::text ELSE (CASE WHEN (SELECT val FROM __erb_dedup_v1) THEN ('example-ready')::text ELSE ('example-incomplete')::text END)::text END)::text END)::text END)::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_rulebook_domains_is_fully_implemented(p_domain_id) AS val) SELECT (CASE WHEN COALESCE((SELECT is_intentional_exception FROM rulebook_domains WHERE domain_id = p_domain_id), FALSE) THEN ('intentional-exception')::text ELSE (CASE WHEN (SELECT NULLIF(kind, '') FROM rulebook_domains WHERE domain_id = p_domain_id) = 'root' THEN (CASE WHEN (SELECT val FROM __erb_dedup_v1) THEN ('root-ready')::text ELSE ('root-incomplete')::text END)::text ELSE (CASE WHEN calc_rulebook_domains_is_toy(p_domain_id) THEN ('toy')::text ELSE (CASE WHEN (SELECT val FROM __erb_dedup_v1) THEN ('example-ready')::text ELSE ('example-incomplete')::text END)::text END)::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- get_project_local_services_service_role
@@ -4536,6 +4544,17 @@ RETURNS TEXT AS $$
   SELECT (SELECT severity::text FROM consistency_rules WHERE consistency_rule_id = (SELECT rule FROM consistency_findings WHERE consistency_finding_id = p_consistency_finding_id));
 $$ LANGUAGE sql STABLE;
 
+-- calc_consistency_findings_rule_is_scanner_derived
+-- Field: ConsistencyFindings.RuleIsScannerDerived
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsScannerDerived from related ConsistencyRules
+
+
+CREATE OR REPLACE FUNCTION calc_consistency_findings_rule_is_scanner_derived(p_consistency_finding_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_scanner_derived::boolean FROM consistency_rules WHERE consistency_rule_id = (SELECT rule FROM consistency_findings WHERE consistency_finding_id = p_consistency_finding_id));
+$$ LANGUAGE sql STABLE;
+
 -- calc_consistency_findings_rule_code
 -- Field: ConsistencyFindings.RuleCode
 -- Type: lookup | DataType: string | Returns: TEXT
@@ -4672,6 +4691,16 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_consistency_findings_is_open_critical(p_consistency_finding_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT ((calc_consistency_findings_is_open(p_consistency_finding_id) AND calc_consistency_findings_rule_severity(p_consistency_finding_id) = 'critical'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_consistency_findings_is_hand_closable
+-- Field: ConsistencyFindings.IsHandClosable
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_consistency_findings_is_hand_closable(p_consistency_finding_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_consistency_findings_is_open(p_consistency_finding_id) AND NOT (calc_consistency_findings_rule_is_scanner_derived(p_consistency_finding_id))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_consistency_findings_is_sole_finding_on_domain
@@ -5300,6 +5329,17 @@ RETURNS TEXT AS $$
   SELECT (SELECT area::text FROM rulebook_domains WHERE domain_id = (SELECT domain FROM project_slot_witnesses WHERE project_slot_witness_id = p_project_slot_witness_id));
 $$ LANGUAGE sql STABLE;
 
+-- calc_project_slot_witnesses_domain_kind
+-- Field: ProjectSlotWitnesses.DomainKind
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Kind from related RulebookDomains
+
+
+CREATE OR REPLACE FUNCTION calc_project_slot_witnesses_domain_kind(p_project_slot_witness_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT kind::text FROM rulebook_domains WHERE domain_id = (SELECT domain FROM project_slot_witnesses WHERE project_slot_witness_id = p_project_slot_witness_id));
+$$ LANGUAGE sql STABLE;
+
 -- calc_project_slot_witnesses_domain_is_exception
 -- Field: ProjectSlotWitnesses.DomainIsException
 -- Type: lookup | DataType: boolean | Returns: BOOLEAN
@@ -5338,7 +5378,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_project_slot_witnesses_is_required_here(p_project_slot_witness_id TEXT)
 RETURNS BOOLEAN AS $$
-  WITH __erb_dedup_v1 AS (SELECT calc_project_slot_witnesses_domain_area(p_project_slot_witness_id) AS val) SELECT ((NOT ((COALESCE(calc_project_slot_witnesses_domain_is_exception(p_project_slot_witness_id), FALSE) = 'true')) AND (((SELECT val FROM __erb_dedup_v1) = 'root' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_root(p_project_slot_witness_id), FALSE) = 'true')) OR ((SELECT val FROM __erb_dedup_v1) = 'rulebook-examples' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_example(p_project_slot_witness_id), FALSE) = 'true')) OR ((SELECT val FROM __erb_dedup_v1) = 'toy-rulebooks' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_toy(p_project_slot_witness_id), FALSE) = 'true')))))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_project_slot_witnesses_domain_kind(p_project_slot_witness_id) AS val) SELECT ((NOT ((COALESCE(calc_project_slot_witnesses_domain_is_exception(p_project_slot_witness_id), FALSE) = 'true')) AND (((SELECT val FROM __erb_dedup_v1) = 'root' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_root(p_project_slot_witness_id), FALSE) = 'true')) OR ((SELECT val FROM __erb_dedup_v1) = 'example' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_example(p_project_slot_witness_id), FALSE) = 'true')) OR ((SELECT val FROM __erb_dedup_v1) = 'toy' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_toy(p_project_slot_witness_id), FALSE) = 'true')))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_project_slot_witnesses_implementation_gap_flag
@@ -5348,7 +5388,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_project_slot_witnesses_implementation_gap_flag(p_project_slot_witness_id TEXT)
 RETURNS NUMERIC AS $$
-  WITH __erb_dedup_v1 AS (SELECT calc_project_slot_witnesses_domain_area(p_project_slot_witness_id) AS val) SELECT (CASE WHEN (NOT (COALESCE((SELECT is_present FROM project_slot_witnesses WHERE project_slot_witness_id = p_project_slot_witness_id), FALSE)) AND NOT ((COALESCE(calc_project_slot_witnesses_domain_is_exception(p_project_slot_witness_id), FALSE) = 'true')) AND (((SELECT val FROM __erb_dedup_v1) = 'root' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_root(p_project_slot_witness_id), FALSE) = 'true')) OR ((SELECT val FROM __erb_dedup_v1) <> 'root' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_example(p_project_slot_witness_id), FALSE) = 'true')))) THEN (1)::text ELSE (0)::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_project_slot_witnesses_domain_kind(p_project_slot_witness_id) AS val) SELECT (CASE WHEN (NOT (COALESCE((SELECT is_present FROM project_slot_witnesses WHERE project_slot_witness_id = p_project_slot_witness_id), FALSE)) AND NOT ((COALESCE(calc_project_slot_witnesses_domain_is_exception(p_project_slot_witness_id), FALSE) = 'true')) AND (((SELECT val FROM __erb_dedup_v1) = 'root' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_root(p_project_slot_witness_id), FALSE) = 'true')) OR ((SELECT val FROM __erb_dedup_v1) <> 'root' AND (COALESCE(calc_project_slot_witnesses_slot_required_for_example(p_project_slot_witness_id), FALSE) = 'true')))) THEN (1)::text ELSE (0)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_project_slot_witnesses_universal_gap_flag

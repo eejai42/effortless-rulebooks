@@ -5,38 +5,57 @@ PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$PROJECT_ROOT"
 
 PROJECT_NAME='ross-style-business-rules'
-EXPERIENCE_DESCRIPTION='Generated RuleSpeak rendering of the Ross-corrected claims rules'
+EXPERIENCE_DESCRIPTION='Claims desk showing each Ross-style rule verdict from the views'
 START_COMMAND='./start.sh'
-PORT=43104
-PRIMARY_URL="http://localhost:${PORT}/rulespeak/rulespeak.html"
-HEALTH_URL="$PRIMARY_URL"
-SERVE_DIR="$PROJECT_ROOT"
-REQUIRED_FILE="$PROJECT_ROOT/rulespeak/rulespeak.html"
+API_PORT=43304
+WEB_PORT=43104
+PRIMARY_URL="http://localhost:${WEB_PORT}"
+HEALTH_URL="http://localhost:${API_PORT}/api/views"
+export PGHOST="${PGHOST:-localhost}"
+export PGUSER="${PGUSER:-postgres}"
+export PGPORT="${PGPORT:-5432}"
+export PGDATABASE="${PGDATABASE:-erb_ross_style_business_rules}"
+export PGPASSWORD="${PGPASSWORD:-postgres}"
 
 die() { echo "[start] ERROR: $*" >&2; exit 1; }
 
-command -v python3 >/dev/null 2>&1 || die "python3 is required"
-command -v lsof >/dev/null 2>&1 || die "lsof is required for port-scoped restart"
-[ -f "$REQUIRED_FILE" ] || die "missing generated RuleSpeak artifact: $REQUIRED_FILE"
+for command in npm psql lsof; do
+  command -v "$command" >/dev/null 2>&1 || die "$command is required"
+done
+for file in app/package.json app/server.js app/vite.config.js \
+  effortless-rulebook/ross-style-business-rules-rulebook.json; do
+  [ -f "$file" ] || die "missing required file: $PROJECT_ROOT/$file"
+done
 
-pids="$(lsof -nP -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true)"
-if [ -n "$pids" ]; then
-  echo "[start] freeing declared port $PORT (PIDs: $(echo "$pids" | tr '\n' ' '))"
-  # shellcheck disable=SC2086
-  kill $pids
-  sleep 1
-fi
-pids="$(lsof -nP -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true)"
-if [ -n "$pids" ]; then
-  # shellcheck disable=SC2086
-  kill -KILL $pids
-  sleep 1
-fi
-[ -z "$(lsof -nP -tiTCP:"$PORT" -sTCP:LISTEN 2>/dev/null || true)" ] \
-  || die "port $PORT is still occupied"
+view_ready="$(psql -d "$PGDATABASE" -v ON_ERROR_STOP=1 -tAc \
+  "SELECT 1 FROM information_schema.views WHERE table_schema='public' AND table_name LIKE 'vw\\_%' LIMIT 1" \
+  2>/dev/null || true)"
+[ "$view_ready" = "1" ] \
+  || die "database $PGDATABASE at $PGHOST:$PGPORT is unavailable or has no vw_* views; run ./init-db.sh first"
+
+for port in "$API_PORT" "$WEB_PORT"; do
+  pids="$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -n "$pids" ]; then
+    echo "[start] freeing declared port $port (PIDs: $(echo "$pids" | tr '\n' ' '))"
+    # shellcheck disable=SC2086
+    kill $pids
+    sleep 1
+  fi
+  pids="$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"
+  if [ -n "$pids" ]; then
+    # shellcheck disable=SC2086
+    kill -KILL $pids
+    sleep 1
+  fi
+  [ -z "$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)" ] \
+    || die "port $port is still occupied"
+done
+
+[ -d app/node_modules ] || (cd app && npm install --no-audit --no-fund)
 
 echo "[start] project: $PROJECT_NAME"
 echo "[start] starting: $EXPERIENCE_DESCRIPTION"
 echo "[start] primary:  $PRIMARY_URL"
+echo "[start] API:      http://localhost:${API_PORT}"
 echo "[start] health:   $HEALTH_URL"
-exec python3 -m http.server "$PORT" --bind 127.0.0.1 --directory "$SERVE_DIR"
+exec npm --prefix app run dev

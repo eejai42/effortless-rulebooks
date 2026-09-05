@@ -236,8 +236,8 @@ SELECT
   t.short_vectors,
   calc_minkowski_lattices_short_vector_count(t.minkowski_lattice_id) AS short_vector_count,
   calc_minkowski_lattices_source_field_degree(t.minkowski_lattice_id) AS source_field_degree,-- The degree [K:Q] of the source field, surfaced on the lattice for downstream chain checks.
-  calc_minkowski_lattices_source_field_satisfies_golod_shafarevich(t.minkowski_lattice_id) AS source_field_satisfies_golod_shafarevich,-- The single most important upstream gate. TRUE means the field-side ingredient (GS tower) is satisfied — a necessary condition for the lattice to carry enough short vectors for a superlinear unit-distance construction.
-  calc_minkowski_lattices_source_field_is_algebraic_source_candidate(t.minkowski_lattice_id) AS source_field_is_algebraic_source_candidate,
+  calc_minkowski_lattices_source_field_satisfies_golod_shafarevic(t.minkowski_lattice_id) AS source_field_satisfies_golod_shafarevich,-- The single most important upstream gate. TRUE means the field-side ingredient (GS tower) is satisfied — a necessary condition for the lattice to carry enough short vectors for a superlinear unit-distance construction.
+  calc_minkowski_lattices_source_field_is_algebraic_source_candid(t.minkowski_lattice_id) AS source_field_is_algebraic_source_candidate,
   t.projections,
   calc_minkowski_lattices_projection_count(t.minkowski_lattice_id) AS projection_count,-- How many distinct planar projections have been registered from this lattice.
   calc_minkowski_lattices_has_any_planar_projection(t.minkowski_lattice_id) AS has_any_planar_projection,-- TRUE if any planar projection has been registered — the geometry-side leg of the bridge from lattice to plane.
@@ -277,7 +277,7 @@ SELECT
   t.source_minkowski_lattice,
   t.instances,
   calc_construction_families_instance_count(t.construction_family_id) AS instance_count,
-  calc_construction_families_source_field_satisfies_golod_shafarevich(t.construction_family_id) AS source_field_satisfies_golod_shafarevich,-- The GS-satisfaction of the source field, inherited via SourceNumberField. Null if the family is non-algebraic (no source field set).
+  calc_construction_families_source_field_satisfies_golod_shafare(t.construction_family_id) AS source_field_satisfies_golod_shafarevich,-- The GS-satisfaction of the source field, inherited via SourceNumberField. Null if the family is non-algebraic (no source field set).
   calc_construction_families_source_lattice_is_load_bearing(t.construction_family_id) AS source_lattice_is_load_bearing,
   calc_construction_families_is_algebraic_construction(t.construction_family_id) AS is_algebraic_construction,-- TRUE iff the family's algebraic upstream is GS-passing AND its lattice has a projection + short vectors. Non-algebraic families (random points, ad-hoc geometric tricks) will be FALSE.
   t.description                                                                 -- Free-text annotation for this row.

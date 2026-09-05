@@ -4,11 +4,14 @@ Rulebook formalizing naive set theory with three-valued (Strong Kleene) membersh
 
 **Rulebook:** [`effortless-rulebook/effortless-rulebook.json`](effortless-rulebook/effortless-rulebook.json) — 7 tables: `TruthValues`, `Connectives`, `TruthTableRows`, `SetRules`, `Sets`, `MembershipFacts`, `EvaluationSteps`.
 
-## Run it
+## App
+
+`app/` is an Express + React explorer that reads only the `vw_*` views of `erb_naive_set_theory`. One screen tells the story: the eight sets with their derived columns, a membership matrix of every `MembershipFacts` row (the single **N** cell is the ungrounded Russell fact `R ∈ R`, `is_null = ✓`), the Strong Kleene truth tables rendered from `TruthTableRows` per connective, the twelve `SetRules` with Rule 12 called out as the missing rule, and the `EvaluationSteps` fixed-point walk-through. A second tab browses every view as a raw table.
 
 ```bash
 cd rulebook-examples/naive-set-theory
-./start.sh
+./init-db.sh   # once: load postgres/*.sql into erb_naive_set_theory
+./start.sh     # web http://localhost:43102 · API http://localhost:43302/api/views
 ```
 
 ---

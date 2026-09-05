@@ -1384,7 +1384,7 @@
    {
     "name": "HasUngroundedGoverningBoundary",
     "datatype": "boolean",
-    "type": "calculated",
+    "type": "lookup",
     "nullable": true,
     "Description": "TRUE when at least one boundary constraining this assignment's role rests on lapsed knowledge.",
     "formula": "=INDEX(Roles!{{IsGovernedByLapsedAuthority}}, MATCH({{Role}}, Roles!{{RoleId}}, 0))"
@@ -9092,7 +9092,7 @@
    {
     "name": "BindingKey",
     "datatype": "string",
-    "type": "calculated",
+    "type": "lookup",
     "nullable": true,
     "Description": "The StepRequirements binding this satisfaction record exercised.",
     "formula": "=INDEX(StepRequirements!{{StepRequirementId}}, MATCH({{RequirementSatisfactionId}}, StepRequirements!{{StepRequirementId}}, 0))"
@@ -56895,17 +56895,6 @@
   ],
   "data": []
  },
- "_meta": {
-  "_CMCC_Summary": "PKO 2.0.0 expressed as a versioned Effortless Rulebook with specification/execution separation, semantic mappings, governance, knowledge elicitation, live data bindings, and deterministic projections.",
-  "_conversion_metadata": {
-   "source": "hand-authored PKO 2.0.0 alignment",
-   "profile_schema": "schemas/pko-erb-profile-1.0.0.schema.json",
-   "rulebook_version": "1.0.0",
-   "pko_core_version_iri": "https://w3id.org/pko/2.0.0",
-   "pko_industry_version_iri": "https://w3id.org/pko/industry/2.0.0",
-   "generated_at": "2026-07-19T12:00:00-05:00"
-  }
- },
  "__meta__": {
   "Description": "Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, PKO version contract, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.",
   "important": false,
@@ -57073,6 +57062,12 @@
     "ValueType": "string",
     "StringValue": "Procedural knowledge is modeled as data, not prose. PKO is graph-shaped; an Effortless Rulebook is an acyclic structural graph, so repeated and many-to-many semantics are promoted to first-class junction and event entities (StepTransitions, StepRequirements, RoleAssignments). No semantics are lost — the relational shape is a faithful encoding, and each projection recovers its own native surface form from the same structure.",
     "JsonValue": null
+   },
+   {
+    "MetaKey": "conversion_metadata",
+    "ValueType": "object",
+    "StringValue": null,
+    "JsonValue": "{\"source\": \"hand-authored PKO 2.0.0 alignment\", \"profile_schema\": \"schemas/pko-erb-profile-1.0.0.schema.json\", \"rulebook_version\": \"1.0.0\", \"pko_core_version_iri\": \"https://w3id.org/pko/2.0.0\", \"pko_industry_version_iri\": \"https://w3id.org/pko/industry/2.0.0\", \"generated_at\": \"2026-07-19T12:00:00-05:00\"}"
    }
   ]
  },
@@ -103141,7 +103136,7 @@
     "ForbiddenRowId": "close-v1.0.0",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "close-v1.0.0 is superseded (is_current=false). Only current versions are visible to an operating role; version history is for stewards.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103153,7 +103148,7 @@
     "ForbiddenRowId": "close-v1.1.0",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Positive control. close-v1.1.0 is the current version and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103165,7 +103160,7 @@
     "ForbiddenRowId": "cr-close-timestamp",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "cr-close-timestamp is decided (is_open=false). The inference-backed predicate must exclude it, proving a policy can cut on a derived field rather than a stored column.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103177,7 +103172,7 @@
     "ForbiddenRowId": "cr-policy-delivery",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Positive control for the inference predicate. cr-policy-delivery is open (is_open=true) and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103189,7 +103184,7 @@
     "ForbiddenRowId": "kf-close-fx-time",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "kf-close-fx-time is owned by the controller. Employment counsel must not read another role's knowledge fragment.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103201,7 +103196,7 @@
     "ForbiddenRowId": "kf-policy-ai-boundary",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Positive control for the ownership predicate. kf-policy-ai-boundary is owned by employment-counsel and must be visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103213,7 +103208,7 @@
     "ForbiddenRowId": "gap-close-cadence-unmeasured",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "gap-close-cadence-unmeasured is Resolved (is_open=false) and must not appear.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103225,7 +103220,7 @@
     "ForbiddenRowId": "gap-policy-delivery-receipts",
     "ExpectedVisible": true,
     "ObservedVisible": true,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Positive control. gap-policy-delivery-receipts is Open and must remain visible.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103237,7 +103232,7 @@
     "ForbiddenRowId": "kf-close-fx-time",
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Column-granularity withholding. The controller reads knowledge_fragments but is not granted the stewardship diagnostic columns. evidence_has_expired EXISTS on public.vw_knowledge_fragments and must be ABSENT from the controller's view -- selecting it must raise 'column does not exist', not return null.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest",
     "ForbiddenColumn": "evidence_has_expired"
@@ -103251,7 +103246,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "The CFO approves financial decisions. The outbound message queue is the communications manager's surface and must not appear in the CFO's schema at all.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103264,7 +103259,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Preparation telemetry is not a CFO concern; he sees the close's headline state, not each step's execution record.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103277,7 +103272,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "A posting pipeline has no business reading employee contact details. close-automation is granted 3 tables and Recipients is not one.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103290,7 +103285,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Governance is not a robot's surface.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103303,7 +103298,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "The drafting AI writes policy variants. It never needs to know WHO is addressed, so consent data is out of its reach entirely.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103316,7 +103311,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "The publisher applies channel rules and sends. Procedural knowledge is not its surface.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103329,7 +103324,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "Legal review reads what is proposed, not the finance close's execution telemetry.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    },
@@ -103342,7 +103337,7 @@
     "ForbiddenRowId": null,
     "ExpectedVisible": false,
     "ObservedVisible": false,
-    "LastRunAt": "2026-07-21T01:12:57+00:00",
+    "LastRunAt": "2026-09-05T07:47:05+00:00",
     "Rationale": "A variance classifier has no path to personal data.",
     "SemanticTypeIri": "urn:effortless:pko-extension#AccessDenialTest"
    }

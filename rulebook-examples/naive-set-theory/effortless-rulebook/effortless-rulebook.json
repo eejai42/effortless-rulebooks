@@ -887,17 +887,6 @@
       }
     ]
   },
-  "_meta": {
-    "_CMCC_Summary": "Schema-first three-valued set theory; membership is a TruthValues-valued relation, Strong Kleene tables stored as data, Rule 12 makes ungrounded facts NULL. Per CMCC, this is a declarative system in which every declarable property has an evaluation outcome (possibly NULL).",
-    "_conversion_metadata": {
-      "source": "Shadle bootstrap from article 'A Missing Rule in Set Theory'",
-      "table_count": 7,
-      "tool_version": "shadle-manual-1.0",
-      "type_inference": {
-        "error_value_handling": "non-convergent evaluation treated as NULL (Rule 12)"
-      }
-    }
-  },
   "__meta__": {
     "Description": "Project-level metadata as typed rows (MetaKey, ValueType, StringValue, JsonValue). The only home for metadata in this rulebook.",
     "schema": [
@@ -950,6 +939,18 @@
         "ValueType": "string",
         "StringValue": "Rulebook formalizing naive set theory with three-valued (Strong Kleene) membership and Rule 12 (NULL membership), which dissolves Russell's paradox into a single ungrounded membership fact.",
         "JsonValue": null
+      },
+      {
+        "MetaKey": "cmcc_summary",
+        "ValueType": "string",
+        "StringValue": "Schema-first three-valued set theory; membership is a TruthValues-valued relation, Strong Kleene tables stored as data, Rule 12 makes ungrounded facts NULL. Per CMCC, this is a declarative system in which every declarable property has an evaluation outcome (possibly NULL).",
+        "JsonValue": null
+      },
+      {
+        "MetaKey": "conversion_metadata",
+        "ValueType": "object",
+        "StringValue": null,
+        "JsonValue": "{\"source\": \"Shadle bootstrap from article 'A Missing Rule in Set Theory'\", \"table_count\": 7, \"tool_version\": \"shadle-manual-1.0\", \"type_inference\": {\"error_value_handling\": \"non-convergent evaluation treated as NULL (Rule 12)\"}}"
       }
     ]
   }

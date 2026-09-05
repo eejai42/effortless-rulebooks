@@ -151,7 +151,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_agents_override_rate_percent(p_agent_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_agents_decision_count(p_agent_id))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN (calc_agents_overridden_decision_count(p_agent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_agents_overridden_decision_count(p_agent_id))::numeric ELSE NULL END, 0) * COALESCE(100, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (calc_agents_overridden_decision_count(p_agent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_agents_overridden_decision_count(p_agent_id))::numeric ELSE NULL END, 0) * COALESCE(100, 0)))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(CASE WHEN (calc_agents_decision_count(p_agent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_agents_decision_count(p_agent_id))::numeric ELSE NULL END, 0), 0)))::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_agents_decision_count(p_agent_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_agents_overridden_decision_count(p_agent_id)) AS v) __safe_numeric), 0) * COALESCE(100, 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_agents_is_non_human
@@ -211,7 +211,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_agents_draft_rewrite_rate_percent(p_agent_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_agents_draft_decision_count(p_agent_id))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN (calc_agents_overridden_draft_count(p_agent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_agents_overridden_draft_count(p_agent_id))::numeric ELSE NULL END, 0) * COALESCE(100, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (calc_agents_overridden_draft_count(p_agent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_agents_overridden_draft_count(p_agent_id))::numeric ELSE NULL END, 0) * COALESCE(100, 0)))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(CASE WHEN (calc_agents_draft_decision_count(p_agent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_agents_draft_decision_count(p_agent_id))::numeric ELSE NULL END, 0), 0)))::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_agents_draft_decision_count(p_agent_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_agents_overridden_draft_count(p_agent_id)) AS v) __safe_numeric), 0) * COALESCE(100, 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_roles_current_agent_kind
@@ -587,7 +587,7 @@ $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_has_ungrounded_governing_boundary
 -- Field: RoleAssignments.HasUngroundedGoverningBoundary
--- Type: calculated | DataType: boolean | Returns: BOOLEAN
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
 -- Lookup: IsGovernedByLapsedAuthority from related Roles
 
 
@@ -766,7 +766,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_is_current(p_role_assignment_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT valid_from::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) <= calc_role_assignments_as_of_instant(p_role_assignment_id) AND ((SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) IS NULL OR (SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) > calc_role_assignments_as_of_instant(p_role_assignment_id))))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_role_assignments_as_of_instant(p_role_assignment_id) AS val) SELECT (((SELECT valid_from::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) <= (SELECT val FROM __erb_dedup_v1) AND ((SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) IS NULL OR (SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) > (SELECT val FROM __erb_dedup_v1))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_current_agent_key
@@ -816,7 +816,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_covers_now(p_role_assignment_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT NULLIF(status, '') FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) = 'Active' AND (SELECT valid_from::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) <= calc_role_assignments_as_of_instant(p_role_assignment_id) AND ((SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) IS NULL OR (SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) > calc_role_assignments_as_of_instant(p_role_assignment_id))))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_role_assignments_as_of_instant(p_role_assignment_id) AS val) SELECT (((SELECT NULLIF(status, '') FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) = 'Active' AND (SELECT valid_from::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) <= (SELECT val FROM __erb_dedup_v1) AND ((SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) IS NULL OR (SELECT valid_to::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) > (SELECT val FROM __erb_dedup_v1))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_role_when_covering
@@ -896,7 +896,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_override_rate_percent(p_role_assignment_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE(CASE WHEN ((COALESCE(CASE WHEN (calc_role_assignments_overridden_decision_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_overridden_decision_count(p_role_assignment_id))::numeric ELSE NULL END, 0) * COALESCE(100, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (calc_role_assignments_overridden_decision_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_overridden_decision_count(p_role_assignment_id))::numeric ELSE NULL END, 0) * COALESCE(100, 0)))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_decision_count(p_role_assignment_id))::numeric ELSE NULL END, 0), 0)))::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_role_assignments_decision_count(p_role_assignment_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_role_assignments_overridden_decision_count(p_role_assignment_id)) AS v) __safe_numeric), 0) * COALESCE(100, 0))) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_quality_regressed_vs_predecessor
@@ -956,7 +956,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_single_override_swing_percent(p_role_assignment_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::NUMERIC > 0 THEN ((COALESCE(100, 0) / NULLIF(COALESCE(CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_decision_count(p_role_assignment_id))::numeric ELSE NULL END, 0), 0)))::text ELSE (0)::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_role_assignments_decision_count(p_role_assignment_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 THEN ((COALESCE(100, 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text ELSE (0)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_quality_verdict_is_unsupported
@@ -996,7 +996,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_error_rate_percent(p_role_assignment_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::NUMERIC > 0 THEN ((COALESCE(CASE WHEN (calc_role_assignments_error_correction_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_error_correction_count(p_role_assignment_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN ((COALESCE(100, 0) / NULLIF(COALESCE(CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_decision_count(p_role_assignment_id))::numeric ELSE NULL END, 0), 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(100, 0) / NULLIF(COALESCE(CASE WHEN (calc_role_assignments_decision_count(p_role_assignment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_role_assignments_decision_count(p_role_assignment_id))::numeric ELSE NULL END, 0), 0)))::numeric ELSE NULL END, 0)))::text ELSE (0)::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_role_assignments_decision_count(p_role_assignment_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 THEN ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_role_assignments_error_correction_count(p_role_assignment_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE(100, 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0)))::text ELSE (0)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_has_dated_authorization
@@ -1016,7 +1016,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_days_since_authorization_review(p_role_assignment_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT (CASE WHEN (SELECT authorization_reviewed_at::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) IS NOT NULL THEN ((calc_role_assignments_as_of_instant(p_role_assignment_id)::date - (SELECT authorization_reviewed_at::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id)::date))::text ELSE ((calc_role_assignments_as_of_instant(p_role_assignment_id)::date - (SELECT valid_from::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id)::date))::text END)::integer;
+  WITH __erb_dedup_v1 AS (SELECT calc_role_assignments_as_of_instant(p_role_assignment_id) AS val) SELECT (CASE WHEN (SELECT authorization_reviewed_at::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id) IS NOT NULL THEN (((SELECT val FROM __erb_dedup_v1)::date - (SELECT authorization_reviewed_at::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id)::date))::text ELSE (((SELECT val FROM __erb_dedup_v1)::date - (SELECT valid_from::timestamptz FROM role_assignments WHERE role_assignment_id = p_role_assignment_id)::date))::text END)::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_authorization_is_overdue_for_review
@@ -1146,7 +1146,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_assignments_governance_evidence_count(p_role_assignment_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (CASE WHEN calc_role_assignments_has_approving_authority(p_role_assignment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_role_assignments_has_approving_authority(p_role_assignment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_role_assignments_has_authorizing_change_request(p_role_assignment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_role_assignments_has_authorizing_change_request(p_role_assignment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_role_assignments_has_approving_authority(p_role_assignment_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_role_assignments_has_authorizing_change_request(p_role_assignment_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_assignments_unauthorized_enforcement_role_key
@@ -2259,7 +2259,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_steps_is_software_assigned(p_step_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_steps_assigned_agent_kind(p_step_id) = 'AIAgent' OR calc_steps_assigned_agent_kind(p_step_id) = 'AutomatedPipeline'))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_steps_assigned_agent_kind(p_step_id) AS val) SELECT (((SELECT val FROM __erb_dedup_v1) = 'AIAgent' OR (SELECT val FROM __erb_dedup_v1) = 'AutomatedPipeline'))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_steps_is_human_approval_gate
@@ -3833,7 +3833,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_knowledge_fragments_is_currently_valid(p_knowledge_fragment_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT valid_from::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) <= calc_knowledge_fragments_as_of_instant(p_knowledge_fragment_id) AND ((SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) IS NULL OR (SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) > calc_knowledge_fragments_as_of_instant(p_knowledge_fragment_id)) AND (SELECT NULLIF(status, '') FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) = 'Approved'))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_knowledge_fragments_as_of_instant(p_knowledge_fragment_id) AS val) SELECT (((SELECT valid_from::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) <= (SELECT val FROM __erb_dedup_v1) AND ((SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) IS NULL OR (SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) > (SELECT val FROM __erb_dedup_v1)) AND (SELECT NULLIF(status, '') FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) = 'Approved'))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_knowledge_fragments_has_human_source
@@ -3883,7 +3883,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_knowledge_fragments_is_within_validity_window(p_knowledge_fragment_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT valid_from::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) <= calc_knowledge_fragments_as_of_instant(p_knowledge_fragment_id) AND ((SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) IS NULL OR (SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) > calc_knowledge_fragments_as_of_instant(p_knowledge_fragment_id))))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_knowledge_fragments_as_of_instant(p_knowledge_fragment_id) AS val) SELECT (((SELECT valid_from::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) <= (SELECT val FROM __erb_dedup_v1) AND ((SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) IS NULL OR (SELECT valid_to::timestamptz FROM knowledge_fragments WHERE knowledge_fragment_id = p_knowledge_fragment_id) > (SELECT val FROM __erb_dedup_v1))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_knowledge_fragments_is_relied_upon
@@ -4083,7 +4083,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_knowledge_fragments_fragility_signal_count(p_knowledge_fragment_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_from_single_witness(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_from_single_witness(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_overdue_for_review(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_overdue_for_review(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_overdue_for_review(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_overdue_for_review(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END)::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_knowledge_fragments_is_from_single_witness(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_knowledge_fragments_is_overdue_for_review(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_knowledge_fragments_is_low_confidence(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_knowledge_fragments_has_operational_reliance(p_knowledge_fragment_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_knowledge_fragments_is_compound_fragile
@@ -4253,7 +4253,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_knowledge_fragments_reliance_surface_count(p_knowledge_fragment_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_knowledge_fragments_is_invoked_by_an_exception(p_knowledge_fragment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_knowledge_fragments_is_invoked_by_an_exception(p_knowledge_fragment_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_knowledge_fragments_ratified_boundary_count(p_knowledge_fragment_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_knowledge_fragments_ratified_boundary_count(p_knowledge_fragment_id))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_knowledge_fragments_is_invoked_by_an_exception(p_knowledge_fragment_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_knowledge_fragments_ratified_boundary_count(p_knowledge_fragment_id)) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_knowledge_fragments_days_awaiting_my_approval
@@ -4959,7 +4959,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_procedure_executions_evaluated_control_count(p_procedure_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_procedure_executions_computedly_witnessed_control_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_computedly_witnessed_control_count(p_procedure_execution_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_procedure_executions_asserted_only_control_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_asserted_only_control_count(p_procedure_execution_id))::numeric ELSE NULL END, 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_procedure_executions_computedly_witnessed_control_count(p_procedure_execution_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_procedure_executions_asserted_only_control_count(p_procedure_execution_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_procedure_executions_computed_assurance_ratio
@@ -4969,7 +4969,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_procedure_executions_computed_assurance_ratio(p_procedure_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_procedure_executions_evaluated_control_count(p_procedure_execution_id))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE(CASE WHEN (calc_procedure_executions_computedly_witnessed_control_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_computedly_witnessed_control_count(p_procedure_execution_id))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(CASE WHEN (calc_procedure_executions_evaluated_control_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_evaluated_control_count(p_procedure_execution_id))::numeric ELSE NULL END, 0), 0)))::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_procedure_executions_evaluated_control_count(p_procedure_execution_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_procedure_executions_computedly_witnessed_control_count(p_procedure_execution_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_procedure_executions_interested_party_assertion_count
@@ -4989,7 +4989,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_procedure_executions_assurance_grade(p_procedure_execution_id TEXT)
 RETURNS TEXT AS $$
-  SELECT (CASE WHEN (calc_procedure_executions_evaluated_control_count(p_procedure_execution_id))::NUMERIC = 0 THEN ('None: no blocking control was evaluated.')::text ELSE (CASE WHEN (calc_procedure_executions_interested_party_assertion_count(p_procedure_execution_id))::NUMERIC > 0 THEN ('Weak: at least one control rests on an interested-party assertion.')::text ELSE (CASE WHEN (calc_procedure_executions_computed_assurance_ratio(p_procedure_execution_id))::NUMERIC < 0.5 THEN ('Thin: most controls rest on human assertion.')::text ELSE (CASE WHEN (calc_procedure_executions_computed_assurance_ratio(p_procedure_execution_id))::NUMERIC < 1 THEN ('Mixed: computed and asserted controls.')::text ELSE ('Computed: every evaluated control has a witness.')::text END)::text END)::text END)::text END)::text;
+  WITH __erb_dedup_v1 AS (SELECT calc_procedure_executions_computed_assurance_ratio(p_procedure_execution_id) AS val) SELECT (CASE WHEN (calc_procedure_executions_evaluated_control_count(p_procedure_execution_id))::NUMERIC = 0 THEN ('None: no blocking control was evaluated.')::text ELSE (CASE WHEN (calc_procedure_executions_interested_party_assertion_count(p_procedure_execution_id))::NUMERIC > 0 THEN ('Weak: at least one control rests on an interested-party assertion.')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC < 0.5 THEN ('Thin: most controls rest on human assertion.')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC < 1 THEN ('Mixed: computed and asserted controls.')::text ELSE ('Computed: every evaluated control has a witness.')::text END)::text END)::text END)::text END)::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_procedure_executions_attestation_would_be_weakly_based
@@ -5139,7 +5139,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_procedure_executions_delivery_yield_percent(p_procedure_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT (CASE WHEN (calc_procedure_executions_intended_recipient_count(p_procedure_execution_id))::NUMERIC > 0 THEN ((COALESCE(CASE WHEN (calc_procedure_executions_reached_recipient_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_reached_recipient_count(p_procedure_execution_id))::numeric ELSE NULL END, 0) * COALESCE(CASE WHEN ((COALESCE(100, 0) / NULLIF(COALESCE(CASE WHEN (calc_procedure_executions_intended_recipient_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_intended_recipient_count(p_procedure_execution_id))::numeric ELSE NULL END, 0), 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(100, 0) / NULLIF(COALESCE(CASE WHEN (calc_procedure_executions_intended_recipient_count(p_procedure_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_procedure_executions_intended_recipient_count(p_procedure_execution_id))::numeric ELSE NULL END, 0), 0)))::numeric ELSE NULL END, 0)))::text ELSE (0)::text END)::numeric;
+  WITH __erb_dedup_v1 AS (SELECT calc_procedure_executions_intended_recipient_count(p_procedure_execution_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 THEN ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_procedure_executions_reached_recipient_count(p_procedure_execution_id)) AS v) __safe_numeric), 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE(100, 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0)))::text ELSE (0)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_procedure_executions_campaign_silently_lost_audience
@@ -5565,7 +5565,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_unevaluated_blocking_count(p_step_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_step_executions_expected_blocking_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_expected_blocking_count(p_step_execution_id))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN (calc_step_executions_evaluated_blocking_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_evaluated_blocking_count(p_step_execution_id))::numeric ELSE NULL END, 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_expected_blocking_count(p_step_execution_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_evaluated_blocking_count(p_step_execution_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_has_unevaluated_blocking_control
@@ -5635,7 +5635,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_skipped_verification_count(p_step_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_step_executions_expected_verification_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_expected_verification_count(p_step_execution_id))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN (calc_step_executions_performed_verification_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_performed_verification_count(p_step_execution_id))::numeric ELSE NULL END, 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_expected_verification_count(p_step_execution_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_performed_verification_count(p_step_execution_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_has_skipped_verification
@@ -5995,7 +5995,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_was_executed_by_software(p_step_execution_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_step_executions_executing_agent_kind(p_step_execution_id) = 'AIAgent' OR calc_step_executions_executing_agent_kind(p_step_execution_id) = 'AutomatedPipeline'))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_step_executions_executing_agent_kind(p_step_execution_id) AS val) SELECT (((SELECT val FROM __erb_dedup_v1) = 'AIAgent' OR (SELECT val FROM __erb_dedup_v1) = 'AutomatedPipeline'))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_software_did_human_work
@@ -6075,7 +6075,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_all_clearances_are_unfalsified(p_step_execution_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((calc_step_executions_evaluated_blocking_count(p_step_execution_id))::NUMERIC > 0 AND calc_step_executions_unfalsified_clearance_count(p_step_execution_id) >= calc_step_executions_evaluated_blocking_count(p_step_execution_id)));
+  WITH __erb_dedup_v1 AS (SELECT calc_step_executions_evaluated_blocking_count(p_step_execution_id) AS val) SELECT ((((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 AND calc_step_executions_unfalsified_clearance_count(p_step_execution_id) >= (SELECT val FROM __erb_dedup_v1)));
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_stale_at_run_count
@@ -6125,7 +6125,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_performed_check_count(p_step_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_step_executions_performed_verification_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_performed_verification_count(p_step_execution_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_step_executions_evaluated_blocking_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_evaluated_blocking_count(p_step_execution_id))::numeric ELSE NULL END, 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_performed_verification_count(p_step_execution_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_evaluated_blocking_count(p_step_execution_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_declared_check_count
@@ -6135,7 +6135,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_declared_check_count(p_step_execution_id TEXT)
 RETURNS NUMERIC AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_step_executions_expected_verification_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_expected_verification_count(p_step_execution_id))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_step_executions_expected_blocking_count(p_step_execution_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_step_executions_expected_blocking_count(p_step_execution_id))::numeric ELSE NULL END, 0)))::numeric;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_expected_verification_count(p_step_execution_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_step_executions_expected_blocking_count(p_step_execution_id)) AS v) __safe_numeric), 0)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_is_unchecked_by_design
@@ -6165,7 +6165,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_is_substantively_clean(p_step_execution_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_step_executions_is_clean(p_step_execution_id) AND calc_step_executions_performed_check_count(p_step_execution_id) >= calc_step_executions_declared_check_count(p_step_execution_id) AND (calc_step_executions_declared_check_count(p_step_execution_id))::NUMERIC > 0));
+  WITH __erb_dedup_v1 AS (SELECT calc_step_executions_declared_check_count(p_step_execution_id) AS val) SELECT ((calc_step_executions_is_clean(p_step_execution_id) AND calc_step_executions_performed_check_count(p_step_execution_id) >= (SELECT val FROM __erb_dedup_v1) AND ((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0));
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_vacuously_clean_execution_key
@@ -6195,7 +6195,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_step_executions_evidence_position_is_weak(p_step_execution_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((calc_step_executions_performed_verification_count(p_step_execution_id))::NUMERIC > 0 AND calc_step_executions_uncorroborated_pass_count(p_step_execution_id) >= calc_step_executions_performed_verification_count(p_step_execution_id)));
+  WITH __erb_dedup_v1 AS (SELECT calc_step_executions_performed_verification_count(p_step_execution_id) AS val) SELECT ((((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 AND calc_step_executions_uncorroborated_pass_count(p_step_execution_id) >= (SELECT val FROM __erb_dedup_v1)));
 $$ LANGUAGE sql STABLE;
 
 -- calc_step_executions_preparation_execution_key
@@ -6348,7 +6348,7 @@ $$ LANGUAGE sql STABLE;
 
 -- calc_requirement_satisfactions_binding_key
 -- Field: RequirementSatisfactions.BindingKey
--- Type: calculated | DataType: string | Returns: TEXT
+-- Type: lookup | DataType: string | Returns: TEXT
 -- Lookup: StepRequirementId from related StepRequirements
 
 
@@ -6894,7 +6894,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_stewardship_assignments_is_current_assignment(p_stewardship_assignment_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT valid_from::timestamptz FROM stewardship_assignments WHERE stewardship_assignment_id = p_stewardship_assignment_id) <= calc_stewardship_assignments_as_of_instant(p_stewardship_assignment_id) AND ((SELECT valid_to::timestamptz FROM stewardship_assignments WHERE stewardship_assignment_id = p_stewardship_assignment_id) IS NULL OR (SELECT valid_to::timestamptz FROM stewardship_assignments WHERE stewardship_assignment_id = p_stewardship_assignment_id) > calc_stewardship_assignments_as_of_instant(p_stewardship_assignment_id))))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_stewardship_assignments_as_of_instant(p_stewardship_assignment_id) AS val) SELECT (((SELECT valid_from::timestamptz FROM stewardship_assignments WHERE stewardship_assignment_id = p_stewardship_assignment_id) <= (SELECT val FROM __erb_dedup_v1) AND ((SELECT valid_to::timestamptz FROM stewardship_assignments WHERE stewardship_assignment_id = p_stewardship_assignment_id) IS NULL OR (SELECT valid_to::timestamptz FROM stewardship_assignments WHERE stewardship_assignment_id = p_stewardship_assignment_id) > (SELECT val FROM __erb_dedup_v1))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_change_requests_as_of_instant
@@ -7300,7 +7300,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_review_events_cadence_drift_days(p_review_event_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE(CASE WHEN (calc_review_events_days_since_reviewed(p_review_event_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_review_events_days_since_reviewed(p_review_event_id))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN (calc_review_events_promised_cadence_days(p_review_event_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_review_events_promised_cadence_days(p_review_event_id))::numeric ELSE NULL END, 0)))::integer;
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_review_events_days_since_reviewed(p_review_event_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_review_events_promised_cadence_days(p_review_event_id)) AS v) __safe_numeric), 0)))::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_review_events_promise_and_behavior_disagree
@@ -7776,7 +7776,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_message_templates_has_body_drifted(p_message_template_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_message_templates_last_approved_body_hash(p_message_template_id) IS NOT NULL AND (SELECT NULLIF(current_body_hash, '') FROM message_templates WHERE message_template_id = p_message_template_id) <> calc_message_templates_last_approved_body_hash(p_message_template_id)))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_message_templates_last_approved_body_hash(p_message_template_id) AS val) SELECT (((SELECT val FROM __erb_dedup_v1) IS NOT NULL AND (SELECT NULLIF(current_body_hash, '') FROM message_templates WHERE message_template_id = p_message_template_id) <> (SELECT val FROM __erb_dedup_v1)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_message_templates_is_sendable_under_approval
@@ -7826,7 +7826,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_message_templates_template_draws_no_response(p_message_template_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((calc_message_templates_transmitted_delivery_count(p_message_template_id))::NUMERIC > 0 AND calc_message_templates_unanswered_delivery_count(p_message_template_id) = calc_message_templates_transmitted_delivery_count(p_message_template_id)));
+  WITH __erb_dedup_v1 AS (SELECT calc_message_templates_transmitted_delivery_count(p_message_template_id) AS val) SELECT ((((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 AND calc_message_templates_unanswered_delivery_count(p_message_template_id) = (SELECT val FROM __erb_dedup_v1)));
 $$ LANGUAGE sql STABLE;
 
 -- get_ontology_profiles_label
@@ -9190,7 +9190,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_message_deliveries_is_inside_quiet_window(p_message_delivery_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (CASE WHEN calc_message_deliveries_quiet_window_wraps_midnight(p_message_delivery_id) THEN (((SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) >= calc_message_deliveries_policy_quiet_hours_start_hour(p_message_delivery_id) OR (SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) < calc_message_deliveries_policy_quiet_hours_end_hour(p_message_delivery_id)))::text ELSE (((SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) >= calc_message_deliveries_policy_quiet_hours_start_hour(p_message_delivery_id) AND (SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) < calc_message_deliveries_policy_quiet_hours_end_hour(p_message_delivery_id)))::text END)::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_message_deliveries_policy_quiet_hours_start_hour(p_message_delivery_id) AS val), __erb_dedup_v2 AS (SELECT calc_message_deliveries_policy_quiet_hours_end_hour(p_message_delivery_id) AS val) SELECT (CASE WHEN calc_message_deliveries_quiet_window_wraps_midnight(p_message_delivery_id) THEN (((SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) >= (SELECT val FROM __erb_dedup_v1) OR (SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) < (SELECT val FROM __erb_dedup_v2)))::text ELSE (((SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) >= (SELECT val FROM __erb_dedup_v1) AND (SELECT sent_at_local_hour FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id) < (SELECT val FROM __erb_dedup_v2)))::text END)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_message_deliveries_is_quiet_hours_violation
@@ -9350,7 +9350,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_message_deliveries_segment_count(p_message_delivery_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT (CASE WHEN (calc_message_deliveries_rendered_body_length(p_message_delivery_id))::NUMERIC = 0 THEN (0)::text ELSE (CASE WHEN calc_message_deliveries_rendered_body_length(p_message_delivery_id) <= calc_message_deliveries_policy_max_message_length_at_send(p_message_delivery_id) THEN (1)::text ELSE (CEIL(((COALESCE(CASE WHEN (calc_message_deliveries_rendered_body_length(p_message_delivery_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_message_deliveries_rendered_body_length(p_message_delivery_id))::numeric ELSE NULL END, 0) / NULLIF(COALESCE(CASE WHEN (calc_message_deliveries_policy_max_message_length_at_send(p_message_delivery_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_message_deliveries_policy_max_message_length_at_send(p_message_delivery_id))::numeric ELSE NULL END, 0), 0)))::NUMERIC * POWER(10, (0)::INTEGER)) / POWER(10, (0)::INTEGER))::text END)::text END)::integer;
+  WITH __erb_dedup_v1 AS (SELECT calc_message_deliveries_rendered_body_length(p_message_delivery_id) AS val), __erb_dedup_v2 AS (SELECT calc_message_deliveries_policy_max_message_length_at_send(p_message_delivery_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE (CASE WHEN (SELECT val FROM __erb_dedup_v1) <= (SELECT val FROM __erb_dedup_v2) THEN (1)::text ELSE (CEIL(((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v2)) AS v) __safe_numeric), 0), 0)))::NUMERIC * POWER(10, (0)::INTEGER)) / POWER(10, (0)::INTEGER))::text END)::text END)::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_message_deliveries_is_over_segment_limit
@@ -9610,7 +9610,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_message_deliveries_template_reapproved_since_send(p_message_delivery_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_message_deliveries_current_last_approval_at(p_message_delivery_id) IS NOT NULL AND calc_message_deliveries_current_last_approval_at(p_message_delivery_id) > (SELECT sent_at::timestamptz FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id)))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_message_deliveries_current_last_approval_at(p_message_delivery_id) AS val) SELECT (((SELECT val FROM __erb_dedup_v1) IS NOT NULL AND (SELECT val FROM __erb_dedup_v1) > (SELECT sent_at::timestamptz FROM message_deliveries WHERE message_delivery_id = p_message_delivery_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_message_deliveries_is_unprovable_approval_claim
@@ -10290,7 +10290,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_send_intents_intent_is_inside_quiet_window(p_send_intent_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (CASE WHEN calc_send_intents_intent_quiet_window_wraps(p_send_intent_id) THEN (((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) >= calc_send_intents_intent_quiet_start_hour(p_send_intent_id) OR (SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) < calc_send_intents_intent_quiet_end_hour(p_send_intent_id)))::text ELSE (((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) >= calc_send_intents_intent_quiet_start_hour(p_send_intent_id) AND (SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) < calc_send_intents_intent_quiet_end_hour(p_send_intent_id)))::text END)::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_send_intents_intent_quiet_start_hour(p_send_intent_id) AS val), __erb_dedup_v2 AS (SELECT calc_send_intents_intent_quiet_end_hour(p_send_intent_id) AS val) SELECT (CASE WHEN calc_send_intents_intent_quiet_window_wraps(p_send_intent_id) THEN (((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) >= (SELECT val FROM __erb_dedup_v1) OR (SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) < (SELECT val FROM __erb_dedup_v2)))::text ELSE (((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) >= (SELECT val FROM __erb_dedup_v1) AND (SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) < (SELECT val FROM __erb_dedup_v2)))::text END)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_send_intents_timing_gate_passed
@@ -10310,7 +10310,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_send_intents_hours_until_window_opens(p_send_intent_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT (CASE WHEN calc_send_intents_timing_gate_passed(p_send_intent_id) THEN (0)::text ELSE (CASE WHEN (SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) < calc_send_intents_intent_quiet_end_hour(p_send_intent_id) THEN ((COALESCE(CASE WHEN (calc_send_intents_intent_quiet_end_hour(p_send_intent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_send_intents_intent_quiet_end_hour(p_send_intent_id))::numeric ELSE NULL END, 0) - COALESCE(CASE WHEN ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id))::numeric ELSE NULL END, 0)))::text ELSE ((COALESCE(CASE WHEN ((COALESCE(24, 0) - COALESCE(CASE WHEN ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id))::numeric ELSE NULL END, 0)))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((COALESCE(24, 0) - COALESCE(CASE WHEN ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id))::numeric ELSE NULL END, 0)))::numeric ELSE NULL END, 0) + COALESCE(CASE WHEN (calc_send_intents_intent_quiet_end_hour(p_send_intent_id))::text ~ '^-?[0-9]*\.?[0-9]+$' THEN (calc_send_intents_intent_quiet_end_hour(p_send_intent_id))::numeric ELSE NULL END, 0)))::text END)::text END)::integer;
+  WITH __erb_dedup_v1 AS (SELECT calc_send_intents_intent_quiet_end_hour(p_send_intent_id) AS val) SELECT (CASE WHEN calc_send_intents_timing_gate_passed(p_send_intent_id) THEN (0)::text ELSE (CASE WHEN (SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id) < (SELECT val FROM __erb_dedup_v1) THEN ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id)) AS v) __safe_numeric), 0)))::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE(24, 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT proposed_send_at_local_hour FROM send_intents WHERE send_intent_id = p_send_intent_id)) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0)))::text END)::text END)::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_send_intents_length_gate_passed
@@ -10670,7 +10670,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_send_intents_window_has_since_reopened(p_send_intent_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((calc_send_intents_hours_until_window_opens(p_send_intent_id))::NUMERIC > 0 AND (EXTRACT(EPOCH FROM (calc_send_intents_as_of_instant(p_send_intent_id)::timestamp - (SELECT evaluated_at::timestamptz FROM send_intents WHERE send_intent_id = p_send_intent_id)::timestamp)) / 3600) > calc_send_intents_hours_until_window_opens(p_send_intent_id)));
+  WITH __erb_dedup_v1 AS (SELECT calc_send_intents_hours_until_window_opens(p_send_intent_id) AS val) SELECT ((((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 AND (EXTRACT(EPOCH FROM (calc_send_intents_as_of_instant(p_send_intent_id)::timestamp - (SELECT evaluated_at::timestamptz FROM send_intents WHERE send_intent_id = p_send_intent_id)::timestamp)) / 3600) > (SELECT val FROM __erb_dedup_v1)));
 $$ LANGUAGE sql STABLE;
 
 -- calc_send_intents_has_retry_attempt
@@ -11261,7 +11261,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_authority_boundaries_is_currently_binding(p_authority_boundary_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((SELECT NULLIF(status, '') FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) = 'Approved' AND (SELECT valid_from::timestamptz FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) <= calc_authority_boundaries_as_of_instant(p_authority_boundary_id) AND ((SELECT valid_to::timestamptz FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) IS NULL OR (SELECT valid_to::timestamptz FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) > calc_authority_boundaries_as_of_instant(p_authority_boundary_id))))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_authority_boundaries_as_of_instant(p_authority_boundary_id) AS val) SELECT (((SELECT NULLIF(status, '') FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) = 'Approved' AND (SELECT valid_from::timestamptz FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) <= (SELECT val FROM __erb_dedup_v1) AND ((SELECT valid_to::timestamptz FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) IS NULL OR (SELECT valid_to::timestamptz FROM authority_boundaries WHERE authority_boundary_id = p_authority_boundary_id) > (SELECT val FROM __erb_dedup_v1))))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_authority_boundaries_step_when_binding
@@ -12250,7 +12250,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_role_schema_views_is_full_width(p_role_schema_view_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (((calc_role_schema_views_column_count(p_role_schema_view_id))::NUMERIC > 0 AND calc_role_schema_views_column_count(p_role_schema_view_id) >= calc_role_schema_views_table_field_count(p_role_schema_view_id)));
+  WITH __erb_dedup_v1 AS (SELECT calc_role_schema_views_column_count(p_role_schema_view_id) AS val) SELECT ((((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 AND (SELECT val FROM __erb_dedup_v1) >= calc_role_schema_views_table_field_count(p_role_schema_view_id)));
 $$ LANGUAGE sql STABLE;
 
 -- calc_role_schema_views_is_degenerate_view
@@ -12466,7 +12466,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_app_users_is_non_human_sign_in(p_app_user_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_app_users_agent_kind(p_app_user_id) = 'AIAgent' OR calc_app_users_agent_kind(p_app_user_id) = 'AutomatedPipeline'))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_app_users_agent_kind(p_app_user_id) AS val) SELECT (((SELECT val FROM __erb_dedup_v1) = 'AIAgent' OR (SELECT val FROM __erb_dedup_v1) = 'AutomatedPipeline'))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_principal_assignments_principal_is_admin
@@ -12555,7 +12555,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_principal_assignments_is_cross_organization_grant(p_principal_assignment_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT ((calc_principal_assignments_user_organization(p_principal_assignment_id) IS NOT NULL AND calc_principal_assignments_principal_organization(p_principal_assignment_id) IS NOT NULL AND calc_principal_assignments_user_organization(p_principal_assignment_id) <> calc_principal_assignments_principal_organization(p_principal_assignment_id)))::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_principal_assignments_user_organization(p_principal_assignment_id) AS val), __erb_dedup_v2 AS (SELECT calc_principal_assignments_principal_organization(p_principal_assignment_id) AS val) SELECT (((SELECT val FROM __erb_dedup_v1) IS NOT NULL AND (SELECT val FROM __erb_dedup_v2) IS NOT NULL AND (SELECT val FROM __erb_dedup_v1) <> (SELECT val FROM __erb_dedup_v2)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_issued_tokens_name

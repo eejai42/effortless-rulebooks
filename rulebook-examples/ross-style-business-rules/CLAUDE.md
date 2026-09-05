@@ -28,6 +28,10 @@ Runs all enabled transpilers. Currently: `rulebook-to-rulespeak` → `rulespeak/
 
 Do not edit generated files. Edit the rulebook and rebuild.
 
+## App
+
+`app/` (Express `server.js` + Vite/React) is the domain app: `./start.sh` serves the web UI on `http://localhost:43104` and the API on `http://localhost:43304` against database `erb_ross_style_business_rules` (override with `PGHOST`/`PGUSER`/`PGPASSWORD`/`PGPORT`/`PGDATABASE`). It reads views only — `vw_claims`, `vw_policies`, `vw_claimants`, `vw_incidents` via `GET /api/views[/:name]` — and never recomputes a rule verdict in app code; `GET /api/rules` returns the Claims field descriptions (rule wording, metadata) from the hub. A missing view or a failing `SELECT` is a 500 with the exact expected thing named, shown in the UI.
+
 ## Local transpiler bus (`localhost:4242`)
 
 > **All 13 local transpilers live on `localhost:4242`.** Once you run

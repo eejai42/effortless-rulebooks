@@ -300,7 +300,7 @@ export function humanizeField(field: string): string {
 
 // Naive depluralization for naming a related thing from its table name, so a
 // lookup reads "the state of the linked jurisdiction" rather than "...jurisdictions".
-// Mirrors the RuleSpeak engine's Singular() just enough for table names.
+// Mirrors the RuleSpeak® engine's Singular() just enough for table names.
 function singularize(term: string): string {
   if (!term) return term;
   if (/ies$/i.test(term)) return term.replace(/ies$/i, "y");

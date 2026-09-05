@@ -38,8 +38,8 @@ export { ExplainerHeader, DocOptionsGear, ExplainerPage } from "./components/Exp
 export { rulebook } from "./embedded-rulebook.ts";
 export type { Rulebook } from "./embedded-rulebook.ts";
 
-// RuleSpeak narration — per-field declarative rules baked at transpile time by
-// the shared rulebook-rulespeak-core engine, plus the remembered Formula⇄RuleSpeak
+// RuleSpeak® narration — per-field declarative rules baked at transpile time by
+// the shared rulebook-rulespeak-core engine, plus the remembered Formula⇄RuleSpeak®
 // toggle. The DAG page uses these; host apps can read them too.
 export {
   ruleSpeakForField,
@@ -53,7 +53,7 @@ export {
 export type { RuleSpeakFieldRule, RuleSpeakObligation, RuleSpeakRef, RuleNode } from "./lib/rulespeak.ts";
 export { RuleTree } from "./components/RuleTree.tsx";
 export {
-  // The gear: six independent doc-element toggles (RuleSpeak/English/Formula/
+  // The gear: six independent doc-element toggles (RuleSpeak®/English/Formula/
   // Description/Inputs/Consumers), each remembered in localStorage. This is the
   // headline presentation control — host apps can read/drive it too.
   DOC_ELEMENTS,

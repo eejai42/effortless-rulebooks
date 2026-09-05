@@ -40,11 +40,11 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Edge Density | Computed as the unit distance pair count divided by the max possible edges. | _Fraction of point pairs that are unit pairs._ |
 | Density Exponent Estimate | Computed as the logarithm of the unit distance pair count divided by the logarithm of the point count. | _The exponent c such that UnitDistancePairCount ≈ PointCount^c. Lower bounds for U(n) are claims that this exponent is ≥ some target for arbitrarily large PointCount._ |
 | **Point Set Member** | A point set member is identified by its name and is related to a point set and a point. | — |
-| Name | Computed as the point set divided by the point. | — |
+| Name | Computed as the point set, followed by a slash, followed by the point. | — |
 | Point Set | A defined attribute. | — |
 | Point | A defined attribute. | — |
 | **Point Pair** | A point pair is identified by its name and is related to a point set; a point (its point a); and a point (its point b). | — |
-| Name | Computed as the point set divided by the point a minus the point b. | — |
+| Name | Computed as the point set, followed by a slash, followed by the point a, followed by a hyphen, followed by the point b. | — |
 | Point Set | A defined attribute. | — |
 | Point a | A defined attribute. | — |
 | Point B | A defined attribute. | — |
@@ -63,7 +63,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Unit Distance | True when the distance from unit is at most the tolerance. | _The unit-distance predicate — the entire problem turns on this boolean._ |
 | Description | A defined attribute. | _Free-text annotation for this row._ |
 | **Unit Distance Graph** | A unit distance graph is identified by its name and is related to a point set. | — |
-| Name | Computed as the point set minus the graph. | — |
+| Name | Computed as the point set, followed by “-graph”. | — |
 | Point Set | A defined attribute. | — |
 | Vertex Count | The point count of the unit distance graph's point set. | — |
 | Edge Count | The unit distance pair count of the unit distance graph's point set. | — |
@@ -91,7 +91,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Field Embedding Count | The number of field embeddings related to the number field. | _How many field embeddings (real or complex) are explicitly loaded for this field. Sanity check: should equal SignatureRealEmbeddings + SignatureComplexEmbeddings._ |
 | Field Embedding Count Matches Signature | True when the field embedding count is the signature real embeddings plus the signature complex embeddings. | _Read-time integrity check: did we load every embedding the signature claims to exist?_ |
 | **Prime Ideal** | A prime ideal is identified by its name and is related to a number field. | — |
-| Name | Computed as the number field divided by the generator description. | — |
+| Name | Computed as the number field, followed by a slash, followed by the generator description. | — |
 | Number Field | A defined attribute. | — |
 | Generator Description | A defined attribute. | — |
 | Norm | A defined attribute. | — |
@@ -99,7 +99,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Small Norm | True when the norm is at most the norm threshold. | — |
 | Splits Completely | True when an empty string. | _Whether the prime in Q splits completely in O_K. Nullable: null when splitting behavior has been named but not yet computed._ |
 | **Minkowski Lattice** | A minkowski lattice is identified by its name and is related to a number field and a planar projection (its projections). | — |
-| Name | Computed as the number field minus the lattice. | — |
+| Name | Computed as the number field, followed by “-lattice”. | — |
 | Number Field | A defined attribute. | — |
 | Dimension | The ambient lattice dimension of the minkowski lattice's number field. | — |
 | Field Discriminant | Taken from the linked number field. | — |
@@ -120,7 +120,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Load Bearing for Unit Distance Construction | True when all of the following hold: the source field is algebraic source candidate flag is set; the short vector count is greater than 0; and the any planar projection flag is set. | _TRUE when the lattice has a GS-satisfying source field, at least one short vector, and at least one planar projection — i.e. it is positioned to feed a ConstructionFamily that produces unit-distance witnesses._ |
 | Description | A defined attribute. | _Free-text annotation for this row._ |
 | **Short Vector** | A short vector is identified by its name and is related to a minkowski lattice. | — |
-| Name | Computed as the minkowski lattice divided by the coords JSON. | — |
+| Name | Computed as the minkowski lattice, followed by a slash, followed by the coords JSON. | — |
 | Minkowski Lattice | A defined attribute. | — |
 | Coords JSON | A defined attribute. | — |
 | Norm Squared | A defined attribute. | — |
@@ -140,7 +140,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Algebraic Construction | True when all of the following hold: the source field satisfies golod shafarevich flag is set and the source lattice is load bearing flag is set. | _TRUE iff the family's algebraic upstream is GS-passing AND its lattice has a projection + short vectors. Non-algebraic families (random points, ad-hoc geometric tricks) will be FALSE._ |
 | Description | A defined attribute. | _Free-text annotation for this row._ |
 | **Construction Instance** | A construction instance is identified by its name and is related to a construction family and a point set. | — |
-| Name | Computed as the value of ConstructionFamily-nParamN. | — |
+| Name | Computed as the construction family, followed by “-n”, followed by the param n. | — |
 | Construction Family | A defined attribute. | — |
 | Param N | A defined attribute. | — |
 | Point Set | A defined attribute. | — |
@@ -152,7 +152,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Explicit Superlinear | True when the density exponent estimate is greater than 1. | _TRUE if this single finite instance already exhibits log(edges)/log(points) > 1 — a per-instance witness that the family is achieving superlinear edge growth at this n._ |
 | Is Algebraic Superlinear Witness | True when all of the following hold: the family is algebraic flag is set and the explicit superlinear flag is set. | _A single instance that is both (a) coming from an algebraically valid family AND (b) finitely superlinear. This is the most direct per-row evidence we have that the algebra is producing the geometry._ |
 | **Growth Sequence** | A growth sequence is identified by its name and is related to a construction family. | — |
-| Name | Computed as the construction family minus the growth. | — |
+| Name | Computed as the construction family, followed by “-growth”. | — |
 | Construction Family | A defined attribute. | — |
 | Observed Instance Count | The number of construction instances related to the growth sequence. | — |
 | Max Param N | The largest param n across the construction instances related to the growth sequence. | — |
@@ -239,7 +239,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Satisfies Triangle Inequality | True when an empty string. | _Nullable: TRUE for genuine metrics, FALSE for similarity-only functions, null for unevaluated experimental rows._ |
 | Description | A defined attribute. | — |
 | **Field Embedding** | A field embedding is identified by its name and is related to a number field. | — |
-| Name | Computed as the number field divided by the embedding type minus the index in signature. | — |
+| Name | Computed as the number field, followed by a slash, followed by the embedding type, followed by a hyphen, followed by the index in signature. | — |
 | Number Field | A defined attribute. | — |
 | Embedding Type | A defined attribute. | _One of: 'real' or 'complex'._ |
 | Index in Signature | A defined attribute. | _1-based index within the signature._ |
@@ -249,7 +249,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Has Conjugate Pair in Field | True when an empty string. | _Null for real embeddings (concept doesn't apply); TRUE for complex embeddings whose conjugate is in K; FALSE for hypothetical degenerate complex embeddings without their partner._ |
 | Description | A defined attribute. | — |
 | **Minkowski Embedding** | A minkowski embedding is identified by its name and is related to a number field and optionally a minkowski lattice (its target lattice). | — |
-| Name | Computed as the number field minus the minkowski minus the embedding. | — |
+| Name | Computed as the number field, followed by “-minkowski-embedding”. | — |
 | Number Field | A defined attribute. | — |
 | Target Lattice | A defined attribute. | _Nullable: the field may have a defined embedding map even if the materialised lattice row isn't loaded yet._ |
 | Ambient Dimension | The ambient lattice dimension of the minkowski embedding's number field. | — |
@@ -259,7 +259,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Preserves Additive Structure | True when an empty string. | _Nullable: TRUE for canonical embeddings, FALSE for non-additive maps, null for unevaluated experimental rows._ |
 | Description | A defined attribute. | — |
 | **Gram Matrice** | A gram matrice is identified by its name and is related to a minkowski lattice. | — |
-| Name | Computed as the minkowski lattice minus the gram. | — |
+| Name | Computed as the minkowski lattice, followed by “-gram”. | — |
 | Minkowski Lattice | A defined attribute. | — |
 | Dimension | Taken from the linked minkowski lattice. | — |
 | Lattice Determinant | Taken from the linked minkowski lattice. | — |
@@ -288,7 +288,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Source Lattice is Load Bearing | True when the planar projection's source lattice is a load bearing for unit distance construction. | — |
 | Description | A defined attribute. | — |
 | **Projected Short Vector** | A projected short vector is identified by its name and is related to a short vector and a planar projection. | — |
-| Name | Computed as the short vector divided by the planar projection. | — |
+| Name | Computed as the short vector, followed by a slash, followed by the planar projection. | — |
 | Short Vector | A defined attribute. | — |
 | Planar Projection | A defined attribute. | — |
 | Projected X | A defined attribute. | — |
@@ -305,7 +305,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Norm Preserved Under Projection | True when the absolute value of the source norm squared minus the projected norm squared is less than the unit tolerance. | _TRUE if the projection preserved the squared norm on this vector — locally isometric._ |
 | Description | A defined attribute. | — |
 | **Golod Shafarevich Criteria** | A golod shafarevich criteria is identified by its name and is related to a number field and optionally a source reference. | — |
-| Name | Computed as the number field minus the gs. | — |
+| Name | Computed as the number field, followed by “-gs”. | — |
 | Number Field | A defined attribute. | — |
 | Minimal Generator Count d | A defined attribute. | _The 'd' in the GS inequality._ |
 | Relation Count r | A defined attribute. | _The 'r' in the GS inequality._ |
@@ -341,7 +341,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | All Steps Validated | True when the validated step count is the step count. | _TRUE iff every step on the route has IsValidated=TRUE._ |
 | Description | A defined attribute. | — |
 | **Semantic Route Step** | A semantic route step is identified by its name and is related to a semantic route and optionally a semantic bridge (its bridge used). | — |
-| Name | Computed as the semantic route minus the step order. | — |
+| Name | Computed as the semantic route, followed by a hyphen, followed by the step order. | — |
 | Semantic Route | A defined attribute. | — |
 | Step Order | A defined attribute. | — |
 | From Concept | A defined attribute. | — |
@@ -413,7 +413,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Currently Valid | True when an empty string. | _TRUE iff the conjecture is still an OPEN question. Resolved or withdrawn ⇒ FALSE. Null = unevaluated. NOTE: this is bitemporal-status, NOT the truth of the underlying proposition — a conjecture-that-became-a-theorem has IsCurrentlyValid=FALSE here but the proposition itself is now TRUE in Theorems._ |
 | Description | A defined attribute. | — |
 | **Proof Obligation** | A proof obligation is identified by its name and is related to an asymptotic lower bound (its parent bound) and a lemma (its required lemma). | — |
-| Name | Computed as the parent bound divided by the required lemma. | — |
+| Name | Computed as the parent bound, followed by a slash, followed by the required lemma. | — |
 | Parent Bound | A defined attribute. | — |
 | Required Lemma | A defined attribute. | — |
 | Obligation Kind | A defined attribute. | _One of: 'necessary', 'sufficient', 'auxiliary'._ |
@@ -430,7 +430,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Currently Valid | True when an empty string. | — |
 | Description | A defined attribute. | — |
 | **Citation Link** | A citation link is identified by its name and is related to a source reference (its citing source) and a source reference (its cited source). | — |
-| Name | Computed as the citing source minus the cites minus the cited source. | — |
+| Name | Computed as the citing source, followed by “-cites-”, followed by the cited source. | — |
 | Citing Source | A defined attribute. | — |
 | Cited Source | A defined attribute. | — |
 | Citation Kind | A defined attribute. | _One of: 'extends', 'improves', 'cites-for-context', 'depends-on', 'disagrees-with'._ |
@@ -446,7 +446,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Is Currently Valid | True when an empty string. | _TRUE iff both the citing and cited sources are themselves still currently valid; FALSE if either has been retracted; null if unevaluated._ |
 | Description | A defined attribute. | — |
 | **Answer Key** | An answer key is identified by its name. | — |
-| Name | Computed as the target table divided by the target row ID divided by the target field. | — |
+| Name | Computed as the target table, followed by a slash, followed by the target row ID, followed by a slash, followed by the target field. | — |
 | Target Table | A defined attribute. | — |
 | Target Row ID | A defined attribute. | — |
 | Target Field | A defined attribute. | — |
@@ -477,7 +477,7 @@ _A CMCC semantic mirror of the planar unit-distance theorem neighborhood. Every 
 | Pending But Valid by Date Count | The number of lower bound validity at snapshot related to the temporal snapshot. | _Rows that are bitemporally valid here but the curator hasn't ruled on yet — i.e., the rulebook's open epistemic questions at this snapshot._ |
 | Bounds Validated or Retracted This Moment | The number of lower bound validity at snapshot related to the temporal snapshot. | _Total junction rows for this snapshot — should equal the count of all AsymptoticLowerBound rows (a closure check)._ |
 | **Lower Bound Validity At Snapshot** | A lower bound validity at snapshot is identified by its name and is related to an asymptotic lower bound and a temporal snapshot. | — |
-| Name | Computed as the asymptotic lower bound minus the at minus the temporal snapshot. | — |
+| Name | Computed as the asymptotic lower bound, followed by “-at-”, followed by the temporal snapshot. | — |
 | Asymptotic Lower Bound | A defined attribute. | — |
 | Temporal Snapshot | A defined attribute. | — |
 | Bound Exponent | Taken from the linked asymptotic lower bound. | — |
@@ -646,8 +646,8 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-7 Max Possible Edges** | A point set's max possible edges is computed as the point count times the point count minus 1 divided by 2. |
 | **DR-8 Edge Density** | A point set's edge density is computed as the unit distance pair count divided by the max possible edges. |
 | **DR-9 Density Exponent Estimate** | A point set's density exponent estimate is computed as the logarithm of the unit distance pair count divided by the logarithm of the point count. |
-| **DR-10 Name** | A point set member's name is computed as the point set divided by the point. |
-| **DR-11 Name** | A point pair's name is computed as the point set divided by the point a minus the point b. |
+| **DR-10 Name** | A point set member's name is computed as the point set, followed by a slash, followed by the point. |
+| **DR-11 Name** | A point pair's name is computed as the point set, followed by a slash, followed by the point a, followed by a hyphen, followed by the point b. |
 | **DR-12 Point AX** | A point pair's point AX is the x of the point pair's point a. |
 | **DR-13 Point AY** | A point pair's point AY is the y of the point pair's point a. |
 | **DR-14 Point BX** | A point pair's point BX is the x of the point pair's point b. |
@@ -660,7 +660,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-21 Distance** | A point pair's distance is computed as the square root of the distance squared. |
 | **DR-22 Distance From Unit** | A point pair's distance from unit is computed as the absolute value of the distance squared minus 1. |
 | **DR-23 Is Unit Distance** | A point pair is considered a unit distance if the distance from unit is at most the tolerance. |
-| **DR-24 Name** | A unit distance graph's name is computed as the point set minus the graph. |
+| **DR-24 Name** | A unit distance graph's name is computed as the point set, followed by “-graph”. |
 | **DR-25 Vertex Count** | A unit distance graph's vertex count is the point count of the unit distance graph's point set. |
 | **DR-26 Edge Count** | A unit distance graph's edge count is the unit distance pair count of the unit distance graph's point set. |
 | **DR-27 Max Possible Edges** | A unit distance graph's max possible edges is computed as the vertex count times the vertex count minus 1 divided by 2. |
@@ -677,9 +677,9 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-38 Is Algebraic Source Candidate** | A number field is considered an algebraic source candidate if all of the following hold: the satisfies golod shafarevich flag is set and the small norm prime ideal count is greater than 0. |
 | **DR-39 Field Embedding Count** | A number field's field embedding count is the number of field embeddings related to the number field. |
 | **DR-40 Field Embedding Count Matches Signature** | A number field is flagged field embedding count matches signature if the field embedding count is the signature real embeddings plus the signature complex embeddings. |
-| **DR-41 Name** | A prime ideal's name is computed as the number field divided by the generator description. |
+| **DR-41 Name** | A prime ideal's name is computed as the number field, followed by a slash, followed by the generator description. |
 | **DR-42 Is Small Norm** | A prime ideal is considered a small norm if the norm is at most the norm threshold. |
-| **DR-43 Name** | A minkowski lattice's name is computed as the number field minus the lattice. |
+| **DR-43 Name** | A minkowski lattice's name is computed as the number field, followed by “-lattice”. |
 | **DR-44 Dimension** | A minkowski lattice's dimension is the ambient lattice dimension of the minkowski lattice's number field. |
 | **DR-45 Field Discriminant** | A minkowski lattice's field discriminant — taken from the linked number field. |
 | **DR-46 Determinant Squared** | A minkowski lattice's determinant squared is computed as the determinant raised to the power of 2. |
@@ -692,7 +692,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-53 Projection Count** | A minkowski lattice's projection count is the number of planar projections related to the minkowski lattice. |
 | **DR-54 Has Any Planar Projection** | A minkowski lattice is considered to have any planar projection if the projection count is greater than 0. |
 | **DR-55 Is Load Bearing for Unit Distance Construction** | A minkowski lattice is considered a load bearing for unit distance construction if all of the following hold: the source field is algebraic source candidate flag is set; the short vector count is greater than 0; and the any planar projection flag is set. |
-| **DR-56 Name** | A short vector's name is computed as the minkowski lattice divided by the coords JSON. |
+| **DR-56 Name** | A short vector's name is computed as the minkowski lattice, followed by a slash, followed by the coords JSON. |
 | **DR-57 Threshold Squared** | A short vector's threshold squared is the short vector threshold squared of the short vector's minkowski lattice. |
 | **DR-58 Is Short** | A short vector is considered a short if the norm squared is at most the threshold squared. |
 | **DR-59 Name** | A construction family's name is computed as the lower-cased display name with every a space replaced by a hyphen. ⚠︎ mechanical <!-- rulespeak:reword --> |
@@ -700,7 +700,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-61 Source Field Satisfies Golod Shafarevich** | A construction family's source field satisfies golod shafarevich when the linked source number field is satisfies golod shafarevich. |
 | **DR-62 Source Lattice is Load Bearing** | A construction family's source lattice is load bearing is true when the construction family's source minkowski lattice is a load bearing for unit distance construction. |
 | **DR-63 Is Algebraic Construction** | A construction family is considered an algebraic construction if all of the following hold: the source field satisfies golod shafarevich flag is set and the source lattice is load bearing flag is set. |
-| **DR-64 Name** | A construction instance's name is computed as the value of ConstructionFamily-nParamN. |
+| **DR-64 Name** | A construction instance's name is computed as the construction family, followed by “-n”, followed by the param n. |
 | **DR-65 Point Count** | A construction instance's point count — taken from the linked point set. |
 | **DR-66 Edge Count** | A construction instance's edge count is the unit distance pair count of the construction instance's point set. |
 | **DR-67 Density Exponent Estimate** | A construction instance's density exponent estimate — taken from the linked point set. |
@@ -708,7 +708,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-69 Family is Algebraic** | A construction instance's family is algebraic is true when the construction instance's construction family is an algebraic construction. |
 | **DR-70 Is Explicit Superlinear** | A construction instance is considered an explicit superlinear if the density exponent estimate is greater than 1. |
 | **DR-71 Is Algebraic Superlinear Witness** | A construction instance is considered an algebraic superlinear witness if all of the following hold: the family is algebraic flag is set and the explicit superlinear flag is set. |
-| **DR-72 Name** | A growth sequence's name is computed as the construction family minus the growth. |
+| **DR-72 Name** | A growth sequence's name is computed as the construction family, followed by “-growth”. |
 | **DR-73 Observed Instance Count** | A growth sequence's observed instance count is the number of construction instances related to the growth sequence. |
 | **DR-74 Max Param N** | A growth sequence's max param n is the largest param n across the construction instances related to the growth sequence. |
 | **DR-75 Max Edge Count** | A growth sequence's max edge count is the largest edge count across the construction instances related to the growth sequence. |
@@ -753,14 +753,14 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-114 Name** | A metric's name is computed as the lower-cased display name with every a space replaced by a hyphen. ⚠︎ mechanical <!-- rulespeak:reword --> |
 | **DR-115 Is Euclidean** | A metric is considered an euclidean if the metric kind is “euclidean”. |
 | **DR-116 Is Lattice Gram** | A metric is considered a lattice gram if the metric kind is “lattice-gram”. |
-| **DR-117 Name** | A field embedding's name is computed as the number field divided by the embedding type minus the index in signature. |
+| **DR-117 Name** | A field embedding's name is computed as the number field, followed by a slash, followed by the embedding type, followed by a hyphen, followed by the index in signature. |
 | **DR-118 Is Real Embedding** | A field embedding is considered real-embedding if the target space dim is 1. |
 | **DR-119 Is Complex Embedding** | A field embedding is considered complex-embedding if the target space dim is 2. |
-| **DR-120 Name** | A minkowski embedding's name is computed as the number field minus the minkowski minus the embedding. |
+| **DR-120 Name** | A minkowski embedding's name is computed as the number field, followed by “-minkowski-embedding”. |
 | **DR-121 Ambient Dimension** | A minkowski embedding's ambient dimension is the ambient lattice dimension of the minkowski embedding's number field. |
 | **DR-122 Target Lattice Dimension** | A minkowski embedding's target lattice dimension — taken from the linked target lattice. |
 | **DR-123 Dimension Match** | A minkowski embedding is flagged dimension match if the ambient dimension is the target lattice dimension. |
-| **DR-124 Name** | A gram matrice's name is computed as the minkowski lattice minus the gram. |
+| **DR-124 Name** | A gram matrice's name is computed as the minkowski lattice, followed by “-gram”. |
 | **DR-125 Dimension** | A gram matrice's dimension — taken from the linked minkowski lattice. |
 | **DR-126 Lattice Determinant** | A gram matrice's lattice determinant — taken from the linked minkowski lattice. |
 | **DR-127 Encodes Valid Lattice Metric** | A gram matrice is considered to encode valid lattice metric if all of the following hold: the symmetric flag is set and the positive definite flag is set. |
@@ -770,7 +770,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-131 Unit Distance Vector Count** | A planar projection's unit distance vector count is the number of the planar projection's projected short vectors that project to unit distance vector. |
 | **DR-132 Unit Distance Vector Yield** | A planar projection's unit distance vector yield is computed as the unit distance vector count divided by the projected short vector count. |
 | **DR-133 Source Lattice is Load Bearing** | A planar projection's source lattice is load bearing is true when the planar projection's source lattice is a load bearing for unit distance construction. |
-| **DR-134 Name** | A projected short vector's name is computed as the short vector divided by the planar projection. |
+| **DR-134 Name** | A projected short vector's name is computed as the short vector, followed by a slash, followed by the planar projection. |
 | **DR-135 Projected X Squared** | A projected short vector's projected x squared is computed as the projected x raised to the power of 2. |
 | **DR-136 Projected Y Squared** | A projected short vector's projected y squared is computed as the projected y raised to the power of 2. |
 | **DR-137 Projected Norm Squared** | A projected short vector's projected norm squared is computed as the projected x squared plus the projected y squared. |
@@ -780,7 +780,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-141 Projects to Unit Distance Vector** | A projected short vector is considered to project to unit distance vector if the distance squared from unit is at most the unit tolerance. |
 | **DR-142 Is Valid Witness** | A projected short vector is considered a valid witness if all of the following hold: the source is short flag is set and the projects to unit distance vector flag is set. |
 | **DR-143 Norm Preserved Under Projection** | A projected short vector is flagged norm preserved under projection if the absolute value of the source norm squared minus the projected norm squared is less than the unit tolerance. |
-| **DR-144 Name** | A golod shafarevich criteria's name is computed as the number field minus the gs. |
+| **DR-144 Name** | A golod shafarevich criteria's name is computed as the number field, followed by “-gs”. |
 | **DR-145 Field Degree** | A golod shafarevich criteria's field degree — taken from the linked number field. |
 | **DR-146 Criterion Threshold** | A golod shafarevich criteria's criterion threshold is computed as the minimal generator count d raised to the power of 2 divided by 4. |
 | **DR-147 Relation Count Exceeds Threshold** | A golod shafarevich criteria is flagged relation count exceeds threshold if the relation count r is greater than the criterion threshold. |
@@ -791,7 +791,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-152 Step Count** | A semantic route's step count is the number of semantic route steps related to the semantic route. |
 | **DR-153 Validated Step Count** | A semantic route's validated step count is the number of the semantic route's semantic route steps that are validated. |
 | **DR-154 All Steps Validated** | A semantic route is flagged all steps validated if the validated step count is the step count. |
-| **DR-155 Name** | A semantic route step's name is computed as the semantic route minus the step order. |
+| **DR-155 Name** | A semantic route step's name is computed as the semantic route, followed by a hyphen, followed by the step order. |
 | **DR-156 Bridge is Load Bearing** | A semantic route step's bridge is load bearing when the linked bridge used is load bearing. |
 | **DR-157 Name** | A source reference's name is computed as the lower-cased short label with every a space replaced by a hyphen. ⚠︎ mechanical <!-- rulespeak:reword --> |
 | **DR-158 Lemma Count** | A source reference's lemma count is the number of lemmas related to the source reference. |
@@ -803,18 +803,18 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-164 Is Rejection Rule** | A mirror contract is considered a rejection rule if the rule kind is “reject”. |
 | **DR-165 Name** | A conjecture's name is computed as the lower-cased display name with every a space replaced by a hyphen. ⚠︎ mechanical <!-- rulespeak:reword --> |
 | **DR-166 Is Still Open** | A conjecture is considered still-open if the is resolved is false. |
-| **DR-167 Name** | A proof obligation's name is computed as the parent bound divided by the required lemma. |
+| **DR-167 Name** | A proof obligation's name is computed as the parent bound, followed by a slash, followed by the required lemma. |
 | **DR-168 Is Necessary** | A proof obligation is considered a necessary if the obligation kind is “necessary”. |
 | **DR-169 Is Lemma Loaded** | A proof obligation's is lemma loaded when the linked required lemma is loaded. |
 | **DR-170 Is Lemma Load Bearing** | A proof obligation's is lemma load bearing when the linked required lemma is load bearing. |
 | **DR-171 Bound Claimed Exponent** | A proof obligation's bound claimed exponent — taken from the linked parent bound. |
 | **DR-172 Is Currently Open** | A proof obligation is considered currently-open if the is satisfied is false. |
-| **DR-173 Name** | A citation link's name is computed as the citing source minus the cites minus the cited source. |
+| **DR-173 Name** | A citation link's name is computed as the citing source, followed by “-cites-”, followed by the cited source. |
 | **DR-174 Is Dependency** | A citation link is considered a dependency if the citation kind is “depends-on”. |
 | **DR-175 Is Improvement** | A citation link is considered an improvement if the citation kind is “improves”. |
 | **DR-176 Citing Year** | A citation link's citing year — taken from the linked citing source. |
 | **DR-177 Cited Year** | A citation link's cited year — taken from the linked cited source. |
-| **DR-178 Name** | An answer key's name is computed as the target table divided by the target row ID divided by the target field. |
+| **DR-178 Name** | An answer key's name is computed as the target table, followed by a slash, followed by the target row ID, followed by a slash, followed by the target field. |
 | **DR-179 Is Blocking** | An answer key is considered blocking if the gate level is “blocking”. |
 | **DR-180 Name** | A temporal snapshot's name is computed as the lower-cased label with every a space replaced by a hyphen. ⚠︎ mechanical <!-- rulespeak:reword --> |
 | **DR-181 Valid Lower Bound Count At This Moment** | A temporal snapshot's valid lower bound count at this moment is the number of the temporal snapshot's lower bound validity at snapshot that are valid at this snapshots. |
@@ -822,7 +822,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-183 Curator Confirmed Best Known Lower Bound Exponent At This Moment** | A temporal snapshot's curator confirmed best known lower bound exponent at this moment is the largest bound exponent across the temporal snapshot's lower bound validity at snapshot that are curator confirmed at this snapshots. |
 | **DR-184 Pending But Valid by Date Count** | A temporal snapshot's pending but valid by date count is the number of lower bound validity at snapshot related to the temporal snapshot. |
 | **DR-185 Bounds Validated or Retracted This Moment** | A temporal snapshot's bounds validated or retracted this moment is the number of lower bound validity at snapshot related to the temporal snapshot. |
-| **DR-186 Name** | A lower bound validity at snapshot's name is computed as the asymptotic lower bound minus the at minus the temporal snapshot. |
+| **DR-186 Name** | A lower bound validity at snapshot's name is computed as the asymptotic lower bound, followed by “-at-”, followed by the temporal snapshot. |
 | **DR-187 Bound Exponent** | A lower bound validity at snapshot's bound exponent — taken from the linked asymptotic lower bound. |
 | **DR-188 Bound Valid From** | A lower bound validity at snapshot's bound valid from — taken from the linked asymptotic lower bound. |
 | **DR-189 Bound Valid to** | A lower bound validity at snapshot's bound valid to — taken from the linked asymptotic lower bound. |
@@ -846,8 +846,8 @@ the same logic the rulebook stores, written for a business reader._
 | **PointSets.MaxPossibleEdges** | formula | `PointCount * PointCount - 1 / 2` |
 | **PointSets.EdgeDensity** | formula | `UnitDistancePairCount / MaxPossibleEdges` |
 | **PointSets.DensityExponentEstimate** | formula | `Log(UnitDistancePairCount) / Log(PointCount)` |
-| **PointSetMembers.Name** | formula | `PointSet / Point` |
-| **PointPairs.Name** | formula | `PointSet / PointA - PointB` |
+| **PointSetMembers.Name** | formula | `Concat(PointSet, "/", Point)` |
+| **PointPairs.Name** | formula | `Concat(PointSet, "/", PointA, "-", PointB)` |
 | **PointPairs.PointAX** | lookup | `Lookup(Points.X via PointA)` |
 | **PointPairs.PointAY** | lookup | `Lookup(Points.Y via PointA)` |
 | **PointPairs.PointBX** | lookup | `Lookup(Points.X via PointB)` |
@@ -860,7 +860,7 @@ the same logic the rulebook stores, written for a business reader._
 | **PointPairs.Distance** | formula | `Sqrt(DistanceSquared)` |
 | **PointPairs.DistanceFromUnit** | formula | `Abs(DistanceSquared - 1)` |
 | **PointPairs.IsUnitDistance** | formula | `DistanceFromUnit <= Tolerance` |
-| **UnitDistanceGraphs.Name** | formula | `PointSet - graph` |
+| **UnitDistanceGraphs.Name** | formula | `Concat(PointSet, "-graph")` |
 | **UnitDistanceGraphs.VertexCount** | lookup | `Lookup(PointSets.PointCount via PointSet)` |
 | **UnitDistanceGraphs.EdgeCount** | lookup | `Lookup(PointSets.UnitDistancePairCount via PointSet)` |
 | **UnitDistanceGraphs.MaxPossibleEdges** | formula | `VertexCount * VertexCount - 1 / 2` |
@@ -877,9 +877,9 @@ the same logic the rulebook stores, written for a business reader._
 | **NumberFields.IsAlgebraicSourceCandidate** | formula | `And(SatisfiesGolodShafarevich, SmallNormPrimeIdealCount > 0)` |
 | **NumberFields.FieldEmbeddingCount** | rollup | `Count(FieldEmbeddings via NumberField)` |
 | **NumberFields.FieldEmbeddingCountMatchesSignature** | formula | `FieldEmbeddingCount = SignatureRealEmbeddings + SignatureComplexEmbeddings` |
-| **PrimeIdeals.Name** | formula | `NumberField / GeneratorDescription` |
+| **PrimeIdeals.Name** | formula | `Concat(NumberField, "/", GeneratorDescription)` |
 | **PrimeIdeals.IsSmallNorm** | formula | `Norm <= NormThreshold` |
-| **MinkowskiLattices.Name** | formula | `NumberField - lattice` |
+| **MinkowskiLattices.Name** | formula | `Concat(NumberField, "-lattice")` |
 | **MinkowskiLattices.Dimension** | lookup | `Lookup(NumberFields.AmbientLatticeDimension via NumberField)` |
 | **MinkowskiLattices.FieldDiscriminant** | lookup | `Lookup(NumberFields.Discriminant via NumberField)` |
 | **MinkowskiLattices.DeterminantSquared** | formula | `Power(Determinant, 2)` |
@@ -892,7 +892,7 @@ the same logic the rulebook stores, written for a business reader._
 | **MinkowskiLattices.ProjectionCount** | rollup | `Count(PlanarProjections via SourceLattice)` |
 | **MinkowskiLattices.HasAnyPlanarProjection** | formula | `ProjectionCount > 0` |
 | **MinkowskiLattices.IsLoadBearingForUnitDistanceConstruction** | formula | `And(SourceFieldIsAlgebraicSourceCandidate, ShortVectorCount > 0, HasAnyPlanarProjection)` |
-| **ShortVectors.Name** | formula | `MinkowskiLattice / CoordsJSON` |
+| **ShortVectors.Name** | formula | `Concat(MinkowskiLattice, "/", CoordsJSON)` |
 | **ShortVectors.ThresholdSquared** | lookup | `Lookup(MinkowskiLattices.ShortVectorThresholdSquared via MinkowskiLattice)` |
 | **ShortVectors.IsShort** | formula | `NormSquared <= ThresholdSquared` |
 | **ConstructionFamilies.Name** | formula | `Replace(Lower(DisplayName), " ", "-")` |
@@ -900,7 +900,7 @@ the same logic the rulebook stores, written for a business reader._
 | **ConstructionFamilies.SourceFieldSatisfiesGolodShafarevich** | lookup | `Lookup(NumberFields.SatisfiesGolodShafarevich via SourceNumberField)` |
 | **ConstructionFamilies.SourceLatticeIsLoadBearing** | lookup | `Lookup(MinkowskiLattices.IsLoadBearingForUnitDistanceConstruction via SourceMinkowskiLattice)` |
 | **ConstructionFamilies.IsAlgebraicConstruction** | formula | `And(SourceFieldSatisfiesGolodShafarevich, SourceLatticeIsLoadBearing)` |
-| **ConstructionInstances.Name** | formula | `ConstructionFamily-nParamN` |
+| **ConstructionInstances.Name** | formula | `Concat(ConstructionFamily, "-n", ParamN)` |
 | **ConstructionInstances.PointCount** | lookup | `Lookup(PointSets.PointCount via PointSet)` |
 | **ConstructionInstances.EdgeCount** | lookup | `Lookup(PointSets.UnitDistancePairCount via PointSet)` |
 | **ConstructionInstances.DensityExponentEstimate** | lookup | `Lookup(PointSets.DensityExponentEstimate via PointSet)` |
@@ -908,7 +908,7 @@ the same logic the rulebook stores, written for a business reader._
 | **ConstructionInstances.FamilyIsAlgebraic** | lookup | `Lookup(ConstructionFamilies.IsAlgebraicConstruction via ConstructionFamily)` |
 | **ConstructionInstances.IsExplicitSuperlinear** | formula | `DensityExponentEstimate > 1` |
 | **ConstructionInstances.IsAlgebraicSuperlinearWitness** | formula | `And(FamilyIsAlgebraic, IsExplicitSuperlinear)` |
-| **GrowthSequences.Name** | formula | `ConstructionFamily - growth` |
+| **GrowthSequences.Name** | formula | `Concat(ConstructionFamily, "-growth")` |
 | **GrowthSequences.ObservedInstanceCount** | rollup | `Count(ConstructionInstances via ConstructionFamily)` |
 | **GrowthSequences.MaxParamN** | rollup | `Max(ConstructionInstances.ParamN via ConstructionFamily)` |
 | **GrowthSequences.MaxEdgeCount** | rollup | `Max(ConstructionInstances.EdgeCount via ConstructionFamily)` |
@@ -953,14 +953,14 @@ the same logic the rulebook stores, written for a business reader._
 | **Metrics.Name** | formula | `Replace(Lower(DisplayName), " ", "-")` |
 | **Metrics.IsEuclidean** | formula | `MetricKind = "euclidean"` |
 | **Metrics.IsLatticeGram** | formula | `MetricKind = "lattice-gram"` |
-| **FieldEmbeddings.Name** | formula | `NumberField / EmbeddingType - IndexInSignature` |
+| **FieldEmbeddings.Name** | formula | `Concat(NumberField, "/", EmbeddingType, "-", IndexInSignature)` |
 | **FieldEmbeddings.IsRealEmbedding** | formula | `TargetSpaceDim = 1` |
 | **FieldEmbeddings.IsComplexEmbedding** | formula | `TargetSpaceDim = 2` |
-| **MinkowskiEmbeddings.Name** | formula | `NumberField - minkowski - embedding` |
+| **MinkowskiEmbeddings.Name** | formula | `Concat(NumberField, "-minkowski-embedding")` |
 | **MinkowskiEmbeddings.AmbientDimension** | lookup | `Lookup(NumberFields.AmbientLatticeDimension via NumberField)` |
 | **MinkowskiEmbeddings.TargetLatticeDimension** | lookup | `Lookup(MinkowskiLattices.Dimension via TargetLattice)` |
 | **MinkowskiEmbeddings.DimensionMatch** | formula | `AmbientDimension = TargetLatticeDimension` |
-| **GramMatrices.Name** | formula | `MinkowskiLattice - gram` |
+| **GramMatrices.Name** | formula | `Concat(MinkowskiLattice, "-gram")` |
 | **GramMatrices.Dimension** | lookup | `Lookup(MinkowskiLattices.Dimension via MinkowskiLattice)` |
 | **GramMatrices.LatticeDeterminant** | lookup | `Lookup(MinkowskiLattices.Determinant via MinkowskiLattice)` |
 | **GramMatrices.EncodesValidLatticeMetric** | formula | `And(IsSymmetric, IsPositiveDefinite)` |
@@ -970,7 +970,7 @@ the same logic the rulebook stores, written for a business reader._
 | **PlanarProjections.UnitDistanceVectorCount** | rollup | `Count(ProjectedShortVectors via PlanarProjection)` |
 | **PlanarProjections.UnitDistanceVectorYield** | formula | `UnitDistanceVectorCount / ProjectedShortVectorCount` |
 | **PlanarProjections.SourceLatticeIsLoadBearing** | lookup | `Lookup(MinkowskiLattices.IsLoadBearingForUnitDistanceConstruction via SourceLattice)` |
-| **ProjectedShortVectors.Name** | formula | `ShortVector / PlanarProjection` |
+| **ProjectedShortVectors.Name** | formula | `Concat(ShortVector, "/", PlanarProjection)` |
 | **ProjectedShortVectors.ProjectedXSquared** | formula | `Power(ProjectedX, 2)` |
 | **ProjectedShortVectors.ProjectedYSquared** | formula | `Power(ProjectedY, 2)` |
 | **ProjectedShortVectors.ProjectedNormSquared** | formula | `ProjectedXSquared + ProjectedYSquared` |
@@ -980,7 +980,7 @@ the same logic the rulebook stores, written for a business reader._
 | **ProjectedShortVectors.ProjectsToUnitDistanceVector** | formula | `DistanceSquaredFromUnit <= UnitTolerance` |
 | **ProjectedShortVectors.IsValidWitness** | formula | `And(SourceIsShort, ProjectsToUnitDistanceVector)` |
 | **ProjectedShortVectors.NormPreservedUnderProjection** | formula | `Abs(SourceNormSquared - ProjectedNormSquared) < UnitTolerance` |
-| **GolodShafarevichCriteria.Name** | formula | `NumberField - gs` |
+| **GolodShafarevichCriteria.Name** | formula | `Concat(NumberField, "-gs")` |
 | **GolodShafarevichCriteria.FieldDegree** | lookup | `Lookup(NumberFields.Degree via NumberField)` |
 | **GolodShafarevichCriteria.CriterionThreshold** | formula | `Power(MinimalGeneratorCount_d, 2) / 4` |
 | **GolodShafarevichCriteria.RelationCountExceedsThreshold** | formula | `RelationCount_r > CriterionThreshold` |
@@ -991,7 +991,7 @@ the same logic the rulebook stores, written for a business reader._
 | **SemanticRoutes.StepCount** | rollup | `Count(SemanticRouteSteps via SemanticRoute)` |
 | **SemanticRoutes.ValidatedStepCount** | rollup | `Count(SemanticRouteSteps via SemanticRoute)` |
 | **SemanticRoutes.AllStepsValidated** | formula | `ValidatedStepCount = StepCount` |
-| **SemanticRouteSteps.Name** | formula | `SemanticRoute - StepOrder` |
+| **SemanticRouteSteps.Name** | formula | `Concat(SemanticRoute, "-", StepOrder)` |
 | **SemanticRouteSteps.BridgeIsLoadBearing** | lookup | `Lookup(SemanticBridges.IsLoadBearing via BridgeUsed)` |
 | **SourceReferences.Name** | formula | `Replace(Lower(ShortLabel), " ", "-")` |
 | **SourceReferences.LemmaCount** | rollup | `Count(Lemmas via SourceReference)` |
@@ -1003,18 +1003,18 @@ the same logic the rulebook stores, written for a business reader._
 | **MirrorContract.IsRejectionRule** | formula | `RuleKind = "reject"` |
 | **Conjectures.Name** | formula | `Replace(Lower(DisplayName), " ", "-")` |
 | **Conjectures.IsStillOpen** | formula | `IsResolved = FALSE` |
-| **ProofObligations.Name** | formula | `ParentBound / RequiredLemma` |
+| **ProofObligations.Name** | formula | `Concat(ParentBound, "/", RequiredLemma)` |
 | **ProofObligations.IsNecessary** | formula | `ObligationKind = "necessary"` |
 | **ProofObligations.IsLemmaLoaded** | lookup | `Lookup(Lemmas.IsLoaded via RequiredLemma)` |
 | **ProofObligations.IsLemmaLoadBearing** | lookup | `Lookup(Lemmas.IsLoadBearing via RequiredLemma)` |
 | **ProofObligations.BoundClaimedExponent** | lookup | `Lookup(AsymptoticLowerBounds.Exponent via ParentBound)` |
 | **ProofObligations.IsCurrentlyOpen** | formula | `IsSatisfied = FALSE` |
-| **CitationLinks.Name** | formula | `CitingSource - cites - CitedSource` |
+| **CitationLinks.Name** | formula | `Concat(CitingSource, "-cites-", CitedSource)` |
 | **CitationLinks.IsDependency** | formula | `CitationKind = "depends-on"` |
 | **CitationLinks.IsImprovement** | formula | `CitationKind = "improves"` |
 | **CitationLinks.CitingYear** | lookup | `Lookup(SourceReferences.Year via CitingSource)` |
 | **CitationLinks.CitedYear** | lookup | `Lookup(SourceReferences.Year via CitedSource)` |
-| **AnswerKey.Name** | formula | `TargetTable / TargetRowId / TargetField` |
+| **AnswerKey.Name** | formula | `Concat(TargetTable, "/", TargetRowId, "/", TargetField)` |
 | **AnswerKey.IsBlocking** | formula | `GateLevel = "blocking"` |
 | **TemporalSnapshots.Name** | formula | `Replace(Lower(Label), " ", "-")` |
 | **TemporalSnapshots.ValidLowerBoundCountAtThisMoment** | rollup | `Count(LowerBoundValidityAtSnapshot via TemporalSnapshot)` |
@@ -1022,7 +1022,7 @@ the same logic the rulebook stores, written for a business reader._
 | **TemporalSnapshots.CuratorConfirmedBestKnownLowerBoundExponentAtThisMoment** | rollup | `Max(LowerBoundValidityAtSnapshot.BoundExponent via TemporalSnapshot)` |
 | **TemporalSnapshots.PendingButValidByDateCount** | rollup | `Count(LowerBoundValidityAtSnapshot via TemporalSnapshot)` |
 | **TemporalSnapshots.BoundsValidatedOrRetractedThisMoment** | rollup | `Count(LowerBoundValidityAtSnapshot via TemporalSnapshot)` |
-| **LowerBoundValidityAtSnapshot.Name** | formula | `AsymptoticLowerBound - at - TemporalSnapshot` |
+| **LowerBoundValidityAtSnapshot.Name** | formula | `Concat(AsymptoticLowerBound, "-at-", TemporalSnapshot)` |
 | **LowerBoundValidityAtSnapshot.BoundExponent** | lookup | `Lookup(AsymptoticLowerBounds.Exponent via AsymptoticLowerBound)` |
 | **LowerBoundValidityAtSnapshot.BoundValidFrom** | lookup | `Lookup(AsymptoticLowerBounds.ValidFrom via AsymptoticLowerBound)` |
 | **LowerBoundValidityAtSnapshot.BoundValidTo** | lookup | `Lookup(AsymptoticLowerBounds.ValidTo via AsymptoticLowerBound)` |

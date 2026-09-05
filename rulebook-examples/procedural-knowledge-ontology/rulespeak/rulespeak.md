@@ -1,4 +1,4 @@
-# 📘 PKO-Native Procedural Knowledge Rulebook — RuleSpeak
+# 📘 PKO-Native Procedural Knowledge Rulebook — RuleSpeak®
 
 _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ontology (PKO) 2.0.0. It represents procedure specifications separately from executions and includes versioning, status changes, steps, transitions, actions, software functions, tools, requirements, verifications, resources, agents, roles in time, issues, errors, questions, feedback, FAQs, explanations, governance, tacit/implicit/explicit knowledge capture, operational data bindings, learning, and communication policy projections. PKO-native terms are mapped exactly; enterprise knowledge-governance additions are explicitly identified as ERB-PKO extensions._
 
@@ -13,14 +13,43 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 |------|-------------|-------------------|
 | **Rulebook Releas** | Version ledger for the canonical ERB-PKO rulebook itself. This is distinct from PKO Procedure versioning. | — |
 | Name | Computed as the rulebook version, followed by “ / PKO ”, followed by the pko core version iri. | _Human-readable calculated display alias for the RulebookReleases row._ |
+| Rulebook Version | A defined attribute. | _Semantic version of this canonical rulebook release._ |
+| Profile Version | A defined attribute. | _Version of the ERB-PKO profile schema._ |
+| Profile Schema Path | A defined attribute. | _Repository-relative path to the ERB-PKO JSON profile schema._ |
+| Pko Core Version Iri | A defined attribute. | _Exact version IRI of the PKO core ontology used by this release._ |
+| Pko Industry Version Iri | A defined attribute. | _Exact version IRI of the PKO industry module used by this release._ |
+| Issued At | A defined attribute. | _Timestamp at which this rulebook release was issued._ |
+| Status | A defined attribute. | _Release status such as Draft, Candidate, or Published._ |
+| Changelog | A defined attribute. | _Human-readable semantic changelog for this release._ |
+| Is Current | True when an empty string. | _TRUE only for the current rulebook release._ |
 | **Ontology Profile** | Versioned ontology and vocabulary dependencies. PKO mappings always identify the exact profile and version. | — |
 | Name | Computed as the label, followed by a space, followed by the version. | _Human-readable calculated display alias for the OntologyProfiles row._ |
+| Label | A defined attribute. | _Human-readable ontology or vocabulary name._ |
+| Version | A defined attribute. | _Referenced release or specification version._ |
+| Version Iri | A defined attribute. | _Exact version IRI or normative specification URI._ |
+| Namespace Iri | A defined attribute. | _Namespace used for class/property IRIs._ |
+| License | A defined attribute. | _License or standards body attribution._ |
+| Scope | A defined attribute. | _How the profile is used in this rulebook._ |
 | **Evaluation Context** | The instant this rulebook's time-dependent witnesses are evaluated against. Modeled as data rather than wall-clock so every freshness, overdue, and validity answer is reproducible and auditable: asking the same question tomorrow yields the same answer. Exactly one row carries IsCurrent. | — |
 | Name | Computed as the label, followed by “ @ ”, followed by the as of instant. | _Human-readable calculated display alias for the EvaluationContexts row._ |
+| Label | A defined attribute. | _What this evaluation instant represents._ |
+| As of Instant | A defined attribute. | _The instant all time-dependent witnesses are evaluated against._ |
+| Is Current | True when an empty string. | _TRUE for the single active evaluation context._ |
+| Rationale | A defined attribute. | _Why this instant was chosen._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Organization** | Organizations that own, adopt, govern, or execute procedures. Maps to prov:Organization. | — |
 | Name | The same as its display name. | _Human-readable calculated display alias for the Organizations row._ |
+| Display Name | A defined attribute. | _Organization's human-readable name._ |
+| Organization Type | A defined attribute. | _Type such as Company, Department, Vendor, or Regulator._ |
+| External Identifier | A defined attribute. | _Identifier in an operational directory or master-data system._ |
+| Semantic Type Iri | A defined attribute. | _Exact RDF class IRI for the organization._ |
 | **Agent** | Human and software agents that create, modify, approve, or execute procedural knowledge. Maps to prov:Agent. | — |
 | Name | The same as its display name. | _Human-readable calculated display alias for the Agents row._ |
+| Display Name | A defined attribute. | _Agent's human-readable name._ |
+| Agent Kind | A defined attribute. | _Human, AIAgent, AutomatedPipeline, Organization, or another explicit agent category._ |
+| Organization | A defined attribute. | _Organization to which the agent belongs._ |
+| Contact Address | A defined attribute. | _Contact address when applicable._ |
+| Version or Employment Key | A defined attribute. | _Model version, pipeline release, or employment assignment key._ |
 | Count of Current Role Assignments | The number of role assignments related to the agent. | _How many role assignments this agent currently holds. Counts only CURRENT assignments via the CurrentAgentKey echo — counting all assignments would report a departed agent as engaged forever._ |
 | Is Still Engaged | True when the count of current role assignments is greater than 0. | _TRUE when this agent currently holds at least one role in the organization._ |
 | Decision Count | The number of agent decision records related to the agent. | _Total decisions this agent has recorded._ |
@@ -32,13 +61,19 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Draft Decision Count | The number of agent decision records related to the agent. | _Number of drafting decisions this agent has made._ |
 | Overridden Draft Count | The number of agent decision records related to the agent. | _Number of this agent's drafting decisions a human corrected or reversed._ |
 | Draft Rewrite Rate Percent | Determined by priority: 0 if the draft decision count is 0; in all other cases, the overridden draft count times 100 divided by the draft decision count. | _Percentage of this agent's drafting output that a human rewrote._ |
+| Semantic Type Iri | A defined attribute. | _Exact semantic type IRI used when projecting the agent._ |
 | **Role** | Stable organizational functions separated from the agents that currently fill them. Maps to pro:Role. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the Roles row._ |
+| Label | A defined attribute. | _Human-readable role label._ |
+| Organization | A defined attribute. | _Organization that owns the role._ |
+| Current Agent | A defined attribute. | _Current agent filling the role; history is retained in RoleAssignments._ |
 | Current Agent Kind | Taken from the linked current agent. | _Agent category of the current role filler._ |
+| Responsibility | A defined attribute. | _Accountability and responsibility assigned to the role._ |
 | Active Assignment Count | The number of role assignments related to the role. | _Total number of assignment rows ever recorded against this role._ |
 | Currently Covered Assignment Count | The number of role assignments related to the role. | _Number of assignment rows for this role that are in force right now._ |
 | Has No Current Holder | True when the currently covered assignment count is 0. | _TRUE when no assignment currently covers this role — the role is uncovered._ |
 | Count of Awaited Decisions | The number of change requests related to the role. | _How many change requests name this role as the deciding authority._ |
+| Current Assignment | A defined attribute. | _The RoleAssignments id of the assignment by which this role is currently held. Deliberately a raw identifier, not a relationship: RoleAssignments already points at Roles, so an FK back would make the two mutually dependent and this rulebook must stay acyclic._ |
 | Current Assignment Valid From | Taken from the linked current assignment. | _Start of the currently-in-force assignment for this role._ |
 | Is Non Human Held | True when it is not the case that the current agent kind is “Human”. | _TRUE when the role's current agent is an AI agent or automated pipeline._ |
 | Is Ungoverned Non Human Role | True when all of the following hold: the non human held flag is set and the no current holder flag is set. | _TRUE when a role is pointed at a non-human agent but has no assignment row granting it._ |
@@ -50,8 +85,16 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Unescalated Refusal Count | The number of send intents related to the role. | _How many refusals this role should have been told about and was not._ |
 | Unauthorized Enforcement Assignment Count | The number of role assignments related to the role. | _How many current assignments of this role are unauthorized enforcement assignments._ |
 | Is Ungoverned Enforcement Role | True when the unauthorized enforcement assignment count is greater than 0. | _TRUE when a role that enforces controls on others is held with no recorded authorization._ |
+| Semantic Type Iri | A defined attribute. | _Exact semantic type IRI for the role._ |
 | **Role Assignment** | Time-bounded records of agents holding roles. Maps to pro:RoleInTime and preserves assignment history instead of overwriting it. | — |
 | Name | Computed as the role, followed by “ @ ”, followed by the valid from. | _Human-readable calculated display alias for the RoleAssignments row._ |
+| Role | A defined attribute. | _Role held during the assignment._ |
+| Agent | A defined attribute. | _Agent holding the role._ |
+| Valid From | A defined attribute. | _Start of the assignment's valid-time interval._ |
+| Valid to | A defined attribute. | _End of the assignment's valid-time interval; null means open-ended._ |
+| Reason | A defined attribute. | _Rationale for the assignment or reassignment._ |
+| Status | A defined attribute. | _Active, Superseded, Planned, or Revoked._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this assignment's currency is judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this assignment's currency is judged against._ |
 | Is Current | True when all of the following hold: the valid from is at most the as of instant and at least one of the following holds: the valid to is blank or the valid to is greater than the as of instant. | _TRUE when the assignment is valid now._ |
 | Current Agent Key | Determined by priority: the agent if the current flag is set; in all other cases, an empty string. | _Echoes the Agent id only while this assignment is current; empty otherwise. Lets a parent count CURRENT assignments with a single-criterion COUNTIFS, which is the only shape this transpiler translates correctly._ |
@@ -62,8 +105,11 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Role When Covering | Determined by priority: the role if the covers now flag is set; in all other cases, an empty string. | _Echoes the role id when this assignment is currently in force, blank otherwise._ |
 | Agent Kind | Taken from the linked agent. | _Whether the agent holding this assignment is Human, AIAgent, or AutomatedPipeline._ |
 | Is Non Human Assignment | True when it is not the case that the agent kind is “Human”. | _TRUE when this assignment places a non-human agent into the role._ |
+| Supersedes Assignment | A defined attribute. | _The assignment this one replaced, if any._ |
 | Predecessor Agent Kind | Taken from the linked supersedes assignment. | _Agent kind of the assignment this one superseded._ |
 | Is Human to Non Human Handover | True when all of the following hold: the predecessor agent kind is “Human” and the non human assignment flag is set. | _TRUE when this assignment handed a role from a human to a non-human agent._ |
+| Approving Authority Role | A defined attribute. | _Role that approved this assignment._ |
+| Authorizing Change Request | A defined attribute. | _Change request under which this assignment was approved._ |
 | Is Unauthorized Non Human Assignment | True when all of the following hold: the non human assignment flag is set and the approving authority flag is not set. | _TRUE when a non-human agent holds this role with no approving authority recorded at all. An authority named without a change request is still an authority; the separate WasAuthorizedByChangeRequest column carries that weaker distinction._ |
 | Was Authorized by Change Request | True when all of the following hold: the approving authority flag is set and the authorizing change request has a value. | _TRUE when this assignment's authorization is traceable to a change request, not merely to a named role. The stronger form of authorization, kept separate so the weaker one is not silently reported as unauthorized._ |
 | Decision Count | The number of agent decision records related to the role assignment. | _Decisions made under this assignment._ |
@@ -72,6 +118,7 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Predecessor Override Rate Percent | Taken from the linked supersedes assignment. | _Override rate of the assignment this one superseded._ |
 | Quality Regressed Vs Predecessor | True when all of the following hold: the supersedes assignment has a value and the override rate percent is greater than the predecessor override rate percent. | _TRUE when this assignment is overridden by humans more often than the assignment it replaced._ |
 | Departed Role Key | Determined by priority: the role if the departed flag is set; in all other cases, an empty string. | _Composite-key echo: the role this assignment covered when the assignment has ended, blank otherwise._ |
+| Minimum Decisions for Comparison | A defined attribute. | _The number of decisions below which an override-rate comparison is not considered evidentially meaningful for this role._ |
 | Predecessor Decision Count | Taken from the linked supersedes assignment. | _How many decisions the superseded assignment produced._ |
 | Has Sufficient Sample | True when the decision count is at least the minimum decisions for comparison. | _TRUE when this assignment has produced enough decisions for its override rate to mean anything._ |
 | Predecessor Has Sufficient Sample | True when the predecessor decision count is at least the minimum decisions for comparison. | _TRUE when the predecessor assignment produced enough decisions to compare against._ |
@@ -81,11 +128,15 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Unmeasured Automation Handover | True when all of the following hold: the human to non human handover flag is set and the comparison is evidentially sound flag is not set. | _TRUE when a human-to-machine handover is operating without a statistically meaningful quality comparison behind it._ |
 | Error Correction Count | The number of agent decision records related to the role assignment. | _How many of this assignment's decisions were overridden because they were wrong._ |
 | Error Rate Percent | Determined by priority: the error correction count times 100 divided by the decision count if the decision count is greater than 0; in all other cases, 0. | _Percentage of this assignment's decisions overridden as errors -- the override rate with reserved-judgment overrides removed._ |
+| Authorization Decided At | A defined attribute. | _When the approving authority actually granted this assignment. Empty when no authorization was ever recorded._ |
+| Authorization Reviewed At | A defined attribute. | _When the authorization for this assignment was last re-examined._ |
+| Authorization Review Cadence Days | A defined attribute. | _How often this assignment's authorization is promised to be re-examined._ |
 | Has Dated Authorization | True when all of the following hold: the approving authority role has a value and the authorization decided at has a value. | _TRUE when this assignment carries both a named approving authority and the date they granted it._ |
 | Days Since Authorization Review | Determined by priority: the number of days from the authorization reviewed at to the as of instant if the authorization reviewed at has a value; in all other cases, the number of days from the valid from to the as of instant. | _How long since this assignment's authorization was last re-examined._ |
 | Authorization is Overdue for Review | True when all of the following hold: the authorization review cadence days is greater than 0 and the days since authorization review is greater than the authorization review cadence days. | _TRUE when the promised re-examination interval has elapsed without a review._ |
 | Is Standing Unreviewed Automation | True when all of the following hold: the covers now flag is set and all of the following hold: the non human assignment flag is set and the authorization is overdue for review flag is set. | _TRUE when a currently-active non-human assignment has been running past its authorization review date._ |
 | Is Unconditioned Automation Handover | True when all of the following hold: the human to non human handover flag is set and the authorization review cadence days is 0. | _TRUE when a human-to-machine handover was authorized with no promised review cadence at all -- granted once, permanently._ |
+| Max Tolerable Error Rate Percent | A defined attribute. | _The error rate at or above which this assignment must stop making decisions unaided._ |
 | Exceeds Tolerable Error Rate | True when all of the following hold: the max tolerable error rate percent is greater than 0 and the error rate percent is at least the max tolerable error rate percent. | _TRUE when this assignment's error rate has reached the threshold set when it was authorized._ |
 | Boundary Violation Count for Assignment | The number of agent decision records related to the role assignment. | _How many decisions under this assignment violated an authority boundary._ |
 | Has Any Boundary Violation | True when the boundary violation count for assignment is greater than 0. | _TRUE when any decision under this assignment crossed a boundary it was forbidden to cross._ |
@@ -95,19 +146,58 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Has Declared Suspension Condition | True when the max tolerable error rate percent is greater than 0. | _TRUE when this assignment has any pre-declared condition under which it must stop at all._ |
 | Has Approving Authority | True when the approving authority role has a value. | _TRUE when a role is recorded as having approved this assignment._ |
 | Has Authorizing Change Request | True when the authorizing change request has a value. | _TRUE when a change request is recorded as the governance vehicle for this assignment._ |
+| Is Enforcement Role | True when an empty string. | _Whether this role's function is to enforce controls on other agents' actions._ |
 | Is Unauthorized Enforcement Agent | True when all of the following hold: the enforcement role flag is set and the unauthorized non human assignment flag is set. | _TRUE when a non-human agent enforces controls on others while holding no recorded authorization of its own._ |
 | Governance Evidence Count | Computed as the count of the following that hold: the approving authority flag is set and the authorizing change request flag is set. | _How many independent governance artifacts back this assignment: an approving role, an authorizing change request._ |
 | Unauthorized Enforcement Role Key | Determined by priority: the role if the unauthorized non human assignment flag is set; in all other cases, an empty string. | _Echoes the role only for non-human assignments nobody authorized; empty otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Exact class IRI for the assignment event._ |
 | **Community of Practice** | Socio-technical communities that transmit and maintain procedural knowledge. Explicit ERB-PKO extension. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the CommunitiesOfPractice row._ |
+| Label | A defined attribute. | _Community's human-readable name._ |
+| Organization | A defined attribute. | _Organization hosting the community._ |
+| Steward Role | A defined attribute. | _Role accountable for convening and maintaining the community._ |
+| Purpose | A defined attribute. | _Shared practice and knowledge-transfer purpose._ |
+| Cadence | A defined attribute. | _Meeting or practice cadence._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Mentorship** | Time-bounded apprenticeship relationships that intentionally transfer situated procedural knowledge. Explicit ERB-PKO extension. | — |
 | Name | Computed as the mentor agent, followed by “ -> ”, followed by the learner agent. | _Human-readable calculated display alias for the Mentorships row._ |
+| Community of Practice | A defined attribute. | _Community in which the mentorship operates._ |
+| Mentor Agent | A defined attribute. | _Experienced practitioner serving as mentor._ |
+| Learner Agent | A defined attribute. | _Practitioner learning the procedure._ |
+| Valid From | A defined attribute. | _Mentorship start._ |
+| Valid to | A defined attribute. | _Mentorship end._ |
+| Learning Objective | A defined attribute. | _Procedural capability to be transferred._ |
+| Evidence of Completion | A defined attribute. | _Evidence showing completion or competence._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Procedure Type** | Controlled values used by pko:hasProcedureType. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the ProcedureTypes row._ |
+| Label | A defined attribute. | _Procedure type label._ |
+| Definition | A defined attribute. | _Definition and scope of the procedure type._ |
+| Semantic Type Iri | A defined attribute. | _Exact class IRI for procedure types._ |
 | **Procedure** | Abstract, discoverable procedures. Each version is represented separately in ProcedureVersions. Maps to pko:Procedure and dcat:Resource. | — |
 | Name | The same as its title. | _Human-readable calculated display alias for the Procedures row._ |
+| Title | A defined attribute. | _Human-readable title; maps to dcterms:title._ |
+| Procedure Type | A defined attribute. | _Procedure type; maps to pko:hasProcedureType._ |
+| Owner Organization | A defined attribute. | _Organization that owns the procedure._ |
+| Adopted by Organization | A defined attribute. | _Organization that adopts the procedure; maps to pko:isAdoptedBy._ |
+| Purpose | A defined attribute. | _Desired outcome and scope of the procedure._ |
+| Target | A defined attribute. | _Thing or population on which the procedure acts; maps to pko:hasProcedureTarget._ |
+| Is Template | True when an empty string. | _TRUE when the procedure is a reusable template; maps to pko:isTemplate._ |
+| Current Version Key | A defined attribute. | _Current version identifier, mirrored structurally by ProcedureVersions.IsCurrent._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Procedure Version** | Versioned procedure specifications. Maps to pko:Procedure plus DCAT version relations and PKO versionNumber/newVersionMotivation/changelogDescription. | — |
 | Name | The same as its title. | _Human-readable calculated display alias for the ProcedureVersions row._ |
+| Procedure | A defined attribute. | _Abstract procedure of which this is a version._ |
+| Version Number | A defined attribute. | _Version number; maps to pko:versionNumber._ |
+| Title | A defined attribute. | _Version-specific title._ |
+| Status | A defined attribute. | _PKO procedure status individual: Draft, Validation, Approval, Approved, Deprecated, or Archived._ |
+| Issued At | A defined attribute. | _Issue timestamp; maps to dcterms:issued._ |
+| Modified At | A defined attribute. | _Last semantic modification; maps to dcterms:modified._ |
+| Created by Agent | A defined attribute. | _Agent that created the version; maps to dcterms:creator._ |
+| Modified by Agent | A defined attribute. | _Agent that last modified the version; maps to pko:wasModifiedBy._ |
+| New Version Motivation | A defined attribute. | _Reason for the new version; maps to pko:newVersionMotivation._ |
+| Changelog Description | A defined attribute. | _Semantic change description; maps to pko:changelogDescription._ |
+| Is Current | True when an empty string. | _TRUE when this is the current version._ |
 | Count of Steps | The number of steps related to the procedure version. | _Number of steps in this version._ |
 | Count of Open Knowledge Gaps | The number of the procedure version's knowledge gaps that have a status of “Open”. | _Open knowledge gaps for this version._ |
 | Is Ready for Execution | True when all of the following hold: the status is “Approved”; the count of steps is greater than 0; and the count of open knowledge gaps is 0. | _TRUE when approved, populated, and free of blocking knowledge gaps._ |
@@ -132,6 +222,7 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Count of Change Requests | The number of change requests related to the procedure version. | _How many change requests have ever been raised against this version._ |
 | Count of Review Events | The number of review events related to the procedure version. | _How many review events have ever been recorded against this version._ |
 | Has Governance Record | True when at least one of the following holds: the count of change requests is greater than 0 or the count of review events is greater than 0. | _TRUE when at least one change request or review event exists for this version._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Days Since Modified | Computed as the number of days from the modified at to the as of instant. | _Days since this version's content was last changed._ |
 | Days Since Last Review | An aggregated value computed across the procedure version's related records. | _Days since the most recent review of this version._ |
@@ -176,15 +267,36 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Has Approved Change Request | True when the approved change request count is greater than 0. | _TRUE when at least one change request against this version has been approved._ |
 | Approved Change Request Count | The number of change requests related to the procedure version. | _How many change requests against this version have been approved._ |
 | Unwatched Unowned Control Count | The number of requirements related to the procedure version. | _How many blocking controls in the model are neither computed nor owned._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Procedure Version Link** | Directed links between versioned procedures. Maps to dcat:previousVersion/dcat:hasVersion and pko:nextVersion. | — |
 | Name | Computed as the previous procedure version, followed by “ -> ”, followed by the next procedure version. | _Human-readable calculated display alias for the ProcedureVersionLinks row._ |
+| Previous Procedure Version | A defined attribute. | _Earlier version._ |
+| Next Procedure Version | A defined attribute. | _Later version._ |
+| Relation Iri | A defined attribute. | _Exact version relation IRI._ |
+| Change Summary | A defined attribute. | _Summary of semantic change across the edge._ |
 | Superseded Version Key | Determined by priority: the previous procedure version if the relation iri is “https://w3id.org/pko#nextVersion”; in all other cases, an empty string. | _Echoes the superseded (previous) version id for rows that express a next-version relation. Supersession is carried by RelationIri here, not by a separate link-kind column._ |
 | **Procedure Status Change** | Lifecycle events that move a procedure version between PKO statuses. Maps to pko:ChangeOfStatus, fromStatus, toStatus, and prov:atTime. | — |
 | Name | Computed as the procedure version, followed by “: ”, followed by the from status, followed by “ -> ”, followed by the to status. | _Human-readable calculated display alias for the ProcedureStatusChanges row._ |
+| Procedure Version | A defined attribute. | _Procedure version whose status changed._ |
+| From Status | A defined attribute. | _Previous PKO status._ |
+| To Status | A defined attribute. | _New PKO status._ |
+| Changed At | A defined attribute. | _Time of change; maps to prov:atTime._ |
+| Changed by Agent | A defined attribute. | _Agent responsible for the change._ |
+| Motivation | A defined attribute. | _Reason for changing status._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Step** | Version-scoped units of work. Atomic steps map to pplan:Step; composite steps map to pplan:MultiStep. The specification is never conflated with execution. | — |
 | Name | Computed as the step number, followed by “. ”, followed by the title. | _Human-readable calculated display alias for the Steps row._ |
+| Procedure Version | A defined attribute. | _Procedure version containing the step; maps to pko:hasStep/pplan:isStepOfPlan._ |
+| Step Number | A defined attribute. | _Stable sequence label; maps to pko:stepNumber._ |
+| Title | A defined attribute. | _Human-readable step title._ |
+| Step Kind | A defined attribute. | _Atomic or MultiStep._ |
+| Assigned Role | A defined attribute. | _Role responsible for the step._ |
 | Assigned Role Label | Taken from the linked assigned role. | _Resolved role label._ |
 | Assigned Agent Kind | The current agent kind of the step's assigned role. | _Current role-filler category._ |
+| Instruction | A defined attribute. | _Normative step instruction._ |
+| Expected Duration Minutes | A defined attribute. | _Expected duration represented as an OWL-Time duration in semantic projections._ |
+| Expertise Level | A defined attribute. | _PKO expertise level: Junior, Senior, Expert, or Master._ |
+| Requires Human Confirmation | True when an empty string. | _TRUE when a human must confirm the step; maps to pko:wasConfirmedBy at execution._ |
 | Blocking Requirement Count | The number of step requirements related to the step. | _How many blocking requirements the specification attaches to this step._ |
 | Stale Binding Count | The number of operational bindings related to the step. | _How many operational bindings for this step are currently outside their freshness SLA._ |
 | Authoritative Stale Count | The number of operational bindings related to the step. | _How many authoritative bindings for this step are currently stale._ |
@@ -201,6 +313,7 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Assigned Role is Ungoverned | True when the step's assigned role is an ungoverned non human role. | _Whether this step's assigned role is a non-human role with no governing assignment._ |
 | Unusable Binding Count | The number of operational bindings related to the step. | _Number of bindings at this step that are unapproved or stale._ |
 | All Sources Usable | True when the unusable binding count is 0. | _TRUE when every binding at this step is an approved, fresh source._ |
+| Control Kind | A defined attribute. | _What kind of control this step is: Preparation, Approval, LegalReview, Verification, Extraction, Publication, Retrospective, or None. That policy-04 is a legal review is a property OF policy-04, not of a formula that happens to name it; storing it as data makes downstream predicates portable to procedures that do not exist yet._ |
 | Unwarranted Boundary Count | The number of authority boundaries related to the step. | _How many boundaries governing this step are being enforced without a valid ratifying claim._ |
 | Is Governed by Unwarranted Boundary | True when the unwarranted boundary count is greater than 0. | _Whether this step's constraints on machine authority rest on a claim that is no longer valid._ |
 | Software Execution Count | The number of step executions related to the step. | _How many times a software agent has actually executed this step._ |
@@ -212,8 +325,15 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Undeclared Control Version Key | Determined by priority: an empty string if the declared control kind flag is set; in all other cases, the procedure version. | _Composite-key echo: this step's procedure version when the step has no declared control kind, blank otherwise._ |
 | Approval Step is Software Assigned | True when all of the following hold: the control kind is “Approval” and the software assigned flag is set. | _An approval-kind step whose assigned role is currently held by an AI agent or automated pipeline._ |
 | Unwitnessed Blocking Count | The number of step requirements related to the step. | _How many blocking controls bound to this step have no computed witness._ |
+| Semantic Type Iri | A defined attribute. | _Exact P-Plan class IRI._ |
 | **Step Transition** | Directed control-flow edges represented as first-class pko:Transition instances with fromStep/toStep and next/alternative/fallback semantics. | — |
 | Name | Computed as the from step, followed by “ -> ”, followed by the to step. | _Human-readable calculated display alias for the StepTransitions row._ |
+| Procedure Version | A defined attribute. | _Procedure version whose control flow owns the transition._ |
+| From Step | A defined attribute. | _Source step; maps to pko:fromStep._ |
+| To Step | A defined attribute. | _Destination step; maps to pko:toStep._ |
+| Transition Kind | A defined attribute. | _Next, Alternative, or Fallback._ |
+| Condition | A defined attribute. | _Condition under which the edge is taken._ |
+| Priority | A defined attribute. | _Evaluation priority when several outgoing edges exist._ |
 | Is Recovery Path | True when at least one of the following holds: the transition kind is “Fallback” or the transition kind is “Alternative”. | _TRUE when this transition is a non-default path taken because something went wrong._ |
 | Count of From Step Executions | The number of step executions related to the step transition. | _How many times the step this transition leaves from has actually been executed._ |
 | Count of to Step Executions | The number of step executions related to the step transition. | _How many times the step this transition arrives at has actually been executed._ |
@@ -228,20 +348,42 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Target Carries Blocking Control | True when the target blocking requirement count is greater than 0. | _Whether the destination step of this transition carries at least one blocking control._ |
 | Is Unrehearsed Control Entry | True when all of the following hold: the unwalked recovery path flag is set and the target carries blocking control flag is set. | _A recovery path that has never been traversed and that leads into a step carrying a blocking control._ |
 | Unrehearsed Control Version Key | Determined by priority: the procedure version if the unrehearsed control entry flag is set; in all other cases, an empty string. | _Composite-key echo: this transition's procedure version when it is an unrehearsed control entry, blank otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Action** | Human actions required by steps. Maps to pko:Action and pko:requiresAction. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the Actions row._ |
+| Label | A defined attribute. | _Action label._ |
+| Definition | A defined attribute. | _Normative definition of the action._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Function** | Software or algorithmic functions required by steps. Maps to pko:Function and pko:requiresFunction. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the Functions row._ |
+| Label | A defined attribute. | _Function label._ |
+| Definition | A defined attribute. | _Deterministic or AI-assisted behavior._ |
+| Implementation Key | A defined attribute. | _Operational implementation or model key._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Tool** | Tools required to execute steps. Maps to m4ing:Tool and pko:requiresTool. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the Tools row._ |
+| Label | A defined attribute. | _Tool label._ |
+| Purpose | A defined attribute. | _Operational purpose._ |
+| Semantic Type Iri | A defined attribute. | _Exact semantic class IRI._ |
 | **Step Action** | Many-to-many Step/Action semantics normalized into a first-class ERB junction table. | — |
 | Name | Computed as the step, followed by “ / ”, followed by the action. | _Human-readable calculated display alias for the StepActions row._ |
+| Step | A defined attribute. | _Step side of the relationship._ |
+| Action | A defined attribute. | _Action side of the relationship._ |
 | **Step Function** | Many-to-many Step/Function semantics normalized into an ERB junction table. | — |
 | Name | Computed as the step, followed by “ / ”, followed by the function. | _Human-readable calculated display alias for the StepFunctions row._ |
+| Step | A defined attribute. | _Step side of the relationship._ |
+| Function | A defined attribute. | _Function side of the relationship._ |
 | **Step Tool** | Many-to-many Step/Tool semantics normalized into an ERB junction table. | — |
 | Name | Computed as the step, followed by “ / ”, followed by the tool. | _Human-readable calculated display alias for the StepTools row._ |
+| Step | A defined attribute. | _Step side of the relationship._ |
+| Tool | A defined attribute. | _Tool side of the relationship._ |
 | **Requirement** | Normative requirements applied to procedures, steps, or transitions. Maps to pko:Requirement and pko:hasRequirement. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the Requirements row._ |
+| Label | A defined attribute. | _Requirement label._ |
+| Requirement Type | A defined attribute. | _Controlled requirement type; maps to pko:hasRequirementType._ |
+| Statement | A defined attribute. | _Normative requirement statement._ |
+| Rationale | A defined attribute. | _Why the requirement exists._ |
+| Is Blocking | True when an empty string. | _TRUE when unsatisfied requirement blocks execution or approval._ |
 | Satisfaction Record Count | The number of requirement satisfactions related to the requirement. | _How many times this requirement has ever been evaluated against an execution._ |
 | Step Binding Count | The number of step requirements related to the requirement. | _How many steps the specification binds this requirement to._ |
 | Is Bound to Any Step | True when the step binding count is greater than 0. | _TRUE when at least one step carries this requirement._ |
@@ -249,6 +391,8 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Negative Outcome Count | The number of requirement satisfactions related to the requirement. | _How many times this requirement has ever produced a less-than-satisfied outcome._ |
 | Is Inoperative Control | True when all of the following hold: the blocking flag is set; the bound to any step flag is set; and the ever been evaluated flag is not set. | _TRUE for a blocking requirement that is attached to a step in the specification but has never once been evaluated on any execution._ |
 | Is Decorative Control | True when all of the following hold: the blocking flag is set and the bound to any step flag is not set. | _TRUE for a blocking requirement that is not attached to any step at all._ |
+| Has Computed Witness | True when an empty string. | _Whether a computed predicate in this rulebook evaluates this requirement, as opposed to it being satisfied by human assertion only._ |
+| Witness Field Name | A defined attribute. | _The fully-qualified Table.Field of the predicate that computes this requirement, when one exists._ |
 | Has Ever Produced Negative | True when the negative outcome count is greater than 0. | _TRUE when this requirement has at least once been scored as anything other than Satisfied._ |
 | Is Unfalsified Control | True when all of the following hold: the blocking flag is set; the ever been evaluated flag is set; and the ever produced negative flag is not set. | _TRUE for a blocking control that HAS been evaluated at least once and has never returned a negative result._ |
 | Claims a Witness Field | True when the witness field name has a value. | _TRUE when this requirement names a field it claims computes it._ |
@@ -260,19 +404,24 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Witness Has Never Fired | True when all of the following hold: the computed witness flag is set and the witness fire count is 0. | _TRUE for a requirement that has a computed witness which has never once returned a negative result._ |
 | Evaluation Sample Size | The same as its satisfaction record count. | _How many times this requirement has been evaluated at all._ |
 | Has Meaningful Sample | True when the evaluation sample size is at least the minimum sample for assurance. | _TRUE when this requirement has been evaluated often enough that a clean record is informative._ |
+| Minimum Sample for Assurance | A defined attribute. | _The number of clean evaluations this control must accumulate before its silence counts as evidence._ |
 | Is Untested Witness | True when all of the following hold: the witness has never fired flag is set and the meaningful sample flag is not set. | _TRUE for a witness that has never fired and has not been exercised enough for that silence to mean anything._ |
 | Is Evidenced Holding Control | True when all of the following hold: the witness has never fired flag is set and the meaningful sample flag is set. | _TRUE for a witness that has never fired across a sample large enough for that to constitute evidence._ |
 | Control Assurance State | Determined by priority: “Decorative” if the bound to any step flag is not set; “Inoperative” if the ever been evaluated flag is not set; “Asserted” if the computed witness flag is not set; “Demonstrated” if the witness fire count is greater than 0; “Holding” if the meaningful sample flag is set; in all other cases, “Untested”. | _One of Decorative, Inoperative, Asserted, Demonstrated, Holding, or Untested — the single control-health verdict for this requirement._ |
 | Unexercised Binding Count | The number of step requirements related to the requirement. | _How many of this control's step bindings have never been evaluated._ |
 | Witness is Partially Scoped | True when all of the following hold: the computed witness flag is set and the unexercised binding count is greater than 0. | _TRUE when a control has a computed witness but at least one of its step bindings has never been exercised by it._ |
+| Accountable Role | A defined attribute. | _The role answerable for this control operating as designed._ |
 | Accountable Agent | The current agent of the requirement's accountable role. | _The person currently holding the accountable role for this control._ |
 | Has Named Owner | True when the accountable role has a value. | _TRUE when a role has been named as accountable for this control._ |
 | Is Orphaned Blocking Control | True when all of the following hold: the blocking flag is set and the named owner flag is not set. | _TRUE for a blocking control with nobody named as accountable for it._ |
 | Is Unwatched and Unowned | True when all of the following hold: the blocking flag is set; the computed witness flag is not set; and the named owner flag is not set. | _TRUE for a blocking control that nothing computes and nobody owns._ |
 | Attestation Exposure Note | Determined by priority: an empty string if the blocking flag is not set; “Unwatched and unowned: exposure defaults to the signatory.” if the unwatched and unowned flag is set; “Witnessed but unowned: no named accountability.” if the orphaned blocking control flag is set; “Owned but unwitnessed: rests on human judgement.” if the computed witness flag is not set; in all other cases, an empty string. | _States, per control, what kind of exposure attesting to it creates._ |
 | Unwatched Unowned Flag | Determined by priority: “unwatched-unowned” if the unwatched and unowned flag is set; in all other cases, an empty string. | _Constant marker echoed when this control is both unwatched and unowned._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Step Requirement** | Many-to-many Step/Requirement semantics normalized into an ERB junction table. | — |
 | Name | Computed as the step, followed by “ / ”, followed by the requirement. | _Human-readable calculated display alias for the StepRequirements row._ |
+| Step | A defined attribute. | _Step side of the relationship._ |
+| Requirement | A defined attribute. | _Requirement side of the relationship._ |
 | Requirement is Blocking | True when the linked requirement is blocking. | _Whether this spec-side step/requirement binding names a blocking control._ |
 | Blocking Step Key | Determined by priority: the step if the requirement is blocking flag is set; in all other cases, an empty string. | _Echoes the Step id only when the bound requirement is blocking; empty otherwise._ |
 | Step When Blocking | Determined by priority: the step if the requirement is blocking flag is set; in all other cases, an empty string. | _Echoes the step id when the bound requirement is blocking, blank otherwise._ |
@@ -284,19 +433,60 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Unexercised Binding Requirement Key | Determined by priority: the requirement if the unexercised blocking binding flag is set; in all other cases, an empty string. | _Echoes the requirement id when this binding has never been exercised._ |
 | **Step Verification** | Verification definitions attached to steps. Maps to pko:StepVerification and pko:SignalVerification. | — |
 | Name | Computed as the step, followed by “ / ”, followed by the verification kind. | _Human-readable calculated display alias for the StepVerifications row._ |
+| Step | A defined attribute. | _Step whose execution is verified; maps to pko:hasStepVerification._ |
+| Verification Kind | A defined attribute. | _SignalVerification, ApprovalVerification, ProvenanceVerification, or another documented kind._ |
+| Signal Identifier | A defined attribute. | _Signal or evidence key; maps to pko:signalIdentifier for signal verifications._ |
+| Expected Signal Value | A defined attribute. | _Expected value; maps to pko:expectedSignalValue._ |
+| Instruction | A defined attribute. | _How to verify the step._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO or extension class IRI._ |
 | **Rationale** | First-class rationale statements explaining why procedural commitments and design decisions exist. Explicit ERB-PKO extension, represented as prov:Entity/dcat:Resource in projections. | — |
 | Name | The same as its title. | _Human-readable calculated display alias for the Rationales row._ |
+| Procedure Version | A defined attribute. | _Version justified by the rationale._ |
+| Step | A defined attribute. | _Optional step justified by the rationale._ |
+| Title | A defined attribute. | _Rationale title._ |
+| Statement | A defined attribute. | _Reasoned explanation._ |
+| Status | A defined attribute. | _Draft, Reviewed, Approved, or Superseded._ |
+| Authority Role | A defined attribute. | _Role authorized to approve the rationale._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Exception** | Documented exceptions, fallbacks, and alternative handling. Aligns structurally with PKO fallback/alternative steps and requirements; the exception record itself is an ERB-PKO extension. | — |
 | Name | The same as its condition. | _Human-readable calculated display alias for the Exceptions row._ |
+| Procedure Version | A defined attribute. | _Procedure version containing the exception._ |
+| Trigger Step | A defined attribute. | _Step at which the exception becomes relevant._ |
+| Condition | A defined attribute. | _Exception condition._ |
+| Handling | A defined attribute. | _Required handling and guardrails._ |
+| Approval Role | A defined attribute. | _Role that approves use of the exception._ |
+| Fallback Role | A defined attribute. | _Role or function that executes fallback handling._ |
+| Status | A defined attribute. | _Active, Draft, Retired, or Superseded._ |
 | Active Exception Step Key | Determined by priority: the trigger step if the status is “Active”; in all other cases, an empty string. | _Echoes the TriggerStep id only for exceptions currently in Active status._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Resource** | Documents, datasets, APIs, templates, images, manuals, and operational records referenced by procedures. Maps to dcat:Resource. | — |
 | Name | The same as its title. | _Human-readable calculated display alias for the Resources row._ |
+| Title | A defined attribute. | _Resource title; maps to dcterms:title._ |
+| Resource Kind | A defined attribute. | _Document, Dataset, API, Template, OperationalRecord, Image, Video, or another declared type._ |
+| External Uri | A defined attribute. | _Resolvable or organization-internal resource identifier._ |
+| Created At | A defined attribute. | _Creation time; maps to dcterms:created._ |
+| Modified At | A defined attribute. | _Modification time; maps to dcterms:modified._ |
+| Description | A defined attribute. | _Resource description; maps to dcterms:description._ |
+| Approval Status | A defined attribute. | _Approved, Draft, Deprecated, or Unvetted._ |
 | Is Approved Source | True when the approval status is “Approved”. | _TRUE when this resource is an approved source._ |
+| Semantic Type Iri | A defined attribute. | _Exact semantic class IRI._ |
 | **Procedure Resource** | Links versioned procedures to supporting resources using PKO/dcterms provenance relations. | — |
 | Name | Computed as the procedure version, followed by “ / ”, followed by the resource. | _Human-readable calculated display alias for the ProcedureResources row._ |
+| Procedure Version | A defined attribute. | _Procedure version._ |
+| Resource | A defined attribute. | _Referenced or source resource._ |
+| Relation | A defined attribute. | _wasExtractedFrom, references, generated, used, or another declared relation._ |
 | Relation Iri | Determined by priority: “https://w3id.org/pko#wasExtractedFrom” if the relation is “wasExtractedFrom”; in all other cases, “http://purl.org/dc/terms/references”. | _Exact semantic property IRI for the relation._ |
 | **Elicitation Session** | Structured knowledge-elicitation events involving practitioners and knowledge engineers. Explicit ERB-PKO extension, modeled as prov:Activity. | — |
 | Name | Computed as the method, followed by “ / ”, followed by the started at. | _Human-readable calculated display alias for the ElicitationSessions row._ |
+| Procedure Version | A defined attribute. | _Procedure version whose knowledge was elicited._ |
+| Method | A defined attribute. | _Interview, shadowing, workshop, observation, document analysis, or another method._ |
+| Started At | A defined attribute. | _Start time; maps to prov:startedAtTime._ |
+| Ended At | A defined attribute. | _End time; maps to prov:endedAtTime._ |
+| Practitioner Agent | A defined attribute. | _Domain practitioner providing knowledge._ |
+| Facilitator Agent | A defined attribute. | _Person facilitating elicitation._ |
+| Summary | A defined attribute. | _What was learned and captured._ |
+| Status | A defined attribute. | _Draft, Reviewed, Approved, or Rejected._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Days Since Elicited | Computed as the number of days from the ended at to the as of instant. | _Days elapsed since this elicitation session concluded._ |
 | Is Single Witness Method | True when at least one of the following holds: the method is “Shadowing” or the method is “PractitionerInterview”. | _TRUE when this session captured one practitioner's account rather than a group's._ |
@@ -306,8 +496,21 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Concentrated Single Witness | True when all of the following hold: the single witness method flag is set and the high yield session flag is set. | _One unrepeated session with one witness that underwrites three or more live claims._ |
 | Is Stale Concentrated Witness | True when all of the following hold: the concentrated single witness flag is set and the days since elicited is greater than 180. | _A concentrated single-witness session more than 180 days old — matching the single-witness expiry horizon loop 1 already established._ |
 | Concentrated Session Version Key | Determined by priority: the procedure version if the concentrated single witness flag is set; in all other cases, an empty string. | _Composite-key echo: this session's procedure version when the session is a concentrated single witness, blank otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Class IRI used in semantic projection._ |
 | **Knowledge Fragment** | Explicit records of tacit, implicit, explicit, and situated procedural knowledge. This is an ERB-PKO extension represented as provenance-bearing dcat:Resource instances. | — |
 | Name | Computed as the knowledge form, followed by “: ”, followed by the first 60 character(s) of the statement. | _Human-readable calculated display alias for the KnowledgeFragments row._ |
+| Procedure Version | A defined attribute. | _Procedure version informed by the fragment._ |
+| Step | A defined attribute. | _Optional step to which the fragment applies._ |
+| Knowledge Form | A defined attribute. | _Tacit, Implicit, Explicit, SituatedJudgment, LessonLearned, or another declared form._ |
+| Statement | A defined attribute. | _Captured knowledge statement._ |
+| Elicitation Session | A defined attribute. | _Optional elicitation session that produced the fragment._ |
+| Source Agent | A defined attribute. | _Practitioner or source agent._ |
+| Confidence | A defined attribute. | _Low, Medium, or High confidence._ |
+| Valid From | A defined attribute. | _Start of the fragment's valid-time interval._ |
+| Valid to | A defined attribute. | _End of the fragment's valid-time interval._ |
+| Status | A defined attribute. | _Draft, Reviewed, Approved, Rejected, or Superseded._ |
+| Owner Role | A defined attribute. | _Role accountable for maintaining the fragment._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Is Currently Valid | True when all of the following hold: the valid from is at most the as of instant; at least one of the following holds: the valid to is blank or the valid to is greater than the as of instant; and the status is “Approved”. | _TRUE when the fragment is approved and valid now._ |
 | Source Agent is Still Engaged | True when the linked source agent is still engaged. | _Whether the agent who is the source of this claim still holds a role here._ |
@@ -345,6 +548,7 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Overdue for Review | True when all of the following hold: the currently valid flag is set and the age days is greater than the review cadence days. | _TRUE when a currently-valid fragment has gone longer than its stewardship cadence without review._ |
 | Predates Current Role Holder | True when all of the following hold: the owner role agent kind has a value and the valid from is less than the owner role assignment valid from. | _TRUE when this knowledge became valid before the current holder of its owning role took the role._ |
 | Owner Role Assignment Valid From | The current assignment valid from of the knowledge fragment's owner role. | _When the current holder of the owning role took that role._ |
+| Last Reviewed At | A defined attribute. | _When this fragment was last actually reviewed and reaffirmed by its owning role. Null when it has never been reviewed since authoring. IsOverdueForReview infers recency from ValidFrom, which records when the claim became TRUE, not when anyone last looked at it. Those are different events, and the inference is deliberately left in place under its own name rather than silently rewritten to fall back on this column._ |
 | Fragility Signal Count | Computed as the count of the following that hold: the from single witness flag is set; the overdue for review flag is set; the low confidence flag is set; and the operational reliance flag is set. | _How many of the four loop-1 decay signals are simultaneously true for this fragment: single witness, overdue for review, low confidence, operational reliance._ |
 | Is Compound Fragile | True when the fragility signal count is at least 3. | _A fragment carrying at least three of the four decay signals at once._ |
 | Is Single Point of Failure | True when all of the following hold: the from single witness flag is set and the operational reliance flag is set. | _A claim that rests on exactly one person's word and that an active exception handler actually routes cases against._ |
@@ -372,12 +576,23 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Owner Role is Vacated | True when the linked owner role is a vacated role. | _Whether the role that owns this claim is currently vacated._ |
 | Is Orphaned by Role | True when all of the following hold: the currently valid flag is set and the owner role is vacated flag is set. | _A currently-valid claim whose owning role nobody holds — accountable to a vacancy._ |
 | Valid Fragment Version Key | Determined by priority: the procedure version if the currently valid flag is set; in all other cases, an empty string. | _Composite-key echo: this fragment's owning procedure version when the fragment is currently valid, blank otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Knowledge Gap** | Known unknowns and missing procedural coverage. Explicit ERB-PKO extension used to govern scope and prevent silent incompleteness. | — |
 | Name | Computed as the severity, followed by “: ”, followed by the first 60 character(s) of the statement. | _Human-readable calculated display alias for the KnowledgeGaps row._ |
+| Procedure Version | A defined attribute. | _Affected procedure version._ |
+| Step | A defined attribute. | _Affected step._ |
+| Statement | A defined attribute. | _What is not yet known or represented._ |
+| Severity | A defined attribute. | _Low, Medium, High, or Critical._ |
+| Blocking Kind | A defined attribute. | _Blocking or NonBlocking._ |
+| Status | A defined attribute. | _Open, Investigating, Resolved, AcceptedRisk, or Closed._ |
+| Owner Role | A defined attribute. | _Role responsible for resolving the gap._ |
+| Identified At | A defined attribute. | _Time the gap was identified._ |
+| Resolution Plan | A defined attribute. | _Resolution plan or final resolution._ |
 | Is Open | True when at least one of the following holds: the status is “Open” or the status is “Investigating”. | _TRUE when the gap remains open._ |
 | Open Gap Version Key | Determined by priority: the procedure version if all of the following hold: the open flag is set and the severity is “High”; in all other cases, an empty string. | _Echoes the ProcedureVersion id for open high-severity knowledge gaps._ |
 | Is Blocking | True when the blocking kind is “Blocking”. | _TRUE when this gap is declared blocking rather than informational._ |
 | Is Open and Blocking | True when all of the following hold: the open flag is set and the blocking flag is set. | _TRUE when this gap is both unresolved and declared blocking._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Days Open | Determined by priority: the number of days from the identified at to the as of instant if the open flag is set; in all other cases, 0. | _Days this gap has been unresolved, or zero once closed._ |
 | Tolerance Days | Determined by priority: 30 if the severity is “High”; 90 if the severity is “Medium”; in all other cases, 180. | _How long a gap of this severity may remain open before it becomes a governance failure in its own right._ |
@@ -389,12 +604,32 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Open Blocking Gap Version Key | Determined by priority: the procedure version if the open and blocking flag is set; in all other cases, an empty string. | _Composite-key echo: this gap's procedure version when the gap is both open and blocking, blank otherwise._ |
 | Owner Role is Vacated | True when the linked owner role is a vacated role. | _Whether the role that owns this gap is currently vacated._ |
 | Is Ownerless Open Gap | True when all of the following hold: the open flag is set and the owner role is vacated flag is set. | _An open gap whose owning role nobody currently holds — an acknowledged unknown with nobody accountable for closing it._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **FA Q** | Frequently asked procedural questions. Maps to pko:FrequentlyAskedQuestion, question, answer, hasFAQCategory, and hasFAQTarget. | — |
 | Name | The same as its question. | _Human-readable calculated display alias for the FAQs row._ |
+| Procedure Version | A defined attribute. | _Procedure version addressed by the FAQ._ |
+| Step | A defined attribute. | _Optional step targeted by the FAQ._ |
+| Category | A defined attribute. | _FAQ category._ |
+| Target Kind | A defined attribute. | _Procedure, Step, Tool, Resource, or Execution._ |
+| Question | A defined attribute. | _FAQ question; maps to pko:question._ |
+| Answer | A defined attribute. | _Approved answer; maps to pko:answer._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Explanation** | Explainable derivation artifacts associated with procedural decisions. Maps to pko:Explanation and pko:hasExplanation. | — |
 | Name | The same as its title. | _Human-readable calculated display alias for the Explanations row._ |
+| Procedure Version | A defined attribute. | _Procedure version explained._ |
+| Step | A defined attribute. | _Step explained._ |
+| Title | A defined attribute. | _Explanation title._ |
+| Description | A defined attribute. | _What the explanation traces._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Procedure Execution** | Concrete enactments of procedure specifications. Maps to pko:ProcedureExecution and remains separate from ProcedureVersions. | — |
 | Name | Computed as the procedure version, followed by “ / ”, followed by the context. | _Human-readable calculated display alias for the ProcedureExecutions row._ |
+| Procedure Version | A defined attribute. | _Exact procedure specification executed; maps to pko:hasExecutedProcedure._ |
+| Execution Status | A defined attribute. | _PKO execution status: InProgress, Completed, Paused, or Cancelled._ |
+| Started At | A defined attribute. | _Execution start; maps to prov:startedAtTime._ |
+| Ended At | A defined attribute. | _Execution end; maps to prov:endedAtTime._ |
+| Executed by Agent | A defined attribute. | _Agent accountable for the overall execution; maps to pko:wasExecutedBy._ |
+| Context | A defined attribute. | _Execution-specific scope or target._ |
+| Operational Record Uri | A defined attribute. | _Identifier in the operational execution system._ |
 | Expected Step Count | The specified step count of the procedure execution's procedure version. | _How many steps this execution was supposed to perform._ |
 | Completed Step Count | The number of step executions related to the procedure execution. | _How many steps of this execution actually reached Completed._ |
 | Control Breach Count | The number of step executions related to the procedure execution. | _Total step executions in this run that carry at least one control breach._ |
@@ -463,8 +698,17 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Has Unrecorded Refusals | True when the unrecorded refusal count is greater than 0. | _TRUE when this run contains at least one refusal that left no trace anywhere._ |
 | Independently Confirmed Intent Count | The number of send intents related to the procedure execution. | _How many of this execution's send decisions were corroborated by a delivery record._ |
 | Send Decisions are Entirely Self Witnessed | True when all of the following hold: the intended recipient count is greater than 0 and the independently confirmed intent count is 0. | _TRUE when no send decision in this run was confirmed by anything other than the pipeline itself._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Step Execution** | Concrete executions of specified steps. Maps to pko:StepExecution, hasExecutedStep, includesStepExecution, and nextStepExecution. | — |
 | Name | Computed as the procedure execution, followed by “ / ”, followed by the step. | _Human-readable calculated display alias for the StepExecutions row._ |
+| Procedure Execution | A defined attribute. | _Parent procedure execution._ |
+| Step | A defined attribute. | _Specified step executed; maps to pko:hasExecutedStep._ |
+| Executed by Agent | A defined attribute. | _Agent executing the step; maps to pko:wasExecutedBy._ |
+| Execution Status | A defined attribute. | _InProgress, Completed, Paused, Cancelled, or Failed._ |
+| Started At | A defined attribute. | _Execution start._ |
+| Ended At | A defined attribute. | _Execution end._ |
+| Verification Result | A defined attribute. | _PASS, WARN, FAIL, or PENDING._ |
+| Deviation | A defined attribute. | _Observed deviation from the specification._ |
 | Actual Duration Minutes | Determined by priority: 0 if the ended at is blank; in all other cases, the number of minutes from the started at to the ended at. | _Observed duration in minutes._ |
 | Expected Duration Minutes | Taken from the linked step. | _Expected duration from the specification._ |
 | Is Late | True when the actual duration minutes is greater than the expected duration minutes. | _TRUE when actual duration exceeds expected duration._ |
@@ -563,8 +807,15 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Ungoverned Divergence | True when all of the following hold: at least one of the following holds: the deviation flag is set; the late flag is set; or the proceeded past blocking control flag is set and the governing instrument flag is not set. | _TRUE when this step departed from specification and no exception or approved change covers it._ |
 | Ungoverned Divergence Execution Key | Determined by priority: the procedure execution if the ungoverned divergence flag is set; in all other cases, an empty string. | _Echoes the parent execution id when this step diverged without governance._ |
 | Self Attested Approval Execution Key | Determined by priority: the procedure execution if the approval rests on self attestation flag is set; in all other cases, an empty string. | _Echoes the parent execution id when this approval rested on self-attestation._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Requirement Satisfaction** | Execution-time evaluations of requirements. Maps to pko:RequirementSatisfaction, refersToRequirement, and hasRequirementSatisfactionLevel. | — |
 | Name | Computed as the requirement, followed by “ / ”, followed by the satisfaction level. | _Human-readable calculated display alias for the RequirementSatisfactions row._ |
+| Step Execution | A defined attribute. | _Execution being evaluated._ |
+| Requirement | A defined attribute. | _Requirement evaluated._ |
+| Satisfaction Level | A defined attribute. | _NotEvaluated, NotSatisfied, PartiallySatisfied, or Satisfied._ |
+| Evidence | A defined attribute. | _Evidence supporting the evaluation._ |
+| Evaluated by Agent | A defined attribute. | _Agent that evaluated satisfaction._ |
+| Evaluated At | A defined attribute. | _Evaluation timestamp._ |
 | Requirement is Blocking | True when the linked requirement is blocking. | _Whether the requirement being evaluated on this satisfaction row is a blocking control._ |
 | Is Fully Satisfied | True when the satisfaction level is “Satisfied”. | _TRUE only when the requirement is recorded as fully Satisfied. PartiallySatisfied, Unsatisfied, Waived, and blank are all FALSE._ |
 | Is Blocking and Unmet | True when all of the following hold: the requirement is blocking flag is set and the fully satisfied flag is not set. | _TRUE when a blocking requirement is recorded at anything less than fully Satisfied. This is the control-failure witness at the requirement grain._ |
@@ -602,27 +853,73 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Was Scored After Attestation | True when the number of minutes from the attestation instant for run to the evaluated at is greater than 0. | _TRUE when this control was scored after the run it belongs to had already been attested._ |
 | Attestation Instant for Run | The latest attestation instant of the requirement satisfaction's parent procedure execution. | _When the parent execution was attested, if it has been._ |
 | Post Attestation Score Execution Key | Determined by priority: the parent procedure execution if the was scored after attestation flag is set; in all other cases, an empty string. | _Echoes the parent execution id when this control was scored after signature._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Error** | Reusable error definitions encountered during execution. Maps to pko:Error, errorCode, and errorCause. | — |
 | Name | Computed as the error code, followed by “ - ”, followed by the label. | _Human-readable calculated display alias for the Errors row._ |
+| Label | A defined attribute. | _Error label._ |
+| Error Code | A defined attribute. | _Error code; maps to pko:errorCode._ |
+| Error Cause | A defined attribute. | _Known or suspected cause; maps to pko:errorCause._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Issue Occurrence** | Concrete issue events during execution. Maps to pko:IssueOccurrence, hasEncounteredError, wasEncounteredBy, issueCause, and issueSolution. | — |
 | Name | Computed as the error, followed by “ @ ”, followed by the occurred at. | _Human-readable calculated display alias for the IssueOccurrences row._ |
+| Step Execution | A defined attribute. | _Step execution during which the issue occurred._ |
+| Error | A defined attribute. | _Error encountered._ |
+| Encountered by Agent | A defined attribute. | _Agent that encountered or reported the issue._ |
+| Occurred At | A defined attribute. | _Occurrence time._ |
+| Issue Cause | A defined attribute. | _Execution-specific cause; maps to pko:issueCause._ |
+| Issue Solution | A defined attribute. | _Applied solution; maps to pko:issueSolution._ |
+| Status | A defined attribute. | _Open, Monitoring, Resolved, or Closed._ |
 | Is Unresolved | True when at least one of the following holds: the status is “Open”; the status is “Investigating”; or the status is “Monitoring”. | _TRUE when this issue occurrence has not been closed out._ |
 | Step Execution When Unresolved | Determined by priority: the step execution if the unresolved flag is set; in all other cases, an empty string. | _Echoes the step-execution id when the issue is unresolved, blank otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **User Question** | Questions asked by agents during execution. Maps to pko:UserQuestionOccurrence, questionByUser, wasAskedBy, and isQuestionAddressedBy. | — |
 | Name | Computed as the first 70 character(s) of the question text. | _Human-readable calculated display alias for the UserQuestions row._ |
+| Step Execution | A defined attribute. | _Execution context for the question._ |
+| Asked by Agent | A defined attribute. | _Agent asking the question._ |
+| Asked At | A defined attribute. | _Question time._ |
+| Question Text | A defined attribute. | _Question text; maps to pko:questionByUser._ |
+| Resolved by Faq | A defined attribute. | _FAQ used to resolve the question._ |
+| Addressed by Resource | A defined attribute. | _Resource that addressed the question._ |
+| Status | A defined attribute. | _Open, Answered, Escalated, or Closed._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **User Feedback** | Feedback supplied by users about a procedure or execution. Maps to pko:UserFeedbackOccurrence, feedbackOnProcedureExecution, and wasProvidedBy. | — |
 | Name | Computed as the disposition, followed by “: ”, followed by the first 60 character(s) of the feedback text. | _Human-readable calculated display alias for the UserFeedback row._ |
+| Procedure Execution | A defined attribute. | _Execution receiving feedback._ |
+| Provided by Agent | A defined attribute. | _Agent providing feedback._ |
+| Provided At | A defined attribute. | _Feedback time._ |
+| Feedback Text | A defined attribute. | _Feedback statement._ |
+| Disposition | A defined attribute. | _Accepted, Rejected, UnderReview, or Deferred._ |
+| Change Request Key | A defined attribute. | _Related change request identifier._ |
+| Semantic Type Iri | A defined attribute. | _Exact PKO class IRI._ |
 | **Stewardship Assignment** | Separates ongoing stewardship from authority to approve semantic commitments. Explicit ERB-PKO governance extension. | — |
 | Name | Computed as the procedure version, followed by “ / steward=”, followed by the steward role. | _Human-readable calculated display alias for the StewardshipAssignments row._ |
+| Procedure Version | A defined attribute. | _Governed procedure version._ |
+| Steward Role | A defined attribute. | _Role responsible for health, review, and maintenance._ |
+| Authority Role | A defined attribute. | _Role authorized to approve semantic changes._ |
+| Valid From | A defined attribute. | _Start of stewardship interval._ |
+| Valid to | A defined attribute. | _End of stewardship interval._ |
+| Review Cadence Days | A defined attribute. | _Required review cadence._ |
 | Count of Review Events | The number of review events related to the stewardship assignment. | _How many review events have ever been recorded for the procedure version this assignment stewards._ |
 | Has Ever Been Reviewed | True when the count of review events is greater than 0. | _TRUE if at least one review event exists for the stewarded procedure version._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Is Current Assignment | True when all of the following hold: the valid from is at most the as of instant and at least one of the following holds: the valid to is blank or the valid to is greater than the as of instant. | _TRUE when this stewardship assignment is in force right now._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Change Request** | Governed requests for semantic or operational change, anchored to a procedure version and authority. Explicit ERB-PKO extension. | — |
 | Name | The same as its title. | _Human-readable calculated display alias for the ChangeRequests row._ |
+| Procedure Version | A defined attribute. | _Procedure version affected._ |
+| Title | A defined attribute. | _Change title._ |
+| Change Kind | A defined attribute. | _Defect, Enhancement, NewRequirement, DataOperation, or BreakingChange._ |
+| Status | A defined attribute. | _Draft, UnderReview, Approved, Rejected, Implemented, or Closed._ |
+| Requested by Agent | A defined attribute. | _Agent requesting the change._ |
+| Authority Role | A defined attribute. | _Role authorized to approve the change._ |
+| Requested At | A defined attribute. | _Request time._ |
+| Decided At | A defined attribute. | _Decision time._ |
+| Impact Assessment | A defined attribute. | _Expected effect on commitments, data, projections, and tests._ |
 | Is Open | True when all of the following hold: at least one of the following holds: the status is “Draft”; the status is “UnderReview”; or the status is “Approved” and the implemented at is blank. | _TRUE while the change request is still outstanding. An Approved request stays open until ImplementedAt records that it actually landed — approval is a decision, not an outcome._ |
 | Open Change Version Key | Determined by priority: the procedure version if the open flag is set; in all other cases, an empty string. | _Echoes the ProcedureVersion id only for change requests still open._ |
 | Is Decided | True when the decided at has a value. | _TRUE when a decision timestamp has been recorded._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Days Pending | Determined by priority: the number of days from the requested at to the decided at if the decided flag is set; in all other cases, the number of days from the requested at to the as of instant. | _Days from request to decision, or to now if still undecided._ |
 | Is Still Pending | True when all of the following hold: the open flag is set and the decided flag is not set. | _TRUE when the request is in an open status and has no decision recorded._ |
@@ -634,6 +931,7 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Touches Live Version | True when the linked procedure version is live. | _Whether the version this request would alter is currently executable._ |
 | Is Live Decision Backlog | True when all of the following hold: the awaits authority decision flag is set and the touches live version flag is set. | _TRUE when a decision I owe is blocking a change to a procedure currently in production._ |
 | Blocks an Open Gap | True when all of the following hold: the live decision backlog flag is set and the change kind is “Enhancement”. | _TRUE when an undecided request against a live version is the kind that exists to close a known gap._ |
+| Implemented At | A defined attribute. | _When the approved change was actually applied to the procedure version. Null until it lands. Distinct from DecidedAt, which records only that the authority ruled. Approval and implementation are separate events; conflating them is what left IsOpen with no terminal state._ |
 | Backlog Version Key | Determined by priority: the procedure version if the live decision backlog flag is set; in all other cases, an empty string. | _Composite-key echo: this request's procedure version when it is live decision backlog, blank otherwise._ |
 | Is My Pending Decision | True when all of the following hold: the authority role is “hr-policy-owner” and the awaits authority decision flag is set. | _A change request awaiting a decision that is mine personally to make._ |
 | Is My Blocking Backlog | True when all of the following hold: the my pending decision flag is set and the blocks an open gap flag is set. | _A decision waiting on me that is holding an open gap on a live procedure._ |
@@ -651,8 +949,17 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Stalled Implementation Version Key | Determined by priority: the procedure version if the stalled implementation flag is set; in all other cases, an empty string. | _Composite-key echo: this request's procedure version when its implementation is stalled, blank otherwise._ |
 | Approved Version Key | Determined by priority: the procedure version if the approved decision flag is set; in all other cases, an empty string. | _Echoes the target version id when this change request was approved._ |
 | Is Approved Decision | True when the status is “Approved”. | _TRUE when this change request was decided in the affirmative._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Review Event** | Periodic governance reviews that test competency coverage, staleness, and semantic integrity. Explicit ERB-PKO extension represented as prov:Activity. | — |
 | Name | Computed as the procedure version, followed by “ / ”, followed by the review kind. | _Human-readable calculated display alias for the ReviewEvents row._ |
+| Procedure Version | A defined attribute. | _Reviewed procedure version._ |
+| Review Kind | A defined attribute. | _Review type._ |
+| Reviewed At | A defined attribute. | _Review timestamp._ |
+| Reviewed by Agent | A defined attribute. | _Reviewing agent._ |
+| Outcome | A defined attribute. | _Passed, PassedWithChange, Failed, or Deferred._ |
+| Related Change Request | A defined attribute. | _Change request produced or considered._ |
+| Next Review Due | A defined attribute. | _Next required review._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Is Overdue | True when the next review due is less than the as of instant. | _TRUE when review is overdue._ |
 | Overdue Version Key | Determined by priority: the procedure version if the overdue flag is set; in all other cases, an empty string. | _Echoes the ProcedureVersion id only when this review is past its next-due date._ |
@@ -662,10 +969,28 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Cadence Drift Days | Computed as the days since reviewed minus the promised cadence days. | _Signed drift: positive means we are past the promised cadence by this many days; negative means we are still inside it._ |
 | Promise and Behavior Disagree | True when all of the following hold: the exceeds promised cadence flag is set and the overdue flag is not set. | _TRUE when the promised cadence has been blown but the hand-entered NextReviewDue still says we are fine._ |
 | Cadence Breach Version Key | Determined by priority: the procedure version if the exceeds promised cadence flag is set; in all other cases, an empty string. | _Composite-key echo: this review event's procedure version when the promised cadence has been exceeded, blank otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Class IRI used in projection._ |
 | **Learning Activity** | Learning, retrospective, tabletop, and onboarding activities that convert execution experience into maintained knowledge. Explicit ERB-PKO extension represented as prov:Activity. | — |
 | Name | Computed as the activity kind, followed by “ / ”, followed by the occurred at. | _Human-readable calculated display alias for the LearningActivities row._ |
+| Community of Practice | A defined attribute. | _Community hosting the activity._ |
+| Procedure Version | A defined attribute. | _Procedure version practiced or reviewed._ |
+| Activity Kind | A defined attribute. | _Retrospective, TabletopExercise, Onboarding, Drill, or Apprenticeship._ |
+| Occurred At | A defined attribute. | _Activity time._ |
+| Facilitator Agent | A defined attribute. | _Facilitator._ |
+| Outcome | A defined attribute. | _Knowledge or competence produced._ |
+| Evidence Resource | A defined attribute. | _Evidence or material produced._ |
+| Semantic Type Iri | A defined attribute. | _Class IRI used in projection._ |
 | **Operational Binding** | Live bindings between procedural semantics and operational data/resources. Explicit ERB-PKO extension using DCAT/DCMI/PROV identifiers. | — |
 | Name | Computed as the step, followed by “ / ”, followed by the record or schema key. | _Human-readable calculated display alias for the OperationalBindings row._ |
+| Procedure Version | A defined attribute. | _Procedure version using the binding._ |
+| Step | A defined attribute. | _Step using the binding._ |
+| Resource | A defined attribute. | _Bound operational resource._ |
+| Access Mode | A defined attribute. | _Read, Write, ReadWrite, Subscribe, or Publish._ |
+| Record or Schema Key | A defined attribute. | _Operational record, table, event, or schema key._ |
+| Last Observed At | A defined attribute. | _Most recent successful observation._ |
+| Freshness Sla Minutes | A defined attribute. | _Maximum allowed data age._ |
+| Is Authoritative | True when an empty string. | _TRUE when the binding is authoritative for the represented fact._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Age Minutes | Computed as the number of minutes from the last observed at to the as of instant. | _Current observed age._ |
 | Is Fresh | True when the age minutes is at most the freshness sla minutes. | _TRUE when within freshness SLA._ |
@@ -676,13 +1001,37 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Resource is Approved | True when the operational binding's resource is an approved source. | _Whether the resource behind this binding is an approved source._ |
 | Is Usable for Drafting | True when all of the following hold: the resource is approved flag is set and the fresh flag is set. | _TRUE when this binding points at an approved source that is still inside its freshness SLA._ |
 | Step When Unusable | Determined by priority: an empty string if the usable for drafting flag is set; in all other cases, the step. | _Echoes the step id when this binding is NOT usable for drafting, blank otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Communication Policy** | Channel-specific communication policy projected from the same canonical procedure. Uses ODRL-style policy semantics plus ERB-PKO channel constraints. | — |
 | Name | Computed as the channel, followed by “ policy / ”, followed by the procedure version. | _Human-readable calculated display alias for the CommunicationPolicies row._ |
+| Procedure Version | A defined attribute. | _Procedure version governing the channel._ |
+| Channel | A defined attribute. | _Email, SMS, Push, Postal, or another declared channel._ |
+| Audience Rule | A defined attribute. | _Rule that identifies eligible recipients._ |
+| Consent Required | True when an empty string. | _Whether active consent is required._ |
+| Quiet Hours Start | A defined attribute. | _Recipient-local quiet-hours start._ |
+| Quiet Hours End | A defined attribute. | _Recipient-local quiet-hours end._ |
+| Max Message Length | A defined attribute. | _Maximum message length for one unit._ |
+| Max Segments | A defined attribute. | _Maximum number of channel segments._ |
+| Retention Days | A defined attribute. | _Retention period for rendered messages and delivery records._ |
+| Approval Role | A defined attribute. | _Role approving the channel policy._ |
+| Required Content | A defined attribute. | _Content that every message must include._ |
+| Authority Statement | A defined attribute. | _Which artifact is authoritative._ |
+| Status | A defined attribute. | _Draft, Active, Suspended, or Retired._ |
 | Consent Violation Count | The number of the communication policy's message deliveries that are consent violations. | _Number of consent violations attributable to this channel policy._ |
+| Quiet Hours Start Hour | A defined attribute. | _The hour (0-23) at which the quiet window opens. Stored rather than parsed from QuietHoursStart: VALUE(LEFT(...)) does not translate — the transpiler casts the "20:00" string to a timestamp and the view errors. The sending system already knows this number, so modeling it as a parse would dress a broken derivation up as a rule._ |
+| Quiet Hours End Hour | A defined attribute. | _Numeric hour 0-23 at which quiet hours end. Seeded 8 for comm-sms-policy, 0 for comm-email-policy._ |
 | Quiet Hours Violation Count | The number of message deliveries related to the communication policy. | _Number of transmitted messages that breached this policy's quiet-hours window._ |
+| Required Opt Out Phrase | A defined attribute. | _The exact opt-out phrase every message on this channel must contain. Seeded 'Reply STOP' for comm-sms-policy, empty string for comm-email-policy._ |
 | Is Active Policy | True when the status is “Active”. | _TRUE only when this channel policy is in Active status._ |
+| Semantic Type Iri | A defined attribute. | _ODRL Policy class IRI._ |
 | **Message Template** | Approved channel templates projected from the canonical rulebook without becoming a second source of policy meaning. | — |
 | Name | Computed as the communication policy, followed by “ / ”, followed by the locale. | _Human-readable calculated display alias for the MessageTemplates row._ |
+| Communication Policy | A defined attribute. | _Channel policy governing the template._ |
+| Resource | A defined attribute. | _Template resource._ |
+| Subject Template | A defined attribute. | _Subject template where supported._ |
+| Body Template | A defined attribute. | _Body template._ |
+| Locale | A defined attribute. | _Locale or language tag._ |
+| Status | A defined attribute. | _Draft, Approved, Retired, or Superseded._ |
 | Policy Max Message Length | Taken from the linked communication policy. | _Per-segment character limit inherited from the governing channel policy._ |
 | Policy Max Segments | Taken from the linked communication policy. | _Maximum permitted segment count from the governing channel policy._ |
 | Body Template Length | Computed as the length of the body template. | _Character length of the raw template body before variable substitution._ |
@@ -690,7 +1039,9 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Valid Approval Count | The number of template approvals related to the message template. | _Number of properly-authorized approvals on record for this template._ |
 | Has Valid Approval | True when the valid approval count is greater than 0. | _TRUE when at least one properly-authorized approval exists for this template._ |
 | Is Claiming Unbacked Approval | True when all of the following hold: the status is “Approved” and the valid approval flag is not set. | _TRUE when a template's Status says Approved but no properly-authorized approval record backs it. The phantom-approval witness._ |
+| Current Body Hash | A defined attribute. | _Digest of the template's current body text, maintained whenever the body is edited._ |
 | Last Approved Body Hash | Taken from the linked last valid approval. | _Digest of the body text as it stood at the most recent valid approval._ |
+| Last Valid Approval | A defined attribute. | _The TemplateApprovals id of the approval this template is currently sendable under. Deliberately a raw identifier, not a relationship: TemplateApprovals already points at MessageTemplates, so declaring an FK back would make the two tables mutually dependent and the rulebook is required to stay acyclic. The value is still resolved by INDEX/MATCH in LastApprovedBodyHash._ |
 | Has Body Drifted | True when all of the following hold: the last approved body hash has a value and the current body hash is not the last approved body hash. | _TRUE when the template body no longer matches what was approved._ |
 | Is Sendable Under Approval | True when all of the following hold: the status is “Approved” and all of the following hold: the valid approval flag is set and the body drifted flag is not set. | _TRUE only when the template is marked Approved, has a properly-authorized approval, AND its body still matches what was approved._ |
 | Drifted Send Count | The number of message deliveries related to the message template. | _How many messages went out from this template while it was not validly sendable._ |
@@ -698,38 +1049,99 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Transmitted Delivery Count | The number of message deliveries related to the message template. | _How many deliveries using this template were actually transmitted._ |
 | Template Draws No Response | True when all of the following hold: the transmitted delivery count is greater than 0 and the unanswered delivery count is the transmitted delivery count. | _TRUE when every transmitted message from this template went unacknowledged._ |
 | Last Approval At | The decided at of the message template's last valid approval. | _When this template's currently-governing approval was decided._ |
+| Semantic Type Iri | A defined attribute. | _Resource class IRI._ |
 | **Semantic Mapping** | Machine-readable alignment from ERB table/field paths to exact PKO or reused ontology terms. Extension mappings are never presented as native PKO. | — |
 | Name | Computed as the source path, followed by “ -> ”, followed by the target iri. | _Human-readable calculated display alias for the SemanticMappings row._ |
+| Source Path | A defined attribute. | _ERB table, field, or discriminator path._ |
+| Mapping Kind | A defined attribute. | _class, objectProperty, datatypeProperty, individual, or rule._ |
+| Target Iri | A defined attribute. | _Exact target semantic IRI._ |
+| Mapping Relation | A defined attribute. | _exact, aligned, subclass, subproperty, or extension._ |
+| Ontology Profile | A defined attribute. | _Versioned ontology profile containing the target term._ |
+| Notes | A defined attribute. | _Mapping semantics and boundaries._ |
 | **Witness Loop** | One row per role-question expansion loop. Each loop poses questions that only became askable because of the previous loop's predicates. | — |
 | Name | Computed as “Loop ”, followed by the loop number, followed by “: ”, followed by the title. | _Human-readable calculated display alias for the WitnessLoops row._ |
+| Loop Number | A defined attribute. | _Ordinal of this expansion loop. Loop 1 is the founding set of role questions._ |
+| Title | A defined attribute. | _Short title for what this loop set out to make askable._ |
+| Premise | A defined attribute. | _Why this loop's questions became askable. For loop N>1 this names the loop N-1 predicates that made them possible._ |
+| Started At | A defined attribute. | _Time this loop began._ |
+| Completed At | A defined attribute. | _Time this loop was committed. Null while in progress._ |
 | Question Count | The number of role questions related to the witness loop. | _How many role questions were posed in this loop._ |
 | Is Complete | True when the completed at has a value. | _TRUE once the loop has been committed._ |
+| Fields After | A defined attribute. | _Total fields in the rulebook after this loop completed._ |
+| Derived After | A defined attribute. | _Derived fields after this loop completed._ |
+| Witnessed After | A defined attribute. | _Fields invented for a role question after this loop completed._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Role Question** | One row per question a named role wants answered. Every invented predicate in this rulebook traces back to one of these. | — |
 | Name | Computed as the asking role, followed by “: ”, followed by the first 60 character(s) of the question text. | _Human-readable calculated display alias for the RoleQuestions row._ |
+| Asking Role | A defined attribute. | _The role that wants this question answered._ |
+| Witness Loop | A defined attribute. | _The expansion loop in which this question was posed._ |
+| Question Text | A defined attribute. | _The question in the role's own words._ |
+| Why It Matters | A defined attribute. | _What goes wrong in the real world when this question cannot be answered._ |
+| Answerable Before | True when an empty string. | _TRUE if the model could already answer this before its loop ran. FALSE means the loop had to invent predicates for it._ |
 | Predicate Count | The number of rulebook fields related to the role question. | _How many fields were invented to answer this question._ |
 | Is Answered | True when the predicate count is greater than 0. | _TRUE when at least one predicate exists to answer this question._ |
+| Witnessed Answer | A defined attribute. | _The current reading of this question's predicates, extracted from the substrate after the loop ran: which witness columns fire, on how many rows out of how many. Written by tools/extract_computed_answers.py from values Postgres computed — never recomputed in Python. This is what lets a later loop plan against materialized answers instead of imagined ones._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Rulebook Field** | A complete census of every field in this rulebook. Reconciled from the real schemas by tools/reconcile_field_catalog.py — never hand-maintained. Fields invented by a witness loop carry an InventedForQuestion FK. | — |
 | Name | Computed as the target table, followed by a period, followed by the field name. | _Human-readable calculated display alias for the RulebookFields row._ |
+| Target Table | A defined attribute. | _The table this field lives on._ |
+| Field Name | A defined attribute. | _The field's name within its table._ |
+| Field Type | A defined attribute. | _raw, calculated, lookup, relationship, or aggregation._ |
+| Datatype | A defined attribute. | _The field's declared datatype._ |
+| Formula | A defined attribute. | _The field's formula when it is derived. Null for raw and relationship fields._ |
+| Invented for Question | A defined attribute. | _The role question that motivated this field's existence. Null for fields that predate the witness-loop exercise._ |
 | Is Derived | True when at least one of the following holds: the field type is “calculated”; the field type is “lookup”; or the field type is “aggregation”. | _TRUE when this field is computed rather than stored._ |
 | Is Witness | True when the invented for question has a value. | _TRUE when this field exists because a role asked a question. These are the fields the witness loops added._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Test Suite** | Groups of conformance checks. Rollups here are computed from TestCases, so the board's headline is itself a derived field. | — |
 | Name | The same as its label. | _Human-readable calculated display alias for the TestSuites row._ |
+| Label | A defined attribute. | _Display name for this suite._ |
 | Test Count | The number of test cases related to the test suite. | _How many checks belong to this suite._ |
 | Pass Count | The number of test cases related to the test suite. | _How many checks passed on the last run._ |
 | Blocking Fail Count | The number of test cases related to the test suite. | _How many blocking checks failed. This is the number that must be zero for the board to be green._ |
 | Is Green | True when the blocking fail count is 0. | _TRUE when no blocking check is failing. Advisory warnings do not break the board._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Test Cas** | The conformance suite, as data. One row per check, naming what it checks and — where applicable — the role question whose answer it defends. tools/run_test_suite.py executes these rows and writes the outcome back; it invents no checks of its own. | — |
 | Name | Computed as the test kind, followed by “: ”, followed by the subject. | _Human-readable calculated display alias for the TestCases row._ |
+| Test Kind | A defined attribute. | _What class of check this is. One of: structural (the rulebook's own shape), formula-translates (the transpiler emitted a real function, not a NULL stub), view-loads (the view exists and is queryable), fk-resolves (every FK value names a real row), witness-discriminates (a boolean witness can distinguish cases in this data), witness-fires (a specific witness reads TRUE on at least one row), provenance (every invented field traces to a question), catalog-sync (RulebookFields matches the real schemas), question-answered (a role question has at least one predicate answering it), invariant (a domain rule that must hold), remediation (a seeded violation was resolved in model rather than deleted)._ |
+| Subject | A defined attribute. | _What is under test — a Table.Field, a table, a view, or a question id._ |
+| Target Table | A defined attribute. | _The table this check reads, when it reads one._ |
+| Target Field | A defined attribute. | _The field this check reads, when it reads one._ |
+| Assertion | A defined attribute. | _What must be true, stated so a human can judge the verdict without reading code._ |
+| Defends Question | A defined attribute. | _The role question whose answer this check protects. Null for checks that defend the model's structure rather than a specific question._ |
+| Suite | A defined attribute. | _The suite this check belongs to._ |
+| Severity | A defined attribute. | _blocking — a failure means the model is stating something false; advisory — a failure means the model cannot state something it should be able to. Vacuity is advisory by design: a witness that cannot fire on this seed is not necessarily wrong, and forcing it red would create pressure to fabricate data._ |
 | Is Blocking | True when the severity is “blocking”. | _TRUE when a failure of this check means the model is asserting something false._ |
+| Last Outcome | A defined attribute. | _PASS, WARN, FAIL, or SKIP from the most recent run. Written by tools/run_test_suite.py from the substrate — never hand-edited._ |
+| Last Detail | A defined attribute. | _The observed reading behind LastOutcome, e.g. a fire count or the error text._ |
+| Last Run At | A defined attribute. | _When this check last ran._ |
 | Is Passing | True when the last outcome is “PASS”. | _TRUE when the last run passed outright._ |
 | Is Failing | True when the last outcome is “FAIL”. | _TRUE when the last run failed. A blocking failure means the model is asserting something false._ |
 | Needs Attention | True when all of the following hold: the failing flag is set and the blocking flag is set. | _TRUE when this check failed and its failure means the model is wrong. This is the number that must be zero._ |
 | Passing Suite Key | Determined by priority: the suite if the passing flag is set; in all other cases, an empty string. | _Echoes the suite id only for checks that passed; empty otherwise. Single-criterion COUNTIFS key._ |
 | Needs Attention Suite Key | Determined by priority: the suite if the needs attention flag is set; in all other cases, an empty string. | _Echoes the suite id only for blocking checks that failed; empty otherwise. Single-criterion COUNTIFS key._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **ERB Version** | Standard ERB semantic version history. | — |
+| Base ID | A defined attribute. | _Source base identifier._ |
+| Name | A defined attribute. | _Version label._ |
+| Message | A defined attribute. | _Version message._ |
+| Notes | A defined attribute. | _Version notes._ |
+| Commit Date | A defined attribute. | _Commit timestamp._ |
+| Is Published | True when an empty string. | _Publication flag._ |
 | **ERB Customization** | Explicit customization seams; empty because the canonical model is expressed in the rulebook. | — |
+| Name | A defined attribute. | _Customization file name._ |
+| Title | A defined attribute. | _Customization title._ |
+| SQL Code | A defined attribute. | _Customization SQL._ |
+| SQL Target | A defined attribute. | _Target substrate._ |
+| Customization Type | A defined attribute. | _Customization category._ |
 | **Exception Invocation** | ExceptionInvocations (added by witness loop 1). | — |
 | Name | Computed as the step execution, followed by “ / ”, followed by the exception. | _Human-readable calculated display alias._ |
+| Step Execution | A defined attribute. | _The execution during which the exception was invoked._ |
+| Exception | A defined attribute. | _The specified exception that was invoked._ |
+| Invoked by Agent | A defined attribute. | _Agent who invoked the exception._ |
+| Approved by Agent | A defined attribute. | _Agent who approved the invocation. Must satisfy the exception's ApprovalRole._ |
+| Invoked At | A defined attribute. | _When the exception was invoked._ |
+| Handling Applied | A defined attribute. | _What was actually done, in the invoker's words._ |
 | Expected Handling | Taken from the linked exception. | _The handling the specification prescribes._ |
 | Required Approval Role | Taken from the linked exception. | _The role the specification requires to approve this exception._ |
 | Required Approval Role Holder | The current agent of the exception invocation's required approval role. | _The agent who currently holds the role that must approve this exception._ |
@@ -742,8 +1154,15 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Approver Prepared Count | The number of step executions related to the exception invocation. | _How many preparation steps in the same execution were run by the agent who approved this exception._ |
 | Delegated to Preparer | True when the approver prepared count is greater than 0. | _TRUE when an exception routed approval authority to an agent who prepared work in the same execution._ |
 | Is Ungoverned Invocation | True when at least one of the following holds: the improperly approved flag is set or the delegated to preparer flag is set. | _TRUE when an exception was invoked without proper role authority, or routed authority to the preparer._ |
+| Semantic Type Iri | A defined attribute. | _Extension IRI — PKO does not define exception invocation._ |
 | **Verification Outcome** | VerificationOutcomes (added by witness loop 1). | — |
 | Name | Computed as the step execution, followed by “ / ”, followed by the step verification. | _Human-readable calculated display alias._ |
+| Step Execution | A defined attribute. | _The execution during which the verification was performed._ |
+| Step Verification | A defined attribute. | _The declared verification being performed._ |
+| Observed Signal Value | A defined attribute. | _The value the signal actually read at verification time._ |
+| Observed by Agent | A defined attribute. | _Agent who observed the signal._ |
+| Observed At | A defined attribute. | _When the signal was observed._ |
+| Evidence Uri | A defined attribute. | _Pointer to the retained artifact backing the observation._ |
 | Expected Signal Value | Taken from the linked step verification. | _The value the specification expects._ |
 | Signal Identifier | Taken from the linked step verification. | _Which signal this outcome concerns._ |
 | Signal Matches Expected | True when the observed signal value is the expected signal value. | _TRUE when the observed value equals the expected value._ |
@@ -761,17 +1180,44 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Independent Human Observation | True when all of the following hold: the observer is non human flag is not set; the self witnessed flag is not set; and the evidence flag is set. | _TRUE when a human other than the step's executor observed this signal and attached evidence._ |
 | Independent Observation Execution Key | Determined by priority: the parent procedure execution of outcome if the independent human observation flag is set; in all other cases, an empty string. | _Echoes the parent execution id when this is an independent human observation._ |
 | Parent Procedure Execution of Outcome | Taken from the linked step execution. | _The procedure execution this verification outcome belongs to._ |
+| Semantic Type Iri | A defined attribute. | _Extension IRI — PKO 2.0.0 has no execution-side verification outcome class._ |
 | **Observed Transition** | The proxy above cannot tell a walked fallback from a happy-path step that happens to share an endpoint. PKO models Transition as a first-class thing; its execution counterpart is missing. Without a table that records WHICH transition a step execution arrived by, 'has this fallback ever been walked' is permanently unanswerable rather than merely unanswered. This is an extension (urn:effortless:pko-extension#ObservedTransition), not a native PKO term. | — |
 | Name | Computed as the step transition, followed by “ @ ”, followed by the observed at. | _Human-readable calculated display alias._ |
+| Procedure Execution | A defined attribute. | _The procedure execution during which this transition was traversed._ |
+| Step Transition | A defined attribute. | _The specification-level transition that was actually taken._ |
+| Arriving Step Execution | A defined attribute. | _The step execution that this traversal produced._ |
+| Observed At | A defined attribute. | _When the traversal occurred._ |
+| Trigger Reason | A defined attribute. | _Why this path rather than the default was taken._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | **Recipient** | Recipients (added by witness loop 1). | — |
 | Name | The same as its display name. | _Human-readable calculated display alias for the Recipients row._ |
+| Display Name | A defined attribute. | _Employee display name as carried in the consent registry._ |
+| Organization | A defined attribute. | _Organization the recipient belongs to._ |
+| Email Address | A defined attribute. | _Corporate email address; empty string when the recipient has no valid corporate email._ |
+| Mobile Number | A defined attribute. | _Mobile number in E.164 form; empty string when no mobile number is on file._ |
+| Sms Consent Status | A defined attribute. | _Consent state as observed in the consent registry: Granted, Revoked, or NeverGiven._ |
+| Sms Consent At | A defined attribute. | _Timestamp at which the current SMS consent state took effect._ |
+| Consent Binding | A defined attribute. | _Operational binding through which this consent state was observed._ |
 | Has Sms Consent | True when the sms consent status is “Granted”. | _TRUE only when the recipient's SMS consent state is Granted._ |
 | Is Email Reachable | True when the email address has a value. | _TRUE when a corporate email address is on file for this recipient._ |
 | Is Sms Reachable | True when the mobile number has a value. | _TRUE when a mobile number is on file for this recipient._ |
 | Is Unreachable | True when all of the following hold: the email reachable flag is not set and the sms reachable flag is not set. | _TRUE when the recipient has neither an email address nor a mobile number -- the exc-unreachable trigger condition._ |
 | Is Communicationally Stranded | True when all of the following hold: the sms reachable flag is not set and the email reachable flag is not set. | _TRUE when every channel we hold for this person is either non-consenting or unreachable, so no lawful route exists at all._ |
+| Semantic Type Iri | A defined attribute. | _Extension IRI; recipients are not a PKO 2.0.0 native class._ |
 | **Message Delivery** | MessageDeliveries (added by witness loop 1). | — |
 | Name | Computed as the recipient, followed by “ / ”, followed by the message template, followed by “ / ”, followed by the sent at. | _Human-readable calculated display alias for the MessageDeliveries row._ |
+| Procedure Execution | A defined attribute. | _The procedure execution this send was performed under._ |
+| Step Execution | A defined attribute. | _The step execution that performed the send._ |
+| Recipient | A defined attribute. | _Who the message was sent to._ |
+| Message Template | A defined attribute. | _Template that was rendered for this send._ |
+| Sent by Agent | A defined attribute. | _Agent that performed the send._ |
+| Rendered Body | A defined attribute. | _The exact body text that was transmitted, after variable substitution._ |
+| Sent At | A defined attribute. | _Transmission timestamp._ |
+| Sent At Local Hour | A defined attribute. | _Hour of day 0-23 in the RECIPIENT's local timezone at transmission. Stored raw because recipient-local time is what the quiet-hours rule is written against and it is not derivable from SentAt alone._ |
+| Delivery Status | A defined attribute. | _Sent, Delivered, Failed, Suppressed, or Bounced._ |
+| Suppression Reason | A defined attribute. | _When DeliveryStatus is Suppressed, why; empty string otherwise._ |
+| Invoked Exception | A defined attribute. | _Documented exception invoked for this delivery, when one was._ |
+| Acknowledged At | A defined attribute. | _When the recipient acknowledged; null when not acknowledged._ |
 | Policy Channel | The communication policy of the message delivery's message template. | _The communication policy governing the template that was sent._ |
 | Channel Name | Taken from the linked policy channel. | _Channel (Email, SMS) of the policy this delivery went out under._ |
 | Policy Requires Consent | True when the message delivery's policy channel is consent required. | _Whether the governing policy requires active consent for this channel._ |
@@ -794,6 +1240,7 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Unhandled Unreachable | True when all of the following hold: the recipient is unreachable flag is set and the unreachable exception invoked flag is not set. | _TRUE when a recipient was unreachable but no documented exception was invoked -- the case fell on the floor silently._ |
 | Unreachable Failure Key | Determined by priority: the procedure execution if at least one of the following holds: the fabricated acknowledgement flag is set or the unhandled unreachable flag is set; in all other cases, an empty string. | _Carries the execution id on any unreachable-handling failure; empty string otherwise._ |
 | Policy Retention Days | Taken from the linked policy channel. | _Retention commitment in days inherited from the governing channel policy._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Age Days | Computed as the number of days from the sent at to the as of instant. | _Days elapsed since transmission._ |
 | Is Within Retention Window | True when the age days is at most the policy retention days. | _TRUE while this delivery is still inside its committed retention period._ |
@@ -833,27 +1280,49 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Well Timed Unanswered | True when all of the following hold: the was delivered and unanswered flag is set and the was sent outside business hours flag is not set. | _TRUE when a message was delivered at a reasonable hour and still drew no response._ |
 | Unanswered Template Key | Determined by priority: the message template if the was delivered and unanswered flag is set; in all other cases, an empty string. | _The template id when this delivery went unanswered, otherwise empty string._ |
 | Transmitted Template Key | Determined by priority: the message template if the was actually transmitted flag is set; in all other cases, an empty string. | _The template id when this delivery actually reached someone._ |
+| Approving Agent At Send | A defined attribute. | _The agent whose approval authorized this specific transmission, frozen at send time._ |
+| Approving Role At Send | A defined attribute. | _The role that agent held when they approved, frozen at send time._ |
+| Approval Decided At Send | A defined attribute. | _When the relied-upon approval was granted, frozen at send time._ |
 | Approval Preceded Send | True when all of the following hold: the approval decided at send has a value and the sent at is greater than the approval decided at send. | _TRUE when the approval we relied on was granted before the message went out._ |
 | Has Frozen Approval Evidence | True when all of the following hold: the approving agent at send has a value and the approval decided at send has a value. | _TRUE when this delivery carries a complete frozen record of who authorized it and when._ |
 | Provenance is Live Derived | True when the frozen approval evidence flag is not set. | _TRUE when we have no frozen evidence and the only available answer comes from recomputing against today's template state._ |
 | Current Last Approval At | Taken from the linked message template. | _The template's most recent approval time as it stands NOW, for comparison against what was approved at send._ |
 | Template Reapproved Since Send | True when all of the following hold: the current last approval at has a value and the current last approval at is greater than the sent at. | _TRUE when the template has picked up a newer approval since this message was transmitted._ |
 | Is Unprovable Approval Claim | True when all of the following hold: the provenance is live derived flag is set and all of the following hold: the template reapproved since send flag is set and the template has valid approval flag is set. | _TRUE when we assert this send was approved, hold no frozen evidence, and the template has been re-approved since. The claim cannot be substantiated from the record._ |
+| Reminder Sent At | A defined attribute. | _When I sent a follow-up reminder about this unacknowledged message. Empty when I never did._ |
+| Reminder Count | A defined attribute. | _How many reminders I have sent for this delivery._ |
 | Has Sent Reminder | True when the reminder count is greater than 0. | _TRUE when at least one reminder went out for this delivery._ |
 | Acknowledgement is Outstanding | True when all of the following hold: the was actually transmitted flag is set and all of the following hold: the evidence required flag is set and the acknowledged flag is not set. | _TRUE when a message actually reached someone, carried an acknowledgement obligation, and has not been acknowledged._ |
 | Outstanding Age Days | Determined by priority: the number of days from the sent at to the as of instant if the acknowledgement is outstanding flag is set; in all other cases, 0. | _How long this acknowledgement has been outstanding._ |
 | Is Unchased Acknowledgement | True when all of the following hold: the acknowledgement is outstanding flag is set and all of the following hold: the outstanding age days is greater than 7 and the sent reminder flag is not set. | _TRUE when an acknowledgement has been outstanding for more than 7 days and I have never sent a reminder._ |
 | Is Exhausted Follow Up | True when all of the following hold: the acknowledgement is outstanding flag is set and the reminder count is at least 3. | _TRUE when I have sent three or more reminders and still have no acknowledgement -- the point at which this stops being my work and becomes a human escalation._ |
 | Needs Human Escalation | True when all of the following hold: the exhausted follow up flag is set and the unreachable exception invoked flag is not set. | _TRUE when follow-up is exhausted and no exception has been invoked to close out the obligation._ |
+| Semantic Type Iri | A defined attribute. | _Extension IRI; per-recipient delivery events are not a PKO 2.0.0 native class._ |
 | **Template Approval** | TemplateApprovals (added by witness loop 1). | — |
 | Name | Computed as the message template, followed by “ / ”, followed by the decision, followed by “ / ”, followed by the decided at. | _Human-readable calculated display alias for the TemplateApprovals row._ |
+| Message Template | A defined attribute. | _Template this decision applies to._ |
+| Decided by Agent | A defined attribute. | _Agent who made the approval decision._ |
+| Decided in Role | A defined attribute. | _Role the agent was acting in when deciding._ |
+| Decision | A defined attribute. | _Approved, Rejected, or Withdrawn._ |
+| Decided At | A defined attribute. | _When the decision was recorded._ |
+| Approved Body Hash | A defined attribute. | _Digest of the exact template body that was approved, so later edits are detectable._ |
+| Notes | A defined attribute. | _Approver's rationale or conditions._ |
 | Is Approval Decision | True when the decision is “Approved”. | _TRUE when this decision row is an approval rather than a rejection or withdrawal._ |
 | Template Policy | The communication policy of the template approval's message template. | _The communication policy governing the template being approved._ |
 | Required Approval Role | Taken from the linked template policy. | _The role the governing policy designates as approver -- communications-manager for both current policies._ |
 | Is Decided by Required Role | True when the decided in role is the required approval role. | _TRUE when the approving role matches the role the policy designates._ |
 | Valid Approval Template Key | Determined by priority: the message template if all of the following hold: the approval decision flag is set and the decided by required role flag is set; in all other cases, an empty string. | _Carries the template id only on approvals made by the correct role; empty string otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Extension IRI; template approval events are not a PKO 2.0.0 native class._ |
 | **Send Intent** | SendIntents (added by witness loop 1). | — |
 | Name | Computed as the recipient, followed by “ / ”, followed by the message template, followed by “ / intent”. | _Human-readable calculated display alias for the SendIntents row._ |
+| Procedure Execution | A defined attribute. | _Execution this send intent belongs to._ |
+| Step Execution | A defined attribute. | _Step execution evaluating this intent._ |
+| Recipient | A defined attribute. | _Intended recipient._ |
+| Message Template | A defined attribute. | _Template the pipeline intends to render and send._ |
+| Proposed Body | A defined attribute. | _The fully rendered text the pipeline intends to transmit, before transmission._ |
+| Proposed Send At Local Hour | A defined attribute. | _Hour 0-23 in the recipient's local timezone at which the pipeline intends to transmit._ |
+| Evaluated At | A defined attribute. | _When the pipeline evaluated the gates for this intent._ |
+| Resulting Delivery | A defined attribute. | _The delivery record produced from this intent, whether transmitted or suppressed._ |
 | Intent Policy | The communication policy of the send intent's message template. | _The communication policy governing the template this intent would send._ |
 | Intent Channel | Taken from the linked intent policy. | _Channel this intent would transmit on._ |
 | Policy is Active | True when the send intent's intent policy is an active policy. | _Whether the governing policy is currently Active rather than Draft, Suspended, or Retired._ |
@@ -873,8 +1342,11 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Hours Until Window Opens | Determined by priority: 0 if the timing gate passed flag is set; the intent quiet end hour minus the proposed send at local hour if the proposed send at local hour is less than the intent quiet end hour; in all other cases, 24 minus the proposed send at local hour plus the intent quiet end hour. | _How many hours the pipeline must defer before transmission becomes permitted; 0 when already permitted._ |
 | Intent Max Message Length | Taken from the linked intent policy. | _Per-segment character limit from the governing policy._ |
 | Intent Max Segments | Taken from the linked intent policy. | _Segment ceiling from the governing policy._ |
+| Proposed Body Length | A defined attribute. | _Character count of ProposedBody, written by the pipeline at render time._ |
+| Proposed Segment Count | A defined attribute. | _Number of channel segments ProposedBody will occupy, computed by the pipeline at render time._ |
 | Length Gate Passed | True when all of the following hold: the proposed body length is greater than 0 and the proposed segment count is at most the intent max segments. | _TRUE when the proposed text is non-empty and fits within the segment ceiling._ |
 | Intent Required Opt Out Phrase | Taken from the linked intent policy. | _Opt-out phrase the governing policy requires in every message on this channel._ |
+| Proposed Opt Out Position | A defined attribute. | _Character position of the required opt-out phrase within ProposedBody; 0 when absent. Written by the pipeline at render time._ |
 | Opt Out Gate Passed | True when at least one of the following holds: the intent required opt out phrase is blank or all of the following hold: the proposed opt out position is greater than 0 and the proposed opt out position is at most the intent max message length. | _TRUE when no opt-out is required, or the required phrase is present within the first segment._ |
 | Content Gate Passed | True when all of the following hold: the length gate passed flag is set and the opt out gate passed flag is set. | _TRUE when the proposed text satisfies every content rule of the governing channel policy._ |
 | Template is Sendable | True when the send intent's message template is a sendable under approval. | _Whether the template carries a current, properly-authorized, non-drifted approval._ |
@@ -901,21 +1373,27 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Refused on Opt Out Only | True when all of the following hold: the opt out gate passed flag is not set and the length gate passed flag is set. | _TRUE when the only content failure was a missing or mispositioned opt-out phrase._ |
 | Refusal Was on My Rules | True when all of the following hold: the cleared to send flag is not set and at least one of the following holds: the content gate passed flag is not set or the timing gate passed flag is not set. | _TRUE when the refusal came from a communications rule I own -- content, length, opt-out, quiet hours._ |
 | Refusal Was Outside My Control | True when all of the following hold: the cleared to send flag is not set and at least one of the following holds: the permission gate passed flag is not set or the authorization gate passed flag is not set. | _TRUE when the refusal came from consent, reachability, or authorization -- none of which I can fix by editing a template._ |
+| Approver Was Notified | True when an empty string. | _Whether the approving human was informed that this intent was refused._ |
 | Is Unreported Refusal on My Rules | True when all of the following hold: the refusal was on my rules flag is set and the approver was notified flag is not set. | _TRUE when a refusal I own and could have fixed was never surfaced to me._ |
 | Is Approval Overridden Silently | True when all of the following hold: the refused on approved content flag is set and the approver was notified flag is not set. | _TRUE when the pipeline overrode a valid human approval on content grounds and told nobody._ |
+| Alternate Channel Intent | A defined attribute. | _The follow-up intent raised on a different channel after this one was refused. Stored as a raw identifier rather than an FK: SendIntents pointing at SendIntents would make the table self-referential in a way the DAG contract does not allow here._ |
 | Has Alternate Channel Attempt | True when the alternate channel intent has a value. | _TRUE when a follow-up intent on another channel was raised for this refused send._ |
 | Alternate Attempt Was Cleared | True when the send intent's alternate channel intent is a cleared to send. | _Whether the follow-up intent itself passed all gates._ |
 | Is Refused With No Alternative | True when all of the following hold: the cleared to send flag is not set and the alternate channel attempt flag is not set. | _TRUE when a send was refused and no attempt was ever made on any other channel._ |
 | Exception Prescribed an Alternative | True when all of the following hold: the refusal cited an exception flag is set and the resulting delivery exception has a value. | _TRUE when the documented exception for this refusal prescribes a different-channel send as the correct handling._ |
 | Prescribed Handling Was Performed | True when all of the following hold: the exception prescribed an alternative flag is set and all of the following hold: the alternate channel attempt flag is set and the alternate attempt was cleared flag is set. | _TRUE when the exception prescribed an alternate channel and an alternate intent was actually raised and cleared._ |
 | Is Suppression Without Remedy | True when all of the following hold: the exception prescribed an alternative flag is set and the prescribed handling was performed flag is not set. | _TRUE when we cited an exception that prescribed an alternate channel and then never performed it._ |
+| Refusal Recorded At | A defined attribute. | _When this refusal was written to a durable record. Empty when no record was ever emitted._ |
+| Refusal Notified Role | A defined attribute. | _The role informed that this send was refused._ |
 | Has Durable Refusal Record | True when the refusal recorded at has a value. | _TRUE when this refusal was written down somewhere a human can find it._ |
 | Refusal Was Escalated | True when the refusal notified role has a value. | _TRUE when a specific role was notified of this refusal._ |
 | Is Unrecorded Refusal | True when all of the following hold: the silently dropped flag is set and all of the following hold: the durable refusal record flag is not set and the refusal cited an exception flag is not set. | _TRUE when I refused a send and produced no delivery record, no refusal record, and no exception. The refusal left no trace of any kind._ |
 | Is Unescalated Refusal | True when all of the following hold: the cleared to send flag is not set and the refusal was escalated flag is not set. | _TRUE when a refusal was recorded but no human role was ever told._ |
 | Unescalated Refusal Role Key | Determined by priority: the refusal notified role if the unrecorded refusal flag is set; in all other cases, an empty string. | _Echoes the role that should have been told about this refusal, but only when the refusal went unrecorded. Empty otherwise._ |
 | Unrecorded Refusal Execution Key | Determined by priority: the procedure execution if the unrecorded refusal flag is set; in all other cases, an empty string. | _Echoes the parent procedure execution only for refusals nobody recorded; empty otherwise._ |
+| Retry Intent | A defined attribute. | _The intent I raised when the quiet window reopened for this deferred send. Raw identifier rather than an FK: a SendIntents self-reference is not expressible as a relationship without making the table depend on itself._ |
 | Was Deferred on Timing | True when all of the following hold: the timing gate passed flag is not set and all of the following hold: the permission gate passed flag is set and the content gate passed flag is set. | _TRUE when the timing gate is the reason this intent did not clear, and every other gate passed._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this row's time-dependent witnesses are judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this row's time-dependent witnesses are judged against._ |
 | Window Has Since Reopened | True when all of the following hold: the hours until window opens is greater than 0 and the number of hours from the evaluated at to the as of instant is greater than the hours until window opens. | _TRUE when enough time has passed since evaluation that the quiet window this intent hit must have closed._ |
 | Has Retry Attempt | True when the retry intent has a value. | _TRUE when a retry intent was raised for this deferred send._ |
@@ -923,21 +1401,34 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Abandoned Deferral | True when all of the following hold: the was deferred on timing flag is set and all of the following hold: the window has since reopened flag is set and the retry attempt flag is not set. | _TRUE when a send was deferred for timing, the window has since reopened, and no retry was ever raised. A deferral silently converted into a cancellation._ |
 | Deferral Age Hours | Computed as the number of hours from the evaluated at to the as of instant. | _How long this deferred intent has been sitting since evaluation._ |
 | Is Stale Deferral | True when all of the following hold: the was deferred on timing flag is set and the deferral age hours is greater than 24. | _TRUE when a deferred send has been waiting more than 24 hours -- longer than any quiet window can justify._ |
+| Evaluating Role Assignment | A defined attribute. | _The RoleAssignments id under which the pipeline evaluated this send intent. Raw rather than an FK because SendIntents already sits downstream of the execution graph and an added edge to RoleAssignments is not needed to resolve it._ |
 | Enforced by Unauthorized Agent | True when the send intent's evaluating role assignment is an unauthorized enforcement agent. | _Whether the gate decision on this intent was made by an agent holding an unauthorized enforcement assignment._ |
 | Consent Input Was Resolvable | True when the recipient consent status raw has a value. | _TRUE when the recipient's consent state was actually retrievable, as opposed to absent and read as a refusal._ |
 | Recipient Consent Status Raw | The sms consent status of the send intent's recipient. | _The recipient's consent status as a string: Granted, Revoked, NeverGiven, or empty if no consent record exists at all._ |
 | Policy Input Was Resolvable | True when the intent policy has a value. | _TRUE when a governing communication policy was actually found for this intent._ |
 | All Gate Inputs Resolved | True when all of the following hold: the consent input was resolvable flag is set and the policy input was resolvable flag is set. | _TRUE when every input my gates depend on was actually retrievable._ |
 | Is Unevaluable Refusal | True when all of the following hold: the cleared to send flag is not set and the all gate inputs resolved flag is not set. | _TRUE when I refused a send but at least one gate input could not be resolved -- so I do not actually know whether the rule was violated or merely unreadable._ |
+| Gate Result Was Independently Confirmed | True when an empty string. | _Whether any agent other than me verified this gate outcome._ |
 | Is Self Witnessed Decision | True when the gate result was independently confirmed flag is not set. | _TRUE when the entire decision to send or refuse rests solely on my own computation, unconfirmed by anything else._ |
 | Is Independently Confirmed | True when all of the following hold: the resulting delivery flag is set and the resulting delivery was transmitted flag is set. | _TRUE when this intent's decision was corroborated by an actual delivery record rather than resting solely on the pipeline's own say-so._ |
 | Independently Confirmed Execution Key | Determined by priority: the procedure execution if the independently confirmed flag is set; in all other cases, an empty string. | _Echoes the parent execution only for independently confirmed intents; empty otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Extension IRI; pre-send intents are not a PKO 2.0.0 native class._ |
 | **Agent Decision Record** | AgentDecisionRecords (added by witness loop 1). | — |
 | Name | Computed as the deciding agent, followed by “: ”, followed by the first 60 character(s) of the decision summary. | _Human-readable calculated display alias for the AgentDecisionRecords row._ |
+| Step Execution | A defined attribute. | _Step execution during which the decision was made._ |
+| Deciding Agent | A defined attribute. | _Agent that made the decision._ |
+| Decision Kind | A defined attribute. | _Classification, Prioritization, Draft, Suppression, Escalation, or Posting._ |
+| Decision Summary | A defined attribute. | _What the agent decided, in one sentence._ |
+| Decided At | A defined attribute. | _When the decision was made._ |
+| Materiality Band | A defined attribute. | _BelowThreshold, Material, or Escalated._ |
+| Human Disposition | A defined attribute. | _Accepted, Corrected, Reversed, or NotReviewed._ |
+| Reviewed by Agent | A defined attribute. | _Human agent that dispositioned the decision._ |
+| Reviewed At | A defined attribute. | _When a human dispositioned the decision._ |
 | Was Overridden | True when at least one of the following holds: the human disposition is “Corrected” or the human disposition is “Reversed”. | _TRUE when a human corrected or reversed this decision._ |
 | Was Reviewed | True when all of the following hold: the human disposition has a value and the human disposition is not “NotReviewed”. | _TRUE when a human actually dispositioned this decision._ |
 | Deciding Agent Kind | Taken from the linked deciding agent. | _Whether the deciding agent is Human, AIAgent, or AutomatedPipeline._ |
 | Deciding Agent When Overridden | Determined by priority: the deciding agent if the was overridden flag is set; in all other cases, an empty string. | _Echoes the deciding agent id when the decision was overridden, blank otherwise._ |
+| Under Role Assignment | A defined attribute. | _Role assignment in force when the decision was made; anchors the decision to one side of a handover._ |
 | Role Assignment When Scored | Determined by priority: the under role assignment if the under role assignment has a value; in all other cases, an empty string. | _Echoes the governing role assignment when one is recorded, blank otherwise._ |
 | Role Assignment When Overridden | Determined by priority: the under role assignment if the was overridden flag is set; in all other cases, an empty string. | _Echoes the governing role assignment when the decision was overridden, blank otherwise._ |
 | Step of Decision | Taken from the linked step execution. | _The specified step at which this decision was made._ |
@@ -954,14 +1445,27 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Draft Kind | True when at least one of the following holds: the decision kind is “Draft” or the decision kind is “Commitment”. | _TRUE when this decision produced text — the drafter's own output class._ |
 | Agent When Draft Overridden | Determined by priority: the deciding agent if all of the following hold: the draft kind flag is set and the was overridden flag is set; in all other cases, an empty string. | _Echoes the deciding agent id when a drafting decision was overridden, blank otherwise._ |
 | Agent When Draft | Determined by priority: the deciding agent if the draft kind flag is set; in all other cases, an empty string. | _Echoes the deciding agent id when the decision produced text, blank otherwise._ |
+| Override Reason Kind | A defined attribute. | _Why the human changed my output: ErrorCorrection, JudgmentReserved, PolicyChange, or empty when not overridden._ |
 | Is Error Correction | True when all of the following hold: the was overridden flag is set and the override reason kind is “ErrorCorrection”. | _TRUE when the override corrected something I got wrong._ |
 | Is Reserved Judgment Override | True when all of the following hold: the was overridden flag is set and the override reason kind is “JudgmentReserved”. | _TRUE when the override was a human exercising authority the procedure always reserved to them._ |
 | Override Reason is Recorded | True when all of the following hold: the was overridden flag is set and the override reason kind has a value. | _TRUE when an override carries a stated reason._ |
 | Is Unexplained Override | True when all of the following hold: the was overridden flag is set and the override reason is recorded flag is not set. | _TRUE when my output was changed and nobody recorded why._ |
 | Error Correction Role Assignment Key | Determined by priority: the under role assignment if the error correction flag is set; in all other cases, an empty string. | _The role assignment id when this decision was overridden as an error correction, otherwise empty._ |
 | Boundary Violation Role Assignment Key | Determined by priority: the under role assignment if the violated authority boundary flag is set; in all other cases, an empty string. | _Echoes the role assignment this decision was made under, but only when the decision violated an authority boundary. Empty otherwise._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI for an agent decision record._ |
 | **Delivered Communication** | Everything above is a proxy for the real question, which is instance-level: THIS message, to THIS recipient, rendered from THIS template, authorized by THIS approval. The model has MessageTemplates and CommunicationPolicies as specifications and no record of a single thing ever sent. Without an instance table, 'can I show that what was sent matched what I approved' is permanently unanswerable rather than merely unanswered — and it is the question a disputing employee actually asks. Extension term (urn:effortless:pko-extension#DeliveredCommunication); PKO has no native class for a delivered artifact instance. | — |
 | Name | Computed as the channel, followed by “ -> ”, followed by the recipient key, followed by “ @ ”, followed by the sent at. | _Human-readable calculated display alias._ |
+| Procedure Execution | A defined attribute. | _The run that produced this delivery._ |
+| Sending Step Execution | A defined attribute. | _The policy-07 step execution that sent it._ |
+| Authorizing Step Execution | A defined attribute. | _The human approval gate execution that authorized this content. Null means nobody approved it._ |
+| Message Template | A defined attribute. | _The approved template this delivery was rendered from._ |
+| Channel | A defined attribute. | _Email or SMS._ |
+| Recipient Key | A defined attribute. | _Opaque recipient identifier; no personal data in the rulebook._ |
+| Sent At | A defined attribute. | _When the message was dispatched._ |
+| Rendered Content Hash | A defined attribute. | _Hash of the exact bytes delivered, for comparison against the approved rendering._ |
+| Approved Content Hash | A defined attribute. | _Hash of the content as it stood at the approval gate._ |
+| Delivery Status | A defined attribute. | _Provider-reported delivery outcome._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI._ |
 | Has Authorization | True when the authorizing step execution has a value. | _TRUE when this delivery names the approval that authorized it._ |
 | Content Matches Approval | True when the rendered content hash is the approved content hash. | _TRUE when the bytes delivered are the bytes approved._ |
 | Authorized At | The ended at of the delivered communication's authorizing step execution. | _When the authorizing approval completed._ |
@@ -969,6 +1473,16 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Is Defensible | True when all of the following hold: the authorization flag is set; the content matches approval flag is set; and the was approved before sending flag is set. | _TRUE when this delivery can be defended in a dispute: authorized, unaltered, and approved beforehand._ |
 | **Authority Boundary** | AuthorityBoundaries (added by witness loop 1). | — |
 | Name | Computed as the forbidden agent kind, followed by “ may not ”, followed by the forbidden decision kind. | _Human-readable calculated display alias for the AuthorityBoundaries row._ |
+| Step | A defined attribute. | _Step at which the boundary applies._ |
+| Forbidden Agent Kind | A defined attribute. | _Agent kind that may not perform the forbidden decision kind: Human, AIAgent, or AutomatedPipeline._ |
+| Forbidden Decision Kind | A defined attribute. | _Decision kind forbidden to that agent kind at this step._ |
+| Ratified by Knowledge Fragment | A defined attribute. | _Knowledge fragment that states the boundary._ |
+| Enforcing Requirement | A defined attribute. | _Requirement under which the boundary is enforced, if any._ |
+| Authority Role | A defined attribute. | _Role accountable for the boundary._ |
+| Valid From | A defined attribute. | _Start of the boundary's valid-time interval._ |
+| Valid to | A defined attribute. | _End of the boundary's valid-time interval; null means open-ended._ |
+| Status | A defined attribute. | _Approved, Proposed, or Retired._ |
+| Evaluation Context | A defined attribute. | _The evaluation context this boundary's currency is judged under._ |
 | As of Instant | Taken from the linked evaluation context. | _The evaluation instant this boundary is judged against._ |
 | Is Currently Binding | True when all of the following hold: the status is “Approved”; the valid from is at most the as of instant; and at least one of the following holds: the valid to is blank or the valid to is greater than the as of instant. | _TRUE when this boundary is approved and inside its valid-time window right now._ |
 | Ratifying Fragment is Valid | True when the authority boundary's ratified by knowledge fragment is currently valid. | _Whether the knowledge fragment that ratified this boundary is still valid._ |
@@ -989,8 +1503,13 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Binds Despite Lapsed Ratification | True when all of the following hold: the currently binding flag is set and the ratification lapsed flag is set. | _TRUE when a boundary is still enforced against agents while the knowledge that authorized it has lapsed._ |
 | Is Ungrounded and Untested | True when all of the following hold: the binds despite lapsed ratification flag is set and the untested flag is set. | _TRUE when a boundary has lapsed ratification AND has never once been exercised -- so neither its authority nor its operation has ever been demonstrated._ |
 | Constrained Role Assignment Key | Determined by priority: the authority role if the binds despite lapsed ratification flag is set; in all other cases, an empty string. | _The role id this boundary constrains, emitted only when the boundary is ungrounded._ |
+| Semantic Type Iri | A defined attribute. | _Extension class IRI for an authority boundary._ |
 | **Binding Observation** | BindingObservations (added by witness loop 2). | — |
 | Name | Computed as the step execution, followed by “ / ”, followed by the binding observation ID. | _Human-readable calculated display alias for the BindingObservations row._ |
+| Step Execution | A defined attribute. | _The step execution during which this binding was read._ |
+| Operational Binding | A defined attribute. | _The spec-side binding this observation instantiates._ |
+| Observed Source Timestamp | A defined attribute. | _The LastObservedAt value the source actually carried at run time, captured then and never recomputed._ |
+| Read At | A defined attribute. | _When the step execution actually read this binding._ |
 | Sla Minutes At Run | The freshness sla minutes of the binding observation's operational binding. | _The freshness SLA declared for this binding._ |
 | Age At Run Minutes | Computed as the number of minutes from the observed source timestamp to the read at. | _How old the source data was at the instant the step read it._ |
 | Was Stale At Run | True when all of the following hold: the authoritative binding flag is set and the age at run minutes is greater than the sla minutes at run. | _TRUE when an authoritative source was already outside its SLA at the moment the step consumed it._ |
@@ -998,6 +1517,11 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Stale At Run Step Key | Determined by priority: the step execution if the was stale at run flag is set; in all other cases, an empty string. | _Echoes the step execution id when the source was stale at run time._ |
 | **Attestation** | Attestations (added by witness loop 2). | — |
 | Name | Computed as the procedure execution, followed by “ / ”, followed by the attestation ID. | _Human-readable calculated display alias for the Attestations row._ |
+| Procedure Execution | A defined attribute. | _The execution being attested to._ |
+| Signed by Agent | A defined attribute. | _The human who signed._ |
+| Signed At | A defined attribute. | _The instant of signature._ |
+| Assurance Grade At Signing | A defined attribute. | _The AssuranceGrade string as the model reported it at the moment of signature, captured then and never recomputed._ |
+| Version Was Fit At Signing | True when an empty string. | _Whether the executed procedure version was fit to execute at the moment of signature._ |
 | Version is Fit Now | True when the attestation's procedure execution is a fit. | _Whether the executed version reads as fit today._ |
 | Fitness Verdict Has Drifted | True when it is not the case that the version was fit at signing is the version is fit now. | _TRUE when the fitness of the signed version reads differently today than it did at signature._ |
 | Assurance Grade Now | Taken from the linked procedure execution. | _The AssuranceGrade the model reports for this execution today._ |
@@ -1005,29 +1529,67 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Would Not Survive Restatement | True when at least one of the following holds: the fitness verdict has drifted flag is set or the assurance grade has drifted flag is set. | _TRUE when re-deriving this attestation today would not reproduce what the model said when it was signed._ |
 | **App Role Profile** | One row per role, carrying how that role is presented: its accent colour, its 128x128 icon, and the login-card copy. Presentation is data, so the app never hardcodes a colour or a label per role. | — |
 | Name | Computed as the display label, followed by “ (”, followed by the role kind, followed by “)”. | _Human-readable calculated display alias for the AppRoleProfiles row._ |
+| Role | A defined attribute. | _The role this presentation profile describes._ |
+| Display Label | A defined attribute. | _Label shown on the login card and in the app chrome._ |
+| Role Kind | A defined attribute. | _human or software. Drives the login-card silhouette and the icon plate shape._ |
+| Accent Color | A defined attribute. | _Hex accent colour. Distinctive per role; used for chrome, the left-nav active state, and the icon plate._ |
+| Icon Mark | A defined attribute. | _Name of the geometric mark drawn on this role's icon. Colour is never the only signal — the mark discriminates in greyscale._ |
+| Icon Png Base64 | A defined attribute. | _128x128 PNG icon for this role, base64-encoded, no data: prefix. Rendered on the login card and beside the role name throughout the app._ |
+| Pitch | A defined attribute. | _One line of login-card copy: what this role opens the app to do, in that role's own terms._ |
+| Sort Order | A defined attribute. | _Display order on the login screen. Human roles first, then software roles._ |
 | Route Count | The number of app routes related to the app role profile. | _How many routes this role has._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI for this row. An extension: PKO does not model application presentation._ |
 | **App Nav Group** | The left-navigation section headers. A route names the group it appears under; the nav renders the groups its active role actually uses. | — |
 | Name | The same as its group label. | _Human-readable calculated display alias for the AppNavGroups row._ |
+| Group Label | A defined attribute. | _Section header text rendered in the left navigation._ |
 | Route Count | The number of app routes related to the app nav group. | _How many routes sit under this nav group across all roles._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI for this row. An extension: PKO does not model navigation._ |
 | **App Route** | One row per screen in the role-navigated application, as /{role}/{dashboard}/{entity...}. Each carries its purpose in the owning role's voice and brief layout hints, so a later build session has the brief without re-deriving it. Shared detail routes have no owning role. | — |
 | Name | Computed as the route name, followed by “ — ”, followed by the route path. | _Human-readable calculated display alias for the AppRoutes row._ |
+| Route Path | A defined attribute. | _The URL path, /{role}/{dashboard}/{entity...}. Shared detail routes live under /shared/ because the same entity serves every role._ |
+| Route Name | A defined attribute. | _Short label. This is the left-nav text._ |
+| Surface | A defined attribute. | _domain \| maintainer. Domain routes belong to the twelve accountable Roles. Maintainer routes are the model's own instrumentation (Admin, Explorer) and deliberately have no owning role — 'admin' is not a role anyone is accountable in._ |
+| Owning Role | A defined attribute. | _The role whose navigation contains this route. Null for shared routes reachable from several roles._ |
+| Nav Group | A defined attribute. | _Left-nav section this route appears under. Null for detail routes reached by drill-down rather than from the nav._ |
+| Nav Order | A defined attribute. | _Sort order within the nav group._ |
+| Route Kind | A defined attribute. | _dashboard \| workspace \| detail \| index \| action. Detail routes carry path parameters and are not in the nav._ |
+| Purpose | A defined attribute. | _What the role does here, in that role's own voice. This is the brief for the build session._ |
+| Layout Hints | A defined attribute. | _Brief layout direction: the shape of the screen, what leads, and what must not be collapsed or implied._ |
 | Is in Nav | True when the nav group has a value. | _Whether this route appears in the left navigation. Detail routes do not._ |
 | Is Shared | True when all of the following hold: the owning role is blank and the surface is “domain”. | _Whether this route is shared across domain roles rather than owned by one. A maintainer route is not shared — it belongs to a different surface entirely._ |
 | Is Maintainer | True when the surface is “maintainer”. | _Whether this route is model instrumentation rather than a domain workspace. Maintainer routes are reached from the login page's maintainer section, not from a role card._ |
 | Question Count | The number of app route questions related to the app route. | _How many role questions this route helps answer._ |
 | Reference Count | The number of app route references related to the app route. | _How many other routes this route links to._ |
 | Answers No Question | True when all of the following hold: the question count is 0; the is shared is false; the is maintainer is false; and the route kind is not “index”. | _A domain route owned by a role that answers no role question. Not automatically wrong, but it should be justified. Maintainer routes are excluded: they answer questions about the model itself, which are not RoleQuestions and must not be fabricated as such._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI for this row. An extension: PKO models procedures, not the applications that display them._ |
 | **App Route Question** | Junction: which RoleQuestions each route helps answer. Deliberately many-to-many — a question is answered across several routes and a route serves several questions. It is not, and should not become, 1:1. | — |
 | Name | Computed as the route, followed by “ answers ”, followed by the question. | _Human-readable calculated display alias for the AppRouteQuestions row._ |
+| Route | A defined attribute. | _The route that helps answer the question._ |
+| Question | A defined attribute. | _The role question this route helps answer._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI for this row. An extension._ |
 | **App Route Reference** | Junction: which other routes a route links to. This is the navigation graph between screens, kept as rows rather than embedded lists so the canonical model stays a DAG. | — |
 | Name | Computed as the from route, followed by “ -> ”, followed by the to route. | _Human-readable calculated display alias for the AppRouteReferences row._ |
+| From Route | A defined attribute. | _The route that links out._ |
+| To Route | A defined attribute. | _The route being linked to._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI for this row. An extension._ |
 | **Rulebook Table** | Census of every table in this rulebook. The table-level counterpart to RulebookFields, and the anchor every access policy points at. Derived by tools/reconcile_field_catalog.py -- never hand-maintained. | — |
+| Table Name | A defined attribute. | _Stored logical identifier: the rulebook table name, e.g. 'Procedures'._ |
 | Name | The same as its table name. | _Human-readable calculated display alias._ |
+| Physical Table | A defined attribute. | _snake_case Postgres base table name emitted by rulebook-to-postgres._ |
+| Physical View | A defined attribute. | _snake_case Postgres view name (vw_*) carrying the computed columns._ |
+| Subject Area | A defined attribute. | _Coarse grouping used to organise role schemas, e.g. 'execution', 'governance'._ |
+| Is Extension | True when an empty string. | _True when this table is an ERB extension rather than a native/aligned PKO term._ |
 | Field Count | The number of rulebook fields related to the rulebook table. | _Number of catalogued fields on this table._ |
 | Policy Count | The number of access policies related to the rulebook table. | _Number of access policies targeting this table._ |
 | Is Unsecured | True when the policy count is 0. | _True when RLS is enabled but no policy targets the table, so every principal sees zero rows. A fail-closed table nobody has granted access to._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Access Principal** | Security principals -- the identities policies attach to. A principal is the console persona a person logs in as; it maps many-to-one onto a domain Role, so 'who may see this row' is expressed once against the domain vocabulary while the UI keeps its own persona names. Each principal owns exactly one Postgres role and one Postgres schema. | — |
 | Name | The same as its label. | _Human-readable calculated display alias._ |
+| Label | A defined attribute. | _Display label shown in the console role picker._ |
+| Domain Role | A defined attribute. | _Domain role whose authority this principal exercises._ |
+| Pg Role Name | A defined attribute. | _Postgres role name this principal authenticates as, e.g. 'pko_controller'._ |
+| Schema Name | A defined attribute. | _Postgres schema that is this principal's entire visible world, e.g. 'pko_controller'._ |
+| Is Administrator | True when an empty string. | _True when this principal may read every table and edit access policy._ |
 | Organization Scope | Taken from the linked domain role. | _Organization inherited from the domain role; the default tenancy boundary for row predicates._ |
 | Role Label | Taken from the linked domain role. | _Label of the domain role, for display._ |
 | Policy Count | The number of access policies related to the access principal. | _Number of row policies granted to this principal._ |
@@ -1035,29 +1597,52 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Visible Table Count | The number of role schema views related to the access principal. | _Number of tables exposed in this principal's schema._ |
 | Has No Access | True when the policy count is 0. | _True when the principal holds no policies at all, so its schema is empty and it can read nothing. Fail-closed by construction._ |
 | Is Over Privileged | True when all of the following hold: the administrator flag is not set and the visible table count is at least 74. | _True when a non-administrator principal can reach every table in the rulebook -- an admin-equivalent principal that was never declared as one._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Access Policy** | Row-level security policies: the VERTICAL cut. One row per principal x table x command, carrying the predicate that decides which rows are visible. RowPredicate is emitted verbatim into a Postgres USING clause, so it may call any SECURITY DEFINER calc_* function and therefore reference inference fields many hops down the DAG. | — |
 | Name | Computed as the principal, followed by a space, followed by the command, followed by a space, followed by the target table. | _Human-readable calculated display alias._ |
+| Principal | A defined attribute. | _Principal this policy grants to._ |
+| Target Table | A defined attribute. | _Rulebook table this policy guards._ |
+| Command | A defined attribute. | _SQL command the policy governs: SELECT, INSERT, UPDATE, DELETE or ALL._ |
+| Row Predicate | A defined attribute. | _SQL boolean expression emitted into USING(...). Empty means all rows of the table. Must not sub-select the guarded table -- Postgres raises infinite recursion; route such predicates through a SECURITY DEFINER function instead._ |
+| Check Predicate | A defined attribute. | _SQL boolean expression emitted into WITH CHECK(...) for write commands. Empty reuses RowPredicate._ |
+| Rationale | A defined attribute. | _Why this principal is entitled to these rows, in the granting authority's words._ |
+| References Inference | True when an empty string. | _True when RowPredicate calls a calc_* function, i.e. the cut depends on a derived field rather than a stored column._ |
 | Is Write Command | True when at least one of the following holds: the command is “INSERT”; the command is “UPDATE”; the command is “DELETE”; or the command is “ALL”. | _True when this policy governs a mutating command._ |
 | Is Unrestricted | True when the row predicate is blank. | _True when the policy carries no predicate, exposing every row of the target table to the principal._ |
 | Principal is Admin | True when the access policy's principal is an administrator. | _Whether the granted principal is an administrator._ |
 | Is Unrestricted Non Admin Grant | True when all of the following hold: the unrestricted flag is set and the principal is admin flag is not set. | _True when a non-administrator principal is granted an unrestricted policy -- a whole-table exposure that no row predicate narrows. The single highest-signal privilege-escalation witness in the model._ |
 | Is Unwitnessed Write | True when all of the following hold: the write command flag is set and the denial test count is 0. | _True when a write policy has no denial test proving it refuses out-of-scope rows. An untested write grant is an assertion, not evidence._ |
 | Denial Test Count | The number of access denial tests related to the access policy. | _Number of denial tests seeded against this policy._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Field Grant** | Field-level grants: the HORIZONTAL cut. One row per principal x field. A field with no grant row is not filtered from the principal's view -- it is absent from it, so the column does not exist as far as that principal's SQL is concerned. | — |
 | Name | Computed as the principal, followed by “ -> ”, followed by the target field. | _Human-readable calculated display alias._ |
+| Principal | A defined attribute. | _Principal receiving the grant._ |
+| Target Field | A defined attribute. | _Catalogued field being exposed._ |
+| Can Read | True when an empty string. | _True when the principal may read this field._ |
+| Can Write | True when an empty string. | _True when the principal may write this field._ |
+| Mask Strategy | A defined attribute. | _How the value is presented when read: 'plain', 'redacted' or 'hashed'._ |
 | Field Table | The target table of the field grant's target field. | _Table the granted field belongs to._ |
 | Field Name | Taken from the linked target field. | _Name of the granted field._ |
 | Field is Derived | True when the linked target field is derived. | _Whether the granted field is a derived (calculated/lookup/aggregation) field._ |
 | Is Writable Derived Field | True when all of the following hold: the can write flag is set and the field is derived flag is set. | _True when a derived field has been granted write access. Derived fields are computed by the substrate and cannot be written -- such a grant is incoherent and must be corrected._ |
 | Is Masked | True when all of the following hold: the mask strategy is not “plain” and the mask strategy has a value. | _True when the value is transformed rather than shown verbatim._ |
 | Grant Key When Readable | Determined by priority: the principal, followed by “|”, followed by the field table if the can read flag is set; in all other cases, an empty string. | _Composite echo of principal and table, blank unless readable. Enables single-criterion COUNTIFS rollups of readable columns per principal per table, per the documented multi-criteria COUNTIFS defect._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Role Schema** | One Postgres schema per principal -- the principal's entire visible world. The schema is the only entry on that principal's search_path, so a table absent from it cannot be named at all. | — |
 | Name | The same as its schema name. | _Human-readable calculated display alias._ |
+| Principal | A defined attribute. | _Principal that owns this schema._ |
+| Schema Name | A defined attribute. | _Postgres schema name, e.g. 'pko_controller'._ |
 | Search Path | The same as its schema name. | _search_path set for this principal's sessions. The principal's own schema only -- public is deliberately excluded so base tables cannot be named._ |
+| Is Sealed | True when an empty string. | _True when the principal may not create objects in its own schema._ |
 | View Count | The number of role schema views related to the role schema. | _Number of views exposed in this schema._ |
 | Is Empty Schema | True when the view count is 0. | _True when the schema exposes no views, so the principal can read nothing at all._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Role Schema View** | The emitted views: one per principal x table. ColumnList is DERIVED from FieldGrants, so toggling a single grant changes the emitted DDL with no second edit anywhere. This is what makes an admin's save reshape the database without touching UI code. | — |
 | Name | Computed as the schema name, followed by a period, followed by the view name. | _Human-readable calculated display alias._ |
+| Role Schema | A defined attribute. | _Schema this view is emitted into._ |
+| Principal | A defined attribute. | _Principal that will read this view._ |
+| Target Table | A defined attribute. | _Rulebook table this view exposes._ |
+| View Name | A defined attribute. | _Unqualified view name inside the principal's schema, e.g. 'procedures'._ |
 | Schema Name | Taken from the linked role schema. | _Schema name, from the owning RoleSchemas row._ |
 | Source View | The physical view of the role schema view's target table. | _Underlying computed view this narrows, e.g. 'vw_procedures'._ |
 | Grant Key | Computed as the principal, followed by “|”, followed by the target table. | _Composite key matching FieldGrants.GrantKeyWhenReadable, used to roll up this view's readable column count._ |
@@ -1065,33 +1650,69 @@ _A canonical Effortless Rulebook profile aligned to the Procedural Knowledge Ont
 | Table Field Count | Taken from the linked target table. | _Total catalogued fields on the target table._ |
 | Is Full Width | True when all of the following hold: the column count is greater than 0 and the column count is at least the table field count. | _True when every field on the table is exposed, so the horizontal cut removes nothing._ |
 | Is Degenerate View | True when the column count is 0. | _True when the view exposes zero columns -- an emitted view that cannot be selected from. A generator that emits this has produced invalid DDL._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Jwt Claim Mapping** | Maps verified JWT claims onto the SQL accessors row predicates call. Magic-links is the notary: it asserts only that the bearer controls an email address. This table records how that verified email, and any additional claims, become values a policy can test. | — |
 | Name | Computed as the claim name, followed by “ -> ”, followed by the SQL accessor. | _Human-readable calculated display alias._ |
+| Claim Name | A defined attribute. | _Claim key as it appears in the verified JWT payload, e.g. 'email'._ |
+| SQL Accessor | A defined attribute. | _SQL function a policy calls to read the claim, e.g. 'app.jwt_email()'._ |
+| Is Reserved Claim | True when an empty string. | _True for claims magic-links controls and an app cannot override: email, iss, iat, nbf, exp, sub, tenant_id._ |
+| Maps to Principal | True when an empty string. | _True when this claim is what resolves the caller to an AccessPrincipals row._ |
+| Description2 | A defined attribute. | _What the claim asserts and who vouches for it._ |
 | Usage Count | The number of access policies related to the jwt claim mapping. | _Number of policies whose predicate calls this accessor._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Access Denial Test** | Denial witnesses. A policy with no failing case seeded against it is an assertion, not evidence -- the same acceptance bar the rest of this rulebook holds. Each row names a principal, a query, and the row that MUST NOT come back, so a policy that silently stops enforcing is caught by a red test rather than by an incident. | — |
 | Name | Computed as the principal, followed by “ must not see ”, followed by the forbidden row ID. | _Human-readable calculated display alias._ |
+| Target Policy | A defined attribute. | _Policy this test exercises._ |
+| Principal | A defined attribute. | _Principal the query runs as._ |
+| Target Table | A defined attribute. | _Table queried._ |
+| Forbidden Row ID | A defined attribute. | _Primary key of the row that must be invisible to this principal._ |
+| Expected Visible | True when an empty string. | _False for a denial test: the row must not appear. True asserts a row the principal is entitled to does appear._ |
+| Observed Visible | True when an empty string. | _What the substrate actually returned on the last run. Written back by the verifier, never hand-set._ |
+| Last Run At | A defined attribute. | _When this test was last executed against Postgres._ |
 | Has Run | True when the last run at has a value. | _True once the test has been executed at least once._ |
 | Is Passing | True when the observed visible is the expected visible. | _True when observed visibility matches expectation._ |
 | Is Leak | True when all of the following hold: the expected visible flag is not set and the observed visible flag is set. | _True when a row that must be invisible was returned. A confirmed access-control breach._ |
 | Is Unproven | True when the run flag is not set. | _True when the test has never run, so it proves nothing regardless of how it is written._ |
+| Rationale | A defined attribute. | _Why this row must (or must not) be visible, and which predicate it exercises._ |
 | Is Positive Control | True when the expected visible flag is set. | _True when this test asserts a row the principal IS entitled to. A denial suite with no positive controls cannot distinguish a working policy from one that denies everything._ |
+| Forbidden Table | A defined attribute. | _For a table-absence witness: the table that must NOT exist in this principal's schema. Selecting it must raise 'relation does not exist', not return zero rows._ |
+| Forbidden Column | A defined attribute. | _For a column-absence witness: the column that must NOT exist in this principal's view. Selecting it must raise 'column does not exist', not return null._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **App User** | Sign-in identities. One row per person or automation that can authenticate. EmailAddress is what a verified token asserts; everything else about the caller is resolved from here inside the database, never trusted from the token. | — |
 | Name | The same as its display name. | _Human-readable calculated display alias._ |
+| Email Address | A defined attribute. | _Verified email. The one claim magic-links vouches for, and the join key from a token back to this row._ |
+| Display Name | A defined attribute. | _Name shown in the console._ |
+| Linked Agent | A defined attribute. | _Domain agent this sign-in identity corresponds to._ |
+| Is Enabled | True when an empty string. | _False disables sign-in without deleting the identity or its history._ |
 | Agent Kind | Taken from the linked linked agent. | _Whether the linked agent is Human, AIAgent or AutomatedPipeline._ |
 | Organization | Taken from the linked linked agent. | _Organization inherited from the linked agent; the tenancy claim baked into issued tokens._ |
 | Assignment Count | The number of principal assignments related to the app user. | _Number of principals this user may act as._ |
 | Has No Principal | True when the assignment count is 0. | _True when the user may act as no principal at all, so a successfully verified token still grants nothing. Authentication without authorization._ |
 | Holds Multiple Principals | True when the assignment count is greater than 1. | _True when the user may act as more than one principal, so the principal cannot be inferred from the email alone and must be chosen explicitly at sign-in._ |
 | Is Non Human Sign in | True when at least one of the following holds: the agent kind is “AIAgent” or the agent kind is “AutomatedPipeline”. | _True when a non-human agent has a sign-in identity. Pipelines and AI agents authenticate too, and their tokens are scoped exactly like a person's._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Principal Assignment** | Which principals a user may act as. The authorization half of sign-in: a verified email proves who you are, this table decides what you may become. A user with two assignments picks one at sign-in, and the choice is verified here rather than accepted from the client. | — |
 | Name | Computed as the app user, followed by “ as ”, followed by the principal. | _Human-readable calculated display alias._ |
+| App User | A defined attribute. | _Sign-in identity being granted._ |
+| Principal | A defined attribute. | _Principal the user may act as._ |
+| Is Default | True when an empty string. | _True for the principal selected when the user does not name one._ |
+| Granted Rationale | A defined attribute. | _Why this user may act as this principal._ |
 | Principal is Admin | True when the principal assignment's principal is an administrator. | _Whether the assigned principal is an administrator._ |
 | User Organization | Taken from the linked app user. | _Organization of the signing-in user._ |
 | Principal Organization | The organization scope of the principal assignment's principal. | _Organization of the principal being assumed._ |
 | Is Cross Organization Grant | True when all of the following hold: the user organization has a value; the principal organization has a value; and the user organization is not the principal organization. | _True when a user is allowed to act as a principal in a different organization. Legitimate for shared-service roles, but it crosses the tenancy boundary and should be deliberate rather than accidental._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 | **Issued Token** | Audit trail of every token minted. A token records which user signed in, which principal they chose, and the claims that were joined from the database at mint time -- so a later question of 'what could this session see' is answerable from data rather than reconstruction. | — |
 | Name | Computed as the app user, followed by “ as ”, followed by the principal, followed by “ @ ”, followed by the issued at. | _Human-readable calculated display alias._ |
+| App User | A defined attribute. | _Identity that signed in._ |
+| Principal | A defined attribute. | _Principal the token authorises._ |
+| Issued At | A defined attribute. | _When the token was minted._ |
+| Expires At | A defined attribute. | _When the token stops being accepted._ |
+| Issuer | A defined attribute. | _Who minted it: 'dev-mint' locally, or the magic-links tenant URL in production._ |
+| Subject Claim | A defined attribute. | _The 'sub' claim: the AppUserId the bearer is asserted to be._ |
+| Claims Snapshot | A defined attribute. | _JSON of the additional claims joined from the database at mint time._ |
 | Is Dev Minted | True when the issuer is “dev-mint”. | _True when issued by the local dev minter rather than a real magic-links tenant. Dev tokens are genuine RS256 tokens with a genuine keypair; they simply skip the email round-trip._ |
+| Semantic Type Iri | A defined attribute. | _Semantic type IRI._ |
 
 ## 2 Fact Types
 
@@ -2294,7 +2915,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 
 ## 5 Traceability to Schema
 
-_The expression column is the rule's definition in RuleSpeak notation —
+_The expression column is the rule's definition in RuleSpeak® notation —
 the same logic the rulebook stores, written for a business reader._
 
 | Schema element | Kind | Expression |
@@ -2370,7 +2991,7 @@ the same logic the rulebook stores, written for a business reader._
 | **RoleAssignments.ExceedsTolerableErrorRate** | formula | `And(MaxTolerableErrorRatePercent > 0, ErrorRatePercent >= MaxTolerableErrorRatePercent)` |
 | **RoleAssignments.BoundaryViolationCountForAssignment** | rollup | `Count(AgentDecisionRecords via BoundaryViolationRoleAssignmentKey)` |
 | **RoleAssignments.HasAnyBoundaryViolation** | formula | `BoundaryViolationCountForAssignment > 0` |
-| **RoleAssignments.HasUngroundedGoverningBoundary** | formula | `Lookup(Roles.IsGovernedByLapsedAuthority via Role)` |
+| **RoleAssignments.HasUngroundedGoverningBoundary** | lookup | `Lookup(Roles.IsGovernedByLapsedAuthority via Role)` |
 | **RoleAssignments.SuspensionConditionMet** | formula | `Or(ExceedsTolerableErrorRate, Or(HasAnyBoundaryViolation, HasUngroundedGoverningBoundary))` |
 | **RoleAssignments.IsOperatingUnderMetSuspensionCondition** | formula | `And(SuspensionConditionMet, And(CoversNow, IsNonHumanAssignment))` |
 | **RoleAssignments.HasDeclaredSuspensionCondition** | formula | `MaxTolerableErrorRatePercent > 0` |
@@ -2838,7 +3459,7 @@ the same logic the rulebook stores, written for a business reader._
 | **RequirementSatisfactions.IsClearanceByUnfalsifiedControl** | formula | `And(IsFullySatisfied, RequirementIsBlocking, RequirementIsUnfalsified)` |
 | **RequirementSatisfactions.UnfalsifiedClearanceStepKey** | formula | `If(IsClearanceByUnfalsifiedControl, StepExecution, "")` |
 | **RequirementSatisfactions.SpecStepOfExecution** | lookup | `Lookup(StepExecutions.Step via StepExecution)` |
-| **RequirementSatisfactions.BindingKey** | formula | `Lookup(StepRequirements.StepRequirementId via RequirementSatisfactionId)` |
+| **RequirementSatisfactions.BindingKey** | lookup | `Lookup(StepRequirements.StepRequirementId via RequirementSatisfactionId)` |
 | **RequirementSatisfactions.ScoredStepExecutorAgent** | lookup | `Lookup(StepExecutions.ExecutedByAgent via StepExecution)` |
 | **RequirementSatisfactions.EvaluatorIsStepExecutor** | formula | `EvaluatedByAgent = ScoredStepExecutorAgent` |
 | **RequirementSatisfactions.RunOwnerAgent** | lookup | `Lookup(ProcedureExecutions.ExecutedByAgent via ParentProcedureExecution)` |
@@ -3302,5 +3923,5 @@ the same logic the rulebook stores, written for a business reader._
 _This document is rendered in **RuleSpeak®**, the declarative business-rule
 notation created by **Ronald G. Ross**, and follows the conventions of
 **SBVR** (Semantics of Business Vocabulary and Business Rules). With thanks to
-Ronald G. Ross for RuleSpeak and his foundational work on business rules —
+Ronald G. Ross for RuleSpeak® and his foundational work on business rules —
 [www.RonRoss.info](https://www.RonRoss.info)._

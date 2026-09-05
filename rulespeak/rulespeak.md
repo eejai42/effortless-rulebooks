@@ -29,14 +29,14 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Skill Count | The number of claude skills related to the project metadata. | _Order 1. Number of Claude skills in the catalog (including deprecated)._ |
 | Consistency Rule Count | The number of consistency rules related to the project metadata. | _Order 1. Number of consistency rules governing the repo._ |
 | Phase Count | The number of build phases related to the project metadata. | _Order 1. Number of delivery phases in the programme._ |
-| Toy Domain Count | The total toy flag across the rulebook domains related to the project metadata. | _Order 2. Domains under toy-rulebooks/._ |
+| Toy Domain Count | The total toy flag across the rulebook domains related to the project metadata. | _Order 3. Domains declared toys (Kind = toy)._ |
 | Deprecated Skill Count | The total deprecated flag across the claude skills related to the project metadata. | _Order 2. Deprecated skills still modeled._ |
 | Priced Phase Count | The total priced flag across the build phases related to the project metadata. | _Order 2. Phases carrying a quoted price._ |
 | Story Total | The total story count across the build phases related to the project metadata. | _Order 2. All user stories across phases._ |
 | Open Finding Total | The total open finding count across the consistency rules related to the project metadata. | _Order 3. Open consistency findings across every rule._ |
 | Isolated Skill Count | The total isolated flag across the claude skills related to the project metadata. | _Order 3. Skills with no routing edges._ |
 | Done Story Total | The total done story count across the build phases related to the project metadata. | _Order 3. Stories asserted done across all phases._ |
-| Toy Share | Determined by priority: 0 if the domain count is 0; in all other cases, 100 times the toy domain count divided by the domain count rounded to 0 decimal place(s). | _Order 3. Percent of containers that are toys._ |
+| Toy Share | Determined by priority: 0 if the domain count is 0; in all other cases, 100 times the toy domain count divided by the domain count rounded to 0 decimal place(s). | _Order 4. Percent of containers that are toys._ |
 | Clean Domain Count | The total clean flag across the rulebook domains related to the project metadata. | _Order 4. Domains with zero open findings._ |
 | Satisfied Rule Count | The total satisfied flag across the consistency rules related to the project metadata. | _Order 4. Rules with zero open findings._ |
 | Cardless Domain Count | The total needs flavor flag across the rulebook domains related to the project metadata. | _Order 4. Real projects missing a flavor card._ |
@@ -133,6 +133,7 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Surface Label | Determined by priority: the name, followed by “ (optional surface)” if the advertised surface flag is set; in all other cases, the name. | _Order 5. Display label noting optional editing surfaces._ |
 | **Rulebook Domain** | Customer ontologies: each domain has its own rulebook + substrate generation. Domains form a TREE — ParentDomainId links a more-elaborate domain back to the simpler one it grew out of (e.g. Talisman ADVANCED ← Talisman BASIC). The UI uses this to present related rulebooks as a set rather than a flat list, and to drive 'next step in the progression' navigation. | — |
 | Area | A defined attribute. | _Witnessed physical container: root, rulebook-examples, or toy-rulebooks. Classification is derived separately._ |
+| Kind | A defined attribute. | _Declared classification: root \| toy \| example. A toy is a statement of intent (a small teaching rulebook), not a count of files; change this value to re-classify a project. The folder it lives in is witnessed separately as Area._ |
 | Is Intentional Exception | True when an empty string. | _True only for the two doctrine-sanctioned containers that deliberately carry no rulebook (naked-claude-vs-effortless-claude, volunteer-shift-scheduler-demo)._ |
 | Name | The same as its domain name. | _Order 1. Display alias (calculated). Order 1._ |
 | Domain Name | A defined attribute. | — |
@@ -150,8 +151,8 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Project | A defined attribute. | _FK to ProjectMetadata — roots this catalog row to the platform row so repo-wide rollups exist on one dashboard record._ |
 | Consistency Findings | A defined attribute. | _Reverse relationship: findings against this domain._ |
 | Slug | Computed as 8 character(s) of the domain ID starting at position 200. | _Order 1. Directory slug parsed from the slug-keyed DomainId (domain-<slug>)._ |
-| Is Toy | True when the area is “toy-rulebooks”. | _Order 1. Lives under toy-rulebooks/._ |
-| Toy Flag | Determined by priority: 1 if the area is “toy-rulebooks”; in all other cases, 0. | _Order 1. 1 for toys — rollup carrier._ |
+| Is Toy | True when the kind is “toy”. | _Order 1. Declared as a toy (Kind = toy)._ |
+| Toy Flag | Determined by priority: 1 if the toy flag is set; in all other cases, 0. | _Order 2. 1 for declared toys — rollup carrier._ |
 | Has Rulebook | True when the rulebook path has a value. | _Order 1. A rulebook file exists for this container._ |
 | Finding Count | The number of consistency findings related to the rulebook domain. | _Order 1. Consistency findings ever recorded against this domain (any status)._ |
 | Flavor Card Count | The number of rulebook flavors related to the rulebook domain. | _Order 1. Flavor cards describing this domain._ |
@@ -181,12 +182,11 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Required Present Count | The total required present flag across the project slot witnesses related to the rulebook domain. | _Order 4. Required-here slots currently present._ |
 | Required Gap Count | The total gap flag across the project slot witnesses related to the rulebook domain. | _Order 4. Required-here slots currently absent._ |
 | Is Fully Implemented | True when all of the following hold: the implementation gap count is 0 and the intentional exception flag is not set. | _Order 4. The root/example-complete contract is fully witnessed._ |
-| Is Toy by Coverage | True when all of the following hold: the area is not “root”; the intentional exception flag is not set; and the slot coverage percent is less than 60. | _Order 4. Implements less than 60 percent of the full canonical shape._ |
 | Fully Implemented Flag | Determined by priority: 1 if all of the following hold: the implementation gap count is 0 and the intentional exception flag is not set; in all other cases, 0. | _Order 4. 1 when fully implemented._ |
 | Required Slot Coverage Percent | Determined by priority: 100 if the required slot count is 0; in all other cases, 100 times the required present count divided by the required slot count rounded to 0 decimal place(s). | _Order 5. Percent of slots required for this physical area that are present._ |
-| Expected Area | Determined by priority: “root” if the area is “root”; “toy-rulebooks” if the toy by coverage flag is set; in all other cases, “rulebook-examples”. | _Order 5. Folder implied by root/toy/example readiness._ |
-| Is Misfiled | True when all of the following hold: the intentional exception flag is not set; the area is not “root”; and at least one of the following holds: all of the following hold: the toy by coverage flag is set and the area is not “toy-rulebooks” or all of the following hold: the toy by coverage flag is not set and the area is not “rulebook-examples”. | _Order 5. Physical folder disagrees with the witnessed classification._ |
-| Readiness State | Determined by priority: “intentional-exception” if the intentional exception flag is set; “root-ready” if the fully implemented flag is set, in all other cases “root-incomplete” if the area is “root”; “toy” if the toy by coverage flag is set; “example-ready” if the fully implemented flag is set; in all other cases, “example-incomplete”. | _Order 5. intentional-exception \| root-ready \| root-incomplete \| toy \| example-ready \| example-incomplete._ |
+| Expected Area | Determined by priority: “root” if the kind is “root”; “toy-rulebooks” if the toy flag is set; in all other cases, “rulebook-examples”. | _Order 2. Folder implied by the declared Kind._ |
+| Is Misfiled | True when all of the following hold: the intentional exception flag is not set and the area is not the expected area. | _Order 3. The physical folder disagrees with the declared Kind._ |
+| Readiness State | Determined by priority: “intentional-exception” if the intentional exception flag is set; “root-ready” if the fully implemented flag is set, in all other cases “root-incomplete” if the kind is “root”; “toy” if the toy flag is set; “example-ready” if the fully implemented flag is set; in all other cases, “example-incomplete”. | _Order 5. intentional-exception \| root-ready \| root-incomplete \| toy \| example-ready \| example-incomplete. Toy/example is declared (Kind); ready/incomplete is witnessed._ |
 | Launch Profiles | A defined attribute. | _Reverse relationship: explicit launch instructions for this governed row._ |
 | **Project Launch Profile** | One explicit launch contract for every governed project or intentional container. | — |
 | Domain | A defined attribute. | _FK to the governed repository project._ |
@@ -554,6 +554,7 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Check Mechanism | A defined attribute. | _How the rule is verified (shell/jq sketch or derived-field reference)._ |
 | Fix Playbook | A defined attribute. | _How to bring a violating project into conformance._ |
 | Source Doctrine | A defined attribute. | _Where the rule is stated (CLAUDE.md section or skill)._ |
+| Is Scanner Derived | True when an empty string. | _True when this rule's findings are re-derived by scripts/scan-project-slots.py; they close by re-running the scan, never by hand._ |
 | Project | A defined attribute. | _FK to ProjectMetadata._ |
 | Consistency Findings | A defined attribute. | _Reverse relationship: findings of this rule._ |
 | Finding Count | The number of consistency findings related to the consistency rule. | _Order 1. Findings recorded under this rule (any status)._ |
@@ -580,9 +581,11 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Open Flag | Determined by priority: 1 if the status is “open”; in all other cases, 0. | _Order 1. 1 when open — rollup carrier._ |
 | Is Repo Scope | True when the domain is blank. | _Order 1. Finding is not tied to a single domain._ |
 | Rule Severity | Taken from the linked rule. | _Order 1. Severity of the violated rule._ |
+| Rule is Scanner Derived | True when the linked rule is scanner derived. | _Order 1. Whether the violated rule's findings are scanner-derived._ |
 | Rule Code | Taken from the linked rule. | _Order 1. Code of the violated rule._ |
 | Domain Name | Taken from the linked domain. | _Order 1. Name of the domain (blank for repo scope)._ |
 | Is Open Critical | True when all of the following hold: the open flag is set and the rule severity is “critical”. | _Order 2. Open and critical._ |
+| Is Hand Closable | True when all of the following hold: the open flag is set and the rule is scanner derived flag is not set. | _Order 2. Open and not scanner-derived: the work queue may mark it fixed or accepted-exception by hand._ |
 | Domain Finding Count | Taken from the linked domain. | _Order 2. Total findings on the same domain._ |
 | Rule Finding Count | Taken from the linked rule. | _Order 2. Total findings under the same rule._ |
 | Domain Open Finding Count | Taken from the linked domain. | _Order 3. Open findings on the same domain._ |
@@ -686,9 +689,10 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Slot Required for Example | True when the linked slot is required for example. | _Order 1. Whether the slot is required for full example implementation._ |
 | Slot Required for Toy | True when the linked slot is required for toy. | _Order 1. Whether the slot is universal for toys._ |
 | Domain Area | Taken from the linked domain. | _Order 1. Physical project area._ |
+| Domain Kind | Taken from the linked domain. | _Order 1. The declared Kind (root \| toy \| example) of the witnessed project._ |
 | Domain is Exception | True when the project slot witness's domain is an intentional exception. | _Order 1. Whether the row is a doctrine-sanctioned non-project container._ |
-| Is Required Here | True when all of the following hold: it is not the case that the domain is exception (a missing value counts as false) and at least one of the following holds: all of the following hold: the domain area is “root” and the slot required for root (a missing value counts as false); all of the following hold: the domain area is “rulebook-examples” and the slot required for example (a missing value counts as false); or all of the following hold: the domain area is “toy-rulebooks” and the slot required for toy (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 2. The slot is required for this row's physical area._ |
-| Implementation Gap Flag | Determined by priority: 1 if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and at least one of the following holds: all of the following hold: the domain area is “root” and the slot required for root (a missing value counts as false) or all of the following hold: the domain area is not “root” and the slot required for example (a missing value counts as false); in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 2. 1 when this absence prevents full implementation._ |
+| Is Required Here | True when all of the following hold: it is not the case that the domain is exception (a missing value counts as false) and at least one of the following holds: all of the following hold: the domain kind is “root” and the slot required for root (a missing value counts as false); all of the following hold: the domain kind is “example” and the slot required for example (a missing value counts as false); or all of the following hold: the domain kind is “toy” and the slot required for toy (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 2. The slot is required for this row's declared Kind._ |
+| Implementation Gap Flag | Determined by priority: 1 if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and at least one of the following holds: all of the following hold: the domain kind is “root” and the slot required for root (a missing value counts as false) or all of the following hold: the domain kind is not “root” and the slot required for example (a missing value counts as false); in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 2. 1 when this absence prevents full implementation._ |
 | Universal Gap Flag | Determined by priority: 1 if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and the slot required for toy (a missing value counts as false); in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 2. 1 when a universal slot is absent._ |
 | Is Gap | True when all of the following hold: the present flag is not set and the required here flag is set. | _Order 3. Required here and absent._ |
 | Gap Flag | Determined by priority: 1 if all of the following hold: the present flag is not set and the required here flag is set; in all other cases, 0. | _Order 3. 1 when this required-here slot is absent._ |
@@ -778,7 +782,7 @@ already computes (cross-referenced as DR-N in the Definitional Rules below)._
 - A platform feature **must** have a name, a short name, a tier, a priority, a one line summary, a readme file path, a readme stub content, and a status.
 - A rulebook source spoke **must** have a name, a kind, a direction, and a purpose, and record whether it is required.
 - A rulebook domain **must** reference exactly one project metadata as its project.
-- A rulebook domain **must** have an area, a domain name, a relative path, and a rulebook path, and record whether it is an intentional exception.
+- A rulebook domain **must** have an area, a kind, a domain name, a relative path, and a rulebook path, and record whether it is an intentional exception.
 - A project launch profile **must** reference exactly one rulebook domain as its domain.
 - A project launch profile **must** have a working directory, a start command, an experience description, a prerequisite notes, and an experience kind, and record whether it is start required and whether it requires local URL.
 - A project local service **must** reference exactly one project launch profile as its launch profile.
@@ -814,7 +818,7 @@ already computes (cross-referenced as DR-N in the Definitional Rules below)._
 - An acceptance criteria **must** reference exactly one user story.
 - An acceptance criteria **must** have a criterion, and record whether it is a met.
 - A consistency rule **must** reference exactly one project metadata as its project.
-- A consistency rule **must** have a rule code, a severity, a scope, and a statement.
+- A consistency rule **must** have a rule code, a severity, a scope, and a statement, and record whether it is scanner derived.
 - A consistency finding **must** reference exactly one consistency rule as its rule.
 - A consistency finding **must** have a detail, a status, and a detected on.
 - A mobile nav tab **must** reference exactly one project metadata as its project.
@@ -912,8 +916,8 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-68 Surface Label** | The rulebook source spoke's surface label is determined by the following priority:<br>1. the name, followed by “ (optional surface)”, if the advertised surface flag is set;<br>2. in all other cases, the name. |
 | **DR-69 Name** | A rulebook domain's name is the same as its domain name. |
 | **DR-70 Slug** | A rulebook domain's slug is computed as 8 character(s) of the domain ID starting at position 200. |
-| **DR-71 Is Toy** | A rulebook domain is considered a toy if the area is “toy-rulebooks”. |
-| **DR-72 Toy Flag** | The rulebook domain's toy flag is determined by the following priority:<br>1. 1, if the area is “toy-rulebooks”;<br>2. in all other cases, 0. |
+| **DR-71 Is Toy** | A rulebook domain is considered a toy if the kind is “toy”. |
+| **DR-72 Toy Flag** | The rulebook domain's toy flag is determined by the following priority:<br>1. 1, if the toy flag is set;<br>2. in all other cases, 0. |
 | **DR-73 Has Rulebook** | A rulebook domain is considered to have a rulebook if the rulebook path has a value. |
 | **DR-74 Finding Count** | A rulebook domain's finding count is the number of consistency findings related to the rulebook domain. |
 | **DR-75 Flavor Card Count** | A rulebook domain's flavor card count is the number of rulebook flavors related to the rulebook domain. |
@@ -942,321 +946,323 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-98 Required Present Count** | A rulebook domain's required present count is the total required present flag across the project slot witnesses related to the rulebook domain. |
 | **DR-99 Required Gap Count** | A rulebook domain's required gap count is the total gap flag across the project slot witnesses related to the rulebook domain. |
 | **DR-100 Is Fully Implemented** | A rulebook domain is considered fully-implemented if all of the following hold: the implementation gap count is 0 and the intentional exception flag is not set. |
-| **DR-101 Is Toy by Coverage** | A rulebook domain is considered a toy by coverage if all of the following hold: the area is not “root”; the intentional exception flag is not set; and the slot coverage percent is less than 60. |
-| **DR-102 Fully Implemented Flag** | The rulebook domain's fully implemented flag is determined by the following priority:<br>1. 1, if all of the following hold: the implementation gap count is 0 and the intentional exception flag is not set;<br>2. in all other cases, 0. |
-| **DR-103 Required Slot Coverage Percent** | The rulebook domain's required slot coverage percent is determined by the following priority:<br>1. 100, if the required slot count is 0;<br>2. in all other cases, 100 times the required present count divided by the required slot count rounded to 0 decimal place(s). |
-| **DR-104 Expected Area** | The rulebook domain's expected area is determined by the following priority:<br>1. “root”, if the area is “root”;<br>2. “toy-rulebooks”, if the toy by coverage flag is set;<br>3. in all other cases, “rulebook-examples”. |
-| **DR-105 Is Misfiled** | A rulebook domain is considered misfiled if all of the following hold: the intentional exception flag is not set; the area is not “root”; and at least one of the following holds: all of the following hold: the toy by coverage flag is set and the area is not “toy-rulebooks” or all of the following hold: the toy by coverage flag is not set and the area is not “rulebook-examples”. |
-| **DR-106 Readiness State** | The rulebook domain's readiness state is determined by the following priority:<br>1. “intentional-exception”, if the intentional exception flag is set;<br>2. “root-ready” if the fully implemented flag is set, in all other cases “root-incomplete”, if the area is “root”;<br>3. “toy”, if the toy by coverage flag is set;<br>4. “example-ready”, if the fully implemented flag is set;<br>5. in all other cases, “example-incomplete”. |
-| **DR-107 Name** | A project launch profile's name is computed as the domain, followed by “ launch”. |
-| **DR-108 Primary Service Count** | A project launch profile's primary service count is the total is primary flag across the project local services related to the project launch profile. |
-| **DR-109 Service Count** | A project launch profile's service count is the number of project local services related to the project launch profile. |
-| **DR-110 Has Complete Instructions** | A project launch profile is considered to have a complete instructions if all of the following hold: the working directory has a value; the start command has a value; and the experience description has a value. |
-| **DR-111 Has Primary Service** | A project launch profile is considered to have a primary service if the primary service count is 1. |
-| **DR-112 Is Launch Contract Complete** | A project launch profile is considered a launch contract complete if all of the following hold: the complete instructions flag is set and at least one of the following holds: the requires local URL flag is not set or the primary service flag is set. |
-| **DR-113 Name** | A project local service's name is computed as the launch profile, followed by a space, followed by the service role. |
-| **DR-114 Has Health URL** | A project local service is considered to have a health URL if the health URL has a value. |
-| **DR-115 Is Http Service** | A project local service is considered a http service if at least one of the following holds: the first 7 character(s) of the local URL is “http://” or the first 8 character(s) of the local URL is “https://”. |
-| **DR-116 Is Complete** | A project local service is considered a complete if all of the following hold: the local URL has a value and the health URL has a value. |
-| **DR-117 Name** | A legacy runner capability's name is the same as its title. |
-| **DR-118 Is Decided** | A legacy runner capability is considered decided if all of the following hold: the decision has a value and the destination has a value. |
-| **DR-119 Decided Flag** | The legacy runner capability's decided flag is determined by the following priority:<br>1. 1, if all of the following hold: the decision has a value and the destination has a value;<br>2. in all other cases, 0. |
-| **DR-120 Is Kept** | A legacy runner capability is considered a kept if at least one of the following holds: the decision is “promote” or the decision is “separate”. |
-| **DR-121 Is Resolved** | A legacy runner capability is considered resolved if the status is “done”. |
-| **DR-122 Resolved Flag** | The legacy runner capability's resolved flag is determined by the following priority:<br>1. 1, if the status is “done”;<br>2. in all other cases, 0. |
-| **DR-123 Capability State** | The legacy runner capability's capability state is determined by the following priority:<br>1. “undecided”, if the decided flag is not set;<br>2. “resolved”, if the resolved flag is set;<br>3. in all other cases, “decided”. |
-| **DR-124 Capability Label** | A legacy runner capability's capability label is computed as the title, followed by “ [”, followed by the decision, followed by “]”. |
-| **DR-125 Name** | A rulebook flavor's name is the same as its display name. |
-| **DR-126 Derived Field Count** | A rulebook flavor's derived field count is computed as the calculated count plus the aggregation count plus the lookup count. |
-| **DR-127 Has Domain** | A rulebook flavor is considered to have a domain if the domain has a value. |
-| **DR-128 Tag Count** | A rulebook flavor's tag count is the number of flavor tags related to the rulebook flavor. |
-| **DR-129 Answer Key Target Count** | The rulebook flavor's answer key target count is determined by the following priority:<br>1. 0, if the good answer key for is blank;<br>2. in all other cases, the length of the good answer key for minus the length of the good answer key for with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-130 Domain Area** | A rulebook flavor's domain area — taken from the linked domain. |
-| **DR-131 Derived Ratio** | The rulebook flavor's derived ratio is determined by the following priority:<br>1. 0, if the entity count is 0;<br>2. in all other cases, the derived field count divided by the entity count rounded to 2 decimal place(s). |
-| **DR-132 Is Tagged** | A rulebook flavor is considered tagged if the tag count is greater than 0. |
-| **DR-133 Is Toy Flavor** | A rulebook flavor is considered a toy flavor if the domain area is “toy-rulebooks”. |
-| **DR-134 Domain Finding Count** | A rulebook flavor's domain finding count — taken from the linked domain. |
-| **DR-135 Domain Open Finding Count** | A rulebook flavor's domain open finding count — taken from the linked domain. |
-| **DR-136 Is Dense Derivation** | A rulebook flavor is considered a dense derivation if the derived ratio is at least 1. |
-| **DR-137 Is Catalog Complete** | A rulebook flavor is considered a catalog complete if all of the following hold: the domain flag is set and the tagged flag is set. |
-| **DR-138 Domain is Consistent** | A rulebook flavor's domain is consistent is true when the rulebook flavor's domain is a fully consistent. |
-| **DR-139 Domain is Standard Layout** | A rulebook flavor's domain is standard layout when the linked domain is a standard layout. |
-| **DR-140 Is Showcase Card** | A rulebook flavor is considered a showcase card if all of the following hold: the catalog complete flag is set and the domain open finding count (a missing value counts as 1) is 0. |
-| **DR-141 Is Catalog Ready** | A rulebook flavor is considered a catalog ready if all of the following hold: the showcase card flag is set and the domain is consistent (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-142 Domain Conformance Score** | A rulebook flavor's domain conformance score — taken from the linked domain. |
-| **DR-143 Name** | A field type taxonomy's name is the same as its type name. |
-| **DR-144 Is Stored** | A field type taxonomy is considered stored if the storage mode is “stored”. |
-| **DR-145 Is Fully Expressive Tier** | A field type taxonomy is considered a fully expressive tier if the expressive tier is “full”. |
-| **DR-146 Is Stored and Editable** | A field type taxonomy is considered stored-and-editable if all of the following hold: the stored flag is set and the read only in ui flag is not set. |
-| **DR-147 Tier Label** | The field type taxonomy's tier label is determined by the following priority:<br>1. “input”, if the stored and editable flag is set;<br>2. “derived-full”, if the fully expressive tier flag is set;<br>3. in all other cases, “derived-partial”. |
-| **DR-148 Is Input Tier** | A field type taxonomy is considered an input tier if the tier label is “input”. |
-| **DR-149 Ui Hint** | The field type taxonomy's ui hint is determined by the following priority:<br>1. “editable”, if the input tier flag is set;<br>2. in all other cases, “read-only”. |
-| **DR-150 Is Active** | A formula dialect is considered active if the status is “active”. |
-| **DR-151 Primary Substrate Count** | The formula dialect's primary substrate count is determined by the following priority:<br>1. 0, if the primary substrates is blank;<br>2. in all other cases, the length of the primary substrates minus the length of the primary substrates with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-152 Is Active Multi Substrate** | A formula dialect is considered an active multi substrate if all of the following hold: the active flag is set and the primary substrate count is greater than 1. |
-| **DR-153 Dialect Role** | The formula dialect's dialect role is determined by the following priority:<br>1. “primary”, if the active multi substrate flag is set;<br>2. “niche”, if the active flag is set;<br>3. in all other cases, “retired”. |
-| **DR-154 Is Primary Dialect** | A formula dialect is considered a primary dialect if the dialect role is “primary”. |
-| **DR-155 Dialect Label** | The formula dialect's dialect label is determined by the following priority:<br>1. the name, followed by “ (primary)”, if the primary dialect flag is set;<br>2. in all other cases, the name. |
-| **DR-156 Name** | A demo narrative's name is computed as the narrative name, followed by “ / ”, followed by the step name. |
-| **DR-157 Is Deprecated** | A demo narrative is considered deprecated if the status is “deprecated”. |
-| **DR-158 Is Superseded** | A demo narrative is considered superseded if the superseded by has a value. |
-| **DR-159 Domain Name** | A demo narrative's domain name — taken from the linked related domain ID. |
-| **DR-160 Is Retired** | A demo narrative is considered retired if at least one of the following holds: the deprecated flag is set or the superseded flag is set. |
-| **DR-161 Domain is Toy** | A demo narrative's domain is toy when the linked related domain ID is a toy. |
-| **DR-162 Is Retired Toy Story** | A demo narrative is considered a retired toy story if all of the following hold: the retired flag is set and the domain is toy (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-163 Is Live Story** | A demo narrative is considered a live story if all of the following hold: the retired flag is not set and the related domain ID has a value. |
-| **DR-164 Story State** | The demo narrative's story state is determined by the following priority:<br>1. “live”, if the live story flag is set;<br>2. “retired-toy”, if the retired toy story flag is set;<br>3. in all other cases, “retired”. |
-| **DR-165 Is Current Story** | A demo narrative is considered a current story if the story state is “live”. |
-| **DR-166 Name** | A glossary's name is the same as its term. |
-| **DR-167 Alias Count** | The glossary's alias count is determined by the following priority:<br>1. 0, if the aliases is blank;<br>2. in all other cases, the length of the aliases minus the length of the aliases with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-168 Has Implementation** | A glossary is considered to have an implementation if the implemented as has a value. |
-| **DR-169 Implementation Kind** | The glossary's implementation kind is determined by the following priority:<br>1. an empty string, if the length of the implemented as (a missing value counts as an empty string) is the length of the implemented as (a missing value counts as an empty string) with every “:” replaced by an empty string;<br>2. in all other cases, the first the position of “:” within the implemented as minus 1 character(s) of the implemented as. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-170 Is File Backed** | A glossary is considered file-backed if the implementation kind is “file”. |
-| **DR-171 Is Rich Term** | A glossary is considered a rich term if all of the following hold: the alias count is greater than 0 and the implementation flag is set. |
-| **DR-172 Term Quality** | The glossary's term quality is determined by the following priority:<br>1. “anchored” if the file backed flag is set, in all other cases “rich”, if the rich term flag is set;<br>2. “implemented”, if the implementation flag is set;<br>3. in all other cases, “definition-only”. |
-| **DR-173 Is Anchored** | A glossary is considered anchored if the term quality is “anchored”. |
-| **DR-174 Glossary Tier** | The glossary's glossary tier is determined by the following priority:<br>1. “tier-1”, if the anchored flag is set;<br>2. “tier-2”, if the term quality is “rich”;<br>3. in all other cases, “tier-3”. |
-| **DR-175 Name** | A rulebook tag's name is the same as its label. |
-| **DR-176 Usage Count** | A rulebook tag's usage count is the number of flavor tags related to the rulebook tag. |
-| **DR-177 Is Source Tag** | A rulebook tag is considered a source tag if the category is “source”. |
-| **DR-178 Is Unused** | A rulebook tag is considered unused if the usage count is 0. |
-| **DR-179 Unused Flag** | The rulebook tag's unused flag is determined by the following priority:<br>1. 1, if the usage count is 0;<br>2. in all other cases, 0. |
-| **DR-180 Tag Health** | The rulebook tag's tag health is determined by the following priority:<br>1. “unused”, if the unused flag is set;<br>2. “common”, if the usage count is at least 5;<br>3. in all other cases, “rare”. |
-| **DR-181 Is Retirement Candidate** | A rulebook tag is considered a retirement candidate if the tag health is “unused”. |
-| **DR-182 Tag Action** | The rulebook tag's tag action is determined by the following priority:<br>1. “retire”, if the retirement candidate flag is set;<br>2. in all other cases, “keep”. |
-| **DR-183 Name** | A flavor tag's name is computed as the flavor, followed by “:”, followed by the tag. |
-| **DR-184 Tag Label** | A flavor tag's tag label — taken from the linked tag. |
-| **DR-185 Tag Category** | A flavor tag's tag category — taken from the linked tag. |
-| **DR-186 Flavor Display Name** | A flavor tag's flavor display name — taken from the linked flavor. |
-| **DR-187 Is Source Tagging** | A flavor tag is considered source-tagging if the tag category is “source”. |
-| **DR-188 Flavor Tag Count** | A flavor tag's flavor tag count — taken from the linked flavor. |
-| **DR-189 Is Sole Tag** | A flavor tag is considered a sole tag if the flavor tag count (a missing value counts as 0) is 1. |
-| **DR-190 Tag Share** | The flavor tag's tag share is determined by the following priority:<br>1. 0, if the flavor tag count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the flavor tag count rounded to 0 decimal place(s). |
-| **DR-191 Is Defining Tag** | A flavor tag is considered a defining tag if all of the following hold: the sole tag flag is set and the source tagging flag is set. |
-| **DR-192 Tag Weight** | The flavor tag's tag weight is determined by the following priority:<br>1. 2, if the defining tag flag is set;<br>2. in all other cases, 1. |
-| **DR-193 Slash Command** | A claude skill's slash command is computed as a slash, followed by the name. |
-| **DR-194 Local Mirror Path** | A claude skill's local mirror path is computed as “docs/skills/”, followed by the name, followed by “/SKILL.md”. |
-| **DR-195 Is Deprecated** | A claude skill is considered deprecated if the status is “deprecated”. |
-| **DR-196 Deprecated Flag** | The claude skill's deprecated flag is determined by the following priority:<br>1. 1, if the status is “deprecated”;<br>2. in all other cases, 0. |
-| **DR-197 Outbound Route Count** | A claude skill's outbound route count is the number of skill routes related to the claude skill. |
-| **DR-198 Inbound Route Count** | A claude skill's inbound route count is the number of skill routes related to the claude skill. |
-| **DR-199 Is Customer Facing** | A claude skill is considered customer-facing if the audience is “customer”. |
-| **DR-200 Is Isolated** | A claude skill is considered isolated if all of the following hold: the outbound route count is 0 and the inbound route count is 0. |
-| **DR-201 Isolated Flag** | The claude skill's isolated flag is determined by the following priority:<br>1. 1, if all of the following hold: the outbound route count is 0 and the inbound route count is 0;<br>2. in all other cases, 0. |
-| **DR-202 Is Hub** | A claude skill is considered a hub if the outbound route count is at least 5. |
-| **DR-203 Route Degree** | A claude skill's route degree is computed as the outbound route count plus the inbound route count. |
-| **DR-204 Skill Role** | The claude skill's skill role is determined by the following priority:<br>1. “isolated”, if the isolated flag is set;<br>2. “hub”, if the hub flag is set;<br>3. “leaf”, if the inbound route count is greater than 0;<br>4. in all other cases, “source”. |
-| **DR-205 Is Live Hub** | A claude skill is considered a live hub if all of the following hold: the hub flag is set and the deprecated flag is not set. |
-| **DR-206 Is Deprecated But Routed** | A claude skill is considered deprecated-but-routed if all of the following hold: the deprecated flag is set and the route degree is greater than 0. |
-| **DR-207 Catalog State** | The claude skill's catalog state is determined by the following priority:<br>1. “deprecated-routed”, if the deprecated but routed flag is set;<br>2. “hub”, if the live hub flag is set;<br>3. in all other cases, the skill role. |
-| **DR-208 Healthy Flag** | The claude skill's healthy flag is determined by the following priority:<br>1. 0, if at least one of the following holds: the deprecated but routed flag is set or the isolated flag is set;<br>2. in all other cases, 1. |
-| **DR-209 Needs Catalog Action** | A claude skill is considered to need a catalog action if the healthy flag is 0. |
-| **DR-210 Catalog Label** | A claude skill's catalog label is computed as the name, followed by “ [”, followed by the catalog state, followed by “]”. |
-| **DR-211 Name** | A build phas's name is the same as its title. |
-| **DR-212 Story Count** | A build phas's story count is the number of user stories related to the build phas. |
-| **DR-213 Package Count** | A build phas's package count is the number of ERB packages related to the build phas. |
-| **DR-214 Is Priced** | A build phas is considered priced if the quoted price (a missing value counts as 0) is greater than 0. |
-| **DR-215 Priced Flag** | The build phas's priced flag is determined by the following priority:<br>1. 1, if the quoted price (a missing value counts as 0) is greater than 0;<br>2. in all other cases, 0. |
-| **DR-216 Is Fixed Price** | A build phas is considered a fixed price if the phase kind is “fixed-price”. |
-| **DR-217 Done Story Count** | A build phas's done story count is the total done flag across the user stories related to the build phas. |
-| **DR-218 Effort Weight Sum** | A build phas's effort weight sum is the total effort weight across the user stories related to the build phas. |
-| **DR-219 Has Stories** | A build phas is considered to have a stories if the story count is greater than 0. |
-| **DR-220 Done Percent** | The build phas's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the done story count divided by the story count rounded to 0 decimal place(s). |
-| **DR-221 Weighted Done Sum** | A build phas's weighted done sum is the total weighted done across the user stories related to the build phas. |
-| **DR-222 Is Priced With Stories** | A build phas is considered a priced with stories if all of the following hold: the priced flag is set and the stories flag is set. |
-| **DR-223 Weighted Done Percent** | The build phas's weighted done percent is determined by the following priority:<br>1. 0, if the effort weight sum is 0;<br>2. in all other cases, 100 times the weighted done sum divided by the effort weight sum rounded to 0 decimal place(s). |
-| **DR-224 Avg Story Progress** | A build phas's avg story progress is the average derived progress percent across the user stories related to the build phas. |
-| **DR-225 Is Contract Safe** | A build phas is considered a contract safe if at least one of the following holds: the priced flag is not set or the priced with stories flag is set. |
-| **DR-226 Phase State** | The build phas's phase state is determined by the following priority:<br>1. “complete”, if the weighted done percent is 100;<br>2. “in-progress”, if the weighted done percent is greater than 0;<br>3. “bid”, if the current bid flag is set;<br>4. in all other cases, “planned”. |
-| **DR-227 Is Report Safe** | A build phas is considered a report safe if all of the following hold: the contract safe flag is set and the stories flag is set. |
-| **DR-228 Name** | An effort class's name is the same as its title. |
-| **DR-229 Story Count** | An effort class's story count is the number of user stories related to the effort class. |
-| **DR-230 Weighted Story Load** | An effort class's weighted story load is computed as the story count times the complexity weight. |
-| **DR-231 Is Heavy Load** | An effort class is considered a heavy load if the weighted story load is at least 20. |
-| **DR-232 Load Band** | The effort class's load band is determined by the following priority:<br>1. “heavy”, if the heavy load flag is set;<br>2. in all other cases, “light”. |
-| **DR-233 Class Label** | An effort class's class label is computed as the title, followed by “ (”, followed by the load band, followed by “)”. |
-| **DR-234 Name** | A delivery discipline's name is the same as its title. |
-| **DR-235 Visible Share** | The delivery discipline's visible share is determined by the following priority:<br>1. the share percent, if the client visible flag is set;<br>2. in all other cases, 0. |
-| **DR-236 Is Major Discipline** | A delivery discipline is considered a major discipline if the share percent is at least 20. |
-| **DR-237 Is Visible Major** | A delivery discipline is considered a visible major if all of the following hold: the client visible flag is set and the major discipline flag is set. |
-| **DR-238 Discipline Tier** | The delivery discipline's discipline tier is determined by the following priority:<br>1. “major”, if the visible major flag is set;<br>2. “minor”, if the client visible flag is set;<br>3. in all other cases, “internal”. |
-| **DR-239 Is Client Headline** | A delivery discipline is considered a client headline if the discipline tier is “major”. |
-| **DR-240 Discipline Label** | The delivery discipline's discipline label is determined by the following priority:<br>1. the title, followed by “ *”, if the client headline flag is set;<br>2. in all other cases, the title. |
-| **DR-241 Name** | An ERB package's name is the same as its title. |
-| **DR-242 Category Count** | An ERB package's category count is the number of ERB feature categories related to the ERB package. |
-| **DR-243 Feature Count** | An ERB package's feature count is the number of ERB features related to the ERB package. |
-| **DR-244 Phase Title** | An ERB package's phase title — taken from the linked primary phase. |
-| **DR-245 Phase Number** | An ERB package's phase number — taken from the linked primary phase. |
-| **DR-246 Story Count** | An ERB package's story count is the total story count across the ERB features related to the ERB package. |
-| **DR-247 Phase is Priced** | An ERB package's phase is priced when the linked primary phase is priced. |
-| **DR-248 Done Story Count** | An ERB package's done story count is the total done story count across the ERB features related to the ERB package. |
-| **DR-249 Is Priced Package** | An ERB package is considered a priced package if all of the following hold: the phase is priced (a missing value counts as false) and the story count is greater than 0. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-250 Done Percent** | The ERB package's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the done story count divided by the story count rounded to 0 decimal place(s). |
-| **DR-251 Avg Feature Done Percent** | An ERB package's avg feature done percent is the average done percent across the ERB features related to the ERB package. |
-| **DR-252 Is Complete** | An ERB package is considered a complete if the done percent is 100. |
-| **DR-253 Package State** | The ERB package's package state is determined by the following priority:<br>1. “complete”, if the done percent is 100;<br>2. “in-progress”, if the avg feature done percent (a missing value counts as 0) is greater than 0;<br>3. in all other cases, “planned”. |
-| **DR-254 Name** | An ERB feature category's name is the same as its title. |
-| **DR-255 Feature Count** | An ERB feature category's feature count is the number of ERB features related to the ERB feature category. |
-| **DR-256 Story Count** | An ERB feature category's story count is the number of user stories related to the ERB feature category. |
-| **DR-257 Package Title** | An ERB feature category's package title — taken from the linked ERB package. |
-| **DR-258 Has Stories** | An ERB feature category is considered to have a stories if the story count is greater than 0. |
-| **DR-259 Package Feature Count** | An ERB feature category's package feature count — taken from the linked ERB package. |
-| **DR-260 Feature Done Story Count** | An ERB feature category's feature done story count is the total done story count across the ERB features related to the ERB feature category. |
-| **DR-261 Share of Package Features** | The ERB feature category's share of package features is determined by the following priority:<br>1. 0, if the package feature count is 0;<br>2. in all other cases, 100 times the feature count divided by the package feature count rounded to 0 decimal place(s). |
-| **DR-262 Done Percent** | The ERB feature category's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the feature done story count divided by the story count rounded to 0 decimal place(s). |
-| **DR-263 Avg Story Progress** | An ERB feature category's avg story progress is the average derived progress percent across the user stories related to the ERB feature category. |
-| **DR-264 Epic State** | The ERB feature category's epic state is determined by the following priority:<br>1. “complete”, if the done percent is 100;<br>2. “in-progress”, if the avg story progress (a missing value counts as 0) is greater than 0;<br>3. in all other cases, “planned”. |
-| **DR-265 Name** | An ERB feature's name is the same as its title. |
-| **DR-266 Story Count** | An ERB feature's story count is the number of user stories related to the ERB feature. |
-| **DR-267 Category Title** | An ERB feature's category title — taken from the linked category. |
-| **DR-268 Package Title** | An ERB feature's package title — taken from the linked ERB package. |
-| **DR-269 Done Story Count** | An ERB feature's done story count is the total done flag across the user stories related to the ERB feature. |
-| **DR-270 Has Stories** | An ERB feature is considered to have a stories if the story count is greater than 0. |
-| **DR-271 Category Story Count** | An ERB feature's category story count — taken from the linked category. |
-| **DR-272 Done Percent** | The ERB feature's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the done story count divided by the story count rounded to 0 decimal place(s). |
-| **DR-273 Share of Epic Stories** | The ERB feature's share of epic stories is determined by the following priority:<br>1. 0, if the category story count is 0;<br>2. in all other cases, 100 times the story count divided by the category story count rounded to 0 decimal place(s). |
-| **DR-274 Avg Story Progress** | An ERB feature's avg story progress is the average derived progress percent across the user stories related to the ERB feature. |
-| **DR-275 Is Complete** | An ERB feature is considered a complete if the done percent is 100. |
-| **DR-276 Feature State** | The ERB feature's feature state is determined by the following priority:<br>1. “complete”, if the complete flag is set;<br>2. “in-progress”, if the avg story progress (a missing value counts as 0) is greater than 0;<br>3. in all other cases, “planned”. |
-| **DR-277 Name** | A user story's name is the same as its req ID. |
-| **DR-278 Criterion Count** | A user story's criterion count is the number of acceptance criteria related to the user story. |
-| **DR-279 Is Done** | A user story is considered a done if the status is “done”. |
-| **DR-280 Done Flag** | The user story's done flag is determined by the following priority:<br>1. 1, if the status is “done”;<br>2. in all other cases, 0. |
-| **DR-281 Effort Weight** | A user story's effort weight is the complexity weight of the user story's effort class. |
-| **DR-282 Phase Number** | A user story's phase number — taken from the linked build phase. |
-| **DR-283 Feature Title** | A user story's feature title — taken from the linked feature. |
-| **DR-284 Met Criterion Count** | A user story's met criterion count is the total met flag across the acceptance criteria related to the user story. |
-| **DR-285 Has Criteria** | A user story is considered to have a criteria if the criterion count is greater than 0. |
-| **DR-286 Weighted Done** | A user story's weighted done is computed as the done flag times the effort weight. |
-| **DR-287 Derived Progress Percent** | The user story's derived progress percent is determined by the following priority:<br>1. 100 times the met criterion count divided by the criterion count rounded to 0 decimal place(s), if the criteria flag is set;<br>2. in all other cases, the dev progress percent. |
-| **DR-288 Is Acceptance Complete** | A user story is considered an acceptance complete if all of the following hold: the criteria flag is set and the met criterion count is the criterion count. |
-| **DR-289 Has Status Drift** | A user story is considered to have a status drift if all of the following hold: the done flag is set and the met criterion count is not the criterion count. |
-| **DR-290 Weighted Progress** | A user story's weighted progress is computed as the derived progress percent times the effort weight (a missing value counts as 0). |
-| **DR-291 Progress State** | The user story's progress state is determined by the following priority:<br>1. “drift”, if the status drift flag is set;<br>2. “accepted”, if the acceptance complete flag is set;<br>3. “in-flight”, if the derived progress percent is greater than 0;<br>4. in all other cases, “not-started”. |
-| **DR-292 Priority Band** | The user story's priority band is determined by the following priority:<br>1. “fix-first”, if the progress state is “drift”;<br>2. “continue”, if the progress state is “in-flight”;<br>3. in all other cases, “queue”. |
-| **DR-293 Report Label** | A user story's report label is computed as the req ID, followed by a space, followed by the progress state. |
-| **DR-294 Name** | An acceptance criteria's name is the same as its acceptance criterion ID. |
-| **DR-295 Met Flag** | The acceptance criteria's met flag is determined by the following priority:<br>1. 1, if the met flag is set;<br>2. in all other cases, 0. |
-| **DR-296 Story Req ID** | An acceptance criteria's story req ID — taken from the linked user story. |
-| **DR-297 Story Status** | An acceptance criteria's story status — taken from the linked user story. |
-| **DR-298 Story is Done** | An acceptance criteria's story is done is true when the acceptance criteria's user story is a done. |
-| **DR-299 Story Criterion Count** | An acceptance criteria's story criterion count — taken from the linked user story. |
-| **DR-300 Is Inconsistent With Story** | An acceptance criteria is considered an inconsistent with story if all of the following hold: the story is done (a missing value counts as false) and the met flag is not set. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-301 Share of Story** | The acceptance criteria's share of story is determined by the following priority:<br>1. 0, if the story criterion count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the story criterion count rounded to 0 decimal place(s). |
-| **DR-302 Story Derived Progress** | An acceptance criteria's story derived progress is the derived progress percent of the acceptance criteria's user story. |
-| **DR-303 Criterion State** | The acceptance criteria's criterion state is determined by the following priority:<br>1. “contradicts-story”, if the inconsistent with story flag is set;<br>2. “met”, if the met flag is set;<br>3. in all other cases, “pending”. |
-| **DR-304 Needs Review** | An acceptance criteria is considered to need a review if the criterion state is “contradicts-story”. |
-| **DR-305 Story is Ahead of Criterion** | An acceptance criteria is flagged story is ahead of criterion if all of the following hold: the met flag is not set and the story derived progress (a missing value counts as 0) is at least 50. |
-| **DR-306 Name** | A consistency rule's name is the same as its rule code. |
-| **DR-307 Finding Count** | A consistency rule's finding count is the number of consistency findings related to the consistency rule. |
-| **DR-308 Is Critical** | A consistency rule is considered a critical if the severity is “critical”. |
-| **DR-309 Is Repo Scope** | A consistency rule is considered a repo scope if the scope is not “demo”. |
-| **DR-310 Open Finding Count** | A consistency rule's open finding count is the total open flag across the consistency findings related to the consistency rule. |
-| **DR-311 Has Findings** | A consistency rule is considered to have a findings if the finding count is greater than 0. |
-| **DR-312 Is Satisfied** | A consistency rule is considered satisfied if the open finding count is 0. |
-| **DR-313 Satisfied Flag** | The consistency rule's satisfied flag is determined by the following priority:<br>1. 1, if the open finding count is 0;<br>2. in all other cases, 0. |
-| **DR-314 Accepted or Fixed Count** | A consistency rule's accepted or fixed count is computed as the finding count minus the open finding count. |
-| **DR-315 Open Critical Flag** | The consistency rule's open critical flag is determined by the following priority:<br>1. 1, if all of the following hold: the critical flag is set and the open finding count is greater than 0;<br>2. in all other cases, 0. |
-| **DR-316 Rule State** | The consistency rule's rule state is determined by the following priority:<br>1. “satisfied”, if the satisfied flag is set;<br>2. “critical-open”, if the open critical flag is 1;<br>3. in all other cases, “open”. |
-| **DR-317 Resolution Percent** | The consistency rule's resolution percent is determined by the following priority:<br>1. 100, if the finding count is 0;<br>2. in all other cases, 100 times the accepted or fixed count divided by the finding count rounded to 0 decimal place(s). |
-| **DR-318 Rule Label** | A consistency rule's rule label is computed as the rule code, followed by “ [”, followed by the rule state, followed by “]”. |
-| **DR-319 Is Sweep Priority** | A consistency rule is considered a sweep priority if all of the following hold: the rule state is not “satisfied” and the resolution percent is less than 50. |
-| **DR-320 Name** | A consistency finding's name is computed as the domain (a missing value counts as “repo”), followed by “ x ”, followed by the rule. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-321 Is Open** | A consistency finding is considered open if the status is “open”. |
-| **DR-322 Open Flag** | The consistency finding's open flag is determined by the following priority:<br>1. 1, if the status is “open”;<br>2. in all other cases, 0. |
-| **DR-323 Is Repo Scope** | A consistency finding is considered a repo scope if the domain is blank. |
-| **DR-324 Rule Severity** | A consistency finding's rule severity — taken from the linked rule. |
+| **DR-101 Fully Implemented Flag** | The rulebook domain's fully implemented flag is determined by the following priority:<br>1. 1, if all of the following hold: the implementation gap count is 0 and the intentional exception flag is not set;<br>2. in all other cases, 0. |
+| **DR-102 Required Slot Coverage Percent** | The rulebook domain's required slot coverage percent is determined by the following priority:<br>1. 100, if the required slot count is 0;<br>2. in all other cases, 100 times the required present count divided by the required slot count rounded to 0 decimal place(s). |
+| **DR-103 Expected Area** | The rulebook domain's expected area is determined by the following priority:<br>1. “root”, if the kind is “root”;<br>2. “toy-rulebooks”, if the toy flag is set;<br>3. in all other cases, “rulebook-examples”. |
+| **DR-104 Is Misfiled** | A rulebook domain is considered misfiled if all of the following hold: the intentional exception flag is not set and the area is not the expected area. |
+| **DR-105 Readiness State** | The rulebook domain's readiness state is determined by the following priority:<br>1. “intentional-exception”, if the intentional exception flag is set;<br>2. “root-ready” if the fully implemented flag is set, in all other cases “root-incomplete”, if the kind is “root”;<br>3. “toy”, if the toy flag is set;<br>4. “example-ready”, if the fully implemented flag is set;<br>5. in all other cases, “example-incomplete”. |
+| **DR-106 Name** | A project launch profile's name is computed as the domain, followed by “ launch”. |
+| **DR-107 Primary Service Count** | A project launch profile's primary service count is the total is primary flag across the project local services related to the project launch profile. |
+| **DR-108 Service Count** | A project launch profile's service count is the number of project local services related to the project launch profile. |
+| **DR-109 Has Complete Instructions** | A project launch profile is considered to have a complete instructions if all of the following hold: the working directory has a value; the start command has a value; and the experience description has a value. |
+| **DR-110 Has Primary Service** | A project launch profile is considered to have a primary service if the primary service count is 1. |
+| **DR-111 Is Launch Contract Complete** | A project launch profile is considered a launch contract complete if all of the following hold: the complete instructions flag is set and at least one of the following holds: the requires local URL flag is not set or the primary service flag is set. |
+| **DR-112 Name** | A project local service's name is computed as the launch profile, followed by a space, followed by the service role. |
+| **DR-113 Has Health URL** | A project local service is considered to have a health URL if the health URL has a value. |
+| **DR-114 Is Http Service** | A project local service is considered a http service if at least one of the following holds: the first 7 character(s) of the local URL is “http://” or the first 8 character(s) of the local URL is “https://”. |
+| **DR-115 Is Complete** | A project local service is considered a complete if all of the following hold: the local URL has a value and the health URL has a value. |
+| **DR-116 Name** | A legacy runner capability's name is the same as its title. |
+| **DR-117 Is Decided** | A legacy runner capability is considered decided if all of the following hold: the decision has a value and the destination has a value. |
+| **DR-118 Decided Flag** | The legacy runner capability's decided flag is determined by the following priority:<br>1. 1, if all of the following hold: the decision has a value and the destination has a value;<br>2. in all other cases, 0. |
+| **DR-119 Is Kept** | A legacy runner capability is considered a kept if at least one of the following holds: the decision is “promote” or the decision is “separate”. |
+| **DR-120 Is Resolved** | A legacy runner capability is considered resolved if the status is “done”. |
+| **DR-121 Resolved Flag** | The legacy runner capability's resolved flag is determined by the following priority:<br>1. 1, if the status is “done”;<br>2. in all other cases, 0. |
+| **DR-122 Capability State** | The legacy runner capability's capability state is determined by the following priority:<br>1. “undecided”, if the decided flag is not set;<br>2. “resolved”, if the resolved flag is set;<br>3. in all other cases, “decided”. |
+| **DR-123 Capability Label** | A legacy runner capability's capability label is computed as the title, followed by “ [”, followed by the decision, followed by “]”. |
+| **DR-124 Name** | A rulebook flavor's name is the same as its display name. |
+| **DR-125 Derived Field Count** | A rulebook flavor's derived field count is computed as the calculated count plus the aggregation count plus the lookup count. |
+| **DR-126 Has Domain** | A rulebook flavor is considered to have a domain if the domain has a value. |
+| **DR-127 Tag Count** | A rulebook flavor's tag count is the number of flavor tags related to the rulebook flavor. |
+| **DR-128 Answer Key Target Count** | The rulebook flavor's answer key target count is determined by the following priority:<br>1. 0, if the good answer key for is blank;<br>2. in all other cases, the length of the good answer key for minus the length of the good answer key for with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-129 Domain Area** | A rulebook flavor's domain area — taken from the linked domain. |
+| **DR-130 Derived Ratio** | The rulebook flavor's derived ratio is determined by the following priority:<br>1. 0, if the entity count is 0;<br>2. in all other cases, the derived field count divided by the entity count rounded to 2 decimal place(s). |
+| **DR-131 Is Tagged** | A rulebook flavor is considered tagged if the tag count is greater than 0. |
+| **DR-132 Is Toy Flavor** | A rulebook flavor is considered a toy flavor if the domain area is “toy-rulebooks”. |
+| **DR-133 Domain Finding Count** | A rulebook flavor's domain finding count — taken from the linked domain. |
+| **DR-134 Domain Open Finding Count** | A rulebook flavor's domain open finding count — taken from the linked domain. |
+| **DR-135 Is Dense Derivation** | A rulebook flavor is considered a dense derivation if the derived ratio is at least 1. |
+| **DR-136 Is Catalog Complete** | A rulebook flavor is considered a catalog complete if all of the following hold: the domain flag is set and the tagged flag is set. |
+| **DR-137 Domain is Consistent** | A rulebook flavor's domain is consistent is true when the rulebook flavor's domain is a fully consistent. |
+| **DR-138 Domain is Standard Layout** | A rulebook flavor's domain is standard layout when the linked domain is a standard layout. |
+| **DR-139 Is Showcase Card** | A rulebook flavor is considered a showcase card if all of the following hold: the catalog complete flag is set and the domain open finding count (a missing value counts as 1) is 0. |
+| **DR-140 Is Catalog Ready** | A rulebook flavor is considered a catalog ready if all of the following hold: the showcase card flag is set and the domain is consistent (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-141 Domain Conformance Score** | A rulebook flavor's domain conformance score — taken from the linked domain. |
+| **DR-142 Name** | A field type taxonomy's name is the same as its type name. |
+| **DR-143 Is Stored** | A field type taxonomy is considered stored if the storage mode is “stored”. |
+| **DR-144 Is Fully Expressive Tier** | A field type taxonomy is considered a fully expressive tier if the expressive tier is “full”. |
+| **DR-145 Is Stored and Editable** | A field type taxonomy is considered stored-and-editable if all of the following hold: the stored flag is set and the read only in ui flag is not set. |
+| **DR-146 Tier Label** | The field type taxonomy's tier label is determined by the following priority:<br>1. “input”, if the stored and editable flag is set;<br>2. “derived-full”, if the fully expressive tier flag is set;<br>3. in all other cases, “derived-partial”. |
+| **DR-147 Is Input Tier** | A field type taxonomy is considered an input tier if the tier label is “input”. |
+| **DR-148 Ui Hint** | The field type taxonomy's ui hint is determined by the following priority:<br>1. “editable”, if the input tier flag is set;<br>2. in all other cases, “read-only”. |
+| **DR-149 Is Active** | A formula dialect is considered active if the status is “active”. |
+| **DR-150 Primary Substrate Count** | The formula dialect's primary substrate count is determined by the following priority:<br>1. 0, if the primary substrates is blank;<br>2. in all other cases, the length of the primary substrates minus the length of the primary substrates with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-151 Is Active Multi Substrate** | A formula dialect is considered an active multi substrate if all of the following hold: the active flag is set and the primary substrate count is greater than 1. |
+| **DR-152 Dialect Role** | The formula dialect's dialect role is determined by the following priority:<br>1. “primary”, if the active multi substrate flag is set;<br>2. “niche”, if the active flag is set;<br>3. in all other cases, “retired”. |
+| **DR-153 Is Primary Dialect** | A formula dialect is considered a primary dialect if the dialect role is “primary”. |
+| **DR-154 Dialect Label** | The formula dialect's dialect label is determined by the following priority:<br>1. the name, followed by “ (primary)”, if the primary dialect flag is set;<br>2. in all other cases, the name. |
+| **DR-155 Name** | A demo narrative's name is computed as the narrative name, followed by “ / ”, followed by the step name. |
+| **DR-156 Is Deprecated** | A demo narrative is considered deprecated if the status is “deprecated”. |
+| **DR-157 Is Superseded** | A demo narrative is considered superseded if the superseded by has a value. |
+| **DR-158 Domain Name** | A demo narrative's domain name — taken from the linked related domain ID. |
+| **DR-159 Is Retired** | A demo narrative is considered retired if at least one of the following holds: the deprecated flag is set or the superseded flag is set. |
+| **DR-160 Domain is Toy** | A demo narrative's domain is toy when the linked related domain ID is a toy. |
+| **DR-161 Is Retired Toy Story** | A demo narrative is considered a retired toy story if all of the following hold: the retired flag is set and the domain is toy (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-162 Is Live Story** | A demo narrative is considered a live story if all of the following hold: the retired flag is not set and the related domain ID has a value. |
+| **DR-163 Story State** | The demo narrative's story state is determined by the following priority:<br>1. “live”, if the live story flag is set;<br>2. “retired-toy”, if the retired toy story flag is set;<br>3. in all other cases, “retired”. |
+| **DR-164 Is Current Story** | A demo narrative is considered a current story if the story state is “live”. |
+| **DR-165 Name** | A glossary's name is the same as its term. |
+| **DR-166 Alias Count** | The glossary's alias count is determined by the following priority:<br>1. 0, if the aliases is blank;<br>2. in all other cases, the length of the aliases minus the length of the aliases with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-167 Has Implementation** | A glossary is considered to have an implementation if the implemented as has a value. |
+| **DR-168 Implementation Kind** | The glossary's implementation kind is determined by the following priority:<br>1. an empty string, if the length of the implemented as (a missing value counts as an empty string) is the length of the implemented as (a missing value counts as an empty string) with every “:” replaced by an empty string;<br>2. in all other cases, the first the position of “:” within the implemented as minus 1 character(s) of the implemented as. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-169 Is File Backed** | A glossary is considered file-backed if the implementation kind is “file”. |
+| **DR-170 Is Rich Term** | A glossary is considered a rich term if all of the following hold: the alias count is greater than 0 and the implementation flag is set. |
+| **DR-171 Term Quality** | The glossary's term quality is determined by the following priority:<br>1. “anchored” if the file backed flag is set, in all other cases “rich”, if the rich term flag is set;<br>2. “implemented”, if the implementation flag is set;<br>3. in all other cases, “definition-only”. |
+| **DR-172 Is Anchored** | A glossary is considered anchored if the term quality is “anchored”. |
+| **DR-173 Glossary Tier** | The glossary's glossary tier is determined by the following priority:<br>1. “tier-1”, if the anchored flag is set;<br>2. “tier-2”, if the term quality is “rich”;<br>3. in all other cases, “tier-3”. |
+| **DR-174 Name** | A rulebook tag's name is the same as its label. |
+| **DR-175 Usage Count** | A rulebook tag's usage count is the number of flavor tags related to the rulebook tag. |
+| **DR-176 Is Source Tag** | A rulebook tag is considered a source tag if the category is “source”. |
+| **DR-177 Is Unused** | A rulebook tag is considered unused if the usage count is 0. |
+| **DR-178 Unused Flag** | The rulebook tag's unused flag is determined by the following priority:<br>1. 1, if the usage count is 0;<br>2. in all other cases, 0. |
+| **DR-179 Tag Health** | The rulebook tag's tag health is determined by the following priority:<br>1. “unused”, if the unused flag is set;<br>2. “common”, if the usage count is at least 5;<br>3. in all other cases, “rare”. |
+| **DR-180 Is Retirement Candidate** | A rulebook tag is considered a retirement candidate if the tag health is “unused”. |
+| **DR-181 Tag Action** | The rulebook tag's tag action is determined by the following priority:<br>1. “retire”, if the retirement candidate flag is set;<br>2. in all other cases, “keep”. |
+| **DR-182 Name** | A flavor tag's name is computed as the flavor, followed by “:”, followed by the tag. |
+| **DR-183 Tag Label** | A flavor tag's tag label — taken from the linked tag. |
+| **DR-184 Tag Category** | A flavor tag's tag category — taken from the linked tag. |
+| **DR-185 Flavor Display Name** | A flavor tag's flavor display name — taken from the linked flavor. |
+| **DR-186 Is Source Tagging** | A flavor tag is considered source-tagging if the tag category is “source”. |
+| **DR-187 Flavor Tag Count** | A flavor tag's flavor tag count — taken from the linked flavor. |
+| **DR-188 Is Sole Tag** | A flavor tag is considered a sole tag if the flavor tag count (a missing value counts as 0) is 1. |
+| **DR-189 Tag Share** | The flavor tag's tag share is determined by the following priority:<br>1. 0, if the flavor tag count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the flavor tag count rounded to 0 decimal place(s). |
+| **DR-190 Is Defining Tag** | A flavor tag is considered a defining tag if all of the following hold: the sole tag flag is set and the source tagging flag is set. |
+| **DR-191 Tag Weight** | The flavor tag's tag weight is determined by the following priority:<br>1. 2, if the defining tag flag is set;<br>2. in all other cases, 1. |
+| **DR-192 Slash Command** | A claude skill's slash command is computed as a slash, followed by the name. |
+| **DR-193 Local Mirror Path** | A claude skill's local mirror path is computed as “docs/skills/”, followed by the name, followed by “/SKILL.md”. |
+| **DR-194 Is Deprecated** | A claude skill is considered deprecated if the status is “deprecated”. |
+| **DR-195 Deprecated Flag** | The claude skill's deprecated flag is determined by the following priority:<br>1. 1, if the status is “deprecated”;<br>2. in all other cases, 0. |
+| **DR-196 Outbound Route Count** | A claude skill's outbound route count is the number of skill routes related to the claude skill. |
+| **DR-197 Inbound Route Count** | A claude skill's inbound route count is the number of skill routes related to the claude skill. |
+| **DR-198 Is Customer Facing** | A claude skill is considered customer-facing if the audience is “customer”. |
+| **DR-199 Is Isolated** | A claude skill is considered isolated if all of the following hold: the outbound route count is 0 and the inbound route count is 0. |
+| **DR-200 Isolated Flag** | The claude skill's isolated flag is determined by the following priority:<br>1. 1, if all of the following hold: the outbound route count is 0 and the inbound route count is 0;<br>2. in all other cases, 0. |
+| **DR-201 Is Hub** | A claude skill is considered a hub if the outbound route count is at least 5. |
+| **DR-202 Route Degree** | A claude skill's route degree is computed as the outbound route count plus the inbound route count. |
+| **DR-203 Skill Role** | The claude skill's skill role is determined by the following priority:<br>1. “isolated”, if the isolated flag is set;<br>2. “hub”, if the hub flag is set;<br>3. “leaf”, if the inbound route count is greater than 0;<br>4. in all other cases, “source”. |
+| **DR-204 Is Live Hub** | A claude skill is considered a live hub if all of the following hold: the hub flag is set and the deprecated flag is not set. |
+| **DR-205 Is Deprecated But Routed** | A claude skill is considered deprecated-but-routed if all of the following hold: the deprecated flag is set and the route degree is greater than 0. |
+| **DR-206 Catalog State** | The claude skill's catalog state is determined by the following priority:<br>1. “deprecated-routed”, if the deprecated but routed flag is set;<br>2. “hub”, if the live hub flag is set;<br>3. in all other cases, the skill role. |
+| **DR-207 Healthy Flag** | The claude skill's healthy flag is determined by the following priority:<br>1. 0, if at least one of the following holds: the deprecated but routed flag is set or the isolated flag is set;<br>2. in all other cases, 1. |
+| **DR-208 Needs Catalog Action** | A claude skill is considered to need a catalog action if the healthy flag is 0. |
+| **DR-209 Catalog Label** | A claude skill's catalog label is computed as the name, followed by “ [”, followed by the catalog state, followed by “]”. |
+| **DR-210 Name** | A build phas's name is the same as its title. |
+| **DR-211 Story Count** | A build phas's story count is the number of user stories related to the build phas. |
+| **DR-212 Package Count** | A build phas's package count is the number of ERB packages related to the build phas. |
+| **DR-213 Is Priced** | A build phas is considered priced if the quoted price (a missing value counts as 0) is greater than 0. |
+| **DR-214 Priced Flag** | The build phas's priced flag is determined by the following priority:<br>1. 1, if the quoted price (a missing value counts as 0) is greater than 0;<br>2. in all other cases, 0. |
+| **DR-215 Is Fixed Price** | A build phas is considered a fixed price if the phase kind is “fixed-price”. |
+| **DR-216 Done Story Count** | A build phas's done story count is the total done flag across the user stories related to the build phas. |
+| **DR-217 Effort Weight Sum** | A build phas's effort weight sum is the total effort weight across the user stories related to the build phas. |
+| **DR-218 Has Stories** | A build phas is considered to have a stories if the story count is greater than 0. |
+| **DR-219 Done Percent** | The build phas's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the done story count divided by the story count rounded to 0 decimal place(s). |
+| **DR-220 Weighted Done Sum** | A build phas's weighted done sum is the total weighted done across the user stories related to the build phas. |
+| **DR-221 Is Priced With Stories** | A build phas is considered a priced with stories if all of the following hold: the priced flag is set and the stories flag is set. |
+| **DR-222 Weighted Done Percent** | The build phas's weighted done percent is determined by the following priority:<br>1. 0, if the effort weight sum is 0;<br>2. in all other cases, 100 times the weighted done sum divided by the effort weight sum rounded to 0 decimal place(s). |
+| **DR-223 Avg Story Progress** | A build phas's avg story progress is the average derived progress percent across the user stories related to the build phas. |
+| **DR-224 Is Contract Safe** | A build phas is considered a contract safe if at least one of the following holds: the priced flag is not set or the priced with stories flag is set. |
+| **DR-225 Phase State** | The build phas's phase state is determined by the following priority:<br>1. “complete”, if the weighted done percent is 100;<br>2. “in-progress”, if the weighted done percent is greater than 0;<br>3. “bid”, if the current bid flag is set;<br>4. in all other cases, “planned”. |
+| **DR-226 Is Report Safe** | A build phas is considered a report safe if all of the following hold: the contract safe flag is set and the stories flag is set. |
+| **DR-227 Name** | An effort class's name is the same as its title. |
+| **DR-228 Story Count** | An effort class's story count is the number of user stories related to the effort class. |
+| **DR-229 Weighted Story Load** | An effort class's weighted story load is computed as the story count times the complexity weight. |
+| **DR-230 Is Heavy Load** | An effort class is considered a heavy load if the weighted story load is at least 20. |
+| **DR-231 Load Band** | The effort class's load band is determined by the following priority:<br>1. “heavy”, if the heavy load flag is set;<br>2. in all other cases, “light”. |
+| **DR-232 Class Label** | An effort class's class label is computed as the title, followed by “ (”, followed by the load band, followed by “)”. |
+| **DR-233 Name** | A delivery discipline's name is the same as its title. |
+| **DR-234 Visible Share** | The delivery discipline's visible share is determined by the following priority:<br>1. the share percent, if the client visible flag is set;<br>2. in all other cases, 0. |
+| **DR-235 Is Major Discipline** | A delivery discipline is considered a major discipline if the share percent is at least 20. |
+| **DR-236 Is Visible Major** | A delivery discipline is considered a visible major if all of the following hold: the client visible flag is set and the major discipline flag is set. |
+| **DR-237 Discipline Tier** | The delivery discipline's discipline tier is determined by the following priority:<br>1. “major”, if the visible major flag is set;<br>2. “minor”, if the client visible flag is set;<br>3. in all other cases, “internal”. |
+| **DR-238 Is Client Headline** | A delivery discipline is considered a client headline if the discipline tier is “major”. |
+| **DR-239 Discipline Label** | The delivery discipline's discipline label is determined by the following priority:<br>1. the title, followed by “ *”, if the client headline flag is set;<br>2. in all other cases, the title. |
+| **DR-240 Name** | An ERB package's name is the same as its title. |
+| **DR-241 Category Count** | An ERB package's category count is the number of ERB feature categories related to the ERB package. |
+| **DR-242 Feature Count** | An ERB package's feature count is the number of ERB features related to the ERB package. |
+| **DR-243 Phase Title** | An ERB package's phase title — taken from the linked primary phase. |
+| **DR-244 Phase Number** | An ERB package's phase number — taken from the linked primary phase. |
+| **DR-245 Story Count** | An ERB package's story count is the total story count across the ERB features related to the ERB package. |
+| **DR-246 Phase is Priced** | An ERB package's phase is priced when the linked primary phase is priced. |
+| **DR-247 Done Story Count** | An ERB package's done story count is the total done story count across the ERB features related to the ERB package. |
+| **DR-248 Is Priced Package** | An ERB package is considered a priced package if all of the following hold: the phase is priced (a missing value counts as false) and the story count is greater than 0. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-249 Done Percent** | The ERB package's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the done story count divided by the story count rounded to 0 decimal place(s). |
+| **DR-250 Avg Feature Done Percent** | An ERB package's avg feature done percent is the average done percent across the ERB features related to the ERB package. |
+| **DR-251 Is Complete** | An ERB package is considered a complete if the done percent is 100. |
+| **DR-252 Package State** | The ERB package's package state is determined by the following priority:<br>1. “complete”, if the done percent is 100;<br>2. “in-progress”, if the avg feature done percent (a missing value counts as 0) is greater than 0;<br>3. in all other cases, “planned”. |
+| **DR-253 Name** | An ERB feature category's name is the same as its title. |
+| **DR-254 Feature Count** | An ERB feature category's feature count is the number of ERB features related to the ERB feature category. |
+| **DR-255 Story Count** | An ERB feature category's story count is the number of user stories related to the ERB feature category. |
+| **DR-256 Package Title** | An ERB feature category's package title — taken from the linked ERB package. |
+| **DR-257 Has Stories** | An ERB feature category is considered to have a stories if the story count is greater than 0. |
+| **DR-258 Package Feature Count** | An ERB feature category's package feature count — taken from the linked ERB package. |
+| **DR-259 Feature Done Story Count** | An ERB feature category's feature done story count is the total done story count across the ERB features related to the ERB feature category. |
+| **DR-260 Share of Package Features** | The ERB feature category's share of package features is determined by the following priority:<br>1. 0, if the package feature count is 0;<br>2. in all other cases, 100 times the feature count divided by the package feature count rounded to 0 decimal place(s). |
+| **DR-261 Done Percent** | The ERB feature category's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the feature done story count divided by the story count rounded to 0 decimal place(s). |
+| **DR-262 Avg Story Progress** | An ERB feature category's avg story progress is the average derived progress percent across the user stories related to the ERB feature category. |
+| **DR-263 Epic State** | The ERB feature category's epic state is determined by the following priority:<br>1. “complete”, if the done percent is 100;<br>2. “in-progress”, if the avg story progress (a missing value counts as 0) is greater than 0;<br>3. in all other cases, “planned”. |
+| **DR-264 Name** | An ERB feature's name is the same as its title. |
+| **DR-265 Story Count** | An ERB feature's story count is the number of user stories related to the ERB feature. |
+| **DR-266 Category Title** | An ERB feature's category title — taken from the linked category. |
+| **DR-267 Package Title** | An ERB feature's package title — taken from the linked ERB package. |
+| **DR-268 Done Story Count** | An ERB feature's done story count is the total done flag across the user stories related to the ERB feature. |
+| **DR-269 Has Stories** | An ERB feature is considered to have a stories if the story count is greater than 0. |
+| **DR-270 Category Story Count** | An ERB feature's category story count — taken from the linked category. |
+| **DR-271 Done Percent** | The ERB feature's done percent is determined by the following priority:<br>1. 0, if the story count is 0;<br>2. in all other cases, 100 times the done story count divided by the story count rounded to 0 decimal place(s). |
+| **DR-272 Share of Epic Stories** | The ERB feature's share of epic stories is determined by the following priority:<br>1. 0, if the category story count is 0;<br>2. in all other cases, 100 times the story count divided by the category story count rounded to 0 decimal place(s). |
+| **DR-273 Avg Story Progress** | An ERB feature's avg story progress is the average derived progress percent across the user stories related to the ERB feature. |
+| **DR-274 Is Complete** | An ERB feature is considered a complete if the done percent is 100. |
+| **DR-275 Feature State** | The ERB feature's feature state is determined by the following priority:<br>1. “complete”, if the complete flag is set;<br>2. “in-progress”, if the avg story progress (a missing value counts as 0) is greater than 0;<br>3. in all other cases, “planned”. |
+| **DR-276 Name** | A user story's name is the same as its req ID. |
+| **DR-277 Criterion Count** | A user story's criterion count is the number of acceptance criteria related to the user story. |
+| **DR-278 Is Done** | A user story is considered a done if the status is “done”. |
+| **DR-279 Done Flag** | The user story's done flag is determined by the following priority:<br>1. 1, if the status is “done”;<br>2. in all other cases, 0. |
+| **DR-280 Effort Weight** | A user story's effort weight is the complexity weight of the user story's effort class. |
+| **DR-281 Phase Number** | A user story's phase number — taken from the linked build phase. |
+| **DR-282 Feature Title** | A user story's feature title — taken from the linked feature. |
+| **DR-283 Met Criterion Count** | A user story's met criterion count is the total met flag across the acceptance criteria related to the user story. |
+| **DR-284 Has Criteria** | A user story is considered to have a criteria if the criterion count is greater than 0. |
+| **DR-285 Weighted Done** | A user story's weighted done is computed as the done flag times the effort weight. |
+| **DR-286 Derived Progress Percent** | The user story's derived progress percent is determined by the following priority:<br>1. 100 times the met criterion count divided by the criterion count rounded to 0 decimal place(s), if the criteria flag is set;<br>2. in all other cases, the dev progress percent. |
+| **DR-287 Is Acceptance Complete** | A user story is considered an acceptance complete if all of the following hold: the criteria flag is set and the met criterion count is the criterion count. |
+| **DR-288 Has Status Drift** | A user story is considered to have a status drift if all of the following hold: the done flag is set and the met criterion count is not the criterion count. |
+| **DR-289 Weighted Progress** | A user story's weighted progress is computed as the derived progress percent times the effort weight (a missing value counts as 0). |
+| **DR-290 Progress State** | The user story's progress state is determined by the following priority:<br>1. “drift”, if the status drift flag is set;<br>2. “accepted”, if the acceptance complete flag is set;<br>3. “in-flight”, if the derived progress percent is greater than 0;<br>4. in all other cases, “not-started”. |
+| **DR-291 Priority Band** | The user story's priority band is determined by the following priority:<br>1. “fix-first”, if the progress state is “drift”;<br>2. “continue”, if the progress state is “in-flight”;<br>3. in all other cases, “queue”. |
+| **DR-292 Report Label** | A user story's report label is computed as the req ID, followed by a space, followed by the progress state. |
+| **DR-293 Name** | An acceptance criteria's name is the same as its acceptance criterion ID. |
+| **DR-294 Met Flag** | The acceptance criteria's met flag is determined by the following priority:<br>1. 1, if the met flag is set;<br>2. in all other cases, 0. |
+| **DR-295 Story Req ID** | An acceptance criteria's story req ID — taken from the linked user story. |
+| **DR-296 Story Status** | An acceptance criteria's story status — taken from the linked user story. |
+| **DR-297 Story is Done** | An acceptance criteria's story is done is true when the acceptance criteria's user story is a done. |
+| **DR-298 Story Criterion Count** | An acceptance criteria's story criterion count — taken from the linked user story. |
+| **DR-299 Is Inconsistent With Story** | An acceptance criteria is considered an inconsistent with story if all of the following hold: the story is done (a missing value counts as false) and the met flag is not set. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-300 Share of Story** | The acceptance criteria's share of story is determined by the following priority:<br>1. 0, if the story criterion count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the story criterion count rounded to 0 decimal place(s). |
+| **DR-301 Story Derived Progress** | An acceptance criteria's story derived progress is the derived progress percent of the acceptance criteria's user story. |
+| **DR-302 Criterion State** | The acceptance criteria's criterion state is determined by the following priority:<br>1. “contradicts-story”, if the inconsistent with story flag is set;<br>2. “met”, if the met flag is set;<br>3. in all other cases, “pending”. |
+| **DR-303 Needs Review** | An acceptance criteria is considered to need a review if the criterion state is “contradicts-story”. |
+| **DR-304 Story is Ahead of Criterion** | An acceptance criteria is flagged story is ahead of criterion if all of the following hold: the met flag is not set and the story derived progress (a missing value counts as 0) is at least 50. |
+| **DR-305 Name** | A consistency rule's name is the same as its rule code. |
+| **DR-306 Finding Count** | A consistency rule's finding count is the number of consistency findings related to the consistency rule. |
+| **DR-307 Is Critical** | A consistency rule is considered a critical if the severity is “critical”. |
+| **DR-308 Is Repo Scope** | A consistency rule is considered a repo scope if the scope is not “demo”. |
+| **DR-309 Open Finding Count** | A consistency rule's open finding count is the total open flag across the consistency findings related to the consistency rule. |
+| **DR-310 Has Findings** | A consistency rule is considered to have a findings if the finding count is greater than 0. |
+| **DR-311 Is Satisfied** | A consistency rule is considered satisfied if the open finding count is 0. |
+| **DR-312 Satisfied Flag** | The consistency rule's satisfied flag is determined by the following priority:<br>1. 1, if the open finding count is 0;<br>2. in all other cases, 0. |
+| **DR-313 Accepted or Fixed Count** | A consistency rule's accepted or fixed count is computed as the finding count minus the open finding count. |
+| **DR-314 Open Critical Flag** | The consistency rule's open critical flag is determined by the following priority:<br>1. 1, if all of the following hold: the critical flag is set and the open finding count is greater than 0;<br>2. in all other cases, 0. |
+| **DR-315 Rule State** | The consistency rule's rule state is determined by the following priority:<br>1. “satisfied”, if the satisfied flag is set;<br>2. “critical-open”, if the open critical flag is 1;<br>3. in all other cases, “open”. |
+| **DR-316 Resolution Percent** | The consistency rule's resolution percent is determined by the following priority:<br>1. 100, if the finding count is 0;<br>2. in all other cases, 100 times the accepted or fixed count divided by the finding count rounded to 0 decimal place(s). |
+| **DR-317 Rule Label** | A consistency rule's rule label is computed as the rule code, followed by “ [”, followed by the rule state, followed by “]”. |
+| **DR-318 Is Sweep Priority** | A consistency rule is considered a sweep priority if all of the following hold: the rule state is not “satisfied” and the resolution percent is less than 50. |
+| **DR-319 Name** | A consistency finding's name is computed as the domain (a missing value counts as “repo”), followed by “ x ”, followed by the rule. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-320 Is Open** | A consistency finding is considered open if the status is “open”. |
+| **DR-321 Open Flag** | The consistency finding's open flag is determined by the following priority:<br>1. 1, if the status is “open”;<br>2. in all other cases, 0. |
+| **DR-322 Is Repo Scope** | A consistency finding is considered a repo scope if the domain is blank. |
+| **DR-323 Rule Severity** | A consistency finding's rule severity — taken from the linked rule. |
+| **DR-324 Rule is Scanner Derived** | A consistency finding's rule is scanner derived when the linked rule is scanner derived. |
 | **DR-325 Rule Code** | A consistency finding's rule code — taken from the linked rule. |
 | **DR-326 Domain Name** | A consistency finding's domain name — taken from the linked domain. |
 | **DR-327 Is Open Critical** | A consistency finding is considered an open critical if all of the following hold: the open flag is set and the rule severity is “critical”. |
-| **DR-328 Domain Finding Count** | A consistency finding's domain finding count — taken from the linked domain. |
-| **DR-329 Rule Finding Count** | A consistency finding's rule finding count — taken from the linked rule. |
-| **DR-330 Domain Open Finding Count** | A consistency finding's domain open finding count — taken from the linked domain. |
-| **DR-331 Rule Open Finding Count** | A consistency finding's rule open finding count — taken from the linked rule. |
-| **DR-332 Is Sole Finding on Domain** | A consistency finding is considered a sole finding on domain if the domain finding count (a missing value counts as 0) is 1. |
-| **DR-333 Is Sole Blocker** | A consistency finding is considered a sole blocker if all of the following hold: the open flag is set and the domain open finding count (a missing value counts as 0) is 1. |
-| **DR-334 Rule is Satisfied** | A consistency finding's rule is satisfied when the linked rule is satisfied. |
-| **DR-335 Domain Grade** | A consistency finding's domain grade is the consistency grade of the consistency finding's domain. |
-| **DR-336 Priority** | The consistency finding's priority is determined by the following priority:<br>1. “P1”, if the open critical flag is set;<br>2. “P2”, if the sole blocker flag is set;<br>3. “P3”, if the open flag is set;<br>4. in all other cases, “closed”. |
-| **DR-337 Is Last Mile** | A consistency finding is considered a last mile if all of the following hold: the sole blocker flag is set and the domain grade (a missing value counts as an empty string) is “minor”. |
-| **DR-338 Name** | A mobile nav tab's name is the same as its label. |
-| **DR-339 Route Count** | A mobile nav tab's route count is the number of mobile routes related to the mobile nav tab. |
-| **DR-340 Unbuilt Route Count** | A mobile nav tab's unbuilt route count is the total unbuilt flag across the mobile routes related to the mobile nav tab. |
-| **DR-341 Has Routes** | A mobile nav tab is considered to have a routes if the route count is greater than 0. |
-| **DR-342 Build Coverage Percent** | The mobile nav tab's build coverage percent is determined by the following priority:<br>1. 0, if the route count is 0;<br>2. in all other cases, 100 times the route count minus the unbuilt route count divided by the route count rounded to 0 decimal place(s). |
-| **DR-343 Is Plan Only** | A mobile nav tab is considered a plan only if all of the following hold: the routes flag is set and the unbuilt route count is the route count. |
-| **DR-344 Is Shippable** | A mobile nav tab is considered shippable if the build coverage percent is 100. |
-| **DR-345 Shippable Flag** | The mobile nav tab's shippable flag is determined by the following priority:<br>1. 1, if the build coverage percent is 100;<br>2. in all other cases, 0. |
-| **DR-346 Tab State** | The mobile nav tab's tab state is determined by the following priority:<br>1. “shippable”, if the shippable flag is set;<br>2. “plan-only”, if the plan only flag is set;<br>3. in all other cases, “partial”. |
-| **DR-347 Name** | A mobile route's name is the same as its path. |
-| **DR-348 Depth** | The mobile route's depth is determined by the following priority:<br>1. 0, if the path is a slash;<br>2. in all other cases, the length of the path minus the length of the path with every a slash replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-349 Is Detail** | A mobile route is considered a detail if the length of the path is not the length of the path with every “:” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-350 Has Screen** | A mobile route is considered to have a screen if the screen has a value. |
-| **DR-351 Unbuilt Flag** | The mobile route's unbuilt flag is determined by the following priority:<br>1. 1, if the screen is blank;<br>2. in all other cases, 0. |
-| **DR-352 Child Route Count** | A mobile route's child route count is the number of mobile routes related to the mobile route. |
-| **DR-353 Tab Label** | A mobile route's tab label — taken from the linked tab. |
-| **DR-354 Entity Count** | The mobile route's entity count is determined by the following priority:<br>1. 0, if the reads entities is blank;<br>2. in all other cases, the length of the reads entities minus the length of the reads entities with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-355 Parent Depth** | A mobile route's parent depth — taken from the linked parent route. |
-| **DR-356 Is Leaf Route** | A mobile route is considered a leaf route if the child route count is 0. |
-| **DR-357 Tab Route Count** | A mobile route's tab route count — taken from the linked tab. |
-| **DR-358 Is Depth Consistent** | A mobile route is considered a depth consistent if the depth is at most 1 if the parent route is blank, in all other cases the depth is the parent depth plus 1. |
-| **DR-359 Tab Unbuilt Count** | A mobile route's tab unbuilt count is the unbuilt route count of the mobile route's tab. |
-| **DR-360 Share of Tab** | The mobile route's share of tab is determined by the following priority:<br>1. 0, if the tab route count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the tab route count rounded to 0 decimal place(s). |
-| **DR-361 Tab Coverage Percent** | A mobile route's tab coverage percent is the build coverage percent of the mobile route's tab. |
-| **DR-362 Route State** | The mobile route's route state is determined by the following priority:<br>1. “misparented”, if the depth consistent flag is not set;<br>2. “built”, if the screen flag is set;<br>3. in all other cases, “planned”. |
-| **DR-363 Is on Shippable Tab** | A mobile route is considered on-shippable-tab if the tab coverage percent (a missing value counts as 0) is 100. |
-| **DR-364 Route Label** | A mobile route's route label is computed as the path, followed by “ [”, followed by the route state, followed by “]”. |
-| **DR-365 Name** | A skill route's name is computed as the from skill, followed by “ -> ”, followed by the to skill. |
-| **DR-366 From Status** | A skill route's from status — taken from the linked from skill. |
-| **DR-367 To Status** | A skill route's to status — taken from the linked to skill. |
-| **DR-368 Is Orchestrator Route** | A skill route is considered an orchestrator route if the from skill is “effortless-orchestrator”. |
-| **DR-369 Is Deprecated Target** | A skill route is considered a deprecated target if the to status is “deprecated”. |
-| **DR-370 To Inbound Count** | A skill route's to inbound count is the inbound route count of the skill route's to skill. |
-| **DR-371 From Outbound Count** | A skill route's from outbound count is the outbound route count of the skill route's from skill. |
-| **DR-372 Is Hub Edge** | A skill route is considered a hub edge if the from outbound count (a missing value counts as 0) is at least 5. |
-| **DR-373 Is Into Leaf** | A skill route is considered an into leaf if the to inbound count (a missing value counts as 0) is 1. |
-| **DR-374 Is Stale** | A skill route is considered a stale if at least one of the following holds: the deprecated target flag is set or the from status is “deprecated”. |
-| **DR-375 Edge Class** | The skill route's edge class is determined by the following priority:<br>1. “stale”, if the stale flag is set;<br>2. “hub-to-leaf” if the into leaf flag is set, in all other cases “hub-fanout”, if the hub edge flag is set;<br>3. in all other cases, “peer”. |
-| **DR-376 Route Label** | A skill route's route label is computed as the from skill, followed by “ -> ”, followed by the to skill, followed by “ [”, followed by the edge class, followed by “]”. |
-| **DR-377 Name** | A project layout slot's name is the same as its title. |
-| **DR-378 Witness Count** | A project layout slot's witness count is the number of project slot witnesses related to the project layout slot. |
-| **DR-379 Present Count** | A project layout slot's present count is the total present flag across the project slot witnesses related to the project layout slot. |
-| **DR-380 Implementation Gap Count** | A project layout slot's implementation gap count is the total implementation gap flag across the project slot witnesses related to the project layout slot. |
-| **DR-381 Coverage Percent** | The project layout slot's coverage percent is determined by the following priority:<br>1. 0, if the witness count is 0;<br>2. in all other cases, 100 times the present count divided by the witness count rounded to 0 decimal place(s). |
-| **DR-382 Is Universally Filled** | A project layout slot is considered universally-filled if the coverage percent is 100. |
-| **DR-383 Slot Health** | The project layout slot's slot health is determined by the following priority:<br>1. “clean”, if the implementation gap count is 0;<br>2. “few-gaps”, if the implementation gap count is at most 3;<br>3. in all other cases, “widespread”. |
-| **DR-384 Slot Label** | A project layout slot's slot label is computed as the title, followed by “ [”, followed by the slot health, followed by “]”. |
-| **DR-385 Name** | A project slot witness's name is the same as its project slot witness ID. |
-| **DR-386 Present Flag** | The project slot witness's present flag is determined by the following priority:<br>1. 1, if the present flag is set;<br>2. in all other cases, 0. |
-| **DR-387 Slot Required for Root** | A project slot witness's slot required for root when the linked slot is required for root. |
-| **DR-388 Slot Required for Example** | A project slot witness's slot required for example when the linked slot is required for example. |
-| **DR-389 Slot Required for Toy** | A project slot witness's slot required for toy when the linked slot is required for toy. |
-| **DR-390 Domain Area** | A project slot witness's domain area — taken from the linked domain. |
-| **DR-391 Domain is Exception** | A project slot witness's domain is exception is true when the project slot witness's domain is an intentional exception. |
-| **DR-392 Is Required Here** | A project slot witness is considered a required here if all of the following hold: it is not the case that the domain is exception (a missing value counts as false) and at least one of the following holds: all of the following hold: the domain area is “root” and the slot required for root (a missing value counts as false); all of the following hold: the domain area is “rulebook-examples” and the slot required for example (a missing value counts as false); or all of the following hold: the domain area is “toy-rulebooks” and the slot required for toy (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-393 Implementation Gap Flag** | The project slot witness's implementation gap flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and at least one of the following holds: all of the following hold: the domain area is “root” and the slot required for root (a missing value counts as false) or all of the following hold: the domain area is not “root” and the slot required for example (a missing value counts as false);<br>2. in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-394 Universal Gap Flag** | The project slot witness's universal gap flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and the slot required for toy (a missing value counts as false);<br>2. in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-395 Is Gap** | A project slot witness is considered a gap if all of the following hold: the present flag is not set and the required here flag is set. |
-| **DR-396 Gap Flag** | The project slot witness's gap flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is not set and the required here flag is set;<br>2. in all other cases, 0. |
-| **DR-397 Required Here Flag** | The project slot witness's required here flag is determined by the following priority:<br>1. 1, if the required here flag is set;<br>2. in all other cases, 0. |
-| **DR-398 Required Present Flag** | The project slot witness's required present flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is set and the required here flag is set;<br>2. in all other cases, 0. |
-| **DR-399 Witness State** | The project slot witness's witness state is determined by the following priority:<br>1. “gap”, if the gap flag is set;<br>2. “filled”, if the present flag is set;<br>3. in all other cases, “optional-empty”. |
-| **DR-400 Is Blocking Gap** | A project slot witness is considered a blocking gap if the witness state is “gap”. |
-| **DR-401 Description Length** | A CMCC summary's description length is computed as the length of the description. |
-| **DR-402 Is Substantive** | A CMCC summary is considered substantive if the description length is at least 200. |
-| **DR-403 Narrative State** | The CMCC summary's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
-| **DR-404 Is Ready** | A CMCC summary is considered a ready if the narrative state is “ready”. |
-| **DR-405 Section Label** | The CMCC summary's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
-| **DR-406 Description Length** | A project goal's description length is computed as the length of the description. |
-| **DR-407 Is Substantive** | A project goal is considered substantive if the description length is at least 200. |
-| **DR-408 Narrative State** | The project goal's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
-| **DR-409 Is Ready** | A project goal is considered a ready if the narrative state is “ready”. |
-| **DR-410 Section Label** | The project goal's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
-| **DR-411 Description Length** | An architectural highlight's description length is computed as the length of the description. |
-| **DR-412 Is Substantive** | An architectural highlight is considered substantive if the description length is at least 200. |
-| **DR-413 Narrative State** | The architectural highlight's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
-| **DR-414 Is Ready** | An architectural highlight is considered a ready if the narrative state is “ready”. |
-| **DR-415 Section Label** | The architectural highlight's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-328 Is Hand Closable** | A consistency finding is considered hand-closable if all of the following hold: the open flag is set and the rule is scanner derived flag is not set. |
+| **DR-329 Domain Finding Count** | A consistency finding's domain finding count — taken from the linked domain. |
+| **DR-330 Rule Finding Count** | A consistency finding's rule finding count — taken from the linked rule. |
+| **DR-331 Domain Open Finding Count** | A consistency finding's domain open finding count — taken from the linked domain. |
+| **DR-332 Rule Open Finding Count** | A consistency finding's rule open finding count — taken from the linked rule. |
+| **DR-333 Is Sole Finding on Domain** | A consistency finding is considered a sole finding on domain if the domain finding count (a missing value counts as 0) is 1. |
+| **DR-334 Is Sole Blocker** | A consistency finding is considered a sole blocker if all of the following hold: the open flag is set and the domain open finding count (a missing value counts as 0) is 1. |
+| **DR-335 Rule is Satisfied** | A consistency finding's rule is satisfied when the linked rule is satisfied. |
+| **DR-336 Domain Grade** | A consistency finding's domain grade is the consistency grade of the consistency finding's domain. |
+| **DR-337 Priority** | The consistency finding's priority is determined by the following priority:<br>1. “P1”, if the open critical flag is set;<br>2. “P2”, if the sole blocker flag is set;<br>3. “P3”, if the open flag is set;<br>4. in all other cases, “closed”. |
+| **DR-338 Is Last Mile** | A consistency finding is considered a last mile if all of the following hold: the sole blocker flag is set and the domain grade (a missing value counts as an empty string) is “minor”. |
+| **DR-339 Name** | A mobile nav tab's name is the same as its label. |
+| **DR-340 Route Count** | A mobile nav tab's route count is the number of mobile routes related to the mobile nav tab. |
+| **DR-341 Unbuilt Route Count** | A mobile nav tab's unbuilt route count is the total unbuilt flag across the mobile routes related to the mobile nav tab. |
+| **DR-342 Has Routes** | A mobile nav tab is considered to have a routes if the route count is greater than 0. |
+| **DR-343 Build Coverage Percent** | The mobile nav tab's build coverage percent is determined by the following priority:<br>1. 0, if the route count is 0;<br>2. in all other cases, 100 times the route count minus the unbuilt route count divided by the route count rounded to 0 decimal place(s). |
+| **DR-344 Is Plan Only** | A mobile nav tab is considered a plan only if all of the following hold: the routes flag is set and the unbuilt route count is the route count. |
+| **DR-345 Is Shippable** | A mobile nav tab is considered shippable if the build coverage percent is 100. |
+| **DR-346 Shippable Flag** | The mobile nav tab's shippable flag is determined by the following priority:<br>1. 1, if the build coverage percent is 100;<br>2. in all other cases, 0. |
+| **DR-347 Tab State** | The mobile nav tab's tab state is determined by the following priority:<br>1. “shippable”, if the shippable flag is set;<br>2. “plan-only”, if the plan only flag is set;<br>3. in all other cases, “partial”. |
+| **DR-348 Name** | A mobile route's name is the same as its path. |
+| **DR-349 Depth** | The mobile route's depth is determined by the following priority:<br>1. 0, if the path is a slash;<br>2. in all other cases, the length of the path minus the length of the path with every a slash replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-350 Is Detail** | A mobile route is considered a detail if the length of the path is not the length of the path with every “:” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-351 Has Screen** | A mobile route is considered to have a screen if the screen has a value. |
+| **DR-352 Unbuilt Flag** | The mobile route's unbuilt flag is determined by the following priority:<br>1. 1, if the screen is blank;<br>2. in all other cases, 0. |
+| **DR-353 Child Route Count** | A mobile route's child route count is the number of mobile routes related to the mobile route. |
+| **DR-354 Tab Label** | A mobile route's tab label — taken from the linked tab. |
+| **DR-355 Entity Count** | The mobile route's entity count is determined by the following priority:<br>1. 0, if the reads entities is blank;<br>2. in all other cases, the length of the reads entities minus the length of the reads entities with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-356 Parent Depth** | A mobile route's parent depth — taken from the linked parent route. |
+| **DR-357 Is Leaf Route** | A mobile route is considered a leaf route if the child route count is 0. |
+| **DR-358 Tab Route Count** | A mobile route's tab route count — taken from the linked tab. |
+| **DR-359 Is Depth Consistent** | A mobile route is considered a depth consistent if the depth is at most 1 if the parent route is blank, in all other cases the depth is the parent depth plus 1. |
+| **DR-360 Tab Unbuilt Count** | A mobile route's tab unbuilt count is the unbuilt route count of the mobile route's tab. |
+| **DR-361 Share of Tab** | The mobile route's share of tab is determined by the following priority:<br>1. 0, if the tab route count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the tab route count rounded to 0 decimal place(s). |
+| **DR-362 Tab Coverage Percent** | A mobile route's tab coverage percent is the build coverage percent of the mobile route's tab. |
+| **DR-363 Route State** | The mobile route's route state is determined by the following priority:<br>1. “misparented”, if the depth consistent flag is not set;<br>2. “built”, if the screen flag is set;<br>3. in all other cases, “planned”. |
+| **DR-364 Is on Shippable Tab** | A mobile route is considered on-shippable-tab if the tab coverage percent (a missing value counts as 0) is 100. |
+| **DR-365 Route Label** | A mobile route's route label is computed as the path, followed by “ [”, followed by the route state, followed by “]”. |
+| **DR-366 Name** | A skill route's name is computed as the from skill, followed by “ -> ”, followed by the to skill. |
+| **DR-367 From Status** | A skill route's from status — taken from the linked from skill. |
+| **DR-368 To Status** | A skill route's to status — taken from the linked to skill. |
+| **DR-369 Is Orchestrator Route** | A skill route is considered an orchestrator route if the from skill is “effortless-orchestrator”. |
+| **DR-370 Is Deprecated Target** | A skill route is considered a deprecated target if the to status is “deprecated”. |
+| **DR-371 To Inbound Count** | A skill route's to inbound count is the inbound route count of the skill route's to skill. |
+| **DR-372 From Outbound Count** | A skill route's from outbound count is the outbound route count of the skill route's from skill. |
+| **DR-373 Is Hub Edge** | A skill route is considered a hub edge if the from outbound count (a missing value counts as 0) is at least 5. |
+| **DR-374 Is Into Leaf** | A skill route is considered an into leaf if the to inbound count (a missing value counts as 0) is 1. |
+| **DR-375 Is Stale** | A skill route is considered a stale if at least one of the following holds: the deprecated target flag is set or the from status is “deprecated”. |
+| **DR-376 Edge Class** | The skill route's edge class is determined by the following priority:<br>1. “stale”, if the stale flag is set;<br>2. “hub-to-leaf” if the into leaf flag is set, in all other cases “hub-fanout”, if the hub edge flag is set;<br>3. in all other cases, “peer”. |
+| **DR-377 Route Label** | A skill route's route label is computed as the from skill, followed by “ -> ”, followed by the to skill, followed by “ [”, followed by the edge class, followed by “]”. |
+| **DR-378 Name** | A project layout slot's name is the same as its title. |
+| **DR-379 Witness Count** | A project layout slot's witness count is the number of project slot witnesses related to the project layout slot. |
+| **DR-380 Present Count** | A project layout slot's present count is the total present flag across the project slot witnesses related to the project layout slot. |
+| **DR-381 Implementation Gap Count** | A project layout slot's implementation gap count is the total implementation gap flag across the project slot witnesses related to the project layout slot. |
+| **DR-382 Coverage Percent** | The project layout slot's coverage percent is determined by the following priority:<br>1. 0, if the witness count is 0;<br>2. in all other cases, 100 times the present count divided by the witness count rounded to 0 decimal place(s). |
+| **DR-383 Is Universally Filled** | A project layout slot is considered universally-filled if the coverage percent is 100. |
+| **DR-384 Slot Health** | The project layout slot's slot health is determined by the following priority:<br>1. “clean”, if the implementation gap count is 0;<br>2. “few-gaps”, if the implementation gap count is at most 3;<br>3. in all other cases, “widespread”. |
+| **DR-385 Slot Label** | A project layout slot's slot label is computed as the title, followed by “ [”, followed by the slot health, followed by “]”. |
+| **DR-386 Name** | A project slot witness's name is the same as its project slot witness ID. |
+| **DR-387 Present Flag** | The project slot witness's present flag is determined by the following priority:<br>1. 1, if the present flag is set;<br>2. in all other cases, 0. |
+| **DR-388 Slot Required for Root** | A project slot witness's slot required for root when the linked slot is required for root. |
+| **DR-389 Slot Required for Example** | A project slot witness's slot required for example when the linked slot is required for example. |
+| **DR-390 Slot Required for Toy** | A project slot witness's slot required for toy when the linked slot is required for toy. |
+| **DR-391 Domain Area** | A project slot witness's domain area — taken from the linked domain. |
+| **DR-392 Domain Kind** | A project slot witness's domain kind — taken from the linked domain. |
+| **DR-393 Domain is Exception** | A project slot witness's domain is exception is true when the project slot witness's domain is an intentional exception. |
+| **DR-394 Is Required Here** | A project slot witness is considered a required here if all of the following hold: it is not the case that the domain is exception (a missing value counts as false) and at least one of the following holds: all of the following hold: the domain kind is “root” and the slot required for root (a missing value counts as false); all of the following hold: the domain kind is “example” and the slot required for example (a missing value counts as false); or all of the following hold: the domain kind is “toy” and the slot required for toy (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-395 Implementation Gap Flag** | The project slot witness's implementation gap flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and at least one of the following holds: all of the following hold: the domain kind is “root” and the slot required for root (a missing value counts as false) or all of the following hold: the domain kind is not “root” and the slot required for example (a missing value counts as false);<br>2. in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-396 Universal Gap Flag** | The project slot witness's universal gap flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is not set; it is not the case that the domain is exception (a missing value counts as false); and the slot required for toy (a missing value counts as false);<br>2. in all other cases, 0. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-397 Is Gap** | A project slot witness is considered a gap if all of the following hold: the present flag is not set and the required here flag is set. |
+| **DR-398 Gap Flag** | The project slot witness's gap flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is not set and the required here flag is set;<br>2. in all other cases, 0. |
+| **DR-399 Required Here Flag** | The project slot witness's required here flag is determined by the following priority:<br>1. 1, if the required here flag is set;<br>2. in all other cases, 0. |
+| **DR-400 Required Present Flag** | The project slot witness's required present flag is determined by the following priority:<br>1. 1, if all of the following hold: the present flag is set and the required here flag is set;<br>2. in all other cases, 0. |
+| **DR-401 Witness State** | The project slot witness's witness state is determined by the following priority:<br>1. “gap”, if the gap flag is set;<br>2. “filled”, if the present flag is set;<br>3. in all other cases, “optional-empty”. |
+| **DR-402 Is Blocking Gap** | A project slot witness is considered a blocking gap if the witness state is “gap”. |
+| **DR-403 Description Length** | A CMCC summary's description length is computed as the length of the description. |
+| **DR-404 Is Substantive** | A CMCC summary is considered substantive if the description length is at least 200. |
+| **DR-405 Narrative State** | The CMCC summary's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-406 Is Ready** | A CMCC summary is considered a ready if the narrative state is “ready”. |
+| **DR-407 Section Label** | The CMCC summary's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-408 Description Length** | A project goal's description length is computed as the length of the description. |
+| **DR-409 Is Substantive** | A project goal is considered substantive if the description length is at least 200. |
+| **DR-410 Narrative State** | The project goal's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-411 Is Ready** | A project goal is considered a ready if the narrative state is “ready”. |
+| **DR-412 Section Label** | The project goal's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-413 Description Length** | An architectural highlight's description length is computed as the length of the description. |
+| **DR-414 Is Substantive** | An architectural highlight is considered substantive if the description length is at least 200. |
+| **DR-415 Narrative State** | The architectural highlight's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-416 Is Ready** | An architectural highlight is considered a ready if the narrative state is “ready”. |
+| **DR-417 Section Label** | The architectural highlight's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
 
 ## 5 Traceability to Schema
 
@@ -1335,8 +1341,8 @@ the same logic the rulebook stores, written for a business reader._
 | **RulebookSourceSpokes.SurfaceLabel** | formula | `If(IsAdvertisedSurface, Concat(Name, " (optional surface)"), Name)` |
 | **RulebookDomains.Name** | formula | `DomainName` |
 | **RulebookDomains.Slug** | formula | `Mid(DomainId, 8, 200)` |
-| **RulebookDomains.IsToy** | formula | `Area = "toy-rulebooks"` |
-| **RulebookDomains.ToyFlag** | formula | `If(Area = "toy-rulebooks", 1, 0)` |
+| **RulebookDomains.IsToy** | formula | `Kind = "toy"` |
+| **RulebookDomains.ToyFlag** | formula | `If(IsToy, 1, 0)` |
 | **RulebookDomains.HasRulebook** | formula | `RulebookPath <> ""` |
 | **RulebookDomains.FindingCount** | rollup | `Count(ConsistencyFindings via Domain)` |
 | **RulebookDomains.FlavorCardCount** | rollup | `Count(RulebookFlavors via Domain)` |
@@ -1365,12 +1371,11 @@ the same logic the rulebook stores, written for a business reader._
 | **RulebookDomains.RequiredPresentCount** | rollup | `Sum(ProjectSlotWitnesses.RequiredPresentFlag via Domain)` |
 | **RulebookDomains.RequiredGapCount** | rollup | `Sum(ProjectSlotWitnesses.GapFlag via Domain)` |
 | **RulebookDomains.IsFullyImplemented** | formula | `And(ImplementationGapCount = 0, Not(IsIntentionalException))` |
-| **RulebookDomains.IsToyByCoverage** | formula | `And(Area <> "root", Not(IsIntentionalException), SlotCoveragePercent < 60)` |
 | **RulebookDomains.FullyImplementedFlag** | formula | `If(And(ImplementationGapCount = 0, Not(IsIntentionalException)), 1, 0)` |
 | **RulebookDomains.RequiredSlotCoveragePercent** | formula | `If(RequiredSlotCount = 0, 100, Round(100 * RequiredPresentCount / RequiredSlotCount, 0))` |
-| **RulebookDomains.ExpectedArea** | formula | `If(Area = "root", "root", If(IsToyByCoverage, "toy-rulebooks", "rulebook-examples"))` |
-| **RulebookDomains.IsMisfiled** | formula | `And(Not(IsIntentionalException), Area <> "root", Or(And(IsToyByCoverage, Area <> "toy-rulebooks"), And(Not(IsToyByCoverage), Area <> "rulebook-examples")))` |
-| **RulebookDomains.ReadinessState** | formula | `If(IsIntentionalException, "intentional-exception", If(Area = "root", If(IsFullyImplemented, "root-ready", "root-incomplete"), If(IsToyByCoverage, "toy", If(IsFullyImplemented, "example-ready", "example-incomplete"))))` |
+| **RulebookDomains.ExpectedArea** | formula | `If(Kind = "root", "root", If(IsToy, "toy-rulebooks", "rulebook-examples"))` |
+| **RulebookDomains.IsMisfiled** | formula | `And(Not(IsIntentionalException), Area <> ExpectedArea)` |
+| **RulebookDomains.ReadinessState** | formula | `If(IsIntentionalException, "intentional-exception", If(Kind = "root", If(IsFullyImplemented, "root-ready", "root-incomplete"), If(IsToy, "toy", If(IsFullyImplemented, "example-ready", "example-incomplete"))))` |
 | **ProjectLaunchProfiles.Name** | formula | `Concat(Domain, " launch")` |
 | **ProjectLaunchProfiles.PrimaryServiceCount** | rollup | `Sum(ProjectLocalServices.IsPrimaryFlag via LaunchProfile)` |
 | **ProjectLaunchProfiles.ServiceCount** | rollup | `Count(ProjectLocalServices via LaunchProfile)` |
@@ -1589,9 +1594,11 @@ the same logic the rulebook stores, written for a business reader._
 | **ConsistencyFindings.OpenFlag** | formula | `If(Status = "open", 1, 0)` |
 | **ConsistencyFindings.IsRepoScope** | formula | `Domain = ""` |
 | **ConsistencyFindings.RuleSeverity** | lookup | `Lookup(ConsistencyRules.Severity via Rule)` |
+| **ConsistencyFindings.RuleIsScannerDerived** | lookup | `Lookup(ConsistencyRules.IsScannerDerived via Rule)` |
 | **ConsistencyFindings.RuleCode** | lookup | `Lookup(ConsistencyRules.RuleCode via Rule)` |
 | **ConsistencyFindings.DomainName** | lookup | `Lookup(RulebookDomains.DomainName via Domain)` |
 | **ConsistencyFindings.IsOpenCritical** | formula | `And(IsOpen, RuleSeverity = "critical")` |
+| **ConsistencyFindings.IsHandClosable** | formula | `And(IsOpen, Not(RuleIsScannerDerived))` |
 | **ConsistencyFindings.DomainFindingCount** | lookup | `Lookup(RulebookDomains.FindingCount via Domain)` |
 | **ConsistencyFindings.RuleFindingCount** | lookup | `Lookup(ConsistencyRules.FindingCount via Rule)` |
 | **ConsistencyFindings.DomainOpenFindingCount** | lookup | `Lookup(RulebookDomains.OpenFindingCount via Domain)` |
@@ -1655,9 +1662,10 @@ the same logic the rulebook stores, written for a business reader._
 | **ProjectSlotWitnesses.SlotRequiredForExample** | lookup | `Lookup(ProjectLayoutSlots.RequiredForExample via Slot)` |
 | **ProjectSlotWitnesses.SlotRequiredForToy** | lookup | `Lookup(ProjectLayoutSlots.RequiredForToy via Slot)` |
 | **ProjectSlotWitnesses.DomainArea** | lookup | `Lookup(RulebookDomains.Area via Domain)` |
+| **ProjectSlotWitnesses.DomainKind** | lookup | `Lookup(RulebookDomains.Kind via Domain)` |
 | **ProjectSlotWitnesses.DomainIsException** | lookup | `Lookup(RulebookDomains.IsIntentionalException via Domain)` |
-| **ProjectSlotWitnesses.IsRequiredHere** | formula | `And(Not(Coalesce(DomainIsException, False())), Or(And(DomainArea = "root", Coalesce(SlotRequiredForRoot, False())), And(DomainArea = "rulebook-examples", Coalesce(SlotRequiredForExample, False())), And(DomainArea = "toy-rulebooks", Coalesce(SlotRequiredForToy, False()))))` |
-| **ProjectSlotWitnesses.ImplementationGapFlag** | formula | `If(And(Not(IsPresent), Not(Coalesce(DomainIsException, False())), Or(And(DomainArea = "root", Coalesce(SlotRequiredForRoot, False())), And(DomainArea <> "root", Coalesce(SlotRequiredForExample, False())))), 1, 0)` |
+| **ProjectSlotWitnesses.IsRequiredHere** | formula | `And(Not(Coalesce(DomainIsException, False())), Or(And(DomainKind = "root", Coalesce(SlotRequiredForRoot, False())), And(DomainKind = "example", Coalesce(SlotRequiredForExample, False())), And(DomainKind = "toy", Coalesce(SlotRequiredForToy, False()))))` |
+| **ProjectSlotWitnesses.ImplementationGapFlag** | formula | `If(And(Not(IsPresent), Not(Coalesce(DomainIsException, False())), Or(And(DomainKind = "root", Coalesce(SlotRequiredForRoot, False())), And(DomainKind <> "root", Coalesce(SlotRequiredForExample, False())))), 1, 0)` |
 | **ProjectSlotWitnesses.UniversalGapFlag** | formula | `If(And(Not(IsPresent), Not(Coalesce(DomainIsException, False())), Coalesce(SlotRequiredForToy, False())), 1, 0)` |
 | **ProjectSlotWitnesses.IsGap** | formula | `And(Not(IsPresent), IsRequiredHere)` |
 | **ProjectSlotWitnesses.GapFlag** | formula | `If(And(Not(IsPresent), IsRequiredHere), 1, 0)` |

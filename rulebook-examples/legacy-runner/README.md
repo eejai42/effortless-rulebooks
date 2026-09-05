@@ -293,6 +293,15 @@ Write-through invariant: every mutating endpoint writes to both Postgres and the
 
 ### `ssotme-proxy/`
 
+> **Superseded.** The `effortless` CLI v2 hosts project-local transpilers itself: drop a tool at
+> `effortless-tools/<tool-name>/` (a script, a node module, or a dotnet project) and reference
+> `<tool-name>` in `effortless.json` like any catalog tool. `effortless build` starts an ephemeral host
+> for the run; `effortless serve [-port 4242]` keeps one resident and `GET /` lists the tools, as this
+> proxy did. Unlike `server.py`, the CLI host consumes the real request payload and returns a real
+> fileset, so the ledger, `clean`, and `-debug` work and no `lsof` cwd sniffing is needed. See the CLI
+> README's "Local tools" section (effortless-cli, step 12 of the v2 rebuild). `ssotme-proxy/` stays
+> only until the transpilers here are moved into `effortless-tools/`.
+
 A local HTTP server (`server.py`) on `localhost:4242` that makes injector scripts behave like first-class ssotme:// transpilers.
 
 Each transpiler is a route:

@@ -248,8 +248,8 @@ claim, not a methodology pitch:
 UI animation, network glue, real-time presentation, human-in-the-loop UX —
 are *not* design-time semantics. Reaching for "but what about animation"
 as a pushback is a category mistake the conjecture explicitly doesn't
-claim that territory. The `*b-customize-*` seams exist for the genuine
-edge cases that survive an honest SDLAF re-shape attempt.
+claim that territory. `ERBCustomizations` rows — inside the rulebook — carry
+the genuine edge cases that survive an honest SDLAF re-shape attempt.
 
 **Operational consequence for me:** before answering any evaluative or
 "why" question about ERB, load `effortless-cmcc` and answer from inside

@@ -6,7 +6,7 @@
 //   page (routing.onHome) — the point you were trying to understand. Back walks
 //   the navigation history one step.
 // • The gear (top-right) opens a popup of SIX independent on/off toggles —
-//   RuleSpeak, English, Formulas, Description, Inputs, Consumers. Any combination
+//   RuleSpeak®, English, Formulas, Description, Inputs, Consumers. Any combination
 //   can be on at once (unlike the old exclusive slider). Each choice is remembered
 //   in localStorage and applied on every page. This is the React twin of the gear
 //   in rulebook-to-rulespeak's HtmlRenderer, so both tools present identically.

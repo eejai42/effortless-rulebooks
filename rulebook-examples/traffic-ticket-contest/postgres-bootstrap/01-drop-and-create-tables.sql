@@ -548,9 +548,6 @@ CREATE TABLE state_machines (
   subject_table_name                  TEXT                ,                     -- Convention string naming the entity table this machine governs (e.g. 'Citations'). NOT a relationship FK.
   subject_state_column                TEXT                ,                     -- Name of the raw column on the subject that holds its current state (e.g. 'ChecklistStatus', 'CurrentStateKey').
   erb_package                         TEXT                ,                     -- FK -> ERBPackages.ERBPackageId. The package that owns this state machine.
-  machine_states                      TEXT                ,                     -- Reverse: legal states of this machine.
-  state_transition_rules              TEXT                ,                     -- Reverse: legal edges of this machine.
-  state_transitions                   TEXT                ,                     -- Reverse: instance transition log rows for this machine.
   created_at                          TIMESTAMPTZ         ,                     -- Audit: when this row was first inserted. Auto-stamped by the audit trigger (now() on INSERT); immutable thereafter.
   created_by                          TEXT                ,                     -- Audit: the OWNER — the JWT user (auth.email()) who created this row. Auto-stamped on INSERT; immutable thereafter. NULL for build-time seed rows (no signed-in user).
   modified_at                         TIMESTAMPTZ         ,                     -- Audit: when this row was last written. Auto-stamped by the audit trigger (now() on every INSERT/UPDATE).
@@ -563,9 +560,6 @@ COMMENT ON COLUMN state_machines.description IS 'What this machine governs and i
 COMMENT ON COLUMN state_machines.subject_table_name IS 'Convention string naming the entity table this machine governs (e.g. ''Citations''). NOT a relationship FK.';
 COMMENT ON COLUMN state_machines.subject_state_column IS 'Name of the raw column on the subject that holds its current state (e.g. ''ChecklistStatus'', ''CurrentStateKey'').';
 COMMENT ON COLUMN state_machines.erb_package IS 'FK -> ERBPackages.ERBPackageId. The package that owns this state machine.';
-COMMENT ON COLUMN state_machines.machine_states IS 'Reverse: legal states of this machine.';
-COMMENT ON COLUMN state_machines.state_transition_rules IS 'Reverse: legal edges of this machine.';
-COMMENT ON COLUMN state_machines.state_transitions IS 'Reverse: instance transition log rows for this machine.';
 COMMENT ON COLUMN state_machines.created_at IS 'Audit: when this row was first inserted. Auto-stamped by the audit trigger (now() on INSERT); immutable thereafter.';
 COMMENT ON COLUMN state_machines.created_by IS 'Audit: the OWNER — the JWT user (auth.email()) who created this row. Auto-stamped on INSERT; immutable thereafter. NULL for build-time seed rows (no signed-in user).';
 COMMENT ON COLUMN state_machines.modified_at IS 'Audit: when this row was last written. Auto-stamped by the audit trigger (now() on every INSERT/UPDATE).';
@@ -583,8 +577,6 @@ CREATE TABLE machine_states (
   order_index                         NUMERIC             ,                     -- Sort order of this state within the machine.
   is_initial                          BOOLEAN             ,                     -- TRUE if this is the machine's entry state.
   is_terminal                         BOOLEAN             ,                     -- TRUE if this is a terminal/end state.
-  from_transition_rules               TEXT                ,                     -- Reverse: rules whose FromState is this state.
-  to_transition_rules                 TEXT                ,                     -- Reverse: rules whose ToState is this state.
   created_at                          TIMESTAMPTZ         ,                     -- Audit: when this row was first inserted. Auto-stamped by the audit trigger (now() on INSERT); immutable thereafter.
   created_by                          TEXT                ,                     -- Audit: the OWNER — the JWT user (auth.email()) who created this row. Auto-stamped on INSERT; immutable thereafter. NULL for build-time seed rows (no signed-in user).
   modified_at                         TIMESTAMPTZ         ,                     -- Audit: when this row was last written. Auto-stamped by the audit trigger (now() on every INSERT/UPDATE).
@@ -598,8 +590,6 @@ COMMENT ON COLUMN machine_states.title IS 'Human-readable state title.';
 COMMENT ON COLUMN machine_states.order_index IS 'Sort order of this state within the machine.';
 COMMENT ON COLUMN machine_states.is_initial IS 'TRUE if this is the machine''s entry state.';
 COMMENT ON COLUMN machine_states.is_terminal IS 'TRUE if this is a terminal/end state.';
-COMMENT ON COLUMN machine_states.from_transition_rules IS 'Reverse: rules whose FromState is this state.';
-COMMENT ON COLUMN machine_states.to_transition_rules IS 'Reverse: rules whose ToState is this state.';
 COMMENT ON COLUMN machine_states.created_at IS 'Audit: when this row was first inserted. Auto-stamped by the audit trigger (now() on INSERT); immutable thereafter.';
 COMMENT ON COLUMN machine_states.created_by IS 'Audit: the OWNER — the JWT user (auth.email()) who created this row. Auto-stamped on INSERT; immutable thereafter. NULL for build-time seed rows (no signed-in user).';
 COMMENT ON COLUMN machine_states.modified_at IS 'Audit: when this row was last written. Auto-stamped by the audit trigger (now() on every INSERT/UPDATE).';

@@ -33,6 +33,26 @@ export async function fetchTable(table) {
   return promise;
 }
 
+// Drop cached tables so the next read goes back to the views.
+export function invalidate(...tables) {
+  for (const table of tables) cache.delete(table);
+}
+
+// Close a finding by hand (fixed | accepted-exception). The explorer's dev server
+// writes the rulebook JSON through scripts/mark-finding-fixed.py and PATCHes the
+// editor's base table; every derived score is re-read from the views afterwards.
+export async function setFindingStatus(id, status) {
+  const response = await fetch(`/__findings/${encodeURIComponent(id)}/status`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  const body = await response.json();
+  if (!response.ok || !body.ok) throw new ApiError(body.error || `closing ${id} failed with HTTP ${response.status}`, { status: response.status, table: "ConsistencyFindings" });
+  invalidate("ConsistencyFindings", "ConsistencyRules", "RulebookDomains", "ProjectMetadata");
+  return body;
+}
+
 export async function fetchRows(table) {
   return (await fetchTable(table)).rows;
 }

@@ -436,7 +436,7 @@ A script, `generate-test-data.py`, reads the ERB and creates three JSON files in
 At the top level:
 
 * `orchestrator.py` coordinates the whole test regime.
-* `start.sh` is an interactive launcher with options like:
+* `lab.sh` (formerly `start.sh`) is the interactive multi-substrate lab launcher with options like:
 
   * “Run ALL Platform Tests”,
   * “Python only”,
@@ -447,8 +447,8 @@ At the top level:
 Typical command-line flows:
 
 ```bash
-# Interactive menu
-./start.sh
+# Interactive menu (legacy multi-substrate lab)
+./lab.sh
 
 # Or scripted:
 ./orchestrator.py --all        # run all platforms
@@ -626,6 +626,39 @@ Nothing here requires you to buy any big universality claims to benefit from the
 *(Edits applied to your provided README.md.)* 
 
 [1]: https://zenodo.org/records/14761025?utm_source=chatgpt.com "The Conceptual Model Completeness Conjecture (CMCC) ..."
+
+---
+
+## App
+
+`./start.sh` launches the view-backed app in `app/` (Express + pg API on
+`http://localhost:43305`, Vite + React UI on `http://localhost:43105`, database
+`erb_veritasium_power_laws_and_fractals`). It reads **only** the `vw_*` views:
+
+* **Systems gallery** — one card per `vw_systems` row (Sierpinski, Koch, Zipf,
+  scale-free network, sandpile, earthquakes, forest fires) showing
+  `fractal_dimension`, `theoretical_log_log_slope`, the `vw_system_stats`
+  `empirical_log_log_slope`, the `vw_inference_runs` `fitted_slope` / `r2`, and
+  `is_high_quality_fit`. Selecting a card shows every column of that system's
+  `vw_systems` and `vw_system_stats` rows.
+* **Log–log plot** — an inline SVG of the selected system's `vw_scales`
+  (ideal, with `is_projected` hollow) and `vw_observed_scales` rows plotted as
+  `log_scale` × `log_measure` exactly as the views give them, with the view's
+  `theoretical_log_log_slope` drawn as a line through the iteration-0 point, the
+  inference run's `fitted_slope` / `fitted_intercept` line when the view has
+  both, and `vw_scale_regimes` bands.
+* **Inference runs** and **Scale regimes** as tables, plus an **All views**
+  browser (every `vw_*` view → its columns and rows).
+
+Formula notes: the ratio fields formerly written with `NULLIF` are guarded
+with `IF({{denominator}} = 0, 0, …)` because `rulebook-to-postgres` has no
+`NULLIF`, so they read `0` rather than `NULL` when a denominator is zero;
+`system_stats.PointCount` is a `COUNTIFS` because the single-argument
+`COUNTIF` is mis-emitted. Every view answers `SELECT *`.
+
+The pre-existing interactive CLI lab (orchestrator, Python/Go/PostgreSQL
+substrates, visualizer) still lives at `./lab.sh` — it is the legacy
+multi-substrate lab, unchanged apart from its filename.
 
 ---
 

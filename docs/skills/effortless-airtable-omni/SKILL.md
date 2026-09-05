@@ -9,14 +9,21 @@ description: >
   Use ONLY for Airtable schema changes that the API cannot handle — formula fields,
   lookup fields, rollup fields, and new table creation (which requires the Name formula).
   All scalar field changes and CRUD operations go through the Airtable API directly.
+  Only relevant if the project is Airtable-connected (see the "Is this an Airtable
+  project?" gate in `effortless-airtable`); otherwise this is a Rulebook-First project
+  and this skill does not apply.
 
-  **Scope (load gate):** Effortless projects only — project root must contain `effortless.json` AND a CLAUDE.md identifying the project as ERB methodology. Do NOT load otherwise.
+  **Scope (load gate):** Effortless projects only — project root must contain `effortless.json` AND a CLAUDE.md identifying the project as ERB methodology, AND the project must be Airtable-connected. Do NOT load otherwise.
 audience: customer
 deprecated_skill_names:
   - effortless-omni-prompt
 ---
 
 # Airtable OMNI — For Non-Scalar Schema Changes Only
+
+> Not sure if this project is Airtable-connected? Run the "Is this an Airtable
+> project?" check in `effortless-airtable` first. If it isn't, this skill doesn't
+> apply — the project is Rulebook-First and edits go to the hub directly.
 
 > **Load-bearing axiom: OMNI is an escape hatch, not the default.**
 > Most Airtable work goes through the REST API (see `effortless-airtable`).

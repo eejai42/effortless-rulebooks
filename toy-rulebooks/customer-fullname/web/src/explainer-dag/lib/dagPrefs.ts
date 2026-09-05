@@ -57,7 +57,7 @@ function getNarrationModeFromStorage(): NarrationMode {
   return v && MODES.includes(v) ? v : DEFAULT_MODE;
 }
 
-// ⚠️ DEPRECATED — the exclusive RuleSpeak/English/Formula slider. Superseded by the
+// ⚠️ DEPRECATED — the exclusive RuleSpeak®/English/Formula slider. Superseded by the
 // six independent DOC_ELEMENTS toggles below (the gear). Still exported so any host
 // importing it keeps compiling, but the explainer pages no longer use it.
 export function setNarrationMode(mode: NarrationMode): void {
@@ -73,11 +73,11 @@ export const NARRATION_MODES = MODES;
 
 // ── Document elements — the gear's six independent toggles ───────────────────
 // Each part of a field's documentation is its own on/off switch (not a single
-// exclusive mode): RuleSpeak, English, Formula, Description, Inputs, Consumers.
+// exclusive mode): RuleSpeak®, English, Formula, Description, Inputs, Consumers.
 // Any combination can be on at once — a field can show all three narrations
 // stacked, or just one. This is the React twin of rulebook-to-rulespeak's
 // HtmlRenderer `DocElements` (same keys, same defaults), so the React explainer
-// and the static RuleSpeak HTML present identically.
+// and the static RuleSpeak® HTML present identically.
 //
 // Each is remembered as `dag.show.<key>` = '1' | '0' in localStorage and applied
 // as a `show-<key>` class on the page container; CSS (dag.css) reveals the
@@ -97,7 +97,7 @@ export interface DocElement {
 // Single source of truth — drives the checkboxes, the storage keys, and the CSS
 // classes, so they can never drift apart. Mirrors HtmlRenderer.DocElements.
 export const DOC_ELEMENTS: readonly DocElement[] = [
-  { key: "rulespeak", label: "RuleSpeak",          hint: "The declarative business rule (only if / must / priority)",    default: true  },
+  { key: "rulespeak", label: "RuleSpeak®",          hint: "The declarative business rule (only if / must / priority)",    default: true  },
   { key: "english",   label: "English",            hint: "The formula read aloud as a plain-English sentence",           default: false },
   { key: "formula",   label: "Formulas",           hint: "The raw =expression, with clickable field chips",              default: false },
   { key: "desc",      label: "Description",        hint: "The author's narrative comment on a field, when present",      default: true  },
