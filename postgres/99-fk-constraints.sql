@@ -40,6 +40,11 @@ ALTER TABLE project_local_services DROP CONSTRAINT IF EXISTS fk_project_local_se
 ALTER TABLE project_local_services ADD CONSTRAINT fk_project_local_services_launch_profile
   FOREIGN KEY (launch_profile) REFERENCES project_launch_profiles (project_launch_profile_id);
 
+-- LegacyRunnerCapabilities
+ALTER TABLE legacy_runner_capabilities DROP CONSTRAINT IF EXISTS fk_legacy_runner_capabilities_project;
+ALTER TABLE legacy_runner_capabilities ADD CONSTRAINT fk_legacy_runner_capabilities_project
+  FOREIGN KEY (project) REFERENCES project_metadata (project_id);
+
 -- RulebookFlavors
 ALTER TABLE rulebook_flavors DROP CONSTRAINT IF EXISTS fk_rulebook_flavors_domain;
 ALTER TABLE rulebook_flavors ADD CONSTRAINT fk_rulebook_flavors_domain
@@ -155,4 +160,4 @@ ALTER TABLE project_slot_witnesses DROP CONSTRAINT IF EXISTS fk_project_slot_wit
 ALTER TABLE project_slot_witnesses ADD CONSTRAINT fk_project_slot_witnesses_slot
   FOREIGN KEY (slot) REFERENCES project_layout_slots (project_layout_slot_id);
 
--- 33 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).
+-- 34 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).

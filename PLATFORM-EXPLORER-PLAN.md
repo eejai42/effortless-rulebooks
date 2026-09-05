@@ -16,7 +16,7 @@ We are promoting:
 3. a custom root React application that explains and explores the entire repository; and
 4. a universal `./start.sh` contract for the root project and every governed toy and example.
 
-We are retiring `rulebook-examples/legacy-runner/`. It is transitional code, not the future platform and not a showcase to extend. Capabilities that are still valuable must be deliberately promoted to the root project or separated into an explicitly owned tool before the runner is removed. Removal is a later, separately approved action.
+`rulebook-examples/legacy-runner/` is the way the platform used to run every project. It stays: an ordinary governed example, graded like every other, with a working `./start.sh`, never privileged and never scheduled for deletion. Its *platform roles* pass to successors recorded in the root rulebook's `LegacyRunnerCapabilities` table (the root explorer, the generated editor, and the effortless CLI's local transpiler host). Do not add platform features to it.
 
 The root experience is primarily a guide and explorer. It helps a visitor:
 
@@ -136,7 +136,7 @@ The root rulebook describes the repository as a conceptual system:
 - consistency rules and findings;
 - delivery stories and acceptance criteria;
 - application navigation; and
-- the retirement state of the legacy runner.
+- the succession state of the legacy runner (which surface now owns each of its platform roles).
 
 Calculated facts remain calculated in the rulebook and are consumed from generated `vw_*` views. The React app must not reproduce classification, coverage, readiness, counts, formulas, lookup resolution, or finding priority in JavaScript.
 
@@ -259,34 +259,15 @@ The scanner must:
 - model intentional exceptions explicitly; and
 - never treat a missing project or file as an empty result.
 
-## Legacy-runner retirement
+## Legacy-runner succession
 
-Effective immediately:
+Decided 2026-09-04 after a first attempt to physically separate the bus was reverted (see Phase 4).
 
-- do not add platform features to `legacy-runner`;
-- do not make the root app depend on its admin portal;
-- do not preserve its two-rulebook runtime overlay as the new architecture; and
-- treat its documentation as historical unless a capability is explicitly promoted.
-
-Before removal, inventory each capability and choose one outcome:
-
-- **promote** — move the capability under root ownership because the new platform still needs it;
-- **separate** — make it an independently named project/tool with its own rulebook and `start.sh`;
-- **replace** — satisfy the need through the generated editor/API or root app; or
-- **retire** — record why it is no longer needed.
-
-The inventory must cover at least:
-
-- admin portal;
-- ssotme proxy/local transpiler bus;
-- CLI orchestration menu;
-- cross-project build tooling;
-- execution substrates;
-- conformance harness and reports;
-- diagnostics and research artifacts; and
-- devops scripts.
-
-No legacy-runner file is deleted merely because this plan says “retire.” Deletion happens only after there are no required dependents, history or artifacts have an agreed home, and the user gives explicit consent.
+- The runner is a permanent `rulebook-examples/` project: the legacy view of the same pipeline the explorer now shows visually. Its CLI menu, bus, substrates, harness and portal stay in place and keep working.
+- Nothing under it is deleted. "Retire" in the ledger means *no platform role any more*, not removal.
+- The effortless CLI is absorbing the transpiler bus (`../effortless-cli/docs/refactor-plan/step-12-local-transpiler-host.md`: `effortless serve`, `effortless-tools/<name>/`, bare-name resolution). When Step 12 lands, each injector becomes a `script` tool, the 26 child manifests drop their `http://localhost:4242/...` URLs, and the runner's `ssotme-proxy` becomes the legacy bus rather than the live one.
+- Orchestration is the explorer's job: pick a project, see its launch contract, see conformance and consistency from the views. Substrate conformance results should become rulebook rows the explorer displays; the runner's harness stays runnable as the legacy view.
+- Every capability's successor is a row in `LegacyRunnerCapabilities`; `vw_project_metadata.is_runner_succession_complete` says when all successors are wired.
 
 ## Implementation sequence
 
@@ -328,14 +309,15 @@ No legacy-runner file is deleted merely because this plan says “retire.” Del
 - [x] Implement consistency and progress surfaces (findings queue filterable by status, rule, and project).
 - [x] Link prominently to the generated editor, API docs, RuleSpeak, and the progress report.
 
-### Phase 4 — Promote or retire runner capabilities
+### Phase 4 — Name the successor of every runner capability
 
-- [ ] Complete the legacy capability inventory.
-- [ ] Move only capabilities accepted into the target architecture.
-- [ ] Remove all root dependencies on the runner.
-- [ ] Update all README and tool references from runner-owned startup to root-owned startup.
-- [ ] Mark retirement acceptance criteria complete.
-- [ ] Request explicit consent before deleting the legacy-runner project.
+- [x] Complete the capability inventory: `LegacyRunnerCapabilities` holds 12 rows with decision, successor, rationale, status and dependents (`scripts/migrate-phase4-runner-inventory.py`); `ProjectMetadata` derives `IsRunnerInventoryComplete` and `IsRunnerSuccessionComplete`.
+- [x] Remove all root dependencies on the runner: root `start.sh`, the explorer and the root pipeline reference nothing under `legacy-runner/`.
+- [x] Make the README *Local transpiler bus* block truthful: it names the bus's own launcher (`legacy-runner/ssotme-proxy/start.sh`), since neither the root nor the runner `start.sh` starts the bus.
+- [x] Fix two proxy rigidities found while testing: it now serves projects under `toy-rulebooks/` (20 toys had enabled routes it refused) and accepts a hub named `effortless-rulebook.json`.
+- [x] Reverted: a physical move of the bus, substrates, formula core and harness into a separate `transpiler-bus/` project (commit `0338a1f2`, reverted the same day). It broke the runner's menu and duplicated what CLI Step 12 will do properly.
+- [ ] When CLI Step 12 lands: convert the injectors to `effortless-tools/` script tools, repoint the 26 child manifests to bare names, flip the bus/substrate/formula-core rows to `done`.
+- [ ] Model substrate conformance results as root rulebook rows the explorer displays; flip the harness row to `done`.
 
 ### Phase 5 — Work findings to zero
 
@@ -358,7 +340,7 @@ The programme is complete when all of the following are witnessed:
 - All rulebook-derived facts shown in the app come from `vw_*` fields.
 - Toy/example readiness and consistency are derived from witnessed slots.
 - No active root feature depends on the legacy admin portal or its rulebook overlay.
-- The legacy runner has been promoted, separated, replaced, or retired capability by capability.
+- Every legacy-runner capability names its successor surface; the runner remains an ordinary governed example.
 - Blocking consistency findings are zero according to the generated root view.
 - The app is usable at phone width and its routes are deep-linkable.
 - Root README and doctrine describe the architecture that actually runs.
@@ -371,4 +353,4 @@ Start here, not in the historical chat:
 2. Check `git status` and the diff of the root rulebook before any command that can touch it.
 3. Query the root rulebook narrowly for `UserStories`, `AcceptanceCriteria`, `ConsistencyRules`, `ConsistencyFindings`, `RulebookDomains`, and mobile route tables.
 4. Ask permission before editing the root rulebook or running `effortless build`.
-5. Phases 0–3 are complete. `./start.sh` at the root boots the editor on pinned ports and the explorer at `:42440`; 41 launch profiles, 40 local services, 902 slot witnesses, 5 navigation groups and 14 routes are green. Next is Phase 4: inventory each legacy-runner capability (US-051) and record a promote / separate / replace / retire decision, then remove the remaining runner references from READMEs and tooling; Phase 5 works the 129 open findings (71 are `canonical-project-shape`) to zero. Do not recompute classifications or launch facts already exposed by the rulebook.
+5. Phases 0–4 are complete (2026-09-04); two Phase 4 items wait on CLI Step 12. `./start.sh` at the root boots the editor on pinned ports and the explorer at `:42440`; 41 launch profiles, 40 local services, 902 slot witnesses, 5 navigation groups and 14 routes are green. Next: Phase 5 works the open findings (129; 71 are `canonical-project-shape`) to zero. Nothing under `legacy-runner/` is deleted; it is a permanent example. Do not recompute classifications or launch facts already exposed by the rulebook.

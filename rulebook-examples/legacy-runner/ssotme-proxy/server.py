@@ -213,35 +213,47 @@ def resolve_request(route: str, client_port):
         raise RuntimeError(f"Could not read cwd of socket pid {socket_pid}.")
     socket_cwd = socket_cwd.resolve()
 
-    examples_root = (PROJECT_ROOT / "rulebook-examples").resolve()
-    try:
-        rel = socket_cwd.relative_to(examples_root)
-    except ValueError:
+    # rulebook-examples/ and toy-rulebooks/ are two folders for one concept (root
+    # CLAUDE.md); a governed project may live in either.
+    area_roots = [(PROJECT_ROOT / area).resolve() for area in ("rulebook-examples", "toy-rulebooks")]
+    rel = None
+    area_root = None
+    for candidate in area_roots:
+        try:
+            rel = socket_cwd.relative_to(candidate)
+            area_root = candidate
+            break
+        except ValueError:
+            continue
+    if rel is None:
         raise RuntimeError(
-            f"CLI cwd is not under {examples_root}: {socket_cwd}. "
+            f"CLI cwd is not under any project area ({', '.join(str(a) for a in area_roots)}): {socket_cwd}. "
             f"`effortless build` must be invoked from inside a "
-            f"rulebook-examples/<domain>/<substrate>/ directory."
+            f"<area>/<domain>/<substrate>/ directory."
         )
 
     if len(rel.parts) < 2:
         raise RuntimeError(
             f"CLI cwd {socket_cwd} is at the domain root, not a substrate folder. "
-            f"Each transpiler must run from rulebook-examples/<domain>/<substrate>/. "
+            f"Each transpiler must run from <area>/<domain>/<substrate>/. "
             f"rel parts: {rel.parts}"
         )
 
     domain = rel.parts[0]
-    domain_dir = (examples_root / domain).resolve()
+    domain_dir = (area_root / domain).resolve()
     output_dir = socket_cwd
-    input_file = (domain_dir / "effortless-rulebook" / f"{domain}-rulebook.json").resolve()
 
-    if not input_file.exists():
+    # The hub is named either <slug>-rulebook.json or effortless-rulebook.json;
+    # exactly one must exist (ProjectLayoutSlots slot-rulebook-file).
+    hub_dir = domain_dir / "effortless-rulebook"
+    hub_candidates = [hub_dir / f"{domain}-rulebook.json", hub_dir / "effortless-rulebook.json"]
+    hubs = [h for h in hub_candidates if h.is_file()]
+    if len(hubs) != 1:
         raise FileNotFoundError(
-            f"Rulebook not found at expected path: {input_file}. "
-            f"Domain '{domain}' must have a rulebook at that exact location."
+            f"Expected exactly one rulebook hub for domain '{domain}' at one of "
+            f"{[str(h) for h in hub_candidates]}, found {len(hubs)}."
         )
-    if input_file.is_dir():
-        raise IsADirectoryError(f"Rulebook path is a directory, not a file: {input_file}")
+    input_file = hubs[0].resolve()
 
     print(f"[ssotme-proxy]   resolved: socket_pid={socket_pid} domain={domain} input={input_file} output={output_dir}", flush=True)
     return input_file, output_dir

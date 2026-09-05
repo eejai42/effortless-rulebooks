@@ -4,7 +4,7 @@
 
 The repo's own rulebook, [effortless-rulebook/effortless-rulebook.json](effortless-rulebook/effortless-rulebook.json), governs the whole thing. It lists every governed project including the root, the canonical project-shape rows, strict filesystem/manifest witnesses, consistency rules and findings, skills, routes, and the delivery programme. Readiness and toy/example classification are derived from those witnesses and must not be inferred in app code.
 
-The active continuation is [Platform Explorer and Repository Consistency Plan](PLATFORM-EXPLORER-PLAN.md): promote the root rulebook, generated editor, and a new root React explorer; make `./start.sh` universal across the root, toys, and examples; then retire the transitional legacy runner capability by capability.
+The active continuation is [Platform Explorer and Repository Consistency Plan](PLATFORM-EXPLORER-PLAN.md): promote the root rulebook, generated editor, and a new root React explorer; make `./start.sh` universal across the root, toys, and examples; and record the successor of each legacy-runner capability while the runner stays an ordinary example.
 
 ## Start the root experience
 
@@ -50,7 +50,7 @@ effortless-rulebooks/            ← the platform IS the repo; itself a project
 ├── effortless-rulebook/effortless-rulebook.json   ← the governing rulebook
 ├── rulespeak/  postgres/  progress-report/  docs/  ← this project's outputs
 ├── rulebook-examples/<slug>/    ← fully implemented showcase projects
-│   └── legacy-runner/           ← transitional former platform; being retired
+│   └── legacy-runner/           ← the former platform runner, kept as an ordinary example
 │                                   after useful capabilities have an explicit home
 └── toy-rulebooks/<slug>/        ← projects that implement a piece or two
 ```
@@ -93,7 +93,7 @@ After `effortless build` at the root, the database `erb_effortless_rulebooks` ho
 
 ## The legacy runner
 
-[rulebook-examples/legacy-runner/](rulebook-examples/legacy-runner/) is the transitional home of the former admin portal (`:7777`), `ssotme-proxy` bus (`:4242`), execution substrates, and conformance harness. It is being retired, not developed as the new platform. The root explorer (`./start.sh` at the repository root) now covers its discovery and guidance role; any other useful capability must be promoted, separated, replaced, or consciously retired before removal. See the [active plan](PLATFORM-EXPLORER-PLAN.md).
+[rulebook-examples/legacy-runner/](rulebook-examples/legacy-runner/) is the way the platform used to run every project: the CLI menu, the `ssotme-proxy` bus (`:4242`), the execution substrates and conformance harness, and the former admin portal (`:7777`). It stays as an ordinary example, no longer privileged. The root explorer (`./start.sh` at the repository root) covers its discovery and guidance role, and the effortless CLI is absorbing the bus; the root rulebook's `LegacyRunnerCapabilities` records each successor. See the [active plan](PLATFORM-EXPLORER-PLAN.md).
 
 ## Skills
 
@@ -103,10 +103,12 @@ The `effortless-*` Claude skill suite is modeled in the root rulebook (`ClaudeSk
 
 ## Local transpiler bus (`localhost:4242`)
 
-> **All 13 local transpilers live on `localhost:4242`.** Once you run
-> `./start.sh` from `rulebook-examples/legacy-runner/`, the ssotme-proxy exposes every repo-local
-> transpiler — `rulebook-to-postgres`, `rulebook-to-python`, `rulebook-to-golang`,
+> **All 13 local transpilers live on `localhost:4242`.** Start the bus with
+> `./start.sh` from `rulebook-examples/legacy-runner/ssotme-proxy/` (it is being
+> separated into its own project; see the root rulebook's `LegacyRunnerCapabilities`).
+> The ssotme-proxy then exposes every repo-local transpiler —
+> `postgres-calculated-to-rulebook`, `rulebook-to-python`, `rulebook-to-golang`,
 > `rulebook-to-cobol`, `rulebook-to-owl`, and more — as first-class `ssotme://`
 > routes any `effortless build` can call.
 
-This is the current launch path. The active plan moves any retained local-bus ownership out of the retiring legacy runner and into an explicitly owned root or standalone tool.
+This is the current launch path. The effortless CLI is absorbing the bus (`effortless serve`, refactor Step 12); until then the runner’s `ssotme-proxy` is the live bus.

@@ -438,6 +438,78 @@ RETURNS TEXT AS $$
   SELECT (SELECT description FROM project_layout_slots WHERE project_layout_slot_id = p_project_layout_slot_id);
 $$ LANGUAGE sql STABLE;
 
+-- get_legacy_runner_capabilities_title
+-- Helper function: Get Title from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_title(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT title FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_runner_path
+-- Helper function: Get RunnerPath from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_runner_path(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT runner_path FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_summary
+-- Helper function: Get Summary from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_summary(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT summary FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_decision
+-- Helper function: Get Decision from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_decision(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT decision FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_destination
+-- Helper function: Get Destination from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_destination(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT destination FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_rationale
+-- Helper function: Get Rationale from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_rationale(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT rationale FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_status
+-- Helper function: Get Status from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_status(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT status FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_legacy_runner_capabilities_dependents
+-- Helper function: Get Dependents from LegacyRunnerCapabilities by LegacyRunnerCapabilityId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_legacy_runner_capabilities_dependents(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT dependents FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id);
+$$ LANGUAGE sql STABLE;
+
 -- calc_project_metadata_domain_count
 -- Field: ProjectMetadata.DomainCount
 -- Type: aggregation | DataType: number | Returns: NUMERIC
@@ -686,6 +758,56 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_project_metadata_fully_implemented_count(p_project_id TEXT)
 RETURNS NUMERIC AS $$
   SELECT ((SELECT COALESCE(SUM((calc_rulebook_domains_fully_implemented_flag(domain_id))::numeric), 0) FROM rulebook_domains WHERE project = p_project_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_metadata_runner_capability_count
+-- Field: ProjectMetadata.RunnerCapabilityCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_project_metadata_runner_capability_count(p_project_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM legacy_runner_capabilities WHERE project = (SELECT NULLIF(project_id, '') FROM project_metadata WHERE project_id = p_project_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_metadata_decided_capability_count
+-- Field: ProjectMetadata.DecidedCapabilityCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_project_metadata_decided_capability_count(p_project_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COALESCE(SUM((calc_legacy_runner_capabilities_decided_flag(legacy_runner_capability_id))::numeric), 0) FROM legacy_runner_capabilities WHERE project = p_project_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_metadata_resolved_capability_count
+-- Field: ProjectMetadata.ResolvedCapabilityCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_project_metadata_resolved_capability_count(p_project_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COALESCE(SUM((calc_legacy_runner_capabilities_resolved_flag(legacy_runner_capability_id))::numeric), 0) FROM legacy_runner_capabilities WHERE project = p_project_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_metadata_is_runner_inventory_complete
+-- Field: ProjectMetadata.IsRunnerInventoryComplete
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_metadata_is_runner_inventory_complete(p_project_id TEXT)
+RETURNS BOOLEAN AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_project_metadata_runner_capability_count(p_project_id) AS val) SELECT ((((SELECT val FROM __erb_dedup_v1))::NUMERIC > 0 AND calc_project_metadata_decided_capability_count(p_project_id) = (SELECT val FROM __erb_dedup_v1)));
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_metadata_is_runner_succession_complete
+-- Field: ProjectMetadata.IsRunnerSuccessionComplete
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_metadata_is_runner_succession_complete(p_project_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_project_metadata_is_runner_inventory_complete(p_project_id) AND calc_project_metadata_resolved_capability_count(p_project_id) = calc_project_metadata_runner_capability_count(p_project_id)))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- get_framing_invariants_name
@@ -2172,6 +2294,86 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_project_local_services_is_complete(p_project_local_service_id TEXT)
 RETURNS BOOLEAN AS $$
   SELECT (((SELECT NULLIF(local_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id) IS NOT NULL AND (SELECT NULLIF(health_url, '') FROM project_local_services WHERE project_local_service_id = p_project_local_service_id) IS NOT NULL))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_name
+-- Field: LegacyRunnerCapabilities.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_name(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(title, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_is_decided
+-- Field: LegacyRunnerCapabilities.IsDecided
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_is_decided(p_legacy_runner_capability_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(decision, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) IS NOT NULL AND (SELECT NULLIF(destination, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) IS NOT NULL))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_decided_flag
+-- Field: LegacyRunnerCapabilities.DecidedFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_decided_flag(p_legacy_runner_capability_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN ((SELECT NULLIF(decision, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) IS NOT NULL AND (SELECT NULLIF(destination, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) IS NOT NULL) THEN (1)::text ELSE (0)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_is_kept
+-- Field: LegacyRunnerCapabilities.IsKept
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_is_kept(p_legacy_runner_capability_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(decision, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) = 'promote' OR (SELECT NULLIF(decision, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) = 'separate'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_is_resolved
+-- Field: LegacyRunnerCapabilities.IsResolved
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_is_resolved(p_legacy_runner_capability_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(status, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) = 'done')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_resolved_flag
+-- Field: LegacyRunnerCapabilities.ResolvedFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_resolved_flag(p_legacy_runner_capability_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN (SELECT NULLIF(status, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id) = 'done' THEN (1)::text ELSE (0)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_capability_state
+-- Field: LegacyRunnerCapabilities.CapabilityState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_capability_state(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN NOT (calc_legacy_runner_capabilities_is_decided(p_legacy_runner_capability_id)) THEN ('undecided')::text ELSE (CASE WHEN calc_legacy_runner_capabilities_is_resolved(p_legacy_runner_capability_id) THEN ('resolved')::text ELSE ('decided')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_legacy_runner_capabilities_capability_label
+-- Field: LegacyRunnerCapabilities.CapabilityLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_capability_label(p_legacy_runner_capability_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(title, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id), ' [', (SELECT NULLIF(decision, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id), ']'))::text;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_flavors_domain_area
@@ -5466,6 +5668,19 @@ RETURNS TEXT AS $$
   SELECT (
     SELECT STRING_AGG(project_layout_slot_id::TEXT, ', ' ORDER BY project_layout_slot_id)
     FROM project_layout_slots
+    WHERE project = p_project_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_metadata_legacy_runner_capabilities
+-- Field: ProjectMetadata.LegacyRunnerCapabilities
+-- Type: Inverse relationship (reverse FK lookup from LegacyRunnerCapabilities.Project)
+
+CREATE OR REPLACE FUNCTION calc_project_metadata_legacy_runner_capabilities(p_project_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(legacy_runner_capability_id::TEXT, ', ' ORDER BY legacy_runner_capability_id)
+    FROM legacy_runner_capabilities
     WHERE project = p_project_id
   );
 $$ LANGUAGE sql STABLE;

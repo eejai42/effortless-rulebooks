@@ -137,16 +137,18 @@ export function Consistency() {
 }
 
 export function ProgressPage() {
-  const state = useTables(["BuildPhases", "ERBPackages", "ERBFeatures", "UserStories", "AcceptanceCriteria", "ProjectMetadata"], async () => {
-    const [phases, packages, features, stories, criteria, meta] = await Promise.all([
+  const state = useTables(["BuildPhases", "ERBPackages", "ERBFeatures", "UserStories", "AcceptanceCriteria", "ProjectMetadata", "LegacyRunnerCapabilities"], async () => {
+    const [phases, packages, features, stories, criteria, meta, capabilities] = await Promise.all([
       fetchRows("BuildPhases"),
       fetchRows("ERBPackages"),
       fetchRows("ERBFeatures"),
       fetchRows("UserStories"),
       fetchRows("AcceptanceCriteria"),
       fetchOne("ProjectMetadata", "project_id", "erb-001"),
+      fetchRows("LegacyRunnerCapabilities"),
     ]);
     return {
+      capabilities: [...capabilities].sort((a, b) => a.decision.localeCompare(b.decision) || a.title.localeCompare(b.title)),
       phases: [...phases].sort((a, b) => num(a.phase_number) - num(b.phase_number)),
       packages: [...packages].sort((a, b) => num(a.sort_order) - num(b.sort_order)),
       features,
@@ -158,7 +160,7 @@ export function ProgressPage() {
 
   return (
     <Async state={state} what="progress">
-      {({ phases, packages, features, stories, criteria, meta }) => (
+      {({ phases, packages, features, stories, criteria, meta, capabilities }) => (
         <>
           <section className="hero compact">
             <p className="eyebrow">Health · progress</p>
@@ -206,6 +208,31 @@ export function ProgressPage() {
                 { key: "story_count", label: "Stories" },
                 { key: "done_percent", label: "Done", render: (r) => <><Progress percent={r.done_percent} /> {Math.round(num(r.done_percent) ?? 0)}%</> },
                 { key: "package_state", label: "State", render: (r) => <Pill value={r.package_state} /> },
+              ]}
+            />
+          </Panel>
+
+          <Panel eyebrow="Legacy runner" title="Succession ledger">
+            <p className="muted">
+              <code>rulebook-examples/legacy-runner/</code> is the way the platform used to run every project. It stays
+              as an ordinary governed example; this ledger records which surface now owns each capability's platform
+              role: the root explorer, the generated editor, or the effortless CLI's local transpiler host.
+            </p>
+            <div className="stats">
+              <Stat label="Capabilities" value={meta.runner_capability_count} />
+              <Stat label="Decided" value={`${meta.decided_capability_count} / ${meta.runner_capability_count}`} />
+              <Stat label="Successor wired" value={`${meta.resolved_capability_count} / ${meta.runner_capability_count}`} />
+              <Stat label="Succession complete" value={<Pill value={meta.is_runner_succession_complete} tone={meta.is_runner_succession_complete ? "good" : "info"} />} />
+            </div>
+            <DataTable
+              rows={capabilities}
+              rowKey="legacy_runner_capability_id"
+              columns={[
+                { key: "title", label: "Capability", render: (c) => <><strong>{c.title}</strong><br /><span className="muted"><code>{c.runner_path}</code></span></> },
+                { key: "decision", label: "Decision", render: (c) => <Pill value={c.decision} tone={{ promote: "good", separate: "info", replace: "neutral", retire: "warn" }[c.decision]} /> },
+                { key: "destination", label: "Successor" },
+                { key: "capability_state", label: "State", render: (c) => <Pill value={c.capability_state} tone={c.capability_state === "resolved" ? "good" : c.capability_state === "decided" ? "info" : "bad"} /> },
+                { key: "dependents", label: "Dependents" },
               ]}
             />
           </Panel>

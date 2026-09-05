@@ -4,11 +4,11 @@ This repo follows the Effortless Rulebook (ERB) methodology. Load the `effortles
 
 ## Active continuation
 
-Read `PLATFORM-EXPLORER-PLAN.md` before continuing the 2026-08-30 refactor. The target is the root governing rulebook + generated editor + a custom root React explorer, with `./start.sh` required for the root and every governed toy/example. `rulebook-examples/legacy-runner/` is transitional and being retired capability by capability; do not add new platform features to it. Current references to its portal or transpiler bus describe the migration baseline, not the target architecture.
+Read `PLATFORM-EXPLORER-PLAN.md` before continuing the 2026-08-30 refactor. The target is the root governing rulebook + generated editor + a custom root React explorer, with `./start.sh` required for the root and every governed toy/example. `rulebook-examples/legacy-runner/` is a permanent ordinary example (the way the platform used to run every project); it is no longer privileged and gets no new platform features, and nothing under it is deleted. Its platform roles pass to successors recorded in `LegacyRunnerCapabilities`.
 
 # THE REPO IS THE PLATFORM, AND THE PLATFORM IS A PROJECT
 
-There is no privileged child folder. The repo root is an Effortless project (`effortless.json` + `effortless-rulebook/effortless-rulebook.json`); every governed subdirectory of `rulebook-examples/` and `toy-rulebooks/` is an Effortless project. They all have **the same shape**, so any effortless-rulebook-project viewer/editor can open any of them. The former platform currently lives at `rulebook-examples/legacy-runner/` only as a retirement staging area.
+There is no privileged child folder. The repo root is an Effortless project (`effortless.json` + `effortless-rulebook/effortless-rulebook.json`); every governed subdirectory of `rulebook-examples/` and `toy-rulebooks/` is an Effortless project. They all have **the same shape**, so any effortless-rulebook-project viewer/editor can open any of them. The former platform lives at `rulebook-examples/legacy-runner/` as an ordinary example.
 
 **The root rulebook governs.** `./effortless-rulebook/effortless-rulebook.json` is the parent. It models every governed project including the root (`RulebookDomains`), the canonical shape (`ProjectLayoutSlots`), strict filesystem/manifest observations (`ProjectSlotWitnesses`), consistency rules and witnessed violations (`ConsistencyRules`, `ConsistencyFindings`), the delivery programme (`UserStories`… — the `rulebook-to-progress-report` contract), the skill catalog (`ClaudeSkills`, `SkillRoutes`), and the route proposal. Coverage, readiness, toy/example classification, misfiling, and finding priority are rulebook formulas exposed by generated `vw_*` columns; never recompute or hand-assert them.
 
@@ -33,9 +33,11 @@ Every new project must register `rulebooktorulespeak` and end its README with th
 
 ## Local transpiler bus (`localhost:4242`)
 
-> **All 13 local transpilers live on `localhost:4242`.** Once you run
-> `./start.sh` from `rulebook-examples/legacy-runner/`, the ssotme-proxy exposes every repo-local
-> transpiler — `rulebook-to-postgres`, `rulebook-to-python`, `rulebook-to-golang`,
+> **All 13 local transpilers live on `localhost:4242`.** Start the bus with
+> `./start.sh` from `rulebook-examples/legacy-runner/ssotme-proxy/` (it is being
+> separated into its own project; see the root rulebook's `LegacyRunnerCapabilities`).
+> The ssotme-proxy then exposes every repo-local transpiler —
+> `postgres-calculated-to-rulebook`, `rulebook-to-python`, `rulebook-to-golang`,
 > `rulebook-to-cobol`, `rulebook-to-owl`, and more — as first-class `ssotme://`
 > routes any `effortless build` can call.
 ```
@@ -89,7 +91,7 @@ Never invent a publish procedure; see the global CLAUDE.md. `rulebook-to-progres
 
 # The legacy runner
 
-`rulebook-examples/legacy-runner/` is being retired. Its portal, orchestration, proxy, substrates, conformance, diagnostics, and devops capabilities must each be promoted, separated, replaced, or consciously retired under `PLATFORM-EXPLORER-PLAN.md`. Do not make the new root app depend on its admin portal or two-rulebook overlay, and do not add new platform features there. No runner files are deleted until dependents have an agreed home and the user gives explicit consent.
+`rulebook-examples/legacy-runner/` is the legacy view of the same pipeline: CLI menu, `ssotme-proxy` bus on `:4242`, execution substrates, conformance harness, and the replaced admin portal. It stays, graded like any other example, with a working `./start.sh`. Every capability's successor is a row in the root rulebook's `LegacyRunnerCapabilities` (portal → generated editor + root explorer; menu → root explorer + per-project `start.sh`; bus, substrates and formula core → the effortless CLI's local transpiler host, `effortless-cli` refactor Step 12; harness → conformance rows the explorer will display). Update that table, never prose, when a decision changes. Do not add platform features to the runner, do not make the root app depend on its admin portal or two-rulebook overlay, and do not delete anything under it.
 
 # Making a video about a project? Load the `effortless-video` skill.
 
