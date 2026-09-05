@@ -1,6 +1,7 @@
 /**/obj/**/*
 /**/bin/**/*
 /**/.ssotme/**/*
+/**/.effortless/**/*
 /**/DSPXml/**/*
 /SSoT/__patch.json
 /**/.vs/**/*
@@ -68,3 +69,14 @@ rulebook-examples/simpsons-paradox/temp.txt
 # Root explorer local build and runtime output
 /app/dist/
 /.run/
+
+# generated rulebook-editor edit journals (pending-edit logs, never a second hub)
+**/effortless-rulebook/*.uncommitted-*.json
+
+# scratch that must never be committed (cr-08)
+**/.app-launch.log
+**/*.bak
+
+# CLI build error reports are per-run scratch (cr-08)
+**/errors.json
+**/postgres/errors.txt

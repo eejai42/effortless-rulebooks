@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "57fd3565-b68e-4b46-abfd-25e816f14df2",
   "Name": "lazr-coulombs-law",
   "ProjectSettings": [
@@ -18,9 +14,21 @@
       "RelativePath": "/postgres",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.06.20.1746",
-      "LastVersionUsed": "v2026.06.20.1746",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-06-20-1746-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.08.09.0157",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-08-09-0157-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "rulebooktorulespeak",
+      "RelativePath": "/rulespeak",
+      "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": null,
+  "SSoTmeProjectFiles": null
 }

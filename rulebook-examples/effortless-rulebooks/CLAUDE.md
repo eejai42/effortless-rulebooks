@@ -1,9 +1,9 @@
 # Effortless Rulesbooks — Effortless Project
 
 <!-- rulebook-authoritative-banner -->
-## Authoritative Source: `effortless-rulebook/effortless-rulesbooks-rulebook.json` is HEAD
+## Authoritative Source: `effortless-rulebook/effortless-rulebooks-rulebook.json` is HEAD
 
-For this project, **`effortless-rulebook/effortless-rulesbooks-rulebook.json` is the single, authoritative source of truth.** Edit it directly. All other artifacts (Postgres SQL, Python, Go, Excel, OWL, etc.) are mechanically derived from it via `effortless build`.
+For this project, **`effortless-rulebook/effortless-rulebooks-rulebook.json` is the single, authoritative source of truth.** Edit it directly. All other artifacts (Postgres SQL, Python, Go, Excel, OWL, etc.) are mechanically derived from it via `effortless build`.
 
 ### Airtable pull is disabled by default
 
@@ -15,18 +15,18 @@ If you want to re-enable Airtable pull as the source of truth for a single build
 2. Either:
    - Run the transpiler one-off:
      ```bash
-     effortless airtabletorulebook -o effortless-rulebook/effortless-rulesbooks-rulebook.json -account airtable -p "view=Grid view"
+     effortless airtabletorulebook -o effortless-rulebook/effortless-rulebooks-rulebook.json -account airtable -p "view=Grid view"
      ```
    - Or flip `IsDisabled` back to `false` in `effortless.json`, run `effortless build`, then flip it back to `true`.
 
 **Default rule for Claude / any agent operating in this project:** treat the JSON as authoritative; do not enable or invoke `airtabletorulebook` without explicit user consent on that specific turn. Memory or "we usually pull from Airtable" is not consent — every pull must be a fresh, in-context decision.
-### Never silently revert `effortless-rulesbooks-rulebook.json`
+### Never silently revert `effortless-rulebooks-rulebook.json`
 
-**Treat `effortless-rulebook/effortless-rulesbooks-rulebook.json` as sacred.** It contains human-authored business rules and CANNOT be casually overwritten. Before running any command that could touch this file — `effortless build`, `effortless airtabletorulebook`, any transpiler that writes to it, any sync script, any `git checkout`/`git restore` against it — first run `git status` / `git diff` on it.
+**Treat `effortless-rulebook/effortless-rulebooks-rulebook.json` as sacred.** It contains human-authored business rules and CANNOT be casually overwritten. Before running any command that could touch this file — `effortless build`, `effortless airtabletorulebook`, any transpiler that writes to it, any sync script, any `git checkout`/`git restore` against it — first run `git status` / `git diff` on it.
 
 - If the file has uncommitted changes that you (the agent) did NOT just make this turn, **stop**. Ask the user before proceeding.
 - It is only acceptable to let a regeneration touch this file when you are certain the *only* uncommitted edits in it are ones you just made in the current turn.
-- This applies to every `**/effortless-rulebook/effortless-rulesbooks-rulebook.json` in this repo, not just the project-local one.
+- This applies to every `**/effortless-rulebook/effortless-rulebooks-rulebook.json` in this repo, not just the project-local one.
 
 There is no upstream to "restore from." The JSON is the upstream.
 
@@ -36,7 +36,7 @@ This folder is a **self-contained Effortless Rulebook (ERB) project**. The ruleb
 
 ## Rulebook
 
-**Location:** `effortless-rulebook/effortless-rulesbooks-rulebook.json`
+**Location:** `effortless-rulebook/effortless-rulebooks-rulebook.json`
 
 This is a **meta-ontology**: the ERB project describing itself. Tables:
 
@@ -68,7 +68,7 @@ Serves a sidebar of tables/views and a grid of rows for whichever table is selec
 
 ### Option 1: Direct (no Airtable)
 
-Edit `effortless-rulebook/effortless-rulesbooks-rulebook.json` directly. Then rebuild:
+Edit `effortless-rulebook/effortless-rulebooks-rulebook.json` directly. Then rebuild:
 
 ```bash
 effortless build
@@ -88,7 +88,7 @@ effortless rulebooktoairtable
 |------|---------|
 | `effortless.json` | Project config + transpiler settings |
 | `CLAUDE.md` | This file |
-| `effortless-rulebook/effortless-rulesbooks-rulebook.json` | The rulebook (SSoT) |
+| `effortless-rulebook/effortless-rulebooks-rulebook.json` | The rulebook (SSoT) |
 | `app/` | React + Express Postgres table browser |
 | `execution-substrates/*/` | Generated: do not edit |
 

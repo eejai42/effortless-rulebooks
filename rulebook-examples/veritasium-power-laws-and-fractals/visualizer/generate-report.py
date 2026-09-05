@@ -22,7 +22,7 @@ from typing import Dict, List, Tuple, Optional
 # Paths
 SCRIPT_DIR = Path(__file__).parent
 PROJECT_ROOT = SCRIPT_DIR.parent
-SSOT_DIR = PROJECT_ROOT / 'ssot'
+SSOT_DIR = PROJECT_ROOT / 'effortless-rulebook'
 TEST_DATA_DIR = PROJECT_ROOT / 'test-data'
 TEST_RESULTS_DIR = PROJECT_ROOT / 'test-results'
 
@@ -64,7 +64,7 @@ def load_all_data() -> Dict:
     data = {}
     
     # Load SSoT
-    ssot_path = SSOT_DIR / 'ERB_veritasium-power-laws-and-fractals.json'
+    ssot_path = SSOT_DIR / 'effortless-rulebook.json'
     data['ssot'] = load_json(ssot_path)
     
     # Load test data
@@ -820,7 +820,7 @@ def generate_html_report(data: Dict) -> str:
         
         <footer>
             <p><strong>ERB Testing Protocol</strong> • Power Laws & Fractals • Veritasium Edition</p>
-            <p>Single Source of Truth: ssot/ERB_veritasium-power-laws-and-fractals.json</p>
+            <p>Single Source of Truth: effortless-rulebook/effortless-rulebook.json</p>
         </footer>
     </div>
     

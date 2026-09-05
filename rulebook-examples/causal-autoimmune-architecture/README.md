@@ -324,3 +324,15 @@ and `LEOPOLD_LOOPs.md` for the build loop.
 | cell-state-specific effects, 3D enhancer–promoter, chromatin conformation | VOCABULARY / OUT-OF-SCOPE | `OmicsModalities`/`Tissues` represent the slot; no real single-cell/Hi-C data |
 | counterfactual trajectories without randomized perturbation | VOCABULARY / OUT-OF-SCOPE | `CounterfactualTrajectories` (sparse); real counterfactual causal inference not done. (NB: the *emergent serology-signature cluster* IS now derived — that's discovery-shape, not counterfactual inference.) |
 | omics/data-modality breadth (phased T2T genomes, pangenome graphs, scRNA/ATAC, proteomics, metabolomics, methylomes, Hi-C, immune repertoires, microbiomes, exposures) | OUT-OF-SCOPE (as real data) | `OmicsModalities`/`OmicsAssays`/`Tissues`/`EnvironmentalExposures`/`FederatedDatasets` are shaped to receive them; PoC uses synthetic values, not a real corpus |
+
+---
+
+## Local transpiler bus (`localhost:4242`)
+
+> **All 13 local transpilers live on `localhost:4242`.** Start the bus with
+> `./start.sh` from `rulebook-examples/legacy-runner/ssotme-proxy/` (it is being
+> separated into its own project; see the root rulebook's `LegacyRunnerCapabilities`).
+> The ssotme-proxy then exposes every repo-local transpiler —
+> `postgres-calculated-to-rulebook`, `rulebook-to-python`, `rulebook-to-golang`,
+> `rulebook-to-cobol`, `rulebook-to-owl`, and more — as first-class `ssotme://`
+> routes any `effortless build` can call.

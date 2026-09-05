@@ -12,4 +12,17 @@
 -- enforcement. Idempotent: every constraint is dropped if present, then added.
 -- ============================================================================
 
--- (no FK fields detected in rulebook)
+-- Charges
+ALTER TABLE charges DROP CONSTRAINT IF EXISTS fk_charges_system_id;
+ALTER TABLE charges ADD CONSTRAINT fk_charges_system_id
+  FOREIGN KEY (system_id) REFERENCES systems (system_id);
+ALTER TABLE charges DROP CONSTRAINT IF EXISTS fk_charges_particle_id;
+ALTER TABLE charges ADD CONSTRAINT fk_charges_particle_id
+  FOREIGN KEY (particle_id) REFERENCES particles (particle_id);
+
+-- SystemSummary
+ALTER TABLE system_summary DROP CONSTRAINT IF EXISTS fk_system_summary_system_id;
+ALTER TABLE system_summary ADD CONSTRAINT fk_system_summary_system_id
+  FOREIGN KEY (system_id) REFERENCES systems (system_id);
+
+-- 3 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).

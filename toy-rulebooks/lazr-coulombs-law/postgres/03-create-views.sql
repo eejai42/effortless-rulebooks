@@ -88,6 +88,8 @@ SELECT
   t.mass,                                                                       -- Mass in kg (null = massless / not tracked)
   calc_charges_charge_sign(t.charge_id) AS charge_sign,                         -- positive | negative | neutral
   calc_charges_charge_magnitude(t.charge_id) AS charge_magnitude,               -- Absolute value of ChargeValue in Coulombs
+  calc_charges_system_name(t.charge_id) AS system_name,                         -- Lookup: Systems.Name via SystemId.
+  calc_charges_particle_name(t.charge_id) AS particle_name,                     -- Lookup: Particles.Name via ParticleId.
   calc_charges_interaction_count(t.charge_id) AS interaction_count              -- Count of ChargeInteractions that reference this charge as Charge1 or Charge2.
 FROM charges t;
 
@@ -232,6 +234,7 @@ SELECT
   t.summary_id,                                                                 -- Unique identifier (mirrors SystemId)
   calc_system_summary_name(t.summary_id) AS name,                               -- Display label.
   t.system_id,                                                                  -- FK → Systems.SystemId
+  calc_system_summary_system_name(t.summary_id) AS system_name,                 -- Lookup: Systems.Name.
   calc_system_summary_charge_count(t.summary_id) AS charge_count,               -- Total charges in this system.
   calc_system_summary_interaction_count(t.summary_id) AS interaction_count,     -- Total pairwise interactions.
   calc_system_summary_attractive_count(t.summary_id) AS attractive_count,       -- Count of attractive interactions.

@@ -390,8 +390,8 @@ ERB_veritasium-power-laws-and-fractals/
 │   ├── html_report.py
 │   └── templates/
 │
-├── ssot/                     # Legacy/reference only
-│   └── ERB_veritasium-power-laws-and-fractals.json
+├── effortless-rulebook/                     # Legacy/reference only
+│   └── effortless-rulebook.json
 │
 └── generators/               # Code generators (utils codegen)
     ├── parser.py

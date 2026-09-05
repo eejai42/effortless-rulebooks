@@ -1,0 +1,32 @@
+{
+  "_comment": "Stable DR-number ledger for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build to keep rule numbers stable. Numbers in 'Retired' are tombstones and are never reissued. Hand-edit an Assignments number only to deliberately re-pin a rule.",
+  "NextId": 26,
+  "Assignments": {
+    "TruthValues.Name": 1,
+    "TruthValues.IsClassical": 2,
+    "TruthValues.IsUndefined": 3,
+    "TruthValues.CountOfFacts": 4,
+    "Connectives.Name": 5,
+    "Connectives.CountOfTruthTableRows": 6,
+    "TruthTableRows.OutputSymbol": 7,
+    "TruthTableRows.Name": 8,
+    "SetRules.Name": 9,
+    "SetRules.IsClassical": 10,
+    "SetRules.IsTheMissingRule": 11,
+    "Sets.Name": 12,
+    "Sets.IsRussellSet": 13,
+    "Sets.CountOfMemberships": 14,
+    "Sets.CountOfNullMemberships": 15,
+    "MembershipFacts.Name": 16,
+    "MembershipFacts.ContainerLabel": 17,
+    "MembershipFacts.MembershipValueSymbol": 18,
+    "MembershipFacts.IsBivalent": 19,
+    "MembershipFacts.IsNull": 20,
+    "MembershipFacts.IsGrounded": 21,
+    "MembershipFacts.CountOfEvaluationSteps": 22,
+    "EvaluationSteps.Name": 23,
+    "EvaluationSteps.IsStable": 24,
+    "EvaluationSteps.Outcome": 25
+  },
+  "Retired": []
+}

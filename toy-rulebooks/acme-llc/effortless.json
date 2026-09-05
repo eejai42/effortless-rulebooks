@@ -5,7 +5,7 @@
   "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "63484082-c6d6-4259-a92c-3169e1e4d75a",
   "Name": "acme-llc",
-  "Description": "A lean variant of ACME Corporation—demonstrating essential business rules in a simplified schema.",
+  "Description": "A lean variant of ACME Corporation\u2014demonstrating essential business rules in a simplified schema.",
   "ProjectSettings": [
     {
       "Name": "baseId",
@@ -50,7 +50,7 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "httplocalhost4242rulebooktocobcol",
+      "Name": "httplocalhost4242rulebooktocobol",
       "RelativePath": "/cobol",
       "CommandLine": "http://localhost:4242/rulebook-to-cobol -i ../effortless-rulebook/acme-llc-rulebook.json",
       "IsDisabled": false
@@ -92,7 +92,7 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "httplocalhost4242rulebooktoexplainddag",
+      "Name": "httplocalhost4242rulebooktoexplaindag",
       "RelativePath": "/explain-dag",
       "CommandLine": "http://localhost:4242/rulebook-to-explain-dag -i ../effortless-rulebook/acme-llc-rulebook.json",
       "IsDisabled": false

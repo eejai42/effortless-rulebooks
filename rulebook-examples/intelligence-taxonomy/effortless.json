@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "6044a245-1dd0-44a7-bcaa-4e081a6447b8",
   "Name": "mark-acosta-demo",
   "ProjectSettings": [
@@ -18,7 +14,7 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/intelligence-taxonomy-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.20.1746",
+      "LastVersionUsed": "v2026.08.09.0157",
       "LastUrl": "https://effortless-rulebook-to-postgres-v2026-06-20-1746-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
@@ -34,7 +30,7 @@
       "RelativePath": "/web/src",
       "CommandLine": "rulebook-to-react-explainer-dag -i ../../effortless-rulebook/intelligence-taxonomy-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.11.1530",
+      "LastVersionUsed": "v2026.08.11.2341",
       "LastUrl": "https://effortless-rulebook-to-react-exp-v2026-06-11-1530-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
@@ -51,8 +47,20 @@
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/intelligence-taxonomy-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.10.1308",
+      "LastVersionUsed": "v2026.08.30.1537",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i intelligence-taxonomy-rulebook.json -p rulebookPath=intelligence-taxonomy-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": null,
+  "SSoTmeProjectFiles": null
 }

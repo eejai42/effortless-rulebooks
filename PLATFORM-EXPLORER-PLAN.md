@@ -76,7 +76,7 @@ The root build now has an explicit `init-db` step through `scripts/init-root-db.
 - Generated root `postgres/init-db.sh:18` has `DEFAULT_CONN=postgresql://postgres@localhost:5432/demo` — a wrong-database default that violates the silent-fallback doctrine. It must target `erb_effortless_rulebooks` when the init step is wired.
 - `erb_admin_portal` is stale: it still holds the pre-split 59-table build, including root catalog tables (`rulebook_domains`, `consistency_findings`, `claude_skills`). The generated `01-*.sql` is check-add (`CREATE TABLE IF NOT EXISTS`, no DROPs, even with `-p drop_all=true`), so **both** databases need `dropdb`/`createdb` before their next init-db; stale rows otherwise survive and silently pollute rollups.
 - `clone-skills` is registered **nowhere**: it was removed from the runner manifest and `docs/skills/clone-skills.sh` was repointed at the root rulebook, but it was never added to root `effortless.json` — the skills mirror will not refresh on any build.
-- `rulebook-to-progress-report` resolves only through a machine-local override (`effortless -setToolUrl rulebook-to-progress-report=http://localhost:30052`; tool source `Versioned-Stable-SSoTme-Tools/tools/effortless/rulebook-to-progress-report`, local `start.sh`, port 30052). Its cpln workloads are unreachable and it is not on the tools server by name. Reproducibility gap on any other machine until it is published.
+- `rulebook-to-progress-report` resolves only through a machine-local override (`effortless -setToolUrl rulebook-to-progress-report=http://localhost:30052`; tool source `Versioned-Stable-SSoTme-Tools/tools/effortless/rulebook-to-progress-report`, local `start.sh`, port 30052). Its cpln workloads are unreachable and it is not on the tools server by name. Reproducibility gap on any other machine until it is published. *(Resolved 2026-09-05: published as `v2026.09.05.0210 [latest]`; the root build now resolves it by bare name.)*
 - Formula-dialect traps that will silently corrupt Phase 1 derivations if forgotten: `ISBLANK` mistranslates to NULL; `COALESCE({{X}}, "") <> ""` compiles to an always-true test (use bare `{{X}} <> ""` / `{{X}} = ""`); `COUNTIFS` drops the second criteria pair (use a 0/1 child flag + `SUMIFS`); `INDEX/MATCH` only matches on the target's `<Entity>Id` from a local FK.
 - Editor conflict with doctrine: the root rulebook carries `__meta__` (required by the meta-table doctrine), but the generated editor stack treats `__meta__` as reserved and reports it as a broken view — §2's "`GET /api/view-health` must pass" cannot hold until the editor tool is fixed or the requirement is scoped to business tables.
 
@@ -117,8 +117,8 @@ and Docker Desktop does not propagate host file events into the editor's
 bind mount, so the same script touches the container's `/tmp/rebuild-trigger`
 after every init. Remaining gaps: the `Name` of the `ProjectMetadata` row still
 reads "Effortlessly Invariant Rulesbooks" while the rulebook is named
-"Effortless Rulebooks"; `rulebook-to-progress-report` still resolves only
-through the machine-local `:30052` override.
+"Effortless Rulebooks". (`rulebook-to-progress-report` was published on 2026-09-05
+and resolves by bare name.)
 
 ## Target architecture
 
@@ -321,11 +321,16 @@ Decided 2026-09-04 after a first attempt to physically separate the bus was reve
 
 ### Phase 5 — Work findings to zero
 
-- [ ] Run the slot scan after every structural change.
-- [ ] Fix findings project by project.
-- [ ] Mark witnessed findings fixed; do not delete their history.
-- [ ] Verify every root-app classification and count against a generated view.
-- [ ] Finish only when the rulebook's derived consistency state says the repository conforms.
+- [x] Run the slot scan after every structural change (`scripts/scan-project-slots.py`; hand findings close through `scripts/mark-finding-fixed.py`, new ones enter through `scripts/record-finding.py`).
+- [x] Fix findings project by project. Passes A–E (2026-09-05) took open findings from 128 to 15 and example-ready projects from 1 to 11: criticals (second hubs, empty nested `.git`), committed scratch, transpiler names, READMEs and the bus block everywhere, canonical shape for the structurally off projects (hub placement, manifests, `__meta__`, top-level keys, legacy `ssotme.json`, CLAUDE.md), and editor / Postgres / init-db slots across the examples.
+- [x] Mark witnessed findings fixed; do not delete their history (149 fixed, 6 accepted-exception as of 2026-09-05).
+- [x] Verify every root-app classification and count against a generated view.
+- [ ] Finish only when the rulebook's derived consistency state says the repository conforms. The 7 open findings all need a decision or an action outside this repo:
+  - `slot-app` on five projects (is-everything-a-language, naive-set-theory, planar-unit-discovery, ross-style-business-rules, veritasium-power-laws-and-fractals): they have no view-backed app. Either build one or decide that a theorem/logic rulebook's "app" is the generated editor and scope the slot.
+  - veritasium reshaped 2026-09-05 as an ordinary project (hub under `effortless-rulebook/`, `__meta__`, editor, init-db); only its `slot-app` remains.
+  - cr-20-01: procedural-knowledge-ontology's committed init validates policies against the schema before creating it; needs a two-phase init.
+  - cr-16-02 fixed 2026-09-05: `rulebook-to-progress-report` published as `v2026.09.05.0210 [latest]`. cr-16-03 still open: mirror the progress-report skill into the public effortless-claude skills repo (outward-facing, needs consent).
+- [ ] Decide the misfiling formula: 23 rows sit in a folder that disagrees with their derived readiness.
 
 ## Definition of done
 
@@ -353,4 +358,4 @@ Start here, not in the historical chat:
 2. Check `git status` and the diff of the root rulebook before any command that can touch it.
 3. Query the root rulebook narrowly for `UserStories`, `AcceptanceCriteria`, `ConsistencyRules`, `ConsistencyFindings`, `RulebookDomains`, and mobile route tables.
 4. Ask permission before editing the root rulebook or running `effortless build`.
-5. Phases 0–4 are complete (2026-09-04); two Phase 4 items wait on CLI Step 12. `./start.sh` at the root boots the editor on pinned ports and the explorer at `:42440`; 41 launch profiles, 40 local services, 902 slot witnesses, 5 navigation groups and 14 routes are green. Next: Phase 5 works the open findings (129; 71 are `canonical-project-shape`) to zero. Nothing under `legacy-runner/` is deleted; it is a permanent example. Do not recompute classifications or launch facts already exposed by the rulebook.
+5. Phases 0–4 are complete (2026-09-04); two Phase 4 items wait on CLI Step 12. `./start.sh` at the root boots the editor on pinned ports and the explorer at `:42440`; 41 launch profiles, 40 local services, 902 slot witnesses, 5 navigation groups and 14 routes are green. Next: the 15 open findings listed under Phase 5 each need a decision (app slot scope, PKO init order, mirroring the progress-report skill) and the misfiling formula needs a call. Nothing under `legacy-runner/` is deleted; it is a permanent example. Do not recompute classifications or launch facts already exposed by the rulebook.

@@ -9,7 +9,7 @@ This document describes the unified testing protocol for validating that all pla
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         SSoT (Source of Truth)                       │
-│              ssot/ERB_veritasium-power-laws-and-fractals.json       │
+│              effortless-rulebook/effortless-rulebook.json       │
 └─────────────────────────────────────────────────────────────────────┘
                                     │
                                     ▼
@@ -120,8 +120,8 @@ The visualizer compares each platform's results against `answer-key.json`:
 
 ```
 ERB_veritasium-power-laws-and-fractals/
-├── ssot/
-│   └── ERB_veritasium-power-laws-and-fractals.json   # Source of Truth
+├── effortless-rulebook/
+│   └── effortless-rulebook.json   # Source of Truth
 ├── test-data/
 │   ├── base-data.json          # Iterations 0-3 (all values)
 │   ├── test-input.json         # Iterations 4-7 (raw facts only)

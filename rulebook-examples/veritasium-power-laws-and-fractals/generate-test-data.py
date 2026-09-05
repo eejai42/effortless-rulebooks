@@ -22,7 +22,7 @@ from datetime import datetime, timezone
 
 # Paths
 SCRIPT_DIR = Path(__file__).parent
-SSOT_PATH = SCRIPT_DIR / 'ssot' / 'ERB_veritasium-power-laws-and-fractals.json'
+SSOT_PATH = SCRIPT_DIR / 'effortless-rulebook' / 'effortless-rulebook.json'
 TEST_DATA_DIR = SCRIPT_DIR / 'test-data'
 TEST_RESULTS_DIR = SCRIPT_DIR / 'test-results'
 
@@ -232,7 +232,7 @@ def generate_test_data(total_iterations: int = DEFAULT_TOTAL_ITERATIONS,
     base_data = {
         'description': f'Base data for platform initialization (iterations 0-{base_iterations - 1})',
         'generated': datetime.now(timezone.utc).isoformat(),
-        'source': 'ssot/ERB_veritasium-power-laws-and-fractals.json',
+        'source': 'effortless-rulebook/effortless-rulebook.json',
         'total_iterations': total_iterations,
         'base_iterations': base_iterations,
         'systems': systems,
@@ -247,7 +247,7 @@ def generate_test_data(total_iterations: int = DEFAULT_TOTAL_ITERATIONS,
     # Generate test-input.json (only raw facts for iterations 4-7, with rounding)
     test_input = {
         'description': f'Test input with only raw facts for iterations {base_iterations}-{total_iterations-1} (platforms must compute derived values)',
-        'source': 'ssot/ERB_veritasium-power-laws-and-fractals.json',
+        'source': 'effortless-rulebook/effortless-rulebook.json',
         'total_iterations': total_iterations,
         'base_iterations': base_iterations,
         'scales': [extract_raw_facts(s) for s in test_scales]
@@ -263,7 +263,7 @@ def generate_test_data(total_iterations: int = DEFAULT_TOTAL_ITERATIONS,
     answer_key = {
         'description': f'CANONICAL answer key - ALL {total_iterations} iterations with computed values (rounded to 6dp)',
         'generated': datetime.now(timezone.utc).isoformat(),
-        'source': 'ssot/ERB_veritasium-power-laws-and-fractals.json',
+        'source': 'effortless-rulebook/effortless-rulebook.json',
         'total_iterations': total_iterations,
         'base_iterations': base_iterations,
         'note': 'This file contains ALL iterations (0-7). Platforms should match these values exactly.',

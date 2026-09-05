@@ -1,0 +1,35 @@
+{
+  "SSoTmeProjectId": "6e661bd6-d673-449c-bb3c-bdc0e8fe11e9",
+  "Name": "turek-hitchens",
+  "Description": "Rulebook formalizing the VCU debate 'Does God Exist?' between Christopher Hitchens (atheism/anti-theism) and Frank Turek (theism), and every philosophical concept raised. Built via the Shadle steps: raw text -> vocabulary -> glossary -> narrative -> mock data -> normalized schema -> this DAG-structured hub.",
+  "ProjectSettings": [
+    {
+      "Name": "project-name",
+      "Value": "turek-hitchens"
+    }
+  ],
+  "ProjectTranspilers": [
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "rulebooktorulespeak",
+      "RelativePath": "/rulespeak",
+      "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json -p rulebookPath=effortless-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    }
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": "/rulespeak",
+  "SSoTmeProjectFiles": null
+}

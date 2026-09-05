@@ -17,7 +17,7 @@ This extension is intentionally designed to be **additive**: it should not requi
 This is the current base SSOT (source of truth):
 
 ```
-../ssot/ERB_veritasium-power-laws-and-fractals.json
+../effortless-rulebook/effortless-rulebook.json
 ```
 
 It defines the systems, scales, observed scales, measurement models, inference runs, and regime machinery used to generate:
@@ -55,7 +55,7 @@ physics-model/ssot/physics-model.json
 
 This file is the **hybrid** of:
 
-* the base SSOT: `../ssot/ERB_veritasium-power-laws-and-fractals.json`
+* the base SSOT: `../effortless-rulebook/effortless-rulebook.json`
 * plus the patch: `physics-model/ssot/physics-model-patch.json`
 
 Conceptually:

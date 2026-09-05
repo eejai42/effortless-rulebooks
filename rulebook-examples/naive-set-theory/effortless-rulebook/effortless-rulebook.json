@@ -1,0 +1,956 @@
+{
+  "$schema": "https://example.com/cmcc-schema/v1",
+  "Name": "Three-Valued Naive Set Theory",
+  "Description": "Rulebook formalizing naive set theory with three-valued (Strong Kleene) membership and Rule 12 (NULL membership), which dissolves Russell's paradox into a single ungrounded membership fact.",
+  "TruthValues": {
+    "Description": "The three truth values a membership question or condition can take: True, False, or NULL. Admitting NULL makes membership a partial, non-bivalent semantics rather than the classical two-valued one; bivalence is recovered wherever a definition is grounded.",
+    "schema": [
+      {
+        "name": "TruthValueId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity of the truth value: 'true', 'false', or 'null'."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display alias for the truth value.",
+        "formula": "={{TruthValueId}}"
+      },
+      {
+        "name": "Symbol",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Single-letter symbol: T, F, or N."
+      },
+      {
+        "name": "Glyph",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Logical glyph for the value."
+      },
+      {
+        "name": "Rank",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Strong Kleene order used by min/max: True=1, NULL=0, False=-1."
+      },
+      {
+        "name": "IsClassical",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True for the two bivalent values (True/False); False for NULL.",
+        "formula": "=OR({{TruthValueId}}=\"true\", {{TruthValueId}}=\"false\")"
+      },
+      {
+        "name": "IsUndefined",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True only for NULL, the undefined value meaning 'does not converge'.",
+        "formula": "=IF({{TruthValueId}}=\"null\", TRUE(), FALSE())"
+      },
+      {
+        "name": "CountOfFacts",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "How many membership facts resolve to this value.",
+        "formula": "=COUNTIFS(MembershipFacts!{{MembershipValue}}, {{TruthValueId}})"
+      },
+      {
+        "name": "FactsWithValue",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "Membership facts that resolve to this truth value.",
+        "RelatedTo": "MembershipFacts"
+      }
+    ],
+    "data": [
+      {
+        "TruthValueId": "true",
+        "Symbol": "T",
+        "Glyph": "⊤",
+        "Rank": 1
+      },
+      {
+        "TruthValueId": "false",
+        "Symbol": "F",
+        "Glyph": "⊥",
+        "Rank": -1
+      },
+      {
+        "TruthValueId": "null",
+        "Symbol": "N",
+        "Glyph": "∗",
+        "Rank": 0
+      }
+    ]
+  },
+  "Connectives": {
+    "Description": "Logical connectives whose Strong Kleene (K3) truth tables define how NULL propagates. This is the 'gap' route (NULL where evaluation fails to converge), the sibling of paraconsistent 'glut' logics, and it follows Kripke's fixed-point grounding.",
+    "schema": [
+      {
+        "name": "ConnectiveId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity: 'negation', 'conjunction', or 'disjunction'."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display alias.",
+        "formula": "={{ConnectiveId}}"
+      },
+      {
+        "name": "Symbol",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Operator glyph (not / and / or)."
+      },
+      {
+        "name": "Arity",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Number of inputs: 1 for negation, 2 for conjunction/disjunction."
+      },
+      {
+        "name": "KleeneRule",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "How the K3 output is computed (negate / min / max over ranks)."
+      },
+      {
+        "name": "CountOfTruthTableRows",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Rows in this connective's truth table.",
+        "formula": "=COUNTIFS(TruthTableRows!{{Connective}}, {{ConnectiveId}})"
+      },
+      {
+        "name": "TruthTableRows",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "The truth-table rows belonging to this connective.",
+        "RelatedTo": "TruthTableRows"
+      }
+    ],
+    "data": [
+      {
+        "ConnectiveId": "negation",
+        "Symbol": "¬",
+        "Arity": 1,
+        "KleeneRule": "negate rank"
+      },
+      {
+        "ConnectiveId": "conjunction",
+        "Symbol": "∧",
+        "Arity": 2,
+        "KleeneRule": "min of ranks"
+      },
+      {
+        "ConnectiveId": "disjunction",
+        "Symbol": "∨",
+        "Arity": 2,
+        "KleeneRule": "max of ranks"
+      }
+    ]
+  },
+  "TruthTableRows": {
+    "Description": "One row per input combination per connective: the Strong Kleene semantics, stored as data.",
+    "schema": [
+      {
+        "name": "TruthTableRowId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity, e.g. 'negation|null|_|null'."
+      },
+      {
+        "name": "Connective",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The connective this row defines.",
+        "RelatedTo": "Connectives"
+      },
+      {
+        "name": "LeftInput",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "Left/sole input truth value.",
+        "RelatedTo": "TruthValues"
+      },
+      {
+        "name": "RightInput",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "Right input truth value; null for the unary negation.",
+        "RelatedTo": "TruthValues"
+      },
+      {
+        "name": "Output",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "Resulting truth value for this input combination.",
+        "RelatedTo": "TruthValues"
+      },
+      {
+        "name": "OutputSymbol",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": false,
+        "Description": "Symbol of the output value.",
+        "formula": "=INDEX(TruthValues!{{Symbol}}, MATCH({{Output}}, TruthValues!{{TruthValueId}}, 0))"
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Readable row, e.g. 'negation: null -> null'.",
+        "formula": "={{Connective}} & \": \" & {{LeftInput}} & IF({{RightInput}}=\"\", \"\", \" , \" & {{RightInput}}) & \" -> \" & {{Output}}"
+      }
+    ],
+    "data": [
+      {
+        "TruthTableRowId": "negation|true|_|false",
+        "Connective": "negation",
+        "LeftInput": "true",
+        "RightInput": null,
+        "Output": "false"
+      },
+      {
+        "TruthTableRowId": "negation|null|_|null",
+        "Connective": "negation",
+        "LeftInput": "null",
+        "RightInput": null,
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "negation|false|_|true",
+        "Connective": "negation",
+        "LeftInput": "false",
+        "RightInput": null,
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "conjunction|true|true|true",
+        "Connective": "conjunction",
+        "LeftInput": "true",
+        "RightInput": "true",
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "conjunction|true|null|null",
+        "Connective": "conjunction",
+        "LeftInput": "true",
+        "RightInput": "null",
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "conjunction|true|false|false",
+        "Connective": "conjunction",
+        "LeftInput": "true",
+        "RightInput": "false",
+        "Output": "false"
+      },
+      {
+        "TruthTableRowId": "conjunction|null|true|null",
+        "Connective": "conjunction",
+        "LeftInput": "null",
+        "RightInput": "true",
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "conjunction|null|null|null",
+        "Connective": "conjunction",
+        "LeftInput": "null",
+        "RightInput": "null",
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "conjunction|null|false|false",
+        "Connective": "conjunction",
+        "LeftInput": "null",
+        "RightInput": "false",
+        "Output": "false"
+      },
+      {
+        "TruthTableRowId": "conjunction|false|true|false",
+        "Connective": "conjunction",
+        "LeftInput": "false",
+        "RightInput": "true",
+        "Output": "false"
+      },
+      {
+        "TruthTableRowId": "conjunction|false|null|false",
+        "Connective": "conjunction",
+        "LeftInput": "false",
+        "RightInput": "null",
+        "Output": "false"
+      },
+      {
+        "TruthTableRowId": "conjunction|false|false|false",
+        "Connective": "conjunction",
+        "LeftInput": "false",
+        "RightInput": "false",
+        "Output": "false"
+      },
+      {
+        "TruthTableRowId": "disjunction|true|true|true",
+        "Connective": "disjunction",
+        "LeftInput": "true",
+        "RightInput": "true",
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "disjunction|true|null|true",
+        "Connective": "disjunction",
+        "LeftInput": "true",
+        "RightInput": "null",
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "disjunction|true|false|true",
+        "Connective": "disjunction",
+        "LeftInput": "true",
+        "RightInput": "false",
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "disjunction|null|true|true",
+        "Connective": "disjunction",
+        "LeftInput": "null",
+        "RightInput": "true",
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "disjunction|null|null|null",
+        "Connective": "disjunction",
+        "LeftInput": "null",
+        "RightInput": "null",
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "disjunction|null|false|null",
+        "Connective": "disjunction",
+        "LeftInput": "null",
+        "RightInput": "false",
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "disjunction|false|true|true",
+        "Connective": "disjunction",
+        "LeftInput": "false",
+        "RightInput": "true",
+        "Output": "true"
+      },
+      {
+        "TruthTableRowId": "disjunction|false|null|null",
+        "Connective": "disjunction",
+        "LeftInput": "false",
+        "RightInput": "null",
+        "Output": "null"
+      },
+      {
+        "TruthTableRowId": "disjunction|false|false|false",
+        "Connective": "disjunction",
+        "LeftInput": "false",
+        "RightInput": "false",
+        "Output": "false"
+      }
+    ]
+  },
+  "SetRules": {
+    "Description": "The twelve structural rules of the theory: the eleven classical naive rules plus the missing Rule 12.",
+    "schema": [
+      {
+        "name": "SetRuleId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity, e.g. 'rule-12'."
+      },
+      {
+        "name": "RuleNumber",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Ordinal 1-12."
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Short rule title."
+      },
+      {
+        "name": "Statement",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Full statement of the rule."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display alias 'R<n>'.",
+        "formula": "=\"R\" & {{RuleNumber}}"
+      },
+      {
+        "name": "IsClassical",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True for the eleven classical rules (R1-R11).",
+        "formula": "=IF({{RuleNumber}}<=11, TRUE(), FALSE())"
+      },
+      {
+        "name": "IsTheMissingRule",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True only for Rule 12, the rule naive set theory never wrote down.",
+        "formula": "=IF({{RuleNumber}}=12, TRUE(), FALSE())"
+      }
+    ],
+    "data": [
+      {
+        "SetRuleId": "rule-1",
+        "RuleNumber": 1,
+        "Title": "Membership",
+        "Statement": "A set is a collection of distinct objects; x in S asserts x is a member of S."
+      },
+      {
+        "SetRuleId": "rule-2",
+        "RuleNumber": 2,
+        "Title": "Extensionality",
+        "Statement": "A set is fully determined by its members; sets with the same membership profile are identical."
+      },
+      {
+        "SetRuleId": "rule-3",
+        "RuleNumber": 3,
+        "Title": "Order-independence",
+        "Statement": "The order in which members are listed carries no information."
+      },
+      {
+        "SetRuleId": "rule-4",
+        "RuleNumber": 4,
+        "Title": "Repetition-independence",
+        "Statement": "Listing a member more than once adds nothing."
+      },
+      {
+        "SetRuleId": "rule-5",
+        "RuleNumber": 5,
+        "Title": "Two descriptions",
+        "Statement": "A set may be given by enumeration or by a membership condition phi."
+      },
+      {
+        "SetRuleId": "rule-6",
+        "RuleNumber": 6,
+        "Title": "Comprehension",
+        "Statement": "Any condition you can state determines a set of exactly the objects satisfying it."
+      },
+      {
+        "SetRuleId": "rule-7",
+        "RuleNumber": 7,
+        "Title": "Unbounded size",
+        "Statement": "A set may have any number of members: none, finitely many, or infinitely many."
+      },
+      {
+        "SetRuleId": "rule-8",
+        "RuleNumber": 8,
+        "Title": "Empty set",
+        "Statement": "There is a set with no members."
+      },
+      {
+        "SetRuleId": "rule-9",
+        "RuleNumber": 9,
+        "Title": "Singletons",
+        "Statement": "For any object there is a one-member set, distinct from that member."
+      },
+      {
+        "SetRuleId": "rule-10",
+        "RuleNumber": 10,
+        "Title": "Nesting",
+        "Statement": "Sets may be members of other sets."
+      },
+      {
+        "SetRuleId": "rule-11",
+        "RuleNumber": 11,
+        "Title": "Self-membership",
+        "Statement": "A set may be a member of itself; S in S is a well-formed question."
+      },
+      {
+        "SetRuleId": "rule-12",
+        "RuleNumber": 12,
+        "Title": "NULL membership",
+        "Statement": "If a set's condition loops back on itself with no stable True/False value, x in S = NULL."
+      }
+    ]
+  },
+  "Sets": {
+    "Description": "The universe of sets under discussion. Each set is identified by a slug and defined by a membership condition.",
+    "schema": [
+      {
+        "name": "SetId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity slug, e.g. 'russell-set'."
+      },
+      {
+        "name": "Label",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Human notation for the set, e.g. '{a}', 'R', '∅'."
+      },
+      {
+        "name": "ConditionExpression",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The membership condition (the predicate / definition) phi defining the set."
+      },
+      {
+        "name": "IsSelfReferential",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Whether the condition refers to the set's own membership."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display alias.",
+        "formula": "={{SetId}}"
+      },
+      {
+        "name": "IsRussellSet",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Flags the Russell set R = { x | x not-in x }.",
+        "formula": "=IF({{SetId}}=\"russell-set\", TRUE(), FALSE())"
+      },
+      {
+        "name": "CountOfMemberships",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Number of recorded membership facts where this set is the container.",
+        "formula": "=COUNTIFS(MembershipFacts!{{Container}}, {{SetId}})"
+      },
+      {
+        "name": "CountOfNullMemberships",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Membership facts on this set that are ungrounded (NULL).",
+        "formula": "=COUNTIFS(MembershipFacts!{{Container}}, {{SetId}}, MembershipFacts!{{MembershipValue}}, \"null\")"
+      },
+      {
+        "name": "Memberships",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "Membership facts for which this set is the container.",
+        "RelatedTo": "MembershipFacts"
+      }
+    ],
+    "data": [
+      {
+        "SetId": "empty-set",
+        "Label": "∅",
+        "ConditionExpression": "false (nothing satisfies)",
+        "IsSelfReferential": false
+      },
+      {
+        "SetId": "a",
+        "Label": "a",
+        "ConditionExpression": "atom (primitive element)",
+        "IsSelfReferential": false
+      },
+      {
+        "SetId": "b",
+        "Label": "b",
+        "ConditionExpression": "atom (primitive element)",
+        "IsSelfReferential": false
+      },
+      {
+        "SetId": "singleton-a",
+        "Label": "{a}",
+        "ConditionExpression": "x = a",
+        "IsSelfReferential": false
+      },
+      {
+        "SetId": "pair-ab",
+        "Label": "{a, b}",
+        "ConditionExpression": "x = a OR x = b",
+        "IsSelfReferential": false
+      },
+      {
+        "SetId": "nested",
+        "Label": "{{a}}",
+        "ConditionExpression": "x = {a}",
+        "IsSelfReferential": false
+      },
+      {
+        "SetId": "universal-u",
+        "Label": "U",
+        "ConditionExpression": "x is a set (U includes itself)",
+        "IsSelfReferential": true
+      },
+      {
+        "SetId": "russell-set",
+        "Label": "R",
+        "ConditionExpression": "x not-in x",
+        "IsSelfReferential": true
+      }
+    ]
+  },
+  "MembershipFacts": {
+    "Description": "The core relation: each fact is a question 'Element in Container' carrying its three-valued answer.",
+    "schema": [
+      {
+        "name": "MembershipFactId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity, e.g. 'russell-set-in-russell-set'."
+      },
+      {
+        "name": "Element",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The candidate member (itself a set).",
+        "RelatedTo": "Sets"
+      },
+      {
+        "name": "Container",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The set being asked about.",
+        "RelatedTo": "Sets"
+      },
+      {
+        "name": "MembershipValue",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The three-valued answer to Element in Container.",
+        "RelatedTo": "TruthValues"
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Readable fact, e.g. 'russell-set ∈ russell-set'.",
+        "formula": "={{Element}} & \" ∈ \" & {{Container}}"
+      },
+      {
+        "name": "ContainerLabel",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": false,
+        "Description": "Notation of the container set.",
+        "formula": "=INDEX(Sets!{{Label}}, MATCH({{Container}}, Sets!{{SetId}}, 0))"
+      },
+      {
+        "name": "MembershipValueSymbol",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": false,
+        "Description": "Symbol (T/F/N) of the answer.",
+        "formula": "=INDEX(TruthValues!{{Symbol}}, MATCH({{MembershipValue}}, TruthValues!{{TruthValueId}}, 0))"
+      },
+      {
+        "name": "IsBivalent",
+        "datatype": "boolean",
+        "type": "lookup",
+        "nullable": false,
+        "Description": "Whether the answer is one of the classical values (not NULL).",
+        "formula": "=INDEX(TruthValues!{{IsClassical}}, MATCH({{MembershipValue}}, TruthValues!{{TruthValueId}}, 0))"
+      },
+      {
+        "name": "IsNull",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True when the fact is ungrounded (NULL).",
+        "formula": "=IF({{MembershipValue}}=\"null\", TRUE(), FALSE())"
+      },
+      {
+        "name": "IsGrounded",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True when the fact settles to True or False.",
+        "formula": "=IF({{MembershipValue}}=\"null\", FALSE(), TRUE())"
+      },
+      {
+        "name": "CountOfEvaluationSteps",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Number of evaluation trials recorded for this fact.",
+        "formula": "=COUNTIFS(EvaluationSteps!{{MembershipFact}}, {{MembershipFactId}})"
+      },
+      {
+        "name": "EvaluationSteps",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "The fixed-point evaluation trials for this fact.",
+        "RelatedTo": "EvaluationSteps"
+      }
+    ],
+    "data": [
+      {
+        "MembershipFactId": "a-in-empty-set",
+        "Element": "a",
+        "Container": "empty-set",
+        "MembershipValue": "false"
+      },
+      {
+        "MembershipFactId": "a-in-singleton-a",
+        "Element": "a",
+        "Container": "singleton-a",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "a-in-pair-ab",
+        "Element": "a",
+        "Container": "pair-ab",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "b-in-pair-ab",
+        "Element": "b",
+        "Container": "pair-ab",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "singleton-a-in-nested",
+        "Element": "singleton-a",
+        "Container": "nested",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "universal-u-in-universal-u",
+        "Element": "universal-u",
+        "Container": "universal-u",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "a-in-russell-set",
+        "Element": "a",
+        "Container": "russell-set",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "empty-set-in-russell-set",
+        "Element": "empty-set",
+        "Container": "russell-set",
+        "MembershipValue": "true"
+      },
+      {
+        "MembershipFactId": "universal-u-in-russell-set",
+        "Element": "universal-u",
+        "Container": "russell-set",
+        "MembershipValue": "false"
+      },
+      {
+        "MembershipFactId": "russell-set-in-russell-set",
+        "Element": "russell-set",
+        "Container": "russell-set",
+        "MembershipValue": "null"
+      }
+    ]
+  },
+  "EvaluationSteps": {
+    "Description": "Strong Kleene fixed-point evaluation of the Russell fact: each trial value fed through phi = not(R in R). Only NULL is stable, dissolving the Russell paradox into a single ungrounded fixed point.",
+    "schema": [
+      {
+        "name": "EvaluationStepId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stored identity of the trial."
+      },
+      {
+        "name": "MembershipFact",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The fact being evaluated.",
+        "RelatedTo": "MembershipFacts"
+      },
+      {
+        "name": "StepOrder",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Trial order (1,2,3)."
+      },
+      {
+        "name": "TrialValue",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The truth value assumed for R in R before applying phi.",
+        "RelatedTo": "TruthValues"
+      },
+      {
+        "name": "ResultingValue",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "The value phi = not(R in R) yields under that assumption.",
+        "RelatedTo": "TruthValues"
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Readable trial.",
+        "formula": "=\"try \" & {{TrialValue}}"
+      },
+      {
+        "name": "IsStable",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "True when the trial reproduces itself (a fixed point).",
+        "formula": "=IF({{TrialValue}}={{ResultingValue}}, TRUE(), FALSE())"
+      },
+      {
+        "name": "Outcome",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "'stable fixed point' or 'contradiction'.",
+        "formula": "=IF({{TrialValue}}={{ResultingValue}}, \"stable fixed point\", \"contradiction\")"
+      }
+    ],
+    "data": [
+      {
+        "EvaluationStepId": "russell-set-in-russell-set-try-true",
+        "MembershipFact": "russell-set-in-russell-set",
+        "StepOrder": 1,
+        "TrialValue": "true",
+        "ResultingValue": "false"
+      },
+      {
+        "EvaluationStepId": "russell-set-in-russell-set-try-false",
+        "MembershipFact": "russell-set-in-russell-set",
+        "StepOrder": 2,
+        "TrialValue": "false",
+        "ResultingValue": "true"
+      },
+      {
+        "EvaluationStepId": "russell-set-in-russell-set-try-null",
+        "MembershipFact": "russell-set-in-russell-set",
+        "StepOrder": 3,
+        "TrialValue": "null",
+        "ResultingValue": "null"
+      }
+    ]
+  },
+  "_meta": {
+    "_CMCC_Summary": "Schema-first three-valued set theory; membership is a TruthValues-valued relation, Strong Kleene tables stored as data, Rule 12 makes ungrounded facts NULL. Per CMCC, this is a declarative system in which every declarable property has an evaluation outcome (possibly NULL).",
+    "_conversion_metadata": {
+      "source": "Shadle bootstrap from article 'A Missing Rule in Set Theory'",
+      "table_count": 7,
+      "tool_version": "shadle-manual-1.0",
+      "type_inference": {
+        "error_value_handling": "non-convergent evaluation treated as NULL (Rule 12)"
+      }
+    }
+  },
+  "__meta__": {
+    "Description": "Project-level metadata as typed rows (MetaKey, ValueType, StringValue, JsonValue). The only home for metadata in this rulebook.",
+    "schema": [
+      {
+        "name": "MetaKey",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The metadata key (e.g. 'tagline', 'motif_palette', 'substrates'). Unique within the table."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "formula": "={{MetaKey}}",
+        "Description": "Order 1. Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table."
+      },
+      {
+        "name": "ValueType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "How to interpret the value columns: 'string' (use StringValue), 'object' (parse JsonValue as JSON object), 'array' (parse JsonValue as JSON array)."
+      },
+      {
+        "name": "StringValue",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Plain string value. Populated when ValueType == 'string'; null otherwise."
+      },
+      {
+        "name": "JsonValue",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "JSON-encoded value. Populated when ValueType == 'object' or 'array'; null when ValueType == 'string'."
+      }
+    ],
+    "data": [
+      {
+        "MetaKey": "tagline",
+        "ValueType": "string",
+        "StringValue": "Russell's paradox as one ungrounded membership fact.",
+        "JsonValue": null
+      },
+      {
+        "MetaKey": "description_rich",
+        "ValueType": "string",
+        "StringValue": "Rulebook formalizing naive set theory with three-valued (Strong Kleene) membership and Rule 12 (NULL membership), which dissolves Russell's paradox into a single ungrounded membership fact.",
+        "JsonValue": null
+      }
+    ]
+  }
+}

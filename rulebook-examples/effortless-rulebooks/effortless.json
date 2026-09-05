@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "30d1bc4c-974c-4eed-8b1c-b7fc0be50eb2",
   "Name": "Effortless Rulesbooks",
   "Description": "A meta-ontology describing the ERB project itself: execution substrates, orchestration components, Airtable integration, testing framework, rulebook domains, data flows, configuration, and dependencies.",
@@ -21,8 +17,9 @@
       "IsSSoTTranspiler": false,
       "Name": "airtabletorulebook",
       "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o effortless-rulesbooks-rulebook.json -account airtable -p \"view=Grid view\"",
+      "CommandLine": "airtable-to-rulebook -o effortless-rulebooks-rulebook.json -account airtable -p \"view=Grid view\"",
       "IsDisabled": true,
+      "LastVersionUsed": "v2026.04.23.1357",
       "Enabled": false,
       "Description": "Pull rulebook from Airtable (disabled — no Airtable base for this meta-ontology) [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
     },
@@ -30,19 +27,29 @@
       "IsSSoTTranspiler": false,
       "Name": "rulebooktoairtable",
       "RelativePath": "/effortless-rulebook/push-to-airtable",
-      "CommandLine": "rulebook-to-airtable -i ../effortless-rulesbooks-rulebook.json -account airtable -w 300000",
+      "CommandLine": "rulebook-to-airtable -i ../effortless-rulebooks-rulebook.json -account airtable -w 300000",
       "IsDisabled": true,
+      "LastVersionUsed": "v2026.04.13.2259",
       "Enabled": false,
       "Description": "Reverse-sync: push rulebook changes back to Airtable (optional)"
     },
     {
       "IsSSoTTranspiler": false,
+      "Name": "rulebooktorulespeak",
+      "RelativePath": "/rulespeak",
+      "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebooks-rulebook.json",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
       "Name": "rulebooktopostgres",
       "RelativePath": "/postgres-bootstrap",
-      "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulesbooks-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
+      "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebooks-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.05.09.1738",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-05-09-1738-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
+      "LastVersionUsed": "v2026.08.09.0157",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-08-09-0157-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Generate Postgres schema + seed data from the rulebook"
     },
     {
@@ -56,18 +63,21 @@
       "IsSSoTTranspiler": false,
       "Name": "httplocalhost4242postgrescalculatedtorulebook",
       "RelativePath": "/postgres-bootstrap",
-      "CommandLine": "http://localhost:4242/postgres-calculated-to-rulebook -i ../effortless-rulebook/effortless-rulesbooks-rulebook.json",
+      "CommandLine": "http://localhost:4242/postgres-calculated-to-rulebook -i ../effortless-rulebook/effortless-rulebooks-rulebook.json",
       "IsDisabled": false,
       "Description": "Reverse spoke: refresh rulebook derived-field display copies from Postgres views after the destructive rebuild (raws verified, never written)."
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "rulebooktorulespeak",
-      "RelativePath": "/rulespeak",
-      "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulesbooks-rulebook.json",
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i effortless-rulebooks-rulebook.json -p rulebookPath=effortless-rulebooks-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.06.0219",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-06-0219-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.02.0241"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": null,
+  "SSoTmeProjectFiles": null
 }

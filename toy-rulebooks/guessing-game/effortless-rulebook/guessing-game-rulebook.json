@@ -1,6 +1,6 @@
 {
   "$schema": "https://example.com/cmcc-schema/v1",
-  "model_name": "appC6Tnt2ZKm3t16e",
+  "Name": "Guessing Game",
   "Description": "Number-guessing game tracking guesses, hints, and best-score records per player.",
   "形状": {
     "Description": "Table: 形状",
@@ -354,7 +354,6 @@
       "是否为斜边"
     ]
   },
-  "Name": "Guessing Game",
   "__meta__": {
     "Description": "Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.",
     "important": false,

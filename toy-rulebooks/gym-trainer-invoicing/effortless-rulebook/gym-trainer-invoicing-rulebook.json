@@ -1,6 +1,6 @@
 {
   "$schema": "https://example.com/cmcc-schema/v1",
-  "model_name": "gym-trainer-invoicing",
+  "Name": "Gym Trainer Invoicing",
   "Description": "Sessions roll up into invoices; invoices roll up into client outstanding balances.",
   "Users": {
     "Description": "Login identities for the demo (stub auth).",
@@ -750,7 +750,6 @@
       }
     ]
   },
-  "Name": "Gym Trainer Invoicing",
   "__meta__": {
     "Description": "Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.",
     "important": false,

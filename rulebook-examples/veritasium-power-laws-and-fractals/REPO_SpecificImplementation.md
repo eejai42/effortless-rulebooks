@@ -18,7 +18,7 @@ Each platform must compute identical derived values from the same input data, an
 
 ### Core Concept: The Entity Rule Book (ERB)
 
-The SSoT (`ssot/ERB_veritasium-power-laws-and-fractals.json`) follows the CMCC (Computed Measured Calculated Columns) pattern—a schema that clearly distinguishes:
+The SSoT (`effortless-rulebook/effortless-rulebook.json`) follows the CMCC (Computed Measured Calculated Columns) pattern—a schema that clearly distinguishes:
 
 | Field Type | Description | Example |
 |------------|-------------|---------|
@@ -49,8 +49,8 @@ Each system has 8 data points (iterations 0-7), where the log-log relationship b
 
 ```
 ERB_veritasium-power-laws-and-fractals/
-├── ssot/                              # Source of Truth
-│   └── ERB_veritasium-power-laws-and-fractals.json
+├── effortless-rulebook/                              # Source of Truth
+│   └── effortless-rulebook.json
 │
 ├── test-data/                         # Generated test artifacts
 │   ├── base-data.json                 # Iterations 0-3 (for platform init)
@@ -647,7 +647,7 @@ python postgres/run-tests.py
 
 | File | Purpose |
 |------|---------|
-| `ssot/ERB_*.json` | Source of Truth - defines all data models and schemas |
+| `effortless-rulebook/effortless-rulebook.json` | Source of Truth - defines all data models and schemas |
 | `generate-test-data.py` | Creates test artifacts from SSoT |
 | `orchestrator.py` | Master test coordinator |
 | `start.sh` | Interactive menu launcher |

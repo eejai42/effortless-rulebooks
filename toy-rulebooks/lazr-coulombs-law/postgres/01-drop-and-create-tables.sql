@@ -239,4 +239,11 @@ COMMENT ON COLUMN system_summary.system_id IS 'FK → Systems.SystemId';
 -- FK INDEXES - Performance only, always applied
 -- ============================================================================
 
--- (no FK fields detected in rulebook)
+-- Charges
+CREATE INDEX IF NOT EXISTS idx_charges_system_id ON charges (system_id);
+CREATE INDEX IF NOT EXISTS idx_charges_particle_id ON charges (particle_id);
+
+-- SystemSummary
+CREATE INDEX IF NOT EXISTS idx_system_summary_system_id ON system_summary (system_id);
+
+-- 3 FK index(es) declared.

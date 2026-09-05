@@ -33,8 +33,8 @@
       "RelativePath": "/progress-report",
       "CommandLine": "rulebook-to-progress-report -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.08.29.1949",
-      "LastUrl": "https://effortless-rulebook-to-progress--v2026-08-29-1949-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.05.0210",
+      "LastUrl": "https://effortless-rulebook-to-progress--v2026-09-05-0210-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,

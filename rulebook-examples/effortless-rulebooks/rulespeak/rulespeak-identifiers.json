@@ -1,0 +1,7 @@
+{
+  "_comment": "Stable DR-number ledger for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build to keep rule numbers stable. Numbers in 'Retired' are tombstones and are never reissued. Hand-edit an Assignments number only to deliberately re-pin a rule.",
+  "NextId": 1,
+  "Assignments": {
+  },
+  "Retired": []
+}

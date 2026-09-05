@@ -1,6 +1,6 @@
 {
   "$schema": "https://example.com/cmcc-schema/v1",
-  "model_name": "wedding-seating-optimizer",
+  "Name": "Wedding Seating Optimizer",
   "Description": "Seating plan as a DAG — per-table happiness, capacity flags, per-guest satisfaction recompute on every move.",
   "Users": {
     "Description": "Login identities for the demo (stub auth).",
@@ -900,7 +900,6 @@
       }
     ]
   },
-  "Name": "Wedding Seating Optimizer",
   "__meta__": {
     "Description": "Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.",
     "important": false,

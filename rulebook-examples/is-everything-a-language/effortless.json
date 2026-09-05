@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "f7a2c50d-efc4-4791-a792-aa469dd5ef51",
   "Name": "Is Everything a Language?",
   "Description": "A philosophical meta-ontology demonstrating formal logic and self-referential modeling.",
@@ -23,6 +19,7 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "airtable-to-rulebook -o is-everything-a-language-rulebook.json -account airtable -p \"view=Grid view\"",
       "IsDisabled": true,
+      "LastVersionUsed": "v2026.04.23.1357",
       "Enabled": false,
       "Description": "Pull rulebook from Airtable (optional; edit is-everything-a-language-rulebook.json directly if preferred) [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
     },
@@ -32,6 +29,7 @@
       "RelativePath": "/effortless-rulebook/push-to-airtable",
       "CommandLine": "rulebook-to-airtable -i ../is-everything-a-language-rulebook.json -account airtable -w 300000",
       "IsDisabled": true,
+      "LastVersionUsed": "v2026.04.13.2259",
       "Enabled": false,
       "Description": "Reverse-sync: push rulebook changes back to Airtable (optional)"
     },
@@ -41,7 +39,7 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/is-everything-a-language-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.05.09.1738",
+      "LastVersionUsed": "v2026.08.09.0157",
       "LastUrl": "https://effortless-rulebook-to-postgres-v2026-05-09-1738-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Generate Postgres schema + seed data from the rulebook"
     },
@@ -66,8 +64,20 @@
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/is-everything-a-language-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.06.0219",
+      "LastVersionUsed": "v2026.08.30.1537",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-06-0219-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i is-everything-a-language-rulebook.json -p rulebookPath=is-everything-a-language-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": null,
+  "SSoTmeProjectFiles": null
 }

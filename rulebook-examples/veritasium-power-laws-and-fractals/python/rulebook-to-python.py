@@ -8,7 +8,7 @@ with calculation methods.
 Usage:
     python rulebook-to-python.py
 
-Input:  ssot/ERB_veritasium-power-laws-and-fractals.json
+Input:  effortless-rulebook/effortless-rulebook.json
 Output: python/rulebook/ package with generated code
 """
 
@@ -430,7 +430,7 @@ def main():
     # Paths
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    rulebook_path = project_root / 'ssot' / 'ERB_veritasium-power-laws-and-fractals.json'
+    rulebook_path = project_root / 'effortless-rulebook' / 'effortless-rulebook.json'
     output_dir = script_dir / 'rulebook'
 
     # Check if rulebook exists

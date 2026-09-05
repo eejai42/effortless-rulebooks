@@ -40,11 +40,11 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "http://localhost:4242/postgres-calculated-to-rulebook -i ../effortless-rulebook/traffic-ticket-contest-rulebook.json",
       "IsDisabled": true,
-      "Description": "Reverse spoke: refresh rulebook derived-field display copies from Postgres views after the destructive rebuild (raws verified, never written). DISABLED for now — it was failing on missing .pg-raw-data.json and mutating/auto-committing the rulebook during builds."
+      "Description": "Reverse spoke: refresh rulebook derived-field display copies from Postgres views after the destructive rebuild (raws verified, never written). DISABLED for now \u2014 it was failing on missing .pg-raw-data.json and mutating/auto-committing the rulebook during builds."
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "httplocalhost4242rulebooktoexplainddag",
+      "Name": "httplocalhost4242rulebooktoexplaindag",
       "RelativePath": "/explain-dag",
       "CommandLine": "http://localhost:4242/rulebook-to-explain-dag -i ../effortless-rulebook/traffic-ticket-contest-rulebook.json",
       "IsDisabled": false

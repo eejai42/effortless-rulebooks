@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "27b6a5ea-b05f-4b33-a6c8-f032086e83cf",
   "Name": "Causal",
   "ProjectSettings": [
@@ -24,7 +20,7 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "rulebooktorulespeak",
+      "Name": "rulebooktorulespeakde",
       "RelativePath": "/rulespeak-german",
       "CommandLine": "rulebook-to-rulespeak-de -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
@@ -37,8 +33,7 @@
       "RelativePath": "/postgres",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.06.14.1635",
-      "LastVersionUsed": "v2026.06.14.1635",
+      "LastVersionUsed": "v2026.08.09.0157",
       "LastUrl": "https://effortless-rulebook-to-postgres-v2026-06-14-1635-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "_note": "TEMPORARY: pin shows v2026.06.14.1635 because the CLI version index hasn't yet propagated the upsert-fix release v2026.06.20.1746. A `-setUrl rulebook-to-postgres=<v1746 workload url>` override redirects the actual call to the published fix (ON CONFLICT DO UPDATE so the DB mirrors the rulebook). Re-pin to v2026.06.20.1746 and drop this note + the override once the index catches up."
     },
@@ -55,7 +50,7 @@
       "RelativePath": "/owl",
       "CommandLine": "rulebook-to-owl -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.21.1215",
+      "LastVersionUsed": "v2026.07.08.0207",
       "LastUrl": "https://effortless-rulebook-to-owl-v2026-06-21-1215-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "_note": "Uses [latest] (no pin, no -setUrl override). Latest emits ontology.owl + individuals.ttl + rules.shacl.ttl with the transition relation as an owl:TransitiveProperty. The owl-conformance step (owl/run-conformance.sh -> owl/reason.py) gates the build on OWL-RL closure == vw_state_transition_rules_closure."
     },
@@ -106,8 +101,7 @@
       "RelativePath": "/admin-app/client/public",
       "CommandLine": "rulebook-to-explainer-dag -i ../../../effortless-rulebook/effortless-rulebook.json -o explainer-dag",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.06.17.2023",
-      "LastVersionUsed": "v2026.06.17.2023",
+      "LastVersionUsed": "v2026.08.31.0049",
       "LastUrl": "https://effortless-rulebook-to-explainer-v2026-06-17-2023-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
@@ -119,6 +113,18 @@
       "PinnedVersion": "v2026.05.25.2316",
       "LastVersionUsed": "v2026.05.25.2316",
       "LastUrl": "https://effortless-rulebook-to-xlsx-v2026-05-25-2316-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json -p rulebookPath=effortless-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": null,
+  "SSoTmeProjectFiles": null
 }

@@ -6,7 +6,7 @@ This folder is a **self-contained Effortless Rulebook (ERB) project**. The ruleb
 
 **Location:** `effortless-rulebook/traffic-ticket-contest-rulebook.json`
 
-The rulebook file is always named after its containing folder — e.g. `acme-llc/effortless-rulebook/acme-llc-rulebook.json`. The generic name `effortless-rulebook.json` is **not** used for per-project rulebooks; that name is reserved for the top-level platform/orchestration rulebook at `effortless-platform/effortless-rulebook/effortless-rulebook.json`.
+The rulebook file is always named after its containing folder — e.g. `acme-llc/effortless-rulebook/acme-llc-rulebook.json`. The generic name `effortless-rulebook.json` is **not** used for per-project rulebooks; that name is used by the root governing rulebook at `../../effortless-rulebook/effortless-rulebook.json` (the protocol allows either name; this project uses the slug form).
 
 This is the canonical specification for the domain. It defines:
 - Entity schemas (tables with fields)

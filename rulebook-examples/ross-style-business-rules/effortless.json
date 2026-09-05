@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "44f6a0c8-6833-473d-914c-604860ede8ef",
   "Name": "ross-style-business-rules",
   "Description": "Claims System — Ross-style Business Rules demo: five declarative rules over four entities, rendered as RuleSpeak.",
@@ -15,13 +11,42 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
+      "Name": "rulebooktopostgres",
+      "RelativePath": "/postgres",
+      "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/ross-style-business-rules-rulebook.json -p drop_all=true",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.08.09.0157",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-08-09-0157-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "init-db",
+      "RelativePath": "/",
+      "CommandLine": "-exec ./init-db.sh",
+      "IsDisabled": false
+    },
+    {
+      "IsSSoTTranspiler": false,
       "Name": "rulebooktorulespeak",
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/ross-style-business-rules-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.10.1308",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Render the rulebook as plain-English RuleSpeak (HTML + Markdown)"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i ross-style-business-rules-rulebook.json -p rulebookPath=ross-style-business-rules-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": null,
+  "SSoTmeProjectFiles": null
 }

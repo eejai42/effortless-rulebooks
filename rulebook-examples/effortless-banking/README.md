@@ -2,7 +2,7 @@
 
 Community-bank Small Business Banking Client Manager demo, built as an
 **Effortless Rulebook (ERB)** project. The hand-authored
-[`effortless-rulebook/effortless-rulebook.json`](effortless-rulebook/effortless-rulebook.json)
+[`effortless-rulebook/effortless-banking-rulebook.json`](effortless-rulebook/effortless-banking-rulebook.json)
 is the single source of truth; `effortless build` regenerates Postgres
 schema, functions, views, and seed data under [`postgres/`](postgres/)
 and rebuilds the local DB via `init-db.sh`.

@@ -31,14 +31,14 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "execute",
+      "Name": "init-db",
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "-exec ./init-db.sh",
       "IsDisabled": false
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "execute",
+      "Name": "execute-seed-dbjson",
       "RelativePath": "/app/backend",
       "CommandLine": "-exec ./seed-dbjson.sh",
       "IsDisabled": false,
@@ -79,6 +79,14 @@
       "LastUrl": "https://effortless-rulebook-to-react-exp-v2026-06-11-1530-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "_HeadPointerNote": "Pinned to the explicit v2026.06.11.1530 cpln URL (NOT the bare tool name) because [latest] still resolves to the older v2026.06.10.1301 — the publish on 2026-06-11 built+activated v1530 but the HeadVersion pointer did not flip to it. v1530 is the version carrying the hovercard portal/edge-clamp fix (DagHoverCard renders via createPortal to document.body, fixed-positioned + four-edge viewport-clamped). Re-point CommandLine back to the bare 'rulebook-to-react-explainer-dag' once [latest] correctly advances to v1530 or newer.",
       "Description": "Generate the self-contained React Explainer DAG module (app/frontend/src/explainer-dag/) — embedded rulebook + dagResolver + DagCell/DagToggle/FieldChip/FieldDag — the canonical, fully-generated provenance visualizer. Replaces the former hand-written explain-dag/ module."
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i talismans-special-solutions-rulebook.json -p rulebookPath=talismans-special-solutions-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241"
     }
   ],
   "ShowHidden": false,

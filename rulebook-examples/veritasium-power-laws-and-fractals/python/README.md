@@ -67,7 +67,7 @@ python/
 
 ## Regenerating the Code
 
-If you modify `ssot/ERB_veritasium-power-laws-and-fractals.json`, regenerate:
+If you modify `effortless-rulebook/effortless-rulebook.json`, regenerate:
 
 ```bash
 python rulebook-to-python.py

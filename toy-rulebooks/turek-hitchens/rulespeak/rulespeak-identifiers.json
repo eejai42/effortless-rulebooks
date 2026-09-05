@@ -1,0 +1,31 @@
+{
+  "_comment": "Stable DR-number ledger for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build to keep rule numbers stable. Numbers in 'Retired' are tombstones and are never reissued. Hand-edit an Assignments number only to deliberately re-pin a rule.",
+  "NextId": 25,
+  "Assignments": {
+    "Debaters.Name": 1,
+    "Debaters.ArgumentCount": 2,
+    "Debaters.ClaimCount": 3,
+    "Debaters.ThinkersCited": 4,
+    "Worldviews.Name": 5,
+    "Worldviews.ArgumentCount": 6,
+    "Arguments.Name": 7,
+    "Arguments.PremiseCount": 8,
+    "Arguments.EvidenceCount": 9,
+    "Arguments.ClaimCount": 10,
+    "Arguments.IsFullyDeveloped": 11,
+    "Arguments.TotalRebuttals": 12,
+    "Arguments.IsContested": 13,
+    "Premises.Name": 14,
+    "Evidence.Name": 15,
+    "Concepts.Name": 16,
+    "Concepts.ClaimCount": 17,
+    "Claims.Name": 18,
+    "Claims.RebuttalCount": 19,
+    "Claims.IsRebutted": 20,
+    "Rebuttals.Name": 21,
+    "Thinkers.Name": 22,
+    "Thinkers.QuotationCount": 23,
+    "Quotations.Name": 24
+  },
+  "Retired": []
+}

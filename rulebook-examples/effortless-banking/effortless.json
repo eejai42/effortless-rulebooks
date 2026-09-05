@@ -64,7 +64,7 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "effortless-rulebook-editor",
+      "Name": "effortlessrulebookeditor",
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i effortless-banking-rulebook.json",
       "IsDisabled": false,

@@ -23,7 +23,7 @@ for command in npm psql lsof; do
   command -v "$command" >/dev/null 2>&1 || die "$command is required"
 done
 for file in app/package.json app/server.js app/vite.config.js \
-  effortless-rulebook/effortless-rulesbooks-rulebook.json; do
+  effortless-rulebook/effortless-rulebooks-rulebook.json; do
   [ -f "$file" ] || die "missing required file: $PROJECT_ROOT/$file"
 done
 

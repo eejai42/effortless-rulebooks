@@ -17,7 +17,7 @@ START_COMMAND='./start.sh'
 die() { echo "[start] ERROR: $*" >&2; exit 1; }
 command -v python3 >/dev/null 2>&1 || die "python3 is required"
 for file in orchestrator.py visualizer/generate_report.py \
-  ssot/ERB_veritasium-power-laws-and-fractals.json README.md; do
+  effortless-rulebook/effortless-rulebook.json README.md; do
     [ -f "$file" ] || die "missing required file: $SCRIPT_DIR/$file"
 done
 
@@ -181,9 +181,9 @@ view_ssot() {
     echo -e "${CYAN}Source of Truth (first 50 lines):${NC}"
     echo ""
     command -v head >/dev/null 2>&1 || die "head is required to preview the SSoT"
-    head -50 "$SCRIPT_DIR/ssot/ERB_veritasium-power-laws-and-fractals.json"
+    head -50 "$SCRIPT_DIR/effortless-rulebook/effortless-rulebook.json"
     echo ""
-    echo -e "${YELLOW}Full file: ssot/ERB_veritasium-power-laws-and-fractals.json${NC}"
+    echo -e "${YELLOW}Full file: effortless-rulebook/effortless-rulebook.json${NC}"
     echo ""
     echo -e "${YELLOW}Press Enter to continue...${NC}"
     read

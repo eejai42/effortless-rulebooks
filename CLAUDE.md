@@ -87,7 +87,7 @@ The generated editor container watches the rulebook, but Docker Desktop does not
 
 # Publishing / hosting transpiler tools
 
-Never invent a publish procedure; see the global CLAUDE.md. `rulebook-to-progress-report` is not yet resolvable by bare name: run it locally (`Versioned-Stable-SSoTme-Tools/tools/effortless/rulebook-to-progress-report/start.sh`, port 30052) and `effortless -setToolUrl rulebook-to-progress-report=http://localhost:30052`; undo with `effortless -removeUrl`.
+Never invent a publish procedure; see the global CLAUDE.md. `rulebook-to-progress-report` is published (`v2026.09.05.0210 [latest]`) and resolves by bare name; while developing it, run it locally (`Versioned-Stable-SSoTme-Tools/tools/effortless/rulebook-to-progress-report/start.sh`, port 30052) and `effortless -setUrl rulebook-to-progress-report=http://localhost:30052` (stored in `~/.effortless/tool_urls.json`; undo with `effortless -removeUrl`). Control Plane now rejects a `PORT` env entry in `cpln/workload.yaml` when the container port is set; the runtime injects `PORT`, so delete the entry from any tool's template before publishing it. A fresh workload can fail its first health check while the image is pulled; `cpln workload force-redeployment <name> --gvc ssotme-tools` brings it up.
 
 # The legacy runner
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://example.com/cmcc-schema/v1",
-  "model_name": "therapist_helper_portal",
+  "Name": "Therapist Helper Portal",
   "Description": "Sessions and treatment progress: GoalUpdate → Goal.ProgressPct → Client.IsAtRisk three-hop DAG.",
   "Users": {
     "Description": "Application users. Therapists, supervisors, and clients log in via dev-login by user id (email).",
@@ -674,7 +674,6 @@
       }
     ]
   },
-  "Name": "Therapist Helper Portal",
   "__meta__": {
     "Description": "Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.",
     "important": false,

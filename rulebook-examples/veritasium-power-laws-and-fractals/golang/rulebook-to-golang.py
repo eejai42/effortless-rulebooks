@@ -8,7 +8,7 @@ with calculation methods.
 Usage:
     python rulebook-to-golang.py
 
-Input:  ssot/ERB_veritasium-power-laws-and-fractals.json
+Input:  effortless-rulebook/effortless-rulebook.json
 Output: golang/pkg/rulebook/ package with generated code
 """
 
@@ -383,7 +383,7 @@ def main():
     """Main entry point"""
     script_dir = Path(__file__).parent
     project_root = script_dir.parent
-    rulebook_path = project_root / 'ssot' / 'ERB_veritasium-power-laws-and-fractals.json'
+    rulebook_path = project_root / 'effortless-rulebook' / 'effortless-rulebook.json'
     output_dir = script_dir / 'pkg' / 'rulebook'
 
     if not rulebook_path.exists():

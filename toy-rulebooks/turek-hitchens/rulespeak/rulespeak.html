@@ -1,0 +1,2273 @@
+<!doctype html>
+<html lang="en" data-lang="en" class="show-rulespeak show-desc show-inputs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Does God Exist — Hitchens vs Turek (VCU) — RuleSpeak®</title>
+<style>
+
+:root{
+  --raw:#003a70; --calc:#5a3aa0; --agg:#0a7b78; --rel:#666; --lookup:#9a6708;
+  --raw-bg:#eaf0f8; --calc-bg:#f1ebfb; --agg-bg:#e5f4f3; --rel-bg:#f0f0f0; --lookup-bg:#fbf2dd;
+  --ink:#1a1a22; --muted:#6b6b78; --line:#e3e3ea; --bg:#fafafc; --card:#fff;
+  --bar-h:48px;                 /* sticky topbar height — anchors clear it */
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font:15px/1.55 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  color:var(--ink);background:var(--bg);}
+a{color:var(--calc);text-decoration:none}
+a:hover{text-decoration:underline}
+code{font:0.85em ui-monospace,SFMono-Regular,Menlo,monospace;background:#f3f3f7;padding:1px 5px;border-radius:4px}
+
+/* ── One language visible at a time; <html data-lang> picks it (rules per
+      language are appended at render time). ─────────────────────────────── */
+.lang-doc{display:none}
+
+/* ── Element visibility: each doc element shows only when <html> carries its flag. */
+.elem{display:none}
+html.show-rulespeak .elem-rulespeak{display:block}
+html.show-english   .elem-english{display:block}
+html.show-formula   .elem-formula{display:block}
+html.show-desc      .elem-desc{display:block}
+html.show-inputs    .elem-inputs{display:block}
+html.show-consumers .elem-consumers{display:block}
+
+/* ── Sticky top bar — brand · breadcrumb · language · gear ───────────────── */
+.topbar{position:sticky;top:0;z-index:40;height:var(--bar-h);
+  background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);
+  backdrop-filter:saturate(1.1) blur(8px)}
+.topbar-inner{max-width:960px;margin:0 auto;padding:0 24px;height:var(--bar-h);
+  display:flex;align-items:center;gap:12px}
+.topbar-brand{font-weight:800;font-size:15px;color:var(--ink);white-space:nowrap;flex:none}
+.topbar-brand:hover{text-decoration:none}
+.topbar-tag{font-size:11px;font-weight:700;color:var(--calc);background:var(--calc-bg);
+  padding:1px 7px;border-radius:999px;margin-left:4px;vertical-align:middle}
+.crumb{flex:1;min-width:0;display:flex;align-items:center;gap:7px;
+  font-size:13px;color:var(--muted);overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.crumb-entity{font-weight:700;color:var(--ink)}
+.crumb-sep{color:var(--line)}
+.crumb-field{color:var(--calc);font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.lang-select{flex:none;height:32px;border:1px solid var(--line);border-radius:9px;background:#fff;
+  color:var(--ink);font:600 13px/1 inherit;padding:0 8px;cursor:pointer;max-width:150px}
+.lang-select:hover{border-color:var(--calc)}
+.gear{flex:none;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);
+  background:#fff;cursor:pointer;font-size:17px;line-height:1;color:var(--muted);
+  display:inline-flex;align-items:center;justify-content:center;transition:all .12s}
+.gear:hover{color:var(--ink);border-color:var(--calc);box-shadow:0 1px 4px rgba(90,58,160,.15)}
+.gear[aria-expanded='true']{background:var(--calc);color:#fff;border-color:var(--calc)}
+
+/* ── Gear popup ──────────────────────────────────────────────────────────── */
+.gear-pop{position:absolute;top:calc(var(--bar-h) + 6px);right:24px;z-index:50;width:290px;
+  background:#fff;border:1px solid var(--line);border-radius:12px;
+  box-shadow:0 10px 32px rgba(20,20,40,.18);padding:12px}
+.gear-pop[hidden]{display:none}
+.gear-pop-title{margin:2px 4px 8px;font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:var(--muted)}
+.gear-opt{display:grid;grid-template-columns:auto 1fr;column-gap:9px;align-items:baseline;
+  padding:7px 6px;border-radius:8px;cursor:pointer}
+.gear-opt:hover{background:var(--calc-bg)}
+.gear-opt input{grid-row:1 / span 2;align-self:center;width:16px;height:16px;accent-color:var(--calc);cursor:pointer}
+.gear-opt-label{font-weight:600;font-size:14px;color:var(--ink)}
+.gear-opt-hint{grid-column:2;font-size:12px;color:var(--muted);line-height:1.35}
+.gear-reset{margin:8px 4px 2px;border:0;background:transparent;color:var(--calc);
+  font:600 12px/1 inherit;cursor:pointer;padding:4px}
+.gear-reset:hover{text-decoration:underline}
+.gear-inline{border:1px solid var(--line);background:#fff;border-radius:7px;padding:1px 7px;
+  font:600 12px/1 inherit;color:var(--calc);cursor:pointer}
+.gear-inline:hover{border-color:var(--calc)}
+
+.doc-header{background:linear-gradient(180deg,#fff,#f5f4fb);border-bottom:1px solid var(--line)}
+.doc-header-inner{max-width:960px;margin:0 auto;padding:18px 24px}
+.doc-title{margin:0;font-size:24px;font-weight:800}
+.doc-title-sub{font-size:13px;font-weight:600;color:var(--calc);background:var(--calc-bg);
+  padding:2px 8px;border-radius:999px;vertical-align:middle;margin-left:6px}
+.doc-lede{margin:6px 0 0;font-style:italic;color:var(--muted)}
+.doc-note{margin:8px 0 12px;color:var(--muted);font-size:13px;max-width:70ch}
+.narr-hint{margin:8px 0 0;font-size:12px;color:var(--muted);max-width:78ch}
+
+.toc{max-width:960px;margin:22px auto 0;padding:0 24px;scroll-margin-top:calc(var(--bar-h) + 12px)}
+.toc-title{font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:0 0 8px}
+.toc-list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:6px}
+.toc-list a{font-weight:600}
+.toc-meta{font-size:12px;color:var(--muted);margin-left:6px}
+
+.entity{max-width:960px;margin:34px auto 0;padding:0 24px;scroll-margin-top:calc(var(--bar-h) + 14px)}
+.entity-head{border-bottom:2px solid var(--line);padding-bottom:8px;margin-bottom:14px}
+.entity-title{margin:0;font-size:21px;font-weight:800}
+.entity-synopsis{margin:4px 0 0;color:var(--muted);max-width:74ch}
+
+.field{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--rel);
+  border-radius:10px;padding:14px 16px;margin:0 0 12px;scroll-margin-top:calc(var(--bar-h) + 14px)}
+.field.tone-raw{border-left-color:var(--raw)} .field.tone-calc{border-left-color:var(--calc)}
+.field.tone-agg{border-left-color:var(--agg)} .field.tone-lookup{border-left-color:var(--lookup)}
+.field.tone-rel{border-left-color:var(--rel)}
+.field-head{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.field-glyph{width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:6px;font-weight:700;color:#fff;font-size:13px}
+.tone-raw .field-glyph{background:var(--raw)} .tone-calc .field-glyph{background:var(--calc)}
+.tone-agg .field-glyph{background:var(--agg)} .tone-lookup .field-glyph{background:var(--lookup)}
+.tone-rel .field-glyph{background:var(--rel)}
+.field-name{font-weight:700;font-size:16px}
+.pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:999px;background:#f0f0f5;color:var(--muted)}
+.pill-type{background:var(--calc-bg);color:var(--calc)}
+.tone-raw .pill-type{background:var(--raw-bg);color:var(--raw)}
+.tone-agg .pill-type{background:var(--agg-bg);color:var(--agg)}
+.tone-lookup .pill-type{background:var(--lookup-bg);color:var(--lookup)}
+.tone-rel .pill-type{background:var(--rel-bg);color:var(--rel)}
+.pill-dr{background:#eee;color:#555;font-variant-numeric:tabular-nums}
+
+.narr-views{margin-top:10px;display:flex;flex-direction:column;gap:10px}
+.narr-views:empty{margin-top:0}
+.view-label{display:inline-block;font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;color:var(--muted);margin-bottom:4px}
+.view-body{margin:0}
+.mech{color:#9a6708;background:var(--lookup-bg);padding:1px 6px;border-radius:6px;
+  font-weight:600;text-transform:none;letter-spacing:0}
+.fx{font:0.92em ui-monospace,SFMono-Regular,Menlo,monospace;background:#f7f7fb;border:1px solid var(--line);
+  border-radius:8px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}
+.fx-eq{color:var(--muted)}
+.fx-chip{background:var(--calc-bg);color:var(--calc);padding:1px 6px;border-radius:5px;font-weight:600}
+.ref{border-bottom:1px dashed var(--calc);font-weight:600}
+
+.rt-headline{margin:0 0 4px}
+.rt-priority{margin:4px 0;padding-left:22px}
+.rt-priority>li{margin:2px 0}
+.rt-value{font-weight:700;color:var(--calc)}
+.rt-otherwise{color:var(--muted);font-style:italic}
+.rt-group-label{font-weight:600}
+.rt-group{margin:2px 0 6px;padding-left:20px}
+
+.gt{margin-top:8px}
+.gt-body{margin:0;color:var(--muted)}
+.gt-reverse{margin-top:6px}
+
+.prov{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
+.prov>summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);list-style:none}
+.prov>summary::-webkit-details-marker{display:none}
+.prov>summary::before{content:'▸';display:inline-block;margin-right:6px;color:var(--muted);transition:transform .1s}
+.prov[open]>summary::before{transform:rotate(90deg)}
+.count{font-size:11px;font-weight:700;background:#eee;color:#555;padding:1px 7px;border-radius:999px;margin-left:4px}
+.count-muted{background:#f5f5f5;color:#999}
+.prov-hint{font-size:12px;font-weight:400;color:var(--muted);margin-left:6px}
+.prov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;margin-top:8px}
+.prov-pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.input{display:block;border:1px solid var(--line);border-left:3px solid var(--rel);border-radius:8px;
+  padding:8px 10px;background:#fcfcfe}
+.input.tone-raw{border-left-color:var(--raw)} .input.tone-calc{border-left-color:var(--calc)}
+.input.tone-agg{border-left-color:var(--agg)} .input.tone-lookup{border-left-color:var(--lookup)}
+.input.tone-rel{border-left-color:var(--rel)}
+.input:hover{background:#f4f3fb;text-decoration:none}
+.input-static{cursor:default}
+span.input-static:hover{background:#fcfcfe}
+.input-head{display:flex;align-items:center;gap:6px}
+.input-glyph{font-size:12px;color:var(--muted)}
+.input-name{font-weight:700;color:var(--ink)}
+.input-table{font-size:11px;color:var(--muted);margin-left:auto}
+.input-en{display:block;margin-top:3px;font-size:13px;color:var(--muted)}
+.ref-pill{display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:600;
+  border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:#fff;color:var(--ink)}
+.ref-pill.tone-raw{border-color:var(--raw);color:var(--raw)} .ref-pill.tone-calc{border-color:var(--calc);color:var(--calc)}
+.ref-pill.tone-agg{border-color:var(--agg);color:var(--agg)} .ref-pill.tone-lookup{border-color:var(--lookup);color:var(--lookup)}
+.ref-pill.faded{opacity:.6}
+.ref-pill-tbl{font-weight:400;color:var(--muted)}
+
+.field-note{margin:8px 0 0;font-size:13px;font-style:italic;color:var(--muted);
+  border-left:2px solid var(--line);padding-left:10px}
+
+.doc-footer{max-width:960px;margin:40px auto;padding:18px 24px;border-top:1px solid var(--line);
+  color:var(--muted);font-size:13px}
+.doc-footer-legend{margin-top:8px;display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:600;padding:2px 9px;border-radius:999px}
+.chip-raw{background:var(--raw-bg);color:var(--raw)} .chip-calc{background:var(--calc-bg);color:var(--calc)}
+.chip-agg{background:var(--agg-bg);color:var(--agg)} .chip-lookup{background:var(--lookup-bg);color:var(--lookup)}
+.chip-rel{background:var(--rel-bg);color:var(--rel)}
+:target{animation:flash 1.2s ease}
+@keyframes flash{0%{background:var(--calc-bg)}100%{background:var(--card)}}
+
+html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
+</style>
+<script>
+
+(function(){
+  var LANGS=['en'];
+  var DEFAULT_LANG='en';
+  var ELEMS=['rulespeak','english','formula','desc','inputs','consumers'];
+  var root=document.documentElement;
+
+  var lang=null;
+  try{ lang=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(!lang){ try{ lang=localStorage.getItem('rulespeak.lang'); }catch(e){} }
+  if(LANGS.indexOf(lang)<0) lang=DEFAULT_LANG;
+  root.setAttribute('data-lang',lang);
+  root.setAttribute('lang',lang);
+
+  ELEMS.forEach(function(k){
+    var v=null; try{v=localStorage.getItem('rulespeak.show.'+k);}catch(e){}
+    if(v==='1') root.classList.add('show-'+k);
+    else if(v==='0') root.classList.remove('show-'+k);
+  });
+})();
+
+</script>
+</head>
+<body>
+<div class="lang-doc" data-lang="en" lang="en">
+<div class="topbar">
+  <div class="topbar-inner">
+    <a class="topbar-brand" href="#en-top">📘 Does God Exist — Hitchens vs Turek (VCU) <span class="topbar-tag">RuleSpeak®</span></a>
+    <nav class="crumb" aria-label="You are reading">
+      <span class="crumb-entity"></span>
+      <span class="crumb-sep" hidden>›</span>
+      <span class="crumb-field"></span>
+    </nav>
+    <button type="button" class="gear" aria-haspopup="dialog" aria-expanded="false" title="Documentation options" aria-label="Documentation options">⚙︎</button>
+  </div>
+  <div class="gear-pop" role="dialog" aria-label="Documentation options" hidden>
+    <p class="gear-pop-title">Show in this document</p>
+    <label class="gear-opt" title="The declarative business rule (only if / must / priority)">
+      <input type="checkbox" data-elem="rulespeak" checked>
+      <span class="gear-opt-label">RuleSpeak®</span>
+      <span class="gear-opt-hint">The declarative business rule (only if / must / priority)</span>
+    </label>
+    <label class="gear-opt" title="The formula read aloud as a plain sentence">
+      <input type="checkbox" data-elem="english">
+      <span class="gear-opt-label">Plain reading</span>
+      <span class="gear-opt-hint">The formula read aloud as a plain sentence</span>
+    </label>
+    <label class="gear-opt" title="The raw =expression, with clickable field chips">
+      <input type="checkbox" data-elem="formula">
+      <span class="gear-opt-label">Formulas</span>
+      <span class="gear-opt-hint">The raw =expression, with clickable field chips</span>
+    </label>
+    <label class="gear-opt" title="The author's narrative comment on a field, when present">
+      <input type="checkbox" data-elem="desc" checked>
+      <span class="gear-opt-label">Description</span>
+      <span class="gear-opt-hint">The author's narrative comment on a field, when present</span>
+    </label>
+    <label class="gear-opt" title="The fields each rule reads (its DAG inputs / upstream)">
+      <input type="checkbox" data-elem="inputs" checked>
+      <span class="gear-opt-label">Links to inputs</span>
+      <span class="gear-opt-hint">The fields each rule reads (its DAG inputs / upstream)</span>
+    </label>
+    <label class="gear-opt" title="The rules that read this one (its DAG consumers / downstream)">
+      <input type="checkbox" data-elem="consumers">
+      <span class="gear-opt-label">Links to consumers</span>
+      <span class="gear-opt-hint">The rules that read this one (its DAG consumers / downstream)</span>
+    </label>
+    <button type="button" class="gear-reset">Reset to defaults</button>
+  </div>
+</div>
+<header class="doc-header" id="en-top">
+  <div class="doc-header-inner">
+    <h1 class="doc-title">📘 Does God Exist — Hitchens vs Turek (VCU) <span class="doc-title-sub">RuleSpeak®</span></h1>
+    <p class="doc-lede">Rulebook formalizing the VCU debate 'Does God Exist?' between Christopher Hitchens (atheism/anti-theism) and Frank Turek (theism), and every philosophical concept raised. Built via the Shadle steps: raw text -&gt; vocabulary -&gt; glossary -&gt; narrative -&gt; mock data -&gt; normalized schema -&gt; this DAG-structured hub.</p>
+    <p class="doc-note">Declarative business rules rendered from the rulebook — the single source of truth. Every statement below is the plain-language reading of a formula; nothing here is hand-authored prose.</p>
+    <p class="narr-hint">Use the <button type="button" class="gear-inline gear-open-inline">⚙︎ options</button> in the top-right corner to turn each part of the documentation on or off — RuleSpeak®, the literal reading, the raw formula, the author's description, and the links to a rule's inputs and consumers. Your choices are remembered.</p>
+  </div>
+</header>
+<nav class="toc">
+  <h2 class="toc-title">Entities</h2>
+  <ul class="toc-list">
+    <li><a href="#en-t-debaters">Debater</a> <span class="toc-meta">4 rules · 0 links</span></li>
+    <li><a href="#en-t-worldviews">Worldview</a> <span class="toc-meta">2 rules · 1 links</span></li>
+    <li><a href="#en-t-arguments">Argument</a> <span class="toc-meta">7 rules · 2 links</span></li>
+    <li><a href="#en-t-premises">Premis</a> <span class="toc-meta">1 rules · 1 links</span></li>
+    <li><a href="#en-t-evidence">Evidence</a> <span class="toc-meta">1 rules · 1 links</span></li>
+    <li><a href="#en-t-concepts">Concept</a> <span class="toc-meta">2 rules · 1 links</span></li>
+    <li><a href="#en-t-claims">Claim</a> <span class="toc-meta">3 rules · 3 links</span></li>
+    <li><a href="#en-t-rebuttals">Rebuttal</a> <span class="toc-meta">1 rules · 2 links</span></li>
+    <li><a href="#en-t-thinkers">Thinker</a> <span class="toc-meta">2 rules · 1 links</span></li>
+    <li><a href="#en-t-quotations">Quotation</a> <span class="toc-meta">1 rules · 2 links</span></li>
+  </ul>
+</nav>
+<section class="entity" id="en-t-debaters" data-entity="Debater">
+  <header class="entity-head">
+    <h2 class="entity-title">Debater</h2>
+    <p class="entity-synopsis">The two principals and the moderator of the debate.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-debaters-label" data-entity="Debater" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-debaters-name">ƒ Name <span class="ref-pill-tbl">Debater</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-debaters-argumentcount">Argument Count <span class="ref-pill-tbl">Debater</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-debaters-claimcount">Claim Count <span class="ref-pill-tbl">Debater</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-debaters-thinkerscited">Thinkers Cited <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Display name of the participant.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-debaters-name" data-entity="Debater" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-1</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A debater's <a class="ref" href="#en-f-debaters-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-debaters-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-debaters-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-debaters-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-debaters-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Debater</span></span>
+          <span class="input-en muted">Display name of the participant.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">3 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-debaters-argumentcount">Σ Argument Count <span class="ref-pill-tbl">Debater</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-debaters-claimcount">Σ Claim Count <span class="ref-pill-tbl">Debater</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-debaters-thinkerscited">Σ Thinkers Cited <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-debaters-label">● Label <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-debaters-side" data-entity="Debater" data-field="Side">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Side</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Role in the debate: affirmative, negative, or moderator.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-debaters-description" data-entity="Debater" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Biographical note and stance. (Worldviews defended are the reverse of Worldviews.ChampionedBy.)</p>
+    </article>
+  <article class="field tone-agg" id="en-f-debaters-argumentcount" data-entity="Debater" data-field="Argument Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Argument Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-2</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A debater's <a class="ref" href="#en-f-debaters-argumentcount">argument count</a> is the number of <a class="ref" href="#en-t-arguments">arguments</a> related to the debater.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-arguments">arguments</a> whose <a class="ref" href="#en-f-arguments-advancedby">advanced by</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-arguments-advancedby">Advanced by</a>, <a class="fx-chip" href="#en-f-debaters-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-arguments-advancedby">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Advanced by</span><span class="input-table">Argument</span></span>
+          <span class="input-en muted">Debater who advances the argument.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-debaters-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Debater</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-arguments-advancedby">⇢ Advanced by <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-debaters-label">● Label <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: number of arguments advanced.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-debaters-claimcount" data-entity="Debater" data-field="Claim Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Claim Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-3</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A debater's <a class="ref" href="#en-f-debaters-claimcount">claim count</a> is the number of <a class="ref" href="#en-t-claims">claims</a> related to the debater.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-claims">claims</a> whose <a class="ref" href="#en-f-claims-madeby">made by</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-claims-madeby">Made by</a>, <a class="fx-chip" href="#en-f-debaters-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-claims-madeby">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Made by</span><span class="input-table">Claim</span></span>
+          <span class="input-en muted">Debater who made the claim.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-debaters-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Debater</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-claims-madeby">⇢ Made by <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-debaters-label">● Label <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: number of claims made.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-debaters-thinkerscited" data-entity="Debater" data-field="Thinkers Cited">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Thinkers Cited</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-4</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A debater's <a class="ref" href="#en-f-debaters-thinkerscited">thinkers cited</a> is the number of <a class="ref" href="#en-t-thinkers">thinkers</a> related to the debater.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-thinkers">thinkers</a> whose <a class="ref" href="#en-f-thinkers-citedby">cited by</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-thinkers-citedby">Cited by</a>, <a class="fx-chip" href="#en-f-debaters-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-thinkers-citedby">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Cited by</span><span class="input-table">Thinker</span></span>
+          <span class="input-en muted">Debater who invokes them.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-debaters-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Debater</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-thinkers-citedby">⇢ Cited by <span class="ref-pill-tbl">Thinker</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-debaters-label">● Label <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: distinct thinkers pressed into service.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-worldviews" data-entity="Worldview">
+  <header class="entity-head">
+    <h2 class="entity-title">Worldview</h2>
+    <p class="entity-synopsis">Competing positions on God and reality contested in the debate.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-worldviews-label" data-entity="Worldview" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-worldviews-name">ƒ Name <span class="ref-pill-tbl">Worldview</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-worldviews-argumentcount">Argument Count <span class="ref-pill-tbl">Worldview</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Name of the worldview.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-worldviews-name" data-entity="Worldview" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-5</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A worldview's <a class="ref" href="#en-f-worldviews-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-worldviews-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-worldviews-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-worldviews-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-worldviews-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Worldview</span></span>
+          <span class="input-en muted">Name of the worldview.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-worldviews-argumentcount">Σ Argument Count <span class="ref-pill-tbl">Worldview</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-worldviews-label">● Label <span class="ref-pill-tbl">Worldview</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-worldviews-affirmsgod" data-entity="Worldview" data-field="Affirms God">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Affirms God</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Whether the worldview affirms the existence of God.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-worldviews-championedby" data-entity="Worldview" data-field="Championed by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Championed by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <p class="field-note elem elem-desc">Debater who principally champions this worldview.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-worldviews-description" data-entity="Worldview" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">What the worldview holds in this debate's context.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-worldviews-argumentcount" data-entity="Worldview" data-field="Argument Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Argument Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-6</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A worldview's <a class="ref" href="#en-f-worldviews-argumentcount">argument count</a> is the number of <a class="ref" href="#en-t-arguments">arguments</a> related to the worldview.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-arguments">arguments</a> whose <a class="ref" href="#en-f-arguments-fieldsworldview">fields worldview</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-arguments-fieldsworldview">Fields Worldview</a>, <a class="fx-chip" href="#en-f-worldviews-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-arguments-fieldsworldview">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Fields Worldview</span><span class="input-table">Argument</span></span>
+          <span class="input-en muted">Worldview the argument serves.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-worldviews-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Worldview</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-arguments-fieldsworldview">⇢ Fields Worldview <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-worldviews-label">● Label <span class="ref-pill-tbl">Worldview</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: arguments fielded under this worldview.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-arguments" data-entity="Argument">
+  <header class="entity-head">
+    <h2 class="entity-title">Argument</h2>
+    <p class="entity-synopsis">The named arguments advanced by each side, with derived development and contestation metrics.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-arguments-label" data-entity="Argument" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+6 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-arguments-name">ƒ Name <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-premisecount">Premise Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-evidencecount">Evidence Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-claimcount">Claim Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-totalrebuttals">Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-isfullydeveloped">Is Fully Developed <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Name of the argument.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-arguments-name" data-entity="Argument" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-7</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">An argument's <a class="ref" href="#en-f-arguments-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-arguments-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-arguments-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-arguments-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-arguments-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Argument</span></span>
+          <span class="input-en muted">Name of the argument.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">4 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-arguments-premisecount">Σ Premise Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-arguments-evidencecount">Σ Evidence Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-arguments-claimcount">Σ Claim Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-arguments-totalrebuttals">Σ Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-isfullydeveloped">Is Fully Developed <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-arguments-argumenttype" data-entity="Argument" data-field="Argument Type">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Argument Type</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">primary, sub, supporting, or counter.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-arguments-advancedby" data-entity="Argument" data-field="Advanced by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Advanced by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-debaters-argumentcount">Σ Argument Count <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Debater who advances the argument.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-arguments-fieldsworldview" data-entity="Argument" data-field="Fields Worldview">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Fields Worldview</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-worldviews">Worldview</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-worldviews-argumentcount">Σ Argument Count <span class="ref-pill-tbl">Worldview</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Worldview the argument serves.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-arguments-conclusion" data-entity="Argument" data-field="Conclusion">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Conclusion</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">What the argument purports to establish.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-arguments-description" data-entity="Argument" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Summary of the argument as presented.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-arguments-premisecount" data-entity="Argument" data-field="Premise Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Premise Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-8</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">An argument's <a class="ref" href="#en-f-arguments-premisecount">premise count</a> is the number of <a class="ref" href="#en-t-premises">premises</a> related to the argument.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-premises">premises</a> whose <a class="ref" href="#en-f-premises-supportsargument">supports argument</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-premises-supportsargument">Supports Argument</a>, <a class="fx-chip" href="#en-f-arguments-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-premises-supportsargument">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Supports Argument</span><span class="input-table">Premis</span></span>
+          <span class="input-en muted">Argument this premise belongs to.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-arguments-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Argument</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-arguments-isfullydeveloped">ƒ Is Fully Developed <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-premises-supportsargument">⇢ Supports Argument <span class="ref-pill-tbl">Premis</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: premises composing the argument.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-arguments-evidencecount" data-entity="Argument" data-field="Evidence Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Evidence Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-9</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">An argument's <a class="ref" href="#en-f-arguments-evidencecount">evidence count</a> is the number of <a class="ref" href="#en-t-evidence">evidence</a> related to the argument.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-evidence">evidence</a> whose <a class="ref" href="#en-f-evidence-supportsargument">supports argument</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-evidence-supportsargument">Supports Argument</a>, <a class="fx-chip" href="#en-f-arguments-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-evidence-supportsargument">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Supports Argument</span><span class="input-table">Evidence</span></span>
+          <span class="input-en muted">Argument the evidence supports.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-arguments-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Argument</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-evidence-supportsargument">⇢ Supports Argument <span class="ref-pill-tbl">Evidence</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: evidence items cited.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-arguments-claimcount" data-entity="Argument" data-field="Claim Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Claim Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-10</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">An argument's <a class="ref" href="#en-f-arguments-claimcount">claim count</a> is the number of <a class="ref" href="#en-t-claims">claims</a> related to the argument.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-claims">claims</a> whose <a class="ref" href="#en-f-claims-supportsargument">supports argument</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-claims-supportsargument">Supports Argument</a>, <a class="fx-chip" href="#en-f-arguments-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-claims-supportsargument">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Supports Argument</span><span class="input-table">Claim</span></span>
+          <span class="input-en muted">Argument the claim supports.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-arguments-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Argument</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-claims-supportsargument">⇢ Supports Argument <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: claims supporting the argument.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-arguments-isfullydeveloped" data-entity="Argument" data-field="Is Fully Developed">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Is Fully Developed</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+      <span class="pill pill-dr">DR-11</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <div class="view-body"><p class="rt-headline">The argument's <a class="ref" href="#en-f-arguments-isfullydeveloped">is fully developed</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">true</span> <span class="rt-when">if the <a class="ref" href="#en-f-arguments-premisecount">premise count</a> is at least 2</span></li><li><span class="rt-value">false</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-arguments-premisecount">premise count</a> is at least 2 then true(), otherwise false().</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-arguments-premisecount">Premise Count</a> &gt;= 2, TRUE(), FALSE())</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-arguments-premisecount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Premise Count</span><span class="input-table">Argument</span></span>
+          <span class="input-en">Count of premises whose supports argument is this one.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-premises-supportsargument">⇢ Supports Argument <span class="ref-pill-tbl">Premis</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">2nd-order: has at least two premises.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-arguments-totalrebuttals" data-entity="Argument" data-field="Total Rebuttals">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Total Rebuttals</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-12</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">An argument's <a class="ref" href="#en-f-arguments-totalrebuttals">total rebuttals</a> is the total <a class="ref" href="#en-f-claims-rebuttalcount">rebuttal count</a> across the <a class="ref" href="#en-t-claims">claims</a> related to the argument.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Sum of <a class="ref" href="#en-f-claims-rebuttalcount">rebuttal count</a> across all <a class="ref" href="#en-t-claims">claims</a> whose <a class="ref" href="#en-f-claims-supportsargument">supports argument</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUMIFS(<a class="fx-chip" href="#en-f-claims-rebuttalcount">Rebuttal Count</a>, <a class="fx-chip" href="#en-f-claims-supportsargument">Supports Argument</a>, <a class="fx-chip" href="#en-f-arguments-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-claims-rebuttalcount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Rebuttal Count</span><span class="input-table">Claim</span></span>
+          <span class="input-en">Count of rebuttals whose rebuts claim is this one.</span>
+        </a>
+        <a class="input tone-rel" href="#en-f-claims-supportsargument">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Supports Argument</span><span class="input-table">Claim</span></span>
+          <span class="input-en muted">Argument the claim supports.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-arguments-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Argument</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-arguments-iscontested">ƒ Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">4</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-rebuttals-rebutsclaim">⇢ Rebuts Claim <span class="ref-pill-tbl">Rebuttal</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-claims-label">● Label <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-claims-supportsargument">⇢ Supports Argument <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">2nd-order: rebuttals accumulated across supporting claims.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-arguments-iscontested" data-entity="Argument" data-field="Is Contested">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Is Contested</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">4 hops from ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+      <span class="pill pill-dr">DR-13</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <div class="view-body"><p class="rt-headline">The argument's <a class="ref" href="#en-f-arguments-iscontested">is contested</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">true</span> <span class="rt-when">if the <a class="ref" href="#en-f-arguments-totalrebuttals">total rebuttals</a> is greater than 0</span></li><li><span class="rt-value">false</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-arguments-totalrebuttals">total rebuttals</a> is greater than 0 then true(), otherwise false().</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-arguments-totalrebuttals">Total Rebuttals</a> &gt; 0, TRUE(), FALSE())</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-arguments-totalrebuttals">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Total Rebuttals</span><span class="input-table">Argument</span></span>
+          <span class="input-en">Sum of rebuttal count across all claims whose supports argument is this one.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">4</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-rebuttals-rebutsclaim">⇢ Rebuts Claim <span class="ref-pill-tbl">Rebuttal</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-claims-label">● Label <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-claims-supportsargument">⇢ Supports Argument <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-arguments-label">● Label <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">3rd-order: at least one supporting claim was rebutted.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-premises" data-entity="Premis">
+  <header class="entity-head">
+    <h2 class="entity-title">Premis</h2>
+    <p class="entity-synopsis">Ordered premises composing each argument.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-premises-label" data-entity="Premis" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-premises-name">ƒ Name <span class="ref-pill-tbl">Premis</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Short name of the premise.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-premises-name" data-entity="Premis" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-14</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A premis's <a class="ref" href="#en-f-premises-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-premises-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-premises-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-premises-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-premises-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Premis</span></span>
+          <span class="input-en muted">Short name of the premise.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-premises-label">● Label <span class="ref-pill-tbl">Premis</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-premises-supportsargument" data-entity="Premis" data-field="Supports Argument">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Supports Argument</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-arguments">Argument</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-arguments-premisecount">Σ Premise Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-isfullydeveloped">Is Fully Developed <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Argument this premise belongs to.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-premises-ordinal" data-entity="Premis" data-field="Ordinal">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Ordinal</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">integer</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Position of the premise within its argument.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-premises-statement" data-entity="Premis" data-field="Statement">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Statement</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">The premise as stated.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-premises-description" data-entity="Premis" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Note on the premise.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-evidence" data-entity="Evidence">
+  <header class="entity-head">
+    <h2 class="entity-title">Evidence</h2>
+    <p class="entity-synopsis">Empirical and theoretical evidence items cited in support of arguments.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-evidence-label" data-entity="Evidence" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-evidence-name">ƒ Name <span class="ref-pill-tbl">Evidence</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Name of the evidence item.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-evidence-name" data-entity="Evidence" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-15</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">An evidence's <a class="ref" href="#en-f-evidence-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-evidence-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-evidence-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-evidence-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-evidence-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Evidence</span></span>
+          <span class="input-en muted">Name of the evidence item.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-evidence-label">● Label <span class="ref-pill-tbl">Evidence</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-evidence-supportsargument" data-entity="Evidence" data-field="Supports Argument">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Supports Argument</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-arguments">Argument</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-arguments-evidencecount">Σ Evidence Count <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Argument the evidence supports.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-evidence-evidencekind" data-entity="Evidence" data-field="Evidence Kind">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Evidence Kind</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">observational or theoretical.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-evidence-description" data-entity="Evidence" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">What the evidence is and who found it.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-concepts" data-entity="Concept">
+  <header class="entity-head">
+    <h2 class="entity-title">Concept</h2>
+    <p class="entity-synopsis">Every philosophical concept raised in the debate, with category and introducer.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-concepts-label" data-entity="Concept" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-concepts-name">ƒ Name <span class="ref-pill-tbl">Concept</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-concepts-claimcount">Claim Count <span class="ref-pill-tbl">Concept</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Name of the concept.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-concepts-name" data-entity="Concept" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-16</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A concept's <a class="ref" href="#en-f-concepts-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-concepts-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-concepts-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-concepts-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-concepts-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Concept</span></span>
+          <span class="input-en muted">Name of the concept.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-concepts-claimcount">Σ Claim Count <span class="ref-pill-tbl">Concept</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-concepts-label">● Label <span class="ref-pill-tbl">Concept</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-concepts-category" data-entity="Concept" data-field="Category">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Category</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">cosmology, design, moral, theological, method, or epistemic.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-concepts-introducedby" data-entity="Concept" data-field="Introduced by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Introduced by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <p class="field-note elem elem-desc">Debater who introduced the concept.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-concepts-description" data-entity="Concept" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Meaning of the concept in this debate.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-concepts-claimcount" data-entity="Concept" data-field="Claim Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Claim Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-17</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A concept's <a class="ref" href="#en-f-concepts-claimcount">claim count</a> is the number of <a class="ref" href="#en-t-claims">claims</a> related to the concept.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-claims">claims</a> whose <a class="ref" href="#en-f-claims-touchesconcept">touches concept</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-claims-touchesconcept">Touches Concept</a>, <a class="fx-chip" href="#en-f-concepts-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-claims-touchesconcept">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Touches Concept</span><span class="input-table">Claim</span></span>
+          <span class="input-en muted">Primary concept the claim engages.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-concepts-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Concept</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-claims-touchesconcept">⇢ Touches Concept <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-concepts-label">● Label <span class="ref-pill-tbl">Concept</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: claims that touch this concept.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-claims" data-entity="Claim">
+  <header class="entity-head">
+    <h2 class="entity-title">Claim</h2>
+    <p class="entity-synopsis">Specific assertions made by each debater, with derived rebuttal status.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-claims-label" data-entity="Claim" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+4 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-claims-name">ƒ Name <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-claims-rebuttalcount">Rebuttal Count <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-totalrebuttals">Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-claims-isrebutted">Is Rebutted <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Short name of the claim.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-claims-name" data-entity="Claim" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-18</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A claim's <a class="ref" href="#en-f-claims-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-claims-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-claims-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-claims-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-claims-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Claim</span></span>
+          <span class="input-en muted">Short name of the claim.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-claims-rebuttalcount">Σ Rebuttal Count <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-totalrebuttals">Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-claims-isrebutted">Is Rebutted <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-claims-label">● Label <span class="ref-pill-tbl">Claim</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-claims-madeby" data-entity="Claim" data-field="Made by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Made by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-debaters-claimcount">Σ Claim Count <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Debater who made the claim.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-claims-phase" data-entity="Claim" data-field="Phase">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Phase</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">opening, rebuttal, cross-examination, or closing.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-claims-supportsargument" data-entity="Claim" data-field="Supports Argument">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Supports Argument</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-arguments">Argument</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-arguments-claimcount">Σ Claim Count <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-arguments-totalrebuttals">Σ Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Argument the claim supports.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-claims-touchesconcept" data-entity="Claim" data-field="Touches Concept">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Touches Concept</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-concepts">Concept</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-concepts-claimcount">Σ Claim Count <span class="ref-pill-tbl">Concept</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Primary concept the claim engages.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-claims-description" data-entity="Claim" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">The claim in brief.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-claims-rebuttalcount" data-entity="Claim" data-field="Rebuttal Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Rebuttal Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-19</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A claim's <a class="ref" href="#en-f-claims-rebuttalcount">rebuttal count</a> is the number of <a class="ref" href="#en-t-rebuttals">rebuttals</a> related to the claim.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-rebuttals">rebuttals</a> whose <a class="ref" href="#en-f-rebuttals-rebutsclaim">rebuts claim</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-rebuttals-rebutsclaim">Rebuts Claim</a>, <a class="fx-chip" href="#en-f-claims-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-rebuttals-rebutsclaim">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Rebuts Claim</span><span class="input-table">Rebuttal</span></span>
+          <span class="input-en muted">Claim being rebutted.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-claims-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Claim</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-arguments-totalrebuttals">Σ Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-claims-isrebutted">ƒ Is Rebutted <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-rebuttals-rebutsclaim">⇢ Rebuts Claim <span class="ref-pill-tbl">Rebuttal</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-claims-label">● Label <span class="ref-pill-tbl">Claim</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: rebuttals directed at this claim.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-claims-isrebutted" data-entity="Claim" data-field="Is Rebutted">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Is Rebutted</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+      <span class="pill pill-dr">DR-20</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <div class="view-body"><p class="rt-headline">The claim's <a class="ref" href="#en-f-claims-isrebutted">is rebutted</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">true</span> <span class="rt-when">if the <a class="ref" href="#en-f-claims-rebuttalcount">rebuttal count</a> is greater than 0</span></li><li><span class="rt-value">false</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-claims-rebuttalcount">rebuttal count</a> is greater than 0 then true(), otherwise false().</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-claims-rebuttalcount">Rebuttal Count</a> &gt; 0, TRUE(), FALSE())</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-claims-rebuttalcount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Rebuttal Count</span><span class="input-table">Claim</span></span>
+          <span class="input-en">Count of rebuttals whose rebuts claim is this one.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-rebuttals-rebutsclaim">⇢ Rebuts Claim <span class="ref-pill-tbl">Rebuttal</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-claims-label">● Label <span class="ref-pill-tbl">Claim</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">2nd-order: the claim drew at least one rebuttal.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-rebuttals" data-entity="Rebuttal">
+  <header class="entity-head">
+    <h2 class="entity-title">Rebuttal</h2>
+    <p class="entity-synopsis">Direct responses aimed at specific claims.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-rebuttals-label" data-entity="Rebuttal" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-rebuttals-name">ƒ Name <span class="ref-pill-tbl">Rebuttal</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Short name of the rebuttal.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-rebuttals-name" data-entity="Rebuttal" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-21</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A rebuttal's <a class="ref" href="#en-f-rebuttals-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-rebuttals-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-rebuttals-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-rebuttals-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-rebuttals-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Rebuttal</span></span>
+          <span class="input-en muted">Short name of the rebuttal.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-rebuttals-label">● Label <span class="ref-pill-tbl">Rebuttal</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-rebuttals-madeby" data-entity="Rebuttal" data-field="Made by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Made by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <p class="field-note elem elem-desc">Debater making the rebuttal.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-rebuttals-rebutsclaim" data-entity="Rebuttal" data-field="Rebuts Claim">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Rebuts Claim</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-claims">Claim</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-claims-rebuttalcount">Σ Rebuttal Count <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-totalrebuttals">Total Rebuttals <span class="ref-pill-tbl">Argument</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-claims-isrebutted">Is Rebutted <span class="ref-pill-tbl">Claim</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-arguments-iscontested">Is Contested <span class="ref-pill-tbl">Argument</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Claim being rebutted.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-rebuttals-description" data-entity="Rebuttal" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">The rebuttal in brief.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-thinkers" data-entity="Thinker">
+  <header class="entity-head">
+    <h2 class="entity-title">Thinker</h2>
+    <p class="entity-synopsis">Authorities invoked by each side, including hostile witnesses.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-thinkers-label" data-entity="Thinker" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-thinkers-name">ƒ Name <span class="ref-pill-tbl">Thinker</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-thinkers-quotationcount">Quotation Count <span class="ref-pill-tbl">Thinker</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Name of the thinker.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-thinkers-name" data-entity="Thinker" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-22</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A thinker's <a class="ref" href="#en-f-thinkers-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-thinkers-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-thinkers-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-thinkers-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-thinkers-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Thinker</span></span>
+          <span class="input-en muted">Name of the thinker.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-thinkers-quotationcount">Σ Quotation Count <span class="ref-pill-tbl">Thinker</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-thinkers-label">● Label <span class="ref-pill-tbl">Thinker</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-thinkers-field" data-entity="Thinker" data-field="Field">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Field</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Primary field (physics, biology, philosophy, etc.).</p>
+    </article>
+  <article class="field tone-raw" id="en-f-thinkers-era" data-entity="Thinker" data-field="Era">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Era</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Rough period.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-thinkers-citedby" data-entity="Thinker" data-field="Cited by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Cited by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-debaters-thinkerscited">Σ Thinkers Cited <span class="ref-pill-tbl">Debater</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Debater who invokes them.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-thinkers-citedashostilewitness" data-entity="Thinker" data-field="Cited As Hostile Witness">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Cited As Hostile Witness</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Cited against their own sympathies (e.g., an atheist conceding fine-tuning).</p>
+    </article>
+  <article class="field tone-raw" id="en-f-thinkers-description" data-entity="Thinker" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Why they appear in the debate.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-thinkers-quotationcount" data-entity="Thinker" data-field="Quotation Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Quotation Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-23</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A thinker's <a class="ref" href="#en-f-thinkers-quotationcount">quotation count</a> is the number of <a class="ref" href="#en-t-quotations">quotations</a> related to the thinker.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-quotations">quotations</a> whose <a class="ref" href="#en-f-quotations-speaker">speaker</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-quotations-speaker">Speaker</a>, <a class="fx-chip" href="#en-f-thinkers-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-quotations-speaker">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Speaker</span><span class="input-table">Quotation</span></span>
+          <span class="input-en muted">Thinker the quotation is attributed to.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-thinkers-name">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Name</span><span class="input-table">Thinker</span></span>
+          <span class="input-en">Label lowercased with “ ” replaced by “-”.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-quotations-speaker">⇢ Speaker <span class="ref-pill-tbl">Quotation</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-thinkers-label">● Label <span class="ref-pill-tbl">Thinker</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1st-order: quotations attributed to them.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-quotations" data-entity="Quotation">
+  <header class="entity-head">
+    <h2 class="entity-title">Quotation</h2>
+    <p class="entity-synopsis">Citations used by debaters, stored as paraphrased gists to respect copyright.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-quotations-label" data-entity="Quotation" data-field="Label">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Label</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-quotations-name">ƒ Name <span class="ref-pill-tbl">Quotation</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Short name of the quotation.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-quotations-name" data-entity="Quotation" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-24</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
+        <p class="view-body">A quotation's <a class="ref" href="#en-f-quotations-name">name</a> is computed as the lower-cased <a class="ref" href="#en-f-quotations-label">label</a> with every a space replaced by a hyphen.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-quotations-label">Label</a> lowercased with “ ” replaced by “-”.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(LOWER(<a class="fx-chip" href="#en-f-quotations-label">Label</a>), &quot; &quot;, &quot;-&quot;)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-quotations-label">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Label</span><span class="input-table">Quotation</span></span>
+          <span class="input-en muted">Short name of the quotation.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-quotations-label">● Label <span class="ref-pill-tbl">Quotation</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical primary key — slug of Label.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-quotations-speaker" data-entity="Quotation" data-field="Speaker">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Speaker</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-thinkers">Thinker</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-thinkers-quotationcount">Σ Quotation Count <span class="ref-pill-tbl">Thinker</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Thinker the quotation is attributed to.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-quotations-citedby" data-entity="Quotation" data-field="Cited by">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Cited by</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-debaters">Debater</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <p class="field-note elem elem-desc">Debater who cited it.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-quotations-gist" data-entity="Quotation" data-field="Gist">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Gist</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Paraphrased substance of the quotation.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-quotations-description" data-entity="Quotation" data-field="Description">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Description</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Context note.</p>
+    </article>
+</section>
+<footer class="doc-footer">
+  <p>Rendered from the rulebook by the shared <b>RuleSpeak®</b> engine (<code>rulebook-rulespeak-core</code>). The same engine narrates the React Explainer DAG, so every narration mode reads identically across both.</p>
+  <p class="doc-footer-legend"><span class="chip chip-raw">● Ground truth</span> <span class="chip chip-calc">ƒ Calculated</span> <span class="chip chip-agg">Σ Aggregation</span> <span class="chip chip-lookup">↗ Lookup</span> <span class="chip chip-rel">⇢ Relationship</span></p>
+</footer>
+</div>
+<script>
+
+(function(){
+  var LANGS=['en'];
+  var ELEMS=['rulespeak','english','formula','desc','inputs','consumers'];
+  var DEFAULTS={'rulespeak':true,'english':false,'formula':false,'desc':true,'inputs':true,'consumers':false};
+  var root=document.documentElement;
+
+  // ── Language switching. All .lang-select controls stay in sync; the choice
+  //    persists in localStorage and the URL (?lang=…) so links carry it.
+  var selects=Array.prototype.slice.call(document.querySelectorAll('.lang-select'));
+  function currentLang(){ return root.getAttribute('data-lang')||'en'; }
+  function setLang(code,fromHash){
+    if(LANGS.indexOf(code)<0) return;
+    root.setAttribute('data-lang',code);
+    root.setAttribute('lang',code);
+    try{localStorage.setItem('rulespeak.lang',code);}catch(e){}
+    try{
+      var u=new URL(location.href);
+      u.searchParams.set('lang',code);
+      history.replaceState(null,'',u.toString());
+    }catch(e){}
+    selects.forEach(function(s){ s.value=code; });
+    if(!fromHash) rebindSpy();
+  }
+  selects.forEach(function(s){
+    s.addEventListener('change',function(){
+      var was=currentLang();
+      var code=s.value;
+      // Carry the reader to the SAME field in the new language when the hash
+      // points somewhere: swap the language prefix on the anchor.
+      var h=location.hash||'';
+      setLang(code);
+      var m=h.match(/^#([a-z]{2})-(.+)$/);
+      if(m && m[1]===was){
+        var target=document.getElementById(code+'-'+m[2]);
+        if(target){ location.hash='#'+code+'-'+m[2]; }
+      }
+    });
+  });
+
+  // ── Legacy-hash shim: pre-language anchors (#f-…, #t-…, #top) map onto the
+  //    active language's scoped ids so old deep links keep working.
+  (function(){
+    var h=location.hash||'';
+    var m=h.match(/^#((?:f|t)-.+|top)$/);
+    if(m){
+      var scoped=document.getElementById(currentLang()+'-'+m[1]);
+      if(scoped) location.replace('#'+currentLang()+'-'+m[1]);
+    }
+  })();
+
+  // ── Per-element visibility, persisted. Checkboxes exist once per language doc;
+  //    drive them all from the shared <html> classes.
+  var boxes=Array.prototype.slice.call(document.querySelectorAll('.gear-opt input[data-elem]'));
+  function isOn(k){ return root.classList.contains('show-'+k); }
+  function setElem(k,on){
+    root.classList.toggle('show-'+k,on);
+    try{localStorage.setItem('rulespeak.show.'+k,on?'1':'0');}catch(e){}
+    boxes.forEach(function(b){ if(b.getAttribute('data-elem')===k) b.checked=on; });
+  }
+  boxes.forEach(function(b){
+    var k=b.getAttribute('data-elem');
+    b.checked=isOn(k);
+    b.addEventListener('change',function(){ setElem(k,b.checked); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.gear-reset'),function(reset){
+    reset.addEventListener('click',function(){ ELEMS.forEach(function(k){ setElem(k,!!DEFAULTS[k]); }); });
+  });
+
+  // ── Gear popups: each language doc has its own button + popup pair.
+  Array.prototype.forEach.call(document.querySelectorAll('.lang-doc'),function(doc){
+    var gear=doc.querySelector('.gear');
+    var pop=doc.querySelector('.gear-pop');
+    if(!gear||!pop) return;
+    function openPop(o){ pop.hidden=!o; gear.setAttribute('aria-expanded',o?'true':'false'); }
+    gear.addEventListener('click',function(e){ e.stopPropagation(); openPop(pop.hidden); });
+    Array.prototype.forEach.call(doc.querySelectorAll('.gear-open-inline'),function(inline){
+      inline.addEventListener('click',function(e){ e.stopPropagation(); openPop(true); });
+    });
+    document.addEventListener('click',function(e){
+      if(!pop.hidden && !pop.contains(e.target) && e.target!==gear) openPop(false);
+    });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') openPop(false); });
+  });
+
+  // ── Scroll-spy breadcrumb, scoped to the ACTIVE language document.
+  var fields=[],entities=[],cE=null,cF=null,cSep=null;
+  function rebindSpy(){
+    var doc=document.querySelector('.lang-doc[data-lang="'+currentLang()+'"]');
+    if(!doc) return;
+    cE=doc.querySelector('.crumb-entity');
+    cF=doc.querySelector('.crumb-field');
+    cSep=doc.querySelector('.crumb-sep');
+    fields=Array.prototype.slice.call(doc.querySelectorAll('.field[data-field]'));
+    entities=Array.prototype.slice.call(doc.querySelectorAll('.entity[data-entity]'));
+    update();
+  }
+  function setCrumb(entity,field){
+    if(!cE) return;
+    cE.textContent=entity||'';
+    if(field){ cF.textContent=field; cSep.hidden=false; }
+    else { cF.textContent=''; cSep.hidden=true; }
+  }
+  var barH=parseInt(getComputedStyle(root).getPropertyValue('--bar-h'),10)||48;
+  function update(){
+    var line=barH+18, curF=null, curE=null;
+    for(var i=0;i<fields.length;i++){ if(fields[i].getBoundingClientRect().top<=line) curF=fields[i]; else break; }
+    for(var j=0;j<entities.length;j++){ if(entities[j].getBoundingClientRect().top<=line) curE=entities[j]; else break; }
+    if(curF){
+      var fEnt=curF.getAttribute('data-entity');
+      var eName=curE?curE.getAttribute('data-entity'):fEnt;
+      if(eName!==fEnt) setCrumb(eName,null);
+      else setCrumb(fEnt,curF.getAttribute('data-field'));
+    } else if(curE){ setCrumb(curE.getAttribute('data-entity'),null); }
+    else { setCrumb('',null); }
+  }
+  var ticking=false;
+  function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ update(); ticking=false; }); } }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  window.addEventListener('resize',onScroll,{passive:true});
+  rebindSpy();
+})();
+
+</script>
+</body>
+</html>
