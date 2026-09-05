@@ -1,11 +1,11 @@
-.leopold-page .loop-status-filter {
+.loops-page .loop-status-filter {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
   margin-bottom: 16px;
 }
 
-.leopold-page .filter-btn {
+.loops-page .filter-btn {
   padding: 6px 14px;
   border-radius: 6px;
   border: 1px solid #30363d;
@@ -15,33 +15,33 @@
   font-size: 13px;
 }
 
-.leopold-page .filter-btn.active {
+.loops-page .filter-btn.active {
   border-color: #58a6ff;
   background: #1f3a5f;
   color: #e6edf3;
 }
 
-.leopold-stats {
+.loop-stats {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
   gap: 12px;
   margin-bottom: 20px;
 }
 
-.leopold-stat {
+.loop-stat {
   text-align: center;
   padding: 14px !important;
 }
 
-.leopold-stat-num {
+.loop-stat-num {
   font-size: 26px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
-.leopold-stat-num.complete { color: #7ee787; }
-.leopold-stat-num.planned { color: #e3b341; }
-.leopold-stat-num.total { color: #58a6ff; }
+.loop-stat-num.complete { color: #7ee787; }
+.loop-stat-num.planned { color: #e3b341; }
+.loop-stat-num.total { color: #58a6ff; }
 
 .conformance-panel {
   margin-bottom: 20px;

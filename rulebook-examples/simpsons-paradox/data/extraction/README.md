@@ -1,7 +1,7 @@
 # PDF table extraction side loop (out-of-channel)
 
 Standalone **PDF → table extract** pipeline for expansion-wave-1 catalog candidates.
-Intentionally **outside** Leopold loops 68–72 so table transcription does not collide
+Intentionally **outside** Effortless loops 68–72 so table transcription does not collide
 with rulebook encode work happening in parallel.
 
 ## Why this exists
@@ -39,7 +39,7 @@ Updates `CandidateStudyCatalog` only:
 - `DataSourceNote` → appends `PDF side-loop:` pointer to `table-extract.json`
 - `SourceUrl` → manuscript PDF URL
 
-Does **not** encode CaseCells — that remains a Leopold encode wave.
+Does **not** encode CaseCells — that remains a Effortless encode wave.
 
 Re-merge after a fresh extraction run:
 

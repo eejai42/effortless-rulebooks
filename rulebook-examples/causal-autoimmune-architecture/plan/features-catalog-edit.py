@@ -638,7 +638,7 @@ feat_tbl['schema'] = [
           "Number of challenge refs (carried as raw for display; the hbars engine can't count a JSON string).",
           nullable=False),
     field('AssignedLoop', 'string', 'raw',
-          "FK -> LeopoldLoops.LeopoldLoopId; empty if unscheduled.", nullable=True),
+          "FK -> EffortlessLoops.EffortlessLoopId; empty if unscheduled.", nullable=True),
     field('Name', 'string', 'calculated', "Display label.", formula="={{Title}}"),
     field('RelativePath', 'string', 'calculated',
           "Path to this Features entry: /admin/features/<id>.",

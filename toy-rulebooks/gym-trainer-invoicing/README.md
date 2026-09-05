@@ -95,7 +95,7 @@ effortless.json                                 # build pipeline
 start.sh                                        # interactive launcher
 ```
 
-## The Leopold loop (changing the rules)
+## The Effortless loop (changing the rules)
 
 This is the whole point: **you don't write code to change behavior, you
 change the rule.**

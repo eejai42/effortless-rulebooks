@@ -71,4 +71,4 @@ The build verification step asserts exactly this oracle.
 `EnvironmentalExposures`, `Treatments`, `ClinicalPhenotypes`, `EpistaticInteractions`,
 `CounterfactualTrajectories`, and the methylome / Hi-C / single-cell modality rows hold one
 "(context only)" row each. They represent the breadth of the problem statement but are deliberately
-off the keystone's dependency path (see the anti-hallucination rule in `../../LEOPOLD_LOOPs.md`).
+off the keystone's dependency path (see the anti-hallucination rule in `../../EFFORTLESS_LOOPS.md`).

@@ -3,7 +3,7 @@
 Studies to add across 11 domains. Each entry has open or publicly available stratified data.
 Format: Citation · Stratification variable · Data source · Reversal mechanism.
 
-Target: ~250 studies for subsequent Leopold loops.
+Target: ~250 studies for subsequent Effortless loops.
 
 ---
 
@@ -1049,7 +1049,7 @@ Target: ~250 studies for subsequent Leopold loops.
 
 ---
 
-## Next Steps (Leopold Loop)
+## Next Steps (Effortless Loop)
 
 1. Add these studies to the rulebook as `Studies` rows with domain tags
 2. Each study becomes a `Study` entity with: `StudyId`, `Domain`, `Citation`, `Year`, `StratificationVariable`, `DataSource`, `DataUrl`, `ReversalMechanism`, `IsConfirmedReversal` (TRUE/FALSE/PLAUSIBLE)

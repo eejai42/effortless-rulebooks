@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Apply Leopold loops 79 (vocabulary prune) and 80 (confounder identity layer) to rulebook JSON."""
+"""Apply Effortless loops 79 (vocabulary prune) and 80 (confounder identity layer) to rulebook JSON."""
 from __future__ import annotations
 
 import json

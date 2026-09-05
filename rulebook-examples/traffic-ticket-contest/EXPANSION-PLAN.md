@@ -1,4 +1,4 @@
-# Traffic-Ticket-Contest — Rulebook Expansion Plan (10 Leopold Loops)
+# Traffic-Ticket-Contest — Rulebook Expansion Plan (10 Effortless Loops)
 
 > **Goal:** Before building any app, expand `traffic-ticket-contest-rulebook.json` into a
 > FULLY-specified, internally-consistent, buildable spec for a traffic-ticket-contest

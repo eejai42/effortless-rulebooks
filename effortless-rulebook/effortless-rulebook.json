@@ -1391,7 +1391,7 @@
         "Priority": 95,
         "OneLineSummary": "The rulebook gives the LLM something to operate on; the skills give it the instructions for how to operate — together they replace a learning curve that previously cost weeks.",
         "ReadmeFilePath": "docs/features/README.claude-skills.md",
-        "ReadmeStubContent": "Before ERB, every developer had to teach their LLM the ERB conventions from scratch. Skills pre-encode that learning — naming rules, pipeline mechanics, formula semantics, the Leopold loop — so the LLM arrives already trained. The rulebook is the subject matter; the skills are the curriculum. Without the rulebook there is nothing for the skills to operate on. Without the skills the LLM has to rediscover the conventions by trial and error.",
+        "ReadmeStubContent": "Before ERB, every developer had to teach their LLM the ERB conventions from scratch. Skills pre-encode that learning — naming rules, pipeline mechanics, formula semantics, the Effortless loop — so the LLM arrives already trained. The rulebook is the subject matter; the skills are the curriculum. Without the rulebook there is nothing for the skills to operate on. Without the skills the LLM has to rediscover the conventions by trial and error.",
         "ReadmeLength": null,
         "RelatedAxiomId": null,
         "Status": "shipped"
@@ -2890,7 +2890,7 @@
         "DomainName": "Planar Unit Discovery",
         "ComplexityLevel": "advanced",
         "KeyFeatures": null,
-        "Purpose": "Geometric unit-discovery ontology skeleton with Leopold-loop notes.",
+        "Purpose": "Geometric unit-discovery ontology skeleton with Effortless-loop notes.",
         "ParentDomainId": null,
         "ProgressionNote": null,
         "Area": "rulebook-examples",
@@ -8532,11 +8532,11 @@
       {
         "SkillId": "effortless-loop",
         "Name": "effortless-loop",
-        "SlashCommand": "/effortless-leopold-loop",
+        "SlashCommand": "/effortless-loop",
         "Category": "pipeline",
-        "OneLineSummary": "The iterative ERB dev cycle (a.k.a. the Leopold loop): build loop plus N-order breadth-first inference loops.",
+        "OneLineSummary": "The iterative ERB dev cycle (a.k.a. the Effortless loop): build loop plus N-order breadth-first inference loops.",
         "Audience": "customer",
-        "LocalMirrorPath": "docs/skills/effortless-leopold-loop/SKILL.md",
+        "LocalMirrorPath": "docs/skills/effortless-loop/SKILL.md",
         "CloneUrl": "https://raw.githubusercontent.com/effortlessapi/effortless-claude/main/skills/effortless-leopold-loop/SKILL.md",
         "HighlightInReadme": true,
         "Status": "active",
@@ -14060,6 +14060,22 @@
         "Rule": "cr-21",
         "Domain": null,
         "Detail": "effortless-rulebook-editor POST /api/save-changes rewrites all 35 tables (rowsExported 1880) for a one-field row edit: 64,250 diff lines, keys reordered and every derived column (reverse relationships, aggregations, calcs) baked into data rows. Witnessed 2026-09-05 on cr-16-05 Status; reverted with git checkout. The root explorer therefore writes findings through scripts/mark-finding-fixed.py and only PATCHes the editor's base table for the live view.",
+        "Status": "open",
+        "DetectedOn": "2026-09-05"
+      },
+      {
+        "ConsistencyFindingId": "cr-16-10",
+        "Rule": "cr-16",
+        "Domain": "domain-causal-autoimmune-architecture",
+        "Detail": "Derived artifacts still say Leopold: the Effortless Loop rename updated the rulebook and app sources, but postgres/*.sql, owl/src/*, rulespeak-*/ and rulebook-explainer-dag/ still carry LeopoldLoops / leopold_loops / vw_leopold_loops because effortless build is blocked by cr-16-05 (rulebook-to-rulespeak-de resolves to a decommissioned host). Regenerate once that tool resolves; the project also needs dropdb/createdb before init-db, since the generated 01-*.sql is check-add and will not drop the old leopold_loops table.",
+        "Status": "open",
+        "DetectedOn": "2026-09-05"
+      },
+      {
+        "ConsistencyFindingId": "cr-16-11",
+        "Rule": "cr-16",
+        "Domain": "domain-simpsons-paradox",
+        "Detail": "Derived artifacts still say Leopold after the Effortless Loop rename: effortless-postgres/*.sql, owl/src/*, rulespeak/ and rulebook-explainer-dag/ still carry the old Methodology PK method-03-leopold-loops. Regenerate with effortless build; the generated 01-*.sql is check-add and will not drop the superseded PK row, so dropdb/createdb before init-db.",
         "Status": "open",
         "DetectedOn": "2026-09-05"
       }

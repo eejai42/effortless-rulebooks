@@ -243,7 +243,7 @@ The entire chain is visible: player raw stat → total touchdowns → roster tot
 - **"The DAG is visible"**: Click any cell in the UI and see the exact formula, inputs, and chain. No hidden logic. This is transparency in the data layer. The React Explainer reads the rulebook directly.
 - **"Join tables done right"**: RosterAssignments uses the canonical FK/lookup pattern. Every aggregation on Rosters pulls from RosterAssignments, not from Players directly. This keeps the model composable and the data normalized.
 
-## The Leopold Loop
+## The Effortless Loop
 
 To modify the rulebook and watch the app auto-update:
 
@@ -268,7 +268,7 @@ Example: to add a "PointSpread" field to Matchups:
 
 Then `./start.sh build`, and the DB is ready with the new column.
 
-## Next 10 Leopold Loops
+## Next 10 Effortless Loops
 
 Pick any of these to extend the demo:
 

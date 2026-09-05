@@ -338,7 +338,7 @@ app.get('/api/study-import-template', async (_req, res) => {
   res.json(rows);
 });
 
-// --- Leopold loops (build history + forward plan) ---
+// --- Effortless loops (build history + forward plan) ---
 
 app.get('/api/loops', async (_req, res) => {
   const rows = await query(

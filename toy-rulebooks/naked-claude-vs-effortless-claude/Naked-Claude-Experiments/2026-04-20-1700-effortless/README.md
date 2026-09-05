@@ -41,7 +41,7 @@ generated `vw_*` views — so anything the business expresses in Airtable
 (a new formula, a new rollup, a relabel) propagates into the UI without
 anyone writing a migration.
 
-### The build loop ("Leopold loop")
+### The build loop ("Effortless loop")
 
 ```
 edit Airtable  →  effortless build (rulebook)  →  effortless build (postgres)

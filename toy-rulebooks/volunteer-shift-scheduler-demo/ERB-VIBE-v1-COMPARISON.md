@@ -139,7 +139,7 @@ By month 2, stakeholder demos start asking "why is this volunteer's load Over?" 
 
 By month 3, vibe's `compute.js` is 1,500 lines of tangled derivation logic, the schema has drifted from what the code assumes, and every new calculated field is another hand-rolled function with no visibility. ERB's rulebook is still ~250 lines and every derived field is still one click from its inference chain.
 
-The 25% premium at hour 1 buys you a substrate that pays itself back every Leopold loop after.
+The 25% premium at hour 1 buys you a substrate that pays itself back every Effortless loop after.
 
 ---
 

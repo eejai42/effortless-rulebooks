@@ -299,7 +299,7 @@ for the in-app hover tips). That file is **derived** from the `Features` rows in
 regenerated on every `effortless build`.
 
 See `admin-app/tests/README.md` for the harness contract, `CLAUDE.md` for the running north star,
-and `LEOPOLD_LOOPs.md` for the build loop.
+and `EFFORTLESS_LOOPS.md` for the build loop.
 
 ## Coverage map — what is modeled vs. represented only as vocabulary
 

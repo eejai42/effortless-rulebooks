@@ -69,7 +69,7 @@ ATAC-seq, methylome, Hi-C/chromatin-conformation, proteomics, metabolomics, immu
 microbiome, mtDNA, somatic mosaicism), disease stages, clinical phenotypes, epistatic interactions, and
 counterfactual trajectories. These remain as domain context and future evidence inputs, but they are
 **deliberately not on the keystone's dependency path**, so the core inference stays minimal, auditable, and
-testable. The anti-hallucination rule (see `LEOPOLD_LOOPs.md`) keeps it that way: anything that is
+testable. The anti-hallucination rule (see `EFFORTLESS_LOOPS.md`) keeps it that way: anything that is
 *both* absent from `problem-to-solve.md` *and* not load-bearing toward the keystone is pruned each loop.
 
 ## Success criterion

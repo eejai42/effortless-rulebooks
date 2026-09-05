@@ -5,7 +5,7 @@
 
 # Claude Skills — The ERB Learning Curve, Pre-Encoded
 
-Before ERB, every developer had to teach their LLM the conventions from scratch: PascalCase table names, how FK slugs work, what the Leopold loop is, when to use `vw_*` views vs base tables, how `effortless build` sequences transpilers. That learning curve used to cost hours to days per project.
+Before ERB, every developer had to teach their LLM the conventions from scratch: PascalCase table names, how FK slugs work, what the Effortless loop is, when to use `vw_*` views vs base tables, how `effortless build` sequences transpilers. That learning curve used to cost hours to days per project.
 
 Skills pre-encode that learning once. Load a skill and the LLM already knows the conventions, the pipeline mechanics, the formula semantics. The rulebook is the subject matter; the skills are the curriculum. Without the rulebook there is nothing for the skills to operate on. Without the skills the LLM has to rediscover the conventions by trial and error.
 
@@ -22,7 +22,7 @@ These are the skills most directly useful when working with this repo:
 | [/effortless-cmcc](effortless-cmcc/SKILL.md) | theory | Grounding any evaluative "why" question about ERB in the CMCC conjecture |
 | [/effortless-orchestrator](effortless-orchestrator/SKILL.md) | pipeline | Top-level driver for Airtable-sourced ERB builds |
 | [/effortless-workflow](effortless-workflow/SKILL.md) | pipeline | Making changes to any ERB project — the canonical edit cycle |
-| [/effortless-leopold-loop](effortless-leopold-loop/SKILL.md) | pipeline | The CHANGE-RULE → REBUILD → CONSUME-VIEWS iterative cycle |
+| [/effortless-loop](effortless-loop/SKILL.md) | pipeline | The CHANGE-RULE → REBUILD → CONSUME-VIEWS iterative cycle |
 | [/effortless-bootstrap](effortless-bootstrap/SKILL.md) | setup | Bootstrapping a new effortless project from raw requirements |
 | [/effortless-conventions](effortless-conventions/SKILL.md) | modeling | Naming rules, DAG structure, PascalCase, FK patterns |
 | [/effortless-setup-postgres](effortless-setup-postgres/SKILL.md) | setup | Setting up a Postgres-backed ERB project from an Airtable base |
@@ -47,7 +47,7 @@ These are the skills most directly useful when working with this repo:
 | [/effortless-ecosystem](effortless-ecosystem/SKILL.md) | ecosystem | customer | What repos exist in the effortless/SSoTme ecosystem and how they fit together |
 | [/effortless-excel-export](effortless-excel-export/SKILL.md) | features | customer | Adding live Excel export to any ERB project backed by Postgres |
 | [/effortless-init](effortless-init/SKILL.md) | setup | customer | Initializing a new effortless project |
-| [/effortless-leopold-loop](effortless-leopold-loop/SKILL.md) | pipeline | customer | The iterative CHANGE-RULE → REBUILD → CONSUME-VIEWS cycle |
+| [/effortless-loop](effortless-loop/SKILL.md) | pipeline | customer | The iterative CHANGE-RULE → REBUILD → CONSUME-VIEWS cycle |
 | [/effortless-magic-links](effortless-magic-links/SKILL.md) | features | general | Passwordless email-code auth for any Postgres-backed project |
 | [/effortless-mcp](effortless-mcp/SKILL.md) | tooling | customer | The Effortless MCP server — exposes ~54 transpiler tools to any MCP agent |
 | [/effortless-orchestrator](effortless-orchestrator/SKILL.md) | pipeline | customer | Top-level orchestrator for Airtable-sourced ERB builds |

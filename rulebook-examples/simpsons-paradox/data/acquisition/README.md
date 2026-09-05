@@ -1,7 +1,7 @@
 # Corpus acquisition queue (out-of-channel)
 
 This directory tracks **standalone data acquisition** for the 142 expansion-wave-1
-catalog candidates added in loop-67. It is intentionally **outside** the Leopold
+catalog candidates added in loop-67. It is intentionally **outside** the Effortless
 loops 68–72 encode path so bulk downloading does not collide with rulebook edits.
 
 ## Files

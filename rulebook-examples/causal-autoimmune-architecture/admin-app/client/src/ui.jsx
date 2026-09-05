@@ -1,6 +1,6 @@
 // ui.jsx — shared palette, fetch hook, and a dependency-free Markdown renderer.
 // Extracted so every page (Harness, Diagnosis, Routing, State Machine, Case Walk,
-// Leopold) shares one look and one data-fetching helper. Plain Vite + React.
+// Loops) shares one look and one data-fetching helper. Plain Vite + React.
 import React, { useEffect, useState } from 'react';
 
 export const C = {

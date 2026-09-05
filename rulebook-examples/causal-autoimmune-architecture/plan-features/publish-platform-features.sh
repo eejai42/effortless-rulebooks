@@ -3,7 +3,7 @@
 # Publish that rendered artifact to the canonical, well-named location at project root.
 # Part of `effortless build`; runs right after the platform-features JsonHbarsTransform step.
 #
-# Unlike the Leopold plan, every Features row is published (no [DONE] pruning) — this is a
+# Unlike the Effortless plan, every Features row is published (no [DONE] pruning) — this is a
 # full catalog of what the platform has / allows for, with challenge provenance on each row.
 #
 # The json-hbars engine HTML-escapes interpolated {{field}} values, so a Title/Description with

@@ -2,7 +2,7 @@
 
 > **Demonstration of inference structure, not validated clinical decision support.**
 
-Vocabulary organized by whether a term is **load-bearing** (on the dependency path of the keystone `IndividualPredictions.IsClinicallyActionable`) or **context** (kept to represent the breadth of the problem statement, but deliberately not gating the keystone — see the anti-hallucination rule in `../LEOPOLD_LOOPs.md`).
+Vocabulary organized by whether a term is **load-bearing** (on the dependency path of the keystone `IndividualPredictions.IsClinicallyActionable`) or **context** (kept to represent the breadth of the problem statement, but deliberately not gating the keystone — see the anti-hallucination rule in `../EFFORTLESS_LOOPS.md`).
 
 ---
 

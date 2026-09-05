@@ -10,7 +10,7 @@ Before any command that could touch the rulebook (`effortless build`, any sync, 
 
 ## What this project is
 
-Planar unit-distance discovery: the rulebook is the territory (points, distances, unit-distance relations and the structures that emerge from them); an AI's discovery is INPUT described in rulebook vocabulary, never encoded as a formula. `LEOPOLD_LOOPS.md` and `bootstrap/` record how the rulebook was grown turn by turn.
+Planar unit-distance discovery: the rulebook is the territory (points, distances, unit-distance relations and the structures that emerge from them); an AI's discovery is INPUT described in rulebook vocabulary, never encoded as a formula. `EFFORTLESS_LOOPS.md` and `bootstrap/` record how the rulebook was grown turn by turn.
 
 ## Shape
 

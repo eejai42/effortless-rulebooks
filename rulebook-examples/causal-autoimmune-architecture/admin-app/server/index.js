@@ -46,7 +46,7 @@ import { buildDiagnosis, renderMarkdown, buildWitness } from './diagnosis.js';
 import { ingestIntake, IntakeError } from './intake.js';
 import { router as routingRouter } from './routes/routing.js';
 import { router as stateMachineRouter } from './routes/state-machines.js';
-import { router as leopoldRouter } from './routes/leopold.js';
+import { router as loopsRouter } from './routes/loops.js';
 import { router as exportRouter } from './routes/export.js';
 import { router as snapshotRouter } from './routes/snapshot.js';
 import { router as owlRouter } from './routes/owl.js';
@@ -384,7 +384,7 @@ app.delete('/api/individuals/:id', async (req, res) => {
 // ---------------------------------------------------------------------------
 app.use('/api/routing', routingRouter);
 app.use('/api/state-machines', stateMachineRouter);
-app.use('/api/leopold-loops', leopoldRouter);
+app.use('/api/effortless-loops', loopsRouter);
 app.use('/api/owl', owlRouter);
 app.use('/api', exportRouter); // GET /api/export.xlsx
 app.use('/api', snapshotRouter); // POST /api/snapshot-to-rulebook[?mode=replace]

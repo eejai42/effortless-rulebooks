@@ -62,7 +62,7 @@
       "RelativePath": "/owl",
       "CommandLine": "-exec ./run-conformance.sh",
       "IsDisabled": true,
-      "Description": "Run OWL-SHACL vs Postgres conformance receipt (on-demand via Leopold Loops UI — not part of effortless build)"
+      "Description": "Run OWL-SHACL vs Postgres conformance receipt (on-demand via Effortless Loops UI — not part of effortless build)"
     },
     {
       "IsSSoTTranspiler": false,

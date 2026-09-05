@@ -59,7 +59,7 @@ Every number that changed in steps 2 and 3 is a generated SQL view column — th
 - [server/](server/) — Express + TypeScript API
 - [web/](web/) — Vite + React + React Router SPA
 
-## The Leopold loop
+## The Effortless loop
 
 Each change is one turn of the loop:
 
@@ -68,7 +68,7 @@ Each change is one turn of the loop:
 3. `./start.sh db` (drop+recreate the DB with new schema and seed data).
 4. The app picks up new columns automatically because it reads `vw_*` views — usually no UI change needed.
 
-## Next 10 Leopold loops
+## Next 10 Effortless loops
 
 A menu of obvious next turns. Some are pure rulebook changes (the UI keeps working unchanged because the new/changed column rides along through `vw_*`); some need a small UI addition. Pick any one — or all in order — and ask for it.
 

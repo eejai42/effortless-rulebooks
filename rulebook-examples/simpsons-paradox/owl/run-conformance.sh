@@ -8,7 +8,7 @@
 #
 # Exits non-zero if the two substrates disagree.
 #
-# On-demand only — run from the Leopold Loops tab in the admin UI
+# On-demand only — run from the Effortless Loops tab in the admin UI
 # (POST /api/conformance/run) or manually: ./owl/run-conformance.sh
 # Disabled in effortless.json (owl-conformance IsDisabled: true) so build
 # does not block on the ~10min OWL-SHACL receipt at 238 studies.

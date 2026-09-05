@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { api } from '../api';
 import type { ConformanceRunState, Loop } from '../types';
-import './LeopoldLoops.css';
+import './EffortlessLoops.css';
 
 type StatusFilter = 'all' | 'complete' | 'planned';
 
@@ -10,7 +10,7 @@ function loopNum(id: string): number {
   return m ? parseInt(m[1], 10) : 0;
 }
 
-export function LeopoldLoopsView() {
+export function EffortlessLoopsView() {
   const [loops, setLoops] = useState<Loop[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<StatusFilter>('all');
@@ -69,24 +69,24 @@ export function LeopoldLoopsView() {
   const running = confStatus === 'running';
 
   return (
-    <div className="leopold-page">
-      <div className="page-title">Leopold Loops</div>
+    <div className="loops-page">
+      <div className="page-title">Effortless Loops</div>
       <div className="page-desc">
         Build history and forward plan from the rulebook <code>Loops</code> table —
         each turn is CHANGE-RULE → REBUILD → CONSUME-VIEWS.
       </div>
 
-      <div className="leopold-stats">
-        <div className="card leopold-stat">
-          <div className="leopold-stat-num total">{counts.total}</div>
+      <div className="loop-stats">
+        <div className="card loop-stat">
+          <div className="loop-stat-num total">{counts.total}</div>
           <div className="stat-caption">Total loops</div>
         </div>
-        <div className="card leopold-stat">
-          <div className="leopold-stat-num complete">{counts.complete}</div>
+        <div className="card loop-stat">
+          <div className="loop-stat-num complete">{counts.complete}</div>
           <div className="stat-caption">Complete</div>
         </div>
-        <div className="card leopold-stat">
-          <div className="leopold-stat-num planned">{counts.planned}</div>
+        <div className="card loop-stat">
+          <div className="loop-stat-num planned">{counts.planned}</div>
           <div className="stat-caption">Planned</div>
         </div>
       </div>

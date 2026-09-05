@@ -87,7 +87,7 @@ start.sh                         interactive launcher
 CLAUDE.md                        conventions for future Claude sessions
 ```
 
-## Doing a Leopold loop
+## Doing a Effortless loop
 
 The whole point of this scaffold is that you can crank the loop:
 
@@ -102,7 +102,7 @@ Then the running web app picks up the new columns on the next read.
 **Do not** edit anything under `postgres/` or `web/src/explainer-dag/` by
 hand — the next build will stomp it.
 
-## Next 10 Leopold loops
+## Next 10 Effortless loops
 
 You've turned the loop once (the initial scaffold). Here are ten concrete
 next turns, smallest to largest, mixing rulebook-only changes that flow

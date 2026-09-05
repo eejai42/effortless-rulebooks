@@ -26,14 +26,14 @@ experiments; six superseded predicates were retired in loop-79. `InvariantChecks
 rows are build-breaking: any critical `FailCount > 0` is a bug (26 critical, all
 passing).
 
-The model is built iteratively via Leopold loops. The `Loops` table IS the plan — each
+The model is built iteratively via Effortless loops. The `Loops` table IS the plan — each
 row documents what domain concept is introduced and what natural-language question it
 answers. Read it before making structural changes.
 
 ## Relevant skills
 
 - `effortless-schema`, `effortless-conventions`, `effortless-setup-postgres`
-- `effortless-leopold-loop`, `effortless-sql`, `effortless-query`, `effortless-rulespeak`
+- `effortless-loop`, `effortless-sql`, `effortless-query`, `effortless-rulespeak`
 
 ## NO MIGRATIONS
 

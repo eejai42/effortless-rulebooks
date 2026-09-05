@@ -96,7 +96,7 @@ Raw inputs:
 - No tests (smoke tests only)
 - No custom claims or magic-links
 
-## Next 10 Leopold Loops
+## Next 10 Effortless Loops
 
 Pick one (or several in order) to extend the demo. Each is one coherent feature—edit rulebook, run build, maybe add UI.
 

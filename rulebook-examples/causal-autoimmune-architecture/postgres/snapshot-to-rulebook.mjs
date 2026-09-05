@@ -3,7 +3,7 @@
 // snapshot-to-rulebook.mjs — REVERSE-SYNC: live Postgres vw_* -> rulebook data[]
 // ============================================================================
 // This is the DB -> rulebook input spoke the rest of the project flagged as
-// "not yet built" (see admin-app/server/routes/leopold.js ROUND-TRIP CAVEAT and
+// "not yet built" (see admin-app/server/routes/loops.js ROUND-TRIP CAVEAT and
 // routes/export.js). It makes the rulebook snapshot-consistent ON DISK: every
 // row's RAW *and COMPUTED* values (Name/Slug, scores, the IsClinicallyActionable
 // keystone, counts, calibration fractions, relationship arrays — everything the

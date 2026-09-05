@@ -13,7 +13,7 @@ When working in this project, load the relevant `effortless-*` skills:
 - `effortless-orchestrator` — overview / entry point
 - `effortless-setup-postgres` — initial setup (already run for this project)
 - `effortless-workflow` — making changes (edit the hub → build)
-- `effortless-leopold-loop` — CHANGE-RULE → REBUILD → CONSUME-VIEWS cycle
+- `effortless-loop` — CHANGE-RULE → REBUILD → CONSUME-VIEWS cycle
 - `effortless-sql` — `vw_*` view / function patterns; never read base tables
 - `effortless-query` — querying the rulebook JSON
 - `effortless-conventions` — naming, FK, DAG rules
@@ -66,4 +66,4 @@ any other write command. Around every `effortless build`:
 - `effortless-orchestrator` — for the canonical Token Discipline + the bigger mental model.
 - `effortless-cli` — for installing / updating / using the `effortless` CLI binary.
 - `effortless-pipeline` — for the install / build commands.
-- `effortless-leopold-loop` — for the iterative cycle once setup is done.
+- `effortless-loop` — for the iterative cycle once setup is done.

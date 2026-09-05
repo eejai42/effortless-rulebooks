@@ -36,7 +36,7 @@ Found **34** tables in rulebook
   - **OpenQuestions** (7 fields, 4 records)
   - **NonGoals** (5 fields, 5 records)
   - **GlossaryTerms** (5 fields, 6 records)
-  - **LeopoldLoops** (14 fields, 10 records)
+  - **EffortlessLoops** (14 fields, 10 records)
   - **RoutingAndNavigation** (44 fields, 23 records)
   - **StateMachines** (17 fields, 1 records)
   - **MachineStates** (16 fields, 7 records)

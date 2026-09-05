@@ -88,7 +88,7 @@ web/                         # Vite + React SPA
 start.sh                     # interactive launcher
 ```
 
-## The Leopold loop
+## The Effortless loop
 
 To change anything: edit `effortless-rulebook/effortless-rulebook.json`, then:
 
@@ -101,7 +101,7 @@ re-inits the local DB. App code reads `vw_*` views (with calculated columns) and
 writes only raw columns on base tables keyed by `<table>_id` — so most rulebook
 changes need zero code changes.
 
-## Next 10 Leopold loops
+## Next 10 Effortless loops
 
 Pick any of these to crank a turn. The order roughly goes from smallest blast
 radius to largest.
@@ -142,7 +142,7 @@ radius to largest.
 - Server connects as `postgres` superuser.
 - No solver. The DAG scores; humans move guests.
 - No tests. Manual smoke testing via the "Try this" walkthrough.
-- Single shared plan — no per-user editable plans yet (see Leopold loop #7).
+- Single shared plan — no per-user editable plans yet (see Effortless loop #7).
 - Bride/groom roles are placeholder pages.
 - FK constraints are skipped (`99-fk-constraints.sql`) — fine for a demo, would
   be enabled in production.

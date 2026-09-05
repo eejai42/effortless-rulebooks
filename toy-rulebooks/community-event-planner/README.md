@@ -1,6 +1,6 @@
 # Community Event Planner
 
-> **Project type:** Effortless demo app (rulebook-first Postgres POC). Schema, Leopold loops, new pages, and mock data follow the `effortless-demo-app` skill.
+> **Project type:** Effortless demo app (rulebook-first Postgres POC). Schema, Effortless loops, new pages, and mock data follow the `effortless-demo-app` skill.
 
 This project demonstrates the Effortless Rulebook (ERB) methodology with a community event management system. Real-world calculated fields cascade through multiple hops: raw event/venue/speaker data → venue capacity constraints → speaker availability windows → event scheduling conflicts → attendee capacity forecasts.
 
@@ -121,7 +121,7 @@ The UI exercises every tier: click any cell to see its formula, inputs, and deri
 
 The app is a living rulebook. All the business logic — venue capacity, speaker scheduling, conflict detection, attendee forecasting — is in **effortless-rulebook.json**.
 
-**The Leopold loop** is how changes flow:
+**The Effortless loop** is how changes flow:
 1. Tell me what to add or change (e.g., "add a field to track no-show risk")
 2. I update the rulebook, regenerate the database schema, and update the UI
 3. You test it and see it working

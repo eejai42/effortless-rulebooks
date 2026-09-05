@@ -1,4 +1,4 @@
-# Leopold Loops — Planar Unit-Distance Discovery
+# Effortless Loops — Planar Unit-Distance Discovery
 
 Each loop = one named **CHANGE-RULE → `effortless build` → CONSUME-VIEWS** turn through the rulebook. The hub is [effortless-rulebook/planar-unit-discovery-rulebook.json](effortless-rulebook/planar-unit-discovery-rulebook.json).
 

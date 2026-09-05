@@ -16,7 +16,7 @@ A formal **Effortless Rulebook (ERB)** built from the VCU debate transcript, cap
 | 8 · Descriptions | (in the JSON) | every table and every field carries a `Description` |
 | 9 · Seed data | (in the JSON) | 181 rows across 11 tables |
 | 10 · Inference DAG | (in the JSON) | 1°/2°/3° calculated + aggregation fields |
-| 11 · Leopold loop | — | rulebook hub seeded; wire `effortless.json` to project to Postgres + other substrates |
+| 11 · Effortless loop | — | rulebook hub seeded; wire `effortless.json` to project to Postgres + other substrates |
 
 ## The model (10 domain tables + `__meta__`, 181 rows)
 

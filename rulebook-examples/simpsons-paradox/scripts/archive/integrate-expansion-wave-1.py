@@ -3,7 +3,7 @@
 
 Merges acquisition manifest + PDF table extraction into CandidateStudyCatalog,
 refreshes expansion-wave-1-ready-queue.json, and leaves Studies/CaseCells
-unchanged (encode waves are separate Leopold loops).
+unchanged (encode waves are separate Effortless loops).
 
 Usage:
   python3 scripts/integrate-expansion-wave-1.py

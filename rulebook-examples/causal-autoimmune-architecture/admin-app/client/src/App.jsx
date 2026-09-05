@@ -13,7 +13,7 @@ import { C, useFetch, send } from './ui.jsx';
 import { useLocation, useQueryParam, Link } from './router.jsx';
 import { matchNavRoute, matchTemplate, segs, isParamSeg } from './routeMatch.js';
 import {
-  HarnessView, DiagnosisView, CaseWalk, StateMachineView, RoutingEditor, LeopoldEditor, ExplainerView, OwlView, CaseDetail,
+  HarnessView, DiagnosisView, CaseWalk, StateMachineView, RoutingEditor, LoopsEditor, ExplainerView, OwlView, CaseDetail,
   IntakeWorkspace,
 } from './pages.jsx';
 
@@ -39,7 +39,7 @@ const PAGES = {
   'admin.state-machine': () => <StateMachineView />,
   'admin.explainer': () => <ExplainerView />,
   'admin.owl': () => <OwlView />,
-  'admin.leopold': () => <LeopoldEditor />,
+  'admin.loops': () => <LoopsEditor />,
   'diagnosis': () => <DiagnosisView />,
   'diagnosis.case': ({ params, node }) => <CaseDetail predId={params.predictionId} routeKey={node.route_key} />,
   'intake': () => <DiagnosisView />,

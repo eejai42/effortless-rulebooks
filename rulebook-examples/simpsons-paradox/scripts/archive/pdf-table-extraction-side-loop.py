@@ -445,7 +445,7 @@ def provenance_section(study_id: str, cfg: dict, source_url: str, tables: list[d
         "",
         "Machine-readable copy: `table-extract.json`",
         "",
-        "Encoding into CaseCells remains deferred until a Leopold encode wave.",
+        "Encoding into CaseCells remains deferred until a Effortless encode wave.",
     ]
     # Append best 2×K candidate when moss-racusin-style counts exist
     if study_id == "moss-racusin-et-al-2012":

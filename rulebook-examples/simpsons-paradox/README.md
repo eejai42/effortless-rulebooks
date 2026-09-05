@@ -158,7 +158,7 @@ Run `./start.sh` to boot the backend (`:3001`) and Vite frontend (`:5173`). Defa
 | `/phase` | **Phase Diagram** — five-type taxonomy in synthetic parameter space |
 | `/catalog` | **Import Backlog** — candidate catalog with acquisition vs ingestion status |
 | `/instrument` | **Instrument Dashboard** — `InstrumentSpec` adapter contract and screening coordinates |
-| `/loops` | **Leopold Loops** — build history from the rulebook `Loops` table; on-demand OWL-SHACL conformance runner |
+| `/loops` | **Effortless Loops** — build history from the rulebook `Loops` table; on-demand OWL-SHACL conformance runner |
 | `/dag` | **Rulebook DAG** (via ⬇ download menu) — Explainer DAG over every table and derived field |
 
 **Download menu (⬇):** RuleSpeak HTML/PDF, Excel export (live `vw_*`), corpus summary PDF, email-ready standalone HTML, Rulebook DAG link.

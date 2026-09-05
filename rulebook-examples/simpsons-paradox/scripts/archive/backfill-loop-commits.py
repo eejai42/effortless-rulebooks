@@ -119,7 +119,7 @@ def main() -> None:
             "datatype": "string",
             "type": "raw",
             "nullable": True,
-            "Description": "Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Leopold loop.",
+            "Description": "Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Effortless loop.",
         },
         {
             "name": "CommitShort",

@@ -64,7 +64,7 @@
       "IsSSoTTranspiler": false,
       "Name": "JsonHbarsTransform",
       "RelativePath": "/plan",
-      "CommandLine": "json-hbars-transform -i ../effortless-rulebook/effortless-rulebook.json -i ./leopold-plan.hbs",
+      "CommandLine": "json-hbars-transform -i ../effortless-rulebook/effortless-rulebook.json -i ./loop-plan.hbs",
       "IsDisabled": false,
       "PinnedVersion": "v2026.04.14.0155",
       "LastVersionUsed": "v2026.04.14.0155",

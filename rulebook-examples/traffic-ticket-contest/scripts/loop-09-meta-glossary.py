@@ -80,7 +80,7 @@ NEW_META = [
     ("motif", "string", "Courthouse-meets-control-panel: a citizen-facing contest portal sitting on a fully self-describing rules-and-lifecycle engine.", None),
     ("motif_palette", "string", "Slate navy, signal amber, verdict green, penalty red.", None),
     ("signature_rows", "array", None, None),
-    ("journal_seed", "string", "Built rulebook-first across ten Leopold loops: features, rules, navigation, endpoints, state machines, a test surface, screen hints, deeper domain data, and meta — every layer cross-linked and consistency-gated before any app code.", None),
+    ("journal_seed", "string", "Built rulebook-first across ten Effortless loops: features, rules, navigation, endpoints, state machines, a test surface, screen hints, deeper domain data, and meta — every layer cross-linked and consistency-gated before any app code.", None),
     ("build_story", "string", "The traffic-ticket-contest rulebook is a fully-specified, buildable platform spec: 90+ features each with SourceText + RuleRefs + a nav route + tests; 57 business rules; 36 API actions; 4 complete state machines; 194 conformance test cases; 525+ screen/field display hints; all FKs and refs consistency-gated.", None),
 ]
 SIGNATURE_ROWS = [

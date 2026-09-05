@@ -12,7 +12,7 @@ import { ImportCatalogView } from './views/ImportCatalogView';
 import { InstrumentDashboardView } from './views/InstrumentDashboardView';
 import { ConclusionsAdminView } from './views/ConclusionsAdminView';
 import { DiscoveryView } from './views/DiscoveryView';
-import { LeopoldLoopsView } from './views/LeopoldLoopsView';
+import { EffortlessLoopsView } from './views/EffortlessLoopsView';
 import {
   DagFieldPage,
   DagIndexPage,
@@ -44,7 +44,7 @@ function AppRoutes() {
           <Route path="sweep" element={<AllocationSweepView />} />
           <Route path="phase" element={<PhaseDiagramView />} />
           <Route path="instrument" element={<InstrumentDashboardView />} />
-          <Route path="loops" element={<LeopoldLoopsView />} />
+          <Route path="loops" element={<EffortlessLoopsView />} />
           <Route path="catalog" element={<ImportCatalogView />} />
         </Route>
         <Route path="/dag" element={<DagShell />}>

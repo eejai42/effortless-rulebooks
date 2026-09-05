@@ -4,7 +4,7 @@
 //   CaseWalk         the MARQUEE: each case walked up the DAG to its diagnosis
 //   StateMachineView the diagnosis-lifecycle viewer (states, edges, walks)
 //   RoutingEditor    the role-based navigation editor (RoutingAndNavigation)
-//   LeopoldEditor    the Leopold-loop editor + regenerate-plan
+//   LoopsEditor    the Effortless-loop editor + regenerate-plan
 import React, { useEffect, useState } from 'react';
 import { C, useFetch, send, Markdown } from './ui.jsx';
 import { Link, useQueryParam, useLocation } from './router.jsx';
@@ -1923,22 +1923,22 @@ export function RoutingEditor({ role }) {
 }
 
 // ===========================================================================
-//  LEOPOLD EDITOR — edit loop status/goal; regenerate the derived plan.
+//  LOOPS EDITOR — edit loop status/goal; regenerate the derived plan.
 // ===========================================================================
-export function LeopoldEditor() {
+export function LoopsEditor() {
   const [reload, setReload] = useState(0);
-  const { data, loading, error } = useFetch('/api/leopold-loops', [reload]);
+  const { data, loading, error } = useFetch('/api/effortless-loops', [reload]);
   const [busy, setBusy] = useState(false);
   const [msg, setMsg] = useState(null);
   const loops = Array.isArray(data) ? data : [];
 
   async function setStatus(id, status) {
-    try { await send(`/api/leopold-loops/${id}`, 'PUT', { status }); setReload((x) => x + 1); }
+    try { await send(`/api/effortless-loops/${id}`, 'PUT', { status }); setReload((x) => x + 1); }
     catch (e) { alert('Save failed: ' + e.message); }
   }
   async function regenerate() {
     setBusy(true); setMsg(null);
-    try { const r = await send('/api/leopold-loops/regenerate-plan', 'POST'); setMsg('Plan regenerated.'); }
+    try { const r = await send('/api/effortless-loops/regenerate-plan', 'POST'); setMsg('Plan regenerated.'); }
     catch (e) { setMsg('Regenerate failed: ' + e.message); }
     setBusy(false);
   }
@@ -1946,7 +1946,7 @@ export function LeopoldEditor() {
 
   return (
     <div>
-      <h2 style={{ marginTop: 0 }}>Leopold Loops</h2>
+      <h2 style={{ marginTop: 0 }}>Effortless Loops</h2>
       <p style={{ color: C.sub, fontSize: 13 }}>The CHANGE-RULE → REBUILD → CONSUME loop log. Status drives the generated plan badges.</p>
       <p style={{ color: C.not_surfaced, fontSize: 12 }}>⚠ Edits write the base table; “Regenerate plan” reflects the rulebook rows, not unsaved DB edits.</p>
       <button onClick={regenerate} disabled={busy} style={{ padding: '7px 14px', borderRadius: 6, border: 'none', background: C.accent, color: '#fff', cursor: 'pointer', marginBottom: 12 }}>
@@ -1958,12 +1958,12 @@ export function LeopoldEditor() {
           <thead><tr>{['#', 'Title', 'Status', 'Set'].map((h) => <th key={h} style={{ border: `1px solid ${C.border}`, padding: '4px 8px', background: '#f5f5f5', textAlign: 'left' }}>{h}</th>)}</tr></thead>
           <tbody>
             {loops.map((l) => (
-              <tr key={l.leopold_loop_id}>
+              <tr key={l.effortless_loop_id}>
                 <td style={{ border: `1px solid ${C.border}`, padding: '4px 8px' }}>{l.loop_number}</td>
                 <td style={{ border: `1px solid ${C.border}`, padding: '4px 8px' }}>{l.title}<div style={{ color: C.sub, fontSize: 11 }}>{l.goal}</div></td>
                 <td style={{ border: `1px solid ${C.border}`, padding: '4px 8px', fontFamily: 'monospace' }}>{l.status_badge} {l.status}</td>
                 <td style={{ border: `1px solid ${C.border}`, padding: '4px 8px' }}>
-                  <select value={l.status} onChange={(e) => setStatus(l.leopold_loop_id, e.target.value)} style={{ fontSize: 12 }}>
+                  <select value={l.status} onChange={(e) => setStatus(l.effortless_loop_id, e.target.value)} style={{ fontSize: 12 }}>
                     {STATUSES.map((s) => <option key={s} value={s}>{s}</option>)}
                   </select>
                 </td>

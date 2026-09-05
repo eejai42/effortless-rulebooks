@@ -18,7 +18,7 @@ FirstName ─┐
 LastName  ─┘
 ```
 
-This demo starts with a single 1-hop inference so the Leopold loop is
+This demo starts with a single 1-hop inference so the Effortless loop is
 obvious. The **Next 10 Loops** section below lays out concrete next
 turns that grow the DAG into 2- and 3-hop chains.
 
@@ -70,7 +70,7 @@ web/                                            # Vite + React SPA
 start.sh                                        # interactive launcher
 ```
 
-## The Leopold loop
+## The Effortless loop
 
 Every change is the same three-step turn:
 
@@ -80,10 +80,10 @@ Every change is the same three-step turn:
 3. **Consume.** The SPA already reads `vw_*` views — most rulebook-only
    changes need zero UI edits.
 
-## Next 10 Leopold loops
+## Next 10 Effortless loops
 
 Pick one (or several, in order) and we'll crank through it. Each is
-one coherent Leopold loop → one commit.
+one coherent Effortless loop → one commit.
 
 1. **Initials calc** — add `Initials = LEFT(FirstName,1) & LEFT(LastName,1)` to Customers. UI shows it as a small avatar. [rulebook + UI]
 2. **NameLength flag** — add `IsLongName = LEN(FullName) > 20`, color long names in the list. [rulebook-only + tiny UI]
