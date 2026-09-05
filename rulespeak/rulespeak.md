@@ -569,15 +569,15 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Domain Grade | The consistency grade of the consistency finding's domain. | _Order 4. Consistency grade of the domain._ |
 | Priority | Determined by priority: “P1” if the open critical flag is set; “P2” if the sole blocker flag is set; “P3” if the open flag is set; in all other cases, “closed”. | _Order 5. P1 / P2 / P3 / closed._ |
 | Is Last Mile | True when all of the following hold: the sole blocker flag is set and the domain grade (a missing value counts as an empty string) is “minor”. | _Order 5. Fixing this one finding makes its domain clean._ |
-| **Mobile Nav Tab** | Bottom-tab shell of the mobile exploration experience. Five thumb-reachable tabs, each rooting a MobileRoutes subtree. | — |
+| **Mobile Nav Tab** | Primary navigation groups of the root explorer (app/). Rendered as a top navigation bar at desktop width and a bottom tab bar at phone width; each group roots a MobileRoutes subtree. The table name is historical: there is no separate /m mobile shell. | — |
 | Name | The same as its label. | _Order 1. Display alias (calculated). Order 1._ |
 | Label | A defined attribute. | _Tab label._ |
-| Icon | A defined attribute. | _Icon name (lucide set, matching AppNavigation.Icon vocabulary)._ |
-| Root Path | A defined attribute. | _Path of the tab's root route._ |
-| Sort Order | A defined attribute. | _Left-to-right order._ |
-| Purpose | A defined attribute. | _What the tab is for._ |
+| Icon | A defined attribute. | _Icon name from the lucide icon set._ |
+| Root Path | A defined attribute. | _Path of the group's root route._ |
+| Sort Order | A defined attribute. | _Left-to-right order in the navigation bar._ |
+| Purpose | A defined attribute. | _What the navigation group is for._ |
 | Project | A defined attribute. | _FK to ProjectMetadata._ |
-| Mobile Routes | A defined attribute. | _Reverse relationship: routes under this tab._ |
+| Mobile Routes | A defined attribute. | _Reverse relationship: routes under this navigation group._ |
 | Route Count | The number of mobile routes related to the mobile nav tab. | _Order 1. Routes under this tab._ |
 | Unbuilt Route Count | The total unbuilt flag across the mobile routes related to the mobile nav tab. | _Order 2. Routes under this tab with no screen yet._ |
 | Has Routes | True when the route count is greater than 0. | _Order 2. Tab roots at least one route._ |
@@ -586,29 +586,29 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Is Shippable | True when the build coverage percent is 100. | _Order 4. Every route has a screen._ |
 | Shippable Flag | Determined by priority: 1 if the build coverage percent is 100; in all other cases, 0. | _Order 4. 1 when shippable — rollup carrier._ |
 | Tab State | Determined by priority: “shippable” if the shippable flag is set; “plan-only” if the plan only flag is set; in all other cases, “partial”. | _Order 5. shippable / plan-only / partial._ |
-| **Mobile Route** | Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog. | — |
+| **Mobile Route** | Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/<File>.jsx:<Export> under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog. | — |
 | Name | The same as its path. | _Order 1. Display alias (calculated). Order 1._ |
 | Path | A defined attribute. | _Route path; :param segments mark detail routes._ |
 | Title | A defined attribute. | _Screen title shown in the app bar._ |
-| Tab | A defined attribute. | _FK to MobileNavTabs — the tab that owns this route._ |
-| Parent Route | A defined attribute. | _FK to MobileRoutes — the route the back button returns to; null for tab roots._ |
-| Screen | A defined attribute. | _Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists._ |
+| Tab | A defined attribute. | _FK to MobileNavTabs — the navigation group that owns this route._ |
+| Parent Route | A defined attribute. | _FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists._ |
+| Screen | A defined attribute. | _React component implementing this route, as pages/<File>.jsx:<Export> under app/src/; blank until built._ |
 | Route Kind | A defined attribute. | _dashboard \| list \| detail \| action \| settings._ |
 | Sort Order | A defined attribute. | _Order within the tab._ |
 | Reads Entities | A defined attribute. | _Comma list of tables the route reads (through vw_ views)._ |
 | Description | A defined attribute. | _What the route shows._ |
 | Child Routes | A defined attribute. | _Reverse relationship: routes whose back button returns here._ |
-| Depth | Computed as the length of the path minus the length of the path with every a slash replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Number of / separators in Path._ |
-| Is Detail | True when the length of the path (a missing value counts as an empty string) is not the length of the path (a missing value counts as an empty string) with every “:” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Route carries a :param (detail route)._ |
-| Has Screen | True when the screen has a value. | _Order 1. Route reuses an existing portal screen._ |
-| Unbuilt Flag | Determined by priority: 1 if the screen is blank; in all other cases, 0. | _Order 1. 1 when no screen exists yet — rollup carrier for the build backlog._ |
+| Depth | Determined by priority: 0 if the path is a slash; in all other cases, the length of the path minus the length of the path with every a slash replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Number of path segments; the root path / is depth 0._ |
+| Is Detail | True when the length of the path is not the length of the path with every “:” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Route carries a :param (detail route)._ |
+| Has Screen | True when the screen has a value. | _Order 1. Route is implemented by a React component._ |
+| Unbuilt Flag | Determined by priority: 1 if the screen is blank; in all other cases, 0. | _Order 1. 1 when no component exists yet — rollup carrier for the Phase 3 backlog._ |
 | Child Route Count | The number of mobile routes related to the mobile route. | _Order 1. Routes whose back button returns here._ |
 | Tab Label | Taken from the linked tab. | _Order 1. Label of the owning tab._ |
 | Entity Count | Determined by priority: 0 if the reads entities is blank; in all other cases, the length of the reads entities minus the length of the reads entities with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Number of tables the route reads._ |
 | Parent Depth | Taken from the linked parent route. | _Order 2. Depth of the parent route._ |
 | Is Leaf Route | True when the child route count is 0. | _Order 2. No route returns to this one._ |
 | Tab Route Count | Taken from the linked tab. | _Order 2. Routes in the owning tab._ |
-| Is Depth Consistent | True when the depth is at most 2 if the parent route is blank, in all other cases the depth is the parent depth (a missing value counts as 0) plus 1. | _Order 3. Path depth is exactly one more than the parent's (tab roots at depth 1-2)._ |
+| Is Depth Consistent | True when the depth is at most 1 if the parent route is blank, in all other cases the depth is the parent depth plus 1. | _Order 3. A route without a parent is at most one segment deep; a child is exactly one segment deeper than its parent._ |
 | Tab Unbuilt Count | The unbuilt route count of the mobile route's tab. | _Order 3. Unbuilt routes in the owning tab._ |
 | Share of Tab | Determined by priority: 0 if the tab route count (a missing value counts as 0) is 0; in all other cases, 100 divided by the tab route count rounded to 0 decimal place(s). | _Order 3. Percent of the tab this route represents._ |
 | Tab Coverage Percent | The build coverage percent of the mobile route's tab. | _Order 4. Build coverage of the owning tab._ |
@@ -1149,8 +1149,8 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-332 Shippable Flag** | The mobile nav tab's shippable flag is determined by the following priority:<br>1. 1, if the build coverage percent is 100;<br>2. in all other cases, 0. |
 | **DR-333 Tab State** | The mobile nav tab's tab state is determined by the following priority:<br>1. “shippable”, if the shippable flag is set;<br>2. “plan-only”, if the plan only flag is set;<br>3. in all other cases, “partial”. |
 | **DR-334 Name** | A mobile route's name is the same as its path. |
-| **DR-335 Depth** | A mobile route's depth is computed as the length of the path minus the length of the path with every a slash replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
-| **DR-336 Is Detail** | A mobile route is considered a detail if the length of the path (a missing value counts as an empty string) is not the length of the path (a missing value counts as an empty string) with every “:” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-335 Depth** | The mobile route's depth is determined by the following priority:<br>1. 0, if the path is a slash;<br>2. in all other cases, the length of the path minus the length of the path with every a slash replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-336 Is Detail** | A mobile route is considered a detail if the length of the path is not the length of the path with every “:” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
 | **DR-337 Has Screen** | A mobile route is considered to have a screen if the screen has a value. |
 | **DR-338 Unbuilt Flag** | The mobile route's unbuilt flag is determined by the following priority:<br>1. 1, if the screen is blank;<br>2. in all other cases, 0. |
 | **DR-339 Child Route Count** | A mobile route's child route count is the number of mobile routes related to the mobile route. |
@@ -1159,7 +1159,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-342 Parent Depth** | A mobile route's parent depth — taken from the linked parent route. |
 | **DR-343 Is Leaf Route** | A mobile route is considered a leaf route if the child route count is 0. |
 | **DR-344 Tab Route Count** | A mobile route's tab route count — taken from the linked tab. |
-| **DR-345 Is Depth Consistent** | A mobile route is considered a depth consistent if the depth is at most 2 if the parent route is blank, in all other cases the depth is the parent depth (a missing value counts as 0) plus 1. |
+| **DR-345 Is Depth Consistent** | A mobile route is considered a depth consistent if the depth is at most 1 if the parent route is blank, in all other cases the depth is the parent depth plus 1. |
 | **DR-346 Tab Unbuilt Count** | A mobile route's tab unbuilt count is the unbuilt route count of the mobile route's tab. |
 | **DR-347 Share of Tab** | The mobile route's share of tab is determined by the following priority:<br>1. 0, if the tab route count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 divided by the tab route count rounded to 0 decimal place(s). |
 | **DR-348 Tab Coverage Percent** | A mobile route's tab coverage percent is the build coverage percent of the mobile route's tab. |
@@ -1559,8 +1559,8 @@ the same logic the rulebook stores, written for a business reader._
 | **MobileNavTabs.ShippableFlag** | formula | `If(BuildCoveragePercent = 100, 1, 0)` |
 | **MobileNavTabs.TabState** | formula | `If(IsShippable, "shippable", If(IsPlanOnly, "plan-only", "partial"))` |
 | **MobileRoutes.Name** | formula | `Path` |
-| **MobileRoutes.Depth** | formula | `Len(Path) - Len(Replace(Path, "/", ""))` |
-| **MobileRoutes.IsDetail** | formula | `Len(Coalesce(Path, "")) <> Len(Replace(Coalesce(Path, ""), ":", ""))` |
+| **MobileRoutes.Depth** | formula | `If(Path = "/", 0, Len(Path) - Len(Replace(Path, "/", "")))` |
+| **MobileRoutes.IsDetail** | formula | `Len(Path) <> Len(Replace(Path, ":", ""))` |
 | **MobileRoutes.HasScreen** | formula | `Screen <> ""` |
 | **MobileRoutes.UnbuiltFlag** | formula | `If(Screen = "", 1, 0)` |
 | **MobileRoutes.ChildRouteCount** | rollup | `Count(MobileRoutes via ParentRoute)` |
@@ -1569,7 +1569,7 @@ the same logic the rulebook stores, written for a business reader._
 | **MobileRoutes.ParentDepth** | lookup | `Lookup(MobileRoutes.Depth via ParentRoute)` |
 | **MobileRoutes.IsLeafRoute** | formula | `ChildRouteCount = 0` |
 | **MobileRoutes.TabRouteCount** | lookup | `Lookup(MobileNavTabs.RouteCount via Tab)` |
-| **MobileRoutes.IsDepthConsistent** | formula | `If(ParentRoute = "", Depth <= 2, Depth = Coalesce(ParentDepth, 0) + 1)` |
+| **MobileRoutes.IsDepthConsistent** | formula | `If(ParentRoute = "", Depth <= 1, Depth = ParentDepth + 1)` |
 | **MobileRoutes.TabUnbuiltCount** | lookup | `Lookup(MobileNavTabs.UnbuiltRouteCount via Tab)` |
 | **MobileRoutes.ShareOfTab** | formula | `If(Coalesce(TabRouteCount, 0) = 0, 0, Round(100 / TabRouteCount, 0))` |
 | **MobileRoutes.TabCoveragePercent** | lookup | `Lookup(MobileNavTabs.BuildCoveragePercent via Tab)` |

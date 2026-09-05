@@ -7,7 +7,8 @@
   "CurrentPath": "",
   "SSoTmeProjectFiles": null,
   "ProjectSettings": [
-    { "Name": "project-name", "Value": "effortless-rulebook-editor-runtime" }
+    { "Name": "project-name", "Value": "effortless-rulebook-editor-runtime" },
+    { "Name": "editor-pipeline-defaults-version", "Value": "2" }
   ],
   "ProjectTranspilers": [
     {
@@ -63,24 +64,24 @@
       "Name": "rulebooktorulespeaken",
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json -p languages=en",
-      "IsDisabled": false,
-      "Description": "Generate the RuleSpeak® document in English only -- runs far faster than the all-10-languages variant, which is why it is the default. The portal shows just English in its language picker while this is the only RuleSpeak® step enabled."
+      "IsDisabled": true,
+      "Description": "Generate the RuleSpeak® document in English only. Disabled by default -- the all-10-languages step below is the default and always writes to the same /rulespeak output, so running this too would just be wasted work. Turn this on (and disable the other step) from the portal's language picker or the Admin tab if you want the faster English-only build back."
     },
     {
       "IsSSoTTranspiler": false,
       "Name": "rulebooktorulespeak",
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json -p languages=all",
-      "IsDisabled": true,
-      "Description": "Generate the RuleSpeak® document in all 10 supported languages (rulespeak.html, in-doc language selector), served under the portal's RuleSpeak® tab. Disabled by default -- the English-only step above covers the common case far faster. Turn this on from the portal's language picker ('Add the other 9 languages') or the Admin tab; the portal's language list is derived from whichever of these two steps is enabled. Listed AFTER the English-only step on purpose: both write to /rulespeak, so when both are enabled this one runs last and its 10-language document wins."
+      "IsDisabled": false,
+      "Description": "Generate the RuleSpeak® document in all 10 supported languages (rulespeak.html, in-doc language selector), served under the portal's RuleSpeak® tab. Enabled by default. Turn this off (and enable the English-only step above instead) from the portal's language picker or the Admin tab; the portal's language list is derived from whichever of these two steps is enabled."
     },
     {
       "IsSSoTTranspiler": false,
       "Name": "rulebooktoxlsx",
       "RelativePath": "/xlsx",
       "CommandLine": "rulebook-to-xlsx -i ../effortless-rulebook/effortless-rulebook.json",
-      "IsDisabled": true,
-      "Description": "Generate an Excel workbook snapshot of the rulebook's tables, offered as a download from the portal's Export tab. Disabled by default."
+      "IsDisabled": false,
+      "Description": "Generate an Excel workbook snapshot of the rulebook's tables, offered as a download from the portal's Export tab. Enabled by default."
     }
   ]
 }

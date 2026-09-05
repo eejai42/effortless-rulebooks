@@ -100,6 +100,26 @@ misclassifies the deliberately transpiler-ignored `__meta__` table as a missing
 only that exact, loudly reported reserved-table exclusion. Any other broken
 view still fails startup.
 
+**Phase 3 outcome (2026-09-04).** The root explorer is implemented under `app/`
+against the generated API and verified by a headless sweep of all 14 modeled
+routes plus a not-found route at 1280px and 375px: every page renders view data,
+no page scrolls horizontally, and no console errors. All five navigation groups
+derive `shippable`; the live root project page shows its three services as
+`running` with links, and stopped projects show `not running` with their start
+command. Stories US-026, US-028 to US-035, US-048 to US-050 are done and their
+criteria met; US-052 is one third done (the explorer has no runner dependency).
+Programme progress moved from 50% to 68%. Three traps surfaced and were defused
+in code: the regenerated editor launcher now assigns random host ports unless
+pinned, so root `start.sh` pins `RULEBOOK_EDITOR_*_PORT` and resolves the
+per-project container by published port; the check-add SQL let removed rows
+survive, so `scripts/init-root-db.sh` recreates `erb_effortless_rulebooks`;
+and Docker Desktop does not propagate host file events into the editor's
+bind mount, so the same script touches the container's `/tmp/rebuild-trigger`
+after every init. Remaining gaps: the `Name` of the `ProjectMetadata` row still
+reads "Effortlessly Invariant Rulesbooks" while the rulebook is named
+"Effortless Rulebooks"; `rulebook-to-progress-report` still resolves only
+through the machine-local `:30052` override.
+
 ## Target architecture
 
 ### 1. Root rulebook: the model and programme of record
@@ -297,15 +317,16 @@ No legacy-runner file is deleted merely because this plan says “retire.” Del
 
 ### Phase 3 — Build the root explorer
 
-- [x] Scaffold the root React app under `app/` (minimal Phase 2 launch shell; explorer routes remain Phase 3).
-- [ ] Connect it to the generated, view-backed root API.
-- [ ] Implement responsive shell and primary navigation.
-- [ ] Implement getting-started and concepts.
-- [ ] Implement skill catalog and skill-route detail.
-- [ ] Implement project lists, toy/example views, and project detail.
-- [ ] Implement launch instructions and health-gated localhost links.
-- [ ] Implement consistency and progress surfaces.
-- [ ] Link prominently to the generated editor and RuleSpeak.
+- [x] Scaffold the root React app under `app/`.
+- [x] Reconcile the stale `/m/*` route model: `MobileNavTabs` now holds 5 navigation groups and `MobileRoutes` the 14 §3 routes; `Screen` names the implementing component (`scripts/migrate-phase3-explorer-routes.py`).
+- [x] Connect it to the generated, view-backed root API (Vite proxies `/api` to `:42441`; every read is `GET /api/tables/<Table>`).
+- [x] Implement responsive shell and primary navigation (top bar at desktop width, bottom tab bar under 760px, both rendered from the navigation rows).
+- [x] Implement getting-started and concepts.
+- [x] Implement skill catalog and skill-route detail.
+- [x] Implement project lists, toy/example views, and project detail.
+- [x] Implement launch instructions and health-gated localhost links (server-side probe restricted to `http://localhost` URLs; failure renders "not running" plus the exact start command).
+- [x] Implement consistency and progress surfaces (findings queue filterable by status, rule, and project).
+- [x] Link prominently to the generated editor, API docs, RuleSpeak, and the progress report.
 
 ### Phase 4 — Promote or retire runner capabilities
 
@@ -350,4 +371,4 @@ Start here, not in the historical chat:
 2. Check `git status` and the diff of the root rulebook before any command that can touch it.
 3. Query the root rulebook narrowly for `UserStories`, `AcceptanceCriteria`, `ConsistencyRules`, `ConsistencyFindings`, `RulebookDomains`, and mobile route tables.
 4. Ask permission before editing the root rulebook or running `effortless build`.
-5. Phases 0–2 are complete. The launch shell, generated editor/API, 41 launch profiles, 40 local services, and 902 slot witnesses are green; generated startup findings are zero. Next reconcile the stale `/m/*` route model, then implement the Phase 3 explorer against the generated views. Do not recompute classifications or launch facts already exposed by the rulebook.
+5. Phases 0–3 are complete. `./start.sh` at the root boots the editor on pinned ports and the explorer at `:42440`; 41 launch profiles, 40 local services, 902 slot witnesses, 5 navigation groups and 14 routes are green. Next is Phase 4: inventory each legacy-runner capability (US-051) and record a promote / separate / replace / retire decision, then remove the remaining runner references from READMEs and tooling; Phase 5 works the 129 open findings (71 are `canonical-project-shape`) to zero. Do not recompute classifications or launch facts already exposed by the rulebook.

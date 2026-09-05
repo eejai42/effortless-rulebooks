@@ -10552,8 +10552,8 @@
         "Epic": "cat-progress-rollups",
         "Feature": "feat-progress-render",
         "EffortClass": "G1",
-        "Status": "in-progress",
-        "DevProgressPercent": 25
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-027",
@@ -10574,8 +10574,8 @@
         "Epic": "cat-mobile-shell",
         "Feature": "feat-mobile-tabs",
         "EffortClass": "G2",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-029",
@@ -10585,8 +10585,8 @@
         "Epic": "cat-mobile-shell",
         "Feature": "feat-mobile-tabs",
         "EffortClass": "G1",
-        "Status": "in-progress",
-        "DevProgressPercent": 25
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-030",
@@ -10596,8 +10596,8 @@
         "Epic": "cat-mobile-shell",
         "Feature": "feat-mobile-theme",
         "EffortClass": "G2",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-031",
@@ -10607,8 +10607,8 @@
         "Epic": "cat-mobile-shell",
         "Feature": "feat-mobile-theme",
         "EffortClass": "G2",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-032",
@@ -10618,8 +10618,8 @@
         "Epic": "cat-mobile-routes",
         "Feature": "feat-explore-routes",
         "EffortClass": "G2",
-        "Status": "in-progress",
-        "DevProgressPercent": 25
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-033",
@@ -10629,8 +10629,8 @@
         "Epic": "cat-mobile-routes",
         "Feature": "feat-explore-routes",
         "EffortClass": "G3",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-034",
@@ -10640,8 +10640,8 @@
         "Epic": "cat-mobile-routes",
         "Feature": "feat-governance-routes",
         "EffortClass": "G1",
-        "Status": "in-progress",
-        "DevProgressPercent": 25
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-035",
@@ -10651,8 +10651,8 @@
         "Epic": "cat-mobile-routes",
         "Feature": "feat-governance-routes",
         "EffortClass": "G2",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-036",
@@ -10794,8 +10794,8 @@
         "Epic": "cat-launch-contract",
         "Feature": "feat-launch-links",
         "EffortClass": "G2",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-049",
@@ -10805,8 +10805,8 @@
         "Epic": "cat-mobile-routes",
         "Feature": "feat-root-guide",
         "EffortClass": "G3",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-050",
@@ -10816,8 +10816,8 @@
         "Epic": "cat-mobile-routes",
         "Feature": "feat-root-guide",
         "EffortClass": "G1",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "done",
+        "DevProgressPercent": 100
       },
       {
         "UserStoryId": "us-051",
@@ -10838,8 +10838,8 @@
         "Epic": "cat-legacy-retirement",
         "Feature": "feat-runner-retirement",
         "EffortClass": "G3",
-        "Status": "todo",
-        "DevProgressPercent": 0
+        "Status": "in-progress",
+        "DevProgressPercent": 33
       },
       {
         "UserStoryId": "us-053",
@@ -11369,7 +11369,7 @@
         "AcceptanceCriterionId": "us-026-ac2",
         "UserStory": "us-026",
         "Criterion": "effortless build writes progress-report/progress-report.html without contract errors.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-027-ac1",
@@ -11381,73 +11381,73 @@
         "AcceptanceCriterionId": "us-028-ac1",
         "UserStory": "us-028",
         "Criterion": "The root explorer renders rulebook-modeled navigation in the declared order at desktop and phone widths.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-028-ac2",
         "UserStory": "us-028",
         "Criterion": "The active navigation section is derived from the current route's modeled navigation relationship.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-029-ac1",
         "UserStory": "us-029",
         "Criterion": "Navigation rows cover Home, Getting Started, Concepts, Skills, Projects, Consistency, Progress, and Tools with explicit ordering.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-030-ac1",
         "UserStory": "us-030",
         "Criterion": "Every target route in PLATFORM-EXPLORER-PLAN.md is represented by a route row or a documented exclusion.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-030-ac2",
         "UserStory": "us-030",
         "Criterion": "The derived count of unexplained route gaps is zero.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-031-ac1",
         "UserStory": "us-031",
         "Criterion": "No mobile route renders a page that scrolls horizontally at 375px width.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-032-ac1",
         "UserStory": "us-032",
         "Criterion": "The route model contains root paths for getting started, concepts, skills, projects, toys, examples, project detail, consistency, progress, and tools.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-032-ac2",
         "UserStory": "us-032",
         "Criterion": "Every route names the entities it reads.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-033-ac1",
         "UserStory": "us-033",
         "Criterion": "The root app reads navigation and platform content through generated view-backed API endpoints.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-033-ac2",
         "UserStory": "us-033",
         "Criterion": "Project classifications, coverage, counts, readiness, and finding priority are rendered from vw_* columns without JavaScript recomputation.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-034-ac1",
         "UserStory": "us-034",
         "Criterion": "The route model contains root explorer destinations for the governing rulebook, axioms, invariants, consistency rules, findings, and progress.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-035-ac1",
         "UserStory": "us-035",
         "Criterion": "/consistency supports project, rule, and status filters and remains usable at 375px width.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-036-ac1",
@@ -11567,37 +11567,37 @@
         "AcceptanceCriterionId": "us-048-ac2",
         "UserStory": "us-048",
         "Criterion": "Every project detail screen shows the exact launch command even when its services are stopped.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-048-ac3",
         "UserStory": "us-048",
         "Criterion": "A localhost link is presented as available only when its modeled health request succeeds; failure is shown as not running with no fallback URL.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-049-ac1",
         "UserStory": "us-049",
         "Criterion": "The root explorer provides a shortest successful path from prerequisites to starting the root, opening the editor, and running one project.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-049-ac2",
         "UserStory": "us-049",
         "Criterion": "Concepts, skills, toys, fully implemented examples, and project detail each have deep-linkable routes.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-050-ac1",
         "UserStory": "us-050",
         "Criterion": "The root explorer links the generated editor UI, RuleSpeak document, progress report, and API documentation.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-050-ac2",
         "UserStory": "us-050",
         "Criterion": "The custom app does not implement a second rulebook editor, formula evaluator, lookup resolver, or classification engine.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-051-ac1",
@@ -11615,7 +11615,7 @@
         "AcceptanceCriterionId": "us-052-ac1",
         "UserStory": "us-052",
         "Criterion": "The root explorer has no runtime dependency on the legacy admin portal or its two-rulebook overlay.",
-        "IsMet": false
+        "IsMet": true
       },
       {
         "AcceptanceCriterionId": "us-052-ac2",
@@ -13611,7 +13611,7 @@
     ]
   },
   "MobileNavTabs": {
-    "Description": "Bottom-tab shell of the mobile exploration experience. Five thumb-reachable tabs, each rooting a MobileRoutes subtree.",
+    "Description": "Primary navigation groups of the root explorer (app/). Rendered as a top navigation bar at desktop width and a bottom tab bar at phone width; each group roots a MobileRoutes subtree. The table name is historical: there is no separate /m mobile shell.",
     "schema": [
       {
         "name": "MobileNavTabId",
@@ -13640,28 +13640,28 @@
         "datatype": "string",
         "type": "raw",
         "nullable": false,
-        "Description": "Icon name (lucide set, matching AppNavigation.Icon vocabulary)."
+        "Description": "Icon name from the lucide icon set."
       },
       {
         "name": "RootPath",
         "datatype": "string",
         "type": "raw",
         "nullable": false,
-        "Description": "Path of the tab's root route."
+        "Description": "Path of the group's root route."
       },
       {
         "name": "SortOrder",
         "datatype": "integer",
         "type": "raw",
         "nullable": false,
-        "Description": "Left-to-right order."
+        "Description": "Left-to-right order in the navigation bar."
       },
       {
         "name": "Purpose",
         "datatype": "string",
         "type": "raw",
         "nullable": true,
-        "Description": "What the tab is for."
+        "Description": "What the navigation group is for."
       },
       {
         "name": "Project",
@@ -13679,7 +13679,7 @@
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "Description": "Reverse relationship: routes under this tab.",
+        "Description": "Reverse relationship: routes under this navigation group.",
         "RelatedTo": "MobileRoutes",
         "isReversed": true,
         "InverseField": "Tab"
@@ -13754,51 +13754,51 @@
         "MobileNavTabId": "tab-home",
         "Label": "Home",
         "Icon": "Home",
-        "RootPath": "/m",
+        "RootPath": "/",
         "SortOrder": 1,
-        "Purpose": "Programme dashboard and the platform story.",
+        "Purpose": "The platform story, the shortest getting-started path, and how the root rulebook governs the repository.",
         "Project": "erb-001"
       },
       {
-        "MobileNavTabId": "tab-explore",
-        "Label": "Explore",
-        "Icon": "Compass",
-        "RootPath": "/m/explore",
+        "MobileNavTabId": "tab-learn",
+        "Label": "Learn",
+        "Icon": "BookOpen",
+        "RootPath": "/concepts",
         "SortOrder": 2,
-        "Purpose": "Catalog of domains, flavors, substrates, skills and glossary.",
+        "Purpose": "Concepts (ERB, CMCC, SDLAF, the loop, views, rules, glossary) and the Claude skill catalog with its routes.",
         "Project": "erb-001"
       },
       {
-        "MobileNavTabId": "tab-rules",
-        "Label": "Rules",
-        "Icon": "Scale",
-        "RootPath": "/m/rules",
+        "MobileNavTabId": "tab-projects",
+        "Label": "Projects",
+        "Icon": "FolderTree",
+        "RootPath": "/projects",
         "SortOrder": 3,
-        "Purpose": "Axioms, framing invariants, consistency rules and the findings queue.",
+        "Purpose": "Every governed project, filtered as toys or fully implemented examples, with launch instructions and health-gated localhost links.",
         "Project": "erb-001"
       },
       {
-        "MobileNavTabId": "tab-progress",
-        "Label": "Progress",
-        "Icon": "TrendingUp",
-        "RootPath": "/m/progress",
+        "MobileNavTabId": "tab-health",
+        "Label": "Health",
+        "Icon": "Activity",
+        "RootPath": "/consistency",
         "SortOrder": 4,
-        "Purpose": "Phases, packages, stories and the generated progress report.",
+        "Purpose": "Consistency rules, the findings work queue, and delivery progress read from the generated views.",
         "Project": "erb-001"
       },
       {
         "MobileNavTabId": "tab-tools",
         "Label": "Tools",
         "Icon": "Wrench",
-        "RootPath": "/m/tools",
+        "RootPath": "/tools",
         "SortOrder": 5,
-        "Purpose": "Transpiler catalog, proxy routes, editor launcher, APIs, settings.",
+        "Purpose": "Generated editor, generated API, CLI, local transpilers, and setup diagnostics.",
         "Project": "erb-001"
       }
     ]
   },
   "MobileRoutes": {
-    "Description": "Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog.",
+    "Description": "Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/<File>.jsx:<Export> under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog.",
     "schema": [
       {
         "name": "MobileRouteId",
@@ -13834,7 +13834,7 @@
         "datatype": "string",
         "type": "relationship",
         "nullable": false,
-        "Description": "FK to MobileNavTabs — the tab that owns this route.",
+        "Description": "FK to MobileNavTabs — the navigation group that owns this route.",
         "RelatedTo": "MobileNavTabs",
         "isReversed": false,
         "prefersSingleRecordLink": true,
@@ -13845,7 +13845,7 @@
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "Description": "FK to MobileRoutes — the route the back button returns to; null for tab roots.",
+        "Description": "FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.",
         "RelatedTo": "MobileRoutes",
         "isReversed": false,
         "prefersSingleRecordLink": true,
@@ -13856,7 +13856,7 @@
         "datatype": "string",
         "type": "raw",
         "nullable": true,
-        "Description": "Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists."
+        "Description": "React component implementing this route, as pages/<File>.jsx:<Export> under app/src/; blank until built."
       },
       {
         "name": "RouteKind",
@@ -13901,8 +13901,8 @@
         "datatype": "integer",
         "type": "calculated",
         "nullable": true,
-        "Description": "Order 1. Number of / separators in Path.",
-        "formula": "=LEN({{Path}}) - LEN(SUBSTITUTE({{Path}}, \"/\", \"\"))"
+        "Description": "Order 1. Number of path segments; the root path / is depth 0.",
+        "formula": "=IF({{Path}} = \"/\", 0, LEN({{Path}}) - LEN(SUBSTITUTE({{Path}}, \"/\", \"\")))"
       },
       {
         "name": "IsDetail",
@@ -13910,14 +13910,14 @@
         "type": "calculated",
         "nullable": true,
         "Description": "Order 1. Route carries a :param (detail route).",
-        "formula": "=LEN(COALESCE({{Path}}, \"\")) <> LEN(SUBSTITUTE(COALESCE({{Path}}, \"\"), \":\", \"\"))"
+        "formula": "=LEN({{Path}}) <> LEN(SUBSTITUTE({{Path}}, \":\", \"\"))"
       },
       {
         "name": "HasScreen",
         "datatype": "boolean",
         "type": "calculated",
         "nullable": true,
-        "Description": "Order 1. Route reuses an existing portal screen.",
+        "Description": "Order 1. Route is implemented by a React component.",
         "formula": "={{Screen}} <> \"\""
       },
       {
@@ -13925,7 +13925,7 @@
         "datatype": "number",
         "type": "calculated",
         "nullable": true,
-        "Description": "Order 1. 1 when no screen exists yet — rollup carrier for the build backlog.",
+        "Description": "Order 1. 1 when no component exists yet — rollup carrier for the Phase 3 backlog.",
         "formula": "=IF({{Screen}} = \"\", 1, 0)"
       },
       {
@@ -13996,8 +13996,8 @@
         "datatype": "boolean",
         "type": "calculated",
         "nullable": true,
-        "Description": "Order 3. Path depth is exactly one more than the parent's (tab roots at depth 1-2).",
-        "formula": "=IF({{ParentRoute}} = \"\", {{Depth}} <= 2, {{Depth}} = COALESCE({{ParentDepth}}, 0) + 1)"
+        "Description": "Order 3. A route without a parent is at most one segment deep; a child is exactly one segment deeper than its parent.",
+        "formula": "=IF({{ParentRoute}} = \"\", {{Depth}} <= 1, {{Depth}} = {{ParentDepth}} + 1)"
       },
       {
         "name": "TabUnbuiltCount",
@@ -14061,375 +14061,171 @@
     "data": [
       {
         "MobileRouteId": "route-home",
-        "Path": "/m",
-        "Title": "Home",
+        "Path": "/",
+        "Title": "Effortless Rulebooks",
         "Tab": "tab-home",
         "ParentRoute": null,
-        "Screen": null,
+        "Screen": "pages/Home.jsx:Home",
         "RouteKind": "dashboard",
         "SortOrder": 1,
-        "ReadsEntities": "ProjectMetadata,BuildPhases,ConsistencyFindings",
-        "Description": "Programme dashboard: open findings, phase progress, catalog size."
+        "ReadsEntities": "ProjectMetadata,RulebookDomains,ConsistencyFindings,UserStories",
+        "Description": "Platform overview: what the repository is, headline readiness and consistency counts from the views, and the shortest successful getting-started path."
       },
       {
-        "MobileRouteId": "route-story",
-        "Path": "/m/story",
-        "Title": "The Story",
+        "MobileRouteId": "route-getting-started",
+        "Path": "/getting-started",
+        "Title": "Getting Started",
         "Tab": "tab-home",
         "ParentRoute": "route-home",
-        "Screen": null,
+        "Screen": "pages/Home.jsx:GettingStarted",
         "RouteKind": "detail",
         "SortOrder": 2,
-        "ReadsEntities": "CMCCSummary,ProjectGoal,ArchitecturalHighlight,DeveloperJourney",
-        "Description": "The narrative singleton tables rendered as a scrolling story."
+        "ReadsEntities": "ProjectLaunchProfiles,ProjectLocalServices,RulebookSourceSpokes",
+        "Description": "Prerequisites, CLI setup, root startup via ./start.sh, opening the generated editor, and running a first project."
       },
       {
-        "MobileRouteId": "route-explore",
-        "Path": "/m/explore",
-        "Title": "Explore",
-        "Tab": "tab-explore",
-        "ParentRoute": null,
-        "Screen": null,
-        "RouteKind": "dashboard",
-        "SortOrder": 1,
-        "ReadsEntities": "RulebookDomains,ExecutionSubstrates,ClaudeSkills",
-        "Description": "Entry cards for each catalog."
-      },
-      {
-        "MobileRouteId": "route-domains",
-        "Path": "/m/explore/domains",
-        "Title": "Domains",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-explore",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 2,
-        "ReadsEntities": "RulebookDomains",
-        "Description": "All 39 project containers, grouped by Area."
-      },
-      {
-        "MobileRouteId": "route-domain-detail",
-        "Path": "/m/explore/domains/:domain",
-        "Title": "Domain",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-domains",
-        "Screen": null,
+        "MobileRouteId": "route-about-rulebook",
+        "Path": "/about-the-rulebook",
+        "Title": "About the Rulebook",
+        "Tab": "tab-home",
+        "ParentRoute": "route-home",
+        "Screen": "pages/Home.jsx:AboutRulebook",
         "RouteKind": "detail",
         "SortOrder": 3,
-        "ReadsEntities": "RulebookDomains,RulebookFlavors,ConsistencyFindings",
-        "Description": "One domain: purpose, rulebook path, conformance, flavor card, findings."
+        "ReadsEntities": "ProjectMetadata,OntologyAxioms,FramingInvariants,ProjectLayoutSlots,ConsistencyRules",
+        "Description": "How the root rulebook governs and explains the repository: axioms, framing invariants, the canonical project shape, and the rules derived from it."
       },
       {
-        "MobileRouteId": "route-domain-findings",
-        "Path": "/m/explore/domains/:domain/findings",
-        "Title": "Domain Findings",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-domain-detail",
-        "Screen": null,
+        "MobileRouteId": "route-concepts",
+        "Path": "/concepts",
+        "Title": "Concepts",
+        "Tab": "tab-learn",
+        "ParentRoute": null,
+        "Screen": "pages/Learn.jsx:Concepts",
         "RouteKind": "list",
-        "SortOrder": 4,
-        "ReadsEntities": "ConsistencyFindings",
-        "Description": "Findings against one domain."
+        "SortOrder": 1,
+        "ReadsEntities": "Glossary,OntologyAxioms,FramingInvariants,CMCCSummary",
+        "Description": "ERB, CMCC, SDLAF, the loop, views, rules, and the glossary."
       },
       {
-        "MobileRouteId": "route-flavors",
-        "Path": "/m/explore/flavors",
-        "Title": "Flavors",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-explore",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 5,
-        "ReadsEntities": "RulebookFlavors,FlavorTags,RulebookTags",
-        "Description": "Flavor cards with tag chips."
-      },
-      {
-        "MobileRouteId": "route-substrates",
-        "Path": "/m/explore/substrates",
-        "Title": "Substrates",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-explore",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 6,
-        "ReadsEntities": "ExecutionSubstrates",
-        "Description": "Execution substrates with expressiveness and maturity."
-      },
-      {
-        "MobileRouteId": "route-substrate-detail",
-        "Path": "/m/explore/substrates/:substrate",
-        "Title": "Substrate",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-substrates",
-        "Screen": null,
+        "MobileRouteId": "route-concept-detail",
+        "Path": "/concepts/:concept",
+        "Title": "Concept",
+        "Tab": "tab-learn",
+        "ParentRoute": "route-concepts",
+        "Screen": "pages/Learn.jsx:ConceptDetail",
         "RouteKind": "detail",
-        "SortOrder": 7,
-        "ReadsEntities": "ExecutionSubstrates,SubstrateTradeoffs,SsotmeProxy",
-        "Description": "One substrate: tradeoffs, proxy routes, catalog tools."
+        "SortOrder": 2,
+        "ReadsEntities": "Glossary,OntologyAxioms,FramingInvariants",
+        "Description": "One concept or glossary term with its definition and related terms."
       },
       {
         "MobileRouteId": "route-skills",
-        "Path": "/m/explore/skills",
+        "Path": "/skills",
         "Title": "Skills",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-explore",
-        "Screen": null,
+        "Tab": "tab-learn",
+        "ParentRoute": null,
+        "Screen": "pages/Learn.jsx:Skills",
         "RouteKind": "list",
-        "SortOrder": 8,
-        "ReadsEntities": "ClaudeSkills",
-        "Description": "The Claude skill catalog with load gates."
+        "SortOrder": 3,
+        "ReadsEntities": "ClaudeSkills,SkillRoutes",
+        "Description": "Skill catalog with load gates and the routing relationships between skills."
       },
       {
         "MobileRouteId": "route-skill-detail",
-        "Path": "/m/explore/skills/:skill",
+        "Path": "/skills/:skill",
         "Title": "Skill",
-        "Tab": "tab-explore",
+        "Tab": "tab-learn",
         "ParentRoute": "route-skills",
-        "Screen": null,
+        "Screen": "pages/Learn.jsx:SkillDetail",
         "RouteKind": "detail",
-        "SortOrder": 9,
+        "SortOrder": 4,
         "ReadsEntities": "ClaudeSkills,SkillRoutes",
-        "Description": "One skill: summary, gate, inbound/outbound routes."
+        "Description": "One skill: purpose, load gate, triggers, and the skills it routes to and from."
       },
       {
-        "MobileRouteId": "route-glossary",
-        "Path": "/m/explore/glossary",
-        "Title": "Glossary",
-        "Tab": "tab-explore",
-        "ParentRoute": "route-explore",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 10,
-        "ReadsEntities": "Glossary",
-        "Description": "Term definitions grouped by category."
-      },
-      {
-        "MobileRouteId": "route-rules",
-        "Path": "/m/rules",
-        "Title": "Rules",
-        "Tab": "tab-rules",
+        "MobileRouteId": "route-projects",
+        "Path": "/projects",
+        "Title": "Projects",
+        "Tab": "tab-projects",
         "ParentRoute": null,
-        "Screen": null,
-        "RouteKind": "dashboard",
+        "Screen": "pages/Projects.jsx:Projects",
+        "RouteKind": "list",
         "SortOrder": 1,
-        "ReadsEntities": "OntologyAxioms,FramingInvariants,ConsistencyRules",
-        "Description": "Governance overview counts."
+        "ReadsEntities": "RulebookDomains,ProjectLaunchProfiles",
+        "Description": "All governed projects with derived readiness state, area, and coverage."
       },
       {
-        "MobileRouteId": "route-axioms",
-        "Path": "/m/rules/axioms",
-        "Title": "Axioms",
-        "Tab": "tab-rules",
-        "ParentRoute": "route-rules",
-        "Screen": null,
+        "MobileRouteId": "route-toys",
+        "Path": "/toys",
+        "Title": "Toys",
+        "Tab": "tab-projects",
+        "ParentRoute": null,
+        "Screen": "pages/Projects.jsx:Projects",
         "RouteKind": "list",
         "SortOrder": 2,
-        "ReadsEntities": "OntologyAxioms",
-        "Description": "The ontology axioms."
+        "ReadsEntities": "RulebookDomains",
+        "Description": "Projects whose derived readiness state classifies them as toys."
       },
       {
-        "MobileRouteId": "route-invariants",
-        "Path": "/m/rules/invariants",
-        "Title": "Framing Invariants",
-        "Tab": "tab-rules",
-        "ParentRoute": "route-rules",
-        "Screen": null,
+        "MobileRouteId": "route-examples",
+        "Path": "/examples",
+        "Title": "Examples",
+        "Tab": "tab-projects",
+        "ParentRoute": null,
+        "Screen": "pages/Projects.jsx:Projects",
         "RouteKind": "list",
         "SortOrder": 3,
-        "ReadsEntities": "FramingInvariants",
-        "Description": "Wrong vs correct framings."
+        "ReadsEntities": "RulebookDomains",
+        "Description": "Projects whose derived readiness state classifies them as fully implemented examples."
       },
       {
-        "MobileRouteId": "route-consistency-rules",
-        "Path": "/m/rules/consistency",
-        "Title": "Consistency Rules",
-        "Tab": "tab-rules",
-        "ParentRoute": "route-rules",
-        "Screen": null,
-        "RouteKind": "list",
+        "MobileRouteId": "route-project-detail",
+        "Path": "/projects/:slug",
+        "Title": "Project",
+        "Tab": "tab-projects",
+        "ParentRoute": "route-projects",
+        "Screen": "pages/Projects.jsx:ProjectDetail",
+        "RouteKind": "detail",
         "SortOrder": 4,
-        "ReadsEntities": "ConsistencyRules",
-        "Description": "Each rule with its violation count."
+        "ReadsEntities": "RulebookDomains,ProjectLaunchProfiles,ProjectLocalServices,ProjectSlotWitnesses,ConsistencyFindings,DemoNarratives",
+        "Description": "Project purpose, concepts demonstrated, rulebook and RuleSpeak links, readiness, slot witnesses, findings, exact launch instructions, and a localhost link shown only when a modeled service passes its health check."
       },
       {
-        "MobileRouteId": "route-rule-detail",
-        "Path": "/m/rules/consistency/:rule",
-        "Title": "Consistency Rule",
-        "Tab": "tab-rules",
-        "ParentRoute": "route-consistency-rules",
-        "Screen": null,
-        "RouteKind": "detail",
-        "SortOrder": 5,
-        "ReadsEntities": "ConsistencyRules,ConsistencyFindings",
-        "Description": "One rule: statement, playbook, findings."
-      },
-      {
-        "MobileRouteId": "route-findings",
-        "Path": "/m/rules/findings",
-        "Title": "Findings Queue",
-        "Tab": "tab-rules",
-        "ParentRoute": "route-rules",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 6,
-        "ReadsEntities": "ConsistencyFindings",
-        "Description": "The sweep work queue, filterable by domain/rule/status."
-      },
-      {
-        "MobileRouteId": "route-finding-detail",
-        "Path": "/m/rules/findings/:finding",
-        "Title": "Finding",
-        "Tab": "tab-rules",
-        "ParentRoute": "route-findings",
-        "Screen": null,
-        "RouteKind": "detail",
-        "SortOrder": 7,
-        "ReadsEntities": "ConsistencyFindings",
-        "Description": "One finding with its fix playbook."
+        "MobileRouteId": "route-consistency",
+        "Path": "/consistency",
+        "Title": "Consistency",
+        "Tab": "tab-health",
+        "ParentRoute": null,
+        "Screen": "pages/Health.jsx:Consistency",
+        "RouteKind": "dashboard",
+        "SortOrder": 1,
+        "ReadsEntities": "ConsistencyRules,ConsistencyFindings,RulebookDomains",
+        "Description": "Repository and per-project consistency: rules, open finding counts, and the findings work queue."
       },
       {
         "MobileRouteId": "route-progress",
-        "Path": "/m/progress",
+        "Path": "/progress",
         "Title": "Progress",
-        "Tab": "tab-progress",
+        "Tab": "tab-health",
         "ParentRoute": null,
-        "Screen": null,
+        "Screen": "pages/Health.jsx:ProgressPage",
         "RouteKind": "dashboard",
-        "SortOrder": 1,
-        "ReadsEntities": "BuildPhases,ERBPackages",
-        "Description": "Phase progress bars and package rollups."
-      },
-      {
-        "MobileRouteId": "route-phases",
-        "Path": "/m/progress/phases",
-        "Title": "Phases",
-        "Tab": "tab-progress",
-        "ParentRoute": "route-progress",
-        "Screen": null,
-        "RouteKind": "list",
         "SortOrder": 2,
-        "ReadsEntities": "BuildPhases",
-        "Description": "Delivery phases."
-      },
-      {
-        "MobileRouteId": "route-phase-detail",
-        "Path": "/m/progress/phases/:phase",
-        "Title": "Phase",
-        "Tab": "tab-progress",
-        "ParentRoute": "route-phases",
-        "Screen": null,
-        "RouteKind": "detail",
-        "SortOrder": 3,
-        "ReadsEntities": "BuildPhases,UserStories",
-        "Description": "One phase with its stories."
-      },
-      {
-        "MobileRouteId": "route-packages",
-        "Path": "/m/progress/packages",
-        "Title": "Packages",
-        "Tab": "tab-progress",
-        "ParentRoute": "route-progress",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 4,
-        "ReadsEntities": "ERBPackages,ERBFeatureCategories",
-        "Description": "Packages and epics."
-      },
-      {
-        "MobileRouteId": "route-stories",
-        "Path": "/m/progress/stories",
-        "Title": "Stories",
-        "Tab": "tab-progress",
-        "ParentRoute": "route-progress",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 5,
-        "ReadsEntities": "UserStories",
-        "Description": "All user stories with status."
-      },
-      {
-        "MobileRouteId": "route-story-detail",
-        "Path": "/m/progress/stories/:story",
-        "Title": "Story",
-        "Tab": "tab-progress",
-        "ParentRoute": "route-stories",
-        "Screen": null,
-        "RouteKind": "detail",
-        "SortOrder": 6,
-        "ReadsEntities": "UserStories,AcceptanceCriteria",
-        "Description": "One story with its acceptance criteria."
-      },
-      {
-        "MobileRouteId": "route-report",
-        "Path": "/m/progress/report",
-        "Title": "Progress Report",
-        "Tab": "tab-progress",
-        "ParentRoute": "route-progress",
-        "Screen": null,
-        "RouteKind": "detail",
-        "SortOrder": 7,
-        "ReadsEntities": "UserStories",
-        "Description": "The generated rulebook-to-progress-report HTML."
+        "ReadsEntities": "BuildPhases,ERBPackages,ERBFeatures,UserStories,AcceptanceCriteria",
+        "Description": "Programme, phases, packages, stories, acceptance criteria, and a link to the generated progress report."
       },
       {
         "MobileRouteId": "route-tools",
-        "Path": "/m/tools",
+        "Path": "/tools",
         "Title": "Tools",
         "Tab": "tab-tools",
         "ParentRoute": null,
-        "Screen": null,
+        "Screen": "pages/Tools.jsx:Tools",
         "RouteKind": "dashboard",
         "SortOrder": 1,
-        "ReadsEntities": "AddToolCatalog",
-        "Description": "Transpiler tool catalog."
-      },
-      {
-        "MobileRouteId": "route-proxy",
-        "Path": "/m/tools/proxy",
-        "Title": "Proxy Routes",
-        "Tab": "tab-tools",
-        "ParentRoute": "route-tools",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 2,
-        "ReadsEntities": "SsotmeProxy",
-        "Description": "The localhost:4242 route registry."
-      },
-      {
-        "MobileRouteId": "route-editor",
-        "Path": "/m/tools/editor",
-        "Title": "Rulebook Editor",
-        "Tab": "tab-tools",
-        "ParentRoute": "route-tools",
-        "Screen": null,
-        "RouteKind": "action",
-        "SortOrder": 3,
-        "ReadsEntities": "ProjectMetadata",
-        "Description": "Launch/open the effortless-rulebook-editor stack."
-      },
-      {
-        "MobileRouteId": "route-apis",
-        "Path": "/m/tools/apis",
-        "Title": "APIs",
-        "Tab": "tab-tools",
-        "ParentRoute": "route-tools",
-        "Screen": null,
-        "RouteKind": "list",
-        "SortOrder": 4,
-        "ReadsEntities": "AppAPIs",
-        "Description": "Portal API surface."
-      },
-      {
-        "MobileRouteId": "route-settings",
-        "Path": "/m/tools/settings",
-        "Title": "Settings",
-        "Tab": "tab-tools",
-        "ParentRoute": "route-tools",
-        "Screen": null,
-        "RouteKind": "settings",
-        "SortOrder": 5,
-        "ReadsEntities": "AppUsers,UserRoles",
-        "Description": "Role and preferences."
+        "ReadsEntities": "ProjectLocalServices,RulebookSourceSpokes,FormulaDialects",
+        "Description": "Generated editor and API links, CLI and local transpiler setup, and setup diagnostics."
       }
     ]
   },

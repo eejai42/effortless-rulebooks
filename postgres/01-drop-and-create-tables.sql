@@ -574,48 +574,48 @@ COMMENT ON COLUMN consistency_findings.status IS 'open | fixed | accepted-except
 COMMENT ON COLUMN consistency_findings.detected_on IS 'ISO date the finding was witnessed.';
 
 -- ----------------------------------------------------------------------------
--- MobileNavTabs: Bottom-tab shell of the mobile exploration experience. Five thumb-reachable tabs, each rooting a MobileRoutes subtree.
+-- MobileNavTabs: Primary navigation groups of the root explorer (app/). Rendered as a top navigation bar at desktop width and a bottom tab bar at phone width; each group roots a MobileRoutes subtree. The table name is historical: there is no separate /m mobile shell.
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS mobile_nav_tabs (
   mobile_nav_tab_id                   TEXT                 PRIMARY KEY          -- PK.
 );
 ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS label TEXT;                                    -- Tab label.
-ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS icon TEXT;                                     -- Icon name (lucide set, matching AppNavigation.Icon vocabulary).
-ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS root_path TEXT;                                -- Path of the tab's root route.
-ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS sort_order INTEGER;                            -- Left-to-right order.
-ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS purpose TEXT;                                  -- What the tab is for.
+ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS icon TEXT;                                     -- Icon name from the lucide icon set.
+ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS root_path TEXT;                                -- Path of the group's root route.
+ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS sort_order INTEGER;                            -- Left-to-right order in the navigation bar.
+ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS purpose TEXT;                                  -- What the navigation group is for.
 ALTER TABLE mobile_nav_tabs ADD COLUMN IF NOT EXISTS project TEXT;                                  -- FK to ProjectMetadata.
-COMMENT ON TABLE mobile_nav_tabs IS 'Bottom-tab shell of the mobile exploration experience. Five thumb-reachable tabs, each rooting a MobileRoutes subtree.';
+COMMENT ON TABLE mobile_nav_tabs IS 'Primary navigation groups of the root explorer (app/). Rendered as a top navigation bar at desktop width and a bottom tab bar at phone width; each group roots a MobileRoutes subtree. The table name is historical: there is no separate /m mobile shell.';
 COMMENT ON COLUMN mobile_nav_tabs.mobile_nav_tab_id IS 'PK.';
 COMMENT ON COLUMN mobile_nav_tabs.label IS 'Tab label.';
-COMMENT ON COLUMN mobile_nav_tabs.icon IS 'Icon name (lucide set, matching AppNavigation.Icon vocabulary).';
-COMMENT ON COLUMN mobile_nav_tabs.root_path IS 'Path of the tab''s root route.';
-COMMENT ON COLUMN mobile_nav_tabs.sort_order IS 'Left-to-right order.';
-COMMENT ON COLUMN mobile_nav_tabs.purpose IS 'What the tab is for.';
+COMMENT ON COLUMN mobile_nav_tabs.icon IS 'Icon name from the lucide icon set.';
+COMMENT ON COLUMN mobile_nav_tabs.root_path IS 'Path of the group''s root route.';
+COMMENT ON COLUMN mobile_nav_tabs.sort_order IS 'Left-to-right order in the navigation bar.';
+COMMENT ON COLUMN mobile_nav_tabs.purpose IS 'What the navigation group is for.';
 COMMENT ON COLUMN mobile_nav_tabs.project IS 'FK to ProjectMetadata.';
 
 -- ----------------------------------------------------------------------------
--- MobileRoutes: Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog.
+-- MobileRoutes: Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/<File>.jsx:<Export> under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog.
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS mobile_routes (
   mobile_route_id                     TEXT                 PRIMARY KEY          -- PK.
 );
 ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS path TEXT;                                       -- Route path; :param segments mark detail routes.
 ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS title TEXT;                                      -- Screen title shown in the app bar.
-ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS tab TEXT;                                        -- FK to MobileNavTabs — the tab that owns this route.
-ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS parent_route TEXT;                               -- FK to MobileRoutes — the route the back button returns to; null for tab roots.
-ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS screen TEXT;                                     -- Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists.
+ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS tab TEXT;                                        -- FK to MobileNavTabs — the navigation group that owns this route.
+ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS parent_route TEXT;                               -- FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.
+ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS screen TEXT;                                     -- React component implementing this route, as pages/<File>.jsx:<Export> under app/src/; blank until built.
 ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS route_kind TEXT;                                 -- dashboard | list | detail | action | settings.
 ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS sort_order INTEGER;                              -- Order within the tab.
 ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS reads_entities TEXT;                             -- Comma list of tables the route reads (through vw_ views).
 ALTER TABLE mobile_routes ADD COLUMN IF NOT EXISTS description TEXT;                                -- What the route shows.
-COMMENT ON TABLE mobile_routes IS 'Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog.';
+COMMENT ON TABLE mobile_routes IS 'Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/<File>.jsx:<Export> under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog.';
 COMMENT ON COLUMN mobile_routes.mobile_route_id IS 'PK.';
 COMMENT ON COLUMN mobile_routes.path IS 'Route path; :param segments mark detail routes.';
 COMMENT ON COLUMN mobile_routes.title IS 'Screen title shown in the app bar.';
-COMMENT ON COLUMN mobile_routes.tab IS 'FK to MobileNavTabs — the tab that owns this route.';
-COMMENT ON COLUMN mobile_routes.parent_route IS 'FK to MobileRoutes — the route the back button returns to; null for tab roots.';
-COMMENT ON COLUMN mobile_routes.screen IS 'Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists.';
+COMMENT ON COLUMN mobile_routes.tab IS 'FK to MobileNavTabs — the navigation group that owns this route.';
+COMMENT ON COLUMN mobile_routes.parent_route IS 'FK to MobileRoutes — the breadcrumb parent; null for a group''s root and for sibling lists.';
+COMMENT ON COLUMN mobile_routes.screen IS 'React component implementing this route, as pages/<File>.jsx:<Export> under app/src/; blank until built.';
 COMMENT ON COLUMN mobile_routes.route_kind IS 'dashboard | list | detail | action | settings.';
 COMMENT ON COLUMN mobile_routes.sort_order IS 'Order within the tab.';
 COMMENT ON COLUMN mobile_routes.reads_entities IS 'Comma list of tables the route reads (through vw_ views).';

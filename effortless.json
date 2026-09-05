@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": null,
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "f4f0515e-2efe-4a0a-8a22-acfe7a3b95f5",
   "Name": "effortless-rulebooks",
   "Description": "The repo-governing Effortless project: project catalog, consistency rules and findings, delivery programme, skill catalog, root explorer plan, universal launch contract, and legacy-runner retirement.",
@@ -19,9 +15,8 @@
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.08.10.1839",
-      "LastVersionUsed": "v2026.08.10.1839",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-10-1839-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -29,9 +24,8 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json -p rulebookPath=effortless-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.08.11.2344",
-      "LastVersionUsed": "v2026.08.11.2344",
-      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-08-11-2344-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.02.0241",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -58,5 +52,9 @@
       "CommandLine": "-exec ./init-root-db.sh",
       "IsDisabled": false
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": "/effortless-rulebook",
+  "SSoTmeProjectFiles": null
 }

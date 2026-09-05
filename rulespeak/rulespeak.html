@@ -20751,7 +20751,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 <section class="entity" id="en-t-mobilenavtabs" data-entity="Mobile Nav Tab">
   <header class="entity-head">
     <h2 class="entity-title">Mobile Nav Tab</h2>
-    <p class="entity-synopsis">Bottom-tab shell of the mobile exploration experience. Five thumb-reachable tabs, each rooting a MobileRoutes subtree.</p>
+    <p class="entity-synopsis">Primary navigation groups of the root explorer (app/). Rendered as a top navigation bar at desktop width and a bottom tab bar at phone width; each group roots a MobileRoutes subtree. The table name is historical: there is no separate /m mobile shell.</p>
   </header>
   <article class="field tone-calc" id="en-f-mobilenavtabs-name" data-entity="Mobile Nav Tab" data-field="Name">
     <div class="field-head">
@@ -20822,7 +20822,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
-    <p class="field-note elem elem-desc">Icon name (lucide set, matching AppNavigation.Icon vocabulary).</p>
+    <p class="field-note elem elem-desc">Icon name from the lucide icon set.</p>
     </article>
   <article class="field tone-raw" id="en-f-mobilenavtabs-rootpath" data-entity="Mobile Nav Tab" data-field="Root Path">
     <div class="field-head">
@@ -20834,7 +20834,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
-    <p class="field-note elem elem-desc">Path of the tab's root route.</p>
+    <p class="field-note elem elem-desc">Path of the group's root route.</p>
     </article>
   <article class="field tone-raw" id="en-f-mobilenavtabs-sortorder" data-entity="Mobile Nav Tab" data-field="Sort Order">
     <div class="field-head">
@@ -20846,7 +20846,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
-    <p class="field-note elem elem-desc">Left-to-right order.</p>
+    <p class="field-note elem elem-desc">Left-to-right order in the navigation bar.</p>
     </article>
   <article class="field tone-raw" id="en-f-mobilenavtabs-purpose" data-entity="Mobile Nav Tab" data-field="Purpose">
     <div class="field-head">
@@ -20858,7 +20858,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
-    <p class="field-note elem elem-desc">What the tab is for.</p>
+    <p class="field-note elem elem-desc">What the navigation group is for.</p>
     </article>
   <article class="field tone-rel" id="en-f-mobilenavtabs-project" data-entity="Mobile Nav Tab" data-field="Project">
     <div class="field-head">
@@ -20889,7 +20889,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">A pointer to <a href="#en-t-mobileroutes">Mobile Route</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
     </div>
-    <p class="field-note elem elem-desc">Reverse relationship: routes under this tab.</p>
+    <p class="field-note elem elem-desc">Reverse relationship: routes under this navigation group.</p>
     </article>
   <article class="field tone-agg" id="en-f-mobilenavtabs-routecount" data-entity="Mobile Nav Tab" data-field="Route Count">
     <div class="field-head">
@@ -20919,7 +20919,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-rel" href="#en-f-mobileroutes-tab">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Tab</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileNavTabs — the tab that owns this route.</span>
+          <span class="input-en muted">FK to MobileNavTabs — the navigation group that owns this route.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Nav Tab ID</span><span class="input-table">Mobile Nav Tab</span></span>
@@ -20984,7 +20984,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-rel" href="#en-f-mobileroutes-tab">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Tab</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileNavTabs — the tab that owns this route.</span>
+          <span class="input-en muted">FK to MobileNavTabs — the navigation group that owns this route.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Nav Tab ID</span><span class="input-table">Mobile Nav Tab</span></span>
@@ -21323,7 +21323,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 <section class="entity" id="en-t-mobileroutes" data-entity="Mobile Route">
   <header class="entity-head">
     <h2 class="entity-title">Mobile Route</h2>
-    <p class="entity-synopsis">Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog.</p>
+    <p class="entity-synopsis">Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/&lt;File&gt;.jsx:&lt;Export&gt; under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog.</p>
   </header>
   <article class="field tone-calc" id="en-f-mobileroutes-name" data-entity="Mobile Route" data-field="Name">
     <div class="field-head">
@@ -21432,7 +21432,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-rel faded" href="#en-f-projectmetadata-shippabletabcount">Shippable Tab Count <span class="ref-pill-tbl">Project Metadata</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">FK to MobileNavTabs — the tab that owns this route.</p>
+    <p class="field-note elem elem-desc">FK to MobileNavTabs — the navigation group that owns this route.</p>
     </article>
   <article class="field tone-rel" id="en-f-mobileroutes-parentroute" data-entity="Mobile Route" data-field="Parent Route">
     <div class="field-head">
@@ -21455,7 +21455,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-rel faded" href="#en-f-mobileroutes-routelabel">Route Label <span class="ref-pill-tbl">Mobile Route</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">FK to MobileRoutes — the route the back button returns to; null for tab roots.</p>
+    <p class="field-note elem elem-desc">FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.</p>
     </article>
   <article class="field tone-raw" id="en-f-mobileroutes-screen" data-entity="Mobile Route" data-field="Screen">
     <div class="field-head">
@@ -21486,7 +21486,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-rel faded" href="#en-f-mobileroutes-isonshippabletab">Is on Shippable Tab <span class="ref-pill-tbl">Mobile Route</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists.</p>
+    <p class="field-note elem elem-desc">React component implementing this route, as pages/&lt;File&gt;.jsx:&lt;Export&gt; under app/src/; blank until built.</p>
     </article>
   <article class="field tone-raw" id="en-f-mobileroutes-routekind" data-entity="Mobile Route" data-field="Route Kind">
     <div class="field-head">
@@ -21566,15 +21566,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
-        <p class="view-body">A mobile route's <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is computed as the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> minus the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> with every a slash replaced by an empty string.</p>
+        <div class="view-body"><p class="rt-headline">The mobile route's <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">0</span> <span class="rt-when">if the <a class="ref" href="#en-f-mobileroutes-path">path</a> is a slash</span></li><li><span class="rt-value">the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> minus the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> with every a slash replaced by an empty string</span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">The length of <a class="ref" href="#en-f-mobileroutes-path">path</a> minus the length of <a class="ref" href="#en-f-mobileroutes-path">path</a> with “/” replaced by “”.</p>
+        <p class="view-body">If <a class="ref" href="#en-f-mobileroutes-path">path</a> is &quot;/&quot; then 0, otherwise (the length of <a class="ref" href="#en-f-mobileroutes-path">path</a> minus the length of <a class="ref" href="#en-f-mobileroutes-path">path</a> with “/” replaced by “”).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LEN(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>) - LEN(SUBSTITUTE(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>, &quot;/&quot;, &quot;&quot;))</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a> = &quot;/&quot;, 0, LEN(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>) - LEN(SUBSTITUTE(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>, &quot;/&quot;, &quot;&quot;)))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -21601,7 +21601,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-mobileroutes-path">● Path <span class="ref-pill-tbl">Mobile Route</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Order 1. Number of / separators in Path.</p>
+    <p class="field-note elem elem-desc">Order 1. Number of path segments; the root path / is depth 0.</p>
     </article>
   <article class="field tone-calc" id="en-f-mobileroutes-isdetail" data-entity="Mobile Route" data-field="Is Detail">
     <div class="field-head">
@@ -21615,15 +21615,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak® <span class="mech" title="Faithful but clunky wording — a flag for an optional reword pass">⚠︎ mechanical</span></span>
-        <p class="view-body">A mobile route is considered a detail if the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> (a missing value counts as an empty string) is not the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> (a missing value counts as an empty string) with every “:” replaced by an empty string.</p>
+        <p class="view-body">A mobile route is considered a detail if the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> is not the length of the <a class="ref" href="#en-f-mobileroutes-path">path</a> with every “:” replaced by an empty string.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">The length of the first of <a class="ref" href="#en-f-mobileroutes-path">path</a> or &quot;&quot; that isn't blank is not the length of the first of <a class="ref" href="#en-f-mobileroutes-path">path</a> or &quot;&quot; that isn't blank with “:” replaced by “”.</p>
+        <p class="view-body">The length of <a class="ref" href="#en-f-mobileroutes-path">path</a> is not the length of <a class="ref" href="#en-f-mobileroutes-path">path</a> with “:” replaced by “”.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LEN(COALESCE(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>, &quot;&quot;)) &lt;&gt; LEN(SUBSTITUTE(COALESCE(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>, &quot;&quot;), &quot;:&quot;, &quot;&quot;))</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>LEN(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>) &lt;&gt; LEN(SUBSTITUTE(<a class="fx-chip" href="#en-f-mobileroutes-path">Path</a>, &quot;:&quot;, &quot;&quot;))</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -21671,7 +21671,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-raw" href="#en-f-mobileroutes-screen">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Screen</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists.</span>
+          <span class="input-en muted">React component implementing this route, as pages/&lt;File&gt;.jsx:&lt;Export&gt; under app/src/; blank until built.</span>
         </a>
       </div>
     </details>
@@ -21688,7 +21688,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-mobileroutes-screen">● Screen <span class="ref-pill-tbl">Mobile Route</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Order 1. Route reuses an existing portal screen.</p>
+    <p class="field-note elem elem-desc">Order 1. Route is implemented by a React component.</p>
     </article>
   <article class="field tone-calc" id="en-f-mobileroutes-unbuiltflag" data-entity="Mobile Route" data-field="Unbuilt Flag">
     <div class="field-head">
@@ -21718,7 +21718,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-raw" href="#en-f-mobileroutes-screen">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Screen</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists.</span>
+          <span class="input-en muted">React component implementing this route, as pages/&lt;File&gt;.jsx:&lt;Export&gt; under app/src/; blank until built.</span>
         </a>
       </div>
     </details>
@@ -21743,7 +21743,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-mobileroutes-screen">● Screen <span class="ref-pill-tbl">Mobile Route</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Order 1. 1 when no screen exists yet — rollup carrier for the build backlog.</p>
+    <p class="field-note elem elem-desc">Order 1. 1 when no component exists yet — rollup carrier for the Phase 3 backlog.</p>
     </article>
   <article class="field tone-agg" id="en-f-mobileroutes-childroutecount" data-entity="Mobile Route" data-field="Child Route Count">
     <div class="field-head">
@@ -21773,7 +21773,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-rel" href="#en-f-mobileroutes-parentroute">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Parent Route</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileRoutes — the route the back button returns to; null for tab roots.</span>
+          <span class="input-en muted">FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Route ID</span><span class="input-table">Mobile Route</span></span>
@@ -21828,7 +21828,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-rel" href="#en-f-mobileroutes-tab">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Tab</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileNavTabs — the tab that owns this route.</span>
+          <span class="input-en muted">FK to MobileNavTabs — the navigation group that owns this route.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Nav Tab ID</span><span class="input-table">Mobile Nav Tab</span></span>
@@ -21914,11 +21914,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-mobileroutes-depth">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Depth</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en">The length of path minus the length of path with “/” replaced by “”.</span>
+          <span class="input-en">If path is &quot;/&quot; then 0, otherwise (the length of path minus the length of path with “/” replaced by “”).</span>
         </a>
         <a class="input tone-rel" href="#en-f-mobileroutes-parentroute">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Parent Route</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileRoutes — the route the back button returns to; null for tab roots.</span>
+          <span class="input-en muted">FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Route ID</span><span class="input-table">Mobile Route</span></span>
@@ -22017,7 +22017,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-rel" href="#en-f-mobileroutes-tab">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Tab</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileNavTabs — the tab that owns this route.</span>
+          <span class="input-en muted">FK to MobileNavTabs — the navigation group that owns this route.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Nav Tab ID</span><span class="input-table">Mobile Nav Tab</span></span>
@@ -22052,15 +22052,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <div class="view-body"><p class="rt-headline">The mobile route's <a class="ref" href="#en-f-mobileroutes-isdepthconsistent">is depth consistent</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is at most 2</span> <span class="rt-when">if the <a class="ref" href="#en-f-mobileroutes-parentroute">parent route</a> is blank</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is the <a class="ref" href="#en-f-mobileroutes-parentdepth">parent depth</a> (a missing value counts as 0) plus 1</span> <span class="rt-when">in all other cases</span></li></ol></div>
+        <div class="view-body"><p class="rt-headline">The mobile route's <a class="ref" href="#en-f-mobileroutes-isdepthconsistent">is depth consistent</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">the <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is at most 1</span> <span class="rt-when">if the <a class="ref" href="#en-f-mobileroutes-parentroute">parent route</a> is blank</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is the <a class="ref" href="#en-f-mobileroutes-parentdepth">parent depth</a> plus 1</span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">If <a class="ref" href="#en-f-mobileroutes-parentroute">parent route</a> is &quot;&quot; then <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is at most 2, otherwise <a class="ref" href="#en-f-mobileroutes-depth">depth</a> equals (the first of <a class="ref" href="#en-f-mobileroutes-parentdepth">parent depth</a> or 0 that isn't blank plus 1).</p>
+        <p class="view-body">If <a class="ref" href="#en-f-mobileroutes-parentroute">parent route</a> is &quot;&quot; then <a class="ref" href="#en-f-mobileroutes-depth">depth</a> is at most 1, otherwise <a class="ref" href="#en-f-mobileroutes-depth">depth</a> equals (<a class="ref" href="#en-f-mobileroutes-parentdepth">parent depth</a> plus 1).</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-mobileroutes-parentroute">Parent Route</a> = &quot;&quot;, <a class="fx-chip" href="#en-f-mobileroutes-depth">Depth</a> &lt;= 2, <a class="fx-chip" href="#en-f-mobileroutes-depth">Depth</a> = COALESCE(<a class="fx-chip" href="#en-f-mobileroutes-parentdepth">Parent Depth</a>, 0) + 1)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-mobileroutes-parentroute">Parent Route</a> = &quot;&quot;, <a class="fx-chip" href="#en-f-mobileroutes-depth">Depth</a> &lt;= 1, <a class="fx-chip" href="#en-f-mobileroutes-depth">Depth</a> = <a class="fx-chip" href="#en-f-mobileroutes-parentdepth">Parent Depth</a> + 1)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -22068,11 +22068,11 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-rel" href="#en-f-mobileroutes-parentroute">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Parent Route</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileRoutes — the route the back button returns to; null for tab roots.</span>
+          <span class="input-en muted">FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.</span>
         </a>
         <a class="input tone-calc" href="#en-f-mobileroutes-depth">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Depth</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en">The length of path minus the length of path with “/” replaced by “”.</span>
+          <span class="input-en">If path is &quot;/&quot; then 0, otherwise (the length of path minus the length of path with “/” replaced by “”).</span>
         </a>
         <a class="input tone-lookup" href="#en-f-mobileroutes-parentdepth">
           <span class="input-head"><span class="input-glyph">↗</span><span class="input-name">Parent Depth</span><span class="input-table">Mobile Route</span></span>
@@ -22095,7 +22095,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <span class="ref-pill tone-raw">● Mobile Route ID <span class="ref-pill-tbl">Mobile Route</span></span>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Order 3. Path depth is exactly one more than the parent's (tab roots at depth 1-2).</p>
+    <p class="field-note elem elem-desc">Order 3. A route without a parent is at most one segment deep; a child is exactly one segment deeper than its parent.</p>
     </article>
   <article class="field tone-lookup" id="en-f-mobileroutes-tabunbuiltcount" data-entity="Mobile Route" data-field="Tab Unbuilt Count">
     <div class="field-head">
@@ -22129,7 +22129,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-rel" href="#en-f-mobileroutes-tab">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Tab</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileNavTabs — the tab that owns this route.</span>
+          <span class="input-en muted">FK to MobileNavTabs — the navigation group that owns this route.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Nav Tab ID</span><span class="input-table">Mobile Nav Tab</span></span>
@@ -22220,7 +22220,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         </a>
         <a class="input tone-rel" href="#en-f-mobileroutes-tab">
           <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Tab</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en muted">FK to MobileNavTabs — the tab that owns this route.</span>
+          <span class="input-en muted">FK to MobileNavTabs — the navigation group that owns this route.</span>
         </a>
         <span class="input input-static tone-raw">
           <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Mobile Nav Tab ID</span><span class="input-table">Mobile Nav Tab</span></span>
@@ -22272,7 +22272,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <div class="prov-grid">
         <a class="input tone-calc" href="#en-f-mobileroutes-isdepthconsistent">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Depth Consistent</span><span class="input-table">Mobile Route</span></span>
-          <span class="input-en">If parent route is &quot;&quot; then depth is at most 2, otherwise depth equals (the first of parent depth or 0 that isn't blank plus 1).</span>
+          <span class="input-en">If parent route is &quot;&quot; then depth is at most 1, otherwise depth equals (parent depth plus 1).</span>
         </a>
         <a class="input tone-calc" href="#en-f-mobileroutes-hasscreen">
           <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Has Screen</span><span class="input-table">Mobile Route</span></span>

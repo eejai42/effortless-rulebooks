@@ -79,7 +79,9 @@ There is no repo-wide "active project" scratchpad. The user's message names the 
 - All references are 1 hop. Flatten a 2-hop need into a field at each hop.
 - `{{Field}}` refs, lowercase `formula` key, `CONCAT(...)`/`&` for strings, `ROUND(x, n)` with both args.
 
-The generated `01-*.sql` runs in check-add mode (`CREATE TABLE IF NOT EXISTS`, no `DROP`) even with `drop_all=true`: after renaming PKs, `dropdb`/`createdb` before `init-db`. Keep `rulebooktopostgres` **unpinned** (`[latest]`) — a stale pin to a decommissioned host silently broke every build once.
+The generated `01-*.sql` runs in check-add mode (`CREATE TABLE IF NOT EXISTS`, no `DROP`) even with `drop_all=true`, so rows whose PKs were removed from the rulebook survive a plain init. The root's `scripts/init-root-db.sh` therefore drops and recreates `erb_effortless_rulebooks` on every build; in child projects, `dropdb`/`createdb` before `init-db` after renaming or removing PKs. Keep `rulebooktopostgres` **unpinned** (`[latest]`) — a stale pin to a decommissioned host silently broke every build once.
+
+The generated editor container watches the rulebook, but Docker Desktop does not reliably propagate host file events into the bind mount: after a host-side edit the editor API can keep serving stale rows with `build-status` reporting nothing. The root's `init-root-db.sh` touches the container's `/tmp/rebuild-trigger` after every init; do the same (`docker exec <id> touch /tmp/rebuild-trigger`) in any project whose editor looks stale. The regenerated `edit-rulebook.sh` also assigns **random host ports** unless `RULEBOOK_EDITOR_API_PORT` / `_UI_PORT` / `_PG_PORT` are set; a `start.sh` that declares fixed ports must pin them (the root's does) and must find the container by published port, not by name.
 
 # Publishing / hosting transpiler tools
 

@@ -179,6 +179,58 @@ if [ ! -f "$EFFORTLESS_ROOT_TARGET/effortless.json" ]; then
   cp /app/effortless.editor.json.seed "$EFFORTLESS_ROOT_TARGET/effortless.json"
 fi
 
+# Versioned migration for pipeline DEFAULTS, not a per-build override. Version 2
+# changed the shipped first-build contract from English-only/no-XLSX to all ten
+# RuleSpeak® languages plus XLSX. Existing host-backed build roots retain their
+# effortless.json across image upgrades, so changing only the seed never reached
+# them. Migrate the exact legacy default combination once, then stamp the version.
+# Any other combination is treated as an intentional user choice and preserved.
+PIPELINE_DEFAULTS_VERSION=2
+if ! node - "$EFFORTLESS_ROOT_TARGET/effortless.json" "$PIPELINE_DEFAULTS_VERSION" <<'NODE'
+const fs = require('fs');
+const file = process.argv[2];
+const targetVersion = Number(process.argv[3]);
+const cfg = JSON.parse(fs.readFileSync(file, 'utf8'));
+const settings = Array.isArray(cfg.ProjectSettings) ? cfg.ProjectSettings : (cfg.ProjectSettings = []);
+let marker = settings.find((s) => s && s.Name === 'editor-pipeline-defaults-version');
+const currentVersion = Number(marker && marker.Value) || 0;
+
+if (currentVersion < targetVersion) {
+  const steps = Array.isArray(cfg.ProjectTranspilers) ? cfg.ProjectTranspilers : [];
+  const byName = new Map(steps.map((s) => [s.Name, s]));
+  const english = byName.get('rulebooktorulespeaken');
+  const allLanguages = byName.get('rulebooktorulespeak');
+  const xlsx = byName.get('rulebooktoxlsx');
+  if (!english || !allLanguages || !xlsx) {
+    throw new Error('pipeline defaults migration requires the English, all-languages, and XLSX steps');
+  }
+
+  const isLegacyDefault =
+    english.IsDisabled === false &&
+    allLanguages.IsDisabled === true &&
+    xlsx.IsDisabled === true;
+  if (isLegacyDefault) {
+    english.IsDisabled = true;
+    allLanguages.IsDisabled = false;
+    xlsx.IsDisabled = false;
+    console.log('[entrypoint] migrated legacy build defaults: all RuleSpeak languages + XLSX are enabled');
+  } else {
+    console.log('[entrypoint] preserved customized build-step choices while advancing defaults version');
+  }
+
+  if (marker) marker.Value = String(targetVersion);
+  else settings.push({ Name: 'editor-pipeline-defaults-version', Value: String(targetVersion) });
+  const tmp = file + '.tmp-defaults';
+  fs.writeFileSync(tmp, JSON.stringify(cfg, null, 2) + '\n');
+  fs.renameSync(tmp, file);
+}
+NODE
+then
+  echo "[entrypoint] FATAL: could not migrate the editor pipeline defaults." >&2
+  echo "error" > "$BOOT_STATE_FILE"
+  exit 1
+fi
+
 # Fail loudly, immediately, if the project's effortless-rulebook/ folder was
 # not actually bind-mounted to $RULEBOOK_DIR. Without this check, `effortless
 # build` runs against a missing/empty directory, every transpiler step prints
@@ -751,10 +803,10 @@ write_status_json() {
   "checkedAt": "$(date -Iseconds)",
   "buildHadFailures": $failed,
   "components": {
-    "postgres": { "status": "$pg", "note": "in-container cluster, published to the host on 5442", "version": $([ -n "$pg_version" ] && echo "\"$pg_version\"" || echo null) },
-    "api":      { "status": "$api", "note": "generated Node API on container :5177, published to the host on 42441", "version": $([ -n "$api_version" ] && echo "\"$api_version\"" || echo null) },
-    "portal":   { "status": "$ui", "note": "generated Vite UI on internal :5175, proxied to the host on 42442", "version": $([ -n "$portal_version" ] && echo "\"$portal_version\"" || echo null) },
-    "bootServer": { "status": "up", "note": "owns the external UI port for the container's whole lifetime" }
+    "postgres": { "status": "$pg", "note": "in-container cluster; the launcher prints its resolved host port", "version": $([ -n "$pg_version" ] && echo "\"$pg_version\"" || echo null) },
+    "api":      { "status": "$api", "note": "generated Node API on container :5177; the launcher prints its resolved host port", "version": $([ -n "$api_version" ] && echo "\"$api_version\"" || echo null) },
+    "portal":   { "status": "$ui", "note": "generated Vite UI on internal :5175, proxied through the current browser URL", "version": $([ -n "$portal_version" ] && echo "\"$portal_version\"" || echo null) },
+    "bootServer": { "status": "up", "note": "owns the published UI port for the container's whole lifetime" }
   },
   "errorsUrl": "/__boot/errors",
   "logUrl": "/__boot/log"
@@ -787,9 +839,9 @@ report_ready_state() {
   state="$(cat "$BOOT_STATE_FILE" 2>/dev/null || echo unknown)"
   echo "[entrypoint] READY STATE: $state"
   echo "[entrypoint]   postgres: $(su postgres -c "psql -c 'select 1' >/dev/null 2>&1" && echo up || echo DOWN)"
-  echo "[entrypoint]   api:      $([ -n "${API_PID:-}" ] && echo "launched (:5177 -> host 42441)" || echo "NOT RUNNING (see SKIPPING lines above / /tmp/api.log)")"
-  echo "[entrypoint]   portal:   $([ -n "${UI_PID:-}" ] && echo "launched (internal :5175, proxied on host 42442)" || echo "NOT RUNNING (see SKIPPING lines above / /tmp/ui.log)")"
-  echo "[entrypoint]   bootpage: up (host 42442, always -- /__boot/log, /__boot/status, /__boot/errors)"
+  echo "[entrypoint]   api:      $([ -n "${API_PID:-}" ] && echo "launched (internal :5177; see launcher output for host port)" || echo "NOT RUNNING (see SKIPPING lines above / /tmp/api.log)")"
+  echo "[entrypoint]   portal:   $([ -n "${UI_PID:-}" ] && echo "launched (internal :5175, proxied through the published UI port)" || echo "NOT RUNNING (see SKIPPING lines above / /tmp/ui.log)")"
+  echo "[entrypoint]   bootpage: up (published UI port; /__boot/log, /__boot/status, /__boot/errors)"
   if [ -n "${BUILD_HAD_FAILURES:-}" ]; then
     echo "[entrypoint]   NOTE: this build had failed step(s). Everything above that says 'launched' is still fully usable;"
     echo "[entrypoint]         only the output of the failed step(s) is missing. Details: GET /__boot/errors"

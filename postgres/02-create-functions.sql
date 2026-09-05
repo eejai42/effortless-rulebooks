@@ -4737,7 +4737,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_mobile_routes_depth(p_mobile_route_id TEXT)
 RETURNS INTEGER AS $$
-  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id), '/', ''))) AS v) __safe_numeric), 0)))::integer;
+  SELECT (CASE WHEN (SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id) = '/' THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id), '/', ''))) AS v) __safe_numeric), 0)))::text END)::integer;
 $$ LANGUAGE sql STABLE;
 
 -- calc_mobile_routes_is_detail
@@ -4747,7 +4747,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_mobile_routes_is_detail(p_mobile_route_id TEXT)
 RETURNS BOOLEAN AS $$
-  SELECT (LENGTH(COALESCE((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id), '')) <> LENGTH(REPLACE(COALESCE((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id), ''), ':', '')))::boolean;
+  SELECT (LENGTH((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id)) <> LENGTH(REPLACE((SELECT NULLIF(path, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id), ':', '')))::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_mobile_routes_has_screen
@@ -4807,7 +4807,7 @@ $$ LANGUAGE sql STABLE;
 
 CREATE OR REPLACE FUNCTION calc_mobile_routes_is_depth_consistent(p_mobile_route_id TEXT)
 RETURNS BOOLEAN AS $$
-  WITH __erb_dedup_v1 AS (SELECT calc_mobile_routes_depth(p_mobile_route_id) AS val) SELECT (CASE WHEN (SELECT NULLIF(parent_route, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id) IS NULL THEN (((SELECT val FROM __erb_dedup_v1))::NUMERIC <= 2)::text ELSE ((SELECT val FROM __erb_dedup_v1) = (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (COALESCE(calc_mobile_routes_parent_depth(p_mobile_route_id), 0)) AS v) __safe_numeric), 0) + COALESCE(1, 0)))::text END)::boolean;
+  WITH __erb_dedup_v1 AS (SELECT calc_mobile_routes_depth(p_mobile_route_id) AS val) SELECT (CASE WHEN (SELECT NULLIF(parent_route, '') FROM mobile_routes WHERE mobile_route_id = p_mobile_route_id) IS NULL THEN (((SELECT val FROM __erb_dedup_v1))::NUMERIC <= 1)::text ELSE ((SELECT val FROM __erb_dedup_v1) = (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_mobile_routes_parent_depth(p_mobile_route_id)) AS v) __safe_numeric), 0) + COALESCE(1, 0)))::text END)::boolean;
 $$ LANGUAGE sql STABLE;
 
 -- calc_mobile_routes_share_of_tab

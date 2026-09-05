@@ -101,17 +101,21 @@ const STEP_COPY = {
     'Build the admin portal',
     'Builds the browsable admin site: a page per table, your calculated values filled in, plus the tabs for the documents below.',
   ],
+  rulebooktoexplainerdag: [
+    'Add explanations for calculated values',
+    'Builds the provenance graph used by the portal to explain where every calculated, lookup, and aggregated value came from.',
+  ],
   rulebooktorulespeaken: [
     'Write the rules out in plain English',
-    'Turns your rules into readable English sentences a person can check. This is the default; the portal offers a one-click way to add the other nine languages.',
+    'Turns your rules into readable English sentences a person can check, in English only. The portal offers a one-click way to switch to this faster English-only build instead of all ten languages.',
   ],
   rulebooktorulespeak: [
     'Write the rules out in plain language (10 languages)',
-    'Turns your rules into readable sentences a person can check -- the same document in ten languages, with a language picker.',
+    'Turns your rules into readable sentences a person can check -- the same document in ten languages, with a language picker. This is the default.',
   ],
   rulebooktoxlsx: [
     'Export everything to an Excel workbook',
-    'Writes your tables into a spreadsheet you can download and open in Excel.',
+    'Writes your tables into a spreadsheet you can download and open in Excel. Enabled by default.',
   ],
 };
 
@@ -126,7 +130,7 @@ function readPipeline() {
       const copy = STEP_COPY[t.Name] || [];
       return {
         name: t.Name,
-        title: copy[0] || t.Name,
+        title: copy[0] || 'Missing friendly display name',
         why: copy[1] || t.Description || ('Runs: effortless ' + (t.CommandLine || t.Name)),
         relativePath: t.RelativePath,
         commandLine: t.CommandLine,
@@ -503,6 +507,17 @@ const BOOT_PAGE = `<!doctype html>
   // below must not fire in the second case -- reloading /__boot/ just serves
   // /__boot/ again, which would spin forever instead of showing diagnostics.
   const ON_BOOT_PATH = location.pathname.replace(/[/]+$/, '') === '/__boot';
+  // Rebuild flows that intentionally send the user here include the app route
+  // they came from. Keep plain /__boot/ stable for diagnostics, but return from
+  // /__boot/?return=... after the build reaches a serving state. Accept local
+  // absolute paths only: this must never become an open redirect.
+  const requestedReturnPath = new URLSearchParams(location.search).get('return');
+  const AUTO_RETURN_PATH = requestedReturnPath
+    && requestedReturnPath.indexOf('/') === 0
+    && requestedReturnPath.indexOf('//') !== 0
+    && requestedReturnPath.indexOf('/__boot') !== 0
+      ? requestedReturnPath
+      : null;
 
   function switchTab(pane) {
     document.querySelectorAll('.tab').forEach((t) => {
@@ -541,10 +556,10 @@ const BOOT_PAGE = `<!doctype html>
   // same rail from the same route, and one copy of the words is what keeps the
   // two from drifting apart.
   const COMPONENT_COPY = {
-    postgres: ['Database', 'Holds your rulebook data. You can connect to it from your own machine on port 5442.'],
-    api: ['API', 'Serves that data over HTTP on port 42441. Useful on its own for debugging even if the portal is down.'],
-    portal: ['Admin portal', 'The browsable site over your rulebook. This is what port 42442 shows you once it is up.'],
-    bootServer: ['This page', 'Owns port 42442 for the whole life of the container, so you always get an answer here -- even when everything else is down.'],
+    postgres: ['Database', 'Holds your rulebook data. The launcher prints the host port for direct connections.'],
+    api: ['API', 'Serves that data over HTTP. The launcher prints its host URL for direct debugging.'],
+    portal: ['Admin portal', 'The browsable site over your rulebook. It replaces this boot page at the current URL once ready.'],
+    bootServer: ['This page', 'Owns the published UI port for the whole life of the container, so you always get an answer here -- even when everything else is down.'],
   };
   // Literal characters, not \\uXXXX escapes: this page is a template literal, so a
   // "\\u2713" written here survives as the six characters backslash-u-2-7-1-3
@@ -895,6 +910,8 @@ const BOOT_PAGE = `<!doctype html>
   }
 
   let lastSeenState = '';
+  let sawBuildForReturn = false;
+  let returnTimer = null;
 
   function setState(state) {
     stateLabel.textContent = state;
@@ -908,6 +925,11 @@ const BOOT_PAGE = `<!doctype html>
     // reds are not shown as if they described this one. Only on the transition,
     // not on every repeat of the same state.
     if (state === 'building' && lastSeenState !== 'building') {
+      sawBuildForReturn = true;
+      if (returnTimer) {
+        clearTimeout(returnTimer);
+        returnTimer = null;
+      }
       failPanel.classList.remove('show');
       refreshPipeline();
       resetSteps();
@@ -935,7 +957,14 @@ const BOOT_PAGE = `<!doctype html>
       hint.textContent = state === 'degraded'
         ? 'Build finished with failures -- loading the app anyway; the tab for the failed step will be empty.'
         : 'Build finished -- loading the app...';
-      if (!ON_BOOT_PATH) setTimeout(() => window.location.reload(), 600);
+      if (AUTO_RETURN_PATH && sawBuildForReturn) {
+        if (returnTimer) clearTimeout(returnTimer);
+        returnTimer = setTimeout(() => window.location.replace(AUTO_RETURN_PATH), 600);
+      } else if (AUTO_RETURN_PATH) {
+        hint.textContent = 'Waiting for the requested rebuild to start...';
+      } else if (!ON_BOOT_PATH) {
+        setTimeout(() => window.location.reload(), 600);
+      }
     } else if (state === 'error') {
       hint.textContent = 'The app could not start -- see the failures above and the log below. Fix the rulebook and save, or click Rebuild.';
     } else if (state === 'awaiting-conflict-resolution') {
@@ -1120,14 +1149,19 @@ function serveFile(res, target, rel) {
 
 const server = http.createServer((req, res) => {
   try {
+    // Route on pathname, not the raw URL. Rebuild progress URLs carry
+    // ?return=<app-route>; comparing req.url literally made that request miss
+    // /__boot/ and get proxied to Vite, so the boot page's return logic never
+    // ran.
+    const requestPath = new URL(req.url, 'http://boot.local').pathname;
     for (const [prefix, dir] of Object.entries(STATIC_TOOL_DIRS)) {
-      if (req.url === prefix || req.url.startsWith(prefix + '/')) {
+      if (requestPath === prefix || requestPath.startsWith(prefix + '/')) {
         serveStaticTool(req, res, prefix, dir);
         return;
       }
     }
 
-    if (req.url === '/__boot/log') {
+    if (requestPath === '/__boot/log') {
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ lines: tailLines(400), state: readState() }));
       return;
@@ -1136,7 +1170,7 @@ const server = http.createServer((req, res) => {
     // errors.json, verbatim). ABSENT means the last build was clean -- that is
     // the contract, so a 200 with hasErrors:false is the honest answer here
     // rather than a 404 the caller has to interpret.
-    if (req.url === '/__boot/errors') {
+    if (requestPath === '/__boot/errors') {
       const errors = readJsonFile(ERRORS_FILE);
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(JSON.stringify(errors
@@ -1147,7 +1181,7 @@ const server = http.createServer((req, res) => {
     // What is actually alive right now. Written by container-entrypoint.sh after
     // every build; if it is missing we still answer, because a caller asking
     // "what is up?" during boot deserves an answer, not a 404.
-    if (req.url === '/__boot/status') {
+    if (requestPath === '/__boot/status') {
       const status = readJsonFile(STATUS_FILE) || {
         state: readState(),
         note: 'no status snapshot written yet -- the first build has not finished',
@@ -1160,7 +1194,7 @@ const server = http.createServer((req, res) => {
     // The declared build pipeline, in order. Answered even when the file is not
     // readable yet (first seconds of boot) -- an empty list with a note beats a
     // 404 the page has to special-case.
-    if (req.url === '/__boot/pipeline') {
+    if (requestPath === '/__boot/pipeline') {
       const steps = readPipeline();
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(JSON.stringify(steps.length
@@ -1172,12 +1206,12 @@ const server = http.createServer((req, res) => {
     // proxied. Without this there is no way back to the log/errors view once the
     // portal takes over the port -- which is exactly when you most want it, since
     // a degraded build means some tab in that portal is missing its data.
-    if (req.url === '/__boot' || req.url === '/__boot/') {
+    if (requestPath === '/__boot' || requestPath === '/__boot/') {
       res.writeHead(200, { 'content-type': 'text/html' });
       res.end(BOOT_PAGE);
       return;
     }
-    if (req.url === '/__boot/events') {
+    if (requestPath === '/__boot/events') {
       res.writeHead(200, {
         'content-type': 'text/event-stream',
         'cache-control': 'no-cache',
@@ -1188,13 +1222,13 @@ const server = http.createServer((req, res) => {
       req.on('close', () => sseClients.delete(res));
       return;
     }
-    if (req.url === '/__boot/rebuild' && req.method === 'POST') {
+    if (requestPath === '/__boot/rebuild' && req.method === 'POST') {
       fs.writeFileSync(REBUILD_TRIGGER, String(Date.now()));
       res.writeHead(202, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ triggered: true }));
       return;
     }
-    if (req.url === '/__boot/resolve-conflict' && req.method === 'POST') {
+    if (requestPath === '/__boot/resolve-conflict' && req.method === 'POST') {
       let body = '';
       req.on('data', (chunk) => { body += chunk; });
       req.on('end', () => {
@@ -1231,7 +1265,7 @@ const server = http.createServer((req, res) => {
     // Only IsDisabled is ever touched -- names that are not already in the file are
     // ignored rather than created, so a stale/typo'd portal build cannot invent
     // pipeline steps that would then fail to run.
-    if (req.url === '/__boot/pipeline-toggle' && req.method === 'POST') {
+    if (requestPath === '/__boot/pipeline-toggle' && req.method === 'POST') {
       let body = '';
       req.on('data', (chunk) => { body += chunk; });
       req.on('end', () => {
@@ -1296,20 +1330,20 @@ const server = http.createServer((req, res) => {
     }
     // Is a rebuild currently being offered, and for how much longer? Polled by
     // the app's RebuildPrompt toast (rulebook-to-vite-admin-portal).
-    if (req.url === '/__boot/rebuild-prompt') {
+    if (requestPath === '/__boot/rebuild-prompt') {
       res.writeHead(200, { 'content-type': 'application/json' });
       res.end(JSON.stringify(readRebuildPrompt()));
       return;
     }
     // Yes / no to that offer. container-entrypoint.sh's prompt_for_rebuild()
     // is polling for whichever of these two files appears first.
-    if (req.url === '/__boot/rebuild-confirm' && req.method === 'POST') {
+    if (requestPath === '/__boot/rebuild-confirm' && req.method === 'POST') {
       fs.writeFileSync(REBUILD_PROMPT_CONFIRM_FILE, String(Date.now()));
       res.writeHead(202, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ confirmed: true }));
       return;
     }
-    if (req.url === '/__boot/rebuild-dismiss' && req.method === 'POST') {
+    if (requestPath === '/__boot/rebuild-dismiss' && req.method === 'POST') {
       fs.writeFileSync(REBUILD_PROMPT_DISMISS_FILE, String(Date.now()));
       res.writeHead(202, { 'content-type': 'application/json' });
       res.end(JSON.stringify({ dismissed: true }));

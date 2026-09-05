@@ -443,7 +443,20 @@ export const rulebook = {
         "CountOfPrecedenceClosurePairs": 10,
         "CountRolesWithBadFillerCardinality": 0,
         "CountAgentTypeChanges": 2,
-        "CountComplianceAuditChanges": 1
+        "CountComplianceAuditChanges": 1,
+        "CountApprovalGateSteps": 1,
+        "CountGatesWithoutHumanApprover": 0,
+        "CountWorkflowArtifacts": 5,
+        "CountRolesWithEscalationViolation": 0,
+        "CountUnconsumedDatasets": 0,
+        "Cq1Satisfied": true,
+        "Cq2Satisfied": true,
+        "Cq3Satisfied": true,
+        "Cq4Satisfied": true,
+        "Cq5Satisfied": true,
+        "Cq6Satisfied": true,
+        "Cq7Satisfied": true,
+        "Cq8Satisfied": true
       }
     ]
   },
@@ -507,7 +520,8 @@ export const rulebook = {
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "Description": "Foreign key to the parent workflow. Represents the inverse of ntwf:hasStep, enabling navigation from step to its containing workflow (ntwf:isStepOf).",
+        "isReversed": false,
+        "Description": "Forward foreign key to the parent workflow (ntwf:isStepOf) — the authoritative stored link from step to its containing workflow; every per-workflow rollup (CountOfNonProposedSteps, the department-owned counts, etc.) reads it. This IS the stored column, not a derived inverse: isReversed is false.",
         "RelatedTo": "Workflows"
       },
       {
@@ -988,7 +1002,8 @@ export const rulebook = {
         "Iri": "workflows-production-deployment-steps-prod-deploy-step-3-approval-gates-ntwf-release-approval-gate",
         "Name": "release-approval-gate",
         "GateRole": "ntwf-release-manager-role",
-        "GateApproverHuman": "ntwf-maria-gonzalez"
+        "GateApproverHuman": "ntwf-maria-gonzalez",
+        "HasHumanApprover": true
       }
     ]
   },
@@ -1330,8 +1345,8 @@ export const rulebook = {
         "RoleId": "ntwf-deployment-health-role",
         "DisplayName": "Deployment Health Agent",
         "Label": "Deployment Health Agent",
-        "Comment": "Generates the post-deployment health report by summarizing telemetry after a release. A role, not an identity — currently filled by the DeploymentHealth-AI agent (health-summarizer-v1.2.0), it could be reassigned to a human or a newer model without changing the workflow structure. Its RoleAssignments history records an earlier human-reviewer period and the agent-type transitions.",
-        "HasCapability": "cap-risk-analysis",
+        "Comment": "Generates the post-deployment health report by summarizing telemetry after a release. A role, not an identity — currently filled by the DeploymentHealth-AI agent (health-summarizer-v1.2.0), it could be reassigned to a human or a newer model without changing the workflow structure. Its RoleAssignments history records an earlier human-reviewer period and the agent-type transitions. Requires cap-deployment-health (telemetry summarization), NOT cap-risk-analysis — it scores live deployment health, it does not consume input risk datasets, so it is not a valid consumer of the Q1 Risk Metrics dataset (CQ8).",
+        "HasCapability": "cap-deployment-health",
         "FilledByHumanAgent": "",
         "FilledByAIAgent": "ntwf-health-ai",
         "FilledByAutomatedPipeline": "",
@@ -2286,11 +2301,21 @@ export const rulebook = {
         "ConceptId": "cap-risk-analysis",
         "PrefLabel": "Risk Analysis",
         "AltLabel": "Risk Assessment",
-        "Definition": "The filler must be capable of probabilistic risk scoring over structured datasets.",
+        "Definition": "The filler must be capable of probabilistic risk scoring over structured input datasets. This is the dataset-processing capability: a dcat:Dataset is consumed as input only by a step whose role requires this capability — which is what CQ8 checks (the dataset must be processed by an agent that can actually analyze it).",
         "ScopeNote": "Can be satisfied by an AIAgent with an appropriate model version (e.g. risk-classifier-v2.4.1).",
         "Roles": "",
         "RelativePath": "concepts/agent-capability/cap-risk-analysis",
         "Iri": "concepts-agent-capability-cap-risk-analysis"
+      },
+      {
+        "ConceptId": "cap-deployment-health",
+        "PrefLabel": "Deployment Health Monitoring",
+        "AltLabel": "Post-Deployment Telemetry Summarization",
+        "Definition": "The filler must be capable of summarizing post-deployment telemetry into a health report. Distinct from risk analysis: it scores a live deployment's health, not input risk datasets — so a deployment-health role does NOT consume the Q1 Risk Metrics dataset.",
+        "ScopeNote": "Held by the Deployment Health Agent role (filled by DeploymentHealth-AI, health-summarizer-v1.2.0).",
+        "Roles": "",
+        "RelativePath": "concepts/agent-capability/cap-deployment-health",
+        "Iri": "concepts-agent-capability-cap-deployment-health"
       },
       {
         "ConceptId": "cap-legal-review",
@@ -2477,7 +2502,8 @@ export const rulebook = {
         "datatype": "string",
         "type": "relationship",
         "nullable": true,
-        "Description": "Back-reference to WorkflowSteps that consume this dataset. Inverse of WorkflowSteps.ConsumesDataset.",
+        "isReversed": true,
+        "Description": "Back-reference to WorkflowSteps that consume this dataset. Inverse of WorkflowSteps.ConsumesDataset. Marked isReversed so every substrate DERIVES it from the forward FK (a reverse lookup over WorkflowSteps.ConsumesDataset) instead of storing it — keeping the two sides from drifting when the forward FK is edited.",
         "RelatedTo": "WorkflowSteps"
       },
       {
@@ -2498,7 +2524,8 @@ export const rulebook = {
         "DistributionUrl": "https://data.internal.special-solutions.example/risk/q1-2026",
         "ConsumedBySteps": "prod-deploy-step-1",
         "RelativePath": "datasets/ds-q1-2026-risk-metrics",
-        "Iri": "datasets-ds-q1-2026-risk-metrics"
+        "Iri": "datasets-ds-q1-2026-risk-metrics",
+        "IsConsumed": true
       }
     ]
   },
@@ -3320,7 +3347,7 @@ export const rulebook = {
         "ScenarioId": "dataset-unconsumed",
         "Label": "Detach the risk dataset",
         "Icon": "📦",
-        "Explanation": "Clears the AI Risk Assessment step's consumes-dataset link (WorkflowSteps.ConsumesDataset is the authoritative DCAT forward FK; Datasets.ConsumedBySteps is its derived inverse). The Q1 Risk Metrics dataset is now consumed by no step — on the Graph lens its 📦 node visibly detaches from step 1. Demonstrates CQ8: dataset consumption is a real relationship, and the answer is exactly which steps point at it; with nothing consuming it, the AI-provenance answer is gone.",
+        "Explanation": "Clears the AI Risk Assessment step's ConsumesDataset link — the single authoritative DCAT forward FK. Both substrates now DERIVE the inverse (Datasets.ConsumedBySteps) from this forward FK — the reasoner via owl:inverseOf, Postgres via a reverse-lookup view column (rulebook-to-postgres honors the field's isReversed flag) — so clearing this one fact detaches the dataset identically on both. The Q1 Risk Metrics dataset is now consumed by no step: its 📦 node orphans on the Graph lens and its feeder box disappears from the Flow lens. Demonstrates CQ8: with nothing consuming it, the AI-provenance answer is gone and CQ8 flips to ✗.",
         "SortOrder": 80,
         "IsReset": false,
         "Edits": "[{\"class\": \"WorkflowSteps\", \"id\": \"prod-deploy-step-1\", \"set\": {\"consumesDataset\": \"\"}}]",

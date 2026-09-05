@@ -17,12 +17,26 @@ command -v psql >/dev/null 2>&1 || {
   exit 1
 }
 
-database_exists="$(psql -Atqc "SELECT 1 FROM pg_database WHERE datname = '$DATABASE_NAME';" postgres)"
-[[ "$database_exists" == "1" ]] || {
-  echo "ERROR: Expected local database does not exist: $DATABASE_NAME" >&2
-  echo "Create it explicitly with: createdb $DATABASE_NAME" >&2
-  exit 1
-}
+# The generated 01-*.sql runs in check-add mode (CREATE TABLE IF NOT EXISTS, no
+# DROP, even with drop_all=true), so rows whose primary keys were removed from the
+# rulebook would otherwise survive every rebuild and silently pollute rollups.
+# The local database is a derived artifact: recreate it from scratch each time.
+echo "Recreating root database: $DATABASE_NAME"
+psql -v ON_ERROR_STOP=1 -Atqc "DROP DATABASE IF EXISTS $DATABASE_NAME WITH (FORCE);" postgres
+psql -v ON_ERROR_STOP=1 -Atqc "CREATE DATABASE $DATABASE_NAME;" postgres
 
 echo "Initializing root database: $DATABASE_URL"
-exec env DATABASE_URL="$DATABASE_URL" bash "$INIT_SCRIPT"
+env DATABASE_URL="$DATABASE_URL" bash "$INIT_SCRIPT"
+
+# The generated editor container watches the rulebook, but Docker Desktop does not
+# always propagate host file events through the bind mount, so a host-side build
+# can leave the editor API serving stale rows. If the root's editor is running on
+# its pinned API port, request an explicit rebuild through the container's trigger.
+EDITOR_API_PORT="42441"
+if command -v docker >/dev/null 2>&1 && docker info >/dev/null 2>&1; then
+  editor_container="$(docker ps -q --filter "publish=$EDITOR_API_PORT")"
+  if [[ -n "$editor_container" ]]; then
+    echo "Requesting rebuild of the editor container publishing :$EDITOR_API_PORT"
+    docker exec "$editor_container" touch /tmp/rebuild-trigger
+  fi
+fi

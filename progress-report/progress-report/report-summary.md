@@ -1,6 +1,6 @@
 # Delivery report — build summary
 
-Generated 31 August 2026.
+Generated 4 September 2026.
 
 | | |
 |---|---|

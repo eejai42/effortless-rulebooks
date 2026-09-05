@@ -21,7 +21,7 @@ readonly RUNTIME_DIR="${PROJECT_ROOT}/.run/root-explorer"
 readonly APP_LOG="${RUNTIME_DIR}/app.log"
 readonly EDITOR_LOG="${RUNTIME_DIR}/editor.log"
 
-readonly EDITOR_CONTAINER="effortless-rulebook-editor"
+EDITOR_CONTAINER=""  # resolved at runtime from the pinned API port
 readonly EDITOR_API_URL="http://localhost:42441"
 readonly EDITOR_UI_URL="http://localhost:42442"
 readonly EDITOR_POSTGRES_URL="postgresql://postgres:postgres@localhost:5442/effortless-rulebook"
@@ -96,7 +96,6 @@ stop_editor_containers_on_declared_ports() {
     done <<<"$container_ids"
   done
 
-  docker rm -f "$EDITOR_CONTAINER" >/dev/null 2>&1 || true
 }
 
 stop_services() {
@@ -145,11 +144,25 @@ wait_for_http() {
   fail "${description} did not become healthy at ${url}; logs: ${EDITOR_LOG} ${APP_LOG}"
 }
 
+resolve_editor_container() {
+  # The generated launcher names its container per project; the only stable
+  # handle the root owns is the pinned API port it published.
+  local container_id=""
+  container_id="$(docker ps -q --filter "publish=${EDITOR_API_PORT}")"
+  [[ -n "$container_id" ]] ||
+    fail "no editor container publishes declared port ${EDITOR_API_PORT}"
+  [[ "$(printf '%s\n' "$container_id" | wc -l | tr -d ' ')" == "1" ]] ||
+    fail "more than one container publishes declared port ${EDITOR_API_PORT}: ${container_id}"
+  EDITOR_CONTAINER="$container_id"
+}
+
 check_editor_database_and_views() {
   local database_name=""
   local view_count=""
   local view_health=""
   local view_health_scope=""
+
+  resolve_editor_container
 
   database_name="$(
     docker exec "$EDITOR_CONTAINER" \
@@ -256,10 +269,17 @@ start_services() {
   done
 
   printf 'Starting generated editor from %s...\n' "$EDITOR_SCRIPT"
-  bash "$EDITOR_SCRIPT" >"$EDITOR_LOG" 2>&1 &
+  # The generated launcher lets Docker pick host ports unless they are pinned.
+  # The root declares fixed ports (modeled in ProjectLocalServices), so pin them.
+  RULEBOOK_EDITOR_API_PORT="$EDITOR_API_PORT" \
+    RULEBOOK_EDITOR_UI_PORT="$EDITOR_UI_PORT" \
+    RULEBOOK_EDITOR_PG_PORT="$EDITOR_POSTGRES_PORT" \
+    bash "$EDITOR_SCRIPT" >"$EDITOR_LOG" 2>&1 &
   EDITOR_FOLLOW_PID=$!
 
-  wait_for_http "${EDITOR_API_URL}/api/docs" "Generated editor API"
+  # First boot runs npm install plus a full internal build of the root rulebook,
+  # which takes several minutes; allow ten.
+  wait_for_http "${EDITOR_API_URL}/api/docs" "Generated editor API" 600
   check_editor_database_and_views
   wait_for_http "$EDITOR_UI_URL" "Generated editor UI"
 

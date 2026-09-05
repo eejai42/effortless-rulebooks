@@ -5,7 +5,8 @@
 # effortless.editor.json) live at docker/Dockerfile relative to THIS script's
 # own folder.
 #
-# Ports are fixed, always: 42441 (API), 42442 (UI), 5442 (Postgres).
+# Host ports are assigned by Docker unless pinned with RULEBOOK_EDITOR_*_PORT
+# variables or a ports.env file beside this launcher.
 #
 # Refresh your browser after editing effortless-rulebook.json -- the container's
 # filesystem watcher detects the change, re-runs `effortless build`, and
@@ -17,6 +18,104 @@ cd "$(dirname "${BASH_SOURCE[0]}")"
 DOCKERFILE_PATH="docker/Dockerfile"
 EXTERNAL_SRC_MOUNTED=
 EXTERNAL_SRC_HOST_PATH=""
+RULEBOOK_SELF_UPDATE_PATH="effortless-rulebook.json"
+EDITOR_RUNTIME_VERSION="2026.9.2.241"
+
+# The launcher is the OUTER half of the editor and therefore cannot rely on the
+# container's inner `effortless -upgradeAll`. Update and regenerate this runtime
+# from the published head before Docker starts, then re-exec the newly written
+# launcher exactly once. This makes "stop it and start it again" sufficient to
+# pick up both editor fixes and inner pipeline-tool updates.
+if [ "${EFFORTLESS_EDITOR_LAUNCHER_CURRENT:-}" != "1" ]; then
+  if ! command -v effortless >/dev/null 2>&1; then
+    echo "ERROR: the effortless CLI is required to update the rulebook editor before launch." >&2
+    exit 1
+  fi
+  echo "Updating effortless-rulebook-editor to the published head..."
+  effortless effortless-rulebook-editor -upgrade
+
+  PROJECT_SEARCH_DIR="$(pwd -P)"
+  PROJECT_FILE=""
+  while [ "$PROJECT_SEARCH_DIR" != "/" ]; do
+    if [ -f "$PROJECT_SEARCH_DIR/effortless.json" ]; then
+      PROJECT_FILE="$PROJECT_SEARCH_DIR/effortless.json"
+      break
+    fi
+    PROJECT_SEARCH_DIR="$(dirname "$PROJECT_SEARCH_DIR")"
+  done
+  if [ -z "$PROJECT_FILE" ]; then
+    echo "ERROR: no effortless.json found above $(pwd -P) after editor upgrade." >&2
+    exit 1
+  fi
+
+  EDITOR_HEAD_INFO="$(node - "$PROJECT_FILE" <<'NODE'
+const fs = require('fs');
+const cfg = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+const steps = Array.isArray(cfg.ProjectTranspilers) ? cfg.ProjectTranspilers : [];
+const editor = steps.find((step) => {
+  const name = String(step.Name || '').replaceAll('-', '').toLowerCase();
+  const command = String(step.CommandLine || '').trim().split(/\s+/)[0];
+  return name === 'effortlessrulebookeditor' || command === 'effortless-rulebook-editor';
+});
+if (!editor) throw new Error('effortless-rulebook-editor is not registered in effortless.json');
+const normalized = String(editor.LastVersionUsed || '').replace(/^v/, '')
+  .split('.').map((part) => String(Number(part))).join('.');
+process.stdout.write(normalized + '\t' + String(editor.LastUrl || ''));
+NODE
+)"
+  IFS=$'\t' read -r EDITOR_HEAD_VERSION EDITOR_HEAD_URL <<< "$EDITOR_HEAD_INFO"
+
+  RUNTIME_COMPLETE=1
+  SELF_UPDATE_DOCKER_DIR="$(dirname "$DOCKERFILE_PATH")"
+  for REQUIRED_FILE in \
+    "$DOCKERFILE_PATH" \
+    "$SELF_UPDATE_DOCKER_DIR/container-entrypoint.sh" \
+    "$SELF_UPDATE_DOCKER_DIR/boot-server.js" \
+    "$SELF_UPDATE_DOCKER_DIR/effortless.editor.json"; do
+    [ -f "$REQUIRED_FILE" ] || RUNTIME_COMPLETE=0
+  done
+
+  if [ "$EDITOR_HEAD_VERSION" = "$EDITOR_RUNTIME_VERSION" ] && [ "$RUNTIME_COMPLETE" = "1" ]; then
+    echo "Editor runtime is current ($EDITOR_RUNTIME_VERSION)."
+    export EFFORTLESS_EDITOR_LAUNCHER_CURRENT=1
+  else
+    if [ -z "$EDITOR_HEAD_URL" ]; then
+      echo "ERROR: the published editor version has no resolved LastUrl in $PROJECT_FILE." >&2
+      exit 1
+    fi
+    if ! command -v curl >/dev/null 2>&1; then
+      echo "ERROR: curl is required to warm the published editor workload before updating." >&2
+      exit 1
+    fi
+    echo "Warming published editor workload: $EDITOR_HEAD_URL"
+    EDITOR_WORKLOAD_READY=""
+    for ATTEMPT in $(seq 1 36); do
+      if curl --max-time 10 -fsS "$EDITOR_HEAD_URL/healthz" >/dev/null 2>&1; then
+        EDITOR_WORKLOAD_READY=1
+        break
+      fi
+      echo "  editor workload not ready ($ATTEMPT/36)..."
+      sleep 2
+    done
+    if [ -z "$EDITOR_WORKLOAD_READY" ]; then
+      echo "ERROR: published editor workload did not become ready: $EDITOR_HEAD_URL/healthz" >&2
+      exit 1
+    fi
+
+    SELF_UPDATE_ARGS=(
+      effortless-rulebook-editor
+      -i "$RULEBOOK_SELF_UPDATE_PATH"
+      -p "rulebookPath=$RULEBOOK_SELF_UPDATE_PATH"
+      -p "dockerfilePath=$DOCKERFILE_PATH"
+    )
+    if [ -n "$EXTERNAL_SRC_MOUNTED" ]; then
+      SELF_UPDATE_ARGS+=( -p "pathToExternalSrc=$EXTERNAL_SRC_HOST_PATH" )
+    fi
+    effortless "${SELF_UPDATE_ARGS[@]}"
+    export EFFORTLESS_EDITOR_LAUNCHER_CURRENT=1
+    exec bash "$0" "$@"
+  fi
+fi
 
 # On Windows Git Bash (MSYS), MSYS silently rewrites POSIX-looking paths in
 # command arguments before docker.exe ever sees them. Applied blindly to a
@@ -34,28 +133,102 @@ else
   to_native_path() { printf '%s' "$1"; }
 fi
 
-IMAGE_NAME="effortless-rulebook-editor"
-CONTAINER_NAME="effortless-rulebook-editor"
-API_PORT=42441
-UI_PORT=42442
-PG_PORT=5442
+# Content-address the image from the generated runtime files that Docker COPYs.
+# The old launcher used one machine-global `effortless-rulebook-editor` tag and
+# skipped `docker build` whenever that tag existed. Starting project B could
+# therefore run project A's older editor image -- including an older boot page --
+# with no warning. Different generated runtimes now have different tags; identical
+# runtimes may still share Docker's image/cache safely.
+DOCKERFILE_DIR="$(dirname "$DOCKERFILE_PATH")"
+DOCKERFILE_NAME="$(basename "$DOCKERFILE_PATH")"
+IMAGE_FINGERPRINT="$(
+  (
+    cd "$DOCKERFILE_DIR"
+    cksum "$DOCKERFILE_NAME" container-entrypoint.sh boot-server.js effortless.editor.json
+  ) | cksum | awk '{print $1}'
+)"
+IMAGE_NAME="effortless-rulebook-editor:$IMAGE_FINGERPRINT"
 
-# Stop our own previous container, AND whatever else is squatting on these
-# three ports (e.g. an old/differently-named instance from before this
-# project pinned its own ports below). These ports are only ever used by
-# short-lived, disposable rulebook-editor instances, so taking one over is
-# safe and intentional -- unlike quietly landing on a random port and
-# leaving a stale container running the OLD build underneath a live editing
-# session.
-for PORT in "$API_PORT" "$UI_PORT" "$PG_PORT"; do
-  STALE_CIDS=$(docker ps -q --filter "publish=$PORT")
-  [ -n "$STALE_CIDS" ] && docker rm -f $STALE_CIDS >/dev/null 2>&1 || true
-done
+# Optional project-local port/name pins. Capture caller-provided values first
+# so an explicit environment variable wins over the same key in ports.env.
+CALLER_CONTAINER_NAME_SET="${RULEBOOK_EDITOR_CONTAINER_NAME+x}"
+CALLER_CONTAINER_NAME="${RULEBOOK_EDITOR_CONTAINER_NAME-}"
+CALLER_API_PORT_SET="${RULEBOOK_EDITOR_API_PORT+x}"
+CALLER_API_PORT="${RULEBOOK_EDITOR_API_PORT-}"
+CALLER_UI_PORT_SET="${RULEBOOK_EDITOR_UI_PORT+x}"
+CALLER_UI_PORT="${RULEBOOK_EDITOR_UI_PORT-}"
+CALLER_PG_PORT_SET="${RULEBOOK_EDITOR_PG_PORT+x}"
+CALLER_PG_PORT="${RULEBOOK_EDITOR_PG_PORT-}"
+
+PORTS_ENV_FILE="${RULEBOOK_EDITOR_PORTS_ENV_FILE:-$(dirname "$0")/ports.env}"
+if [ -f "$PORTS_ENV_FILE" ]; then
+  # shellcheck disable=SC1090
+  source "$PORTS_ENV_FILE"
+fi
+
+[ -n "$CALLER_CONTAINER_NAME_SET" ] && RULEBOOK_EDITOR_CONTAINER_NAME="$CALLER_CONTAINER_NAME"
+[ -n "$CALLER_API_PORT_SET" ] && RULEBOOK_EDITOR_API_PORT="$CALLER_API_PORT"
+[ -n "$CALLER_UI_PORT_SET" ] && RULEBOOK_EDITOR_UI_PORT="$CALLER_UI_PORT"
+[ -n "$CALLER_PG_PORT_SET" ] && RULEBOOK_EDITOR_PG_PORT="$CALLER_PG_PORT"
+
+# A path fingerprint makes the default identity unique even though almost every
+# install lives in a folder literally named `effortless-rulebook`. The readable
+# slug is diagnostic only; the fingerprint is what prevents same-named projects
+# in different parent folders from colliding.
+INSTALL_PATH="$(pwd -P)"
+INSTALL_SLUG="$(
+  printf '%s-%s' "$(basename "$(dirname "$INSTALL_PATH")")" "$(basename "$INSTALL_PATH")" |
+    tr '[:upper:]' '[:lower:]' |
+    tr -cs 'a-z0-9_.-' '-' |
+    awk '{ sub(/^-+/, ""); sub(/-+$/, ""); print }'
+)"
+INSTALL_FINGERPRINT="$(printf '%s' "$INSTALL_PATH" | cksum | awk '{print $1}')"
+CONTAINER_NAME="${RULEBOOK_EDITOR_CONTAINER_NAME:-effortless-rulebook-editor-${INSTALL_SLUG}-${INSTALL_FINGERPRINT}}"
+
+# Empty means Docker chooses a free host port. Projects that need stable URLs
+# pin any/all of these in ports.env or the invoking environment.
+API_PORT="${RULEBOOK_EDITOR_API_PORT:-}"
+UI_PORT="${RULEBOOK_EDITOR_UI_PORT:-}"
+PG_PORT="${RULEBOOK_EDITOR_PG_PORT:-}"
+
+validate_port() {
+  local label="$1" value="$2"
+  [ -z "$value" ] && return 0
+  if ! [[ "$value" =~ ^[0-9]+$ ]] || (( 10#$value < 1 || 10#$value > 65535 )); then
+    echo "ERROR: $label must be an integer from 1 to 65535; got '$value'." >&2
+    exit 1
+  fi
+}
+validate_port RULEBOOK_EDITOR_API_PORT "$API_PORT"
+validate_port RULEBOOK_EDITOR_UI_PORT "$UI_PORT"
+validate_port RULEBOOK_EDITOR_PG_PORT "$PG_PORT"
+if { [ -n "$API_PORT" ] && [ "$API_PORT" = "$UI_PORT" ]; } ||
+   { [ -n "$API_PORT" ] && [ "$API_PORT" = "$PG_PORT" ]; } ||
+   { [ -n "$UI_PORT" ] && [ "$UI_PORT" = "$PG_PORT" ]; }; then
+  echo "ERROR: API, UI, and Postgres host ports must be distinct when pinned." >&2
+  exit 1
+fi
+
+# Remove only this install's previous container. A launcher must never kill a
+# differently named project merely because both requested the same host port.
 docker rm -f "$CONTAINER_NAME" >/dev/null 2>&1 || true
+
+# Pinned-port conflicts are configuration failures, not permission to destroy
+# another project's container. Fail with the owner names; unpinned ports cannot
+# conflict because Docker allocates them.
+for PORT in "$API_PORT" "$UI_PORT" "$PG_PORT"; do
+  [ -z "$PORT" ] && continue
+  CONFLICTING_CIDS="$(docker ps -q --filter "publish=$PORT")"
+  if [ -n "$CONFLICTING_CIDS" ]; then
+    CONFLICTING_NAMES="$(docker ps --filter "publish=$PORT" --format '{{.Names}}' | tr '\n' ' ')"
+    echo "ERROR: requested host port $PORT is already owned by: $CONFLICTING_NAMES" >&2
+    echo "Choose another RULEBOOK_EDITOR_*_PORT value; no other container was stopped." >&2
+    exit 1
+  fi
+done
 
 # Build only if the image doesn't exist yet. Run ./edit-rulebook.sh --rebuild
 # to force a fresh image build (e.g. after pulling a new Dockerfile).
-DOCKERFILE_DIR="$(dirname "$DOCKERFILE_PATH")"
 if [ "${1:-}" = "--rebuild" ] || ! docker image inspect "$IMAGE_NAME" >/dev/null 2>&1; then
   echo "Building $IMAGE_NAME image..."
   docker build -t "$IMAGE_NAME" -f "$DOCKERFILE_PATH" "$DOCKERFILE_DIR"
@@ -63,13 +236,16 @@ fi
 
 RULEBOOK_DIR_NATIVE="$(to_native_path "$(pwd)")"
 SSOTME_DIR_NATIVE="$(to_native_path "$HOME/.ssotme")"
+API_PUBLISH="${API_PORT:+${API_PORT}:}5177"
+UI_PUBLISH="${UI_PORT:+${UI_PORT}:}5174"
+PG_PUBLISH="${PG_PORT:+${PG_PORT}:}5432"
 
 DOCKER_RUN_ARGS=(
   -d
   --name "$CONTAINER_NAME"
-  -p "$API_PORT:5177"
-  -p "$UI_PORT:5174"
-  -p "$PG_PORT:5432"
+  -p "$API_PUBLISH"
+  -p "$UI_PUBLISH"
+  -p "$PG_PUBLISH"
   -v "$RULEBOOK_DIR_NATIVE:/app/effortless-rulebook"
   -v "$SSOTME_DIR_NATIVE:/root/.ssotme-ro:ro"
 )
@@ -128,22 +304,27 @@ else
   echo "      in the shell you run this script from."
 fi
 
-echo "Starting $CONTAINER_NAME container on fixed ports ($API_PORT, $UI_PORT, $PG_PORT)..."
+echo "Starting $CONTAINER_NAME container..."
 docker run "${DOCKER_RUN_ARGS[@]}" "$IMAGE_NAME"
+
+RESOLVED_API_PORT="$(docker port "$CONTAINER_NAME" 5177/tcp | awk -F: 'NR == 1 { print $NF }')"
+RESOLVED_UI_PORT="$(docker port "$CONTAINER_NAME" 5174/tcp | awk -F: 'NR == 1 { print $NF }')"
+RESOLVED_PG_PORT="$(docker port "$CONTAINER_NAME" 5432/tcp | awk -F: 'NR == 1 { print $NF }')"
 
 echo ""
 echo "effortless-rulebook-editor is starting up."
-echo "  API:  http://localhost:$API_PORT/api/state"
-echo "  DOCS: http://localhost:$API_PORT/api/docs"
+echo "  CONTAINER: $CONTAINER_NAME"
+echo "  API:  http://localhost:$RESOLVED_API_PORT/api/state"
+echo "  DOCS: http://localhost:$RESOLVED_API_PORT/api/docs"
 echo "                            (START HERE to build an app against this API: every"
 echo "                            route, the read-snake_case/write-PascalCase rule, and"
 echo "                            pointers to /api/rulespeak + /api/source. Derived from"
 echo "                            the live route table, so it cannot go stale.)"
-echo "  UI:   http://localhost:$UI_PORT   (shows a live boot/progress page immediately --"
+echo "  UI:   http://localhost:$RESOLVED_UI_PORT   (shows a live boot/progress page immediately --"
 echo "                            no need to wait before opening it; it hands off"
 echo "                            to the real app automatically once ready, and has"
 echo "                            its own Rebuild button + log view at any time)"
-echo "  PG:   postgresql://postgres:postgres@localhost:$PG_PORT/effortless-rulebook"
+echo "  PG:   postgresql://postgres:postgres@localhost:$RESOLVED_PG_PORT/effortless-rulebook"
 echo "                            (for a host psql client / GUI tool -- this is the"
 echo "                            ONLY supported way to inspect data directly; the"
 echo "                            DB is reseeded from the rulebook on every rebuild)"

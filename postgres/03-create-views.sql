@@ -838,7 +838,7 @@ SELECT
 FROM consistency_findings t;
 
 -- ----------------------------------------------------------------------------
--- vw_mobile_nav_tabs: Bottom-tab shell of the mobile exploration experience. Five thumb-reachable tabs, each rooting a MobileRoutes subtree.
+-- vw_mobile_nav_tabs: Primary navigation groups of the root explorer (app/). Rendered as a top navigation bar at desktop width and a bottom tab bar at phone width; each group roots a MobileRoutes subtree. The table name is historical: there is no separate /m mobile shell.
 -- Combines base table columns with calculated/lookup/aggregation fields.
 -- ----------------------------------------------------------------------------
 DROP VIEW IF EXISTS vw_mobile_nav_tabs CASCADE;
@@ -847,12 +847,12 @@ SELECT
   t.mobile_nav_tab_id,                                                          -- PK.
   calc_mobile_nav_tabs_name(t.mobile_nav_tab_id) AS name,                       -- Order 1. Display alias (calculated). Order 1.
   t.label,                                                                      -- Tab label.
-  t.icon,                                                                       -- Icon name (lucide set, matching AppNavigation.Icon vocabulary).
-  t.root_path,                                                                  -- Path of the tab's root route.
-  t.sort_order,                                                                 -- Left-to-right order.
-  t.purpose,                                                                    -- What the tab is for.
+  t.icon,                                                                       -- Icon name from the lucide icon set.
+  t.root_path,                                                                  -- Path of the group's root route.
+  t.sort_order,                                                                 -- Left-to-right order in the navigation bar.
+  t.purpose,                                                                    -- What the navigation group is for.
   t.project,                                                                    -- FK to ProjectMetadata.
-  calc_mobile_nav_tabs_mobile_routes(t.mobile_nav_tab_id) AS mobile_routes,     -- Reverse relationship: routes under this tab.
+  calc_mobile_nav_tabs_mobile_routes(t.mobile_nav_tab_id) AS mobile_routes,     -- Reverse relationship: routes under this navigation group.
   calc_mobile_nav_tabs_route_count(t.mobile_nav_tab_id) AS route_count,         -- Order 1. Routes under this tab.
   calc_mobile_nav_tabs_unbuilt_route_count(t.mobile_nav_tab_id) AS unbuilt_route_count,-- Order 2. Routes under this tab with no screen yet.
   calc_mobile_nav_tabs_has_routes(t.mobile_nav_tab_id) AS has_routes,           -- Order 2. Tab roots at least one route.
@@ -864,11 +864,11 @@ SELECT
 FROM mobile_nav_tabs t;
 
 -- ----------------------------------------------------------------------------
--- vw_mobile_routes: Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog.
+-- vw_mobile_routes: Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/<File>.jsx:<Export> under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog.
 -- Combines base table columns with calculated/lookup/aggregation fields.
 -- ----------------------------------------------------------------------------
 -- ----------------------------------------------------------------------------
--- vw_mobile_routes: Full mobile routing plan: a deep-linkable route tree under each tab. Screen FK is null where the mobile screen is not yet built — the derived unbuilt count is the build backlog.
+-- vw_mobile_routes: Route surface of the root explorer (PLATFORM-EXPLORER-PLAN.md §3): deep-linkable routes under each navigation group. Screen names the React component (pages/<File>.jsx:<Export> under app/src/) that implements the route and stays blank until it exists, so the derived unbuilt counts are the Phase 3 build backlog.
 -- SELF-REFERENTIAL SETTLE: MobileRoutes has lookup field(s) reading a computed
 -- column of its own table through a self-FK. Settled level-by-level (seeds first,
 -- then each row once its drivers are settled) via a jsonb accumulator carried
@@ -880,13 +880,13 @@ CREATE VIEW vw_mobile_routes WITH (security_invoker = ON) AS
 WITH RECURSIVE acc AS (
   SELECT 1 AS step,
     COALESCE((SELECT jsonb_object_agg(t.mobile_route_id, jsonb_build_object(
-      'depth', (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(t.path::text,'')))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(t.path::text,'')), '/', ''))) AS v) __safe_numeric), 0))
+      'depth', CASE WHEN (SELECT NULLIF(t.path::text,'')) = '/' THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(t.path::text,'')))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(t.path::text,'')), '/', ''))) AS v) __safe_numeric), 0)))::text END
     ))
     FROM mobile_routes t WHERE NULLIF(t.parent_route,'') IS NULL), '{}'::jsonb) AS settled
   UNION ALL
   SELECT a.step + 1, a.settled || COALESCE((
     SELECT jsonb_object_agg(t.mobile_route_id, jsonb_build_object(
-      'depth', (COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(t.path::text,'')))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(t.path::text,'')), '/', ''))) AS v) __safe_numeric), 0))
+      'depth', CASE WHEN (SELECT NULLIF(t.path::text,'')) = '/' THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(t.path::text,'')))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(t.path::text,'')), '/', ''))) AS v) __safe_numeric), 0)))::text END
     ))
     FROM mobile_routes t
     WHERE NOT (a.settled ? t.mobile_route_id) AND NOT (NULLIF(t.parent_route,'') IS NULL) AND (NULLIF(t.parent_route,'') IS NULL OR a.settled ? t.parent_route)
@@ -901,25 +901,25 @@ SELECT
   calc_mobile_routes_name(t.mobile_route_id) AS name,                           -- Order 1. Display alias (calculated). Order 1.
   t.path,                                                                       -- Route path; :param segments mark detail routes.
   t.title,                                                                      -- Screen title shown in the app bar.
-  t.tab,                                                                        -- FK to MobileNavTabs — the tab that owns this route.
-  t.parent_route,                                                               -- FK to MobileRoutes — the route the back button returns to; null for tab roots.
-  t.screen,                                                                     -- Soft reference to an AppScreens.ScreenId in the legacy-runner rulebook (rulebook-examples/legacy-runner). Kept raw: the portal screens belong to a different project. Null until a mobile screen exists.
+  t.tab,                                                                        -- FK to MobileNavTabs — the navigation group that owns this route.
+  t.parent_route,                                                               -- FK to MobileRoutes — the breadcrumb parent; null for a group's root and for sibling lists.
+  t.screen,                                                                     -- React component implementing this route, as pages/<File>.jsx:<Export> under app/src/; blank until built.
   t.route_kind,                                                                 -- dashboard | list | detail | action | settings.
   t.sort_order,                                                                 -- Order within the tab.
   t.reads_entities,                                                             -- Comma list of tables the route reads (through vw_ views).
   t.description,                                                                -- What the route shows.
   calc_mobile_routes_child_routes(t.mobile_route_id) AS child_routes,           -- Reverse relationship: routes whose back button returns here.
-  (SELECT settled #>> ARRAY[t.mobile_route_id::text, 'depth'] FROM settled)::integer AS depth,-- Order 1. Number of / separators in Path.
+  (SELECT settled #>> ARRAY[t.mobile_route_id::text, 'depth'] FROM settled)::integer AS depth,-- Order 1. Number of path segments; the root path / is depth 0.
   calc_mobile_routes_is_detail(t.mobile_route_id) AS is_detail,                 -- Order 1. Route carries a :param (detail route).
-  calc_mobile_routes_has_screen(t.mobile_route_id) AS has_screen,               -- Order 1. Route reuses an existing portal screen.
-  calc_mobile_routes_unbuilt_flag(t.mobile_route_id) AS unbuilt_flag,           -- Order 1. 1 when no screen exists yet — rollup carrier for the build backlog.
+  calc_mobile_routes_has_screen(t.mobile_route_id) AS has_screen,               -- Order 1. Route is implemented by a React component.
+  calc_mobile_routes_unbuilt_flag(t.mobile_route_id) AS unbuilt_flag,           -- Order 1. 1 when no component exists yet — rollup carrier for the Phase 3 backlog.
   calc_mobile_routes_child_route_count(t.mobile_route_id) AS child_route_count, -- Order 1. Routes whose back button returns here.
   calc_mobile_routes_tab_label(t.mobile_route_id) AS tab_label,                 -- Order 1. Label of the owning tab.
   calc_mobile_routes_entity_count(t.mobile_route_id) AS entity_count,           -- Order 1. Number of tables the route reads.
   (SELECT settled #>> ARRAY[NULLIF(t.parent_route,''), 'depth'] FROM settled)::integer AS parent_depth,-- Order 2. Depth of the parent route.
   calc_mobile_routes_is_leaf_route(t.mobile_route_id) AS is_leaf_route,         -- Order 2. No route returns to this one.
   calc_mobile_routes_tab_route_count(t.mobile_route_id) AS tab_route_count,     -- Order 2. Routes in the owning tab.
-  calc_mobile_routes_is_depth_consistent(t.mobile_route_id) AS is_depth_consistent,-- Order 3. Path depth is exactly one more than the parent's (tab roots at depth 1-2).
+  calc_mobile_routes_is_depth_consistent(t.mobile_route_id) AS is_depth_consistent,-- Order 3. A route without a parent is at most one segment deep; a child is exactly one segment deeper than its parent.
   calc_mobile_routes_tab_unbuilt_count(t.mobile_route_id) AS tab_unbuilt_count, -- Order 3. Unbuilt routes in the owning tab.
   calc_mobile_routes_share_of_tab(t.mobile_route_id) AS share_of_tab,           -- Order 3. Percent of the tab this route represents.
   calc_mobile_routes_tab_coverage_percent(t.mobile_route_id) AS tab_coverage_percent,-- Order 4. Build coverage of the owning tab.

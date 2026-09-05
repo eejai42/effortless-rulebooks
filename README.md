@@ -1,6 +1,6 @@
 # effortless-rulebooks
 
-**One repo, one shape.** This repository is a catalog of Effortless projects — and it is itself an Effortless project. Every governed project is moving toward the same explicit contract, so the generated rulebook editor, the planned root explorer, and an LLM with the skill suite can work with each project consistently.
+**One repo, one shape.** This repository is a catalog of Effortless projects — and it is itself an Effortless project. Every governed project is moving toward the same explicit contract, so the generated rulebook editor, the root explorer at `http://localhost:42440`, and an LLM with the skill suite can work with each project consistently.
 
 The repo's own rulebook, [effortless-rulebook/effortless-rulebook.json](effortless-rulebook/effortless-rulebook.json), governs the whole thing. It lists every governed project including the root, the canonical project-shape rows, strict filesystem/manifest witnesses, consistency rules and findings, skills, routes, and the delivery programme. Readiness and toy/example classification are derived from those witnesses and must not be inferred in app code.
 
@@ -93,7 +93,7 @@ After `effortless build` at the root, the database `erb_effortless_rulebooks` ho
 
 ## The legacy runner
 
-[rulebook-examples/legacy-runner/](rulebook-examples/legacy-runner/) is the transitional home of the former admin portal (`:7777`), `ssotme-proxy` bus (`:4242`), execution substrates, and conformance harness. It is being retired, not developed as the new platform. The root explorer will replace its discovery and guidance role; any other useful capability must be promoted, separated, replaced, or consciously retired before removal. See the [active plan](PLATFORM-EXPLORER-PLAN.md).
+[rulebook-examples/legacy-runner/](rulebook-examples/legacy-runner/) is the transitional home of the former admin portal (`:7777`), `ssotme-proxy` bus (`:4242`), execution substrates, and conformance harness. It is being retired, not developed as the new platform. The root explorer (`./start.sh` at the repository root) now covers its discovery and guidance role; any other useful capability must be promoted, separated, replaced, or consciously retired before removal. See the [active plan](PLATFORM-EXPLORER-PLAN.md).
 
 ## Skills
 

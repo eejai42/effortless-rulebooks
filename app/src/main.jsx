@@ -1,60 +1,67 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { createBrowserRouter, RouterProvider, Link } from "react-router-dom";
 import "./styles.css";
+import Shell from "./Shell.jsx";
+import { Home, GettingStarted, AboutRulebook } from "./pages/Home.jsx";
+import { Concepts, ConceptDetail, Skills, SkillDetail } from "./pages/Learn.jsx";
+import { Projects, ProjectDetail } from "./pages/Projects.jsx";
+import { Consistency, ProgressPage } from "./pages/Health.jsx";
+import { Tools } from "./pages/Tools.jsx";
 
-const services = [
+// Route paths mirror MobileRoutes.Path in the root rulebook; MobileRoutes.Screen
+// names the component here. Keep the two in step: a route added below without a
+// rulebook row (or vice versa) is a consistency gap, not a convenience.
+const router = createBrowserRouter([
   {
-    name: "Generated rulebook editor",
-    description: "Inspect and edit the governing root rulebook.",
-    href: "http://localhost:42442",
+    path: "/",
+    element: <Shell />,
+    errorElement: <RouteError />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: "getting-started", element: <GettingStarted /> },
+      { path: "about-the-rulebook", element: <AboutRulebook /> },
+      { path: "concepts", element: <Concepts /> },
+      { path: "concepts/:concept", element: <ConceptDetail /> },
+      { path: "skills", element: <Skills /> },
+      { path: "skills/:skill", element: <SkillDetail /> },
+      { path: "projects", element: <Projects mode="all" /> },
+      { path: "toys", element: <Projects mode="toys" /> },
+      { path: "examples", element: <Projects mode="examples" /> },
+      { path: "projects/:slug", element: <ProjectDetail /> },
+      { path: "consistency", element: <Consistency /> },
+      { path: "progress", element: <ProgressPage /> },
+      { path: "tools", element: <Tools /> },
+      { path: "*", element: <NotFound /> },
+    ],
   },
-  {
-    name: "Generated API documentation",
-    description: "Discover the live, view-backed API contract.",
-    href: "http://localhost:42441/api/docs",
-  },
-  {
-    name: "Generated API view health",
-    description: "Confirm that every modeled view is available.",
-    href: "http://localhost:42441/api/view-health",
-  },
-];
+]);
 
-function App() {
+function NotFound() {
   return (
-    <main>
-      <section className="hero">
-        <p className="eyebrow">Effortless Rulebooks</p>
-        <h1>Root explorer launch shell</h1>
-        <p className="summary">
-          The repository entry point is running. This Phase 2 shell starts the
-          generated editor and its view-backed API without depending on the
-          legacy runner.
-        </p>
-      </section>
-
-      <section aria-labelledby="services-heading">
-        <h2 id="services-heading">Root services</h2>
-        <div className="services">
-          {services.map((service) => (
-            <a className="service" href={service.href} key={service.name}>
-              <span>{service.name}</span>
-              <small>{service.description}</small>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <p className="phase-note">
-        Explorer navigation and domain routes are intentionally reserved for
-        Phase 3.
+    <section className="hero compact">
+      <p className="eyebrow">Not found</p>
+      <h1>No route here</h1>
+      <p className="summary">
+        This path is not one of the routes modeled in the root rulebook. <Link to="/">Back to the overview.</Link>
       </p>
+    </section>
+  );
+}
+
+function RouteError() {
+  return (
+    <main className="content">
+      <div className="panel error" role="alert">
+        <h3>The explorer hit an error rendering this route</h3>
+        <p>Check the browser console for the stack trace. <a href="/">Reload the overview.</a></p>
+      </div>
     </main>
   );
 }
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </StrictMode>,
 );

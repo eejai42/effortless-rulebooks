@@ -101,12 +101,11 @@ boot page at any time, in any tab, not just during the first boot.
 
 ## Upgrading an EXISTING project to a newer version of this tool
 
-`container-entrypoint.sh` and `edit-rulebook.sh` are emitted **overwrite=Never**
-on purpose — they are local, hand-editable scripts (ports, pg_hba tweaks,
-debugging additions) and a rebuild must not silently clobber your edits. The
-consequence is that **`effortless build` alone will NOT bring you a new boot
-sequence.** A brand-new project gets it; an existing one keeps the script it
-already has, indefinitely, and the new behavior silently never arrives.
+`container-entrypoint.sh` and `edit-rulebook.sh` are generated runtime files and
+use **overwrite=Always**. That is deliberate: proxy, lifecycle, isolation, and
+port fixes must reach existing projects rather than leaving them on whichever
+script version they first installed. Put stable ports and a custom container
+name in `ports.env`; never hand-edit generated runtime scripts.
 
 To actually pick up a new version of this tool in a project that already has it:
 
@@ -114,16 +113,10 @@ To actually pick up a new version of this tool in a project that already has it:
 effortless -refreshTools                   # SEE BELOW — do not skip this
 effortless -upgradeAll                     # re-pin to the published head version
 
-# Delete the Never-overwrite script so the build can regenerate it.
-# Diff it first if you have local edits worth keeping.
-rm <dockerfileDir>/container-entrypoint.sh
-
 effortless build                           # regenerates Dockerfile, entrypoint,
-                                           # boot-server.js, README, pipeline config
+                                           # launcher, boot server, README, pipeline config
 
-chmod +x <rulebookDir>/edit-rulebook.sh    # the build drops its execute bit
-
-./<rulebookDir>/edit-rulebook.sh --rebuild # REBUILD THE IMAGE, not just the container
+bash <rulebookDir>/edit-rulebook.sh --rebuild
 ```
 
 **`-refreshTools` first, always.** The CLI caches the published tools index. A
@@ -176,8 +169,8 @@ What it changes:
   failed-step summary, and the Rebuild button -- instead of a 502 body that the
   browser renders as a white screen.
 
-Diagnostics endpoints, always available on the UI port (42442), whether or not
-the app itself is up:
+Diagnostics endpoints are always available on the resolved UI port printed by
+`edit-rulebook.sh`, whether or not the app itself is up:
 
 | Endpoint | What it gives you |
 |---|---|
@@ -197,8 +190,8 @@ keep in sync:
 
 | `rulebooktorulespeaken` (English) | `rulebooktorulespeak` (all 10) | Portal language picker |
 |---|---|---|
-| enabled | disabled | English only (the default) |
-| disabled | enabled | all 10, with the picker |
+| enabled | disabled | English only |
+| disabled | enabled | all 10, with the picker (the default) |
 | enabled | enabled | all 10 (both write `/rulespeak`; the 10-language step is ordered last, so it wins) |
 | disabled | disabled | no picker -- the RuleSpeak® tab is shown disabled, explaining that the docs steps are off |
 
@@ -210,9 +203,9 @@ any combination the button does not cover.
 
 ## Watching it boot
 
-Open the UI port (42442) at any point -- including the instant you start the
-container, before anything has been built -- and you get a progress dashboard
-rather than a connection error or a wall of scrolling text:
+Open the UI URL printed by `edit-rulebook.sh` at any point -- including the
+instant you start the container, before anything has been built -- and you get
+a progress dashboard rather than a connection error or a wall of scrolling text:
 
 - **What is running right now.** One tile per component (database, API, admin
   portal, this page), each up or down, polled continuously. This is the answer to
@@ -323,31 +316,34 @@ displayed language too.
 
 ## Host ports
 
-`edit-rulebook.sh` always uses the same three hardcoded host ports: 42441
-(API), 42442 (UI), 5442 (Postgres). They are not environment variables and
-are not auto-detected -- the same URLs work every time, on every machine.
+Host ports are unpinned by default: Docker assigns three currently free ports,
+and `edit-rulebook.sh` prints the resolved API, UI, and Postgres URLs. The
+container name is derived from the launcher's absolute installation path, so
+two projects can run side by side even when both launchers live in a folder
+named `effortless-rulebook`.
 
-If you're running multiple rulebooks/projects side by side, edit the three
-port numbers directly in your project's own copy of `edit-rulebook.sh` (this
-file is marked overwrite=Never, so a hand-edit here survives `effortless
-build`/reinstall of this tool, though `effortless clean` still removes it
-along with everything else this tool generated). Pick a different, unused
-set of ports once per project and leave it -- don't reintroduce
-auto-detection or environment-variable overrides.
+For stable project-specific URLs, create `ports.env` beside the launcher:
 
-On every run, `edit-rulebook.sh` force-stops whatever container is currently
-publishing on 42441/42442/5442 (not just its own previous container) before
-starting the new one. This is intentional: these ports are only ever used by
-short-lived, disposable rulebook-editor instances, so taking one over is
-always safe. The alternative -- silently falling back to a different port --
-is far more dangerous: you'd end up editing a rulebook against yesterday's
-stale build without realizing the fresh container never actually took over.
+```
+export RULEBOOK_EDITOR_API_PORT=47311
+export RULEBOOK_EDITOR_UI_PORT=47312
+export RULEBOOK_EDITOR_PG_PORT=47313
+export RULEBOOK_EDITOR_CONTAINER_NAME=effortless-rulebook-editor-my-project
+```
+
+The same variables may be passed in the invoking environment; explicit caller
+values win over `ports.env`. `RULEBOOK_EDITOR_PORTS_ENV_FILE` may point at a
+different file.
+
+A pinned-port collision is a hard error naming the container that owns the
+port. The launcher never stops another project to steal its port and never
+silently picks a different port than the one requested. Only this install's
+own path-derived (or explicitly pinned) container name is replaced.
 
 ## Connecting to Postgres directly
 
 Postgres (container-internal 5432, user/pass `postgres`/`postgres`, db
-`effortless-rulebook`) is published to the host on port 5442 -- there is no
-other supported way to reach it. Connect with
-`postgresql://postgres:postgres@localhost:5442/effortless-rulebook`. The DB
-is reseeded from the mounted rulebook on every rebuild, so treat it as
-disposable/read-only for inspection, not a place to persist manual changes.
+`effortless-rulebook`) is published to the resolved host port printed by the
+launcher. The DB is reseeded from the mounted rulebook on every rebuild, so
+treat it as disposable/read-only for inspection, not a place to persist manual
+changes.
