@@ -1,0 +1,253 @@
+Updating effortless-rulebook-editor to the published head...
+[cli] Refreshing remote tools index...
+[cli] Initializing CLI tool URL index...
+================================================================================
+  CLOUD-BRIDGE CALL TRIGGERED: RefreshRemoteTools: explicit -refreshTools invocation
+================================================================================
+  WHY:        User invoked -refreshTools; deleted effortless-tools.json, cli_version, and bridge_version_index to force a full re-fetch. cached CLI version was '2026.609.613', current is '2026.609.613'.
+  CALLED BY:  RemoteToolsIndex.Refresh
+  CLI VER:    current=2026.609.613, cached=(none)
+  CWD:        /Users/eejai42/development/effortless-rulebooks/toy-rulebooks/acme-llc/effortless-rulebook
+  TIME:       2026-09-05T22:41:07.3208590+00:00
+  COMMAND:    /Users/eejai42/development/effortless-cli/src/Effortless.Cli/bin/Release/net8.0/Effortless.Cli.dll effortless-rulebook-editor -upgrade
+================================================================================
+[cli-cloud-bridge] CLI update available! Current version: 2026.609.613; latest version: v2026-06-09.06.13
+[cli] Remote tools index refreshed.
+Upgraded effortless-rulebook-editor: v2026.09.02.0241 → HEAD (v2026.09.02.0241, unpinned — will track latest)
+Editor runtime is current (2026.9.2.241).
+Starting effortless-rulebook-editor-acme-llc-effortless-rulebook-432583908 container...
+884871a92a21ac7edf1b89e8a77e3789029b2bfa1d26daa6ab893bfbccd471ca
+
+effortless-rulebook-editor is starting up.
+  CONTAINER: effortless-rulebook-editor-acme-llc-effortless-rulebook-432583908
+  API:  http://localhost:43211/api/state
+  DOCS: http://localhost:43211/api/docs
+                            (START HERE to build an app against this API: every
+                            route, the read-snake_case/write-PascalCase rule, and
+                            pointers to /api/rulespeak + /api/source. Derived from
+                            the live route table, so it cannot go stale.)
+  UI:   http://localhost:43212   (shows a live boot/progress page immediately --
+                            no need to wait before opening it; it hands off
+                            to the real app automatically once ready, and has
+                            its own Rebuild button + log view at any time)
+  PG:   postgresql://postgres:postgres@localhost:43213/effortless-rulebook
+                            (for a host psql client / GUI tool -- this is the
+                            ONLY supported way to inspect data directly; the
+                            DB is reseeded from the rulebook on every rebuild)
+
+Edit effortless-rulebook.json to trigger a rebuild -- the container watches
+the file (and the UI's Rebuild button) and rebuilds automatically.
+
+Following container logs now (Ctrl-C stops watching logs -- the container keeps running;
+re-run this script, or 'docker logs -f effortless-rulebook-editor-acme-llc-effortless-rulebook-432583908', to watch again)...
+
+[entrypoint] starting boot-server.js on :5174 (immediate progress page + log stream + rebuild button)...
+[entrypoint] copying read-only ~/.ssotme mount into a writable working copy...
+[entrypoint] seeding /app/effortless-root-internal/effortless.json (first boot, or a reset) from the tool's default pipeline config...
+[entrypoint] starting local Postgres cluster...
+waiting for server to start.... done
+server started
+[entrypoint] waiting for Postgres to accept connections...
+[cli] Refreshing remote tools index...
+[cli] Initializing CLI tool URL index...
+================================================================================
+  CLOUD-BRIDGE CALL TRIGGERED: RefreshRemoteTools: explicit -refreshTools invocation
+================================================================================
+  WHY:        User invoked -refreshTools; deleted ssotme-tools.json, cli_version, and bridge_version_index to force a full re-fetch. cached CLI version was '2026.609.613', current is '2026-06-09.06.13'.
+  CALLED BY:  SSoTmeCLIHandler.RefreshRemoteTools (SSoTmeCLIHandler.cs:3016)
+  CLI VER:    current=2026-06-09.06.13, cached=2026.609.613
+  CWD:        /app/effortless-root-internal
+  TIME:       2026-09-05T22:41:14.5675959Z
+  COMMAND:    
+================================================================================
+[cli] Remote tools index refreshed.
+  UP   rulebook-to-postgres: (unpinned) → HEAD (v2026.08.09.0157, unpinned)
+  UP   rulebook-to-node-postgres-api: (unpinned) → HEAD (v2026.09.05.0306, unpinned)
+  UP   rulebook-to-vite-admin-portal: (unpinned) → HEAD (v2026.08.31.1237, unpinned)
+  UP   rulebook-to-explainer-dag: (unpinned) → HEAD (v2026.08.31.0049, unpinned)
+  UP   rulebook-to-rulespeak: (unpinned) → HEAD (v2026.08.30.1537, unpinned)
+  UP   rulebook-to-rulespeak: (unpinned) → HEAD (v2026.08.30.1537, unpinned)
+  UP   rulebook-to-xlsx: (unpinned) → HEAD (v2026.09.02.1122, unpinned)
+
+Upgraded 7 tool(s).
+
+
+ **** /postgres: rulebooktopostgres ****
+CommandLine:> effortless rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json
+cli:> effortless/effortless/rulebook-to-postgres v2026.08.09.0157 [latest]
+[cli] Transpiler processing asynchronously, polling for result...
+[rulebook-to-postgres v2026.08.09.0157] =================================
+[rulebook-to-postgres v2026.08.09.0157]  Starting RunAsync
+[rulebook-to-postgres v2026.08.09.0157]  Generating scripts (schema=public, dropAll=False, snakeCase=True, mode=check-add, stage=dev, emitErbInternals=False, pkType=string, memoizeRepeatedCalls=True, materializeCalculatedFields=False)
+[rulebook-to-postgres v2026.08.09.0157]  Scripts generated successfully.
+[rulebook-to-postgres v2026.08.09.0157] Generated 2 calculation/lookup functions.
+[rulebook-to-postgres v2026.08.09.0157]  Completed successfully.
+[cli] Creating /app/effortless-root-internal/postgres/00-bootstrap.sql
+[cli] Creating /app/effortless-root-internal/postgres/01-drop-and-create-tables.sql
+[cli] Creating /app/effortless-root-internal/postgres/02-create-functions.sql
+[cli] Creating /app/effortless-root-internal/postgres/03-create-views.sql
+[cli] Creating /app/effortless-root-internal/postgres/04-create-policies.sql
+[cli] Creating /app/effortless-root-internal/postgres/05-insert-data.sql
+[cli] Creating /app/effortless-root-internal/postgres/99-fk-constraints.sql
+[cli] Creating /app/effortless-root-internal/postgres/init-db.sh
+[cli] Creating /app/effortless-root-internal/postgres/.build-manifest.json
+[cli] Creating /app/effortless-root-internal/postgres/README.md
+[cli] Creating /app/effortless-root-internal/postgres/quota-report.json
+
+
+ **** /postgres: chmodinitdb ****
+CommandLine:> effortless -exec ./chmod-initdb.sh
+
+
+ **** /postgres: initdb ****
+CommandLine:> effortless -exec ./init-db.sh
+[init-db] target: postgresql://postgres:postgres@localhost:5432/effortless-rulebook
+[init-db] note: install-magic-links.sql not present — skipping auth install
+[init-db]       fetch from https://magiclink.effortlessapi.com/install-magic-links/v1.sql
+[init-db] [RUN]  00-bootstrap.sql
+[init-db] [RUN]  01-drop-and-create-tables.sql
+SET
+CREATE TABLE
+ALTER TABLE
+ALTER TABLE
+ALTER TABLE
+COMMENT
+COMMENT
+COMMENT
+COMMENT
+[init-db] [RUN]  02-create-functions.sql
+SET
+CREATE FUNCTION
+CREATE FUNCTION
+[init-db] [RUN]  03-create-views.sql
+psql:/app/effortless-root-internal/postgres/03-create-views.sql:13: NOTICE:  view "vw_customers" does not exist, skipping
+DROP VIEW
+psql:/app/effortless-root-internal/postgres/03-create-views.sql:19: NOTICE:  view "vw_customers" does not exist, skipping
+DROP VIEW
+CREATE VIEW
+[init-db] [RUN]  04-create-policies.sql
+ALTER TABLE
+[init-db] [RUN]  05-insert-data.sql
+INSERT 0 1
+INSERT 0 1
+INSERT 0 1
+[init-db] [SKIP] 99-fk-constraints.sql (set EFFORTLESS_ENFORCE_FKS=true to apply FK constraints)
+[init-db] complete (manifest: .applied-manifest.json)
+
+
+ **** /api: rulebooktonodepostgresapi ****
+CommandLine:> effortless rulebook-to-node-postgres-api -i ../effortless-rulebook/effortless-rulebook.json
+cli:> effortless/effortless/rulebook-to-node-postgres-api v2026.09.05.0306 [latest]
+[cli] Creating /app/effortless-root-internal/api/package.json
+[cli] Creating /app/effortless-root-internal/api/db.js
+[cli] Creating /app/effortless-root-internal/api/uncommitted.js
+[cli] Creating /app/effortless-root-internal/api/chatbot.js
+[cli] Creating /app/effortless-root-internal/api/index.js
+[cli] Creating /app/effortless-root-internal/api/custom.js
+
+
+ **** /admin-portal: rulebooktoviteadminportal ****
+CommandLine:> effortless rulebook-to-vite-admin-portal -i ../effortless-rulebook/effortless-rulebook.json
+cli:> effortless/effortless/rulebook-to-vite-admin-portal v2026.08.31.1237 [latest]
+[cli] Creating /app/effortless-root-internal/admin-portal/package.json
+[cli] Creating /app/effortless-root-internal/admin-portal/index.html
+[cli] Creating /app/effortless-root-internal/admin-portal/vite.config.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/styles.css
+[cli] Creating /app/effortless-root-internal/admin-portal/src/main.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/App.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/router.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/api/client.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/hooks/useFetch.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/hooks/useUncommitted.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/hooks/useRulespeakLangs.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/explainer/bridge.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/i18n/strings.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/i18n/index.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/LanguageGate.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/TopBar.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/SaveBar.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/Sidebar.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/ActivityDrawer.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/RebuildPrompt.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/BuildMonitor.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/ViewErrorPanel.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/ChatWidget.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/components/Markdown.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/HomeView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/RowDetailView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/DagView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/RulespeakView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/ExportView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/AdminView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/roles/schema.js
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/RolesView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/NewTableView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/TableView.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/DataGrid.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/EditableCell.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/FkPickerPopover.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/TableToolbar.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/FilterBar.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/BulkBar.jsx
+[cli] Creating /app/effortless-root-internal/admin-portal/src/views/TableView/useTableViewPrefs.js
+
+
+ **** /admin-portal/public: rulebooktoexplainerdag ****
+CommandLine:> effortless rulebook-to-explainer-dag -i ../../effortless-rulebook/effortless-rulebook.json
+cli:> effortless/effortless/rulebook-to-explainer-dag v2026.08.31.0049 [latest]
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/dag.css
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/dag-resolver.js
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/routing.js
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/explainer-dag.js
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/pages/index.html
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/pages/table.html
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/pages/field.html
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/integrate/README.md
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/integrate/snippet.html
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/graph.json
+[cli] Creating /app/effortless-root-internal/admin-portal/public/rulebook-explainer-dag/embedded-graph.js
+
+
+ - SKIPPING DISABLED TRANSPILER: rulebooktorulespeaken
+ - /rulespeak
+ - rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json -p languages=en
+
+
+
+
+ **** /rulespeak: rulebooktorulespeak ****
+CommandLine:> effortless rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebook.json -p languages=all
+cli:> effortless/effortless/rulebook-to-rulespeak v2026.08.30.1537 [latest]
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.html
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.de.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.es.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.fr.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.it.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.ja.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.nl.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.pt.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.ru.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak.zh.md
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak-identifiers.json
+[cli] Creating /app/effortless-root-internal/rulespeak/rulespeak-vocabulary.json
+
+
+ **** /xlsx: rulebooktoxlsx ****
+CommandLine:> effortless rulebook-to-xlsx -i ../effortless-rulebook/effortless-rulebook.json
+cli:> effortless/effortless/rulebook-to-xlsx v2026.09.02.1122 [latest]
+[cli] Creating /app/effortless-root-internal/xlsx/acme-llc.xlsx
+[entrypoint] READY STATE: ready
+[entrypoint]   postgres: up
+[entrypoint]   api:      launched (internal :5177; see launcher output for host port)
+[entrypoint]   portal:   launched (internal :5175, proxied through the published UI port)
+[entrypoint]   bootpage: up (published UI port; /__boot/log, /__boot/status, /__boot/errors)
+[entrypoint]   (npm install still running in the background may delay a first response by 10-30s.)
+[entrypoint] watching /app/effortless-rulebook/effortless-rulebook.json and /tmp/rebuild-trigger for changes (Ctrl-C / docker stop to exit)...
+cli:> effortless/effortless/rulebook-to-node-postgres-api v2026.08.30.1722
+[cli] Creating /app/effortless-root-internal/api/db.js
+COMMAND LINE: rulebook-to-node-postgres-api/v2026.08.30.1722 -i ../effortless-rulebook/acme-llc-rulebook.json
+[cli] Installed Transpiler
+      CommandLine: rulebook-to-node-postgres-api/v2026.08.30.1722 -i ../effortless-rulebook/acme-llc-rulebook.json
+      TranspilerGroup: (none)
+      RelativePath: /api

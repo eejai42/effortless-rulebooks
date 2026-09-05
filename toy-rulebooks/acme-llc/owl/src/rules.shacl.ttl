@@ -42,6 +42,5 @@ effortless-ntwf:CustomersShape a sh:NodeShape ;
             }
         """ ;
     ] .
-# Rule for Initials - parse error: Unknown function: LEFT
 
 # Generated 2 SHACL rules

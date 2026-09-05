@@ -1,16 +1,5 @@
 # ACME, LLC — Effortless Project
 
-## The stale narrative is INTENTIONAL — do not "fix" it
-
-This demo deliberately illustrates the asymmetry between **computed code** and **hand-written prose**. When `FullName` flips from `LastName & ", " & FirstName` (legal-style) to `FirstName & " " & LastName` (western order), every *executable* artifact re-derives itself from the single formula and stays correct (Postgres view, Python, Go, Excel/CSV, OWL, the rendered RuleSpeak DRs + section-4 expression). But every *hand-authored* narrative goes stale from one moment to the next.
-
-The following are **known-stale on purpose** — they are the live exhibit of the lesson, not bugs:
-
-- `description_rich`, `explanation_rich`, `journal_seed`, `summary` in the rulebook's `__meta__` / field metadata (still say "Smith, Bobby / courtroom-style")
-- the hand-typed seed `FullName` values in the `Customers` rows (the view computes the real value regardless — "the view IS the contract")
-
-Do **not** edit these to agree with the current formula. Doing so erases the demonstration. The canonical statement of this lesson lives in the `narrative_drift_lesson` row of the `__meta__` table (the SSoT). The only narrative allowed to track the formula is one that is itself *regenerated* from the rulebook — never hand-maintained.
-
 <!-- rulebook-authoritative-banner -->
 ## Authoritative Source: `effortless-rulebook/acme-llc-rulebook.json` is HEAD
 
@@ -43,30 +32,21 @@ There is no upstream to "restore from." The JSON is the upstream.
 
 <!-- /rulebook-authoritative-banner -->
 
-**A lean variant of ACME Corporation—demonstrating essential business rules in a simplified schema.**
+**A one-table customer example for tracing calculated fields across generated surfaces.**
 
-This folder is a **self-contained Effortless Rulebook (ERB) project**. It's a minimal version of ACME Corporation, useful for learning or for domains with simpler workflows.
+This folder is a **self-contained Effortless Rulebook (ERB) project** built around one `Customers` table.
 
 ## What This Demonstrates
 
-- **Simplified order-to-fulfillment**: Core workflow without full inventory system
-- **Calculated statuses**: Minimal set of business rules
-- **Essential aggregations**: Order totals from line items
-- **Lean data model**: Proves ERB patterns work at any schema complexity
+- **Raw customer facts**: Email address, first name, and last name
+- **Calculated identifiers**: `Name` and `FullName`
+- **Generated explanations**: RuleSpeak follows the same formulas
+- **Multiple projections**: The editor, Postgres, application, and Excel agree
 
 ## Quick Start
 
-### Pull from Airtable
-
 ```bash
-effortless airtabletorulebook
-effortless build
-```
-
-### Or edit directly
-
-```bash
-effortless build
+./start.sh
 ```
 
 ## Key Files

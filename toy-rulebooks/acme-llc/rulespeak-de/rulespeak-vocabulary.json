@@ -1,0 +1,5 @@
+{
+  "_comment": "Per-language vocabulary map for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build. Hand-edits win and stick — correct a term (or its gender) once and every future build uses it. Missing entries fall back to the English identifier. 'gender' (m/f/n) drives correct articles in gendered languages.",
+  "terms": {
+  }
+}

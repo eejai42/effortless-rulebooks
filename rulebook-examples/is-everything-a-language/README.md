@@ -4,6 +4,14 @@
 
 This base demonstrates how the ERB platform can model abstract philosophical questions - not just business domains. It classifies 33 "language candidates" (from English to coffee mugs) using a formal predicate system that produces a yes/no answer.
 
+## Watch the repository tour
+
+[![Not Everything Is a Language — watch the Is Everything a Language tour](assets/is-everything-a-language-repository-tour-player.png)](https://www.youtube.com/watch?v=SVofTPc8lkU)
+
+▶ [**Play: Is Everything a Language? Eight Clauses, 33 Candidates, One Answer**](https://www.youtube.com/watch?v=SVofTPc8lkU)
+
+The video walks this project one predicate at a time. It starts from the semiotic claim that everything is a language, writes that claim down as the eight clauses this base joins with `AND`, and then puts a coffee mug, the Mona Lisa, a thunderstorm, a game of Fortnite and a honeybee waggle dance through the same gate as English and Python. The honeybee row is pulled from the ragged list and argued concretely: angle carries direction, duration carries distance, another bee decodes the ordered movement, and five disputed premises change. The gate then recomputes from three clauses holding to all eight, so the original band of ten matching language rows becomes eleven.
+
 ---
 
 ## What This Base Explores

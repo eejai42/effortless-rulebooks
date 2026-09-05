@@ -20,14 +20,11 @@ every customer carries two derived identifiers at once.
 
 - **Customers** — the client ledger. Raw fields: `EmailAddress`, `FirstName`, `LastName`.
 
-(`ERBVersion` and `ERBCustomization` are framework bookkeeping tables, not business data.)
-
 ### The two calculated fields
 
 | Field | Kind | Formula | What it does |
 |-------|------|---------|--------------|
 | `Name` | formula | `SUBSTITUTE(EmailAddress, "@", "-")` | Slugifies the email into a stable handle |
-| `Initials` | formula | `Left(FirstName, 1) & Left(LastName, 1)` | First initial + last initial |
 | `FullName` | formula | `FirstName & " " & LastName` | The customer's full name |
 
 Edit any raw field and every derived label rewrites itself in every substrate — Postgres
@@ -35,40 +32,22 @@ view, Python class, Go SDK, Excel cell, OWL ontology, CSV — with **zero applic
 
 ---
 
-## The actual point of this demo: code follows, narrative goes stale
+## Watch the walkthrough
 
-The headline isn't the formulas — it's the **asymmetry** between what's computed and what's
-hand-written.
+[![One Rulebook, Four Surfaces — watch the ACME LLC walkthrough](../assets/acme-llc-walkthrough-player.png)](https://www.youtube.com/watch?v=gggujL-g-G4)
 
-Flip `FullName` from `LastName & ", " & FirstName` (legal-style, surname-first) to
-`FirstName & " " & LastName` (western order) and re-run `effortless build`:
+▶ [**Play: One Rulebook, Four Surfaces | ACME LLC Walkthrough**](https://www.youtube.com/watch?v=gggujL-g-G4)
 
-- ✅ **Every executable artifact follows along, instantly and for free.** The Postgres view,
-  the Python class, the Go SDK, Excel/CSV, the OWL ontology, and the rendered RuleSpeak
-  (`rulespeak/rulespeak.md` — its declarative rules *and* its traceability expressions) all
-  re-derive from the single formula and stay correct. Nobody touches them.
-- ⚠️ **Every hand-written sentence about the rule goes stale from one moment to the next.**
-  The narrative metadata in the rulebook (`description_rich`, `explanation_rich`,
-  `journal_seed`), the seed `FullName` values baked into the rows, and any prose written by a
-  human still describe the *old* formula the instant you hit save.
-
-That stale narrative is left in place **on purpose** — it is the live exhibit. Computed code
-tracks the single source of truth; comments and narrative cannot. The only kind of narrative
-that can keep up is one that is itself *regenerated* from the rulebook (e.g. an LLM-generated
-README), never hand-maintained.
-
-> The canonical statement of this lesson lives as data in the rulebook itself — the
-> `narrative_drift_lesson` row of the `__meta__` table. This README is the human reading of
-> it. (See also `CLAUDE.md` — agents are instructed **not** to "fix" the intentionally-stale
-> narrative.)
+The walkthrough starts this project, follows `Customers.FullName` through the editor,
+Postgres, a custom customer app, RuleSpeak, and Excel, then changes the source once and
+rebuilds every generated projection.
 
 ---
 
 ## Quick Start
 
 ```bash
-# The rulebook JSON is HEAD. Edit it directly, then:
-effortless build
+./start.sh
 ```
 
 `effortless build` is scoped to the folder it runs from:
@@ -91,8 +70,8 @@ first if it isn't running (`./start.sh` handles this for you).
 
 ---
 
-**The rulebook is the specification. Everything else is derived — including, eventually, the
-narrative that describes it.**
+**The rulebook is the specification. The editor, database view, application explanation,
+RuleSpeak document, and workbook are derived from it.**
 
 ---
 

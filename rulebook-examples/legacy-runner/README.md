@@ -162,7 +162,7 @@ The skills pre-encode all of that. Load a skill and the LLM already knows the co
 
 Skills are also what makes the LLM-as-transpiler idea concrete: the rulebook defines the *what* (entities, fields, formulas, relationships), and the skills define the *how* (what to generate, in what order, with what conventions). A developer describing a new feature in plain English is enough — the LLM already has both the structure and the instructions.
 
-The skills in this repo are mirrored from [effortless-claude](https://github.com/effortlessapi/effortless-claude). To pull fresh copies:
+The skills in this repo are mirrored from [effortless-skills](https://github.com/EffortlessAPI/effortless-skills) (repo renamed from effortless-claude). To pull fresh copies:
 
 ```bash
 ./docs/skills/clone-skills.sh

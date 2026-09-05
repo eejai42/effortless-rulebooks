@@ -50,14 +50,6 @@ def calc_customers_name(email_address):
     """
     return ((email_address or "").replace('@', '-'))
 
-
-def calc_customers_initials():
-    """ERROR: Could not parse formula: =LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)
-    Error: Unknown function: LEFT
-    """
-    raise NotImplementedError("Formula parsing failed")
-
-
 def calc_customers_full_name(first_name, last_name):
     """
     Full name is computed from the first and last name of the customer
@@ -77,45 +69,10 @@ def compute_customers_fields(record: dict) -> dict:
 
     # Level 1 calculations
     result['name'] = calc_customers_name(result.get('email_address'))
-    result['initials'] = calc_customers_initials(result.get('first_name'), result.get('last_name'))
     result['full_name'] = calc_customers_full_name(result.get('first_name'), result.get('last_name'))
 
     # Convert empty strings to None for string fields
-    for key in ['name', 'initials', 'full_name']:
-        if result.get(key) == '':
-            result[key] = None
-
-    return result
-
-# =============================================================================
-# __META__ CALCULATIONS
-# Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.
-# =============================================================================
-
-# Level 1
-
-def calc___meta___name(meta_key):
-    """
-    Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table.
-    
-    Formula: ={{MetaKey}}
-    """
-    return meta_key
-
-
-def compute___meta___fields(record: dict) -> dict:
-    """
-    Compute all calculated fields for __meta__.
-    
-    Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.
-    """
-    result = dict(record)
-
-    # Level 1 calculations
-    result['name'] = calc___meta___name(result.get('meta_key'))
-
-    # Convert empty strings to None for string fields
-    for key in ['name']:
+    for key in ['name', 'full_name']:
         if result.get(key) == '':
             result[key] = None
 
@@ -149,10 +106,8 @@ def compute_all_calculated_fields(record: dict, entity_name: str = None) -> dict
 
     if entity_lower == 'customers':
         return compute_customers_fields(record)
-    elif entity_lower == '__meta__':
-        return compute___meta___fields(record)
     else:
-        raise KeyError(f"compute_all_calculated_fields called with unknown entity {entity_name!r}. "f"Known entities in this generated erb_calc.py: ['customers', '__meta__']. "f"Check that the rulebook used to generate this file matches the data being computed.")
+        raise KeyError(f"compute_all_calculated_fields called with unknown entity {entity_name!r}. "f"Known entities in this generated erb_calc.py: ['customers']. "f"Check that the rulebook used to generate this file matches the data being computed.")
 
 # =============================================================================
 # INDEX/MATCH LOOKUP INTERPRETER (PYTHON SIMULATOR — DO NOT CALL FROM OTHER SUBSTRATES)

@@ -16,6 +16,16 @@ If you want the substrate breadth demos — one tiny domain run through 17 runti
 
 A grand-challenge prompt — infer the complete causal architecture of a heterogeneous autoimmune disease from a million-person multi-omic cohort — reduced to a single calculated-field DAG. The verdict (`IsActionable`) is computed from raw observations alone; nothing is hand-entered.
 
+#### Watch the repository tour
+
+[![The AI Didn't Make the Decision — watch the Causal Autoimmunity architecture tour](assets/causal-autoimmune-architecture-repository-tour-player.png)](https://www.youtube.com/watch?v=dNoe_yQuWSg)
+
+▶ [**Play: The AI Didn't Make the Decision. The Rulebook Did. | Causal Autoimmunity**](https://www.youtube.com/watch?v=dNoe_yQuWSg)
+
+The revised walkthrough separates model-extracted facts from rulebook-derived conclusions, explains
+the four medical evidence gates in plain English, and follows failures, recomputation, provenance,
+negative controls, and an emergent patient cluster back to their source facts.
+
 What this demonstrates:
 - **Transparency as architecture.** Every Z-statistic, every gate, and the keystone verdict are inspectable formulas — the judgment that would otherwise hide inside a model is externalized into editable cells.
 - **The trust boundary is a line in the graph.** Everything above the raw leaves is a pure formula; everything below is a raw observation.
@@ -116,6 +126,14 @@ A minimal domain: four agents classified by aggregating per-capability scores th
 A philosophical meta-ontology exploring what qualifies as a "language" through 8-predicate AND logic and formal argument modeling. The argument is expressible as inspectable structure.
 
 → [is-everything-a-language/README.md](is-everything-a-language/README.md)
+
+#### Watch the repository tour
+
+[![Not Everything Is a Language — watch the Is Everything a Language tour](assets/is-everything-a-language-repository-tour-player.png)](https://www.youtube.com/watch?v=SVofTPc8lkU)
+
+▶ [**Play: Is Everything a Language? Eight Clauses, 33 Candidates, One Answer**](https://www.youtube.com/watch?v=SVofTPc8lkU)
+
+The revised walkthrough makes the eight-clause gate concrete with English and a coffee mug, separates the syntax-tree and stable-reference tests, then pulls the honeybee waggle dance from the ragged list. Five disputed premises change on screen and the gate recomputes the verdict.
 
 ---
 

@@ -1,4 +1,4 @@
-customer_id,name,email_address,first_name,initials,last_name,full_name
-jane-smith-email-com,jane.smith-email.com,jane.smith@email.com,Bobby,,Smith,Bobby Smith
-john-doe-email-com,john.doe-email.com,john.doe@email.com,Jimmy,,Doe,Jimmy Doe
-emily-jones-email-com,emily.jones-email.com,emily.jones@email.com,Mary,,Jones,Mary Jones
+customer_id,name,email_address,first_name,last_name,full_name
+bob-gmail-com,bob-gmail.com,bob@gmail.com,Bobby,Smith,Bobby Smith
+jimmy-gmail-com,jimmy-gmail.com,jimmy@gmail.com,Jimmy,Doe,Jimmy Doe
+mary-gmail-com,mary-gmail.com,mary@gmail.com,Mary,Jones,Mary Jones

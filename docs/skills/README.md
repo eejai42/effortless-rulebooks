@@ -9,7 +9,7 @@ Before ERB, every developer had to teach their LLM the conventions from scratch:
 
 Skills pre-encode that learning once. Load a skill and the LLM already knows the conventions, the pipeline mechanics, the formula semantics. The rulebook is the subject matter; the skills are the curriculum. Without the rulebook there is nothing for the skills to operate on. Without the skills the LLM has to rediscover the conventions by trial and error.
 
-Each skill file below is a live mirror pulled from the [effortless-claude](https://github.com/effortlessapi/effortless-claude) repo by `clone-skills.sh`. The files in `docs/skills/*/SKILL.md` are **derived** — do not edit them here; edit the source and re-run the clone.
+Each skill file below is a live mirror pulled from the [effortless-skills](https://github.com/EffortlessAPI/effortless-skills) repo (renamed from effortless-claude) by `clone-skills.sh`. The files in `docs/skills/*/SKILL.md` are **derived** — do not edit them here; edit the source and re-run the clone.
 
 ---
 
@@ -39,7 +39,7 @@ These are the skills most directly useful when working with this repo:
 | [/effortless-airtable-omni](effortless-airtable-omni/SKILL.md) | data | customer | Airtable schema changes the API cannot handle — formula, lookup, rollup fields |
 | [/effortless-bases](effortless-bases/SKILL.md) | setup | customer | Spin up a Postgres base |
 | [/effortless-bootstrap](effortless-bootstrap/SKILL.md) | setup | customer | Bootstrap a new effortless project from raw text or requirements |
-| [/effortless-claude-updates](effortless-claude-updates/SKILL.md) | ecosystem | customer | Checking and applying updates to the effortless-claude skill set |
+| [/effortless-skills-updates](effortless-skills-updates/SKILL.md) | ecosystem | customer | Checking and applying updates to the effortless-skills skill set |
 | [/effortless-cli](effortless-cli/SKILL.md) | tooling | customer | Installing, updating, and using the `effortless` CLI binary |
 | [/effortless-cmcc](effortless-cmcc/SKILL.md) | theory | customer | The CMCC conjecture — the theoretical floor under all ERB tooling |
 | [/effortless-conventions](effortless-conventions/SKILL.md) | modeling | customer | ERB naming conventions, DAG structure rules, FK patterns |
@@ -64,4 +64,4 @@ These are the skills most directly useful when working with this repo:
 
 ---
 
-> Individual skill files in `docs/skills/*/SKILL.md` are derived mirrors. Run `./docs/skills/clone-skills.sh` (or `cd effortless-platform && effortless clone-skills`) to pull fresh copies from [effortless-claude](https://github.com/effortlessapi/effortless-claude).
+> Individual skill files in `docs/skills/*/SKILL.md` are derived mirrors. Run `./docs/skills/clone-skills.sh` (or `cd effortless-platform && effortless clone-skills`) to pull fresh copies from [effortless-skills](https://github.com/EffortlessAPI/effortless-skills) (renamed from effortless-claude).

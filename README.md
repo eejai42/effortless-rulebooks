@@ -2,6 +2,14 @@
 
 **One repo, one shape.** This repository is a catalog of Effortless projects — and it is itself an Effortless project. Every governed project is moving toward the same explicit contract, so the generated rulebook editor, the root explorer at `http://localhost:42440`, and an LLM with the skill suite can work with each project consistently.
 
+## Watch the repository tour
+
+[![Show Me One That Works — watch the Effortless Rulebooks repository tour](assets/effortless-rulebooks-repository-tour-player.png)](https://www.youtube.com/watch?v=e_ph8mlg47M)
+
+▶ [**Play: Show Me One That Works. Here Are 40. | Effortless Rulebooks Tour**](https://www.youtube.com/watch?v=e_ph8mlg47M)
+
+An eight-minute tour of everything in this checkout, for someone who has never heard of Effortless. It opens the smallest project, [customer-fullname](toy-rulebooks/customer-fullname/), where three columns are typed and a fourth is a rule, then follows that single line through one build into a Postgres function, a view, and a plain-English sentence. From there it measures the real range: [star-trek](toy-rulebooks/star-trek/) at 11 tables and about a thousand rows, [simpsons-paradox](rulebook-examples/simpsons-paradox/) at 40 tables and 8,764 rows with 411 of its 699 fields calculated rather than typed. It shows that projects register whatever tools they want (two for one, eighteen for another) and closes on the read, run, change, build loop and the one sentence that hands the whole thing to a coding agent.
+
 The repo's own rulebook, [effortless-rulebook/effortless-rulebook.json](effortless-rulebook/effortless-rulebook.json), governs the whole thing. It lists every governed project including the root, the canonical project-shape rows, strict filesystem/manifest witnesses, consistency rules and findings, skills, routes, and the delivery programme. Readiness and toy/example classification are derived from those witnesses and must not be inferred in app code.
 
 The active continuation is [Platform Explorer and Repository Consistency Plan](PLATFORM-EXPLORER-PLAN.md): promote the root rulebook, generated editor, and a new root React explorer; make `./start.sh` universal across the root, toys, and examples; and record the successor of each legacy-runner capability while the runner stays an ordinary example.

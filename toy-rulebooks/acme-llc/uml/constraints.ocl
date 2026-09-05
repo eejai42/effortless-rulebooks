@@ -8,10 +8,6 @@ context Customers
 -- Formula: =SUBSTITUTE({{EmailAddress}}, "@", "-")
 derive Name: self.emailAddress.replace('@', '-')
 
--- Customer initials — the first letter of FirstName followed by the first letter of LastName.
--- Formula for Initials - parse error: Unknown function: LEFT
--- Original: =LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)
-
 -- Full name is computed from the first and last name of the customer
 -- Formula: ={{FirstName}} & " " & {{LastName}}
 derive FullName: self.firstName + ' ' + self.lastName

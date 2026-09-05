@@ -12,6 +12,17 @@
 > `orchestration/`, `execution-substrates/`, `devops/`, `testing/`, `start.sh` are inside this folder;
 > `rulebook-examples/` and `toy-rulebooks/` remain at the repo root (two levels up).
 
+> **Do not run a plain `effortless build` here to refresh `postgres/`.** The committed
+> `postgres/*.sql` are the *overlay*: legacy's own 31 tables **plus** the root rulebook's
+> catalog tables (`claude_skills`, `rulebook_domains`, `consistency_findings`,
+> `user_stories`, `platform_features`, `glossary`, …). `rulebook-to-postgres` reads only
+> `./effortless-rulebook/legacy-runner-rulebook.json`, so a plain build regenerates just
+> legacy's half and **silently deletes the other 29 tables** — `01-drop-and-create-tables.sql`
+> 1250 -> 599 lines, `05-insert-data.sql` 3605 -> 1295, with a green "BUILD SUCCEEDED".
+> Nothing errors; the loss is only visible in the diff. If you must rebuild, diff the table
+> list against HEAD before staging (`grep -oE 'CREATE TABLE IF NOT EXISTS [a-z_]+'`) and
+> restore the overlay, or leave `postgres/` alone.
+
 # Avoid Silent Fallbacks
 
 The defining property of a bad fallback is that it **substitutes a plausible-looking value for a real failure, so the failure stays invisible.** The canonical anti-pattern: the spec says `add(2, 2)` should return `4`, but when the real computation errors out, the code catches the exception and returns a hardcoded `19` (or `0`, or `{}`, or the last value it happened to see) so the caller "always succeeds." The caller never learns anything broke. This is the worst kind of bug — the system stays green while producing nonsense.

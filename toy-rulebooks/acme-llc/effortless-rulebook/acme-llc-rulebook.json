@@ -5,7 +5,7 @@
   "Customers": {
     "Description": "Table: Customers",
     "important": true,
-    "summary_rich": "The **client ledger** of ACME, LLC. Every customer is identified two different ways at the same time — a slugified handle derived from their email (`Name`), and a last-name-first legal-style label (`FullName`). Edit either the email or the name parts and both identifiers re-derive themselves the next time any substrate is read.",
+    "summary_rich": "The **client ledger** of ACME, LLC. Every customer has raw contact facts plus calculated identifiers such as `Name` and `FullName`. Edit the email or name parts and those derived labels re-compute in every generated substrate.",
     "important_fields": [
       "Name",
       "FullName",
@@ -27,7 +27,7 @@
         "Description": "Identifier for the customer.",
         "formula": "=SUBSTITUTE({{EmailAddress}}, \"@\", \"-\")",
         "important": true,
-        "explanation_rich": "**A handle derived from the email, not the name.** `Name = SUBSTITUTE(EmailAddress, \"@\", \"-\")` — a single character swap turns an address into a slug. Worked example: `jane.smith@email.com` becomes `jane.smith-email.com`, which is what shows up as `Name` in every substrate. Change the customer's email and the handle re-derives itself in Postgres, Python, Excel, and OWL the next read — no application code, no migration."
+        "explanation_rich": "**A handle derived from the email, not the name.** `Name = SUBSTITUTE(EmailAddress, \"@\", \"-\")` — a single character swap turns an address into a slug. Worked example: `bob@gmail.com` becomes `bob-gmail.com`, which is what shows up as `Name` in every substrate. Change the customer's email and the handle re-derives itself in Postgres, Python, Excel, and OWL the next read — no application code, no migration."
       },
       {
         "name": "EmailAddress",
@@ -44,14 +44,6 @@
         "Description": "First Name of the customer - used to make the full name"
       },
       {
-        "name": "Initials",
-        "datatype": "string",
-        "type": "calculated",
-        "nullable": true,
-        "Description": "Customer initials — the first letter of FirstName followed by the first letter of LastName.",
-        "formula": "=LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)"
-      },
-      {
         "name": "LastName",
         "datatype": "string",
         "type": "raw",
@@ -66,285 +58,33 @@
         "Description": "Full name is computed from the first and last name of the customer",
         "formula": "={{FirstName}} & \" \" & {{LastName}}",
         "important": true,
-        "explanation_rich": "**Last name first, courtroom-style.** `FullName = LastName & \", \" & FirstName` — the formula is trivial, but the *order* is the point. ACME, LLC files its customers the way a paralegal would: surname, comma, given name. Worked example: `LastName=\"Smith\"` and `FirstName=\"Bobby\"` resolves to `\"Smith, Bobby\"`. Flip the order in the rulebook and every substrate sorts and prints alphabetically by surname on the next read."
+        "explanation_rich": "**First name first.** `FullName = FirstName & \" \" & LastName`. Worked example: `FirstName=\"Bobby\"` and `LastName=\"Smith\"` resolves to `\"Bobby Smith\"`. Change this one formula and every generated substrate reads the new format on its next build."
       }
     ],
     "data": [
       {
-        "CustomerId": "jane-smith-email-com",
-        "EmailAddress": "jane.smith@email.com",
+        "CustomerId": "bob-gmail-com",
+        "EmailAddress": "bob@gmail.com",
         "LastName": "Smith",
-        "Name": "jane.smith-email.com",
+        "Name": "bob-gmail.com",
         "FirstName": "Bobby",
-        "FullName": "Smith, Bobby"
+        "FullName": "Bobby Smith"
       },
       {
-        "CustomerId": "john-doe-email-com",
-        "EmailAddress": "john.doe@email.com",
+        "CustomerId": "jimmy-gmail-com",
+        "EmailAddress": "jimmy@gmail.com",
         "LastName": "Doe",
-        "Name": "john.doe-email.com",
+        "Name": "jimmy-gmail.com",
         "FirstName": "Jimmy",
-        "FullName": "Doe, Jimmy"
+        "FullName": "Jimmy Doe"
       },
       {
-        "CustomerId": "emily-jones-email-com",
-        "EmailAddress": "emily.jones@email.com",
+        "CustomerId": "mary-gmail-com",
+        "EmailAddress": "mary@gmail.com",
         "LastName": "Jones",
-        "Name": "emily.jones-email.com",
+        "Name": "mary-gmail.com",
         "FirstName": "Mary",
-        "FullName": "Jones, Mary"
-      }
-    ]
-  },
-  "ERBVersions": {
-    "Description": "Table: ERBVersions",
-    "schema": [
-      {
-        "name": "ERBVersionId",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": false
-      },
-      {
-        "name": "BaseId",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "Name",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "Message",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "Notes",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "CommitDate",
-        "datatype": "datetime",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "IsPublished",
-        "datatype": "boolean",
-        "type": "raw",
-        "nullable": true
-      }
-    ],
-    "data": []
-  },
-  "ERBCustomizations": {
-    "Description": "Table: ERBCustomizations",
-    "schema": [
-      {
-        "name": "ERBCustomizationId",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": false
-      },
-      {
-        "name": "Name",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "Title",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "SQLCode",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "SQLTarget",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      },
-      {
-        "name": "CustomizationType",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true
-      }
-    ],
-    "data": [
-      {
-        "ERBCustomizationId": "03a-customize-schema-sql",
-        "Title": "Customize Schema",
-        "SQLTarget": "Postgres",
-        "Name": "03a-customize-schema.sql",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE SCHEMA - User-defined tables and schema modifications\n-- ============================================================================\n-- This file is for YOUR custom schema changes that should persist across\n-- regeneration of the base ERB files.\n--\n-- USE THIS FILE FOR:\n--   - Additional tables not defined in the rulebook\n--   - Extra columns on existing tables (ALTER TABLE)\n--   - Custom indexes for performance tuning\n--   - Custom constraints or triggers\n--\n-- IMPORTANT:\n--   - This file runs AFTER 01-drop-and-create-tables.sql\n--   - The base tables already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom schema changes go here:\n",
-        "CustomizationType": "Schema"
-      },
-      {
-        "ERBCustomizationId": "03b-customize-functions-sql",
-        "Title": "Customize Functions",
-        "SQLTarget": "Postgres",
-        "Name": "03b-customize-functions.sql",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE FUNCTIONS - User-defined calculation functions\n-- ============================================================================\n-- This file is for YOUR custom PostgreSQL functions that should persist\n-- across regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 02-create-functions.sql\n--   - Base ERB calc functions already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom functions go here:\n",
-        "CustomizationType": "Functions"
-      },
-      {
-        "ERBCustomizationId": "03c-customize-views-sql",
-        "Title": "Customize Views",
-        "SQLTarget": "Postgres",
-        "Name": "03c-customize-views.sql",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE VIEWS - User-defined views and view extensions\n-- ============================================================================\n-- This file is for YOUR custom views that should persist across\n-- regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 03-create-views.sql\n--   - All base vw_* views already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom views go here:\n",
-        "CustomizationType": "Views"
-      },
-      {
-        "ERBCustomizationId": "03d-customize-rls-sql",
-        "Title": "Customize Policies (RLS)",
-        "SQLTarget": "Postgres",
-        "Name": "03d-customize-rls.sql",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE POLICIES - User-defined Row Level Security policies\n-- ============================================================================\n-- This file is for YOUR custom RLS policies that should persist across\n-- regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 04-create-policies.sql\n--   - Base RLS policies already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom policies go here:\n",
-        "CustomizationType": "RLS"
-      },
-      {
-        "ERBCustomizationId": "03e-customize-data-sql",
-        "Title": "Customize Data (Seeds / Migrations)",
-        "SQLTarget": "Postgres",
-        "Name": "03e-customize-data.sql",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE DATA - User-defined seed data and data migrations\n-- ============================================================================\n-- This file is for YOUR custom seed data that should persist across\n-- regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 05-insert-data.sql\n--   - Base seed data already exists when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom data inserts go here:\n",
-        "CustomizationType": "Data"
-      }
-    ]
-  },
-  "__meta__": {
-    "Description": "Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.",
-    "important": false,
-    "schema": [
-      {
-        "name": "MetaKey",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": false,
-        "Description": "The metadata key (e.g. 'tagline', 'motif_palette', 'substrates'). Unique within the table."
-      },
-      {
-        "name": "Name",
-        "datatype": "string",
-        "type": "calculated",
-        "nullable": false,
-        "formula": "={{MetaKey}}",
-        "Description": "Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table."
-      },
-      {
-        "name": "ValueType",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": false,
-        "Description": "How to interpret the value columns: 'string' (use StringValue), 'object' (parse JsonValue as JSON object), 'array' (parse JsonValue as JSON array)."
-      },
-      {
-        "name": "StringValue",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true,
-        "Description": "Plain string value. Populated when ValueType == 'string'; null otherwise."
-      },
-      {
-        "name": "JsonValue",
-        "datatype": "string",
-        "type": "raw",
-        "nullable": true,
-        "Description": "JSON-encoded value. Populated when ValueType == 'object' or 'array'; null when ValueType == 'string'."
-      }
-    ],
-    "data": [
-      {
-        "MetaKey": "tagline",
-        "Name": "tagline",
-        "ValueType": "string",
-        "StringValue": "A one-table customer ledger, filed last-name-first.",
-        "JsonValue": null
-      },
-      {
-        "MetaKey": "motif",
-        "Name": "motif",
-        "ValueType": "string",
-        "StringValue": "legal-pad",
-        "JsonValue": null
-      },
-      {
-        "MetaKey": "motif_palette",
-        "Name": "motif_palette",
-        "ValueType": "object",
-        "StringValue": null,
-        "JsonValue": "{\"primary\": \"#a8941f\", \"accent\": \"#4a6741\", \"ink\": \"#1f1c0a\"}"
-      },
-      {
-        "MetaKey": "description_rich",
-        "Name": "description_rich",
-        "ValueType": "string",
-        "StringValue": "ACME, LLC is the **leanest possible rulebook with real wiring** — a single business table (`Customers`) and two calculated fields that re-derive themselves from raw inputs. Unlike its larger cousin ACME Corporation, there are no projects, no roles, no approval workflows: just a client ledger where every customer carries *two* identifiers at once. `Name` is a slug minted from the email address; `FullName` is the same person reformatted last-name-first, courtroom-style. Edit one raw field and both derived labels rewrite themselves in every substrate — Postgres view, Python class, Excel cell, OWL ontology — with zero application code.",
-        "JsonValue": null
-      },
-      {
-        "MetaKey": "use_cases",
-        "Name": "use_cases",
-        "ValueType": "array",
-        "StringValue": null,
-        "JsonValue": "[\"**Rename a customer.** Change `jane-smith-email-com`'s `FirstName` from `Bobby` to `Robert` and watch `FullName` recompute to `Smith, Robert` on the next read — same row, same id, new label.\", \"**Update an email address.** Edit `john.doe@email.com` to `j.doe@example.com`; the `Name` slug re-derives to `j.doe-example.com` automatically in every substrate.\", \"**Add a new customer with just the three raw fields** (`EmailAddress`, `FirstName`, `LastName`) and let the rulebook fill in `Name` and `FullName` — no insert triggers, no application logic.\", \"**Ask the same question of two substrates.** *\\\"Sort customers alphabetically by surname.\\\"* The Postgres view and the Python module both return Doe, Jones, Smith — without anyone writing a sort key.\", \"**Flip the formula in the rulebook** from `LastName & \\\", \\\" & FirstName` to `FirstName & \\\" \\\" & LastName` and re-run `effortless build`; every substrate now prints western-style names instead of legal-style, with no migration.\"]"
-      },
-      {
-        "MetaKey": "signature_rows",
-        "Name": "signature_rows",
-        "ValueType": "array",
-        "StringValue": null,
-        "JsonValue": "[{\"entity\": \"Customers\", \"ids\": [\"jane-smith-email-com\", \"john-doe-email-com\", \"emily-jones-email-com\"]}]"
-      },
-      {
-        "MetaKey": "journal_seed",
-        "Name": "journal_seed",
-        "ValueType": "string",
-        "StringValue": "Three customers on file. Each one filed twice — once by email-slug, once by surname-first — and both labels stay in lockstep with the raw fields.",
-        "JsonValue": null
-      },
-      {
-        "MetaKey": "substrates",
-        "Name": "substrates",
-        "ValueType": "array",
-        "StringValue": null,
-        "JsonValue": "[{\"key\": \"postgres\", \"important\": true, \"chip_label\": \"Postgres\"}, {\"key\": \"excel\", \"important\": true, \"chip_label\": \"Excel\"}, {\"key\": \"python\", \"important\": false, \"chip_label\": \"Python\"}, {\"key\": \"owl\", \"important\": false, \"chip_label\": \"OWL\"}, {\"key\": \"csv\", \"important\": false, \"chip_label\": \"CSV\"}]"
-      },
-      {
-        "MetaKey": "CMCC_Summary",
-        "Name": "CMCC_Summary",
-        "ValueType": "string",
-        "StringValue": "Airtable export with schema-first type mapping. This lean rulebook is a single business table (Customers) of raw fields plus Calculated fields (formulas in Excel dialect); it uses no Relationships, Lookups, or Aggregations. Field types are determined from Airtable's schema metadata FIRST (no coercion); the build FAILS if metadata is unavailable rather than silently inferring from formula/data analysis.",
-        "JsonValue": null
-      },
-      {
-        "MetaKey": "conversion_metadata",
-        "Name": "conversion_metadata",
-        "ValueType": "object",
-        "StringValue": null,
-        "JsonValue": "{\"source_base_id\": \"appWrXPvXbkgQGOxt\", \"table_count\": 4, \"tool_version\": \"2.0.0\", \"field_type_mapping\": \"checkbox→boolean, number→number/integer, multipleRecordLinks→relationship, multipleLookupValues→lookup, rollup→aggregation, count→aggregation, formula→calculated\", \"export_mode\": \"schema_first_type_mapping\", \"type_inference\": {\"enabled\": true, \"priority\": \"airtable_metadata (NO COERCION) → formula_analysis → reference_resolution → data_analysis (last-resort inference; build SHOULD FAIL rather than silently use this)\", \"airtable_type_mapping\": \"checkbox→boolean, singleLineText→string, multilineText→string, number→number/integer, datetime→datetime, singleSelect→string, email→string, url→string, phoneNumber→string\", \"data_coercion_hierarchy\": \"Only invoked when Airtable schema is unavailable (which SHOULD make the build fail). Coercion order: datetime → number → integer → boolean → base64 → json → string\", \"nullable_support\": true, \"error_value_handling\": \"#NUM!, #ERROR!, #N/A, #REF!, #DIV/0!, #VALUE!, #NAME? are treated as NULL\"}}"
-      },
-      {
-        "MetaKey": "narrative_drift_lesson",
-        "Name": "narrative_drift_lesson",
-        "ValueType": "string",
-        "StringValue": "**The point of this demo is the asymmetry between code and prose.** Flip `FullName` from `LastName & \", \" & FirstName` (legal-style, surname-first) to `FirstName & \" \" & LastName` (western order) and re-run `effortless build`: every *executable* artifact follows along instantly and for free — the Postgres view, Python class, Go SDK, Excel/CSV, OWL, the rendered RuleSpeak DRs and section-4 expression all re-derive from the single formula and stay correct. But every *hand-written* narrative about the rules goes stale from one moment to the next — `description_rich`, `explanation_rich`, `journal_seed`, the seed `FullName` values baked into the Customers rows, and any prose README still say \"Smith, Bobby / courtroom-style\" even though the formula now computes \"Bobby Smith\". That staleness is INTENTIONAL and left in place on purpose: it is the live exhibit. Computed code follows the SSoT; comments and narrative cannot. The only narrative that can keep up is one that is itself regenerated from the rulebook (e.g. an LLM-generated README), not hand-maintained. Do not \"fix\" the stale narrative or seed values to match the formula — doing so erases the demonstration.",
-        "JsonValue": null
+        "FullName": "Mary Jones"
       }
     ]
   }

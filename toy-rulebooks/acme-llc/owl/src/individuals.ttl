@@ -5,138 +5,20 @@
 
 # === Individuals: Customers ===
 
-effortless-ntwf:jane-smith-email-com a effortless-ntwf:Customers ;
-    effortless-ntwf:customerId "jane-smith-email-com" ;
-    effortless-ntwf:emailAddress "jane.smith@email.com" ;
+effortless-ntwf:bob-gmail-com a effortless-ntwf:Customers ;
+    effortless-ntwf:customerId "bob-gmail-com" ;
+    effortless-ntwf:emailAddress "bob@gmail.com" ;
     effortless-ntwf:firstName "Bobby" ;
     effortless-ntwf:lastName "Smith" .
 
-effortless-ntwf:john-doe-email-com a effortless-ntwf:Customers ;
-    effortless-ntwf:customerId "john-doe-email-com" ;
-    effortless-ntwf:emailAddress "john.doe@email.com" ;
+effortless-ntwf:jimmy-gmail-com a effortless-ntwf:Customers ;
+    effortless-ntwf:customerId "jimmy-gmail-com" ;
+    effortless-ntwf:emailAddress "jimmy@gmail.com" ;
     effortless-ntwf:firstName "Jimmy" ;
     effortless-ntwf:lastName "Doe" .
 
-effortless-ntwf:emily-jones-email-com a effortless-ntwf:Customers ;
-    effortless-ntwf:customerId "emily-jones-email-com" ;
-    effortless-ntwf:emailAddress "emily.jones@email.com" ;
+effortless-ntwf:mary-gmail-com a effortless-ntwf:Customers ;
+    effortless-ntwf:customerId "mary-gmail-com" ;
+    effortless-ntwf:emailAddress "mary@gmail.com" ;
     effortless-ntwf:firstName "Mary" ;
     effortless-ntwf:lastName "Jones" .
-
-# === Individuals: ERBCustomizations ===
-
-effortless-ntwf:03a-customize-schema-sql a effortless-ntwf:ERBCustomizations ;
-    effortless-ntwf:eRBCustomizationId "03a-customize-schema-sql" ;
-    effortless-ntwf:name "03a-customize-schema.sql" ;
-    effortless-ntwf:title "Customize Schema" ;
-    effortless-ntwf:sQLCode """-- ============================================================================
--- CUSTOMIZE SCHEMA - User-defined tables and schema modifications
--- ============================================================================
--- This file is for YOUR custom schema changes that should persist across
--- regeneration of the base ERB files.
---
--- USE THIS FILE FOR:
---   - Additional tables not defined in the rulebook
---   - Extra columns on existing tables (ALTER TABLE)
---   - Custom indexes for performance tuning
---   - Custom constraints or triggers
---
--- IMPORTANT:
---   - This file runs AFTER 01-drop-and-create-tables.sql
---   - The base tables already exist when this runs
---   - This file will NOT be overwritten by ERB regeneration
---
--- ============================================================================
-
--- Your custom schema changes go here:
-""" ;
-    effortless-ntwf:sQLTarget "Postgres" ;
-    effortless-ntwf:customizationType "Schema" .
-
-effortless-ntwf:03b-customize-functions-sql a effortless-ntwf:ERBCustomizations ;
-    effortless-ntwf:eRBCustomizationId "03b-customize-functions-sql" ;
-    effortless-ntwf:name "03b-customize-functions.sql" ;
-    effortless-ntwf:title "Customize Functions" ;
-    effortless-ntwf:sQLCode """-- ============================================================================
--- CUSTOMIZE FUNCTIONS - User-defined calculation functions
--- ============================================================================
--- This file is for YOUR custom PostgreSQL functions that should persist
--- across regeneration of the base ERB files.
---
--- IMPORTANT:
---   - This file runs AFTER 02-create-functions.sql
---   - Base ERB calc functions already exist when this runs
---   - This file will NOT be overwritten by ERB regeneration
---
--- ============================================================================
-
--- Your custom functions go here:
-""" ;
-    effortless-ntwf:sQLTarget "Postgres" ;
-    effortless-ntwf:customizationType "Functions" .
-
-effortless-ntwf:03c-customize-views-sql a effortless-ntwf:ERBCustomizations ;
-    effortless-ntwf:eRBCustomizationId "03c-customize-views-sql" ;
-    effortless-ntwf:name "03c-customize-views.sql" ;
-    effortless-ntwf:title "Customize Views" ;
-    effortless-ntwf:sQLCode """-- ============================================================================
--- CUSTOMIZE VIEWS - User-defined views and view extensions
--- ============================================================================
--- This file is for YOUR custom views that should persist across
--- regeneration of the base ERB files.
---
--- IMPORTANT:
---   - This file runs AFTER 03-create-views.sql
---   - All base vw_* views already exist when this runs
---   - This file will NOT be overwritten by ERB regeneration
---
--- ============================================================================
-
--- Your custom views go here:
-""" ;
-    effortless-ntwf:sQLTarget "Postgres" ;
-    effortless-ntwf:customizationType "Views" .
-
-effortless-ntwf:03d-customize-rls-sql a effortless-ntwf:ERBCustomizations ;
-    effortless-ntwf:eRBCustomizationId "03d-customize-rls-sql" ;
-    effortless-ntwf:name "03d-customize-rls.sql" ;
-    effortless-ntwf:title "Customize Policies (RLS)" ;
-    effortless-ntwf:sQLCode """-- ============================================================================
--- CUSTOMIZE POLICIES - User-defined Row Level Security policies
--- ============================================================================
--- This file is for YOUR custom RLS policies that should persist across
--- regeneration of the base ERB files.
---
--- IMPORTANT:
---   - This file runs AFTER 04-create-policies.sql
---   - Base RLS policies already exist when this runs
---   - This file will NOT be overwritten by ERB regeneration
---
--- ============================================================================
-
--- Your custom policies go here:
-""" ;
-    effortless-ntwf:sQLTarget "Postgres" ;
-    effortless-ntwf:customizationType "RLS" .
-
-effortless-ntwf:03e-customize-data-sql a effortless-ntwf:ERBCustomizations ;
-    effortless-ntwf:eRBCustomizationId "03e-customize-data-sql" ;
-    effortless-ntwf:name "03e-customize-data.sql" ;
-    effortless-ntwf:title "Customize Data (Seeds / Migrations)" ;
-    effortless-ntwf:sQLCode """-- ============================================================================
--- CUSTOMIZE DATA - User-defined seed data and data migrations
--- ============================================================================
--- This file is for YOUR custom seed data that should persist across
--- regeneration of the base ERB files.
---
--- IMPORTANT:
---   - This file runs AFTER 05-insert-data.sql
---   - Base seed data already exists when this runs
---   - This file will NOT be overwritten by ERB regeneration
---
--- ============================================================================
-
--- Your custom data inserts go here:
-""" ;
-    effortless-ntwf:sQLTarget "Postgres" ;
-    effortless-ntwf:customizationType "Data" .

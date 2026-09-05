@@ -3,7 +3,7 @@
 // This file is REGENERATED every time inject-into-golang.py runs.
 // It must stay in sync with erb_sdk.go and the rulebook.
 //
-// Tables with computed fields: Customers, __meta__
+// Tables with computed fields: Customers
 //
 // IMPORTANT: This runner processes ALL tables, not just a "primary" one.
 // If ANY table fails to process, the entire run fails with exit code 1.
@@ -41,8 +41,8 @@ func main() {
 		os.Exit(1)
 	}
 
-	fmt.Println("Golang substrate: Processing 2 tables with calculated fields...")
-	fmt.Println("  Expected tables: Customers, __meta__")
+	fmt.Println("Golang substrate: Processing 1 tables with calculated fields...")
+	fmt.Println("  Expected tables: Customers")
 	fmt.Println("")
 
 	// Track success/failure for ALL tables
@@ -79,35 +79,6 @@ func main() {
 	fmt.Println("")
 
 	// ─────────────────────────────────────────────────────────────────
-	// Process __meta__
-	// ─────────────────────────────────────────────────────────────────
-	fmt.Println("Processing __meta__...")
-	__meta__Input := filepath.Join(blankTestsDir, "__meta__.json")
-	__meta__Output := filepath.Join(testAnswersDir, "__meta__.json")
-
-	__meta__Records, err := Load__meta__Records(__meta__Input)
-	if err != nil {
-		errMsg := fmt.Sprintf("__meta__: failed to load - %v", err)
-		fmt.Fprintf(os.Stderr, "ERROR: %s\n", errMsg)
-		errors = append(errors, errMsg)
-	} else {
-		var computed__meta__ []__meta__
-		for _, r := range __meta__Records {
-			computed__meta__ = append(computed__meta__, *r.ComputeAll())
-		}
-
-		if err := Save__meta__Records(__meta__Output, computed__meta__); err != nil {
-			errMsg := fmt.Sprintf("__meta__: failed to save - %v", err)
-			fmt.Fprintf(os.Stderr, "ERROR: %s\n", errMsg)
-			errors = append(errors, errMsg)
-		} else {
-			fmt.Printf("  ✓ __meta__: %d records processed\n", len(computed__meta__))
-			totalRecords += len(computed__meta__)
-		}
-	}
-	fmt.Println("")
-
-	// ─────────────────────────────────────────────────────────────────
 	// Final validation - FAIL LOUDLY if any errors occurred
 	// ─────────────────────────────────────────────────────────────────
 	if len(errors) > 0 {
@@ -123,6 +94,6 @@ func main() {
 	}
 
 	fmt.Println("════════════════════════════════════════════════════════════════")
-	fmt.Printf("Golang substrate: ALL %d tables processed successfully (%d total records)\n", 2, totalRecords)
+	fmt.Printf("Golang substrate: ALL %d tables processed successfully (%d total records)\n", 1, totalRecords)
 	fmt.Println("════════════════════════════════════════════════════════════════")
 }

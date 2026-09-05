@@ -1,5 +1,5 @@
 <!-- DERIVED ARTIFACT — DO NOT EDIT BY HAND -->
-<!-- Source: https://raw.githubusercontent.com/effortlessapi/effortless-claude/main/skills/effortless-cmcc/SKILL.md -->
+<!-- Source: https://raw.githubusercontent.com/EffortlessAPI/effortless-skills/main/skills/effortless-cmcc/SKILL.md -->
 <!-- Mirrored by: docs/skills/clone-skills.sh -->
 <!-- Update: cd effortless-platform && effortless clone-skills -->
 

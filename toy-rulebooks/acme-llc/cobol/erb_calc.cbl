@@ -39,12 +39,6 @@
            MOVE WS-SUBST-OUTPUT TO RECORD-NAME
        .
 
-       CALC-INITIALS.
-           *> ERROR: Could not parse formula: =LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)...
-           *> Exception: COBOL: Unknown function: LEFT
-           MOVE "ERROR" TO RECORD-INITIALS
-       .
-
        CALC-FULL-NAME.
            MOVE SPACES TO RECORD-FULL-NAME
            STRING
@@ -56,7 +50,6 @@
 
        COMPUTE-ALL-FIELDS.
            PERFORM CALC-NAME
-           PERFORM CALC-INITIALS
            PERFORM CALC-FULL-NAME
        .
        FIND-CONTAINS.

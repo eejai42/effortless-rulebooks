@@ -43,7 +43,6 @@
           02 WS-REC-FIRST-NAME PIC X(500).
           02 WS-REC-LAST-NAME PIC X(500).
           02 WS-REC-NAME PIC X(500).
-          02 WS-REC-INITIALS PIC X(500).
           02 WS-REC-FULL-NAME PIC X(500).
        PROCEDURE DIVISION.
        MAIN-PARA.
@@ -90,12 +89,6 @@
            MOVE WS-SUBST-OUTPUT TO WS-REC-NAME
        .
 
-       CALC-INITIALS.
-           *> ERROR: Could not parse formula: =LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)...
-           *> Exception: COBOL: Unknown function: LEFT
-           MOVE "ERROR" TO WS-REC-INITIALS
-       .
-
        CALC-FULL-NAME.
            MOVE SPACES TO WS-REC-FULL-NAME
            STRING
@@ -107,7 +100,6 @@
 
        COMPUTE-ALL-FIELDS.
            PERFORM CALC-NAME
-           PERFORM CALC-INITIALS
            PERFORM CALC-FULL-NAME
        .
 
@@ -123,8 +115,6 @@
                FUNCTION TRIM(WS-REC-LAST-NAME TRAILING) DELIMITED SIZE
                WS-TAB DELIMITED SIZE
                FUNCTION TRIM(WS-REC-NAME TRAILING) DELIMITED SIZE
-               WS-TAB DELIMITED SIZE
-               FUNCTION TRIM(WS-REC-INITIALS TRAILING) DELIMITED SIZE
                WS-TAB DELIMITED SIZE
                FUNCTION TRIM(WS-REC-FULL-NAME TRAILING) DELIMITED SIZE
                INTO OUTPUT-LINE

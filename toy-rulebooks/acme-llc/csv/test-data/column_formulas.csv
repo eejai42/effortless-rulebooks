@@ -3,24 +3,5 @@ Customers,customer_id,raw,0,,
 Customers,name,calculated,,"=SUBSTITUTE({{EmailAddress}}, ""@"", ""-"")",Identifier for the customer.
 Customers,email_address,raw,0,,The customer's email address
 Customers,first_name,raw,0,,First Name of the customer - used to make the full name
-Customers,initials,calculated,,"=LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)",Customer initials — the first letter of FirstName followed by the first letter of LastName.
 Customers,last_name,raw,0,,Last Name of the customer - used to make the full name
 Customers,full_name,calculated,,"={{FirstName}} & "" "" & {{LastName}}",Full name is computed from the first and last name of the customer
-ERBVersions,erb_version_id,raw,0,,
-ERBVersions,base_id,raw,0,,
-ERBVersions,name,raw,0,,
-ERBVersions,message,raw,0,,
-ERBVersions,notes,raw,0,,
-ERBVersions,commit_date,raw,0,,
-ERBVersions,is_published,raw,0,,
-ERBCustomizations,erb_customization_id,raw,0,,
-ERBCustomizations,name,raw,0,,
-ERBCustomizations,title,raw,0,,
-ERBCustomizations,sql_code,raw,0,,
-ERBCustomizations,sql_target,raw,0,,
-ERBCustomizations,customization_type,raw,0,,
-__meta__,meta_key,raw,0,,"The metadata key (e.g. 'tagline', 'motif_palette', 'substrates'). Unique within the table."
-__meta__,name,calculated,,={{MetaKey}},Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table.
-__meta__,value_type,raw,0,,"How to interpret the value columns: 'string' (use StringValue), 'object' (parse JsonValue as JSON object), 'array' (parse JsonValue as JSON array)."
-__meta__,string_value,raw,0,,Plain string value. Populated when ValueType == 'string'; null otherwise.
-__meta__,json_value,raw,0,,JSON-encoded value. Populated when ValueType == 'object' or 'array'; null when ValueType == 'string'.

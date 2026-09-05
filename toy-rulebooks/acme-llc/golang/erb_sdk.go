@@ -102,7 +102,6 @@ type Customer struct {
 	FirstName *string `json:"first_name"` // First Name of the customer - used to make the full name
 	LastName *string `json:"last_name"` // Last Name of the customer - used to make the full name
 	Name *string `json:"name"` // Identifier for the customer.
-	Initials *string `json:"initials"` // Customer initials — the first letter of FirstName followed by the first letter of LastName.
 	FullName *string `json:"full_name"` // Full name is computed from the first and last name of the customer
 }
 
@@ -113,13 +112,6 @@ type Customer struct {
 // Formula: =SUBSTITUTE({{EmailAddress}}, "@", "-")
 func (tc *Customer) CalcName() string {
 	return strings.ReplaceAll(stringVal(tc.EmailAddress), "@", "-")
-}
-
-// CalcInitials computes the Initials calculated field
-// Customer initials — the first letter of FirstName followed by the first letter of LastName.
-// Formula: =LEFT({{FirstName}}, 1) & LEFT({{LastName}}, 1)
-func (tc *Customer) CalcInitials() string {
-	return func() interface{} { panic("Formula parse error: Unknown function: LEFT") }()
 }
 
 // CalcFullName computes the FullName calculated field
@@ -135,7 +127,6 @@ func (tc *Customer) CalcFullName() string {
 func (tc *Customer) ComputeAll() *Customer {
 	// Level 1 calculations
 	name := strings.ReplaceAll(stringVal(tc.EmailAddress), "@", "-")
-	initials := func() interface{} { panic("Formula parse error: Unknown function: LEFT") }()
 	fullName := stringVal(tc.FirstName) + " " + stringVal(tc.LastName)
 
 	return &Customer{
@@ -144,81 +135,7 @@ func (tc *Customer) ComputeAll() *Customer {
 		FirstName: tc.FirstName,
 		LastName: tc.LastName,
 		Name: nilIfEmpty(name),
-		Initials: nilIfEmpty(initials),
 		FullName: nilIfEmpty(fullName),
-	}
-}
-
-// =============================================================================
-// ERBVERSIONS TABLE
-// Table: ERBVersions
-// =============================================================================
-
-// ERBVersion represents a row in the ERBVersions table
-// Table: ERBVersions
-type ERBVersion struct {
-	ERBVersionId string `json:"erb_version_id"`
-	BaseId *string `json:"base_id"`
-	Name *string `json:"name"`
-	Message *string `json:"message"`
-	Notes *string `json:"notes"`
-	CommitDate *string `json:"commit_date"`
-	IsPublished *bool `json:"is_published"`
-}
-
-// =============================================================================
-// ERBCUSTOMIZATIONS TABLE
-// Table: ERBCustomizations
-// =============================================================================
-
-// ERBCustomization represents a row in the ERBCustomizations table
-// Table: ERBCustomizations
-type ERBCustomization struct {
-	ERBCustomizationId string `json:"erb_customization_id"`
-	Name *string `json:"name"`
-	Title *string `json:"title"`
-	SQLCode *string `json:"sql_code"`
-	SQLTarget *string `json:"sql_target"`
-	CustomizationType *string `json:"customization_type"`
-}
-
-// =============================================================================
-// __META__ TABLE
-// Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.
-// =============================================================================
-
-// __meta__ represents a row in the __meta__ table
-// Project-level metadata that travels with the rulebook: tagline, motif, narrative descriptions, substrate list, signature rows, etc. One row per metadata key. Use ValueType to interpret StringValue vs JsonValue.
-type __meta__ struct {
-	MetaKey string `json:"meta_key"` // The metadata key (e.g. 'tagline', 'motif_palette', 'substrates'). Unique within the table.
-	ValueType string `json:"value_type"` // How to interpret the value columns: 'string' (use StringValue), 'object' (parse JsonValue as JSON object), 'array' (parse JsonValue as JSON array).
-	StringValue *string `json:"string_value"` // Plain string value. Populated when ValueType == 'string'; null otherwise.
-	JsonValue *string `json:"json_value"` // JSON-encoded value. Populated when ValueType == 'object' or 'array'; null when ValueType == 'string'.
-	Name string `json:"name"` // Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table.
-}
-
-// --- Individual Calculation Functions ---
-
-// CalcName computes the Name calculated field
-// Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table.
-// Formula: ={{MetaKey}}
-func (tc *__meta__) CalcName() string {
-	return tc.MetaKey
-}
-
-// --- Compute All Calculated Fields ---
-
-// ComputeAll computes all calculated fields and returns an updated struct
-func (tc *__meta__) ComputeAll() *__meta__ {
-	// Level 1 calculations
-	name := tc.MetaKey
-
-	return &__meta__{
-		MetaKey: tc.MetaKey,
-		ValueType: tc.ValueType,
-		StringValue: tc.StringValue,
-		JsonValue: tc.JsonValue,
-		Name: nilIfEmpty(name),
 	}
 }
 
@@ -245,35 +162,6 @@ func LoadCustomerRecords(path string) ([]Customer, error) {
 
 // SaveCustomerRecords saves computed Customers records to a JSON file
 func SaveCustomerRecords(path string, records []Customer) error {
-	data, err := json.MarshalIndent(records, "", "  ")
-	if err != nil {
-		return fmt.Errorf("failed to marshal records: %w", err)
-	}
-
-	if err := os.WriteFile(path, data, 0644); err != nil {
-		return fmt.Errorf("failed to write records: %w", err)
-	}
-
-	return nil
-}
-
-// Load__meta__Records loads __meta__ records from a JSON file
-func Load__meta__Records(path string) ([]__meta__, error) {
-	data, err := os.ReadFile(path)
-	if err != nil {
-		return nil, fmt.Errorf("failed to read file: %w", err)
-	}
-
-	var records []__meta__
-	if err := json.Unmarshal(data, &records); err != nil {
-		return nil, fmt.Errorf("failed to parse file: %w", err)
-	}
-
-	return records, nil
-}
-
-// Save__meta__Records saves computed __meta__ records to a JSON file
-func Save__meta__Records(path string, records []__meta__) error {
 	data, err := json.MarshalIndent(records, "", "  ")
 	if err != nil {
 		return fmt.Errorf("failed to marshal records: %w", err)

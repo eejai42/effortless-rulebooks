@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ACME Customer Desk</title>
+  <style>
+    :root {
+      --navy: #12384a;
+      --coral: #ff6b4a;
+      --blue: #1a73e8;
+      --green: #167a65;
+      --ink: #18313c;
+      --muted: #637982;
+      --line: #c6d7de;
+      --paper: #f7fbfc;
+      --white: #fff;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      color: var(--ink);
+      background: #d8e4ea;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    .tablet {
+      width: min(1120px, 100%);
+      min-height: 650px;
+      overflow: hidden;
+      border: 18px solid #20333c;
+      border-radius: 42px;
+      background: var(--paper);
+      box-shadow: 0 30px 70px rgba(28, 52, 64, .25);
+    }
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 22px 30px;
+      color: var(--white);
+      background: var(--navy);
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      letter-spacing: .08em;
+    }
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 10px;
+      color: var(--white);
+      background: var(--coral);
+      font-size: 19px;
+    }
+    button {
+      border: 2px solid var(--white);
+      border-radius: 999px;
+      padding: 10px 16px;
+      color: var(--navy);
+      background: var(--white);
+      font: inherit;
+      font-size: .85rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    #provenance[aria-pressed="true"] {
+      color: var(--white);
+      border-color: var(--coral);
+      background: var(--coral);
+    }
+    main { padding: 42px 44px 48px; }
+    .eyebrow {
+      margin: 0 0 8px;
+      color: var(--blue);
+      font-size: .78rem;
+      font-weight: 900;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+    h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(2.25rem, 5vw, 4.2rem);
+      line-height: .98;
+      letter-spacing: -.04em;
+    }
+    .lede {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+    .status {
+      margin-top: 22px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      color: var(--green);
+      background: #e7f6f1;
+      font-weight: 800;
+    }
+    .status.error {
+      color: #a81937;
+      background: #ffe7ed;
+    }
+    .cards {
+      display: grid;
+      gap: 12px;
+      margin-top: 24px;
+    }
+    article {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      min-height: 0;
+      padding: 19px 24px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255, 255, 255, .96);
+      box-shadow: 0 10px 26px rgba(41, 73, 110, .08);
+    }
+    article h2 {
+      margin: 0 0 6px;
+      color: var(--navy);
+      font-size: 1.45rem;
+    }
+    article p {
+      margin: 0;
+      color: var(--muted);
+    }
+    .account-state {
+      color: var(--green);
+      font-size: .84rem;
+      font-weight: 900;
+    }
+    .tooltip {
+      position: relative;
+      cursor: default;
+    }
+    .explain-on .tooltip {
+      border-bottom: 2px dotted var(--coral);
+      cursor: help;
+    }
+    .tooltip > span {
+      position: absolute;
+      z-index: 5;
+      top: calc(100% + 12px);
+      left: 0;
+      display: none;
+      width: min(560px, 75vw);
+      padding: 18px 20px;
+      border: 2px solid var(--coral);
+      border-radius: 14px;
+      color: var(--white);
+      background: var(--navy);
+      box-shadow: 0 18px 44px rgba(18, 56, 74, .28);
+      font-size: .95rem;
+      font-weight: 500;
+      line-height: 1.45;
+    }
+    .explain-on .tooltip:hover > span,
+    .explain-on .tooltip:focus > span {
+      display: block;
+    }
+    .fact-links {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+    }
+    .fact-links a {
+      padding: 5px 9px;
+      border-radius: 999px;
+      color: var(--navy);
+      background: var(--white);
+      font-size: .78rem;
+      font-weight: 900;
+      text-decoration: none;
+    }
+    @media (max-width: 720px) {
+      body { padding: 0; background: var(--paper); }
+      .tablet { min-height: 100vh; border: 0; border-radius: 0; }
+      header, main { padding: 20px; }
+      header { align-items: flex-start; }
+      article { grid-template-columns: 1fr; gap: 12px; }
+      .account-state { justify-self: start; }
+    }
+  </style>
+</head>
+<body>
+  <section class="tablet" aria-label="ACME customer tablet">
+    <header>
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">A</span>
+        <span>ACME CUSTOMER DESK</span>
+      </div>
+      <button id="provenance" type="button" aria-pressed="false">Explain names</button>
+    </header>
+    <main>
+      <p class="eyebrow">Customer directory</p>
+      <h1>Everyone we help.</h1>
+      <p class="lede">Current customer names and account details from the company directory.</p>
+      <div id="status" class="status">Reading the customer directory…</div>
+      <section id="cards" class="cards" aria-live="polite"></section>
+    </main>
+  </section>
+  <script>
+    const API = 'http://localhost:43211';
+    const cards = document.querySelector('#cards');
+    const status = document.querySelector('#status');
+    const provenance = document.querySelector('#provenance');
+
+    function required(value, message) {
+      if (!value) throw new Error(message);
+      return value;
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;')
+        .replaceAll('"', '&quot;')
+        .replaceAll("'", '&#039;');
+    }
+
+    function fullNameRule(markdown) {
+      const lines = markdown
+        .split('\n')
+        .filter(candidate => /\|\s*\*\*DR-\d+ Full Name\*\*/.test(candidate));
+      if (lines.length !== 1) {
+        throw new Error(`Generated RuleSpeak must contain exactly one Full Name rule; found ${lines.length}.`);
+      }
+      const match = lines[0].match(/\|\s*\*\*DR-\d+ Full Name\*\*\s*\|\s*(.*?)\s*\|$/);
+      return required(match?.[1], 'Generated RuleSpeak Full Name rule is malformed.');
+    }
+
+    async function load() {
+      status.className = 'status';
+      status.textContent = 'Reading the customer directory…';
+      const [tableResponse, rulesResponse] = await Promise.all([
+        fetch(`${API}/api/tables/Customers`, { cache: 'no-store' }),
+        fetch(`${API}/api/rulespeak`, { cache: 'no-store' })
+      ]);
+      for (const response of [tableResponse, rulesResponse]) {
+        if (!response.ok) throw new Error(`${response.url} returned ${response.status}.`);
+      }
+      const table = await tableResponse.json();
+      const rulespeak = fullNameRule(await rulesResponse.text());
+      required(
+        table.fields?.find(field => field.name === 'FullName'),
+        'Customers.FullName is missing from the live rulebook schema.'
+      );
+      const rows = required(
+        table.rows?.length && table.rows,
+        'The generated Customers view returned no rows.'
+      );
+
+      cards.innerHTML = rows.map(row => `
+        <article>
+          <div>
+            <h2>
+              <span class="tooltip" tabindex="0">${escapeHtml(row.full_name)}
+                <span>
+                  ${escapeHtml(rulespeak)}
+                  <span class="fact-links">
+                    <a href="${API}/api/rulespeak?format=html#en-f-customers-firstname">First name</a>
+                    <a href="${API}/api/rulespeak?format=html#en-f-customers-lastname">Last name</a>
+                  </span>
+                </span>
+              </span>
+            </h2>
+            <p>${escapeHtml(row.email_address)}</p>
+          </div>
+          <div class="account-state">Active customer</div>
+        </article>
+      `).join('');
+      status.textContent = `${rows.length} current customers`;
+    }
+
+    async function refreshNow() {
+      try {
+        await load();
+      } catch (error) {
+        cards.innerHTML = '';
+        status.className = 'status error';
+        status.textContent = error.message;
+      }
+    }
+
+    provenance.addEventListener('click', () => {
+      const enabled = provenance.getAttribute('aria-pressed') !== 'true';
+      provenance.setAttribute('aria-pressed', String(enabled));
+      provenance.textContent = enabled ? 'Explanations on' : 'Explain names';
+      document.body.classList.toggle('explain-on', enabled);
+    });
+    window.addEventListener('focus', refreshNow);
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') refreshNow();
+    });
+    refreshNow();
+  </script>
+</body>
+</html>

@@ -7,5 +7,4 @@
           02 FIRST-NAME PIC X(500).
           02 LAST-NAME PIC X(500).
           02 NAME PIC X(500).
-          02 INITIALS PIC X(500).
           02 FULL-NAME PIC X(500).

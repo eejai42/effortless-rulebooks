@@ -1,11 +1,7 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": "",
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "63484082-c6d6-4259-a92c-3169e1e4d75a",
   "Name": "acme-llc",
-  "Description": "A lean variant of ACME Corporation\u2014demonstrating essential business rules in a simplified schema.",
+  "Description": "A lean variant of ACME Corporation—demonstrating essential business rules in a simplified schema.",
   "ProjectSettings": [
     {
       "Name": "baseId",
@@ -103,8 +99,8 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/acme-llc-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.20.1746",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-06-20-1746-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.06.1148",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-06-1148-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -119,8 +115,8 @@
       "RelativePath": "/effortless-xlsx",
       "CommandLine": "rulebook-to-xlsx -i ../effortless-rulebook/acme-llc-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.05.25.2316",
-      "LastUrl": "https://effortless-rulebook-to-xlsx-v2026-05-25-2316-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.02.1122",
+      "LastUrl": "https://effortless-rulebook-to-xlsx-v2026-09-02-1122-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -145,18 +141,30 @@
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/acme-llc-rulebook.json",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.06.10.1308",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-10-1308-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
       "Name": "rulebooktorulespeakde",
       "RelativePath": "/rulespeak-de",
-      "CommandLine": "rulebook-to-rulespeak-de -i ../effortless-rulebook/acme-llc-rulebook.json",
+      "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/acme-llc-rulebook.json -p languages=de",
       "IsDisabled": false,
-      "PinnedVersion": "v2026.06.20.2306",
-      "LastVersionUsed": "v2026.06.20.2306",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-20-2306-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.08.30.1537",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortless-rulebook-editor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i acme-llc-rulebook.json -p rulebookPath=acme-llc-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false,
+      "LastVersionUsed": "v2026.09.02.0241",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": "/effortless-rulebook",
+  "SSoTmeProjectFiles": null
 }

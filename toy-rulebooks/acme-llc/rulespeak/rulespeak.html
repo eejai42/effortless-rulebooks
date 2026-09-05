@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" class="show-rulespeak show-desc show-inputs">
+<html lang="en" data-lang="en" class="show-rulespeak show-desc show-inputs">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ACME, LLC — RuleSpeak</title>
+<title>ACME, LLC — RuleSpeak®</title>
 <style>
 
 :root{
@@ -20,8 +20,11 @@ a{color:var(--calc);text-decoration:none}
 a:hover{text-decoration:underline}
 code{font:0.85em ui-monospace,SFMono-Regular,Menlo,monospace;background:#f3f3f7;padding:1px 5px;border-radius:4px}
 
-/* ── Element visibility: each doc element shows only when <html> carries its flag.
-      All independent — any combination can be on at once. ──────────────────── */
+/* ── One language visible at a time; <html data-lang> picks it (rules per
+      language are appended at render time). ─────────────────────────────── */
+.lang-doc{display:none}
+
+/* ── Element visibility: each doc element shows only when <html> carries its flag. */
 .elem{display:none}
 html.show-rulespeak .elem-rulespeak{display:block}
 html.show-english   .elem-english{display:block}
@@ -30,7 +33,7 @@ html.show-desc      .elem-desc{display:block}
 html.show-inputs    .elem-inputs{display:block}
 html.show-consumers .elem-consumers{display:block}
 
-/* ── Sticky top bar (stays pinned) — brand · breadcrumb · gear ───────────── */
+/* ── Sticky top bar — brand · breadcrumb · language · gear ───────────────── */
 .topbar{position:sticky;top:0;z-index:40;height:var(--bar-h);
   background:rgba(255,255,255,.92);border-bottom:1px solid var(--line);
   backdrop-filter:saturate(1.1) blur(8px)}
@@ -45,13 +48,16 @@ html.show-consumers .elem-consumers{display:block}
 .crumb-entity{font-weight:700;color:var(--ink)}
 .crumb-sep{color:var(--line)}
 .crumb-field{color:var(--calc);font-weight:600;overflow:hidden;text-overflow:ellipsis}
+.lang-select{flex:none;height:32px;border:1px solid var(--line);border-radius:9px;background:#fff;
+  color:var(--ink);font:600 13px/1 inherit;padding:0 8px;cursor:pointer;max-width:150px}
+.lang-select:hover{border-color:var(--calc)}
 .gear{flex:none;width:34px;height:34px;border-radius:9px;border:1px solid var(--line);
   background:#fff;cursor:pointer;font-size:17px;line-height:1;color:var(--muted);
   display:inline-flex;align-items:center;justify-content:center;transition:all .12s}
 .gear:hover{color:var(--ink);border-color:var(--calc);box-shadow:0 1px 4px rgba(90,58,160,.15)}
 .gear[aria-expanded='true']{background:var(--calc);color:#fff;border-color:var(--calc)}
 
-/* ── Gear popup — checkboxes, one per documentation element ──────────────── */
+/* ── Gear popup ──────────────────────────────────────────────────────────── */
 .gear-pop{position:absolute;top:calc(var(--bar-h) + 6px);right:24px;z-index:50;width:290px;
   background:#fff;border:1px solid var(--line);border-radius:12px;
   box-shadow:0 10px 32px rgba(20,20,40,.18);padding:12px}
@@ -134,6 +140,7 @@ html.show-consumers .elem-consumers{display:block}
 
 .gt{margin-top:8px}
 .gt-body{margin:0;color:var(--muted)}
+.gt-reverse{margin-top:6px}
 
 .prov{margin-top:10px;border-top:1px dashed var(--line);padding-top:8px}
 .prov>summary{cursor:pointer;font-size:13px;font-weight:600;color:var(--ink);list-style:none}
@@ -151,6 +158,8 @@ html.show-consumers .elem-consumers{display:block}
 .input.tone-agg{border-left-color:var(--agg)} .input.tone-lookup{border-left-color:var(--lookup)}
 .input.tone-rel{border-left-color:var(--rel)}
 .input:hover{background:#f4f3fb;text-decoration:none}
+.input-static{cursor:default}
+span.input-static:hover{background:#fcfcfe}
 .input-head{display:flex;align-items:center;gap:6px}
 .input-glyph{font-size:12px;color:var(--muted)}
 .input-name{font-weight:700;color:var(--ink)}
@@ -176,12 +185,23 @@ html.show-consumers .elem-consumers{display:block}
 :target{animation:flash 1.2s ease}
 @keyframes flash{0%{background:var(--calc-bg)}100%{background:var(--card)}}
 
+html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 </style>
 <script>
 
 (function(){
+  var LANGS=['en'];
+  var DEFAULT_LANG='en';
   var ELEMS=['rulespeak','english','formula','desc','inputs','consumers'];
   var root=document.documentElement;
+
+  var lang=null;
+  try{ lang=new URLSearchParams(location.search).get('lang'); }catch(e){}
+  if(!lang){ try{ lang=localStorage.getItem('rulespeak.lang'); }catch(e){} }
+  if(LANGS.indexOf(lang)<0) lang=DEFAULT_LANG;
+  root.setAttribute('data-lang',lang);
+  root.setAttribute('lang',lang);
+
   ELEMS.forEach(function(k){
     var v=null; try{v=localStorage.getItem('rulespeak.show.'+k);}catch(e){}
     if(v==='1') root.classList.add('show-'+k);
@@ -192,27 +212,28 @@ html.show-consumers .elem-consumers{display:block}
 </script>
 </head>
 <body>
+<div class="lang-doc" data-lang="en" lang="en">
 <div class="topbar">
   <div class="topbar-inner">
-    <a class="topbar-brand" href="#top">📘 ACME, LLC <span class="topbar-tag">RuleSpeak</span></a>
+    <a class="topbar-brand" href="#en-top">📘 ACME, LLC <span class="topbar-tag">RuleSpeak®</span></a>
     <nav class="crumb" aria-label="You are reading">
       <span class="crumb-entity"></span>
       <span class="crumb-sep" hidden>›</span>
       <span class="crumb-field"></span>
     </nav>
-    <button type="button" class="gear" id="gear-btn" aria-haspopup="dialog" aria-expanded="false" title="Documentation options" aria-label="Documentation options">⚙︎</button>
+    <button type="button" class="gear" aria-haspopup="dialog" aria-expanded="false" title="Documentation options" aria-label="Documentation options">⚙︎</button>
   </div>
-  <div class="gear-pop" id="gear-pop" role="dialog" aria-label="Documentation options" hidden>
+  <div class="gear-pop" role="dialog" aria-label="Documentation options" hidden>
     <p class="gear-pop-title">Show in this document</p>
     <label class="gear-opt" title="The declarative business rule (only if / must / priority)">
       <input type="checkbox" data-elem="rulespeak" checked>
-      <span class="gear-opt-label">RuleSpeak</span>
+      <span class="gear-opt-label">RuleSpeak®</span>
       <span class="gear-opt-hint">The declarative business rule (only if / must / priority)</span>
     </label>
-    <label class="gear-opt" title="The formula read aloud as a plain-English sentence">
+    <label class="gear-opt" title="The formula read aloud as a plain sentence">
       <input type="checkbox" data-elem="english">
-      <span class="gear-opt-label">English</span>
-      <span class="gear-opt-hint">The formula read aloud as a plain-English sentence</span>
+      <span class="gear-opt-label">Plain reading</span>
+      <span class="gear-opt-hint">The formula read aloud as a plain sentence</span>
     </label>
     <label class="gear-opt" title="The raw =expression, with clickable field chips">
       <input type="checkbox" data-elem="formula">
@@ -234,31 +255,29 @@ html.show-consumers .elem-consumers{display:block}
       <span class="gear-opt-label">Links to consumers</span>
       <span class="gear-opt-hint">The rules that read this one (its DAG consumers / downstream)</span>
     </label>
-    <button type="button" class="gear-reset" id="gear-reset">Reset to defaults</button>
+    <button type="button" class="gear-reset">Reset to defaults</button>
   </div>
 </div>
-<header class="doc-header" id="top">
+<header class="doc-header" id="en-top">
   <div class="doc-header-inner">
-    <h1 class="doc-title">📘 ACME, LLC <span class="doc-title-sub">RuleSpeak</span></h1>
+    <h1 class="doc-title">📘 ACME, LLC <span class="doc-title-sub">RuleSpeak®</span></h1>
     <p class="doc-lede">Smallest viable rulebook with a calculated field — the &quot;Hello, formulas&quot; tutorial.</p>
     <p class="doc-note">Declarative business rules rendered from the rulebook — the single source of truth. Every statement below is the plain-language reading of a formula; nothing here is hand-authored prose.</p>
-    <p class="narr-hint">Use the <button type="button" class="gear-inline" id="gear-open-2">⚙︎ options</button> in the top-right corner to turn each part of the documentation on or off — RuleSpeak, English, the raw formula, the author's description, and the links to a rule's inputs and consumers. Your choices are remembered.</p>
+    <p class="narr-hint">Use the <button type="button" class="gear-inline gear-open-inline">⚙︎ options</button> in the top-right corner to turn each part of the documentation on or off — RuleSpeak®, the literal reading, the raw formula, the author's description, and the links to a rule's inputs and consumers. Your choices are remembered.</p>
   </div>
 </header>
 <nav class="toc">
   <h2 class="toc-title">Entities</h2>
   <ul class="toc-list">
-    <li><a href="#t-customers">Customer</a> <span class="toc-meta">3 rules · 0 links</span></li>
-    <li><a href="#t-erbversions">ERB Version</a> <span class="toc-meta">0 rules · 0 links</span></li>
-    <li><a href="#t-erbcustomizations">ERB Customization</a> <span class="toc-meta">0 rules · 0 links</span></li>
+    <li><a href="#en-t-customers">Customer</a> <span class="toc-meta">2 rules · 0 links</span></li>
   </ul>
 </nav>
-<section class="entity" id="t-customers" data-entity="Customer">
+<section class="entity" id="en-t-customers" data-entity="Customer">
   <header class="entity-head">
     <h2 class="entity-title">Customer</h2>
-    <p class="entity-synopsis">A customer is identified by its name.</p>
+    <p class="entity-synopsis">A customer is identified by its <a class="ref" href="#en-f-customers-name">name</a>.</p>
   </header>
-  <article class="field tone-calc" id="f-customers-name" data-entity="Customer" data-field="Name">
+  <article class="field tone-calc" id="en-f-customers-name" data-entity="Customer" data-field="Name">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Name</span>
@@ -269,23 +288,23 @@ html.show-consumers .elem-consumers{display:block}
     </div>
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
-        <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A customer's name is computed as the <a class="ref" href="#f-customers-emailaddress">email address</a> with every “@” replaced by a hyphen.</p>
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A customer's <a class="ref" href="#en-f-customers-name">name</a> is computed as the <a class="ref" href="#en-f-customers-emailaddress">email address</a> with every “@” replaced by a hyphen.</p>
       </div>
       <div class="view elem elem-english">
-        <span class="view-label">In English</span>
-        <p class="view-body"><a class="ref" href="#f-customers-emailaddress">Email address</a> with “@” replaced by “-”.</p>
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-customers-emailaddress">Email address</a> with “@” replaced by “-”.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(<a class="fx-chip" href="#f-customers-emailaddress">Email Address</a>, &quot;@&quot;, &quot;-&quot;)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUBSTITUTE(<a class="fx-chip" href="#en-f-customers-emailaddress">Email Address</a>, &quot;@&quot;, &quot;-&quot;)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#f-customers-emailaddress">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Email Address</span><span class="input-table">Customers</span></span>
+        <a class="input tone-raw" href="#en-f-customers-emailaddress">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Email Address</span><span class="input-table">Customer</span></span>
           <span class="input-en muted">The customer's email address</span>
         </a>
       </div>
@@ -293,12 +312,12 @@ html.show-consumers .elem-consumers{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#f-customers-emailaddress">● Email Address <span class="ref-pill-tbl">Customers</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-customers-emailaddress">● Email Address <span class="ref-pill-tbl">Customer</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Identifier for the customer.</p>
     </article>
-  <article class="field tone-raw" id="f-customers-emailaddress" data-entity="Customer" data-field="Email Address">
+  <article class="field tone-raw" id="en-f-customers-emailaddress" data-entity="Customer" data-field="Email Address">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Email Address</span>
@@ -308,9 +327,15 @@ html.show-consumers .elem-consumers{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-customers-name">ƒ Name <span class="ref-pill-tbl">Customer</span></a>
+      </div>
+    </details>
     <p class="field-note elem elem-desc">The customer's email address</p>
     </article>
-  <article class="field tone-raw" id="f-customers-firstname" data-entity="Customer" data-field="First Name">
+  <article class="field tone-raw" id="en-f-customers-firstname" data-entity="Customer" data-field="First Name">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">First Name</span>
@@ -320,54 +345,15 @@ html.show-consumers .elem-consumers{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-customers-fullname">ƒ Full Name <span class="ref-pill-tbl">Customer</span></a>
+      </div>
+    </details>
     <p class="field-note elem elem-desc">First Name of the customer - used to make the full name</p>
     </article>
-  <article class="field tone-calc" id="f-customers-initials" data-entity="Customer" data-field="Initials">
-    <div class="field-head">
-      <span class="field-glyph" title="Calculated">ƒ</span>
-      <span class="field-name">Initials</span>
-      <span class="pill pill-type">Calculated</span>
-      <span class="pill pill-depth">1 hop from ground truth</span>
-      <span class="pill pill-muted">string</span>
-      <span class="pill pill-dr">DR-2</span>
-    </div>
-    <div class="narr-views">
-      <div class="view elem elem-rulespeak">
-        <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A customer's initials is computed as the first 1 character(s) of the <a class="ref" href="#f-customers-firstname">first name</a>, followed by the first 1 character(s) of the <a class="ref" href="#f-customers-lastname">last name</a>.</p>
-      </div>
-      <div class="view elem elem-english">
-        <span class="view-label">In English</span>
-        <p class="view-body">The first 1 characters of <a class="ref" href="#f-customers-firstname">first name</a> joined with the first 1 characters of <a class="ref" href="#f-customers-lastname">last name</a>.</p>
-      </div>
-      <div class="view elem elem-formula">
-        <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LEFT(<a class="fx-chip" href="#f-customers-firstname">First Name</a>, 1) &amp; LEFT(<a class="fx-chip" href="#f-customers-lastname">Last Name</a>, 1)</div>
-      </div>
-    </div>
-    <details class="prov prov-inputs elem elem-inputs" open>
-      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
-      <div class="prov-grid">
-        <a class="input tone-raw" href="#f-customers-firstname">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">First Name</span><span class="input-table">Customers</span></span>
-          <span class="input-en muted">First Name of the customer - used to make the full name</span>
-        </a>
-        <a class="input tone-raw" href="#f-customers-lastname">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Last Name</span><span class="input-table">Customers</span></span>
-          <span class="input-en muted">Last Name of the customer - used to make the full name</span>
-        </a>
-      </div>
-    </details>
-    <details class="prov prov-leaves elem elem-inputs">
-      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
-      <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#f-customers-firstname">● First Name <span class="ref-pill-tbl">Customers</span></a>
-        <a class="ref-pill tone-raw" href="#f-customers-lastname">● Last Name <span class="ref-pill-tbl">Customers</span></a>
-      </div>
-    </details>
-    <p class="field-note elem elem-desc">Customer initials — the first letter of FirstName followed by the first letter of LastName.</p>
-    </article>
-  <article class="field tone-raw" id="f-customers-lastname" data-entity="Customer" data-field="Last Name">
+  <article class="field tone-raw" id="en-f-customers-lastname" data-entity="Customer" data-field="Last Name">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Last Name</span>
@@ -377,40 +363,46 @@ html.show-consumers .elem-consumers{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-customers-fullname">ƒ Full Name <span class="ref-pill-tbl">Customer</span></a>
+      </div>
+    </details>
     <p class="field-note elem elem-desc">Last Name of the customer - used to make the full name</p>
     </article>
-  <article class="field tone-calc" id="f-customers-fullname" data-entity="Customer" data-field="Full Name">
+  <article class="field tone-calc" id="en-f-customers-fullname" data-entity="Customer" data-field="Full Name">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Full Name</span>
       <span class="pill pill-type">Calculated</span>
       <span class="pill pill-depth">1 hop from ground truth</span>
       <span class="pill pill-muted">string</span>
-      <span class="pill pill-dr">DR-3</span>
+      <span class="pill pill-dr">DR-2</span>
     </div>
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
-        <span class="view-label">In RuleSpeak</span>
-        <p class="view-body">A customer's full name is computed as the <a class="ref" href="#f-customers-firstname">first name</a>, followed by a space, followed by the <a class="ref" href="#f-customers-lastname">last name</a>.</p>
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A customer's <a class="ref" href="#en-f-customers-fullname">full name</a> is computed as the <a class="ref" href="#en-f-customers-firstname">first name</a>, followed by a space, followed by the <a class="ref" href="#en-f-customers-lastname">last name</a>.</p>
       </div>
       <div class="view elem elem-english">
-        <span class="view-label">In English</span>
-        <p class="view-body">(<a class="ref" href="#f-customers-firstname">first name</a> joined with &quot; &quot;) joined with <a class="ref" href="#f-customers-lastname">last name</a>.</p>
+        <span class="view-label">In plain words</span>
+        <p class="view-body">(<a class="ref" href="#en-f-customers-firstname">first name</a> joined with &quot; &quot;) joined with <a class="ref" href="#en-f-customers-lastname">last name</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#f-customers-firstname">First Name</a> &amp; &quot; &quot; &amp; <a class="fx-chip" href="#f-customers-lastname">Last Name</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-customers-firstname">First Name</a> &amp; &quot; &quot; &amp; <a class="fx-chip" href="#en-f-customers-lastname">Last Name</a></div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#f-customers-firstname">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">First Name</span><span class="input-table">Customers</span></span>
+        <a class="input tone-raw" href="#en-f-customers-firstname">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">First Name</span><span class="input-table">Customer</span></span>
           <span class="input-en muted">First Name of the customer - used to make the full name</span>
         </a>
-        <a class="input tone-raw" href="#f-customers-lastname">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Last Name</span><span class="input-table">Customers</span></span>
+        <a class="input tone-raw" href="#en-f-customers-lastname">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Last Name</span><span class="input-table">Customer</span></span>
           <span class="input-en muted">Last Name of the customer - used to make the full name</span>
         </a>
       </div>
@@ -418,176 +410,128 @@ html.show-consumers .elem-consumers{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#f-customers-firstname">● First Name <span class="ref-pill-tbl">Customers</span></a>
-        <a class="ref-pill tone-raw" href="#f-customers-lastname">● Last Name <span class="ref-pill-tbl">Customers</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-customers-firstname">● First Name <span class="ref-pill-tbl">Customer</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-customers-lastname">● Last Name <span class="ref-pill-tbl">Customer</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Full name is computed from the first and last name of the customer</p>
     </article>
 </section>
-<section class="entity" id="t-erbversions" data-entity="ERB Version">
-  <header class="entity-head">
-    <h2 class="entity-title">ERB Version</h2>
-    <p class="entity-synopsis">An ERB version is identified by its name.</p>
-  </header>
-  <article class="field tone-raw" id="f-erbversions-message" data-entity="ERB Version" data-field="Message">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">Message</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-  <article class="field tone-raw" id="f-erbversions-notes" data-entity="ERB Version" data-field="Notes">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">Notes</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-  <article class="field tone-raw" id="f-erbversions-commitdate" data-entity="ERB Version" data-field="Commit Date">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">Commit Date</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">datetime</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>datetime</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-  <article class="field tone-raw" id="f-erbversions-ispublished" data-entity="ERB Version" data-field="Is Published">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">Is Published</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">boolean</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-</section>
-<section class="entity" id="t-erbcustomizations" data-entity="ERB Customization">
-  <header class="entity-head">
-    <h2 class="entity-title">ERB Customization</h2>
-    <p class="entity-synopsis">An ERB customization is identified by its name.</p>
-  </header>
-  <article class="field tone-raw" id="f-erbcustomizations-title" data-entity="ERB Customization" data-field="Title">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">Title</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-  <article class="field tone-raw" id="f-erbcustomizations-sqlcode" data-entity="ERB Customization" data-field="SQL Code">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">SQL Code</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-  <article class="field tone-raw" id="f-erbcustomizations-sqltarget" data-entity="ERB Customization" data-field="SQL Target">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">SQL Target</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-  <article class="field tone-raw" id="f-erbcustomizations-customizationtype" data-entity="ERB Customization" data-field="Customization Type">
-    <div class="field-head">
-      <span class="field-glyph" title="Ground truth">●</span>
-      <span class="field-name">Customization Type</span>
-      <span class="pill pill-type">Ground truth</span>
-      <span class="pill pill-muted">string</span>
-    </div>
-    <div class="gt">
-      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
-    </div>
-    </article>
-</section>
 <footer class="doc-footer">
-  <p>Rendered from the rulebook by the shared <b>RuleSpeak</b> engine (<code>rulebook-rulespeak-core</code>). The same engine narrates the React Explainer DAG, so English, Formula and RuleSpeak read identically across both.</p>
+  <p>Rendered from the rulebook by the shared <b>RuleSpeak®</b> engine (<code>rulebook-rulespeak-core</code>). The same engine narrates the React Explainer DAG, so every narration mode reads identically across both.</p>
   <p class="doc-footer-legend"><span class="chip chip-raw">● Ground truth</span> <span class="chip chip-calc">ƒ Calculated</span> <span class="chip chip-agg">Σ Aggregation</span> <span class="chip chip-lookup">↗ Lookup</span> <span class="chip chip-rel">⇢ Relationship</span></p>
 </footer>
+</div>
 <script>
 
 (function(){
+  var LANGS=['en'];
   var ELEMS=['rulespeak','english','formula','desc','inputs','consumers'];
   var DEFAULTS={'rulespeak':true,'english':false,'formula':false,'desc':true,'inputs':true,'consumers':false};
   var root=document.documentElement;
 
-  // ── Per-element visibility, persisted. The checkboxes drive <html> classes.
+  // ── Language switching. All .lang-select controls stay in sync; the choice
+  //    persists in localStorage and the URL (?lang=…) so links carry it.
+  var selects=Array.prototype.slice.call(document.querySelectorAll('.lang-select'));
+  function currentLang(){ return root.getAttribute('data-lang')||'en'; }
+  function setLang(code,fromHash){
+    if(LANGS.indexOf(code)<0) return;
+    root.setAttribute('data-lang',code);
+    root.setAttribute('lang',code);
+    try{localStorage.setItem('rulespeak.lang',code);}catch(e){}
+    try{
+      var u=new URL(location.href);
+      u.searchParams.set('lang',code);
+      history.replaceState(null,'',u.toString());
+    }catch(e){}
+    selects.forEach(function(s){ s.value=code; });
+    if(!fromHash) rebindSpy();
+  }
+  selects.forEach(function(s){
+    s.addEventListener('change',function(){
+      var was=currentLang();
+      var code=s.value;
+      // Carry the reader to the SAME field in the new language when the hash
+      // points somewhere: swap the language prefix on the anchor.
+      var h=location.hash||'';
+      setLang(code);
+      var m=h.match(/^#([a-z]{2})-(.+)$/);
+      if(m && m[1]===was){
+        var target=document.getElementById(code+'-'+m[2]);
+        if(target){ location.hash='#'+code+'-'+m[2]; }
+      }
+    });
+  });
+
+  // ── Legacy-hash shim: pre-language anchors (#f-…, #t-…, #top) map onto the
+  //    active language's scoped ids so old deep links keep working.
+  (function(){
+    var h=location.hash||'';
+    var m=h.match(/^#((?:f|t)-.+|top)$/);
+    if(m){
+      var scoped=document.getElementById(currentLang()+'-'+m[1]);
+      if(scoped) location.replace('#'+currentLang()+'-'+m[1]);
+    }
+  })();
+
+  // ── Per-element visibility, persisted. Checkboxes exist once per language doc;
+  //    drive them all from the shared <html> classes.
   var boxes=Array.prototype.slice.call(document.querySelectorAll('.gear-opt input[data-elem]'));
   function isOn(k){ return root.classList.contains('show-'+k); }
   function setElem(k,on){
     root.classList.toggle('show-'+k,on);
     try{localStorage.setItem('rulespeak.show.'+k,on?'1':'0');}catch(e){}
-    var b=boxes.filter(function(x){return x.getAttribute('data-elem')===k;})[0];
-    if(b) b.checked=on;
+    boxes.forEach(function(b){ if(b.getAttribute('data-elem')===k) b.checked=on; });
   }
-  // Sync each checkbox to the class the pre-paint script already applied.
   boxes.forEach(function(b){
     var k=b.getAttribute('data-elem');
     b.checked=isOn(k);
     b.addEventListener('change',function(){ setElem(k,b.checked); });
   });
-  var reset=document.getElementById('gear-reset');
-  if(reset) reset.addEventListener('click',function(){ ELEMS.forEach(function(k){ setElem(k,!!DEFAULTS[k]); }); });
-
-  // ── Gear popup open/close.
-  var gear=document.getElementById('gear-btn');
-  var pop=document.getElementById('gear-pop');
-  function openPop(o){
-    pop.hidden=!o;
-    gear.setAttribute('aria-expanded',o?'true':'false');
-  }
-  gear.addEventListener('click',function(e){ e.stopPropagation(); openPop(pop.hidden); });
-  var inline=document.getElementById('gear-open-2');
-  if(inline) inline.addEventListener('click',function(e){ e.stopPropagation(); openPop(true); });
-  document.addEventListener('click',function(e){
-    if(!pop.hidden && !pop.contains(e.target) && e.target!==gear) openPop(false);
+  Array.prototype.forEach.call(document.querySelectorAll('.gear-reset'),function(reset){
+    reset.addEventListener('click',function(){ ELEMS.forEach(function(k){ setElem(k,!!DEFAULTS[k]); }); });
   });
-  document.addEventListener('keydown',function(e){ if(e.key==='Escape') openPop(false); });
 
-  // ── Scroll-spy breadcrumb: track the field/entity currently under the topbar.
-  var cE=document.querySelector('.crumb-entity');
-  var cF=document.querySelector('.crumb-field');
-  var cSep=document.querySelector('.crumb-sep');
-  var fields=Array.prototype.slice.call(document.querySelectorAll('.field[data-field]'));
-  var entities=Array.prototype.slice.call(document.querySelectorAll('.entity[data-entity]'));
+  // ── Gear popups: each language doc has its own button + popup pair.
+  Array.prototype.forEach.call(document.querySelectorAll('.lang-doc'),function(doc){
+    var gear=doc.querySelector('.gear');
+    var pop=doc.querySelector('.gear-pop');
+    if(!gear||!pop) return;
+    function openPop(o){ pop.hidden=!o; gear.setAttribute('aria-expanded',o?'true':'false'); }
+    gear.addEventListener('click',function(e){ e.stopPropagation(); openPop(pop.hidden); });
+    Array.prototype.forEach.call(doc.querySelectorAll('.gear-open-inline'),function(inline){
+      inline.addEventListener('click',function(e){ e.stopPropagation(); openPop(true); });
+    });
+    document.addEventListener('click',function(e){
+      if(!pop.hidden && !pop.contains(e.target) && e.target!==gear) openPop(false);
+    });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') openPop(false); });
+  });
+
+  // ── Scroll-spy breadcrumb, scoped to the ACTIVE language document.
+  var fields=[],entities=[],cE=null,cF=null,cSep=null;
+  function rebindSpy(){
+    var doc=document.querySelector('.lang-doc[data-lang="'+currentLang()+'"]');
+    if(!doc) return;
+    cE=doc.querySelector('.crumb-entity');
+    cF=doc.querySelector('.crumb-field');
+    cSep=doc.querySelector('.crumb-sep');
+    fields=Array.prototype.slice.call(doc.querySelectorAll('.field[data-field]'));
+    entities=Array.prototype.slice.call(doc.querySelectorAll('.entity[data-entity]'));
+    update();
+  }
   function setCrumb(entity,field){
+    if(!cE) return;
     cE.textContent=entity||'';
     if(field){ cF.textContent=field; cSep.hidden=false; }
     else { cF.textContent=''; cSep.hidden=true; }
   }
-  // The active marker is the last field/entity whose top is above the topbar line.
   var barH=parseInt(getComputedStyle(root).getPropertyValue('--bar-h'),10)||48;
   function update(){
     var line=barH+18, curF=null, curE=null;
     for(var i=0;i<fields.length;i++){ if(fields[i].getBoundingClientRect().top<=line) curF=fields[i]; else break; }
     for(var j=0;j<entities.length;j++){ if(entities[j].getBoundingClientRect().top<=line) curE=entities[j]; else break; }
     if(curF){
-      // Only pair the field with its own entity (the field is inside the current entity).
       var fEnt=curF.getAttribute('data-entity');
       var eName=curE?curE.getAttribute('data-entity'):fEnt;
       if(eName!==fEnt) setCrumb(eName,null);
@@ -599,7 +543,7 @@ html.show-consumers .elem-consumers{display:block}
   function onScroll(){ if(!ticking){ ticking=true; requestAnimationFrame(function(){ update(); ticking=false; }); } }
   window.addEventListener('scroll',onScroll,{passive:true});
   window.addEventListener('resize',onScroll,{passive:true});
-  update();
+  rebindSpy();
 })();
 
 </script>

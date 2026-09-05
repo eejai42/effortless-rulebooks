@@ -403,8 +403,8 @@ _eval_customers_full_name:
     mov x1, #1
     str x0, [sp, #32]
     str x1, [sp, #40]
-    ldr x0, [x19, #80]
-    ldr x1, [x19, #88]
+    ldr x0, [x19, #64]
+    ldr x1, [x19, #72]
     str x0, [sp, #48]
     str x1, [sp, #56]
     ldr x0, [sp, #16]
@@ -423,27 +423,6 @@ _eval_customers_full_name:
     mov x1, x0
     mov x0, x22
     bl _string_concat
-    add sp, sp, #256
-    ldp x23, x24, [sp], #16
-    ldp x21, x22, [sp], #16
-    ldp x19, x20, [sp], #16
-    ldp x29, x30, [sp], #16
-    ret
-
-// Identifier for this metadata entry. Mirrors MetaKey so the row is addressable by Name like every other table.
-// Formula: ={{MetaKey}}
-    .globl _eval___meta___name
-    .p2align 2
-_eval___meta___name:
-    stp x29, x30, [sp, #-16]!
-    mov x29, sp
-    stp x19, x20, [sp, #-16]!
-    stp x21, x22, [sp, #-16]!
-    stp x23, x24, [sp, #-16]!
-    sub sp, sp, #256
-    mov x19, x0
-    ldr x0, [x19, #0]
-    ldr x1, [x19, #8]
     add sp, sp, #256
     ldp x23, x24, [sp], #16
     ldp x21, x22, [sp], #16

@@ -1,5 +1,5 @@
 <!-- DERIVED ARTIFACT — DO NOT EDIT BY HAND -->
-<!-- Source: /Users/eejai42/.claude/skills/effortless-loop/SKILL.md -->
+<!-- Source: https://raw.githubusercontent.com/EffortlessAPI/effortless-skills/main/skills/effortless-loop/SKILL.md -->
 <!-- Mirrored by: docs/skills/clone-skills.sh -->
 <!-- Update: cd effortless-platform && effortless clone-skills -->
 

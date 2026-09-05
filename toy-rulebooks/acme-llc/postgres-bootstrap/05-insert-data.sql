@@ -10,11 +10,11 @@
 -- Customers: Table: Customers
 -- ----------------------------------------------------------------------------
 INSERT INTO customers (customer_id, email_address, first_name, last_name)
-VALUES ('jane-smith-email-com', 'jane.smith@email.com', 'Bobby', 'Smith') ON CONFLICT (customer_id) DO UPDATE SET email_address = EXCLUDED.email_address, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
+VALUES ('bob-gmail-com', 'bob@gmail.com', 'Bobby', 'Smith') ON CONFLICT (customer_id) DO UPDATE SET email_address = EXCLUDED.email_address, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 
 INSERT INTO customers (customer_id, email_address, first_name, last_name)
-VALUES ('john-doe-email-com', 'john.doe@email.com', 'Jimmy', 'Doe') ON CONFLICT (customer_id) DO UPDATE SET email_address = EXCLUDED.email_address, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
+VALUES ('jimmy-gmail-com', 'jimmy@gmail.com', 'Jimmy', 'Doe') ON CONFLICT (customer_id) DO UPDATE SET email_address = EXCLUDED.email_address, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 
 INSERT INTO customers (customer_id, email_address, first_name, last_name)
-VALUES ('emily-jones-email-com', 'emily.jones@email.com', 'Mary', 'Jones') ON CONFLICT (customer_id) DO UPDATE SET email_address = EXCLUDED.email_address, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
+VALUES ('mary-gmail-com', 'mary@gmail.com', 'Mary', 'Jones') ON CONFLICT (customer_id) DO UPDATE SET email_address = EXCLUDED.email_address, first_name = EXCLUDED.first_name, last_name = EXCLUDED.last_name;
 

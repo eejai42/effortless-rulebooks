@@ -10,7 +10,15 @@ These are demonstration toys — intentionally small domains whose job is to sho
 
 The video opens the ACME LLC rulebook, follows one formula into multiple generated runtimes, changes the rule once, and shows why generated files follow the rulebook rather than replace it. Learn more at [EffortlessAPI](https://www.effortlessapi.com/rulebook/).
 
-The defining property here is the **substrate matrix**: one rulebook, many runtimes. [acme-llc](acme-llc/) is the canonical example — three tables, six calculated fields — run through all 17 substrates (Postgres, Python, Go, COBOL, Excel, OWL, English, and more), all conformant. The domain is simple by design so that what the demo brings is the *substrate matrix*, not the complexity of the subject matter.
+## Watch the ACME LLC walkthrough
+
+[![One Rulebook, Four Surfaces — watch the ACME LLC walkthrough](assets/acme-llc-walkthrough-player.png)](https://www.youtube.com/watch?v=gggujL-g-G4)
+
+▶ [**Play: One Rulebook, Four Surfaces | ACME LLC Walkthrough**](https://www.youtube.com/watch?v=gggujL-g-G4)
+
+Start the project, inspect `Customers.FullName` in the editor, Postgres, a custom customer app, and RuleSpeak, then rebuild once and watch the generated Excel workbook follow the same rule.
+
+The defining property here is the **substrate matrix**: one rulebook, many runtimes. [acme-llc](acme-llc/) is the canonical example — one table and two calculated fields — run through all 17 substrates (Postgres, Python, Go, COBOL, Excel, OWL, English, and more), all conformant. The domain is simple by design so that what the demo brings is the *substrate matrix*, not the complexity of the subject matter.
 
 Because this repo is also used as a live demonstration environment, some toy domains may show partially-completed loop steps at any given moment. A full `effortless build` on any domain resets it to its defined state.
 

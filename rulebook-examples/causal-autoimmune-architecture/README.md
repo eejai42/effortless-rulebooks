@@ -1,9 +1,22 @@
 # Causal Autoimmune Architecture — a deterministic diagnosis from raw facts alone
 
-> **Demonstration of inference structure, not validated clinical decision support.**
-> Gene, HLA, drug, and threshold names are real and literature-aligned only so the synthetic data
-> reads plausibly. Nothing here is for any clinical purpose. All patients are invented; all clinical
-> figures are public, cited literature ranges.
+> **Demonstration of explainable clinical decision-support structure, not validated biology or
+> medical advice.** The application makes a recommendation and its derivation visible down to the
+> accepted facts, but a domain expert must still judge whether its formulas, thresholds, and medical
+> terms are meaningful. All patient data is synthetic.
+
+## Watch the repository tour
+
+[![The AI Didn't Make the Decision — watch the Causal Autoimmunity architecture tour](assets/causal-autoimmune-architecture-repository-tour-player.png)](https://www.youtube.com/watch?v=dNoe_yQuWSg)
+
+▶ [**Play: The AI Didn't Make the Decision. The Rulebook Did. | Causal Autoimmunity**](https://www.youtube.com/watch?v=dNoe_yQuWSg)
+
+The revised video follows the complete trust boundary: a doctor writes the case notes, a language
+model extracts fourteen invariant facts, and the rulebook deterministically computes fifty-eight
+higher-order inferences, four evidence gates, and the actionable recommendation. It explains exactly
+why Diego fails despite otherwise strong evidence, follows one changed fact through a live-recomputing
+DAG, opens the keystone's formula without clipping it, and shows how a medical negative control breaks
+patient-level correlation while preserving the measurements.
 
 ## What this demonstrates
 
@@ -92,7 +105,7 @@ patients fail, each on exactly one gate:
 | Patient | Ancestry | Actionable | The single deciding reason |
 |---|---|:--:|---|
 | A | European (in-training)        | **TRUE**  | All gates pass — confirmed IRF5→IFN node, calibrated, not spurious, in-training. |
-| B | European (in-training)        | FALSE | **Calibration** — same mechanism as A, but reliability-bin coverage 8 (<20) ⇒ uncertainty collapses. |
+| B | European (in-training)        | FALSE | **Calibration** — same mechanism as A, but all five reliability bins have coverage of only 7–14 (<20) ⇒ uncertainty collapses. |
 | C | East Asian (in-training)      | FALSE | **Spurious mechanism** — STAT4 replication sign-flips and a negative control fails to collapse. |
 | D | European (in-training)        | FALSE | **Cryptic relatedness** — fully confirmed + well-calibrated, but a relatedness leakage flag is set. |
 | E | African (in-training)         | FALSE | **Falsifiability** — qualified, replicated CTLA4 mechanism, but zero intervention targets exist. |

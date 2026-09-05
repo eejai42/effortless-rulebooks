@@ -19,6 +19,7 @@ effortless-ntwf:customerId a owl:DatatypeProperty ;
     rdfs:label "CustomerId" .
 
 effortless-ntwf:name a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:Customers ;
     rdfs:range xsd:string ;
     rdfs:label "Name" ;
     rdfs:comment "Identifier for the customer." .
@@ -36,13 +37,6 @@ effortless-ntwf:firstName a owl:DatatypeProperty ;
     rdfs:label "FirstName" ;
     rdfs:comment "First Name of the customer - used to make the full name" .
 
-effortless-ntwf:initials a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:Customers ;
-    rdfs:range xsd:string ;
-    rdfs:label "Initials" ;
-    rdfs:comment "Customer initials — the first letter of FirstName followed by the first letter of LastName." .
-    # calculated: calculated
-
 effortless-ntwf:lastName a owl:DatatypeProperty ;
     rdfs:domain effortless-ntwf:Customers ;
     rdfs:range xsd:string ;
@@ -55,76 +49,3 @@ effortless-ntwf:fullName a owl:DatatypeProperty ;
     rdfs:label "FullName" ;
     rdfs:comment "Full name is computed from the first and last name of the customer" .
     # calculated: calculated
-
-# === Class: ERBCustomizations ===
-effortless-ntwf:ERBCustomizations a owl:Class ;
-    rdfs:label "ERBCustomizations" ;
-    rdfs:comment "Table: ERBCustomizations" .
-
-effortless-ntwf:eRBCustomizationId a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBCustomizations ;
-    rdfs:range xsd:string ;
-    rdfs:label "ERBCustomizationId" .
-
-effortless-ntwf:name a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "Name" .
-
-effortless-ntwf:title a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBCustomizations ;
-    rdfs:range xsd:string ;
-    rdfs:label "Title" .
-
-effortless-ntwf:sQLCode a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBCustomizations ;
-    rdfs:range xsd:string ;
-    rdfs:label "SQLCode" .
-
-effortless-ntwf:sQLTarget a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBCustomizations ;
-    rdfs:range xsd:string ;
-    rdfs:label "SQLTarget" .
-
-effortless-ntwf:customizationType a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBCustomizations ;
-    rdfs:range xsd:string ;
-    rdfs:label "CustomizationType" .
-
-# === Class: ERBVersions ===
-effortless-ntwf:ERBVersions a owl:Class ;
-    rdfs:label "ERBVersions" ;
-    rdfs:comment "Table: ERBVersions" .
-
-effortless-ntwf:eRBVersionId a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBVersions ;
-    rdfs:range xsd:string ;
-    rdfs:label "ERBVersionId" .
-
-effortless-ntwf:baseId a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBVersions ;
-    rdfs:range xsd:string ;
-    rdfs:label "BaseId" .
-
-effortless-ntwf:name a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "Name" .
-
-effortless-ntwf:message a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBVersions ;
-    rdfs:range xsd:string ;
-    rdfs:label "Message" .
-
-effortless-ntwf:notes a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBVersions ;
-    rdfs:range xsd:string ;
-    rdfs:label "Notes" .
-
-effortless-ntwf:commitDate a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBVersions ;
-    rdfs:range xsd:string ;
-    rdfs:label "CommitDate" .
-
-effortless-ntwf:isPublished a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:ERBVersions ;
-    rdfs:range xsd:boolean ;
-    rdfs:label "IsPublished" .
