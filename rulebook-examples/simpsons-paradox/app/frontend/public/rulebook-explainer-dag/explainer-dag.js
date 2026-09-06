@@ -2,7 +2,7 @@
  * Portable Explainer DAG — vanilla-JS client for any HTML host. Feature-parity
  * port of rulebook-to-explainer-dag-react:
  *   • Provenance toggle pill (top-right)      — glyphs on/off; OFF still allows dbl-click
- *   • Narration slider (RuleSpeak·English·Formula) — global, remembered
+ *   • Narration slider (RuleSpeak®·English·Formula) — global, remembered
  *   • Settings gear (top-right)               — checkboxes gating which sections
  *                                               show in the hover card AND the page
  *   • Hover micro-page over cells             — sticky, dialect follows narration
@@ -88,7 +88,7 @@
   // page container class (show-<key>) and the hover-card section visibility.
   const DOC_ELEMENTS = [
     { key: "desc",      label: "Description", hint: "The field's plain-language description." },
-    { key: "rulespeak", label: "RuleSpeak",  hint: "The declarative business rule." },
+    { key: "rulespeak", label: "RuleSpeak®",  hint: "The declarative business rule." },
     { key: "english",   label: "English",    hint: "The formula read as a plain sentence." },
     { key: "formula",   label: "Formula",    hint: "The raw spreadsheet-style formula." },
     { key: "inputs",    label: "Inputs",     hint: "The fields this one-line function calls." },
@@ -394,9 +394,9 @@
     return bar;
   }
 
-  // The global 3-way RuleSpeak·English·Formula segmented control.
+  // The global 3-way RuleSpeak®·English·Formula segmented control.
   const NARRATION_OPTIONS = [
-    { value: "rulespeak", label: "RuleSpeak", hint: "The declarative business rule (only if / must / priority)" },
+    { value: "rulespeak", label: "RuleSpeak®", hint: "The declarative business rule (only if / must / priority)" },
     { value: "english",   label: "English",   hint: "The formula read as a plain English sentence" },
     { value: "formula",   label: "Formula",   hint: "The raw spreadsheet-style formula, with clickable fields" },
   ];
@@ -645,7 +645,7 @@
       const ruleBody = rs.structure
         ? `<div class="dag-english-text">${ruleTreeHtml(rs.structure, refs)}</div>`
         : `<p class="dag-english-text">${renderRuleRichHtml(rs.rule, refs)}.</p>`;
-      inner += `<div class="dag-english dag-rs-rule"><span class="dag-english-label">In RuleSpeak${mech}</span>${ruleBody}</div>`;
+      inner += `<div class="dag-english dag-rs-rule"><span class="dag-english-label">In RuleSpeak®${mech}</span>${ruleBody}</div>`;
     } else {
       inner += `<p class="dag-english-text muted">No declarative rule was rendered for this ${esc(dag.type)} field.</p>`;
     }
@@ -655,7 +655,7 @@
         obls.map((o) => `<li class="dag-rs-obl dag-rs-obl-${o.severity || "hard"}">${renderRuleRichHtml(o.markdown, refs)}</li>`).join("") +
         `</ul></div>`;
     }
-    inner += `<p class="dag-formula-hint muted">${dag.formula ? "This is the same logic the formula encodes, written as a business rule — rendered from the rulebook by the shared RuleSpeak engine." : "Rendered from the rulebook by the shared RuleSpeak engine."}</p>`;
+    inner += `<p class="dag-formula-hint muted">${dag.formula ? "This is the same logic the formula encodes, written as a business rule — rendered from the rulebook by the shared RuleSpeak® engine." : "Rendered from the rulebook by the shared RuleSpeak® engine."}</p>`;
     sec.innerHTML = inner;
     return sec;
   }
@@ -669,7 +669,7 @@
       inner += `<div class="dag-english"><span class="dag-english-label">In English</span><p class="dag-english-text">${linkifyHtml(english, refs)}.</p></div>` +
         `<p class="dag-formula-hint muted">Each underlined field is itself a one-line function. Click any to drill in.</p>`;
     } else {
-      inner += `<p class="dag-english-text muted">This ${esc(dag.type)} has no spreadsheet formula to read as a sentence — it is a roll-up defined structurally over a relationship. Switch to <strong>RuleSpeak</strong> to see how it’s defined.</p>`;
+      inner += `<p class="dag-english-text muted">This ${esc(dag.type)} has no spreadsheet formula to read as a sentence — it is a roll-up defined structurally over a relationship. Switch to <strong>RuleSpeak®</strong> to see how it’s defined.</p>`;
     }
     sec.innerHTML = inner;
     return sec;
@@ -683,7 +683,7 @@
       inner += `<div class="dag-formula-syntax"><span class="dag-formula-label">As a formula</span><div class="dag-formula-code">${formulaHtml(dag.formula, dag.table)}</div></div>` +
         `<p class="dag-formula-hint muted">Each chip is itself a one-line function. Click any chip to drill in.</p>`;
     } else {
-      inner += `<p class="dag-english-text muted">This ${esc(dag.type)} has no spreadsheet formula — it is a roll-up defined structurally over a relationship. Switch to <strong>RuleSpeak</strong> to see how it’s defined.</p>`;
+      inner += `<p class="dag-english-text muted">This ${esc(dag.type)} has no spreadsheet formula — it is a roll-up defined structurally over a relationship. Switch to <strong>RuleSpeak®</strong> to see how it’s defined.</p>`;
     }
     sec.innerHTML = inner;
     return sec;
@@ -830,20 +830,20 @@
       const body = rs && rs.rule
         ? `<span class="dag-hovercard-english-text">${renderRuleRichHtml(rs.rule, tonedRefs(rs))}.</span>`
         : `<span class="dag-hovercard-english-text dag-hovercard-muted">No declarative rule rendered.</span>`;
-      return `<span class="dag-hovercard-english"><span class="dag-hovercard-label">In RuleSpeak</span>${body}</span>`;
+      return `<span class="dag-hovercard-english"><span class="dag-hovercard-label">In RuleSpeak®</span>${body}</span>`;
     }
     if (mode === "english" && elems.english) {
       const rs = ruleSpeakFor(dag.table, dag.field);
       const eng = R().englishForFormula(dag.formula);
       const body = eng
         ? `<span class="dag-hovercard-english-text">${linkifyHtml(eng, tonedRefs(rs))}.</span>`
-        : `<span class="dag-hovercard-english-text dag-hovercard-muted">No formula — a structural roll-up. See RuleSpeak.</span>`;
+        : `<span class="dag-hovercard-english-text dag-hovercard-muted">No formula — a structural roll-up. See RuleSpeak®.</span>`;
       return `<span class="dag-hovercard-english"><span class="dag-hovercard-label">In English</span>${body}</span>`;
     }
     if (mode === "formula" && elems.formula) {
       const body = dag.formula
         ? `<span class="dag-hovercard-formula-code">${formulaHtml(dag.formula, dag.table)}</span>`
-        : `<span class="dag-hovercard-english-text dag-hovercard-muted">No formula — a structural roll-up. See RuleSpeak.</span>`;
+        : `<span class="dag-hovercard-english-text dag-hovercard-muted">No formula — a structural roll-up. See RuleSpeak®.</span>`;
       return `<span class="dag-hovercard-formula"><span class="dag-hovercard-label">As a formula</span>${body}</span>`;
     }
     return ""; // current dialect disabled in settings → show nothing for it

@@ -372,15 +372,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A customer's <a class="ref" href="#en-f-customers-initials">initials</a> is computed as the first 1 character(s) of the <a class="ref" href="#en-f-customers-firstname">first name</a>, followed by the first 1 character(s) of the <a class="ref" href="#en-f-customers-lastname">last name</a>, followed by “-v2”.</p>
+        <p class="view-body">A customer's <a class="ref" href="#en-f-customers-initials">initials</a> is computed as the first 1 character(s) of the <a class="ref" href="#en-f-customers-firstname">first name</a>, followed by the first 1 character(s) of the <a class="ref" href="#en-f-customers-lastname">last name</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">(the first 1 characters of <a class="ref" href="#en-f-customers-firstname">first name</a> joined with the first 1 characters of <a class="ref" href="#en-f-customers-lastname">last name</a>) joined with &quot;-v2&quot;.</p>
+        <p class="view-body">The first 1 characters of <a class="ref" href="#en-f-customers-firstname">first name</a> joined with the first 1 characters of <a class="ref" href="#en-f-customers-lastname">last name</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>LEFT(<a class="fx-chip" href="#en-f-customers-firstname">First Name</a>, 1) &amp;LEFT(<a class="fx-chip" href="#en-f-customers-lastname">Last Name</a>, 1) &amp; &quot;-v2&quot;</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>LEFT(<a class="fx-chip" href="#en-f-customers-firstname">First Name</a>, 1) &amp;LEFT(<a class="fx-chip" href="#en-f-customers-lastname">Last Name</a>, 1)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
@@ -403,7 +403,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
         <a class="ref-pill tone-raw" href="#en-f-customers-lastname">● Last Name <span class="ref-pill-tbl">Customer</span></a>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Last letter of first and last name, dot-separated with trailing dot</p>
+    <p class="field-note elem elem-desc">First letter of the first and last name</p>
     </article>
 </section>
 <footer class="doc-footer">

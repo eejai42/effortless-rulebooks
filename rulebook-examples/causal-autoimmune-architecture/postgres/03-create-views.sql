@@ -19,7 +19,7 @@ DROP VIEW IF EXISTS vw_state_transition_rules CASCADE;
 DROP VIEW IF EXISTS vw_machine_states CASCADE;
 DROP VIEW IF EXISTS vw_state_machines CASCADE;
 DROP VIEW IF EXISTS vw_routing_and_navigation CASCADE;
-DROP VIEW IF EXISTS vw_leopold_loops CASCADE;
+DROP VIEW IF EXISTS vw_effortless_loops CASCADE;
 DROP VIEW IF EXISTS vw_glossary_terms CASCADE;
 DROP VIEW IF EXISTS vw_non_goals CASCADE;
 DROP VIEW IF EXISTS vw_open_questions CASCADE;
@@ -513,11 +513,11 @@ SELECT
   calc_individual_predictions_is_ancestry_holdout(t.individual_prediction_id) AS is_ancestry_holdout,-- True when individual ancestry absent from training.
   calc_individual_predictions_individual_causal_mass(t.individual_prediction_id) AS individual_causal_mass,-- Summed confirmed causal confidence for this individual (empty-guarded).
   calc_individual_predictions_individual_confirmed_node_count(t.individual_prediction_id) AS individual_confirmed_node_count,-- Count of this individual's confirmed causal nodes (empty-guarded).
-  calc_individual_predictions_individual_cross_ancestry_node_coun(t.individual_prediction_id) AS individual_cross_ancestry_node_count,-- Count of this individual's cross-ancestry-replicated confirmed nodes (empty-guarded).
+  calc_individual_predictions_individual_cross_ancestry_node_count(t.individual_prediction_id) AS individual_cross_ancestry_node_count,-- Count of this individual's cross-ancestry-replicated confirmed nodes (empty-guarded).
   calc_individual_predictions_individual_has_cryptic_relatedness(t.individual_prediction_id) AS individual_has_cryptic_relatedness,-- Whether this individual carries a cryptic-relatedness leakage flag (empty-guarded).
   calc_individual_predictions_individual_max_severity_score(t.individual_prediction_id) AS individual_max_severity_score,-- This individual's max clinical SeverityScore (empty-guarded).
-  calc_individual_predictions_individual_has_high_severity_phenot(t.individual_prediction_id) AS individual_has_high_severity_phenotype,-- Whether this individual has a high-severity phenotype (empty-guarded).
-  calc_individual_predictions_individual_has_predicted_treatment_(t.individual_prediction_id) AS individual_has_predicted_treatment_response,-- Whether this individual has a treatment predicted to respond (empty-guarded).
+  calc_individual_predictions_individual_has_high_severity_phenotype(t.individual_prediction_id) AS individual_has_high_severity_phenotype,-- Whether this individual has a high-severity phenotype (empty-guarded).
+  calc_individual_predictions_individual_has_predicted_treatment_response(t.individual_prediction_id) AS individual_has_predicted_treatment_response,-- Whether this individual has a treatment predicted to respond (empty-guarded).
   calc_individual_predictions_predicted_value(t.individual_prediction_id) AS predicted_value,-- Derived risk magnitude (0-10), a monotone function of validated causal mass only - rides mechanism, not ancestry correlation.
   calc_individual_predictions_count_bins(t.individual_prediction_id) AS count_bins,-- Total reliability bins for this prediction.
   calc_individual_predictions_count_well_calibrated_bins(t.individual_prediction_id) AS count_well_calibrated_bins,-- Bins passing coverage and accuracy.
@@ -640,7 +640,7 @@ SELECT
   t.challenge_refs_rendered,                                                    -- Pre-flattened Markdown bullet list of ChallengeRefs, so the dumb hbars template can print it verbatim (the engine has no loop-over-JSON helper).
   t.challenge_notes,                                                            -- Free-form Markdown comment: which challenge elements this relates to (directly or indirectly) and how it is load-bearing or illustrative.
   t.ref_count,                                                                  -- Number of challenge refs (carried as raw for display; the hbars engine can't count a JSON string).
-  t.assigned_loop,                                                              -- FK -> LeopoldLoops.LeopoldLoopId; empty if unscheduled.
+  t.assigned_loop,                                                              -- FK -> EffortlessLoops.EffortlessLoopId; empty if unscheduled.
   calc_features_name(t.feature_id) AS name,                                     -- Display label.
   calc_features_relative_path(t.feature_id) AS relative_path,                   -- Path to this Features entry: /admin/features/<id>.
   calc_features_meta_line(t.feature_id) AS meta_line                            -- One-line meta summary for the catalog (category - priority - ref count).
@@ -709,13 +709,13 @@ SELECT
 FROM glossary_terms t;
 
 -- ----------------------------------------------------------------------------
--- vw_leopold_loops: The ordered Leopold loops that build this platform, as data. The derived plan (LEOPOLD_LOOPs.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan.
+-- vw_effortless_loops: The ordered Effortless loops that build this platform, as data. The derived plan (EFFORTLESS_LOOPS.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan.
 -- Combines base table columns with calculated/lookup/aggregation fields.
 -- ----------------------------------------------------------------------------
-DROP VIEW IF EXISTS vw_leopold_loops CASCADE;
-CREATE VIEW vw_leopold_loops WITH (security_invoker = ON) AS
+DROP VIEW IF EXISTS vw_effortless_loops CASCADE;
+CREATE VIEW vw_effortless_loops WITH (security_invoker = ON) AS
 SELECT
-  t.leopold_loop_id,                                                            -- Stable identifier.
+  t.effortless_loop_id,                                                         -- Stable identifier.
   t.loop_number,                                                                -- Display number (0, 0.5, 1...).
   t.title,                                                                      -- Loop title.
   t.goal,                                                                       -- The one coherent rule-change / outcome.
@@ -723,13 +723,13 @@ SELECT
   t.rule_commit_msg,                                                            -- The rule commit message (or "none — app-only loop").
   t.state_commit_msg,                                                           -- The state commit message.
   t.sort_order,                                                                 -- Ordering within the plan.
-  calc_leopold_loops_name(t.leopold_loop_id) AS name,                           -- Display label.
-  calc_leopold_loops_relative_path(t.leopold_loop_id) AS relative_path,         -- Path to this LeopoldLoops entry: /admin/leopold-loops/<id>.
-  calc_leopold_loops_completedness(t.leopold_loop_id) AS completedness,         -- Normalized status used by the derived plan to decide placement.
-  calc_leopold_loops_is_in_current_plan(t.leopold_loop_id) AS is_in_current_plan,-- TRUE for the current "next" loop and anything still planned/backlog (not done).
+  calc_effortless_loops_name(t.effortless_loop_id) AS name,                     -- Display label.
+  calc_effortless_loops_relative_path(t.effortless_loop_id) AS relative_path,   -- Path to this EffortlessLoops entry: /admin/effortless-loops/<id>.
+  calc_effortless_loops_completedness(t.effortless_loop_id) AS completedness,   -- Normalized status used by the derived plan to decide placement.
+  calc_effortless_loops_is_in_current_plan(t.effortless_loop_id) AS is_in_current_plan,-- TRUE for the current "next" loop and anything still planned/backlog (not done).
   t.status_badge,                                                               -- Display badge for the derived plan, e.g. [DONE] / [NEXT] / [PLANNED] / [BACKLOG].
   t.status_line                                                                 -- Extra plan line: commit messages for done/next loops; empty otherwise.
-FROM leopold_loops t;
+FROM effortless_loops t;
 
 -- ----------------------------------------------------------------------------
 -- vw_routing_and_navigation: Role-based navigation: open-ended parent->child->leaf routes with computed paths. Each route has a template (/intake/case/:caseId); entities carry RelativePath that substitutes their own id/slug. Roles: admin, intake-clinician, diagnosing-doctor, external-llm.

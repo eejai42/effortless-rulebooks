@@ -82,7 +82,7 @@ WORKDIR /app
 # boot sequence: copied into place as /app/effortless-root/effortless.json
 # ONLY IF that file is missing there, never unconditionally overwritten on
 # every boot/rebuild -- see that script for why). Registers: rulebook-to-postgres
-# (/postgres), init-db.sh exec (/postgres), rulebook-to-node-postgres-api
+# (/postgres), reset wrapper exec (/postgres), rulebook-to-node-postgres-api
 # (/api), rulebook-to-vite-admin-portal (/admin-portal),
 # rulebook-to-explainer-dag (/admin-portal/public, served at
 # /rulebook-explainer-dag/*), rulebook-to-rulespeak (/rulespeak, all 10

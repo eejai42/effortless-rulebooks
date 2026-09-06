@@ -317,7 +317,7 @@ Decided 2026-09-04 after a first attempt to physically separate the bus was reve
 - [x] Fix two proxy rigidities found while testing: it now serves projects under `toy-rulebooks/` (20 toys had enabled routes it refused) and accepts a hub named `effortless-rulebook.json`.
 - [x] Reverted: a physical move of the bus, substrates, formula core and harness into a separate `transpiler-bus/` project (commit `0338a1f2`, reverted the same day). It broke the runner's menu and duplicated what CLI Step 12 will do properly.
 - [ ] When CLI Step 12 lands: convert the injectors to `effortless-tools/` script tools, repoint the 26 child manifests to bare names, flip the bus/substrate/formula-core rows to `done`.
-- [ ] Model substrate conformance results as root rulebook rows the explorer displays; flip the harness row to `done`.
+- [x] Model substrate conformance results as root rulebook rows the explorer displays; flip the harness row to `done`. `ConformanceRuns`/`ConformanceResults` record each harness invocation; `/conformance` in the root explorer shows the pass/fail matrix and can trigger a new run via `scripts/run-conformance.py` (2026-09-06).
 
 ### Phase 5 — Work findings to zero
 

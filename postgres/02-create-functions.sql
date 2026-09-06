@@ -1726,6 +1726,24 @@ RETURNS DATE AS $$
   SELECT (SELECT witnessed_on FROM project_slot_witnesses WHERE project_slot_witness_id = p_project_slot_witness_id);
 $$ LANGUAGE sql STABLE;
 
+-- get_conformance_runs_ran_on
+-- Helper function: Get RanOn from ConformanceRuns by ConformanceRunId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_runs_ran_on(p_conformance_run_id TEXT)
+RETURNS TIMESTAMPTZ AS $$
+  SELECT (SELECT ran_on FROM conformance_runs WHERE conformance_run_id = p_conformance_run_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_runs_raw_results_json
+-- Helper function: Get RawResultsJson from ConformanceRuns by ConformanceRunId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_runs_raw_results_json(p_conformance_run_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT raw_results_json FROM conformance_runs WHERE conformance_run_id = p_conformance_run_id);
+$$ LANGUAGE sql STABLE;
+
 -- get_project_launch_profiles_working_directory
 -- Helper function: Get WorkingDirectory from ProjectLaunchProfiles by ProjectLaunchProfileId
 -- Used for join-free cross-table references in aggregations
@@ -2027,6 +2045,16 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_rulebook_domains_slot_witness_count(p_domain_id TEXT)
 RETURNS NUMERIC AS $$
   SELECT ((SELECT COUNT(*) FROM project_slot_witnesses WHERE domain = (SELECT NULLIF(domain_id, '') FROM rulebook_domains WHERE domain_id = p_domain_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_rulebook_domains_conformance_run_count
+-- Field: RulebookDomains.ConformanceRunCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_rulebook_domains_conformance_run_count(p_domain_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM conformance_runs WHERE domain = (SELECT NULLIF(domain_id, '') FROM rulebook_domains WHERE domain_id = p_domain_id)))::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_domains_present_slot_count
@@ -2382,6 +2410,181 @@ $$ LANGUAGE sql STABLE;
 CREATE OR REPLACE FUNCTION calc_legacy_runner_capabilities_capability_label(p_legacy_runner_capability_id TEXT)
 RETURNS TEXT AS $$
   SELECT (CONCAT((SELECT NULLIF(title, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id), ' [', (SELECT NULLIF(decision, '') FROM legacy_runner_capabilities WHERE legacy_runner_capability_id = p_legacy_runner_capability_id), ']'))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_domain_name
+-- Field: ConformanceRuns.DomainName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: DomainName from related RulebookDomains
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_domain_name(p_conformance_run_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT domain_name::text FROM rulebook_domains WHERE domain_id = (SELECT domain FROM conformance_runs WHERE conformance_run_id = p_conformance_run_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_substrate_name
+-- Helper function: Get SubstrateName from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_substrate_name(p_conformance_result_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT substrate_name FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_status
+-- Helper function: Get Status from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_status(p_conformance_result_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT status FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_score
+-- Helper function: Get Score from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_score(p_conformance_result_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT score FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_fields_tested
+-- Helper function: Get FieldsTested from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_fields_tested(p_conformance_result_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT fields_tested FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_fields_passed
+-- Helper function: Get FieldsPassed from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_fields_passed(p_conformance_result_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT fields_passed FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_fields_failed
+-- Helper function: Get FieldsFailed from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_fields_failed(p_conformance_result_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT fields_failed FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_conformance_results_duration_seconds
+-- Helper function: Get DurationSeconds from ConformanceResults by ConformanceResultId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_conformance_results_duration_seconds(p_conformance_result_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (SELECT duration_seconds FROM conformance_results WHERE conformance_result_id = p_conformance_result_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_name
+-- Field: ConformanceRuns.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_name(p_conformance_run_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(conformance_run_id, '') FROM conformance_runs WHERE conformance_run_id = p_conformance_run_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_total_substrates
+-- Field: ConformanceRuns.TotalSubstrates
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_total_substrates(p_conformance_run_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM conformance_results WHERE run = (SELECT NULLIF(conformance_run_id, '') FROM conformance_runs WHERE conformance_run_id = p_conformance_run_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_passing_substrate_count
+-- Field: ConformanceRuns.PassingSubstrateCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_passing_substrate_count(p_conformance_run_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COALESCE(SUM((calc_conformance_results_is_passing_flag(conformance_result_id))::numeric), 0) FROM conformance_results WHERE run = p_conformance_run_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_failing_substrate_count
+-- Field: ConformanceRuns.FailingSubstrateCount
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_failing_substrate_count(p_conformance_run_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_conformance_runs_total_substrates(p_conformance_run_id)) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_conformance_runs_passing_substrate_count(p_conformance_run_id)) AS v) __safe_numeric), 0)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_overall_score
+-- Field: ConformanceRuns.OverallScore
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_overall_score(p_conformance_run_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COALESCE(AVG((score)::numeric), 0) FROM conformance_results WHERE run = p_conformance_run_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_overall_status
+-- Field: ConformanceRuns.OverallStatus
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_overall_status(p_conformance_run_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN (calc_conformance_runs_total_substrates(p_conformance_run_id))::NUMERIC = 0 THEN ('no-results')::text ELSE (CASE WHEN (calc_conformance_runs_failing_substrate_count(p_conformance_run_id))::NUMERIC = 0 THEN ('all-passing')::text ELSE ('has-failures')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_results_run_domain_name
+-- Field: ConformanceResults.RunDomainName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: DomainName from related ConformanceRuns
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_results_run_domain_name(p_conformance_result_id TEXT)
+RETURNS TEXT AS $$
+  SELECT calc_conformance_runs_domain_name((SELECT run FROM conformance_results WHERE conformance_result_id = p_conformance_result_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_results_name
+-- Field: ConformanceResults.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_results_name(p_conformance_result_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(conformance_result_id, '') FROM conformance_results WHERE conformance_result_id = p_conformance_result_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_results_is_passing
+-- Field: ConformanceResults.IsPassing
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_results_is_passing(p_conformance_result_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT NULLIF(status, '') FROM conformance_results WHERE conformance_result_id = p_conformance_result_id) = 'success' AND ((SELECT score FROM conformance_results WHERE conformance_result_id = p_conformance_result_id))::NUMERIC >= 100));
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_results_is_passing_flag
+-- Field: ConformanceResults.IsPassingFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_conformance_results_is_passing_flag(p_conformance_result_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN ((SELECT NULLIF(status, '') FROM conformance_results WHERE conformance_result_id = p_conformance_result_id) = 'success' AND ((SELECT score FROM conformance_results WHERE conformance_result_id = p_conformance_result_id))::NUMERIC >= 100) THEN (1)::text ELSE (0)::text END)::numeric;
 $$ LANGUAGE sql STABLE;
 
 -- calc_rulebook_flavors_domain_area
@@ -5816,6 +6019,19 @@ RETURNS TEXT AS $$
   );
 $$ LANGUAGE sql STABLE;
 
+-- calc_rulebook_domains_conformance_runs
+-- Field: RulebookDomains.ConformanceRuns
+-- Type: Inverse relationship (reverse FK lookup from ConformanceRuns.Domain)
+
+CREATE OR REPLACE FUNCTION calc_rulebook_domains_conformance_runs(p_domain_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(conformance_run_id::TEXT, ', ' ORDER BY conformance_run_id)
+    FROM conformance_runs
+    WHERE domain = p_domain_id
+  );
+$$ LANGUAGE sql STABLE;
+
 -- calc_rulebook_domains_launch_profiles
 -- Field: RulebookDomains.LaunchProfiles
 -- Type: Inverse relationship (reverse FK lookup from ProjectLaunchProfiles.Domain)
@@ -5839,6 +6055,19 @@ RETURNS TEXT AS $$
     SELECT STRING_AGG(project_local_service_id::TEXT, ', ' ORDER BY project_local_service_id)
     FROM project_local_services
     WHERE launch_profile = p_project_launch_profile_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_conformance_runs_conformance_results
+-- Field: ConformanceRuns.ConformanceResults
+-- Type: Inverse relationship (reverse FK lookup from ConformanceResults.Run)
+
+CREATE OR REPLACE FUNCTION calc_conformance_runs_conformance_results(p_conformance_run_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(conformance_result_id::TEXT, ', ' ORDER BY conformance_result_id)
+    FROM conformance_results
+    WHERE run = p_conformance_run_id
   );
 $$ LANGUAGE sql STABLE;
 

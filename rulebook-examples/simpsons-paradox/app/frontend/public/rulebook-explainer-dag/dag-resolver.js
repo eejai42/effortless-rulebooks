@@ -254,7 +254,7 @@
       .toLowerCase();
   }
 
-  // ── RuleSpeak accessors (mirrors lib/rulespeak.ts) ──────────────────────────
+  // ── RuleSpeak® accessors (mirrors lib/rulespeak.ts) ──────────────────────────
   function ruleSpeakForField(table, field) {
     const b = getBundle();
     return (b.rulespeakFields || {})[`${table}.${field}`] || null;

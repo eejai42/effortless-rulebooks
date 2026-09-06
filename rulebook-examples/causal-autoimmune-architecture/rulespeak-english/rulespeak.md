@@ -388,7 +388,7 @@ _Rulebook for inferring the complete causal architecture of heterogeneous autoim
 | Challenge Refs Rendered | A defined attribute. | _Pre-flattened Markdown bullet list of ChallengeRefs, so the dumb hbars template can print it verbatim (the engine has no loop-over-JSON helper)._ |
 | Challenge Notes | A defined attribute. | _Free-form Markdown comment: which challenge elements this relates to (directly or indirectly) and how it is load-bearing or illustrative._ |
 | Ref Count | A defined attribute. | _Number of challenge refs (carried as raw for display; the hbars engine can't count a JSON string)._ |
-| Assigned Loop | A defined attribute. | _FK -> LeopoldLoops.LeopoldLoopId; empty if unscheduled._ |
+| Assigned Loop | A defined attribute. | _FK -> EffortlessLoops.EffortlessLoopId; empty if unscheduled._ |
 | Name | The same as its title. | _Display label._ |
 | Relative Path | Computed as “/admin/features/”, followed by the feature ID. | _Path to this Features entry: /admin/features/<id>._ |
 | Meta Line | Computed as “**Category:** ”, followed by the category, followed by “ - **Priority:** ”, followed by the priority, followed by “ - **Challenge refs:** ”, followed by the ref count. | _One-line meta summary for the catalog (category - priority - ref count)._ |
@@ -418,7 +418,7 @@ _Rulebook for inferring the complete causal architecture of heterogeneous autoim
 | Definition | A defined attribute. | _What it means here._ |
 | Name | The same as its term. | _Display label._ |
 | Relative Path | Computed as “/admin/glossary/”, followed by the glossary term ID. | _Path to this GlossaryTerms entry: /admin/glossary/<id>._ |
-| **Leopold Loop** | The ordered Leopold loops that build this platform, as data. The derived plan (LEOPOLD_LOOPs.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan. | — |
+| **Effortless Loop** | The ordered Effortless loops that build this platform, as data. The derived plan (EFFORTLESS_LOOPS.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan. | — |
 | Loop Number | A defined attribute. | _Display number (0, 0.5, 1...)._ |
 | Title | A defined attribute. | _Loop title._ |
 | Goal | A defined attribute. | _The one coherent rule-change / outcome._ |
@@ -427,7 +427,7 @@ _Rulebook for inferring the complete causal architecture of heterogeneous autoim
 | State Commit Msg | A defined attribute. | _The state commit message._ |
 | Sort Order | A defined attribute. | _Ordering within the plan._ |
 | Name | Computed as “Loop ”, followed by the loop number, followed by “ — ”, followed by the title. | _Display label._ |
-| Relative Path | Computed as “/admin/leopold-loops/”, followed by the leopold loop ID. | _Path to this LeopoldLoops entry: /admin/leopold-loops/<id>._ |
+| Relative Path | Computed as “/admin/effortless-loops/”, followed by the effortless loop ID. | _Path to this EffortlessLoops entry: /admin/effortless-loops/<id>._ |
 | Completedness | The same as its status. | _Normalized status used by the derived plan to decide placement._ |
 | Is in Current Plan | True when it is not the case that the status is “done”. | _TRUE for the current "next" loop and anything still planned/backlog (not done)._ |
 | Status Badge | A defined attribute. | _Display badge for the derived plan, e.g. [DONE] / [NEXT] / [PLANNED] / [BACKLOG]._ |
@@ -676,7 +676,7 @@ already computes (cross-referenced as DR-N in the Definitional Rules below)._
 - An open question **must** have a question and a context, and record whether it is resolved.
 - A non goal **must** have a statement and a why excluded.
 - A glossary term **must** have a term and a definition.
-- A leopold loop **must** have a loop number, a title, a goal, a status, and a sort order.
+- An effortless loop **must** have a loop number, a title, a goal, a status, and a sort order.
 - A state machine **must** have a subject table name and a subject state column.
 - A machine state **must** reference exactly one state machine.
 - A machine state **must** have a state key.
@@ -907,10 +907,10 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-203 Relative Path** | A non goal's relative path is computed as “/admin/non-goals/”, followed by the non goal ID. |
 | **DR-204 Name** | A glossary term's name is the same as its term. |
 | **DR-205 Relative Path** | A glossary term's relative path is computed as “/admin/glossary/”, followed by the glossary term ID. |
-| **DR-206 Name** | A leopold loop's name is computed as “Loop ”, followed by the loop number, followed by “ — ”, followed by the title. |
-| **DR-207 Relative Path** | A leopold loop's relative path is computed as “/admin/leopold-loops/”, followed by the leopold loop ID. |
-| **DR-208 Completedness** | A leopold loop's completedness is the same as its status. |
-| **DR-209 Is in Current Plan** | A leopold loop is considered in-current-plan if it is not the case that the status is “done”. |
+| **DR-206 Name** | An effortless loop's name is computed as “Loop ”, followed by the loop number, followed by “ — ”, followed by the title. |
+| **DR-207 Relative Path** | An effortless loop's relative path is computed as “/admin/effortless-loops/”, followed by the effortless loop ID. |
+| **DR-208 Completedness** | An effortless loop's completedness is the same as its status. |
+| **DR-209 Is in Current Plan** | An effortless loop is considered in-current-plan if it is not the case that the status is “done”. |
 | **DR-210 Name** | A routing and navigation's name is computed as the lower-cased display name with every a space replaced by a hyphen. ⚠︎ mechanical <!-- rulespeak:reword --> |
 | **DR-211 Admin Can Create** | A routing and navigation is flagged admin can create if the admin CRUD mentions “C”. |
 | **DR-212 Admin Can Read** | A routing and navigation is flagged admin can read if the admin CRUD mentions “R”. |
@@ -1186,10 +1186,10 @@ the same logic the rulebook stores, written for a business reader._
 | **NonGoals.RelativePath** | formula | `"/admin/non-goals/" & NonGoalId` |
 | **GlossaryTerms.Name** | formula | `Term` |
 | **GlossaryTerms.RelativePath** | formula | `"/admin/glossary/" & GlossaryTermId` |
-| **LeopoldLoops.Name** | formula | `Concat("Loop ", LoopNumber, " — ", Title)` |
-| **LeopoldLoops.RelativePath** | formula | `"/admin/leopold-loops/" & LeopoldLoopId` |
-| **LeopoldLoops.Completedness** | formula | `Status` |
-| **LeopoldLoops.IsInCurrentPlan** | formula | `If(Status = "done", FALSE, TRUE)` |
+| **EffortlessLoops.Name** | formula | `Concat("Loop ", LoopNumber, " — ", Title)` |
+| **EffortlessLoops.RelativePath** | formula | `"/admin/effortless-loops/" & EffortlessLoopId` |
+| **EffortlessLoops.Completedness** | formula | `Status` |
+| **EffortlessLoops.IsInCurrentPlan** | formula | `If(Status = "done", FALSE, TRUE)` |
 | **RoutingAndNavigation.Name** | formula | `Replace(Lower(DisplayName), " ", "-")` |
 | **RoutingAndNavigation.AdminCanCreate** | formula | `If(AdminCRUD = Blank(), Blank(), Not(Iserror(Find("C", AdminCRUD))))` |
 | **RoutingAndNavigation.AdminCanRead** | formula | `If(AdminCRUD = Blank(), Blank(), Not(Iserror(Find("R", AdminCRUD))))` |

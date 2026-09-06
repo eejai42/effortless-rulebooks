@@ -32634,10 +32634,10 @@ effortless-ntwf:method-02-dag-first a effortless-ntwf:Methodology ;
     effortless-ntwf:traditionId "tradition-dag" ;
     effortless-ntwf:pioneeringResearcher "researcher-spirtes-glymour-scheines" .
 
-effortless-ntwf:method-03-leopold-loops a effortless-ntwf:Methodology ;
-    effortless-ntwf:methodologyId "method-03-leopold-loops" ;
+effortless-ntwf:method-03-effortless-loops a effortless-ntwf:Methodology ;
+    effortless-ntwf:methodologyId "method-03-effortless-loops" ;
     effortless-ntwf:phase "decomposition" ;
-    effortless-ntwf:title "Build the model incrementally via Leopold Loops — one new concept per loop" ;
+    effortless-ntwf:title "Build the model incrementally via Effortless Loops — one new concept per loop" ;
     effortless-ntwf:statement "Each loop introduces exactly one new first-class concept and asks the natural-language question that concept answers. The loop ends when the new derived fact is witnessed in the database. Loop N's NextSuggestion seeds Loop N+1." ;
     effortless-ntwf:whyItMatters "Introducing multiple concepts per loop makes it hard to witness whether each concept earns its place. One concept per loop forces the question: 'what new thing can I now ask that I couldn't before?'" ;
     effortless-ntwf:illustratedByLoop "loop-01, loop-02, loop-03, loop-04, loop-05" ;

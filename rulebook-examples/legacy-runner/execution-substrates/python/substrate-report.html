@@ -206,10 +206,10 @@ pre {
         <div class="header-stats">
             <div class="stat">
                 <span>Score:</span>
-                <span class="stat-value score-perfect">100.0%</span>
+                <span class="stat-value score-danger">50.0%</span>
             </div>
             <div class="stat">
-                <span>6/6 passed</span>
+                <span>3/6 passed</span>
             </div>
         </div>
         <button id="theme-toggle" title="Toggle theme">
@@ -298,15 +298,15 @@ Python substrate: Processed 1 entities, 3 total records
                 <h2>Test Summary</h2>
                 <div class="results-summary">
                     <div class="result-item">
-                        <div class="result-value score-perfect">100.0%</div>
+                        <div class="result-value score-danger">50.0%</div>
                         <div class="result-label">Score</div>
                     </div>
                     <div class="result-item">
-                        <div class="result-value score-perfect">6</div>
+                        <div class="result-value score-perfect">3</div>
                         <div class="result-label">Passed</div>
                     </div>
                     <div class="result-item">
-                        <div class="result-value">0</div>
+                        <div class="result-value">3</div>
                         <div class="result-label">Failed</div>
                     </div>
                     <div class="result-item">
@@ -320,7 +320,7 @@ Python substrate: Processed 1 entities, 3 total records
                 <div class="markdown-content">
                     <h3>language_candidates</h3>
                     <ul>
-                        <li>Fields: 6/6 (100.0%)</li>
+                        <li>Fields: 3/6 (50.0%)</li>
                         <li>Computed columns: has_grammar, question, predicted_answer, prediction_predicates, prediction_fail, is_description_of, is_open_closed_world_conflicted, relationship_to_concept</li>
                     </ul>
                 </div>
@@ -332,7 +332,7 @@ Python substrate: Processed 1 entities, 3 total records
                 <div class="code-header">
                     <h2>erb_calc.py</h2>
                     <div>
-                        <span class="code-info">343 lines</span>
+                        <span class="code-info">353 lines</span>
                         <button class="copy-btn" onclick="copyCode('calc-code')">Copy</button>
                     </div>
                 </div>
@@ -486,10 +486,20 @@ def parse_sumifs_formula(formula: str) -&gt; tuple:
 
 
 def _get_testing_dir(project_root: Path) -&gt; Path:
-    &quot;&quot;&quot;Return the domain-scoped testing dir (ERB_TESTING_DIR env var or fallback).&quot;&quot;&quot;
+    &quot;&quot;&quot;Return the active domain&#x27;s testing/ dir. ERB_TESTING_DIR is required.
+
+    The simulator must operate on the same domain the orchestrator chose;
+    there is no implicit per-substrate testing dir.
+    &quot;&quot;&quot;
     import os
     erb = os.environ.get(&quot;ERB_TESTING_DIR&quot;)
-    return Path(erb) if erb else project_root / &quot;testing&quot;
+    if not erb:
+        raise RuntimeError(
+            &quot;ERB_TESTING_DIR is not set. python_only_erb_simulator must be &quot;
+            &quot;invoked by the orchestrator with ERB_TESTING_DIR pointing at the &quot;
+            &quot;active domain&#x27;s testing/ directory.&quot;
+        )
+    return Path(erb)
 
 
 def load_related_data(project_root: Path, related_table: str) -&gt; list:

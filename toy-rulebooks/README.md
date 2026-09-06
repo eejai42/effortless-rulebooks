@@ -4,9 +4,9 @@ These are demonstration toys — intentionally small domains whose job is to sho
 
 ## Watch the repository tour
 
-[![One Rulebook, Many Runtimes — watch the Toy Rulebooks repository tour](assets/toy-rulebooks-repository-tour-player.png)](https://www.youtube.com/watch?v=oJ5xAI0R2sw)
+[![One Rulebook, Many Runtimes — watch the Toy Rulebooks repository tour](assets/toy-rulebooks-repository-tour-player.png)](https://www.youtube.com/watch?v=XCOOBsLUlwU)
 
-▶ [**Play: One Rulebook, Many Runtimes | Toy Rulebooks Tour**](https://www.youtube.com/watch?v=oJ5xAI0R2sw)
+▶ [**Play: One Rulebook, Many Runtimes | Toy Rulebooks Tour**](https://www.youtube.com/watch?v=XCOOBsLUlwU)
 
 The video opens the ACME LLC rulebook, follows one formula into multiple generated runtimes, changes the rule once, and shows why generated files follow the rulebook rather than replace it. Learn more at [EffortlessAPI](https://www.effortlessapi.com/rulebook/).
 

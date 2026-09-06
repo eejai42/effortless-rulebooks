@@ -53,6 +53,20 @@ export async function setFindingStatus(id, status) {
   return body;
 }
 
+// Trigger a new conformance harness run for a project. The explorer's dev server
+// shells out to scripts/run-conformance.py (which invokes the existing
+// rulebook-examples/legacy-runner/orchestration/test-orchestrator.py, records
+// ConformanceRuns/ConformanceResults rows in the rulebook, then runs
+// `effortless build` so the views pick them up) — see conformanceRunPlugin in
+// vite.config.js. This can take a while; the caller should show a busy state.
+export async function runConformance(slug) {
+  const response = await fetch(`/__conformance/${encodeURIComponent(slug)}/run`, { method: "POST" });
+  const body = await response.json();
+  if (!response.ok || !body.ok) throw new ApiError(body.error || `running conformance for ${slug} failed with HTTP ${response.status}`, { status: response.status, table: "ConformanceRuns" });
+  invalidate("ConformanceRuns", "ConformanceResults", "RulebookDomains");
+  return body;
+}
+
 export async function fetchRows(table) {
   return (await fetchTable(table)).rows;
 }

@@ -68,7 +68,7 @@ rulebook-examples/simpsons-paradox/temp.txt
 
 # Root explorer local build and runtime output
 /app/dist/
-/.run/
+.run/
 
 # generated rulebook-editor edit journals (pending-edit logs, never a second hub)
 **/effortless-rulebook/*.uncommitted-*.json

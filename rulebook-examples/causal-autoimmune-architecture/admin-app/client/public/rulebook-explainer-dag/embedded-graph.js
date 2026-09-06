@@ -9976,7 +9976,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "datatype": "string",
         "type": "raw",
         "nullable": true,
-        "Description": "FK -> LeopoldLoops.LeopoldLoopId; empty if unscheduled."
+        "Description": "FK -> EffortlessLoops.EffortlessLoopId; empty if unscheduled."
       },
       {
         "name": "Name",
@@ -10823,11 +10823,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       }
     ]
   },
-  "LeopoldLoops": {
-    "Description": "The ordered Leopold loops that build this platform, as data. The derived plan (LEOPOLD_LOOPs.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan.",
+  "EffortlessLoops": {
+    "Description": "The ordered Effortless loops that build this platform, as data. The derived plan (EFFORTLESS_LOOPS.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan.",
     "schema": [
       {
-        "name": "LeopoldLoopId",
+        "name": "EffortlessLoopId",
         "datatype": "string",
         "type": "raw",
         "nullable": false,
@@ -10895,8 +10895,8 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "datatype": "string",
         "type": "calculated",
         "nullable": true,
-        "Description": "Path to this LeopoldLoops entry: /admin/leopold-loops/<id>.",
-        "formula": "=\"/admin/leopold-loops/\" & {{LeopoldLoopId}}"
+        "Description": "Path to this EffortlessLoops entry: /admin/effortless-loops/<id>.",
+        "formula": "=\"/admin/effortless-loops/\" & {{EffortlessLoopId}}"
       },
       {
         "name": "Completedness",
@@ -10931,7 +10931,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "data": [
       {
-        "LeopoldLoopId": "loop-0",
+        "EffortlessLoopId": "loop-0",
         "LoopNumber": "0",
         "Title": "Solve-by-inference rulebook",
         "Goal": "Convert 7 hand-entered answers to derived; add evidence/replication/control/calibration tables; wire raw observations to keystone.",
@@ -10942,12 +10942,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: keystone IsClinicallyActionable now derived from observations`; state `state: Loop 0 - Postgres solve-by-inference verified`",
         "Name": "Loop 0 — Solve-by-inference rulebook",
-        "RelativePath": "/admin/leopold-loops/loop-0",
+        "RelativePath": "/admin/effortless-loops/loop-0",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-0-5",
+        "EffortlessLoopId": "loop-0-5",
         "LoopNumber": "0.5",
         "Title": "Test Harness First (the red contract)",
         "Goal": "Ship a witnessed inference harness asserting the entire DAG x 7 patients via the app API; red on arrival, load-bearing.",
@@ -10958,12 +10958,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `none - app-only loop, test-harness-first, no rule change`; state `state: Loop 0.5 - red witnessed-inference harness is the app's contract`",
         "Name": "Loop 0.5 — Test Harness First (the red contract)",
-        "RelativePath": "/admin/leopold-loops/loop-0-5",
+        "RelativePath": "/admin/effortless-loops/loop-0-5",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-1",
+        "EffortlessLoopId": "loop-1",
         "LoopNumber": "1",
         "Title": "Intake app skeleton",
         "Goal": "Turn keystone-level red tests green: wire cohort + prediction-panel endpoints reading vw_*.",
@@ -10974,12 +10974,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `none - app-only loop, no rule change`; state `state: Loop 1 - read-only intake app surfaces the keystone`",
         "Name": "Loop 1 — Intake app skeleton",
-        "RelativePath": "/admin/leopold-loops/loop-1",
+        "RelativePath": "/admin/effortless-loops/loop-1",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-2",
+        "EffortlessLoopId": "loop-2",
         "LoopNumber": "2",
         "Title": "Patient intake (facts in)",
         "Goal": "Form writes a new Individual + child observation rows to base tables, then re-reads the derived panel. The knob-editing payoff.",
@@ -10990,12 +10990,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule (if any) for new intake field`; state `state: Loop 2 - facts-in to derived diagnosis works end to end`",
         "Name": "Loop 2 — Patient intake (facts in)",
-        "RelativePath": "/admin/leopold-loops/loop-2",
+        "RelativePath": "/admin/effortless-loops/loop-2",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-3",
+        "EffortlessLoopId": "loop-3",
         "LoopNumber": "3",
         "Title": "3-panel witness — provenance back into the case text",
         "Goal": "Show why each gate passed/failed one level down; consider installing the explainer-DAG transpiler.",
@@ -11006,12 +11006,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: install explainer-dag`; state `state: Loop 3 - gate explainability`",
         "Name": "Loop 3 — 3-panel witness — provenance back into the case text",
-        "RelativePath": "/admin/leopold-loops/loop-3",
+        "RelativePath": "/admin/effortless-loops/loop-3",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-4",
+        "EffortlessLoopId": "loop-4",
         "LoopNumber": "4",
         "Title": "Second prediction type (severity)",
         "Goal": "Add a derived severity prediction grounded in ClinicalPhenotypes.SeverityScore; pull one context table onto the load-bearing path.",
@@ -11022,12 +11022,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: derive a severity prediction (IsSeverityActionable) chained to the onset gates`; state `state: Loop 4 - severity prediction (second prediction type) green`",
         "Name": "Loop 4 — Second prediction type (severity)",
-        "RelativePath": "/admin/leopold-loops/loop-4",
+        "RelativePath": "/admin/effortless-loops/loop-4",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-5",
+        "EffortlessLoopId": "loop-5",
         "LoopNumber": "5",
         "Title": "Treatment-response prediction",
         "Goal": "Derive a treatment-response prediction from Treatments + mechanism match; surface in the panel.",
@@ -11038,12 +11038,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: derive a treatment-response prediction (IsTreatmentResponseActionable) via mechanism match`; state `state: Loop 5 - treatment-response prediction (third prediction type) green`",
         "Name": "Loop 5 — Treatment-response prediction",
-        "RelativePath": "/admin/leopold-loops/loop-5",
+        "RelativePath": "/admin/effortless-loops/loop-5",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-vocab-completeness",
+        "EffortlessLoopId": "loop-vocab-completeness",
         "LoopNumber": "6",
         "Title": "Vocabulary completeness - every audit-named concept enters the hub",
         "Goal": "Answer the audit's breadth: bring every concept the physician named (lupus nephritis, NPSLE, cutaneous lupus, sero+/-RA, erosive disease, axial PsA, enthesitis, dactylitis, uveitis, IBD overlap, organ damage, flare patterns, treatment lines, SLEDAI/DAS28) into the hub as DiseaseDomainConcepts, each with an honest ModelingStatus (deep-DAG / schema / vocabulary). Coverage becomes checkable by grep, not by trust.",
@@ -11054,12 +11054,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: DiseaseDomainConcepts - every audit-named concept in the hub with honest ModelingStatus`; state `state: v2 step1 - vocabulary completeness; coverage checkable by grep`",
         "Name": "Loop 6 — Vocabulary completeness - every audit-named concept enters the hub",
-        "RelativePath": "/admin/leopold-loops/loop-vocab-completeness",
+        "RelativePath": "/admin/effortless-loops/loop-vocab-completeness",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-disease-state",
+        "EffortlessLoopId": "loop-disease-state",
         "LoopNumber": "7",
         "Title": "Disease-state simulator - the layer the audit said did not exist",
         "Goal": "Reframe: v1 was a per-patient evidence gate; v2 adds the disease-state layer. A disease progressing is a state machine (lupus-nephritis-progression: Presymptomatic then SerologicActive then EarlyNephritis then RenalFlareRisk then BiopsyIndicated) whose CURRENT state is DERIVED purely from raw serology leaves (rising anti-dsDNA + falling complement + proteinuria + sediment) - never hand-set. Bitemporal DwellDays answers the audit's 'how long in this state.' Same trust boundary: labs are the LLM's/clinician's, the state is the model's. Diego Santos's first worked example computes (derived SledaiScore 12, High/flare).",
@@ -11070,12 +11070,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: lupus-nephritis-progression state machine - disease state DERIVED from raw serology`; state `state: v2 step3 - disease-state simulator; harness green, counter-example witnessed`",
         "Name": "Loop 7 — Disease-state simulator - the layer the audit said did not exist",
-        "RelativePath": "/admin/leopold-loops/loop-disease-state",
+        "RelativePath": "/admin/effortless-loops/loop-disease-state",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-treatment-line",
+        "EffortlessLoopId": "loop-treatment-line",
         "LoopNumber": "8",
         "Title": "Treatment-line recommendation + the disagreement counter-example",
         "Goal": "The audit's second worked example, computed: a derived RecommendedTreatmentLine + single TreatmentLineDecidingFactor (mycophenolate for active nephritis, anifrolumab for type-I-IFN, belimumab for autoantibody-driven, secukinumab for IL-17/23) - differentiated by confirmed mechanism x disease state, never by a label. The load-bearing proof: Diego is progression_vs_actionability_disagree = TRUE - the disease-state simulator says he IS progressing (BiopsyIndicated, high activity) while the actionability gate says NOT actionable (cryptic-relatedness leakage). A pure evidence gate could never produce that sentence; that it can is the proof v2 != v1 relabeled.",
@@ -11086,12 +11086,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: RecommendedTreatmentLine + progression_vs_actionability_disagree counter-example`; state `state: v2 - treatment-line + disagreement; the two layers proven independent`",
         "Name": "Loop 8 — Treatment-line recommendation + the disagreement counter-example",
-        "RelativePath": "/admin/leopold-loops/loop-treatment-line",
+        "RelativePath": "/admin/effortless-loops/loop-treatment-line",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-cohort-discovery",
+        "EffortlessLoopId": "loop-cohort-discovery",
         "LoopNumber": "9",
         "Title": "Cohort discovery board - the corpus-level surface",
         "Goal": "The doctor's deepest point: discovery is corpus-level - a single chart never discovers a mechanism, a pattern across many patients does. Build the top-level, all-roles Cohort discovery board over a 12-member claim-bearing cohort: the disease-state map, the emergent serology-signature scatter, the disease-vs-evidence disagreement board, and the treatment-line distribution - all reading derived fields. Per-patient progression + treatment-line tabs hang off the same model. The punchline, sorted to the top of the nav.",
@@ -11102,12 +11102,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: 12-member cohort expansion; corpus-level derived fields for the discovery board`; state `state: v2 steps9-10 - Cohort discovery is the top-level all-roles nav item`",
         "Name": "Loop 9 — Cohort discovery board - the corpus-level surface",
-        "RelativePath": "/admin/leopold-loops/loop-cohort-discovery",
+        "RelativePath": "/admin/effortless-loops/loop-cohort-discovery",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-progression-admin",
+        "EffortlessLoopId": "loop-progression-admin",
         "LoopNumber": "10",
         "Title": "Progression machine in the state-machine admin",
         "Goal": "The one concrete unbuilt admin-witness item. StateMachineView is hardcoded to diagnosis-lifecycle; lupus-nephritis-progression already lives in vw_state_machines and is served by the same router. Make StateMachineView select the machine (a binding change, not a model change): render its states, the 5 raw-leaf-triggered transition rules, and a per-state cohort-occupancy strip. Closes the loop between the disease-state simulator and its admin witness.",
@@ -11118,12 +11118,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `none - app-only loop; occupancy already derived (IsCurrent), admin-witness binding only`; state `state: Loop 10 - progression machine bound into the state-machine admin; per-state cohort occupancy is the simulator's admin witness`",
         "Name": "Loop 10 — Progression machine in the state-machine admin",
-        "RelativePath": "/admin/leopold-loops/loop-progression-admin",
+        "RelativePath": "/admin/effortless-loops/loop-progression-admin",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-serology-discovery",
+        "EffortlessLoopId": "loop-serology-discovery",
         "LoopNumber": "11",
         "Title": "Serology-signature discovery - emergent cluster, not a label",
         "Goal": "Make the discovery claim falsifiable at corpus scale. The serology signature that PRECEDES nephritis (the rising-anti-dsDNA / falling-complement trajectory) should surface as a DERIVED corpus-level cluster on the cohort scatter - emergent from the population's raw serology series, not a label anyone assigned. Derive the cluster membership / signature-strength field in the hub so the discovery is reproducible and witnessed, then surface it on the cohort board. This is the literal answer to 'discovery is corpus-level.'",
@@ -11134,12 +11134,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `rule: derive emergent pre-nephritic serology-signature cluster (IsPreNephriticSignaturePanel -> CountPreNephriticSignaturePanels -> IsInPreNephriticSignatureCluster + SignatureStrength)`; state `state: Loop 11 - emergent serology-signature cluster; 6/12 in cluster, perfectly separating active/progressing from quiescent; surfaced as derived halo on the cohort scatter`",
         "Name": "Loop 11 — Serology-signature discovery - emergent cluster, not a label",
-        "RelativePath": "/admin/leopold-loops/loop-serology-discovery",
+        "RelativePath": "/admin/effortless-loops/loop-serology-discovery",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-prune-nonloadbearing",
+        "EffortlessLoopId": "loop-prune-nonloadbearing",
         "LoopNumber": "12",
         "Title": "Prune excess engineering - keep only what is load-bearing for the v1 audit response",
         "Goal": "A deliberate trimming pass (NOT a delete spree). Walk the model, the app, and the docs and find anything that was UPGRADED or SUPERSEDED and now lingers as a duplicate, plus any engineering that is not actually load-bearing toward the clearest pedagogical answer to the v1 audit. Candidates to scrutinise: superseded prediction types that don't earn their keep (e.g. a 4th parallel adverse-effect prediction once severity + treatment-response + treatment-line exist), redundant ontology slots that no longer carry a claim, and any view/endpoint with no consumer. Promotion rule inverted: if a thing is neither traceable to problem-to-solve.md nor load-bearing toward the keystone or the audit response, retire it. Goal: the clearest, most complete, DUPLICATE-FREE representation of the problem - so the audit response is concise as well as complete.",
@@ -11150,12 +11150,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[DONE]",
         "StatusLine": " - rule `none - verification loop, no rule change; inventory found nothing load-bearing to retire`; state `state: Loop 12 - verified lean. Every endpoint is consumed (client or witnessed harness); no 4th adverse-effect prediction exists; the 3 zero-ref context tables are each named in problem-to-solve.md so they stay as honest schema coverage; no duplicate ontology slots or dead calc fields.`",
         "Name": "Loop 12 — Prune excess engineering - keep only what is load-bearing for the v1 audit response",
-        "RelativePath": "/admin/leopold-loops/loop-prune-nonloadbearing",
+        "RelativePath": "/admin/effortless-loops/loop-prune-nonloadbearing",
         "Completedness": "done",
         "IsInCurrentPlan": false
       },
       {
-        "LeopoldLoopId": "loop-llm-intake",
+        "EffortlessLoopId": "loop-llm-intake",
         "LoopNumber": "13",
         "Title": "LLM intake clerk + synthetic lab",
         "Goal": "FUTURE ROADMAP (not part of the v1-audit response - this is the framework-thesis deliverable, the next conversation). The trust-boundary payoff: wire the LLM to read a natural-language case and write ONLY leaf observations - intake facts + synthetic-but-transparent test results - with the three-panel witness (case text / extracted facts with per-fact provenance / derived diagnosis + gate trace). The LLM never computes a higher-order inference; every value it emits is an editable knob. Demotes the model to a replaceable, fully-overridable transcriber - the structural defeat of 'a hallucination laundered through a deterministic function.'",
@@ -11166,12 +11166,12 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[ROADMAP]",
         "StatusLine": "",
         "Name": "Loop 13 — LLM intake clerk + synthetic lab",
-        "RelativePath": "/admin/leopold-loops/loop-llm-intake",
+        "RelativePath": "/admin/effortless-loops/loop-llm-intake",
         "Completedness": "roadmap",
         "IsInCurrentPlan": true
       },
       {
-        "LeopoldLoopId": "loop-equity",
+        "EffortlessLoopId": "loop-equity",
         "LoopNumber": "14",
         "Title": "Cohort-level equity report",
         "Goal": "FUTURE ROADMAP (traceable to the original challenge's equity requirement, but not part of the v1-audit response). Ancestry-equity made structural and corpus-level: calibration and actionability rates by ancestry (gates 2 and 4 of the keystone) as a derived dashboard, complementing the cohort discovery board. Equity is a checkable rate, not a promise.",
@@ -11182,7 +11182,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "StatusBadge": "[ROADMAP]",
         "StatusLine": "",
         "Name": "Loop 14 — Cohort-level equity report",
-        "RelativePath": "/admin/leopold-loops/loop-equity",
+        "RelativePath": "/admin/effortless-loops/loop-equity",
         "Completedness": "roadmap",
         "IsInCurrentPlan": true
       }
@@ -12581,13 +12581,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "ModifiedByModel": null
       },
       {
-        "RoutingAndNavigationId": "nav-admin-leopold",
-        "DisplayName": "Leopold Loops",
-        "Route": "/admin/leopold",
-        "Description": "Edit the Leopold loop plan rows and regenerate LEOPOLD_LOOPs.md.",
+        "RoutingAndNavigationId": "nav-admin-loops",
+        "DisplayName": "Effortless Loops",
+        "Route": "/admin/loops",
+        "Description": "Edit the Effortless loop plan rows and regenerate EFFORTLESS_LOOPS.md.",
         "SortOrder": 96,
         "ParentRouteKey": "admin",
-        "RouteKey": "admin.leopold",
+        "RouteKey": "admin.loops",
         "NavLevel": "sub",
         "RoleVisibility": "admin",
         "IsDynamic": false,
@@ -12598,10 +12598,10 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "ExternalLlmCRUD": "",
         "CreatedBy": "build-seed",
         "ModifiedBy": "build-seed",
-        "PrimaryTable": "LeopoldLoops",
-        "PrimaryView": "vw_leopold_loops",
+        "PrimaryTable": "EffortlessLoops",
+        "PrimaryView": "vw_effortless_loops",
         "IconHint": "repeat",
-        "Name": "leopold-loops",
+        "Name": "effortless-loops",
         "AdminCanCreate": true,
         "AdminCanRead": true,
         "AdminCanUpdate": true,
@@ -12619,9 +12619,9 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "ExternalLlmCanUpdate": null,
         "ExternalLlmCanDelete": null,
         "Depth": 1,
-        "FullPath": "/admin/leopold",
-        "HandlerBaseName": "admin leopold",
-        "RelativePath": "/admin/routing/nav-admin-leopold",
+        "FullPath": "/admin/loops",
+        "HandlerBaseName": "admin loops",
+        "RelativePath": "/admin/routing/nav-admin-loops",
         "CreatedAt": null,
         "ModifiedAt": null,
         "ModifiedByModel": null
@@ -17323,18 +17323,20 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "ValueType": "boolean",
         "Description": "Total-coverage contract toggle: assert every DAG node linked to the patient down to ground truth contributes a fragment or a named suppression (tfs-report-covers-every-dag-node).",
         "Source": "design-decision-2026-06-19"
+      },
+      {
+        "MetaKey": "cmcc_summary",
+        "ValueType": "string",
+        "StringValue": "Loop 0: solve-by-inference rulebook for the Causal Autoimmune Architecture Platform. The keystone IndividualPredictions.IsClinicallyActionable is derived through a calculated-field DAG bottoming out only in raw observations. The per-patient diagnosis report is a derived, total-coverage projection: every patient word and every linked DAG node down to ground truth renders as predicate-gated structured natural language assembled from per-row narrative fragment fields (each one spreadsheet-cell simple), drawing reusable phrases and band thresholds from the __meta__ settings table.",
+        "JsonValue": null
+      },
+      {
+        "MetaKey": "conversion_metadata",
+        "ValueType": "object",
+        "StringValue": null,
+        "JsonValue": "{\"source\": \"shadle-bootstrap\", \"table_count\": 22, \"tool_version\": \"loop-0-solve-by-inference-2026-06-19\", \"export_mode\": \"rulebook_first\", \"vocabulary_coverage\": \"all domain terms in descriptions, field names, and data values\"}"
       }
     ]
-  },
-  "_meta": {
-    "_CMCC_Summary": "Loop 0: solve-by-inference rulebook for the Causal Autoimmune Architecture Platform. The keystone IndividualPredictions.IsClinicallyActionable is derived through a calculated-field DAG bottoming out only in raw observations. The per-patient diagnosis report is a derived, total-coverage projection: every patient word and every linked DAG node down to ground truth renders as predicate-gated structured natural language assembled from per-row narrative fragment fields (each one spreadsheet-cell simple), drawing reusable phrases and band thresholds from the __meta__ settings table.",
-    "_conversion_metadata": {
-      "source": "shadle-bootstrap",
-      "table_count": 22,
-      "tool_version": "loop-0-solve-by-inference-2026-06-19",
-      "export_mode": "rulebook_first",
-      "vocabulary_coverage": "all domain terms in descriptions, field names, and data values"
-    }
   },
   "DiseaseDomainConcepts": {
     "Description": "v2 vocabulary completeness: every disease-domain concept the v1 audit named, with its modeling status and the challenge-stressor TYPE it instantiates. Makes the coverage claim checkable by grep, not by trust.",
@@ -18894,7 +18896,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AutoimmuneDiseases",
     "field": "Name",
     "kind": "formula",
-    "rule": "An autoimmune diseas\u0027s name is computed as the disease label.",
+    "rule": "An autoimmune diseas's name is the same as its disease label.",
     "mechanical": false,
     "refs": [
       {
@@ -18909,7 +18911,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AutoimmuneDiseases",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An autoimmune diseas\u0027s relative path is computed as the literal \u201C/diseases/\u201D, followed by the autoimmune disease ID.",
+    "rule": "An autoimmune diseas's relative path is computed as “/diseases/”, followed by the autoimmune disease ID.",
     "mechanical": false,
     "refs": [
       {
@@ -18924,7 +18926,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AutoimmuneDiseases",
     "field": "CountOfDiseaseStages",
     "kind": "rollup",
-    "rule": "An autoimmune diseas\u0027s count of disease stages is the number of disease stages related to the autoimmune diseas.",
+    "rule": "An autoimmune diseas's count of disease stages is the number of disease stages related to the autoimmune diseas.",
     "mechanical": false,
     "refs": [
       {
@@ -18944,7 +18946,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AutoimmuneDiseases",
     "field": "CountOfInterventionTargets",
     "kind": "rollup",
-    "rule": "An autoimmune diseas\u0027s count of intervention targets is the number of intervention targets related to the autoimmune diseas.",
+    "rule": "An autoimmune diseas's count of intervention targets is the number of intervention targets related to the autoimmune diseas.",
     "mechanical": false,
     "refs": [
       {
@@ -18964,7 +18966,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseStages",
     "field": "Name",
     "kind": "formula",
-    "rule": "A disease stage\u0027s name is computed as the autoimmune disease disease label, followed by the literal \u201C \u2014 \u201D, followed by the stage label.",
+    "rule": "A disease stage's name is computed as the autoimmune disease disease label, followed by “ — ”, followed by the stage label.",
     "mechanical": false,
     "refs": [
       {
@@ -18984,7 +18986,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseStages",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A disease stage\u0027s parent path is the relative path of the disease stage\u0027s autoimmune disease.",
+    "rule": "A disease stage's parent path is the relative path of the disease stage's autoimmune disease.",
     "mechanical": false,
     "refs": [
       {
@@ -19009,7 +19011,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseStages",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A disease stage\u0027s relative path is computed as the parent path, followed by the literal \u201C/stages/\u201D, followed by the disease stage ID.",
+    "rule": "A disease stage's relative path is computed as the parent path, followed by “/stages/”, followed by the disease stage ID.",
     "mechanical": false,
     "refs": [
       {
@@ -19029,7 +19031,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseStages",
     "field": "AutoimmuneDiseaseDiseaseLabel",
     "kind": "formula",
-    "rule": "A disease stage\u0027s autoimmune disease disease label is the disease label of the disease stage\u0027s autoimmune disease.",
+    "rule": "A disease stage's autoimmune disease disease label — taken from the linked autoimmune disease.",
     "mechanical": false,
     "refs": [
       {
@@ -19054,7 +19056,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseStages",
     "field": "IsPresymptomatic",
     "kind": "formula",
-    "rule": "A disease stage is considered a presymptomatic if the stage label is the literal \u201CPresymptomatic\u201D.",
+    "rule": "A disease stage is considered presymptomatic if the stage label is “Presymptomatic”.",
     "mechanical": false,
     "refs": [
       {
@@ -19065,13 +19067,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The disease stage\u0027s is presymptomatic is determined by the following priority:",
+      "headline": "The disease stage's is presymptomatic is determined by the following priority:",
       "cases": [
         {
           "value": "true",
           "when": {
             "kind": "leaf",
-            "text": "the stage label is the literal \u201CPresymptomatic\u201D"
+            "text": "the stage label is “Presymptomatic”"
           }
         },
         {
@@ -19086,7 +19088,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Tissues",
     "field": "Name",
     "kind": "formula",
-    "rule": "A tissue\u0027s name is computed as the tissue label.",
+    "rule": "A tissue's name is the same as its tissue label.",
     "mechanical": false,
     "refs": [
       {
@@ -19101,7 +19103,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Tissues",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A tissue\u0027s relative path is computed as the literal \u201C/tissues/\u201D, followed by the tissue ID.",
+    "rule": "A tissue's relative path is computed as “/tissues/”, followed by the tissue ID.",
     "mechanical": false,
     "refs": [
       {
@@ -19116,7 +19118,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Tissues",
     "field": "CountOfOmicsAssays",
     "kind": "rollup",
-    "rule": "A tissue\u0027s count of omics assays is the number of omics assays related to the tissue.",
+    "rule": "A tissue's count of omics assays is the number of omics assays related to the tissue.",
     "mechanical": false,
     "refs": [
       {
@@ -19136,7 +19138,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsModalities",
     "field": "Name",
     "kind": "formula",
-    "rule": "An omics modality\u0027s name is computed as the modality label.",
+    "rule": "An omics modality's name is the same as its modality label.",
     "mechanical": false,
     "refs": [
       {
@@ -19151,7 +19153,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsModalities",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An omics modality\u0027s relative path is computed as the literal \u201C/omics-modalities/\u201D, followed by the omics modality ID.",
+    "rule": "An omics modality's relative path is computed as “/omics-modalities/”, followed by the omics modality ID.",
     "mechanical": false,
     "refs": [
       {
@@ -19166,7 +19168,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsModalities",
     "field": "CountOfOmicsAssays",
     "kind": "rollup",
-    "rule": "An omics modality\u0027s count of omics assays is the number of omics assays related to the omics modality.",
+    "rule": "An omics modality's count of omics assays is the number of omics assays related to the omics modality.",
     "mechanical": false,
     "refs": [
       {
@@ -19186,7 +19188,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "FederatedDatasets",
     "field": "Name",
     "kind": "formula",
-    "rule": "A federated dataset\u0027s name is computed as the node label.",
+    "rule": "A federated dataset's name is the same as its node label.",
     "mechanical": false,
     "refs": [
       {
@@ -19201,7 +19203,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "FederatedDatasets",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A federated dataset\u0027s relative path is computed as the literal \u201C/datasets/\u201D, followed by the federated dataset ID.",
+    "rule": "A federated dataset's relative path is computed as “/datasets/”, followed by the federated dataset ID.",
     "mechanical": false,
     "refs": [
       {
@@ -19216,7 +19218,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "FederatedDatasets",
     "field": "CountOfIndividuals",
     "kind": "rollup",
-    "rule": "A federated dataset\u0027s count of individuals is the number of individuals related to the federated dataset.",
+    "rule": "A federated dataset's count of individuals is the number of individuals related to the federated dataset.",
     "mechanical": false,
     "refs": [
       {
@@ -19236,7 +19238,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "VariantTypes",
     "field": "Name",
     "kind": "formula",
-    "rule": "A variant type\u0027s name is computed as the type label.",
+    "rule": "A variant type's name is the same as its type label.",
     "mechanical": false,
     "refs": [
       {
@@ -19251,7 +19253,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "VariantTypes",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A variant type\u0027s relative path is computed as the literal \u201C/variant-types/\u201D, followed by the variant type ID.",
+    "rule": "A variant type's relative path is computed as “/variant-types/”, followed by the variant type ID.",
     "mechanical": false,
     "refs": [
       {
@@ -19266,7 +19268,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "VariantTypes",
     "field": "CountOfGenomicVariants",
     "kind": "rollup",
-    "rule": "A variant type\u0027s count of genomic variants is the number of genomic variants related to the variant type.",
+    "rule": "A variant type's count of genomic variants is the number of genomic variants related to the variant type.",
     "mechanical": false,
     "refs": [
       {
@@ -19286,7 +19288,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "Name",
     "kind": "formula",
-    "rule": "An individual\u0027s name is computed as the given name, followed by a space, followed by the family name.",
+    "rule": "An individual's name is computed as the given name, followed by a space, followed by the family name.",
     "mechanical": false,
     "refs": [
       {
@@ -19306,7 +19308,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "Slug",
     "kind": "formula",
-    "rule": "An individual\u0027s slug is computed as the lower-cased family name, followed by a hyphen, followed by the given name with every a space replaced by a hyphen.",
+    "rule": "An individual's slug is computed as the lower-cased family name, followed by a hyphen, followed by the given name with every a space replaced by a hyphen.",
     "mechanical": true,
     "refs": [
       {
@@ -19326,7 +19328,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An individual\u0027s relative path is computed as the literal \u201C/intake/new-patient/\u201D, followed by the slug.",
+    "rule": "An individual's relative path is computed as “/intake/new-patient/”, followed by the slug.",
     "mechanical": false,
     "refs": [
       {
@@ -19341,7 +19343,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "FederatedDatasetNodeLabel",
     "kind": "formula",
-    "rule": "The individual\u0027s federated dataset node label is determined by the following priority:\n1. an empty string, if the federated dataset is blank;\n2. otherwise the node label of the individual\u0027s federated dataset.",
+    "rule": "The individual's federated dataset node label is determined by the following priority:\n1. an empty string, if the federated dataset is blank;\n2. in all other cases, the node label of the individual's federated dataset.",
     "mechanical": false,
     "refs": [
       {
@@ -19362,7 +19364,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s federated dataset node label is determined by the following priority:",
+      "headline": "The individual's federated dataset node label is determined by the following priority:",
       "cases": [
         {
           "value": "an empty string",
@@ -19372,7 +19374,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the node label of the individual\u0027s federated dataset",
+          "value": "the node label of the individual's federated dataset",
           "when": null
         }
       ],
@@ -19383,7 +19385,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountOfGenomicVariants",
     "kind": "rollup",
-    "rule": "An individual\u0027s count of genomic variants is the number of genomic variants related to the individual.",
+    "rule": "An individual's count of genomic variants is the number of genomic variants related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19403,7 +19405,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountOfCausalMechanisms",
     "kind": "rollup",
-    "rule": "An individual\u0027s count of causal mechanisms is the number of causal mechanisms related to the individual.",
+    "rule": "An individual's count of causal mechanisms is the number of causal mechanisms related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19423,7 +19425,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountOfEpistaticInteractions",
     "kind": "rollup",
-    "rule": "An individual\u0027s count of epistatic interactions is the number of epistatic interactions related to the individual.",
+    "rule": "An individual's count of epistatic interactions is the number of epistatic interactions related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19443,7 +19445,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "RareVariantBurdenScore",
     "kind": "formula",
-    "rule": "The individual\u0027s rare variant burden score is determined by the following priority:\n1. the count of genomic variants divided by the age years, if the age years is greater than 0;\n2. otherwise 0.",
+    "rule": "The individual's rare variant burden score is determined by the following priority:\n1. the count of genomic variants divided by the age years, if the age years is greater than 0;\n2. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -19459,7 +19461,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s rare variant burden score is determined by the following priority:",
+      "headline": "The individual's rare variant burden score is determined by the following priority:",
       "cases": [
         {
           "value": "the count of genomic variants divided by the age years",
@@ -19480,7 +19482,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CausalArchitectureScore",
     "kind": "formula",
-    "rule": "An individual\u0027s causal architecture score is computed as the count of causal mechanisms times 10 plus the count of epistatic interactions times 5 plus the rare variant burden score.",
+    "rule": "An individual's causal architecture score is computed as the count of causal mechanisms times 10 plus the count of epistatic interactions times 5 plus the rare variant burden score.",
     "mechanical": false,
     "refs": [
       {
@@ -19516,7 +19518,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s is development window is determined by the following priority:",
+      "headline": "The individual's is development window is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -19548,7 +19550,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s is aging window is determined by the following priority:",
+      "headline": "The individual's is aging window is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -19569,7 +19571,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountConfirmedCausalNodes",
     "kind": "rollup",
-    "rule": "An individual\u0027s count confirmed causal nodes is the number of the individual\u0027s causal mechanisms that are causal architecture nodes.",
+    "rule": "An individual's count confirmed causal nodes is the number of the individual's causal mechanisms that are causal architecture nodes.",
     "mechanical": false,
     "refs": [
       {
@@ -19594,7 +19596,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "SumConfirmedCausalConfidence",
     "kind": "rollup",
-    "rule": "An individual\u0027s sum confirmed causal confidence is the total causal confidence across the individual\u0027s causal mechanisms that are causal architecture nodes.",
+    "rule": "An individual's sum confirmed causal confidence is the total causal confidence across the individual's causal mechanisms that are causal architecture nodes.",
     "mechanical": false,
     "refs": [
       {
@@ -19624,7 +19626,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountCrossAncestryConfirmedNodes",
     "kind": "rollup",
-    "rule": "An individual\u0027s count cross ancestry confirmed nodes is the number of the individual\u0027s causal mechanisms that are ancestry transportables.",
+    "rule": "An individual's count cross ancestry confirmed nodes is the number of the individual's causal mechanisms that are ancestry-transportable.",
     "mechanical": false,
     "refs": [
       {
@@ -19649,7 +19651,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "MaxSeverityScore",
     "kind": "rollup",
-    "rule": "An individual\u0027s max severity score is the largest severity score across the clinical phenotypes related to the individual.",
+    "rule": "An individual's max severity score is the largest severity score across the clinical phenotypes related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19674,7 +19676,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountHighSeverityPhenotypes",
     "kind": "rollup",
-    "rule": "An individual\u0027s count high severity phenotypes is the number of the individual\u0027s clinical phenotypes that are high severities.",
+    "rule": "An individual's count high severity phenotypes is the number of the individual's clinical phenotypes that are high severities.",
     "mechanical": false,
     "refs": [
       {
@@ -19710,7 +19712,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s has high severity phenotype is determined by the following priority:",
+      "headline": "The individual's has high severity phenotype is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -19731,7 +19733,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountPredictedTreatmentResponses",
     "kind": "rollup",
-    "rule": "An individual\u0027s count predicted treatment responses is the number of the individual\u0027s treatments that are treatment response predicted.",
+    "rule": "An individual's count predicted treatment responses is the number of the individual's treatments that are treatment-response-predicted.",
     "mechanical": false,
     "refs": [
       {
@@ -19767,7 +19769,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s has predicted treatment response is determined by the following priority:",
+      "headline": "The individual's has predicted treatment response is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -19788,7 +19790,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountSerologyPanels",
     "kind": "rollup",
-    "rule": "An individual\u0027s count serology panels is the number of serology observations related to the individual.",
+    "rule": "An individual's count serology panels is the number of serology observations related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19808,7 +19810,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "CountPreNephriticSignaturePanels",
     "kind": "rollup",
-    "rule": "An individual\u0027s count pre nephritic signature panels is the number of the individual\u0027s serology observations that are pre nephritic signature panels.",
+    "rule": "An individual's count pre nephritic signature panels is the number of the individual's serology observations that are pre nephritic signature panels.",
     "mechanical": false,
     "refs": [
       {
@@ -19833,7 +19835,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "IsInPreNephriticSignatureCluster",
     "kind": "formula",
-    "rule": "An individual is considered in pre nephritic signature cluster if the count pre nephritic signature panels is at least 1.",
+    "rule": "An individual is considered in-pre-nephritic-signature-cluster if the count pre nephritic signature panels is at least 1.",
     "mechanical": false,
     "refs": [
       {
@@ -19844,7 +19846,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s is in pre nephritic signature cluster is determined by the following priority:",
+      "headline": "The individual's is in pre nephritic signature cluster is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -19865,7 +19867,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "SignatureStrength",
     "kind": "formula",
-    "rule": "The individual\u0027s signature strength is determined by the following priority:\n1. 2, if the count pre nephritic signature panels is at least 2;\n2. 1, if the count pre nephritic signature panels is at least 1;\n3. otherwise 0.",
+    "rule": "The individual's signature strength is determined by the following priority:\n1. 2, if the count pre nephritic signature panels is at least 2;\n2. 1, if the count pre nephritic signature panels is at least 1;\n3. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -19876,7 +19878,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s signature strength is determined by the following priority:",
+      "headline": "The individual's signature strength is determined by the following priority:",
       "cases": [
         {
           "value": "2",
@@ -19904,7 +19906,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "MaxProgressionStateOrder",
     "kind": "rollup",
-    "rule": "An individual\u0027s max progression state order is the largest progression state order across the serology observations related to the individual.",
+    "rule": "An individual's max progression state order is the largest progression state order across the serology observations related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19929,7 +19931,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "LatestSledaiScore",
     "kind": "rollup",
-    "rule": "An individual\u0027s latest sledai score is the largest sledai score across the serology observations related to the individual.",
+    "rule": "An individual's latest sledai score is the largest sledai score across the serology observations related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -19954,7 +19956,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "NephritisProgressionStateKey",
     "kind": "formula",
-    "rule": "The individual\u0027s nephritis progression state key is determined by the following priority:\n1. the literal \u201CBiopsyIndicated\u201D, if the max progression state order is at least 5;\n2. the literal \u201CRenalFlareRisk\u201D, if the max progression state order is at least 4;\n3. the literal \u201CEarlyNephritis\u201D, if the max progression state order is at least 3;\n4. the literal \u201CSerologicActive\u201D, if the max progression state order is at least 2;\n5. otherwise the literal \u201CPresymptomaticAutoimmunity\u201D.",
+    "rule": "The individual's nephritis progression state key is determined by the following priority:\n1. “BiopsyIndicated”, if the max progression state order is at least 5;\n2. “RenalFlareRisk”, if the max progression state order is at least 4;\n3. “EarlyNephritis”, if the max progression state order is at least 3;\n4. “SerologicActive”, if the max progression state order is at least 2;\n5. in all other cases, “PresymptomaticAutoimmunity”.",
     "mechanical": false,
     "refs": [
       {
@@ -19965,38 +19967,38 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s nephritis progression state key is determined by the following priority:",
+      "headline": "The individual's nephritis progression state key is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CBiopsyIndicated\u201D",
+          "value": "“BiopsyIndicated”",
           "when": {
             "kind": "leaf",
             "text": "the max progression state order is at least 5"
           }
         },
         {
-          "value": "the literal \u201CRenalFlareRisk\u201D",
+          "value": "“RenalFlareRisk”",
           "when": {
             "kind": "leaf",
             "text": "the max progression state order is at least 4"
           }
         },
         {
-          "value": "the literal \u201CEarlyNephritis\u201D",
+          "value": "“EarlyNephritis”",
           "when": {
             "kind": "leaf",
             "text": "the max progression state order is at least 3"
           }
         },
         {
-          "value": "the literal \u201CSerologicActive\u201D",
+          "value": "“SerologicActive”",
           "when": {
             "kind": "leaf",
             "text": "the max progression state order is at least 2"
           }
         },
         {
-          "value": "the literal \u201CPresymptomaticAutoimmunity\u201D",
+          "value": "“PresymptomaticAutoimmunity”",
           "when": null
         }
       ],
@@ -20007,7 +20009,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "ActivityTier",
     "kind": "formula",
-    "rule": "The individual\u0027s activity tier is determined by the following priority:\n1. the literal \u201CHigh / flare\u201D, if the latest sledai score is at least 12;\n2. the literal \u201CModerate\u201D, if the latest sledai score is at least 6;\n3. the literal \u201CMild\u201D, if the latest sledai score is at least 1;\n4. otherwise the literal \u201CQuiescent\u201D.",
+    "rule": "The individual's activity tier is determined by the following priority:\n1. “High / flare”, if the latest sledai score is at least 12;\n2. “Moderate”, if the latest sledai score is at least 6;\n3. “Mild”, if the latest sledai score is at least 1;\n4. in all other cases, “Quiescent”.",
     "mechanical": false,
     "refs": [
       {
@@ -20018,31 +20020,31 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s activity tier is determined by the following priority:",
+      "headline": "The individual's activity tier is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CHigh / flare\u201D",
+          "value": "“High / flare”",
           "when": {
             "kind": "leaf",
             "text": "the latest sledai score is at least 12"
           }
         },
         {
-          "value": "the literal \u201CModerate\u201D",
+          "value": "“Moderate”",
           "when": {
             "kind": "leaf",
             "text": "the latest sledai score is at least 6"
           }
         },
         {
-          "value": "the literal \u201CMild\u201D",
+          "value": "“Mild”",
           "when": {
             "kind": "leaf",
             "text": "the latest sledai score is at least 1"
           }
         },
         {
-          "value": "the literal \u201CQuiescent\u201D",
+          "value": "“Quiescent”",
           "when": null
         }
       ],
@@ -20064,7 +20066,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s is high disease activity is determined by the following priority:",
+      "headline": "The individual's is high disease activity is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20085,7 +20087,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "IsDiseaseProgressing",
     "kind": "formula",
-    "rule": "An individual is considered disease progressing if at least one of the following holds: the nephritis progression state key is the literal \u201CEarlyNephritis\u201D; the nephritis progression state key is the literal \u201CRenalFlareRisk\u201D; or the nephritis progression state key is the literal \u201CBiopsyIndicated\u201D.",
+    "rule": "An individual is considered disease-progressing if at least one of the following holds: the nephritis progression state key is “EarlyNephritis”; the nephritis progression state key is “RenalFlareRisk”; or the nephritis progression state key is “BiopsyIndicated”.",
     "mechanical": false,
     "refs": [
       {
@@ -20096,7 +20098,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s is disease progressing is determined by the following priority:",
+      "headline": "The individual's is disease progressing is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20105,15 +20107,15 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the nephritis progression state key is the literal \u201CEarlyNephritis\u201D"
+                "text": "the nephritis progression state key is “EarlyNephritis”"
               },
               {
                 "kind": "leaf",
-                "text": "the nephritis progression state key is the literal \u201CRenalFlareRisk\u201D"
+                "text": "the nephritis progression state key is “RenalFlareRisk”"
               },
               {
                 "kind": "leaf",
-                "text": "the nephritis progression state key is the literal \u201CBiopsyIndicated\u201D"
+                "text": "the nephritis progression state key is “BiopsyIndicated”"
               }
             ]
           }
@@ -20130,7 +20132,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "TargetPathwayCode",
     "kind": "rollup",
-    "rule": "An individual\u0027s target pathway code is the largest target pathway code across the causal mechanisms related to the individual.",
+    "rule": "An individual's target pathway code is the largest target pathway code across the causal mechanisms related to the individual.",
     "mechanical": false,
     "refs": [
       {
@@ -20155,7 +20157,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Individuals",
     "field": "TargetPathway",
     "kind": "formula",
-    "rule": "The individual\u0027s target pathway is determined by the following priority:\n1. the literal \u201Ctype-I-IFN\u201D, if the target pathway code is 1;\n2. the literal \u201CB-cell/autoantibody\u201D, if the target pathway code is 2;\n3. the literal \u201CT-cell-costim\u201D, if the target pathway code is 3;\n4. the literal \u201CIL-17/23\u201D, if the target pathway code is 4;\n5. otherwise an empty string.",
+    "rule": "The individual's target pathway is determined by the following priority:\n1. “type-I-IFN”, if the target pathway code is 1;\n2. “B-cell/autoantibody”, if the target pathway code is 2;\n3. “T-cell-costim”, if the target pathway code is 3;\n4. “IL-17/23”, if the target pathway code is 4;\n5. in all other cases, an empty string.",
     "mechanical": false,
     "refs": [
       {
@@ -20166,31 +20168,31 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual\u0027s target pathway is determined by the following priority:",
+      "headline": "The individual's target pathway is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201Ctype-I-IFN\u201D",
+          "value": "“type-I-IFN”",
           "when": {
             "kind": "leaf",
             "text": "the target pathway code is 1"
           }
         },
         {
-          "value": "the literal \u201CB-cell/autoantibody\u201D",
+          "value": "“B-cell/autoantibody”",
           "when": {
             "kind": "leaf",
             "text": "the target pathway code is 2"
           }
         },
         {
-          "value": "the literal \u201CT-cell-costim\u201D",
+          "value": "“T-cell-costim”",
           "when": {
             "kind": "leaf",
             "text": "the target pathway code is 3"
           }
         },
         {
-          "value": "the literal \u201CIL-17/23\u201D",
+          "value": "“IL-17/23”",
           "when": {
             "kind": "leaf",
             "text": "the target pathway code is 4"
@@ -20204,11 +20206,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "children": null
     }
   },
+  "Individuals.CurrentProgressionStateId": {
+    "table": "Individuals",
+    "field": "CurrentProgressionStateId",
+    "kind": "formula",
+    "rule": "An individual's current progression state ID is computed as “lupus-nephritis-progression--”, followed by the lower-cased nephritis progression state key.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Individuals",
+        "field": "NephritisProgressionStateKey",
+        "label": "nephritis progression state key"
+      }
+    ],
+    "structure": null
+  },
   "Individuals.ReachableStatesAhead": {
     "table": "Individuals",
     "field": "ReachableStatesAhead",
     "kind": "lookup",
-    "rule": "An individual\u0027s reachable states ahead is the reachable state count of the individual\u0027s current progression state ID.",
+    "rule": "An individual's reachable states ahead is the reachable state count of the individual's current progression state ID.",
     "mechanical": false,
     "refs": [
       {
@@ -20233,7 +20250,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "Name",
     "kind": "formula",
-    "rule": "A genomic variant\u0027s name is computed as the variant label.",
+    "rule": "A genomic variant's name is the same as its variant label.",
     "mechanical": false,
     "refs": [
       {
@@ -20248,7 +20265,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A genomic variant\u0027s parent path is the relative path of the genomic variant\u0027s individual.",
+    "rule": "A genomic variant's parent path is the relative path of the genomic variant's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -20273,7 +20290,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A genomic variant\u0027s relative path is computed as the parent path, followed by the literal \u201C/variants/\u201D, followed by the genomic variant ID.",
+    "rule": "A genomic variant's relative path is computed as the parent path, followed by “/variants/”, followed by the genomic variant ID.",
     "mechanical": false,
     "refs": [
       {
@@ -20293,7 +20310,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "VariantTypeLabel",
     "kind": "formula",
-    "rule": "A genomic variant\u0027s variant type label is the type label of the genomic variant\u0027s variant type.",
+    "rule": "A genomic variant's variant type label — taken from the linked variant type.",
     "mechanical": false,
     "refs": [
       {
@@ -20318,7 +20335,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "VariantClassIsRare",
     "kind": "lookup",
-    "rule": "A genomic variant\u0027s variant class is rare is true when the genomic variant\u0027s variant type is a rare variant class.",
+    "rule": "A genomic variant's variant class is rare when the linked variant type is a rare variant class.",
     "mechanical": false,
     "refs": [
       {
@@ -20343,7 +20360,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "IndividualAncestryLabel",
     "kind": "formula",
-    "rule": "A genomic variant\u0027s individual ancestry label is the ancestry label of the genomic variant\u0027s individual.",
+    "rule": "A genomic variant's individual ancestry label — taken from the linked individual.",
     "mechanical": false,
     "refs": [
       {
@@ -20379,7 +20396,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The genomic variant\u0027s is rare variant is determined by the following priority:",
+      "headline": "The genomic variant's is rare variant is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20400,7 +20417,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GenomicVariants",
     "field": "IsCausalCandidate",
     "kind": "formula",
-    "rule": "A genomic variant is considered a causal candidate if all of the following hold: at least one of the following holds: the is rare variant flag is set or the variant class is rare flag is set and the has allele specific expression flag is set.",
+    "rule": "A genomic variant is considered a causal candidate if all of the following hold: at least one of the following holds: the rare variant flag is set or the variant class is rare flag is set and the allele specific expression flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -20421,7 +20438,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The genomic variant\u0027s is causal candidate is determined by the following priority:",
+      "headline": "The genomic variant's is causal candidate is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20433,7 +20450,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
                 "children": [
                   {
                     "kind": "leaf",
-                    "text": "the is rare variant flag is set"
+                    "text": "the rare variant flag is set"
                   },
                   {
                     "kind": "leaf",
@@ -20443,7 +20460,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "the has allele specific expression flag is set"
+                "text": "the allele specific expression flag is set"
               }
             ]
           }
@@ -20460,7 +20477,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "Name",
     "kind": "formula",
-    "rule": "An omics assay\u0027s name is computed as the assay label.",
+    "rule": "An omics assay's name is the same as its assay label.",
     "mechanical": false,
     "refs": [
       {
@@ -20475,7 +20492,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "An omics assay\u0027s parent path is the relative path of the omics assay\u0027s individual.",
+    "rule": "An omics assay's parent path is the relative path of the omics assay's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -20500,7 +20517,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An omics assay\u0027s relative path is computed as the parent path, followed by the literal \u201C/assays/\u201D, followed by the omics assay ID.",
+    "rule": "An omics assay's relative path is computed as the parent path, followed by “/assays/”, followed by the omics assay ID.",
     "mechanical": false,
     "refs": [
       {
@@ -20520,7 +20537,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "ModalityLabel",
     "kind": "formula",
-    "rule": "An omics assay\u0027s modality label is the modality label of the omics assay\u0027s omics modality.",
+    "rule": "An omics assay's modality label — taken from the linked omics modality.",
     "mechanical": false,
     "refs": [
       {
@@ -20545,7 +20562,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "TissueLabel",
     "kind": "formula",
-    "rule": "The omics assay\u0027s tissue label is determined by the following priority:\n1. the literal \u201CMissing Tissue\u201D, if the tissue is blank;\n2. otherwise the tissue label of the omics assay\u0027s tissue.",
+    "rule": "The omics assay's tissue label is determined by the following priority:\n1. “Missing Tissue”, if the tissue is blank;\n2. in all other cases, the tissue label of the omics assay's tissue.",
     "mechanical": false,
     "refs": [
       {
@@ -20566,17 +20583,17 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The omics assay\u0027s tissue label is determined by the following priority:",
+      "headline": "The omics assay's tissue label is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CMissing Tissue\u201D",
+          "value": "“Missing Tissue”",
           "when": {
             "kind": "leaf",
             "text": "the tissue is blank"
           }
         },
         {
-          "value": "the tissue label of the omics assay\u0027s tissue",
+          "value": "the tissue label of the omics assay's tissue",
           "when": null
         }
       ],
@@ -20587,7 +20604,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "HasBatchEffectRisk",
     "kind": "formula",
-    "rule": "An omics assay is considered to have a batch effect risk if the measurement error score is greater than 0.3.",
+    "rule": "An omics assay is considered to have batch effect risk if the measurement error score is greater than 0.3.",
     "mechanical": false,
     "refs": [
       {
@@ -20598,7 +20615,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The omics assay\u0027s has batch effect risk is determined by the following priority:",
+      "headline": "The omics assay's has batch effect risk is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20619,7 +20636,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OmicsAssays",
     "field": "IsHighQualityAssay",
     "kind": "formula",
-    "rule": "An omics assay is considered a high quality assay if all of the following hold: it is not the case that the has batch effect risk flag is set and the measurement error score is less than 0.15.",
+    "rule": "An omics assay is considered a high quality assay if all of the following hold: the batch effect risk flag is not set and the measurement error score is less than 0.15.",
     "mechanical": false,
     "refs": [
       {
@@ -20635,7 +20652,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The omics assay\u0027s is high quality assay is determined by the following priority:",
+      "headline": "The omics assay's is high quality assay is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20644,7 +20661,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the has batch effect risk flag is set"
+                "text": "the batch effect risk flag is not set"
               },
               {
                 "kind": "leaf",
@@ -20665,7 +20682,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "Name",
     "kind": "formula",
-    "rule": "An evidence item\u0027s name is computed as the evidence label.",
+    "rule": "An evidence item's name is the same as its evidence label.",
     "mechanical": false,
     "refs": [
       {
@@ -20680,7 +20697,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "An evidence item\u0027s parent path is the relative path of the evidence item\u0027s causal mechanism.",
+    "rule": "An evidence item's parent path is the relative path of the evidence item's causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -20705,7 +20722,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An evidence item\u0027s relative path is computed as the parent path, followed by the literal \u201C/evidence/\u201D, followed by the evidence item ID.",
+    "rule": "An evidence item's relative path is computed as the parent path, followed by “/evidence/”, followed by the evidence item ID.",
     "mechanical": false,
     "refs": [
       {
@@ -20725,7 +20742,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "AssayIsHighQuality",
     "kind": "lookup",
-    "rule": "An evidence item\u0027s assay is high quality is true when the evidence item\u0027s omics assay is a high quality assay.",
+    "rule": "An evidence item's assay is high quality when the linked omics assay is a high quality assay.",
     "mechanical": false,
     "refs": [
       {
@@ -20750,7 +20767,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "ZStat",
     "kind": "formula",
-    "rule": "The evidence item\u0027s z stat is determined by the following priority:\n1. the effect size divided by the standard error, if the standard error is greater than 0;\n2. otherwise 0.",
+    "rule": "The evidence item's z stat is determined by the following priority:\n1. the effect size divided by the standard error, if the standard error is greater than 0;\n2. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -20766,7 +20783,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The evidence item\u0027s z stat is determined by the following priority:",
+      "headline": "The evidence item's z stat is determined by the following priority:",
       "cases": [
         {
           "value": "the effect size divided by the standard error",
@@ -20787,7 +20804,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "IsConfoundControlled",
     "kind": "formula",
-    "rule": "An evidence item is considered confound controlled if all of the following hold: the is adjusted for ancestry p cs flag is set and the is adjusted for batch flag is set.",
+    "rule": "An evidence item is considered confound-controlled if all of the following hold: the adjusted for ancestry p cs flag is set and the adjusted for batch flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -20803,7 +20820,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The evidence item\u0027s is confound controlled is determined by the following priority:",
+      "headline": "The evidence item's is confound controlled is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20812,11 +20829,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is adjusted for ancestry p cs flag is set"
+                "text": "the adjusted for ancestry p cs flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the is adjusted for batch flag is set"
+                "text": "the adjusted for batch flag is set"
               }
             ]
           }
@@ -20833,7 +20850,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EvidenceItems",
     "field": "IsQualifiedEvidence",
     "kind": "formula",
-    "rule": "An evidence item is considered a qualified evidence if all of the following hold: the assay is high quality flag is set; it is not the case that the is negative control arm flag is set; the z stat is at least 2; and the is confound controlled flag is set.",
+    "rule": "An evidence item is considered a qualified evidence if all of the following hold: the assay is high quality flag is set; the negative control arm flag is not set; the z stat is at least 2; and the confound controlled flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -20859,7 +20876,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The evidence item\u0027s is qualified evidence is determined by the following priority:",
+      "headline": "The evidence item's is qualified evidence is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -20872,7 +20889,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the is negative control arm flag is set"
+                "text": "the negative control arm flag is not set"
               },
               {
                 "kind": "leaf",
@@ -20880,7 +20897,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "the is confound controlled flag is set"
+                "text": "the confound controlled flag is set"
               }
             ]
           }
@@ -20897,7 +20914,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CohortReplications",
     "field": "Name",
     "kind": "formula",
-    "rule": "A cohort replication\u0027s name is computed as the replication label.",
+    "rule": "A cohort replication's name is the same as its replication label.",
     "mechanical": false,
     "refs": [
       {
@@ -20912,7 +20929,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CohortReplications",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A cohort replication\u0027s parent path is the relative path of the cohort replication\u0027s causal mechanism.",
+    "rule": "A cohort replication's parent path is the relative path of the cohort replication's causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -20937,7 +20954,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CohortReplications",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A cohort replication\u0027s relative path is computed as the parent path, followed by the literal \u201C/replications/\u201D, followed by the cohort replication ID.",
+    "rule": "A cohort replication's relative path is computed as the parent path, followed by “/replications/”, followed by the cohort replication ID.",
     "mechanical": false,
     "refs": [
       {
@@ -20973,7 +20990,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The cohort replication\u0027s replicated at nominal sig is determined by the following priority:",
+      "headline": "The cohort replication's replicated at nominal sig is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21003,7 +21020,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CohortReplications",
     "field": "MechanismPrimaryAncestry",
     "kind": "lookup",
-    "rule": "A cohort replication\u0027s mechanism primary ancestry is the individual ancestry label of the cohort replication\u0027s causal mechanism.",
+    "rule": "A cohort replication's mechanism primary ancestry is the individual ancestry label of the cohort replication's causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -21044,7 +21061,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The cohort replication\u0027s is different ancestry replication is determined by the following priority:",
+      "headline": "The cohort replication's is different ancestry replication is determined by the following priority:",
       "cases": [
         {
           "value": "false",
@@ -21065,7 +21082,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CohortReplications",
     "field": "IsCrossAncestryConcordant",
     "kind": "formula",
-    "rule": "A cohort replication is considered a cross ancestry concordant if all of the following hold: the replicated at nominal sig flag is set and the is different ancestry replication flag is set.",
+    "rule": "A cohort replication is considered a cross ancestry concordant if all of the following hold: the replicated at nominal sig flag is set and the different ancestry replication flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -21081,7 +21098,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The cohort replication\u0027s is cross ancestry concordant is determined by the following priority:",
+      "headline": "The cohort replication's is cross ancestry concordant is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21094,7 +21111,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "the is different ancestry replication flag is set"
+                "text": "the different ancestry replication flag is set"
               }
             ]
           }
@@ -21111,7 +21128,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "NegativeControlTests",
     "field": "Name",
     "kind": "formula",
-    "rule": "A negative control test\u0027s name is computed as the control label.",
+    "rule": "A negative control test's name is the same as its control label.",
     "mechanical": false,
     "refs": [
       {
@@ -21126,7 +21143,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "NegativeControlTests",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A negative control test\u0027s parent path is the relative path of the negative control test\u0027s causal mechanism.",
+    "rule": "A negative control test's parent path is the relative path of the negative control test's causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -21151,7 +21168,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "NegativeControlTests",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A negative control test\u0027s relative path is computed as the parent path, followed by the literal \u201C/neg-controls/\u201D, followed by the negative control test ID.",
+    "rule": "A negative control test's relative path is computed as the parent path, followed by “/neg-controls/”, followed by the negative control test ID.",
     "mechanical": false,
     "refs": [
       {
@@ -21187,7 +21204,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The negative control test\u0027s is survived is determined by the following priority:",
+      "headline": "The negative control test's is survived is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21208,7 +21225,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EnvironmentalExposures",
     "field": "Name",
     "kind": "formula",
-    "rule": "An environmental exposure\u0027s name is computed as the exposure label.",
+    "rule": "An environmental exposure's name is the same as its exposure label.",
     "mechanical": false,
     "refs": [
       {
@@ -21223,7 +21240,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EnvironmentalExposures",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "An environmental exposure\u0027s parent path is the relative path of the environmental exposure\u0027s individual.",
+    "rule": "An environmental exposure's parent path is the relative path of the environmental exposure's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -21248,7 +21265,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EnvironmentalExposures",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An environmental exposure\u0027s relative path is computed as the parent path, followed by the literal \u201C/exposures/\u201D, followed by the environmental exposure ID.",
+    "rule": "An environmental exposure's relative path is computed as the parent path, followed by “/exposures/”, followed by the environmental exposure ID.",
     "mechanical": false,
     "refs": [
       {
@@ -21268,7 +21285,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EnvironmentalExposures",
     "field": "IndividualAncestryLabel",
     "kind": "formula",
-    "rule": "An environmental exposure\u0027s individual ancestry label is the ancestry label of the environmental exposure\u0027s individual.",
+    "rule": "An environmental exposure's individual ancestry label — taken from the linked individual.",
     "mechanical": false,
     "refs": [
       {
@@ -21304,7 +21321,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The environmental exposure\u0027s is high exposure is determined by the following priority:",
+      "headline": "The environmental exposure's is high exposure is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21325,7 +21342,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "Name",
     "kind": "formula",
-    "rule": "A treatment\u0027s name is computed as the treatment label.",
+    "rule": "A treatment's name is the same as its treatment label.",
     "mechanical": false,
     "refs": [
       {
@@ -21340,7 +21357,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A treatment\u0027s parent path is the relative path of the treatment\u0027s individual.",
+    "rule": "A treatment's parent path is the relative path of the treatment's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -21365,7 +21382,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A treatment\u0027s relative path is computed as the parent path, followed by the literal \u201C/treatments/\u201D, followed by the treatment ID.",
+    "rule": "A treatment's relative path is computed as the parent path, followed by “/treatments/”, followed by the treatment ID.",
     "mechanical": false,
     "refs": [
       {
@@ -21385,7 +21402,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "AutoimmuneDiseaseLabel",
     "kind": "formula",
-    "rule": "A treatment\u0027s autoimmune disease label is the disease label of the treatment\u0027s autoimmune disease.",
+    "rule": "A treatment's autoimmune disease label — taken from the linked autoimmune disease.",
     "mechanical": false,
     "refs": [
       {
@@ -21410,7 +21427,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "IsEffectiveTreatment",
     "kind": "formula",
-    "rule": "A treatment is considered an effective treatment if all of the following hold: at least one of the following holds: the treatment response is the literal \u201CComplete\u201D or the treatment response is the literal \u201CPartial\u201D and it is not the case that the has adverse effect flag is set.",
+    "rule": "A treatment is considered an effective treatment if all of the following hold: at least one of the following holds: the treatment response is “Complete” or the treatment response is “Partial” and the adverse effect flag is not set.",
     "mechanical": false,
     "refs": [
       {
@@ -21426,7 +21443,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The treatment\u0027s is effective treatment is determined by the following priority:",
+      "headline": "The treatment's is effective treatment is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21438,17 +21455,17 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
                 "children": [
                   {
                     "kind": "leaf",
-                    "text": "the treatment response is the literal \u201CComplete\u201D"
+                    "text": "the treatment response is “Complete”"
                   },
                   {
                     "kind": "leaf",
-                    "text": "the treatment response is the literal \u201CPartial\u201D"
+                    "text": "the treatment response is “Partial”"
                   }
                 ]
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the has adverse effect flag is set"
+                "text": "the adverse effect flag is not set"
               }
             ]
           }
@@ -21465,7 +21482,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "IsMechanismMatched",
     "kind": "lookup",
-    "rule": "A treatment\u0027s is mechanism matched is false if the targets mechanism is blank, otherwise the is causal architecture node of the treatment\u0027s targets mechanism.",
+    "rule": "A treatment's is mechanism matched is false if the targets mechanism is blank, in all other cases the is causal architecture node of the treatment's targets mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -21486,7 +21503,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The treatment\u0027s is mechanism matched is determined by the following priority:",
+      "headline": "The treatment's is mechanism matched is determined by the following priority:",
       "cases": [
         {
           "value": "false",
@@ -21496,7 +21513,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the is causal architecture node of the treatment\u0027s targets mechanism",
+          "value": "the is causal architecture node of the treatment's targets mechanism",
           "when": null
         }
       ],
@@ -21507,7 +21524,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "IsTreatmentResponsePredicted",
     "kind": "formula",
-    "rule": "A treatment is considered treatment response predicted if all of the following hold: the is effective treatment flag is set and the is mechanism matched flag is set.",
+    "rule": "A treatment is considered treatment-response-predicted if all of the following hold: the effective treatment flag is set and the mechanism matched flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -21523,7 +21540,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The treatment\u0027s is treatment response predicted is determined by the following priority:",
+      "headline": "The treatment's is treatment response predicted is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21532,11 +21549,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is effective treatment flag is set"
+                "text": "the effective treatment flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the is mechanism matched flag is set"
+                "text": "the mechanism matched flag is set"
               }
             ]
           }
@@ -21553,7 +21570,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "TreatmentResponseDecidingFactor",
     "kind": "formula",
-    "rule": "The treatment\u0027s treatment response deciding factor is determined by the following priority:\n1. the literal \u201CEffectiveOnConfirmedMechanism\u201D, if the is treatment response predicted flag is set;\n2. the literal \u201CNoConfirmedMechanism\u201D, if it is not the case that the is mechanism matched flag is set;\n3. the literal \u201CAdverseEffect\u201D, if the has adverse effect flag is set;\n4. the literal \u201CNoResponse\u201D, if at least one of the following holds: the treatment response is the literal \u201CNone\u201D or the treatment response is the literal \u201CAdverse\u201D;\n5. otherwise the literal \u201CUndetermined\u201D.",
+    "rule": "The treatment's treatment response deciding factor is determined by the following priority:\n1. “EffectiveOnConfirmedMechanism”, if the treatment response predicted flag is set;\n2. “NoConfirmedMechanism”, if the mechanism matched flag is not set;\n3. “AdverseEffect”, if the adverse effect flag is set;\n4. “NoResponse”, if at least one of the following holds: the treatment response is “None” or the treatment response is “Adverse”;\n5. in all other cases, “Undetermined”.",
     "mechanical": false,
     "refs": [
       {
@@ -21579,47 +21596,47 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The treatment\u0027s treatment response deciding factor is determined by the following priority:",
+      "headline": "The treatment's treatment response deciding factor is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CEffectiveOnConfirmedMechanism\u201D",
+          "value": "“EffectiveOnConfirmedMechanism”",
           "when": {
             "kind": "leaf",
-            "text": "the is treatment response predicted flag is set"
+            "text": "the treatment response predicted flag is set"
           }
         },
         {
-          "value": "the literal \u201CNoConfirmedMechanism\u201D",
+          "value": "“NoConfirmedMechanism”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the is mechanism matched flag is set"
+            "text": "the mechanism matched flag is not set"
           }
         },
         {
-          "value": "the literal \u201CAdverseEffect\u201D",
+          "value": "“AdverseEffect”",
           "when": {
             "kind": "leaf",
-            "text": "the has adverse effect flag is set"
+            "text": "the adverse effect flag is set"
           }
         },
         {
-          "value": "the literal \u201CNoResponse\u201D",
+          "value": "“NoResponse”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the treatment response is the literal \u201CNone\u201D"
+                "text": "the treatment response is “None”"
               },
               {
                 "kind": "leaf",
-                "text": "the treatment response is the literal \u201CAdverse\u201D"
+                "text": "the treatment response is “Adverse”"
               }
             ]
           }
         },
         {
-          "value": "the literal \u201CUndetermined\u201D",
+          "value": "“Undetermined”",
           "when": null
         }
       ],
@@ -21630,7 +21647,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ClinicalPhenotypes",
     "field": "Name",
     "kind": "formula",
-    "rule": "A clinical phenotype\u0027s name is computed as the phenotype label.",
+    "rule": "A clinical phenotype's name is the same as its phenotype label.",
     "mechanical": false,
     "refs": [
       {
@@ -21645,7 +21662,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ClinicalPhenotypes",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A clinical phenotype\u0027s parent path is the relative path of the clinical phenotype\u0027s individual.",
+    "rule": "A clinical phenotype's parent path is the relative path of the clinical phenotype's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -21670,7 +21687,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ClinicalPhenotypes",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A clinical phenotype\u0027s relative path is computed as the parent path, followed by the literal \u201C/phenotypes/\u201D, followed by the clinical phenotype ID.",
+    "rule": "A clinical phenotype's relative path is computed as the parent path, followed by “/phenotypes/”, followed by the clinical phenotype ID.",
     "mechanical": false,
     "refs": [
       {
@@ -21690,7 +21707,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ClinicalPhenotypes",
     "field": "DiseaseStageLabel",
     "kind": "formula",
-    "rule": "The clinical phenotype\u0027s disease stage label is determined by the following priority:\n1. an empty string, if the disease stage is blank;\n2. otherwise the stage label of the clinical phenotype\u0027s disease stage.",
+    "rule": "The clinical phenotype's disease stage label is determined by the following priority:\n1. an empty string, if the disease stage is blank;\n2. in all other cases, the stage label of the clinical phenotype's disease stage.",
     "mechanical": false,
     "refs": [
       {
@@ -21711,7 +21728,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The clinical phenotype\u0027s disease stage label is determined by the following priority:",
+      "headline": "The clinical phenotype's disease stage label is determined by the following priority:",
       "cases": [
         {
           "value": "an empty string",
@@ -21721,7 +21738,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the stage label of the clinical phenotype\u0027s disease stage",
+          "value": "the stage label of the clinical phenotype's disease stage",
           "when": null
         }
       ],
@@ -21743,7 +21760,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The clinical phenotype\u0027s is high severity is determined by the following priority:",
+      "headline": "The clinical phenotype's is high severity is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -21764,7 +21781,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ClinicalPhenotypes",
     "field": "IsPresymptomaticPhenotype",
     "kind": "formula",
-    "rule": "A clinical phenotype is considered a presymptomatic phenotype if the disease stage label is the literal \u201CPresymptomatic\u201D.",
+    "rule": "A clinical phenotype is considered a presymptomatic phenotype if the disease stage label is “Presymptomatic”.",
     "mechanical": false,
     "refs": [
       {
@@ -21775,13 +21792,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The clinical phenotype\u0027s is presymptomatic phenotype is determined by the following priority:",
+      "headline": "The clinical phenotype's is presymptomatic phenotype is determined by the following priority:",
       "cases": [
         {
           "value": "true",
           "when": {
             "kind": "leaf",
-            "text": "the disease stage label is the literal \u201CPresymptomatic\u201D"
+            "text": "the disease stage label is “Presymptomatic”"
           }
         },
         {
@@ -21796,7 +21813,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "TargetPathwayCode",
     "kind": "formula",
-    "rule": "The causal mechanism\u0027s target pathway code is determined by the following priority:\n1. 1, if the target pathway is the literal \u201Ctype-I-IFN\u201D;\n2. 2, if the target pathway is the literal \u201CB-cell/autoantibody\u201D;\n3. 3, if the target pathway is the literal \u201CT-cell-costim\u201D;\n4. 4, if the target pathway is the literal \u201CIL-17/23\u201D;\n5. otherwise 0.",
+    "rule": "The causal mechanism's target pathway code is determined by the following priority:\n1. 1, if the target pathway is “type-I-IFN”;\n2. 2, if the target pathway is “B-cell/autoantibody”;\n3. 3, if the target pathway is “T-cell-costim”;\n4. 4, if the target pathway is “IL-17/23”;\n5. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -21807,34 +21824,34 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s target pathway code is determined by the following priority:",
+      "headline": "The causal mechanism's target pathway code is determined by the following priority:",
       "cases": [
         {
           "value": "1",
           "when": {
             "kind": "leaf",
-            "text": "the target pathway is the literal \u201Ctype-I-IFN\u201D"
+            "text": "the target pathway is “type-I-IFN”"
           }
         },
         {
           "value": "2",
           "when": {
             "kind": "leaf",
-            "text": "the target pathway is the literal \u201CB-cell/autoantibody\u201D"
+            "text": "the target pathway is “B-cell/autoantibody”"
           }
         },
         {
           "value": "3",
           "when": {
             "kind": "leaf",
-            "text": "the target pathway is the literal \u201CT-cell-costim\u201D"
+            "text": "the target pathway is “T-cell-costim”"
           }
         },
         {
           "value": "4",
           "when": {
             "kind": "leaf",
-            "text": "the target pathway is the literal \u201CIL-17/23\u201D"
+            "text": "the target pathway is “IL-17/23”"
           }
         },
         {
@@ -21849,7 +21866,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "Name",
     "kind": "formula",
-    "rule": "A causal mechanism\u0027s name is computed as the mechanism label.",
+    "rule": "A causal mechanism's name is the same as its mechanism label.",
     "mechanical": false,
     "refs": [
       {
@@ -21864,7 +21881,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A causal mechanism\u0027s parent path is the relative path of the causal mechanism\u0027s individual.",
+    "rule": "A causal mechanism's parent path is the relative path of the causal mechanism's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -21889,7 +21906,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A causal mechanism\u0027s relative path is computed as the parent path, followed by the literal \u201C/mechanisms/\u201D, followed by the causal mechanism ID.",
+    "rule": "A causal mechanism's relative path is computed as the parent path, followed by “/mechanisms/”, followed by the causal mechanism ID.",
     "mechanical": false,
     "refs": [
       {
@@ -21909,7 +21926,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "IndividualAncestryLabel",
     "kind": "formula",
-    "rule": "A causal mechanism\u0027s individual ancestry label is the ancestry label of the causal mechanism\u0027s individual.",
+    "rule": "A causal mechanism's individual ancestry label — taken from the linked individual.",
     "mechanical": false,
     "refs": [
       {
@@ -21934,7 +21951,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountQualifiedEvidence",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count qualified evidence is the number of the causal mechanism\u0027s evidence items that are qualified evidences.",
+    "rule": "A causal mechanism's count qualified evidence is the number of the causal mechanism's evidence items that are qualified evidences.",
     "mechanical": false,
     "refs": [
       {
@@ -21959,7 +21976,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountModalitiesSupporting",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count modalities supporting is the number of the causal mechanism\u0027s evidence items that are cross modalities and are qualified evidences.",
+    "rule": "A causal mechanism's count modalities supporting is the number of the causal mechanism's evidence items that are cross modalities and are qualified evidences.",
     "mechanical": false,
     "refs": [
       {
@@ -21989,7 +22006,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountInterventionTargets",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count intervention targets is the number of intervention targets related to the causal mechanism.",
+    "rule": "A causal mechanism's count intervention targets is the number of intervention targets related to the causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -22009,7 +22026,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "IsExperimentallyFalsifiable",
     "kind": "formula",
-    "rule": "A causal mechanism is considered an experimentally falsifiable if all of the following hold: the count intervention targets is at least 1 and the count qualified evidence is at least 1.",
+    "rule": "A causal mechanism is considered experimentally-falsifiable if all of the following hold: the count intervention targets is at least 1 and the count qualified evidence is at least 1.",
     "mechanical": false,
     "refs": [
       {
@@ -22025,7 +22042,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s is experimentally falsifiable is determined by the following priority:",
+      "headline": "The causal mechanism's is experimentally falsifiable is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22055,7 +22072,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountReplications",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count replications is the number of cohort replications related to the causal mechanism.",
+    "rule": "A causal mechanism's count replications is the number of cohort replications related to the causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -22075,7 +22092,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountConcordantReplications",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count concordant replications is the number of the causal mechanism\u0027s cohort replications that are replicated at nominal sig.",
+    "rule": "A causal mechanism's count concordant replications is the number of the causal mechanism's cohort replications that are replicated at nominal sig.",
     "mechanical": false,
     "refs": [
       {
@@ -22100,7 +22117,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountCrossAncestryConcordant",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count cross ancestry concordant is the number of the causal mechanism\u0027s cohort replications that are cross ancestry concordants.",
+    "rule": "A causal mechanism's count cross ancestry concordant is the number of the causal mechanism's cohort replications that are cross ancestry concordants.",
     "mechanical": false,
     "refs": [
       {
@@ -22125,7 +22142,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "ReplicationFraction",
     "kind": "formula",
-    "rule": "The causal mechanism\u0027s replication fraction is determined by the following priority:\n1. the count concordant replications divided by the count replications, if the count replications is greater than 0;\n2. otherwise 0.",
+    "rule": "The causal mechanism's replication fraction is determined by the following priority:\n1. the count concordant replications divided by the count replications, if the count replications is greater than 0;\n2. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -22141,7 +22158,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s replication fraction is determined by the following priority:",
+      "headline": "The causal mechanism's replication fraction is determined by the following priority:",
       "cases": [
         {
           "value": "the count concordant replications divided by the count replications",
@@ -22162,7 +22179,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "ReplicatesAcrossCohorts",
     "kind": "formula",
-    "rule": "A causal mechanism is considered to replicate across cohorts if all of the following hold: the count replications is at least 2 and the count concordant replications is at least 2.",
+    "rule": "A causal mechanism is considered to replicate an across cohorts if all of the following hold: the count replications is at least 2 and the count concordant replications is at least 2.",
     "mechanical": false,
     "refs": [
       {
@@ -22178,7 +22195,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s replicates across cohorts is determined by the following priority:",
+      "headline": "The causal mechanism's replicates across cohorts is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22208,7 +22225,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountNegControlTests",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count neg control tests is the number of negative control tests related to the causal mechanism.",
+    "rule": "A causal mechanism's count neg control tests is the number of negative control tests related to the causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -22228,7 +22245,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CountNegControlSurvived",
     "kind": "rollup",
-    "rule": "A causal mechanism\u0027s count neg control survived is the number of the causal mechanism\u0027s negative control tests that are survived.",
+    "rule": "A causal mechanism's count neg control survived is the number of the causal mechanism's negative control tests that are survived.",
     "mechanical": false,
     "refs": [
       {
@@ -22253,7 +22270,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "SurvivesNegativeControls",
     "kind": "formula",
-    "rule": "A causal mechanism is considered to survive negative controls if all of the following hold: the count neg control tests is at least 1 and the count neg control survived is the count neg control tests.",
+    "rule": "A causal mechanism is considered to survive a negative controls if all of the following hold: the count neg control tests is at least 1 and the count neg control survived is the count neg control tests.",
     "mechanical": false,
     "refs": [
       {
@@ -22269,7 +22286,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s survives negative controls is determined by the following priority:",
+      "headline": "The causal mechanism's survives negative controls is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22299,7 +22316,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "IsSpuriousDerived",
     "kind": "formula",
-    "rule": "A causal mechanism is considered spurious derived if at least one of the following holds: it is not the case that the replicates across cohorts flag is set; it is not the case that the survives negative controls flag is set; the count modalities supporting is less than 2; or the has pleiotropy flag is set.",
+    "rule": "A causal mechanism is considered spurious-derived if at least one of the following holds: the replicates across cohorts flag is not set; the survives negative controls flag is not set; the count modalities supporting is less than 2; or the pleiotropy flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -22325,7 +22342,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s is spurious derived is determined by the following priority:",
+      "headline": "The causal mechanism's is spurious derived is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22334,11 +22351,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the replicates across cohorts flag is set"
+                "text": "the replicates across cohorts flag is not set"
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the survives negative controls flag is set"
+                "text": "the survives negative controls flag is not set"
               },
               {
                 "kind": "leaf",
@@ -22346,7 +22363,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "the has pleiotropy flag is set"
+                "text": "the pleiotropy flag is set"
               }
             ]
           }
@@ -22363,7 +22380,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "CausalConfidence",
     "kind": "formula",
-    "rule": "The causal mechanism\u0027s causal confidence is determined by the following priority:\n1. 1, if 0.30 times 1 if the count qualified evidence is at least 4, otherwise the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, otherwise the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, otherwise 0 is greater than 1;\n2. otherwise 0.30 times 1 if the count qualified evidence is at least 4, otherwise the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, otherwise the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, otherwise 0.",
+    "rule": "The causal mechanism's causal confidence is determined by the following priority:\n1. 1, if 0.30 times 1 if the count qualified evidence is at least 4, in all other cases the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, in all other cases the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, in all other cases 0 is greater than 1;\n2. in all other cases, 0.30 times 1 if the count qualified evidence is at least 4, in all other cases the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, in all other cases the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, in all other cases 0.",
     "mechanical": false,
     "refs": [
       {
@@ -22389,17 +22406,17 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s causal confidence is determined by the following priority:",
+      "headline": "The causal mechanism's causal confidence is determined by the following priority:",
       "cases": [
         {
           "value": "1",
           "when": {
             "kind": "leaf",
-            "text": "0.30 times 1 if the count qualified evidence is at least 4, otherwise the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, otherwise the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, otherwise 0 is greater than 1"
+            "text": "0.30 times 1 if the count qualified evidence is at least 4, in all other cases the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, in all other cases the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, in all other cases 0 is greater than 1"
           }
         },
         {
-          "value": "0.30 times 1 if the count qualified evidence is at least 4, otherwise the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, otherwise the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, otherwise 0",
+          "value": "0.30 times 1 if the count qualified evidence is at least 4, in all other cases the count qualified evidence divided by 4 plus 0.20 times 1 if the count modalities supporting is at least 3, in all other cases the count modalities supporting divided by 3 plus 0.30 times the replication fraction plus 0.20 times 1 if the survives negative controls flag is set, in all other cases 0",
           "when": null
         }
       ],
@@ -22410,7 +22427,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "VariantIsCausalCandidate",
     "kind": "lookup",
-    "rule": "A causal mechanism\u0027s variant is causal candidate is false if the genomic variant is blank, otherwise the is causal candidate of the causal mechanism\u0027s genomic variant.",
+    "rule": "A causal mechanism's variant is causal candidate is false if the genomic variant is blank, in all other cases the is causal candidate of the causal mechanism's genomic variant.",
     "mechanical": false,
     "refs": [
       {
@@ -22431,7 +22448,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s variant is causal candidate is determined by the following priority:",
+      "headline": "The causal mechanism's variant is causal candidate is determined by the following priority:",
       "cases": [
         {
           "value": "false",
@@ -22441,7 +22458,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the is causal candidate of the causal mechanism\u0027s genomic variant",
+          "value": "the is causal candidate of the causal mechanism's genomic variant",
           "when": null
         }
       ],
@@ -22452,7 +22469,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "IsCausalArchitectureNode",
     "kind": "formula",
-    "rule": "A causal mechanism is considered a causal architecture node if all of the following hold: the causal confidence is at least 0.7; the is experimentally falsifiable flag is set; it is not the case that the is spurious derived flag is set; and at least one of the following holds: the variant is causal candidate flag is set or the environmental exposure has a value.",
+    "rule": "A causal mechanism is considered a causal architecture node if all of the following hold: the causal confidence is at least 0.7; the experimentally falsifiable flag is set; the spurious derived flag is not set; and at least one of the following holds: the variant is causal candidate flag is set or the environmental exposure has a value.",
     "mechanical": false,
     "refs": [
       {
@@ -22483,7 +22500,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s is causal architecture node is determined by the following priority:",
+      "headline": "The causal mechanism's is causal architecture node is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22496,11 +22513,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "the is experimentally falsifiable flag is set"
+                "text": "the experimentally falsifiable flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the is spurious derived flag is set"
+                "text": "the spurious derived flag is not set"
               },
               {
                 "kind": "any",
@@ -22530,7 +22547,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CausalMechanisms",
     "field": "IsAncestryTransportable",
     "kind": "formula",
-    "rule": "A causal mechanism is considered an ancestry transportable if all of the following hold: the is causal architecture node flag is set and the count cross ancestry concordant is at least 1.",
+    "rule": "A causal mechanism is considered ancestry-transportable if all of the following hold: the causal architecture node flag is set and the count cross ancestry concordant is at least 1.",
     "mechanical": false,
     "refs": [
       {
@@ -22546,7 +22563,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The causal mechanism\u0027s is ancestry transportable is determined by the following priority:",
+      "headline": "The causal mechanism's is ancestry transportable is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22555,7 +22572,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is causal architecture node flag is set"
+                "text": "the causal architecture node flag is set"
               },
               {
                 "kind": "leaf",
@@ -22576,7 +22593,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EpistaticInteractions",
     "field": "Name",
     "kind": "formula",
-    "rule": "An epistatic interaction\u0027s name is computed as the interaction label.",
+    "rule": "An epistatic interaction's name is the same as its interaction label.",
     "mechanical": false,
     "refs": [
       {
@@ -22591,7 +22608,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EpistaticInteractions",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "An epistatic interaction\u0027s parent path is the relative path of the epistatic interaction\u0027s individual.",
+    "rule": "An epistatic interaction's parent path is the relative path of the epistatic interaction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -22616,7 +22633,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "EpistaticInteractions",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An epistatic interaction\u0027s relative path is computed as the parent path, followed by the literal \u201C/epistasis/\u201D, followed by the epistatic interaction ID.",
+    "rule": "An epistatic interaction's relative path is computed as the parent path, followed by “/epistasis/”, followed by the epistatic interaction ID.",
     "mechanical": false,
     "refs": [
       {
@@ -22647,7 +22664,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The epistatic interaction\u0027s is high order epistasis is determined by the following priority:",
+      "headline": "The epistatic interaction's is high order epistasis is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22668,7 +22685,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CounterfactualTrajectories",
     "field": "Name",
     "kind": "formula",
-    "rule": "A counterfactual trajectory\u0027s name is computed as the trajectory label.",
+    "rule": "A counterfactual trajectory's name is the same as its trajectory label.",
     "mechanical": false,
     "refs": [
       {
@@ -22683,7 +22700,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CounterfactualTrajectories",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A counterfactual trajectory\u0027s parent path is the relative path of the counterfactual trajectory\u0027s individual.",
+    "rule": "A counterfactual trajectory's parent path is the relative path of the counterfactual trajectory's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -22708,7 +22725,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CounterfactualTrajectories",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A counterfactual trajectory\u0027s relative path is computed as the parent path, followed by the literal \u201C/trajectories/\u201D, followed by the counterfactual trajectory ID.",
+    "rule": "A counterfactual trajectory's relative path is computed as the parent path, followed by “/trajectories/”, followed by the counterfactual trajectory ID.",
     "mechanical": false,
     "refs": [
       {
@@ -22728,7 +22745,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CounterfactualTrajectories",
     "field": "AutoimmuneDiseaseLabel",
     "kind": "formula",
-    "rule": "A counterfactual trajectory\u0027s autoimmune disease label is the disease label of the counterfactual trajectory\u0027s autoimmune disease.",
+    "rule": "A counterfactual trajectory's autoimmune disease label — taken from the linked autoimmune disease.",
     "mechanical": false,
     "refs": [
       {
@@ -22764,7 +22781,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The counterfactual trajectory\u0027s is worsening trajectory is determined by the following priority:",
+      "headline": "The counterfactual trajectory's is worsening trajectory is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -22785,7 +22802,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "Name",
     "kind": "formula",
-    "rule": "An individual prediction\u0027s name is computed as the prediction label.",
+    "rule": "An individual prediction's name is the same as its prediction label.",
     "mechanical": false,
     "refs": [
       {
@@ -22800,7 +22817,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s parent path is the relative path of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's parent path is the relative path of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -22825,7 +22842,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An individual prediction\u0027s relative path is computed as the parent path, followed by the literal \u201C/predictions/\u201D, followed by the individual prediction ID.",
+    "rule": "An individual prediction's relative path is computed as the parent path, followed by “/predictions/”, followed by the individual prediction ID.",
     "mechanical": false,
     "refs": [
       {
@@ -22845,7 +22862,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualAncestryLabel",
     "kind": "formula",
-    "rule": "An individual prediction\u0027s individual ancestry label is the ancestry label of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual ancestry label — taken from the linked individual.",
     "mechanical": false,
     "refs": [
       {
@@ -22870,7 +22887,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsAncestryHoldout",
     "kind": "formula",
-    "rule": "An individual prediction\u0027s is ancestry holdout is true when the individual prediction\u0027s individual is ancestry absent from training.",
+    "rule": "An individual prediction's is ancestry holdout is true when the individual prediction's individual is ancestry absent from training.",
     "mechanical": false,
     "refs": [
       {
@@ -22895,7 +22912,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualCausalMass",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual causal mass is 0 if the individual is blank, otherwise the sum confirmed causal confidence of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual causal mass is 0 if the individual is blank, in all other cases the sum confirmed causal confidence of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -22916,7 +22933,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual causal mass is determined by the following priority:",
+      "headline": "The individual prediction's individual causal mass is determined by the following priority:",
       "cases": [
         {
           "value": "0",
@@ -22926,7 +22943,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the sum confirmed causal confidence of the individual prediction\u0027s individual",
+          "value": "the sum confirmed causal confidence of the individual prediction's individual",
           "when": null
         }
       ],
@@ -22937,7 +22954,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualConfirmedNodeCount",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual confirmed node count is 0 if the individual is blank, otherwise the count confirmed causal nodes of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual confirmed node count is 0 if the individual is blank, in all other cases the count confirmed causal nodes of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -22958,7 +22975,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual confirmed node count is determined by the following priority:",
+      "headline": "The individual prediction's individual confirmed node count is determined by the following priority:",
       "cases": [
         {
           "value": "0",
@@ -22968,7 +22985,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the count confirmed causal nodes of the individual prediction\u0027s individual",
+          "value": "the count confirmed causal nodes of the individual prediction's individual",
           "when": null
         }
       ],
@@ -22979,7 +22996,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualCrossAncestryNodeCount",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual cross ancestry node count is 0 if the individual is blank, otherwise the count cross ancestry confirmed nodes of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual cross ancestry node count is 0 if the individual is blank, in all other cases the count cross ancestry confirmed nodes of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -23000,7 +23017,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual cross ancestry node count is determined by the following priority:",
+      "headline": "The individual prediction's individual cross ancestry node count is determined by the following priority:",
       "cases": [
         {
           "value": "0",
@@ -23010,7 +23027,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the count cross ancestry confirmed nodes of the individual prediction\u0027s individual",
+          "value": "the count cross ancestry confirmed nodes of the individual prediction's individual",
           "when": null
         }
       ],
@@ -23021,7 +23038,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualHasCrypticRelatedness",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual has cryptic relatedness is false if the individual is blank, otherwise the has cryptic relatedness flag of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual has cryptic relatedness is false if the individual is blank, in all other cases the has cryptic relatedness flag of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -23042,7 +23059,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual has cryptic relatedness is determined by the following priority:",
+      "headline": "The individual prediction's individual has cryptic relatedness is determined by the following priority:",
       "cases": [
         {
           "value": "false",
@@ -23052,7 +23069,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the has cryptic relatedness flag of the individual prediction\u0027s individual",
+          "value": "the has cryptic relatedness flag of the individual prediction's individual",
           "when": null
         }
       ],
@@ -23063,7 +23080,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualMaxSeverityScore",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual max severity score is 0 if the individual is blank, otherwise the max severity score of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual max severity score is 0 if the individual is blank, in all other cases the max severity score of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -23084,7 +23101,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual max severity score is determined by the following priority:",
+      "headline": "The individual prediction's individual max severity score is determined by the following priority:",
       "cases": [
         {
           "value": "0",
@@ -23094,7 +23111,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the max severity score of the individual prediction\u0027s individual",
+          "value": "the max severity score of the individual prediction's individual",
           "when": null
         }
       ],
@@ -23105,7 +23122,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualHasHighSeverityPhenotype",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual has high severity phenotype is false if the individual is blank, otherwise the has high severity phenotype of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual has high severity phenotype is false if the individual is blank, in all other cases the has high severity phenotype of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -23126,7 +23143,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual has high severity phenotype is determined by the following priority:",
+      "headline": "The individual prediction's individual has high severity phenotype is determined by the following priority:",
       "cases": [
         {
           "value": "false",
@@ -23136,7 +23153,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the has high severity phenotype of the individual prediction\u0027s individual",
+          "value": "the has high severity phenotype of the individual prediction's individual",
           "when": null
         }
       ],
@@ -23147,7 +23164,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualHasPredictedTreatmentResponse",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual has predicted treatment response is false if the individual is blank, otherwise the has predicted treatment response of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual has predicted treatment response is false if the individual is blank, in all other cases the has predicted treatment response of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -23168,7 +23185,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s individual has predicted treatment response is determined by the following priority:",
+      "headline": "The individual prediction's individual has predicted treatment response is determined by the following priority:",
       "cases": [
         {
           "value": "false",
@@ -23178,7 +23195,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the has predicted treatment response of the individual prediction\u0027s individual",
+          "value": "the has predicted treatment response of the individual prediction's individual",
           "when": null
         }
       ],
@@ -23189,7 +23206,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "PredictedValue",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s predicted value is determined by the following priority:\n1. 10, if 2 times the individual causal mass plus 1.5 times the individual confirmed node count is greater than 10;\n2. otherwise 2 times the individual causal mass plus 1.5 times the individual confirmed node count.",
+    "rule": "The individual prediction's predicted value is determined by the following priority:\n1. 10, if 2 times the individual causal mass plus 1.5 times the individual confirmed node count is greater than 10;\n2. in all other cases, 2 times the individual causal mass plus 1.5 times the individual confirmed node count.",
     "mechanical": false,
     "refs": [
       {
@@ -23205,7 +23222,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s predicted value is determined by the following priority:",
+      "headline": "The individual prediction's predicted value is determined by the following priority:",
       "cases": [
         {
           "value": "10",
@@ -23226,7 +23243,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "CountBins",
     "kind": "rollup",
-    "rule": "An individual prediction\u0027s count bins is the number of calibration bins related to the individual prediction.",
+    "rule": "An individual prediction's count bins is the number of calibration bins related to the individual prediction.",
     "mechanical": false,
     "refs": [
       {
@@ -23246,7 +23263,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "CountWellCalibratedBins",
     "kind": "rollup",
-    "rule": "An individual prediction\u0027s count well calibrated bins is the number of the individual prediction\u0027s calibration bins that are well calibrated bins.",
+    "rule": "An individual prediction's count well calibrated bins is the number of the individual prediction's calibration bins that are well calibrated bins.",
     "mechanical": false,
     "refs": [
       {
@@ -23271,7 +23288,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "SumBinAbsError",
     "kind": "rollup",
-    "rule": "An individual prediction\u0027s sum bin abs error is the total bin abs error across the calibration bins related to the individual prediction.",
+    "rule": "An individual prediction's sum bin abs error is the total bin abs error across the calibration bins related to the individual prediction.",
     "mechanical": false,
     "refs": [
       {
@@ -23296,7 +23313,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "MeanBinAbsError",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s mean bin abs error is determined by the following priority:\n1. the sum bin abs error divided by the count bins, if the count bins is greater than 0;\n2. otherwise 1.",
+    "rule": "The individual prediction's mean bin abs error is determined by the following priority:\n1. the sum bin abs error divided by the count bins, if the count bins is greater than 0;\n2. in all other cases, 1.",
     "mechanical": false,
     "refs": [
       {
@@ -23312,7 +23329,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s mean bin abs error is determined by the following priority:",
+      "headline": "The individual prediction's mean bin abs error is determined by the following priority:",
       "cases": [
         {
           "value": "the sum bin abs error divided by the count bins",
@@ -23333,7 +23350,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "WellCalibratedFraction",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s well calibrated fraction is determined by the following priority:\n1. the count well calibrated bins divided by the count bins, if the count bins is greater than 0;\n2. otherwise 0.",
+    "rule": "The individual prediction's well calibrated fraction is determined by the following priority:\n1. the count well calibrated bins divided by the count bins, if the count bins is greater than 0;\n2. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -23349,7 +23366,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s well calibrated fraction is determined by the following priority:",
+      "headline": "The individual prediction's well calibrated fraction is determined by the following priority:",
       "cases": [
         {
           "value": "the count well calibrated bins divided by the count bins",
@@ -23370,7 +23387,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "CalibratedUncertainty",
     "kind": "formula",
-    "rule": "An individual prediction\u0027s calibrated uncertainty is computed as 0 if 1 minus the mean bin abs error is less than 0, otherwise 1 minus the mean bin abs error times the well calibrated fraction.",
+    "rule": "An individual prediction's calibrated uncertainty is computed as 0 if 1 minus the mean bin abs error is less than 0, in all other cases 1 minus the mean bin abs error times the well calibrated fraction.",
     "mechanical": false,
     "refs": [
       {
@@ -23401,7 +23418,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s rests on confirmed mechanism is determined by the following priority:",
+      "headline": "The individual prediction's rests on confirmed mechanism is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23422,7 +23439,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "HasSpuriousCorrelationFlag",
     "kind": "formula",
-    "rule": "An individual prediction is considered to have a spurious correlation flag if at least one of the following holds: it is not the case that the rests on confirmed mechanism flag is set or the individual has cryptic relatedness flag is set.",
+    "rule": "An individual prediction is considered to have a spurious correlation flag if at least one of the following holds: the rests on confirmed mechanism flag is not set or the individual has cryptic relatedness flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -23438,7 +23455,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s has spurious correlation flag is determined by the following priority:",
+      "headline": "The individual prediction's has spurious correlation flag is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23447,7 +23464,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the rests on confirmed mechanism flag is set"
+                "text": "the rests on confirmed mechanism flag is not set"
               },
               {
                 "kind": "leaf",
@@ -23468,7 +23485,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsFalsifiabilityBacked",
     "kind": "formula",
-    "rule": "An individual prediction is considered falsifiability backed if the individual confirmed node count is at least 1.",
+    "rule": "An individual prediction is considered falsifiability-backed if the individual confirmed node count is at least 1.",
     "mechanical": false,
     "refs": [
       {
@@ -23479,7 +23496,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is falsifiability backed is determined by the following priority:",
+      "headline": "The individual prediction's is falsifiability backed is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23500,7 +23517,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsTransportableToAbsentAncestry",
     "kind": "formula",
-    "rule": "An individual prediction is considered a transportable to absent ancestry if all of the following hold: the is ancestry holdout flag is set; the individual cross ancestry node count is at least 1; and it is not the case that the has spurious correlation flag is set.",
+    "rule": "An individual prediction is considered a transportable to absent ancestry if all of the following hold: the ancestry holdout flag is set; the individual cross ancestry node count is at least 1; and the spurious correlation flag is not set.",
     "mechanical": false,
     "refs": [
       {
@@ -23521,7 +23538,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is transportable to absent ancestry is determined by the following priority:",
+      "headline": "The individual prediction's is transportable to absent ancestry is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23530,7 +23547,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is ancestry holdout flag is set"
+                "text": "the ancestry holdout flag is set"
               },
               {
                 "kind": "leaf",
@@ -23538,7 +23555,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the has spurious correlation flag is set"
+                "text": "the spurious correlation flag is not set"
               }
             ]
           }
@@ -23555,7 +23572,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsAncestryTransportSafe",
     "kind": "formula",
-    "rule": "An individual prediction is considered an ancestry transport safe if the is transportable to absent ancestry if the is ancestry holdout flag is set, otherwise true.",
+    "rule": "An individual prediction is considered an ancestry transport safe if the transportable to absent ancestry flag is set, or else the ancestry holdout flag is not set.",
     "mechanical": false,
     "refs": [
       {
@@ -23571,13 +23588,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is ancestry transport safe is determined by the following priority:",
+      "headline": "The individual prediction's is ancestry transport safe is determined by the following priority:",
       "cases": [
         {
           "value": "the is transportable to absent ancestry",
           "when": {
             "kind": "leaf",
-            "text": "the is ancestry holdout flag is set"
+            "text": "the ancestry holdout flag is set"
           }
         },
         {
@@ -23592,7 +23609,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "TransportGateStatus",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s transport gate status is determined by the following priority:\n1. the literal \u201CNotApplicable\u201D, if it is not the case that the is ancestry holdout flag is set;\n2. the literal \u201CPASS-tested\u201D, if the is transportable to absent ancestry flag is set;\n3. otherwise the literal \u201CFAIL\u201D.",
+    "rule": "The individual prediction's transport gate status is determined by the following priority:\n1. “NotApplicable”, if the ancestry holdout flag is not set;\n2. “PASS-tested”, if the transportable to absent ancestry flag is set;\n3. in all other cases, “FAIL”.",
     "mechanical": false,
     "refs": [
       {
@@ -23608,24 +23625,24 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s transport gate status is determined by the following priority:",
+      "headline": "The individual prediction's transport gate status is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CNotApplicable\u201D",
+          "value": "“NotApplicable”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the is ancestry holdout flag is set"
+            "text": "the ancestry holdout flag is not set"
           }
         },
         {
-          "value": "the literal \u201CPASS-tested\u201D",
+          "value": "“PASS-tested”",
           "when": {
             "kind": "leaf",
-            "text": "the is transportable to absent ancestry flag is set"
+            "text": "the transportable to absent ancestry flag is set"
           }
         },
         {
-          "value": "the literal \u201CFAIL\u201D",
+          "value": "“FAIL”",
           "when": null
         }
       ],
@@ -23636,7 +23653,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsHighConfidencePrediction",
     "kind": "formula",
-    "rule": "An individual prediction is considered a high confidence prediction if all of the following hold: the calibrated uncertainty is at least 0.7 and it is not the case that the has spurious correlation flag is set.",
+    "rule": "An individual prediction is considered a high confidence prediction if all of the following hold: the calibrated uncertainty is at least 0.7 and the spurious correlation flag is not set.",
     "mechanical": false,
     "refs": [
       {
@@ -23652,7 +23669,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is high confidence prediction is determined by the following priority:",
+      "headline": "The individual prediction's is high confidence prediction is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23665,7 +23682,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the has spurious correlation flag is set"
+                "text": "the spurious correlation flag is not set"
               }
             ]
           }
@@ -23682,7 +23699,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "PatientStratificationTier",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s patient stratification tier is determined by the following priority:\n1. the literal \u201CHigh-Risk Pathway\u201D, if the predicted value is at least 7;\n2. the literal \u201CModerate-Risk Pathway\u201D, if the predicted value is at least 4;\n3. otherwise the literal \u201CLow-Risk Pathway\u201D.",
+    "rule": "The individual prediction's patient stratification tier is determined by the following priority:\n1. “High-Risk Pathway”, if the predicted value is at least 7;\n2. “Moderate-Risk Pathway”, if the predicted value is at least 4;\n3. in all other cases, “Low-Risk Pathway”.",
     "mechanical": false,
     "refs": [
       {
@@ -23693,24 +23710,24 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s patient stratification tier is determined by the following priority:",
+      "headline": "The individual prediction's patient stratification tier is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CHigh-Risk Pathway\u201D",
+          "value": "“High-Risk Pathway”",
           "when": {
             "kind": "leaf",
             "text": "the predicted value is at least 7"
           }
         },
         {
-          "value": "the literal \u201CModerate-Risk Pathway\u201D",
+          "value": "“Moderate-Risk Pathway”",
           "when": {
             "kind": "leaf",
             "text": "the predicted value is at least 4"
           }
         },
         {
-          "value": "the literal \u201CLow-Risk Pathway\u201D",
+          "value": "“Low-Risk Pathway”",
           "when": null
         }
       ],
@@ -23721,7 +23738,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "PredictedSeverityValue",
     "kind": "formula",
-    "rule": "An individual prediction\u0027s predicted severity value is computed as the individual max severity score.",
+    "rule": "An individual prediction's predicted severity value is the same as its individual max severity score.",
     "mechanical": false,
     "refs": [
       {
@@ -23736,7 +23753,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "SeverityTier",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s severity tier is determined by the following priority:\n1. the literal \u201CSevere\u201D, if the predicted severity value is greater than 7;\n2. the literal \u201CModerate\u201D, if the predicted severity value is at least 4;\n3. otherwise the literal \u201CMild\u201D.",
+    "rule": "The individual prediction's severity tier is determined by the following priority:\n1. “Severe”, if the predicted severity value is greater than 7;\n2. “Moderate”, if the predicted severity value is at least 4;\n3. in all other cases, “Mild”.",
     "mechanical": false,
     "refs": [
       {
@@ -23747,24 +23764,24 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s severity tier is determined by the following priority:",
+      "headline": "The individual prediction's severity tier is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CSevere\u201D",
+          "value": "“Severe”",
           "when": {
             "kind": "leaf",
             "text": "the predicted severity value is greater than 7"
           }
         },
         {
-          "value": "the literal \u201CModerate\u201D",
+          "value": "“Moderate”",
           "when": {
             "kind": "leaf",
             "text": "the predicted severity value is at least 4"
           }
         },
         {
-          "value": "the literal \u201CMild\u201D",
+          "value": "“Mild”",
           "when": null
         }
       ],
@@ -23775,7 +23792,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsSeverityActionable",
     "kind": "formula",
-    "rule": "An individual prediction is considered a severity actionable if all of the following hold: the individual has high severity phenotype flag is set; the rests on confirmed mechanism flag is set; and it is not the case that the has spurious correlation flag is set.",
+    "rule": "An individual prediction is considered severity-actionable if all of the following hold: the individual has high severity phenotype flag is set; the rests on confirmed mechanism flag is set; and the spurious correlation flag is not set.",
     "mechanical": false,
     "refs": [
       {
@@ -23796,7 +23813,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is severity actionable is determined by the following priority:",
+      "headline": "The individual prediction's is severity actionable is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23813,7 +23830,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the has spurious correlation flag is set"
+                "text": "the spurious correlation flag is not set"
               }
             ]
           }
@@ -23830,7 +23847,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "SeverityDecidingFactor",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s severity deciding factor is determined by the following priority:\n1. the literal \u201CHighSeverityOnConfirmedMechanism\u201D, if the is severity actionable flag is set;\n2. the literal \u201CNotHighSeverity\u201D, if it is not the case that the individual has high severity phenotype flag is set;\n3. the literal \u201CNoValidatedMechanism\u201D, if it is not the case that the rests on confirmed mechanism flag is set;\n4. the literal \u201CSpuriousFlag\u201D, if the has spurious correlation flag is set;\n5. otherwise the literal \u201CUndetermined\u201D.",
+    "rule": "The individual prediction's severity deciding factor is determined by the following priority:\n1. “HighSeverityOnConfirmedMechanism”, if the severity actionable flag is set;\n2. “NotHighSeverity”, if the individual has high severity phenotype flag is not set;\n3. “NoValidatedMechanism”, if the rests on confirmed mechanism flag is not set;\n4. “SpuriousFlag”, if the spurious correlation flag is set;\n5. in all other cases, “Undetermined”.",
     "mechanical": false,
     "refs": [
       {
@@ -23856,38 +23873,38 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s severity deciding factor is determined by the following priority:",
+      "headline": "The individual prediction's severity deciding factor is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CHighSeverityOnConfirmedMechanism\u201D",
+          "value": "“HighSeverityOnConfirmedMechanism”",
           "when": {
             "kind": "leaf",
-            "text": "the is severity actionable flag is set"
+            "text": "the severity actionable flag is set"
           }
         },
         {
-          "value": "the literal \u201CNotHighSeverity\u201D",
+          "value": "“NotHighSeverity”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the individual has high severity phenotype flag is set"
+            "text": "the individual has high severity phenotype flag is not set"
           }
         },
         {
-          "value": "the literal \u201CNoValidatedMechanism\u201D",
+          "value": "“NoValidatedMechanism”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the rests on confirmed mechanism flag is set"
+            "text": "the rests on confirmed mechanism flag is not set"
           }
         },
         {
-          "value": "the literal \u201CSpuriousFlag\u201D",
+          "value": "“SpuriousFlag”",
           "when": {
             "kind": "leaf",
-            "text": "the has spurious correlation flag is set"
+            "text": "the spurious correlation flag is set"
           }
         },
         {
-          "value": "the literal \u201CUndetermined\u201D",
+          "value": "“Undetermined”",
           "when": null
         }
       ],
@@ -23898,7 +23915,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsTreatmentResponseActionable",
     "kind": "formula",
-    "rule": "An individual prediction is considered a treatment response actionable if the individual has predicted treatment response flag is set.",
+    "rule": "An individual prediction is considered treatment-response-actionable if the individual has predicted treatment response flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -23909,7 +23926,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is treatment response actionable is determined by the following priority:",
+      "headline": "The individual prediction's is treatment response actionable is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -23930,7 +23947,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "TreatmentResponseDecidingFactor",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s treatment response deciding factor is determined by the following priority:\n1. the literal \u201CEffectiveOnConfirmedMechanism\u201D, if the is treatment response actionable flag is set;\n2. the literal \u201CNoEffectiveTreatmentOnMechanism\u201D, if the rests on confirmed mechanism flag is set;\n3. otherwise the literal \u201CNoConfirmedMechanism\u201D.",
+    "rule": "The individual prediction's treatment response deciding factor is determined by the following priority:\n1. “EffectiveOnConfirmedMechanism”, if the treatment response actionable flag is set;\n2. “NoEffectiveTreatmentOnMechanism”, if the rests on confirmed mechanism flag is set;\n3. in all other cases, “NoConfirmedMechanism”.",
     "mechanical": false,
     "refs": [
       {
@@ -23946,24 +23963,24 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s treatment response deciding factor is determined by the following priority:",
+      "headline": "The individual prediction's treatment response deciding factor is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CEffectiveOnConfirmedMechanism\u201D",
+          "value": "“EffectiveOnConfirmedMechanism”",
           "when": {
             "kind": "leaf",
-            "text": "the is treatment response actionable flag is set"
+            "text": "the treatment response actionable flag is set"
           }
         },
         {
-          "value": "the literal \u201CNoEffectiveTreatmentOnMechanism\u201D",
+          "value": "“NoEffectiveTreatmentOnMechanism”",
           "when": {
             "kind": "leaf",
             "text": "the rests on confirmed mechanism flag is set"
           }
         },
         {
-          "value": "the literal \u201CNoConfirmedMechanism\u201D",
+          "value": "“NoConfirmedMechanism”",
           "when": null
         }
       ],
@@ -23974,7 +23991,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IsClinicallyActionable",
     "kind": "formula",
-    "rule": "An individual prediction is considered a clinically actionable if all of the following hold: the is high confidence prediction flag is set; the is falsifiability backed flag is set; the is ancestry transport safe flag is set; and the predicted value is greater than 0.",
+    "rule": "An individual prediction is considered clinically-actionable if all of the following hold: the high confidence prediction flag is set; the falsifiability backed flag is set; the ancestry transport safe flag is set; and the predicted value is greater than 0.",
     "mechanical": false,
     "refs": [
       {
@@ -24000,7 +24017,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s is clinically actionable is determined by the following priority:",
+      "headline": "The individual prediction's is clinically actionable is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -24009,15 +24026,15 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is high confidence prediction flag is set"
+                "text": "the high confidence prediction flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the is falsifiability backed flag is set"
+                "text": "the falsifiability backed flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the is ancestry transport safe flag is set"
+                "text": "the ancestry transport safe flag is set"
               },
               {
                 "kind": "leaf",
@@ -24038,7 +24055,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "LifecycleStateKey",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s lifecycle state key is determined by the following priority:\n1. the literal \u201CActionable\u201D, if all of the following hold: the is high confidence prediction flag is set; the is falsifiability backed flag is set; the is ancestry transport safe flag is set; and the predicted value is greater than 0;\n2. the literal \u201CNotActionable\u201D, if at least one of the following holds: it is not the case that the rests on confirmed mechanism flag is set or it is not the case that the is falsifiability backed flag is set;\n3. the literal \u201CNotActionable\u201D, if the individual has cryptic relatedness flag is set;\n4. the literal \u201CNotActionable\u201D, if the calibrated uncertainty is less than 0.7;\n5. the literal \u201CNotActionable\u201D, if it is not the case that the is ancestry transport safe flag is set;\n6. otherwise the literal \u201CActionable\u201D.",
+    "rule": "The individual prediction's lifecycle state key is determined by the following priority:\n1. “Actionable”, if all of the following hold: the high confidence prediction flag is set; the falsifiability backed flag is set; the ancestry transport safe flag is set; and the predicted value is greater than 0;\n2. “NotActionable”, if at least one of the following holds: the rests on confirmed mechanism flag is not set or the falsifiability backed flag is not set;\n3. “NotActionable”, if the individual has cryptic relatedness flag is set;\n4. “NotActionable”, if the calibrated uncertainty is less than 0.7;\n5. “NotActionable”, if the ancestry transport safe flag is not set;\n6. in all other cases, “Actionable”.",
     "mechanical": false,
     "refs": [
       {
@@ -24079,24 +24096,24 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s lifecycle state key is determined by the following priority:",
+      "headline": "The individual prediction's lifecycle state key is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CActionable\u201D",
+          "value": "“Actionable”",
           "when": {
             "kind": "all",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is high confidence prediction flag is set"
+                "text": "the high confidence prediction flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the is falsifiability backed flag is set"
+                "text": "the falsifiability backed flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the is ancestry transport safe flag is set"
+                "text": "the ancestry transport safe flag is set"
               },
               {
                 "kind": "leaf",
@@ -24106,44 +24123,44 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal \u201CNotActionable\u201D",
+          "value": "“NotActionable”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the rests on confirmed mechanism flag is set"
+                "text": "the rests on confirmed mechanism flag is not set"
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the is falsifiability backed flag is set"
+                "text": "the falsifiability backed flag is not set"
               }
             ]
           }
         },
         {
-          "value": "the literal \u201CNotActionable\u201D",
+          "value": "“NotActionable”",
           "when": {
             "kind": "leaf",
             "text": "the individual has cryptic relatedness flag is set"
           }
         },
         {
-          "value": "the literal \u201CNotActionable\u201D",
+          "value": "“NotActionable”",
           "when": {
             "kind": "leaf",
             "text": "the calibrated uncertainty is less than 0.7"
           }
         },
         {
-          "value": "the literal \u201CNotActionable\u201D",
+          "value": "“NotActionable”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the is ancestry transport safe flag is set"
+            "text": "the ancestry transport safe flag is not set"
           }
         },
         {
-          "value": "the literal \u201CActionable\u201D",
+          "value": "“Actionable”",
           "when": null
         }
       ],
@@ -24154,7 +24171,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "DecidingGate",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s deciding gate is determined by the following priority:\n1. the literal \u201CAllGatesPass\u201D, if the is clinically actionable flag is set;\n2. the literal \u201CNoValidatedMechanism\u201D, if it is not the case that the rests on confirmed mechanism flag is set;\n3. the literal \u201CCrypticRelatedness\u201D, if the individual has cryptic relatedness flag is set;\n4. the literal \u201CCalibration\u201D, if the calibrated uncertainty is less than 0.7;\n5. the literal \u201CAncestryTransport\u201D, if it is not the case that the is ancestry transport safe flag is set;\n6. otherwise the literal \u201CUndetermined\u201D.",
+    "rule": "The individual prediction's deciding gate is determined by the following priority:\n1. “AllGatesPass”, if the clinically actionable flag is set;\n2. “NoValidatedMechanism”, if the rests on confirmed mechanism flag is not set;\n3. “CrypticRelatedness”, if the individual has cryptic relatedness flag is set;\n4. “Calibration”, if the calibrated uncertainty is less than 0.7;\n5. “AncestryTransport”, if the ancestry transport safe flag is not set;\n6. in all other cases, “Undetermined”.",
     "mechanical": false,
     "refs": [
       {
@@ -24185,45 +24202,45 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s deciding gate is determined by the following priority:",
+      "headline": "The individual prediction's deciding gate is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CAllGatesPass\u201D",
+          "value": "“AllGatesPass”",
           "when": {
             "kind": "leaf",
-            "text": "the is clinically actionable flag is set"
+            "text": "the clinically actionable flag is set"
           }
         },
         {
-          "value": "the literal \u201CNoValidatedMechanism\u201D",
+          "value": "“NoValidatedMechanism”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the rests on confirmed mechanism flag is set"
+            "text": "the rests on confirmed mechanism flag is not set"
           }
         },
         {
-          "value": "the literal \u201CCrypticRelatedness\u201D",
+          "value": "“CrypticRelatedness”",
           "when": {
             "kind": "leaf",
             "text": "the individual has cryptic relatedness flag is set"
           }
         },
         {
-          "value": "the literal \u201CCalibration\u201D",
+          "value": "“Calibration”",
           "when": {
             "kind": "leaf",
             "text": "the calibrated uncertainty is less than 0.7"
           }
         },
         {
-          "value": "the literal \u201CAncestryTransport\u201D",
+          "value": "“AncestryTransport”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the is ancestry transport safe flag is set"
+            "text": "the ancestry transport safe flag is not set"
           }
         },
         {
-          "value": "the literal \u201CUndetermined\u201D",
+          "value": "“Undetermined”",
           "when": null
         }
       ],
@@ -24234,7 +24251,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualTargetPathway",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual target pathway is the target pathway of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual target pathway — taken from the linked individual.",
     "mechanical": false,
     "refs": [
       {
@@ -24259,7 +24276,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualProgressionStateKey",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual progression state key is the nephritis progression state key of the individual prediction\u0027s individual.",
+    "rule": "An individual prediction's individual progression state key is the nephritis progression state key of the individual prediction's individual.",
     "mechanical": false,
     "refs": [
       {
@@ -24284,7 +24301,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "IndividualIsDiseaseProgressing",
     "kind": "lookup",
-    "rule": "An individual prediction\u0027s individual is disease progressing is true when the individual prediction\u0027s individual is disease progressing.",
+    "rule": "An individual prediction's individual is disease progressing when the linked individual is disease progressing.",
     "mechanical": false,
     "refs": [
       {
@@ -24309,7 +24326,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "RecommendedTreatmentLine",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s recommended treatment line is determined by the following priority:\n1. the literal \u201CNo targeted line \u2014 mechanism unconfirmed\u201D, if it is not the case that the rests on confirmed mechanism flag is set;\n2. the literal \u201CMycophenolate (induction)\u201D, if at least one of the following holds: the individual progression state key is the literal \u201CRenalFlareRisk\u201D or the individual progression state key is the literal \u201CBiopsyIndicated\u201D;\n3. the literal \u201CAnifrolumab\u201D, if the individual target pathway is the literal \u201Ctype-I-IFN\u201D;\n4. the literal \u201CBelimumab\u201D, if the individual target pathway is the literal \u201CB-cell/autoantibody\u201D;\n5. the literal \u201CSecukinumab\u201D, if the individual target pathway is the literal \u201CIL-17/23\u201D;\n6. otherwise the literal \u201CStandard-of-care (no mechanism-matched targeted line)\u201D.",
+    "rule": "The individual prediction's recommended treatment line is determined by the following priority:\n1. “No targeted line — mechanism unconfirmed”, if the rests on confirmed mechanism flag is not set;\n2. “Mycophenolate (induction)”, if at least one of the following holds: the individual progression state key is “RenalFlareRisk” or the individual progression state key is “BiopsyIndicated”;\n3. “Anifrolumab”, if the individual target pathway is “type-I-IFN”;\n4. “Belimumab”, if the individual target pathway is “B-cell/autoantibody”;\n5. “Secukinumab”, if the individual target pathway is “IL-17/23”;\n6. in all other cases, “Standard-of-care (no mechanism-matched targeted line)”.",
     "mechanical": false,
     "refs": [
       {
@@ -24330,54 +24347,54 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s recommended treatment line is determined by the following priority:",
+      "headline": "The individual prediction's recommended treatment line is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CNo targeted line \u2014 mechanism unconfirmed\u201D",
+          "value": "“No targeted line — mechanism unconfirmed”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the rests on confirmed mechanism flag is set"
+            "text": "the rests on confirmed mechanism flag is not set"
           }
         },
         {
-          "value": "the literal \u201CMycophenolate (induction)\u201D",
+          "value": "“Mycophenolate (induction)”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the individual progression state key is the literal \u201CRenalFlareRisk\u201D"
+                "text": "the individual progression state key is “RenalFlareRisk”"
               },
               {
                 "kind": "leaf",
-                "text": "the individual progression state key is the literal \u201CBiopsyIndicated\u201D"
+                "text": "the individual progression state key is “BiopsyIndicated”"
               }
             ]
           }
         },
         {
-          "value": "the literal \u201CAnifrolumab\u201D",
+          "value": "“Anifrolumab”",
           "when": {
             "kind": "leaf",
-            "text": "the individual target pathway is the literal \u201Ctype-I-IFN\u201D"
+            "text": "the individual target pathway is “type-I-IFN”"
           }
         },
         {
-          "value": "the literal \u201CBelimumab\u201D",
+          "value": "“Belimumab”",
           "when": {
             "kind": "leaf",
-            "text": "the individual target pathway is the literal \u201CB-cell/autoantibody\u201D"
+            "text": "the individual target pathway is “B-cell/autoantibody”"
           }
         },
         {
-          "value": "the literal \u201CSecukinumab\u201D",
+          "value": "“Secukinumab”",
           "when": {
             "kind": "leaf",
-            "text": "the individual target pathway is the literal \u201CIL-17/23\u201D"
+            "text": "the individual target pathway is “IL-17/23”"
           }
         },
         {
-          "value": "the literal \u201CStandard-of-care (no mechanism-matched targeted line)\u201D",
+          "value": "“Standard-of-care (no mechanism-matched targeted line)”",
           "when": null
         }
       ],
@@ -24388,7 +24405,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "TreatmentLineDecidingFactor",
     "kind": "formula",
-    "rule": "The individual prediction\u0027s treatment line deciding factor is determined by the following priority:\n1. the literal \u201CMechanismUnconfirmed\u201D, if it is not the case that the rests on confirmed mechanism flag is set;\n2. the literal \u201CActiveNephritis-Induction\u201D, if at least one of the following holds: the individual progression state key is the literal \u201CRenalFlareRisk\u201D or the individual progression state key is the literal \u201CBiopsyIndicated\u201D;\n3. the literal \u201CIFNSignature-Anifrolumab\u201D, if the individual target pathway is the literal \u201Ctype-I-IFN\u201D;\n4. the literal \u201CAutoantibodyDriven-Belimumab\u201D, if the individual target pathway is the literal \u201CB-cell/autoantibody\u201D;\n5. the literal \u201CIL17Axis-Secukinumab\u201D, if the individual target pathway is the literal \u201CIL-17/23\u201D;\n6. otherwise the literal \u201CNoMechanismMatch\u201D.",
+    "rule": "The individual prediction's treatment line deciding factor is determined by the following priority:\n1. “MechanismUnconfirmed”, if the rests on confirmed mechanism flag is not set;\n2. “ActiveNephritis-Induction”, if at least one of the following holds: the individual progression state key is “RenalFlareRisk” or the individual progression state key is “BiopsyIndicated”;\n3. “IFNSignature-Anifrolumab”, if the individual target pathway is “type-I-IFN”;\n4. “AutoantibodyDriven-Belimumab”, if the individual target pathway is “B-cell/autoantibody”;\n5. “IL17Axis-Secukinumab”, if the individual target pathway is “IL-17/23”;\n6. in all other cases, “NoMechanismMatch”.",
     "mechanical": false,
     "refs": [
       {
@@ -24409,54 +24426,54 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s treatment line deciding factor is determined by the following priority:",
+      "headline": "The individual prediction's treatment line deciding factor is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CMechanismUnconfirmed\u201D",
+          "value": "“MechanismUnconfirmed”",
           "when": {
             "kind": "leaf",
-            "text": "it is not the case that the rests on confirmed mechanism flag is set"
+            "text": "the rests on confirmed mechanism flag is not set"
           }
         },
         {
-          "value": "the literal \u201CActiveNephritis-Induction\u201D",
+          "value": "“ActiveNephritis-Induction”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the individual progression state key is the literal \u201CRenalFlareRisk\u201D"
+                "text": "the individual progression state key is “RenalFlareRisk”"
               },
               {
                 "kind": "leaf",
-                "text": "the individual progression state key is the literal \u201CBiopsyIndicated\u201D"
+                "text": "the individual progression state key is “BiopsyIndicated”"
               }
             ]
           }
         },
         {
-          "value": "the literal \u201CIFNSignature-Anifrolumab\u201D",
+          "value": "“IFNSignature-Anifrolumab”",
           "when": {
             "kind": "leaf",
-            "text": "the individual target pathway is the literal \u201Ctype-I-IFN\u201D"
+            "text": "the individual target pathway is “type-I-IFN”"
           }
         },
         {
-          "value": "the literal \u201CAutoantibodyDriven-Belimumab\u201D",
+          "value": "“AutoantibodyDriven-Belimumab”",
           "when": {
             "kind": "leaf",
-            "text": "the individual target pathway is the literal \u201CB-cell/autoantibody\u201D"
+            "text": "the individual target pathway is “B-cell/autoantibody”"
           }
         },
         {
-          "value": "the literal \u201CIL17Axis-Secukinumab\u201D",
+          "value": "“IL17Axis-Secukinumab”",
           "when": {
             "kind": "leaf",
-            "text": "the individual target pathway is the literal \u201CIL-17/23\u201D"
+            "text": "the individual target pathway is “IL-17/23”"
           }
         },
         {
-          "value": "the literal \u201CNoMechanismMatch\u201D",
+          "value": "“NoMechanismMatch”",
           "when": null
         }
       ],
@@ -24467,7 +24484,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IndividualPredictions",
     "field": "ProgressionVsActionabilityDisagree",
     "kind": "formula",
-    "rule": "An individual prediction is flagged progression vs actionability disagree if all of the following hold: the individual is disease progressing flag is set and it is not the case that the is clinically actionable flag is set.",
+    "rule": "An individual prediction is flagged progression vs actionability disagree if all of the following hold: the individual is disease progressing flag is set and the clinically actionable flag is not set.",
     "mechanical": false,
     "refs": [
       {
@@ -24483,7 +24500,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The individual prediction\u0027s progression vs actionability disagree is determined by the following priority:",
+      "headline": "The individual prediction's progression vs actionability disagree is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -24496,7 +24513,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
               },
               {
                 "kind": "leaf",
-                "text": "it is not the case that the is clinically actionable flag is set"
+                "text": "the clinically actionable flag is not set"
               }
             ]
           }
@@ -24513,7 +24530,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CalibrationBins",
     "field": "Name",
     "kind": "formula",
-    "rule": "A calibration bin\u0027s name is computed as the bin label.",
+    "rule": "A calibration bin's name is the same as its bin label.",
     "mechanical": false,
     "refs": [
       {
@@ -24528,7 +24545,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CalibrationBins",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "A calibration bin\u0027s parent path is the relative path of the calibration bin\u0027s individual prediction.",
+    "rule": "A calibration bin's parent path is the relative path of the calibration bin's individual prediction.",
     "mechanical": false,
     "refs": [
       {
@@ -24553,7 +24570,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CalibrationBins",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A calibration bin\u0027s relative path is computed as the parent path, followed by the literal \u201C/bins/\u201D, followed by the calibration bin ID.",
+    "rule": "A calibration bin's relative path is computed as the parent path, followed by “/bins/”, followed by the calibration bin ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24573,7 +24590,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CalibrationBins",
     "field": "BinAbsError",
     "kind": "formula",
-    "rule": "The calibration bin\u0027s bin abs error is determined by the following priority:\n1. the predicted probability band minus the observed event rate, if the predicted probability band is at least the observed event rate;\n2. otherwise the observed event rate minus the predicted probability band.",
+    "rule": "The calibration bin's bin abs error is determined by the following priority:\n1. the predicted probability band minus the observed event rate, if the predicted probability band is at least the observed event rate;\n2. in all other cases, the observed event rate minus the predicted probability band.",
     "mechanical": false,
     "refs": [
       {
@@ -24589,7 +24606,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The calibration bin\u0027s bin abs error is determined by the following priority:",
+      "headline": "The calibration bin's bin abs error is determined by the following priority:",
       "cases": [
         {
           "value": "the predicted probability band minus the observed event rate",
@@ -24626,7 +24643,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The calibration bin\u0027s is well calibrated bin is determined by the following priority:",
+      "headline": "The calibration bin's is well calibrated bin is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -24656,7 +24673,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InterventionTargets",
     "field": "Name",
     "kind": "formula",
-    "rule": "An intervention target\u0027s name is computed as the target label.",
+    "rule": "An intervention target's name is the same as its target label.",
     "mechanical": false,
     "refs": [
       {
@@ -24671,7 +24688,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InterventionTargets",
     "field": "ParentPath",
     "kind": "lookup",
-    "rule": "An intervention target\u0027s parent path is the relative path of the intervention target\u0027s causal mechanism.",
+    "rule": "An intervention target's parent path is the relative path of the intervention target's causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -24696,7 +24713,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InterventionTargets",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An intervention target\u0027s relative path is computed as the parent path, followed by the literal \u201C/targets/\u201D, followed by the intervention target ID.",
+    "rule": "An intervention target's relative path is computed as the parent path, followed by “/targets/”, followed by the intervention target ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24716,7 +24733,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InterventionTargets",
     "field": "CausalMechanismLabel",
     "kind": "formula",
-    "rule": "An intervention target\u0027s causal mechanism label is the mechanism label of the intervention target\u0027s causal mechanism.",
+    "rule": "An intervention target's causal mechanism label — taken from the linked causal mechanism.",
     "mechanical": false,
     "refs": [
       {
@@ -24741,7 +24758,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InterventionTargets",
     "field": "IsGeneBasedTherapy",
     "kind": "formula",
-    "rule": "An intervention target is considered a gene based therapy if the therapy class is the literal \u201CGene-based\u201D.",
+    "rule": "An intervention target is considered a gene based therapy if the therapy class is “Gene-based”.",
     "mechanical": false,
     "refs": [
       {
@@ -24752,13 +24769,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The intervention target\u0027s is gene based therapy is determined by the following priority:",
+      "headline": "The intervention target's is gene based therapy is determined by the following priority:",
       "cases": [
         {
           "value": "true",
           "when": {
             "kind": "leaf",
-            "text": "the therapy class is the literal \u201CGene-based\u201D"
+            "text": "the therapy class is “Gene-based”"
           }
         },
         {
@@ -24773,7 +24790,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InterventionTargets",
     "field": "IsCellBasedTherapy",
     "kind": "formula",
-    "rule": "An intervention target is considered a cell based therapy if the therapy class is the literal \u201CCell-based\u201D.",
+    "rule": "An intervention target is considered a cell based therapy if the therapy class is “Cell-based”.",
     "mechanical": false,
     "refs": [
       {
@@ -24784,13 +24801,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The intervention target\u0027s is cell based therapy is determined by the following priority:",
+      "headline": "The intervention target's is cell based therapy is determined by the following priority:",
       "cases": [
         {
           "value": "true",
           "when": {
             "kind": "leaf",
-            "text": "the therapy class is the literal \u201CCell-based\u201D"
+            "text": "the therapy class is “Cell-based”"
           }
         },
         {
@@ -24805,7 +24822,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Axioms",
     "field": "Name",
     "kind": "formula",
-    "rule": "An axiom\u0027s name is computed as the statement.",
+    "rule": "An axiom's name is the same as its statement.",
     "mechanical": false,
     "refs": [
       {
@@ -24820,7 +24837,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Axioms",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An axiom\u0027s relative path is computed as the literal \u201C/admin/axioms/\u201D, followed by the axiom ID.",
+    "rule": "An axiom's relative path is computed as “/admin/axioms/”, followed by the axiom ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24835,7 +24852,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TestsForSuccess",
     "field": "Name",
     "kind": "formula",
-    "rule": "A tests for success\u0027s name is computed as the claim.",
+    "rule": "A tests for success's name is the same as its claim.",
     "mechanical": false,
     "refs": [
       {
@@ -24850,7 +24867,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TestsForSuccess",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A tests for success\u0027s relative path is computed as the literal \u201C/admin/tests-for-success/\u201D, followed by the test for success ID.",
+    "rule": "A tests for success's relative path is computed as “/admin/tests-for-success/”, followed by the test for success ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24865,7 +24882,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Features",
     "field": "Name",
     "kind": "formula",
-    "rule": "A feature\u0027s name is computed as the title.",
+    "rule": "A feature's name is the same as its title.",
     "mechanical": false,
     "refs": [
       {
@@ -24880,7 +24897,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Features",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A feature\u0027s relative path is computed as the literal \u201C/admin/features/\u201D, followed by the feature ID.",
+    "rule": "A feature's relative path is computed as “/admin/features/”, followed by the feature ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24895,7 +24912,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Features",
     "field": "MetaLine",
     "kind": "formula",
-    "rule": "A feature\u0027s meta line is computed as the literal \u201C**Category:** \u201D, followed by the category, followed by the literal \u201C - **Priority:** \u201D, followed by the priority, followed by the literal \u201C - **Challenge refs:** \u201D, followed by the ref count.",
+    "rule": "A feature's meta line is computed as “**Category:** ”, followed by the category, followed by “ - **Priority:** ”, followed by the priority, followed by “ - **Challenge refs:** ”, followed by the ref count.",
     "mechanical": false,
     "refs": [
       {
@@ -24920,7 +24937,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InferenceKinds",
     "field": "Name",
     "kind": "formula",
-    "rule": "An inference kind\u0027s name is computed as the title.",
+    "rule": "An inference kind's name is the same as its title.",
     "mechanical": false,
     "refs": [
       {
@@ -24935,7 +24952,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InferenceKinds",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An inference kind\u0027s relative path is computed as the literal \u201C/admin/inference-kinds/\u201D, followed by the inference kind ID.",
+    "rule": "An inference kind's relative path is computed as “/admin/inference-kinds/”, followed by the inference kind ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24950,7 +24967,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OpenQuestions",
     "field": "Name",
     "kind": "formula",
-    "rule": "An open question\u0027s name is computed as the question.",
+    "rule": "An open question's name is the same as its question.",
     "mechanical": false,
     "refs": [
       {
@@ -24965,7 +24982,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "OpenQuestions",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "An open question\u0027s relative path is computed as the literal \u201C/admin/open-questions/\u201D, followed by the open question ID.",
+    "rule": "An open question's relative path is computed as “/admin/open-questions/”, followed by the open question ID.",
     "mechanical": false,
     "refs": [
       {
@@ -24980,7 +24997,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "NonGoals",
     "field": "Name",
     "kind": "formula",
-    "rule": "A non goal\u0027s name is computed as the statement.",
+    "rule": "A non goal's name is the same as its statement.",
     "mechanical": false,
     "refs": [
       {
@@ -24995,7 +25012,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "NonGoals",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A non goal\u0027s relative path is computed as the literal \u201C/admin/non-goals/\u201D, followed by the non goal ID.",
+    "rule": "A non goal's relative path is computed as “/admin/non-goals/”, followed by the non goal ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25010,7 +25027,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GlossaryTerms",
     "field": "Name",
     "kind": "formula",
-    "rule": "A glossary term\u0027s name is computed as the term.",
+    "rule": "A glossary term's name is the same as its term.",
     "mechanical": false,
     "refs": [
       {
@@ -25025,7 +25042,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "GlossaryTerms",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A glossary term\u0027s relative path is computed as the literal \u201C/admin/glossary/\u201D, followed by the glossary term ID.",
+    "rule": "A glossary term's relative path is computed as “/admin/glossary/”, followed by the glossary term ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25036,82 +25053,82 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
-  "LeopoldLoops.Name": {
-    "table": "LeopoldLoops",
+  "EffortlessLoops.Name": {
+    "table": "EffortlessLoops",
     "field": "Name",
     "kind": "formula",
-    "rule": "A leopold loop\u0027s name is computed as the literal \u201CLoop \u201D, followed by the loop number, followed by the literal \u201C \u2014 \u201D, followed by the title.",
+    "rule": "An effortless loop's name is computed as “Loop ”, followed by the loop number, followed by “ — ”, followed by the title.",
     "mechanical": false,
     "refs": [
       {
-        "table": "LeopoldLoops",
+        "table": "EffortlessLoops",
         "field": "LoopNumber",
         "label": "loop number"
       },
       {
-        "table": "LeopoldLoops",
+        "table": "EffortlessLoops",
         "field": "Title",
         "label": "title"
       }
     ],
     "structure": null
   },
-  "LeopoldLoops.RelativePath": {
-    "table": "LeopoldLoops",
+  "EffortlessLoops.RelativePath": {
+    "table": "EffortlessLoops",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A leopold loop\u0027s relative path is computed as the literal \u201C/admin/leopold-loops/\u201D, followed by the leopold loop ID.",
+    "rule": "An effortless loop's relative path is computed as “/admin/effortless-loops/”, followed by the effortless loop ID.",
     "mechanical": false,
     "refs": [
       {
-        "table": "LeopoldLoops",
-        "field": "LeopoldLoopId",
-        "label": "leopold loop ID"
+        "table": "EffortlessLoops",
+        "field": "EffortlessLoopId",
+        "label": "effortless loop ID"
       }
     ],
     "structure": null
   },
-  "LeopoldLoops.Completedness": {
-    "table": "LeopoldLoops",
+  "EffortlessLoops.Completedness": {
+    "table": "EffortlessLoops",
     "field": "Completedness",
     "kind": "formula",
-    "rule": "A leopold loop\u0027s completedness is computed as the status.",
+    "rule": "An effortless loop's completedness is the same as its status.",
     "mechanical": false,
     "refs": [
       {
-        "table": "LeopoldLoops",
+        "table": "EffortlessLoops",
         "field": "Status",
         "label": "status"
       }
     ],
     "structure": null
   },
-  "LeopoldLoops.IsInCurrentPlan": {
-    "table": "LeopoldLoops",
+  "EffortlessLoops.IsInCurrentPlan": {
+    "table": "EffortlessLoops",
     "field": "IsInCurrentPlan",
     "kind": "formula",
-    "rule": "A leopold loop is considered in current plan if it is not the case that the status is the literal \u201Cdone\u201D.",
+    "rule": "An effortless loop is considered in-current-plan if it is not the case that the status is “done”.",
     "mechanical": false,
     "refs": [
       {
-        "table": "LeopoldLoops",
+        "table": "EffortlessLoops",
         "field": "Status",
         "label": "status"
       }
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The leopold loop\u0027s is in current plan is determined by the following priority:",
+      "headline": "The effortless loop's is in current plan is determined by the following priority:",
       "cases": [
         {
-          "value": "the FALSE",
+          "value": "false",
           "when": {
             "kind": "leaf",
-            "text": "the status is the literal \u201Cdone\u201D"
+            "text": "the status is “done”"
           }
         },
         {
-          "value": "the TRUE",
+          "value": "true",
           "when": null
         }
       ],
@@ -25122,7 +25139,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "Name",
     "kind": "formula",
-    "rule": "A routing and navigation\u0027s name is computed as the lower-cased display name with every a space replaced by a hyphen.",
+    "rule": "A routing and navigation's name is computed as the lower-cased display name with every a space replaced by a hyphen.",
     "mechanical": true,
     "refs": [
       {
@@ -25137,7 +25154,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "AdminCanCreate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged admin can create if the admin CRUD mentions the literal \u201CC\u201D.",
+    "rule": "A routing and navigation is flagged admin can create if the admin CRUD mentions “C”.",
     "mechanical": false,
     "refs": [
       {
@@ -25148,7 +25165,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s admin can create is determined by the following priority:",
+      "headline": "The routing and navigation's admin can create is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25158,7 +25175,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the admin CRUD mentions the literal \u201CC\u201D",
+          "value": "the admin CRUD mentions “C”",
           "when": null
         }
       ],
@@ -25169,7 +25186,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "AdminCanRead",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged admin can read if the admin CRUD mentions the literal \u201CR\u201D.",
+    "rule": "A routing and navigation is flagged admin can read if the admin CRUD mentions “R”.",
     "mechanical": false,
     "refs": [
       {
@@ -25180,7 +25197,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s admin can read is determined by the following priority:",
+      "headline": "The routing and navigation's admin can read is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25190,7 +25207,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the admin CRUD mentions the literal \u201CR\u201D",
+          "value": "the admin CRUD mentions “R”",
           "when": null
         }
       ],
@@ -25201,7 +25218,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "AdminCanUpdate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged admin can update if the admin CRUD mentions the literal \u201CU\u201D.",
+    "rule": "A routing and navigation is flagged admin can update if the admin CRUD mentions “U”.",
     "mechanical": false,
     "refs": [
       {
@@ -25212,7 +25229,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s admin can update is determined by the following priority:",
+      "headline": "The routing and navigation's admin can update is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25222,7 +25239,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the admin CRUD mentions the literal \u201CU\u201D",
+          "value": "the admin CRUD mentions “U”",
           "when": null
         }
       ],
@@ -25233,7 +25250,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "AdminCanDelete",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged admin can delete if the admin CRUD mentions the literal \u201CD\u201D.",
+    "rule": "A routing and navigation is flagged admin can delete if the admin CRUD mentions “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -25244,7 +25261,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s admin can delete is determined by the following priority:",
+      "headline": "The routing and navigation's admin can delete is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25254,7 +25271,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the admin CRUD mentions the literal \u201CD\u201D",
+          "value": "the admin CRUD mentions “D”",
           "when": null
         }
       ],
@@ -25265,7 +25282,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "IntakeClinicianCanCreate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged intake clinician can create if the intake clinician CRUD mentions the literal \u201CC\u201D.",
+    "rule": "A routing and navigation is flagged intake clinician can create if the intake clinician CRUD mentions “C”.",
     "mechanical": false,
     "refs": [
       {
@@ -25276,7 +25293,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s intake clinician can create is determined by the following priority:",
+      "headline": "The routing and navigation's intake clinician can create is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25286,7 +25303,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the intake clinician CRUD mentions the literal \u201CC\u201D",
+          "value": "the intake clinician CRUD mentions “C”",
           "when": null
         }
       ],
@@ -25297,7 +25314,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "IntakeClinicianCanRead",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged intake clinician can read if the intake clinician CRUD mentions the literal \u201CR\u201D.",
+    "rule": "A routing and navigation is flagged intake clinician can read if the intake clinician CRUD mentions “R”.",
     "mechanical": false,
     "refs": [
       {
@@ -25308,7 +25325,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s intake clinician can read is determined by the following priority:",
+      "headline": "The routing and navigation's intake clinician can read is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25318,7 +25335,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the intake clinician CRUD mentions the literal \u201CR\u201D",
+          "value": "the intake clinician CRUD mentions “R”",
           "when": null
         }
       ],
@@ -25329,7 +25346,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "IntakeClinicianCanUpdate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged intake clinician can update if the intake clinician CRUD mentions the literal \u201CU\u201D.",
+    "rule": "A routing and navigation is flagged intake clinician can update if the intake clinician CRUD mentions “U”.",
     "mechanical": false,
     "refs": [
       {
@@ -25340,7 +25357,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s intake clinician can update is determined by the following priority:",
+      "headline": "The routing and navigation's intake clinician can update is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25350,7 +25367,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the intake clinician CRUD mentions the literal \u201CU\u201D",
+          "value": "the intake clinician CRUD mentions “U”",
           "when": null
         }
       ],
@@ -25361,7 +25378,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "IntakeClinicianCanDelete",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged intake clinician can delete if the intake clinician CRUD mentions the literal \u201CD\u201D.",
+    "rule": "A routing and navigation is flagged intake clinician can delete if the intake clinician CRUD mentions “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -25372,7 +25389,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s intake clinician can delete is determined by the following priority:",
+      "headline": "The routing and navigation's intake clinician can delete is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25382,7 +25399,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the intake clinician CRUD mentions the literal \u201CD\u201D",
+          "value": "the intake clinician CRUD mentions “D”",
           "when": null
         }
       ],
@@ -25393,7 +25410,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "DiagnosingDoctorCanCreate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged diagnosing doctor can create if the diagnosing doctor CRUD mentions the literal \u201CC\u201D.",
+    "rule": "A routing and navigation is flagged diagnosing doctor can create if the diagnosing doctor CRUD mentions “C”.",
     "mechanical": false,
     "refs": [
       {
@@ -25404,7 +25421,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s diagnosing doctor can create is determined by the following priority:",
+      "headline": "The routing and navigation's diagnosing doctor can create is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25414,7 +25431,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the diagnosing doctor CRUD mentions the literal \u201CC\u201D",
+          "value": "the diagnosing doctor CRUD mentions “C”",
           "when": null
         }
       ],
@@ -25425,7 +25442,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "DiagnosingDoctorCanRead",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged diagnosing doctor can read if the diagnosing doctor CRUD mentions the literal \u201CR\u201D.",
+    "rule": "A routing and navigation is flagged diagnosing doctor can read if the diagnosing doctor CRUD mentions “R”.",
     "mechanical": false,
     "refs": [
       {
@@ -25436,7 +25453,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s diagnosing doctor can read is determined by the following priority:",
+      "headline": "The routing and navigation's diagnosing doctor can read is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25446,7 +25463,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the diagnosing doctor CRUD mentions the literal \u201CR\u201D",
+          "value": "the diagnosing doctor CRUD mentions “R”",
           "when": null
         }
       ],
@@ -25457,7 +25474,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "DiagnosingDoctorCanUpdate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged diagnosing doctor can update if the diagnosing doctor CRUD mentions the literal \u201CU\u201D.",
+    "rule": "A routing and navigation is flagged diagnosing doctor can update if the diagnosing doctor CRUD mentions “U”.",
     "mechanical": false,
     "refs": [
       {
@@ -25468,7 +25485,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s diagnosing doctor can update is determined by the following priority:",
+      "headline": "The routing and navigation's diagnosing doctor can update is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25478,7 +25495,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the diagnosing doctor CRUD mentions the literal \u201CU\u201D",
+          "value": "the diagnosing doctor CRUD mentions “U”",
           "when": null
         }
       ],
@@ -25489,7 +25506,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "DiagnosingDoctorCanDelete",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged diagnosing doctor can delete if the diagnosing doctor CRUD mentions the literal \u201CD\u201D.",
+    "rule": "A routing and navigation is flagged diagnosing doctor can delete if the diagnosing doctor CRUD mentions “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -25500,7 +25517,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s diagnosing doctor can delete is determined by the following priority:",
+      "headline": "The routing and navigation's diagnosing doctor can delete is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25510,7 +25527,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the diagnosing doctor CRUD mentions the literal \u201CD\u201D",
+          "value": "the diagnosing doctor CRUD mentions “D”",
           "when": null
         }
       ],
@@ -25521,7 +25538,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "ExternalLlmCanCreate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged external llm can create if the external llm CRUD mentions the literal \u201CC\u201D.",
+    "rule": "A routing and navigation is flagged external llm can create if the external llm CRUD mentions “C”.",
     "mechanical": false,
     "refs": [
       {
@@ -25532,7 +25549,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s external llm can create is determined by the following priority:",
+      "headline": "The routing and navigation's external llm can create is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25542,7 +25559,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the external llm CRUD mentions the literal \u201CC\u201D",
+          "value": "the external llm CRUD mentions “C”",
           "when": null
         }
       ],
@@ -25553,7 +25570,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "ExternalLlmCanRead",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged external llm can read if the external llm CRUD mentions the literal \u201CR\u201D.",
+    "rule": "A routing and navigation is flagged external llm can read if the external llm CRUD mentions “R”.",
     "mechanical": false,
     "refs": [
       {
@@ -25564,7 +25581,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s external llm can read is determined by the following priority:",
+      "headline": "The routing and navigation's external llm can read is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25574,7 +25591,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the external llm CRUD mentions the literal \u201CR\u201D",
+          "value": "the external llm CRUD mentions “R”",
           "when": null
         }
       ],
@@ -25585,7 +25602,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "ExternalLlmCanUpdate",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged external llm can update if the external llm CRUD mentions the literal \u201CU\u201D.",
+    "rule": "A routing and navigation is flagged external llm can update if the external llm CRUD mentions “U”.",
     "mechanical": false,
     "refs": [
       {
@@ -25596,7 +25613,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s external llm can update is determined by the following priority:",
+      "headline": "The routing and navigation's external llm can update is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25606,7 +25623,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the external llm CRUD mentions the literal \u201CU\u201D",
+          "value": "the external llm CRUD mentions “U”",
           "when": null
         }
       ],
@@ -25617,7 +25634,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "ExternalLlmCanDelete",
     "kind": "formula",
-    "rule": "A routing and navigation is flagged external llm can delete if the external llm CRUD mentions the literal \u201CD\u201D.",
+    "rule": "A routing and navigation is flagged external llm can delete if the external llm CRUD mentions “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -25628,7 +25645,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s external llm can delete is determined by the following priority:",
+      "headline": "The routing and navigation's external llm can delete is determined by the following priority:",
       "cases": [
         {
           "value": "no value",
@@ -25638,7 +25655,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the external llm CRUD mentions the literal \u201CD\u201D",
+          "value": "the external llm CRUD mentions “D”",
           "when": null
         }
       ],
@@ -25649,7 +25666,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "Depth",
     "kind": "formula",
-    "rule": "The routing and navigation\u0027s depth is determined by the following priority:\n1. 0, if the parent route key is blank;\n2. otherwise the length of the route key minus the length of the route key with every a period replaced by an empty string.",
+    "rule": "The routing and navigation's depth is determined by the following priority:\n1. 0, if the parent route key is blank;\n2. in all other cases, the length of the route key minus the length of the route key with every a period replaced by an empty string.",
     "mechanical": true,
     "refs": [
       {
@@ -25665,7 +25682,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The routing and navigation\u0027s depth is determined by the following priority:",
+      "headline": "The routing and navigation's depth is determined by the following priority:",
       "cases": [
         {
           "value": "0",
@@ -25686,7 +25703,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "FullPath",
     "kind": "formula",
-    "rule": "A routing and navigation\u0027s full path is computed as the route.",
+    "rule": "A routing and navigation's full path is the same as its route.",
     "mechanical": false,
     "refs": [
       {
@@ -25701,7 +25718,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "HandlerBaseName",
     "kind": "formula",
-    "rule": "A routing and navigation\u0027s handler base name is computed as the route key with every a period replaced by a space with every a hyphen replaced by a space.",
+    "rule": "A routing and navigation's handler base name is computed as the route key with every a period replaced by a space with every a hyphen replaced by a space.",
     "mechanical": true,
     "refs": [
       {
@@ -25716,7 +25733,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "RoutingAndNavigation",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A routing and navigation\u0027s relative path is computed as the literal \u201C/admin/routing/\u201D, followed by the routing and navigation ID.",
+    "rule": "A routing and navigation's relative path is computed as “/admin/routing/”, followed by the routing and navigation ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25727,11 +25744,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "StateMachines.Name": {
+    "table": "StateMachines",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A state machine's name is the same as its state machine ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StateMachines",
+        "field": "StateMachineId",
+        "label": "state machine ID"
+      }
+    ],
+    "structure": null
+  },
   "StateMachines.RelativePath": {
     "table": "StateMachines",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A state machine\u0027s relative path is computed as the literal \u201C/admin/state-machine/\u201D, followed by the state machine ID.",
+    "rule": "A state machine's relative path is computed as “/admin/state-machine/”, followed by the state machine ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25746,7 +25778,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StateMachines",
     "field": "StateCount",
     "kind": "rollup",
-    "rule": "A state machine\u0027s state count is the number of machine states related to the state machine.",
+    "rule": "A state machine's state count is the number of machine states related to the state machine.",
     "mechanical": false,
     "refs": [
       {
@@ -25766,7 +25798,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StateMachines",
     "field": "TransitionRuleCount",
     "kind": "rollup",
-    "rule": "A state machine\u0027s transition rule count is the number of state transition rules related to the state machine.",
+    "rule": "A state machine's transition rule count is the number of state transition rules related to the state machine.",
     "mechanical": false,
     "refs": [
       {
@@ -25782,11 +25814,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "MachineStates.Name": {
+    "table": "MachineStates",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A machine state's name is the same as its machine state ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "MachineStates",
+        "field": "MachineStateId",
+        "label": "machine state ID"
+      }
+    ],
+    "structure": null
+  },
   "MachineStates.RelativePath": {
     "table": "MachineStates",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A machine state\u0027s relative path is computed as the literal \u201C/admin/state-machine/states/\u201D, followed by the machine state ID.",
+    "rule": "A machine state's relative path is computed as “/admin/state-machine/states/”, followed by the machine state ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25801,7 +25848,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "MachineStates",
     "field": "ReachableStateCount",
     "kind": "rollup",
-    "rule": "A machine state\u0027s reachable state count is the number of vw state transition rules closure related to the machine state.",
+    "rule": "A machine state's reachable state count is the number of vw state transition rules closure related to the machine state.",
     "mechanical": false,
     "refs": [
       {
@@ -25817,11 +25864,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "StateTransitionRules.Name": {
+    "table": "StateTransitionRules",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A state transition rule's name is the same as its state transition rule ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StateTransitionRules",
+        "field": "StateTransitionRuleId",
+        "label": "state transition rule ID"
+      }
+    ],
+    "structure": null
+  },
   "StateTransitionRules.RelativePath": {
     "table": "StateTransitionRules",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A state transition rule\u0027s relative path is computed as the literal \u201C/admin/state-machine/rules/\u201D, followed by the state transition rule ID.",
+    "rule": "A state transition rule's relative path is computed as “/admin/state-machine/rules/”, followed by the state transition rule ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25836,7 +25898,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StateTransitionRules",
     "field": "FromStateKey",
     "kind": "lookup",
-    "rule": "A state transition rule\u0027s from state key is the state key of the state transition rule\u0027s from state.",
+    "rule": "A state transition rule's from state key — taken from the linked from state.",
     "mechanical": false,
     "refs": [
       {
@@ -25861,7 +25923,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StateTransitionRules",
     "field": "ToStateKey",
     "kind": "lookup",
-    "rule": "A state transition rule\u0027s to state key is the state key of the state transition rule\u0027s to state.",
+    "rule": "A state transition rule's to state key — taken from the linked to state.",
     "mechanical": false,
     "refs": [
       {
@@ -25902,11 +25964,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "StateTransitions.Name": {
+    "table": "StateTransitions",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A state transition's name is the same as its state transition ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StateTransitions",
+        "field": "StateTransitionId",
+        "label": "state transition ID"
+      }
+    ],
+    "structure": null
+  },
   "StateTransitions.RelativePath": {
     "table": "StateTransitions",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A state transition\u0027s relative path is computed as the literal \u201C/admin/state-machine/transitions/\u201D, followed by the state transition ID.",
+    "rule": "A state transition's relative path is computed as “/admin/state-machine/transitions/”, followed by the state transition ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25921,7 +25998,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StateTransitions",
     "field": "IsForward",
     "kind": "formula",
-    "rule": "A state transition is considered a forward if it is not the case that the to state key is the literal \u201CIntake\u201D.",
+    "rule": "A state transition is considered a forward if it is not the case that the to state key is “Intake”.",
     "mechanical": false,
     "refs": [
       {
@@ -25932,11 +26009,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "SubjectStateInstances.Name": {
+    "table": "SubjectStateInstances",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A subject state instance's name is the same as its subject state instance ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "SubjectStateInstances",
+        "field": "SubjectStateInstanceId",
+        "label": "subject state instance ID"
+      }
+    ],
+    "structure": null
+  },
   "SubjectStateInstances.RelativePath": {
     "table": "SubjectStateInstances",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A subject state instance\u0027s relative path is computed as the literal \u201C/admin/state-machine/instances/\u201D, followed by the subject state instance ID.",
+    "rule": "A subject state instance's relative path is computed as “/admin/state-machine/instances/”, followed by the subject state instance ID.",
     "mechanical": false,
     "refs": [
       {
@@ -25992,7 +26084,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The subject state instance\u0027s is long dwell is determined by the following priority:",
+      "headline": "The subject state instance's is long dwell is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -26013,7 +26105,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseDomainConcepts",
     "field": "Name",
     "kind": "formula",
-    "rule": "A disease domain concept\u0027s name is computed as the concept label.",
+    "rule": "A disease domain concept's name is the same as its concept label.",
     "mechanical": false,
     "refs": [
       {
@@ -26028,7 +26120,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseDomainConcepts",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A disease domain concept\u0027s relative path is computed as the literal \u201C/admin/disease-concepts/\u201D, followed by the disease domain concept ID.",
+    "rule": "A disease domain concept's relative path is computed as “/admin/disease-concepts/”, followed by the disease domain concept ID.",
     "mechanical": false,
     "refs": [
       {
@@ -26043,7 +26135,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseDomainConcepts",
     "field": "IsDeeplyModeled",
     "kind": "formula",
-    "rule": "A disease domain concept is considered deeply modeled if the modeling status is the literal \u201Cdeep-dag\u201D.",
+    "rule": "A disease domain concept is considered deeply-modeled if the modeling status is “deep-dag”.",
     "mechanical": false,
     "refs": [
       {
@@ -26054,13 +26146,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The disease domain concept\u0027s is deeply modeled is determined by the following priority:",
+      "headline": "The disease domain concept's is deeply modeled is determined by the following priority:",
       "cases": [
         {
           "value": "true",
           "when": {
             "kind": "leaf",
-            "text": "the modeling status is the literal \u201Cdeep-dag\u201D"
+            "text": "the modeling status is “deep-dag”"
           }
         },
         {
@@ -26075,7 +26167,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiseaseDomainConcepts",
     "field": "IsSchemaModeled",
     "kind": "formula",
-    "rule": "A disease domain concept is considered schema modeled if at least one of the following holds: the modeling status is the literal \u201Cdeep-dag\u201D or the modeling status is the literal \u201Cschema\u201D.",
+    "rule": "A disease domain concept is considered schema-modeled if at least one of the following holds: the modeling status is “deep-dag” or the modeling status is “schema”.",
     "mechanical": false,
     "refs": [
       {
@@ -26086,7 +26178,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The disease domain concept\u0027s is schema modeled is determined by the following priority:",
+      "headline": "The disease domain concept's is schema modeled is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -26095,11 +26187,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the modeling status is the literal \u201Cdeep-dag\u201D"
+                "text": "the modeling status is “deep-dag”"
               },
               {
                 "kind": "leaf",
-                "text": "the modeling status is the literal \u201Cschema\u201D"
+                "text": "the modeling status is “schema”"
               }
             ]
           }
@@ -26116,7 +26208,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "PriorAntiDsDnaIU",
     "kind": "lookup",
-    "rule": "A serology observation\u0027s prior anti ds dna IU is the anti ds dna IU of the serology observation\u0027s prior observation.",
+    "rule": "A serology observation's prior anti ds dna IU — taken from the linked prior observation.",
     "mechanical": false,
     "refs": [
       {
@@ -26141,7 +26233,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "PriorC3",
     "kind": "lookup",
-    "rule": "A serology observation\u0027s prior c3 is the complement c3 of the serology observation\u0027s prior observation.",
+    "rule": "A serology observation's prior c3 is the complement c3 of the serology observation's prior observation.",
     "mechanical": false,
     "refs": [
       {
@@ -26166,7 +26258,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "PriorC4",
     "kind": "lookup",
-    "rule": "A serology observation\u0027s prior c4 is the complement c4 of the serology observation\u0027s prior observation.",
+    "rule": "A serology observation's prior c4 is the complement c4 of the serology observation's prior observation.",
     "mechanical": false,
     "refs": [
       {
@@ -26191,7 +26283,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "AntiDsDnaTrend",
     "kind": "formula",
-    "rule": "The serology observation\u0027s anti ds dna trend is determined by the following priority:\n1. the literal \u201CStable\u201D, if the prior anti ds dna IU is blank;\n2. the literal \u201CRising\u201D, if the anti ds dna IU is greater than the prior anti ds dna IU times 1.25;\n3. the literal \u201CFalling\u201D, if the anti ds dna IU is less than the prior anti ds dna IU times 0.8;\n4. otherwise the literal \u201CStable\u201D.",
+    "rule": "The serology observation's anti ds dna trend is determined by the following priority:\n1. “Stable”, if the prior anti ds dna IU is blank;\n2. “Rising”, if the anti ds dna IU is greater than the prior anti ds dna IU times 1.25;\n3. “Falling”, if the anti ds dna IU is less than the prior anti ds dna IU times 0.8;\n4. in all other cases, “Stable”.",
     "mechanical": false,
     "refs": [
       {
@@ -26207,31 +26299,31 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s anti ds dna trend is determined by the following priority:",
+      "headline": "The serology observation's anti ds dna trend is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CStable\u201D",
+          "value": "“Stable”",
           "when": {
             "kind": "leaf",
             "text": "the prior anti ds dna IU is blank"
           }
         },
         {
-          "value": "the literal \u201CRising\u201D",
+          "value": "“Rising”",
           "when": {
             "kind": "leaf",
             "text": "the anti ds dna IU is greater than the prior anti ds dna IU times 1.25"
           }
         },
         {
-          "value": "the literal \u201CFalling\u201D",
+          "value": "“Falling”",
           "when": {
             "kind": "leaf",
             "text": "the anti ds dna IU is less than the prior anti ds dna IU times 0.8"
           }
         },
         {
-          "value": "the literal \u201CStable\u201D",
+          "value": "“Stable”",
           "when": null
         }
       ],
@@ -26242,7 +26334,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "ComplementTrend",
     "kind": "formula",
-    "rule": "The serology observation\u0027s complement trend is determined by the following priority:\n1. the literal \u201CStable\u201D, if the prior c3 is blank;\n2. the literal \u201CFalling\u201D, if the complement c3 plus the complement c4 is less than the prior c3 plus the prior c4 times 0.85;\n3. the literal \u201CRising\u201D, if the complement c3 plus the complement c4 is greater than the prior c3 plus the prior c4 times 1.15;\n4. otherwise the literal \u201CStable\u201D.",
+    "rule": "The serology observation's complement trend is determined by the following priority:\n1. “Stable”, if the prior c3 is blank;\n2. “Falling”, if the complement c3 plus the complement c4 is less than the prior c3 plus the prior c4 times 0.85;\n3. “Rising”, if the complement c3 plus the complement c4 is greater than the prior c3 plus the prior c4 times 1.15;\n4. in all other cases, “Stable”.",
     "mechanical": false,
     "refs": [
       {
@@ -26268,31 +26360,31 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s complement trend is determined by the following priority:",
+      "headline": "The serology observation's complement trend is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CStable\u201D",
+          "value": "“Stable”",
           "when": {
             "kind": "leaf",
             "text": "the prior c3 is blank"
           }
         },
         {
-          "value": "the literal \u201CFalling\u201D",
+          "value": "“Falling”",
           "when": {
             "kind": "leaf",
             "text": "the complement c3 plus the complement c4 is less than the prior c3 plus the prior c4 times 0.85"
           }
         },
         {
-          "value": "the literal \u201CRising\u201D",
+          "value": "“Rising”",
           "when": {
             "kind": "leaf",
             "text": "the complement c3 plus the complement c4 is greater than the prior c3 plus the prior c4 times 1.15"
           }
         },
         {
-          "value": "the literal \u201CStable\u201D",
+          "value": "“Stable”",
           "when": null
         }
       ],
@@ -26303,7 +26395,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "IsPreNephriticSignaturePanel",
     "kind": "formula",
-    "rule": "A serology observation is considered a pre nephritic signature panel if all of the following hold: the anti ds dna trend is the literal \u201CRising\u201D and the complement trend is the literal \u201CFalling\u201D.",
+    "rule": "A serology observation is considered a pre nephritic signature panel if all of the following hold: the anti ds dna trend is “Rising” and the complement trend is “Falling”.",
     "mechanical": false,
     "refs": [
       {
@@ -26319,7 +26411,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s is pre nephritic signature panel is determined by the following priority:",
+      "headline": "The serology observation's is pre nephritic signature panel is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -26328,11 +26420,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the anti ds dna trend is the literal \u201CRising\u201D"
+                "text": "the anti ds dna trend is “Rising”"
               },
               {
                 "kind": "leaf",
-                "text": "the complement trend is the literal \u201CFalling\u201D"
+                "text": "the complement trend is “Falling”"
               }
             ]
           }
@@ -26360,7 +26452,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s is significant proteinuria is determined by the following priority:",
+      "headline": "The serology observation's is significant proteinuria is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -26392,7 +26484,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s is nephrotic range proteinuria is determined by the following priority:",
+      "headline": "The serology observation's is nephrotic range proteinuria is determined by the following priority:",
       "cases": [
         {
           "value": "true",
@@ -26413,7 +26505,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "SledaiRenalPoints",
     "kind": "formula",
-    "rule": "The serology observation\u0027s sledai renal points is determined by the following priority:\n1. 8, if at least one of the following holds: the is nephrotic range proteinuria flag is set or the has active urinary sediment flag is set;\n2. 4, if the is significant proteinuria flag is set;\n3. otherwise 0.",
+    "rule": "The serology observation's sledai renal points is determined by the following priority:\n1. 8, if at least one of the following holds: the nephrotic range proteinuria flag is set or the active urinary sediment flag is set;\n2. 4, if the significant proteinuria flag is set;\n3. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -26434,7 +26526,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s sledai renal points is determined by the following priority:",
+      "headline": "The serology observation's sledai renal points is determined by the following priority:",
       "cases": [
         {
           "value": "8",
@@ -26443,11 +26535,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is nephrotic range proteinuria flag is set"
+                "text": "the nephrotic range proteinuria flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the has active urinary sediment flag is set"
+                "text": "the active urinary sediment flag is set"
               }
             ]
           }
@@ -26456,7 +26548,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "value": "4",
           "when": {
             "kind": "leaf",
-            "text": "the is significant proteinuria flag is set"
+            "text": "the significant proteinuria flag is set"
           }
         },
         {
@@ -26471,7 +26563,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "SledaiSerologyPoints",
     "kind": "formula",
-    "rule": "The serology observation\u0027s sledai serology points is determined by the following priority:\n1. 4, if all of the following hold: the complement trend is the literal \u201CFalling\u201D and the anti ds dna trend is the literal \u201CRising\u201D;\n2. 2, if at least one of the following holds: the complement trend is the literal \u201CFalling\u201D or the anti ds dna trend is the literal \u201CRising\u201D;\n3. otherwise 0.",
+    "rule": "The serology observation's sledai serology points is determined by the following priority:\n1. 4, if all of the following hold: the complement trend is “Falling” and the anti ds dna trend is “Rising”;\n2. 2, if at least one of the following holds: the complement trend is “Falling” or the anti ds dna trend is “Rising”;\n3. in all other cases, 0.",
     "mechanical": false,
     "refs": [
       {
@@ -26487,7 +26579,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s sledai serology points is determined by the following priority:",
+      "headline": "The serology observation's sledai serology points is determined by the following priority:",
       "cases": [
         {
           "value": "4",
@@ -26496,11 +26588,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the complement trend is the literal \u201CFalling\u201D"
+                "text": "the complement trend is “Falling”"
               },
               {
                 "kind": "leaf",
-                "text": "the anti ds dna trend is the literal \u201CRising\u201D"
+                "text": "the anti ds dna trend is “Rising”"
               }
             ]
           }
@@ -26512,11 +26604,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the complement trend is the literal \u201CFalling\u201D"
+                "text": "the complement trend is “Falling”"
               },
               {
                 "kind": "leaf",
-                "text": "the anti ds dna trend is the literal \u201CRising\u201D"
+                "text": "the anti ds dna trend is “Rising”"
               }
             ]
           }
@@ -26533,7 +26625,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "SledaiScore",
     "kind": "formula",
-    "rule": "A serology observation\u0027s sledai score is computed as the sledai renal points plus the sledai serology points.",
+    "rule": "A serology observation's sledai score is computed as the sledai renal points plus the sledai serology points.",
     "mechanical": false,
     "refs": [
       {
@@ -26553,7 +26645,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "ProgressionStateKey",
     "kind": "formula",
-    "rule": "The serology observation\u0027s progression state key is determined by the following priority:\n1. the literal \u201CBiopsyIndicated\u201D, if at least one of the following holds: the is nephrotic range proteinuria flag is set or the has active urinary sediment flag is set;\n2. the literal \u201CRenalFlareRisk\u201D, if the proteinuria g per day is at least 1.0;\n3. the literal \u201CEarlyNephritis\u201D, if the is significant proteinuria flag is set;\n4. the literal \u201CSerologicActive\u201D, if all of the following hold: the anti ds dna trend is the literal \u201CRising\u201D and the complement trend is the literal \u201CFalling\u201D;\n5. otherwise the literal \u201CPresymptomaticAutoimmunity\u201D.",
+    "rule": "The serology observation's progression state key is determined by the following priority:\n1. “BiopsyIndicated”, if at least one of the following holds: the nephrotic range proteinuria flag is set or the active urinary sediment flag is set;\n2. “RenalFlareRisk”, if the proteinuria g per day is at least 1.0;\n3. “EarlyNephritis”, if the significant proteinuria flag is set;\n4. “SerologicActive”, if all of the following hold: the anti ds dna trend is “Rising” and the complement trend is “Falling”;\n5. in all other cases, “PresymptomaticAutoimmunity”.",
     "mechanical": false,
     "refs": [
       {
@@ -26589,56 +26681,56 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s progression state key is determined by the following priority:",
+      "headline": "The serology observation's progression state key is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal \u201CBiopsyIndicated\u201D",
+          "value": "“BiopsyIndicated”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is nephrotic range proteinuria flag is set"
+                "text": "the nephrotic range proteinuria flag is set"
               },
               {
                 "kind": "leaf",
-                "text": "the has active urinary sediment flag is set"
+                "text": "the active urinary sediment flag is set"
               }
             ]
           }
         },
         {
-          "value": "the literal \u201CRenalFlareRisk\u201D",
+          "value": "“RenalFlareRisk”",
           "when": {
             "kind": "leaf",
             "text": "the proteinuria g per day is at least 1.0"
           }
         },
         {
-          "value": "the literal \u201CEarlyNephritis\u201D",
+          "value": "“EarlyNephritis”",
           "when": {
             "kind": "leaf",
-            "text": "the is significant proteinuria flag is set"
+            "text": "the significant proteinuria flag is set"
           }
         },
         {
-          "value": "the literal \u201CSerologicActive\u201D",
+          "value": "“SerologicActive”",
           "when": {
             "kind": "all",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the anti ds dna trend is the literal \u201CRising\u201D"
+                "text": "the anti ds dna trend is “Rising”"
               },
               {
                 "kind": "leaf",
-                "text": "the complement trend is the literal \u201CFalling\u201D"
+                "text": "the complement trend is “Falling”"
               }
             ]
           }
         },
         {
-          "value": "the literal \u201CPresymptomaticAutoimmunity\u201D",
+          "value": "“PresymptomaticAutoimmunity”",
           "when": null
         }
       ],
@@ -26649,7 +26741,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SerologyObservations",
     "field": "ProgressionStateOrder",
     "kind": "formula",
-    "rule": "The serology observation\u0027s progression state order is determined by the following priority:\n1. 5, if the progression state key is the literal \u201CBiopsyIndicated\u201D;\n2. 4, if the progression state key is the literal \u201CRenalFlareRisk\u201D;\n3. 3, if the progression state key is the literal \u201CEarlyNephritis\u201D;\n4. 2, if the progression state key is the literal \u201CSerologicActive\u201D;\n5. otherwise 1.",
+    "rule": "The serology observation's progression state order is determined by the following priority:\n1. 5, if the progression state key is “BiopsyIndicated”;\n2. 4, if the progression state key is “RenalFlareRisk”;\n3. 3, if the progression state key is “EarlyNephritis”;\n4. 2, if the progression state key is “SerologicActive”;\n5. in all other cases, 1.",
     "mechanical": false,
     "refs": [
       {
@@ -26660,34 +26752,34 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "The serology observation\u0027s progression state order is determined by the following priority:",
+      "headline": "The serology observation's progression state order is determined by the following priority:",
       "cases": [
         {
           "value": "5",
           "when": {
             "kind": "leaf",
-            "text": "the progression state key is the literal \u201CBiopsyIndicated\u201D"
+            "text": "the progression state key is “BiopsyIndicated”"
           }
         },
         {
           "value": "4",
           "when": {
             "kind": "leaf",
-            "text": "the progression state key is the literal \u201CRenalFlareRisk\u201D"
+            "text": "the progression state key is “RenalFlareRisk”"
           }
         },
         {
           "value": "3",
           "when": {
             "kind": "leaf",
-            "text": "the progression state key is the literal \u201CEarlyNephritis\u201D"
+            "text": "the progression state key is “EarlyNephritis”"
           }
         },
         {
           "value": "2",
           "when": {
             "kind": "leaf",
-            "text": "the progression state key is the literal \u201CSerologicActive\u201D"
+            "text": "the progression state key is “SerologicActive”"
           }
         },
         {
@@ -26698,11 +26790,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "children": null
     }
   },
+  "SerologyObservations.Name": {
+    "table": "SerologyObservations",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A serology observation's name is the same as its serology observation ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "SerologyObservations",
+        "field": "SerologyObservationId",
+        "label": "serology observation ID"
+      }
+    ],
+    "structure": null
+  },
   "SerologyObservations.RelativePath": {
     "table": "SerologyObservations",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A serology observation\u0027s relative path is computed as the literal \u201C/admin/serology/\u201D, followed by the serology observation ID.",
+    "rule": "A serology observation's relative path is computed as “/admin/serology/”, followed by the serology observation ID.",
     "mechanical": false,
     "refs": [
       {
@@ -26717,7 +26824,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TherapyOptions",
     "field": "Name",
     "kind": "formula",
-    "rule": "A therapy option\u0027s name is computed as the therapy label.",
+    "rule": "A therapy option's name is the same as its therapy label.",
     "mechanical": false,
     "refs": [
       {
@@ -26732,7 +26839,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TherapyOptions",
     "field": "RelativePath",
     "kind": "formula",
-    "rule": "A therapy option\u0027s relative path is computed as the literal \u201C/admin/therapy-options/\u201D, followed by the therapy option ID.",
+    "rule": "A therapy option's relative path is computed as “/admin/therapy-options/”, followed by the therapy option ID.",
     "mechanical": false,
     "refs": [
       {
@@ -26769,7 +26876,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "A genomic variant **must** have a variant label, an individual, a variant type, and an allele frequency, and record whether it has an allele specific expression."
   ],
   "OmicsAssays": [
-    "An omics assay **must** have an assay label, an individual, an omics modality, and a measurement error score, and record whether it has a cell state specific effect."
+    "An omics assay **must** have an assay label, an individual, an omics modality, a batch ID, and a measurement error score, and record whether it has a cell state specific effect."
   ],
   "EvidenceItems": [
     "An evidence item **must** have an evidence label, a causal mechanism, an omics assay, an effect size, and a standard error, and record whether it is a cross modality, whether it is a negative control arm, whether it is an adjusted for ancestry p cs, whether it is an adjusted for batch, and whether it is a synthetic leaf."
@@ -26828,8 +26935,8 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "GlossaryTerms": [
     "A glossary term **must** have a term and a definition."
   ],
-  "LeopoldLoops": [
-    "A leopold loop **must** have a loop number, a title, a goal, a status, and a sort order."
+  "EffortlessLoops": [
+    "An effortless loop **must** have a loop number, a title, a goal, a status, and a sort order."
   ],
   "StateMachines": [
     "A state machine **must** have a subject table name and a subject state column."
@@ -26845,11 +26952,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   ],
   "StateTransitions": [
     "A state transition **must** reference exactly one state machine.",
-    "A state transition **must** have a subject table name and a to state key."
+    "A state transition **must** have a subject table name, a subject ID, and a to state key."
   ],
   "SubjectStateInstances": [
     "A subject state instance **must** reference exactly one state machine.",
-    "A subject state instance **must** have a subject table name, a state key, and a sequence index."
+    "A subject state instance **must** have a subject table name, a subject ID, a state key, and a sequence index."
   ],
   "DiseaseDomainConcepts": [
     "A disease domain concept **must** have a concept label and a modeling status."

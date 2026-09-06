@@ -169,8 +169,60 @@ function findingStatusPlugin() {
   };
 }
 
+// Trigger a conformance harness run (cap-conformance-harness, promoted to a
+// first-class explorer feature). Same shape as findingStatusPlugin: the write
+// path is a repo script, not a route bolted onto the generated API. Runs
+// scripts/run-conformance.py <slug>, which shells out to the EXISTING harness
+// (rulebook-examples/legacy-runner/orchestration/test-orchestrator.py — not
+// reimplemented here), records ConformanceRuns/ConformanceResults rows in the
+// rulebook JSON, then runs `effortless build` so the views pick them up.
+// This can run for a while (every registered substrate), so no artificial
+// timeout is imposed beyond Node's default.
+const SLUG_RE = /^[A-Za-z0-9-]+$/;
+
+function runConformanceScript(slug) {
+  return new Promise((resolve, reject) => {
+    execFile(
+      "python3",
+      ["scripts/run-conformance.py", slug],
+      { cwd: REPO_ROOT, maxBuffer: 1024 * 1024 * 16 },
+      (error, stdout, stderr) => (error ? reject(new Error((stderr || stdout || error.message).trim())) : resolve(stdout.trim())),
+    );
+  });
+}
+
+function conformanceRunPlugin() {
+  return {
+    name: "erb-conformance-run",
+    configureServer(server) {
+      server.middlewares.use("/__conformance", async (req, res) => {
+        res.setHeader("Content-Type", "application/json");
+        const match = /^\/([A-Za-z0-9-]+)\/run$/.exec(new URL(req.url, "http://localhost").pathname);
+        if (req.method !== "POST" || !match) {
+          res.statusCode = 404;
+          res.end(JSON.stringify({ ok: false, error: "POST /__conformance/<slug>/run" }));
+          return;
+        }
+        const slug = match[1];
+        if (!SLUG_RE.test(slug)) {
+          res.statusCode = 400;
+          res.end(JSON.stringify({ ok: false, error: "slug must match [A-Za-z0-9-]+" }));
+          return;
+        }
+        try {
+          const output = await runConformanceScript(slug);
+          res.end(JSON.stringify({ ok: true, slug, output }));
+        } catch (error) {
+          res.statusCode = 502;
+          res.end(JSON.stringify({ ok: false, error: error.message }));
+        }
+      });
+    },
+  };
+}
+
 export default defineConfig({
-  plugins: [healthProbePlugin(), generatedFilesPlugin(), findingStatusPlugin()],
+  plugins: [healthProbePlugin(), generatedFilesPlugin(), findingStatusPlugin(), conformanceRunPlugin()],
   server: {
     proxy: {
       "/api": { target: EDITOR_API, changeOrigin: true },

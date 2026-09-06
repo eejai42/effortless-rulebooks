@@ -1,26 +1,26 @@
 [
   {
-    "customer_id": "emily-jones-email-com",
-    "email_address": "emily.jones@email.com",
-    "last_name": "Jones",
-    "name": "emily.jones-email.com",
-    "first_name": "Mary",
-    "full_name": "Jones, Mary"
-  },
-  {
-    "customer_id": "jane-smith-email-com",
-    "email_address": "jane.smith@email.com",
+    "customer_id": "bob-gmail-com",
+    "email_address": "bob@gmail.com",
     "last_name": "Smith",
-    "name": "jane.smith-email.com",
+    "name": null,
     "first_name": "Bobby",
-    "full_name": "Smith, Bobby"
+    "full_name": null
   },
   {
-    "customer_id": "john-doe-email-com",
-    "email_address": "john.doe@email.com",
+    "customer_id": "jimmy-gmail-com",
+    "email_address": "jimmy@gmail.com",
     "last_name": "Doe",
-    "name": "john.doe-email.com",
+    "name": null,
     "first_name": "Jimmy",
-    "full_name": "Doe, Jimmy"
+    "full_name": null
+  },
+  {
+    "customer_id": "mary-gmail-com",
+    "email_address": "mary@gmail.com",
+    "last_name": "Jones",
+    "name": null,
+    "first_name": "Mary",
+    "full_name": null
   }
 ]

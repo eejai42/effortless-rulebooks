@@ -1893,12 +1893,30 @@
         "InverseField": "Domain"
       },
       {
+        "name": "ConformanceRuns",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "Reverse relationship: cross-substrate conformance harness runs recorded against this project.",
+        "RelatedTo": "ConformanceRuns",
+        "isReversed": true,
+        "InverseField": "Domain"
+      },
+      {
         "name": "SlotWitnessCount",
         "datatype": "number",
         "type": "aggregation",
         "nullable": true,
         "Description": "Order 1. Canonical slots scanned for this project.",
         "formula": "=COUNTIFS(ProjectSlotWitnesses!{{Domain}}, RulebookDomains!{{DomainId}})"
+      },
+      {
+        "name": "ConformanceRunCount",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Order 1b. Conformance harness runs recorded against this project.",
+        "formula": "=COUNTIFS(ConformanceRuns!{{Domain}}, RulebookDomains!{{DomainId}})"
       },
       {
         "name": "PresentSlotCount",
@@ -4939,8 +4957,8 @@
         "Decision": "promote",
         "Destination": "Conformance results as first-class rows in the root rulebook, displayed by the root explorer the way slot witnesses are; the runner keeps the harness and its report as the legacy view.",
         "Rationale": "Orchestration is what the explorer does visually: pick a project, build it, see every substrate graded. The harness stays runnable in the runner and its results become data the explorer shows.",
-        "Status": "decided",
-        "Dependents": "take-test.sh in every substrate; SubstrateContractPhases / EvaluationSteps rows in the runner rulebook.",
+        "Status": "done",
+        "Dependents": "take-test.sh in every substrate; SubstrateContractPhases / EvaluationSteps rows in the runner rulebook. ConformanceRuns/ConformanceResults rows imported by scripts/run-conformance.py; displayed at /conformance in the root explorer.",
         "Project": "erb-001"
       },
       {
@@ -5026,6 +5044,410 @@
         "Status": "done",
         "Dependents": "admin-portal/server.js and the runner's generated Postgres.",
         "Project": "erb-001"
+      }
+    ]
+  },
+  "ConformanceRuns": {
+    "Description": "One row per invocation of the cross-substrate conformance harness (rulebook-examples/legacy-runner/orchestration/test-orchestrator.py) against a governed project. Imported by scripts/run-conformance.py from that project's testing/_substrate_results.json. This is the promoted, first-class-row destination for LegacyRunnerCapabilities row cap-conformance-harness; the runner keeps the harness itself and its markdown report as the legacy view.",
+    "schema": [
+      {
+        "name": "ConformanceRunId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "PK: run-<domain-slug>-<yyyymmdd-hhmmss>."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Order 1. Display alias (calculated).",
+        "formula": "={{ConformanceRunId}}"
+      },
+      {
+        "name": "Domain",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the governed project this run tested.",
+        "RelatedTo": "RulebookDomains",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "ConformanceRuns"
+      },
+      {
+        "name": "RanOn",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "ISO-8601 timestamp when the harness run was imported."
+      },
+      {
+        "name": "RawResultsJson",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "JSON-encoded verbatim copy of the run's testing/_substrate_results.json, for audit/replay. Same string-blob convention as __meta__.JsonValue."
+      },
+      {
+        "name": "DomainName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Order 2. Display name of the tested project.",
+        "formula": "=INDEX(RulebookDomains!{{DomainName}}, MATCH({{Domain}}, RulebookDomains!{{DomainId}}, 0))"
+      },
+      {
+        "name": "ConformanceResults",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": true,
+        "Description": "Reverse relationship: one row per substrate graded in this run.",
+        "RelatedTo": "ConformanceResults",
+        "isReversed": true,
+        "InverseField": "Run"
+      },
+      {
+        "name": "TotalSubstrates",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Order 3. Substrates graded in this run.",
+        "formula": "=COUNTIFS(ConformanceResults!{{Run}}, ConformanceRuns!{{ConformanceRunId}})"
+      },
+      {
+        "name": "PassingSubstrateCount",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Order 4. Substrates that passed (IsPassingFlag = 1) in this run.",
+        "formula": "=SUMIFS(ConformanceResults!{{IsPassingFlag}}, ConformanceResults!{{Run}}, ConformanceRuns!{{ConformanceRunId}})"
+      },
+      {
+        "name": "FailingSubstrateCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Order 5. TotalSubstrates minus PassingSubstrateCount.",
+        "formula": "={{TotalSubstrates}} - {{PassingSubstrateCount}}"
+      },
+      {
+        "name": "OverallScore",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Order 6. Average per-substrate score (0-100) across this run.",
+        "formula": "=AVERAGEIFS(ConformanceResults!{{Score}}, ConformanceResults!{{Run}}, ConformanceRuns!{{ConformanceRunId}})"
+      },
+      {
+        "name": "OverallStatus",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Order 7. no-results / all-passing / has-failures, derived from the substrate counts above.",
+        "formula": "=IF({{TotalSubstrates}} = 0, \"no-results\", IF({{FailingSubstrateCount}} = 0, \"all-passing\", \"has-failures\"))"
+      }
+    ],
+    "data": [
+      {
+        "ConformanceRunId": "run-acme-llc-20260906-221125",
+        "Domain": "domain-acme-llc",
+        "RanOn": "2026-09-06T22:11:25",
+        "RawResultsJson": "{\"airtable\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 0.0, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"english\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 4.0, \"exit_code\": 0, \"score\": 0.0}, \"last_successful_run\": {\"duration_seconds\": 18.844956159591675, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"postgres\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 4.453888177871704, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 4.453888177871704, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"python\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 50.0}, \"last_successful_run\": {\"duration_seconds\": 0.0, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"golang\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 50.0}, \"last_successful_run\": {\"duration_seconds\": 0.29009103775024414, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"owl\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 7.0, \"exit_code\": 0, \"score\": 0.0}, \"last_successful_run\": {\"duration_seconds\": 0.41080188751220703, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"uml\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 50.0}, \"last_successful_run\": {\"duration_seconds\": 0.16693925857543945, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"xlsx\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 1.0, \"exit_code\": 0, \"score\": 0.0}, \"last_successful_run\": {\"duration_seconds\": 0.4839940071105957, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"binary\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 50.0}, \"last_successful_run\": {\"duration_seconds\": 0.6526732444763184, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"cobol\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 1.0, \"exit_code\": 0, \"score\": 50.0}, \"last_successful_run\": {\"duration_seconds\": 0.4430079460144043, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"csv\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 0.0}, \"last_successful_run\": {\"duration_seconds\": 0.41741204261779785, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"yaml\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.1338958740234375, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 0.1338958740234375, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"explain-dag\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 0.0, \"exit_code\": 0, \"score\": 0.0}, \"last_successful_run\": {\"duration_seconds\": 0.16579723358154297, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"effortless-entity-framework\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 2.3390731811523438, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 2.3390731811523438, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"effortless-postgres\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 1.0, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 1.0, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"effortless-xlsx\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 1.1663360595703125, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 1.1663360595703125, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 6, \"fields_passed\": 6, \"fields_failed\": 0, \"score\": 100.0}}}, \"effortless-csv\": {\"last_run\": {\"status\": \"success\", \"duration_seconds\": 2.052896022796631, \"exit_code\": 0, \"score\": 100.0}, \"last_successful_run\": {\"duration_seconds\": 2.052896022796631, \"status\": \"success\", \"test_results\": {\"total_fields_tested\": 40, \"fields_passed\": 40, \"fields_failed\": 0, \"score\": 100.0}}}}"
+      }
+    ]
+  },
+  "ConformanceResults": {
+    "Description": "One row per substrate graded within a ConformanceRuns run. Mirrors the per-substrate entries of testing/_substrate_results.json (last_run + last_successful_run.test_results) written by rulebook-examples/legacy-runner/orchestration/test-orchestrator.py.",
+    "schema": [
+      {
+        "name": "ConformanceResultId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "PK: <ConformanceRunId>:<substrate-name>."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Order 1. Display alias (calculated).",
+        "formula": "={{ConformanceResultId}}"
+      },
+      {
+        "name": "Run",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the conformance run this substrate result belongs to.",
+        "RelatedTo": "ConformanceRuns",
+        "isReversed": false,
+        "prefersSingleRecordLink": true,
+        "InverseField": "ConformanceResults"
+      },
+      {
+        "name": "SubstrateName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Substrate key from _substrate_results.json (postgres, python, golang, owl, ...)."
+      },
+      {
+        "name": "Status",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "last_run.status from the harness: success or failure."
+      },
+      {
+        "name": "Score",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "last_run.score (0-100) from the harness."
+      },
+      {
+        "name": "FieldsTested",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "last_successful_run.test_results.total_fields_tested."
+      },
+      {
+        "name": "FieldsPassed",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "last_successful_run.test_results.fields_passed."
+      },
+      {
+        "name": "FieldsFailed",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "last_successful_run.test_results.fields_failed."
+      },
+      {
+        "name": "DurationSeconds",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "last_run.duration_seconds."
+      },
+      {
+        "name": "IsPassing",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Order 2. True when the harness reported success at a perfect score.",
+        "formula": "=AND({{Status}} = \"success\", {{Score}} >= 100)"
+      },
+      {
+        "name": "IsPassingFlag",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Order 3. Numeric mirror of IsPassing (1/0) for SUMIFS rollups.",
+        "formula": "=IF(AND({{Status}} = \"success\", {{Score}} >= 100), 1, 0)"
+      },
+      {
+        "name": "RunDomainName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Order 4. Display name of the project this result's run tested.",
+        "formula": "=INDEX(ConformanceRuns!{{DomainName}}, MATCH({{Run}}, ConformanceRuns!{{ConformanceRunId}}, 0))"
+      }
+    ],
+    "data": [
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:airtable",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "airtable",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:binary",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "binary",
+        "Status": "success",
+        "Score": 50.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:cobol",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "cobol",
+        "Status": "success",
+        "Score": 50.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 1.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:csv",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "csv",
+        "Status": "success",
+        "Score": 0.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:effortless-csv",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "effortless-csv",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 40,
+        "FieldsPassed": 40,
+        "FieldsFailed": 0,
+        "DurationSeconds": 2.052896022796631
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:effortless-entity-framework",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "effortless-entity-framework",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 2.3390731811523438
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:effortless-postgres",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "effortless-postgres",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 1.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:effortless-xlsx",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "effortless-xlsx",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 1.1663360595703125
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:english",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "english",
+        "Status": "success",
+        "Score": 0.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 4.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:explain-dag",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "explain-dag",
+        "Status": "success",
+        "Score": 0.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:golang",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "golang",
+        "Status": "success",
+        "Score": 50.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:owl",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "owl",
+        "Status": "success",
+        "Score": 0.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 7.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:postgres",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "postgres",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 4.453888177871704
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:python",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "python",
+        "Status": "success",
+        "Score": 50.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:uml",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "uml",
+        "Status": "success",
+        "Score": 50.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:xlsx",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "xlsx",
+        "Status": "success",
+        "Score": 0.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 1.0
+      },
+      {
+        "ConformanceResultId": "run-acme-llc-20260906-221125:yaml",
+        "Run": "run-acme-llc-20260906-221125",
+        "SubstrateName": "yaml",
+        "Status": "success",
+        "Score": 100.0,
+        "FieldsTested": 6,
+        "FieldsPassed": 6,
+        "FieldsFailed": 0,
+        "DurationSeconds": 0.1338958740234375
       }
     ]
   },
@@ -14020,7 +14442,7 @@
         "Rule": "cr-16",
         "Domain": "domain-causal-autoimmune-architecture",
         "Detail": "rulebook-to-rulespeak-de resolves through the catalog to https://effortless-rulebook-to-rulespeak-v2026-06-20-2306-...cpln.app, which no longer exists (host not found), so every build registering rulebooktorulespeakde (causal-autoimmune-architecture, acme-llc) fails at that step. Fix on the tools server: republish rulebook-to-rulespeak-de (publish-tool.sh) so its head version has a live workload.",
-        "Status": "open",
+        "Status": "fixed",
         "DetectedOn": "2026-09-05"
       },
       {
@@ -14068,7 +14490,7 @@
         "Rule": "cr-16",
         "Domain": "domain-causal-autoimmune-architecture",
         "Detail": "Derived artifacts still say Leopold: the Effortless Loop rename updated the rulebook and app sources, but postgres/*.sql, owl/src/*, rulespeak-*/ and rulebook-explainer-dag/ still carry LeopoldLoops / leopold_loops / vw_leopold_loops because effortless build is blocked by cr-16-05 (rulebook-to-rulespeak-de resolves to a decommissioned host). Regenerate once that tool resolves; the project also needs dropdb/createdb before init-db, since the generated 01-*.sql is check-add and will not drop the old leopold_loops table.",
-        "Status": "open",
+        "Status": "fixed",
         "DetectedOn": "2026-09-05"
       },
       {
@@ -14076,7 +14498,7 @@
         "Rule": "cr-16",
         "Domain": "domain-simpsons-paradox",
         "Detail": "Derived artifacts still say Leopold after the Effortless Loop rename: effortless-postgres/*.sql, owl/src/*, rulespeak/ and rulebook-explainer-dag/ still carry the old Methodology PK method-03-leopold-loops. Regenerate with effortless build; the generated 01-*.sql is check-add and will not drop the superseded PK row, so dropdb/createdb before init-db.",
-        "Status": "open",
+        "Status": "fixed",
         "DetectedOn": "2026-09-05"
       }
     ]
@@ -14685,6 +15107,18 @@
         "SortOrder": 2,
         "ReadsEntities": "BuildPhases,ERBPackages,ERBFeatures,UserStories,AcceptanceCriteria,LegacyRunnerCapabilities",
         "Description": "Programme, phases, packages, stories, acceptance criteria, and a link to the generated progress report."
+      },
+      {
+        "MobileRouteId": "route-conformance",
+        "Path": "/conformance",
+        "Title": "Conformance",
+        "Tab": "tab-health",
+        "ParentRoute": null,
+        "Screen": "pages/Conformance.jsx:Conformance",
+        "RouteKind": "dashboard",
+        "SortOrder": 3,
+        "ReadsEntities": "RulebookDomains,ConformanceRuns,ConformanceResults",
+        "Description": "Cross-substrate conformance harness results as first-class rows: pick a project, see the latest run's pass/fail matrix, trigger a new run, and browse run history. The promoted destination for LegacyRunnerCapabilities row cap-conformance-harness."
       },
       {
         "MobileRouteId": "route-tools",

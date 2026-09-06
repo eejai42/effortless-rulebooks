@@ -25,8 +25,8 @@
       "RelativePath": "/effortless-postgres",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/simpsons-paradox-rulebook.json -p memoize_repeated_calls=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.08.09.0157",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-07-11-2146-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
+      "LastVersionUsed": "v2026.09.06.1148",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-06-1148-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Generate Postgres schema + seed data from the rulebook"
     },
     {
@@ -43,7 +43,7 @@
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/simpsons-paradox-rulebook.json",
       "IsDisabled": false,
       "LastVersionUsed": "v2026.08.30.1537",
-      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-07-08-1458-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
+      "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Generate human-readable RuleSpeak narrative from the rulebook"
     },
     {
@@ -79,7 +79,7 @@
       "CommandLine": "rulebook-to-explainer-dag -i ../../../effortless-rulebook/simpsons-paradox-rulebook.json -o rulebook-explainer-dag",
       "IsDisabled": false,
       "LastVersionUsed": "v2026.08.31.0049",
-      "LastUrl": "https://effortless-rulebook-to-explainer-v2026-06-20-1606-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastUrl": "https://effortless-rulebook-to-explainer-v2026-08-31-0049-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -104,7 +104,8 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i simpsons-paradox-rulebook.json -p rulebookPath=simpsons-paradox-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.02.0241"
+      "LastVersionUsed": "v2026.09.02.0241",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ],
   "ShowHidden": false,

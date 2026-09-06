@@ -68,7 +68,7 @@ SELECT
   t.tradition_id,                                                               -- FK → ResearchTraditions.TraditionId. The scholarly tradition whose conceptual vocabulary this loop primarily draws on — tracks which tradition has driven each stage of the instrument's development.
   calc_loops_tradition_name(t.loop_id) AS tradition_name,                       -- Lookup: ResearchTraditions.Name via TraditionId.
   calc_loops_tradition_core_conern(t.loop_id) AS tradition_core_conern,         -- Lookup: ResearchTraditions.CoreConcern via TraditionId — which intellectual concern drove this loop.
-  t.commit_hash,                                                                -- Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Leopold loop.
+  t.commit_hash,                                                                -- Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Effortless loop.
   calc_loops_commit_short(t.loop_id) AS commit_short,                           -- First 7 characters of CommitHash for display and git checkout.
   t.commit_date,                                                                -- ISO date (YYYY-MM-DD) of the commit where this loop landed.
   t.commit_message,                                                             -- Git commit subject line for this loop's landing commit.
@@ -668,7 +668,7 @@ SELECT
   calc_research_traditions_supporting_conclusion_category(t.tradition_id) AS supporting_conclusion_category,-- Lookup: Conclusions.Category via SupportingConclusion.
   calc_research_traditions_researcher_count(t.tradition_id) AS researcher_count,-- Count of researchers in this tradition.
   calc_research_traditions_study_count(t.tradition_id) AS study_count,          -- Count of studies in this model whose TraditionId matches this tradition.
-  calc_research_traditions_loop_count(t.tradition_id) AS loop_count             -- Count of Leopold Loops that drew primarily on this tradition's conceptual vocabulary.
+  calc_research_traditions_loop_count(t.tradition_id) AS loop_count             -- Count of Effortless Loops that drew primarily on this tradition's conceptual vocabulary.
 FROM research_traditions t;
 
 -- ----------------------------------------------------------------------------

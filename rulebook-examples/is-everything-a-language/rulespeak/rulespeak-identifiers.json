@@ -1,0 +1,15 @@
+{
+  "_comment": "Stable DR-number ledger for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build to keep rule numbers stable. Numbers in 'Retired' are tombstones and are never reissued. Hand-edit an Assignments number only to deliberately re-pin a rule.",
+  "NextId": 9,
+  "Assignments": {
+    "LanguageCandidates.HasGrammar": 1,
+    "LanguageCandidates.Question": 2,
+    "LanguageCandidates.PredictedAnswer": 3,
+    "LanguageCandidates.PredictionPredicates": 4,
+    "LanguageCandidates.PredictionFail": 5,
+    "LanguageCandidates.IsDescriptionOf": 6,
+    "LanguageCandidates.IsOpenClosedWorldConflicted": 7,
+    "LanguageCandidates.RelationshipToConcept": 8
+  },
+  "Retired": []
+}

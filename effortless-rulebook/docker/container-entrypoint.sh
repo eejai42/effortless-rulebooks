@@ -9,7 +9,8 @@
 #      SSE and exposes a Rebuild button; see boot-server.js for the full
 #      contract (state file + log file it watches).
 #   1. start local Postgres cluster (bundled in-image, single-container app)
-#   2. run `effortless build` once (generates SQL + runs init-db.sh against
+#   2. run `effortless build` once (generates SQL + runs the database reset
+#      wrapper against
 #      the local Postgres + generates the Node API + Vite UI + RuleSpeak® +
 #      RuleSpeak-DE + XLSX export) -- consumed transpilers resolve from the
 #      normal published registry, same as any other effortless transpiler
@@ -179,13 +180,17 @@ if [ ! -f "$EFFORTLESS_ROOT_TARGET/effortless.json" ]; then
   cp /app/effortless.editor.json.seed "$EFFORTLESS_ROOT_TARGET/effortless.json"
 fi
 
-# Versioned migration for pipeline DEFAULTS, not a per-build override. Version 2
-# changed the shipped first-build contract from English-only/no-XLSX to all ten
-# RuleSpeak® languages plus XLSX. Existing host-backed build roots retain their
-# effortless.json across image upgrades, so changing only the seed never reached
-# them. Migrate the exact legacy default combination once, then stamp the version.
-# Any other combination is treated as an intentional user choice and preserved.
-PIPELINE_DEFAULTS_VERSION=2
+# Versioned migrations for pipeline DEFAULTS, not per-build overrides.
+# Existing host-backed build roots retain their effortless.json across image
+# upgrades, so changing only the seed never reaches them.
+#
+# Version 2: English-only/no-XLSX -> all RuleSpeak® languages plus XLSX.
+# Version 3: init-db.sh -> the compatibility reset wrapper, because current
+#            rulebook-to-postgres emits reset-rulebook-db.sh.
+#
+# Each migration changes only its exact prior default. Any other value is an
+# intentional user customization and is preserved.
+PIPELINE_DEFAULTS_VERSION=3
 if ! node - "$EFFORTLESS_ROOT_TARGET/effortless.json" "$PIPELINE_DEFAULTS_VERSION" <<'NODE'
 const fs = require('fs');
 const file = process.argv[2];
@@ -198,24 +203,42 @@ const currentVersion = Number(marker && marker.Value) || 0;
 if (currentVersion < targetVersion) {
   const steps = Array.isArray(cfg.ProjectTranspilers) ? cfg.ProjectTranspilers : [];
   const byName = new Map(steps.map((s) => [s.Name, s]));
-  const english = byName.get('rulebooktorulespeaken');
-  const allLanguages = byName.get('rulebooktorulespeak');
-  const xlsx = byName.get('rulebooktoxlsx');
-  if (!english || !allLanguages || !xlsx) {
-    throw new Error('pipeline defaults migration requires the English, all-languages, and XLSX steps');
+
+  if (currentVersion < 2) {
+    const english = byName.get('rulebooktorulespeaken');
+    const allLanguages = byName.get('rulebooktorulespeak');
+    const xlsx = byName.get('rulebooktoxlsx');
+    if (!english || !allLanguages || !xlsx) {
+      throw new Error('pipeline defaults v2 migration requires the English, all-languages, and XLSX steps');
+    }
+
+    const isLegacyDefault =
+      english.IsDisabled === false &&
+      allLanguages.IsDisabled === true &&
+      xlsx.IsDisabled === true;
+    if (isLegacyDefault) {
+      english.IsDisabled = true;
+      allLanguages.IsDisabled = false;
+      xlsx.IsDisabled = false;
+      console.log('[entrypoint] migrated legacy build defaults: all RuleSpeak languages + XLSX are enabled');
+    } else {
+      console.log('[entrypoint] preserved customized build-step choices while advancing defaults to v2');
+    }
   }
 
-  const isLegacyDefault =
-    english.IsDisabled === false &&
-    allLanguages.IsDisabled === true &&
-    xlsx.IsDisabled === true;
-  if (isLegacyDefault) {
-    english.IsDisabled = true;
-    allLanguages.IsDisabled = false;
-    xlsx.IsDisabled = false;
-    console.log('[entrypoint] migrated legacy build defaults: all RuleSpeak languages + XLSX are enabled');
-  } else {
-    console.log('[entrypoint] preserved customized build-step choices while advancing defaults version');
+  if (currentVersion < 3) {
+    const initDb = byName.get('initdb');
+    if (!initDb) {
+      throw new Error('pipeline defaults v3 migration requires the initdb step');
+    }
+
+    if (initDb.CommandLine === '-exec ./init-db.sh') {
+      initDb.CommandLine = '-exec ./run-rulebook-db-reset.sh';
+      initDb.Description = 'Reset the in-container Postgres DB using reset-rulebook-db.sh when present, with legacy init-db.sh compatibility for older rulebook-to-postgres versions.';
+      console.log('[entrypoint] migrated database reset step to the current filename with legacy compatibility');
+    } else if (initDb.CommandLine !== '-exec ./run-rulebook-db-reset.sh') {
+      console.log('[entrypoint] preserved customized initdb command while advancing defaults to v3');
+    }
   }
 
   if (marker) marker.Value = String(targetVersion);
@@ -315,18 +338,41 @@ export PGPASSWORD=postgres
 export PGDATABASE=effortless-rulebook
 export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/effortless-rulebook"
 
-# Tiny no-args wrapper the "chmodinitdb" pipeline step execs (see comment on
-# that step in effortless.editor.json: -exec passes NO arguments through to
-# the invoked command, so `chmod +x ./init-db.sh` as one CommandLine token
-# stream does not work -- this wrapper takes no CLI args of its own).
-# Written into effortless-root/postgres before every build since
-# rulebook-to-postgres creates that directory fresh on the very first build.
+# The CLI's -exec form accepts one command token and cannot express shell
+# conditionals. These two no-args wrappers give the pipeline a stable command:
+# prepare makes generated scripts executable, then run selects the current
+# reset-rulebook-db.sh filename and uses init-db.sh only for an older
+# rulebook-to-postgres version.
+#
+# Both wrappers are written before every build because rulebook-to-postgres
+# creates the postgres directory during the first build.
 mkdir -p /app/effortless-root/postgres
 cat > /app/effortless-root/postgres/chmod-initdb.sh <<'EOF'
-#!/bin/bash
-chmod +x /app/effortless-root/postgres/init-db.sh 2>/dev/null || true
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+chmod +x "$SCRIPT_DIR/run-rulebook-db-reset.sh"
+[ ! -f "$SCRIPT_DIR/reset-rulebook-db.sh" ] || chmod +x "$SCRIPT_DIR/reset-rulebook-db.sh"
+[ ! -f "$SCRIPT_DIR/init-db.sh" ] || chmod +x "$SCRIPT_DIR/init-db.sh"
 EOF
-chmod +x /app/effortless-root/postgres/chmod-initdb.sh
+cat > /app/effortless-root/postgres/run-rulebook-db-reset.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [ -f "$SCRIPT_DIR/reset-rulebook-db.sh" ]; then
+  exec "$SCRIPT_DIR/reset-rulebook-db.sh"
+elif [ -f "$SCRIPT_DIR/init-db.sh" ]; then
+  echo "[db-reset] reset-rulebook-db.sh not found; using legacy init-db.sh" >&2
+  exec "$SCRIPT_DIR/init-db.sh"
+else
+  echo "[db-reset] no database reset script found; expected reset-rulebook-db.sh or legacy init-db.sh" >&2
+  exit 127
+fi
+EOF
+chmod +x \
+  /app/effortless-root/postgres/chmod-initdb.sh \
+  /app/effortless-root/postgres/run-rulebook-db-reset.sh
 
 
 check_uncommitted_before_build() {
@@ -542,11 +588,10 @@ run_build() {
   # fixed. Clearing it up front makes "errors.json exists" mean exactly one
   # thing: THIS build produced failures.
   rm -f "$ERRORS_JSON_PATH" "$BOOT_ERRORS_FILE"
-  # The registered initdb step's CommandLine chmods init-db.sh executable
-  # before running it -- rulebook-to-postgres emits init-db.sh as a
-  # `Never`-overwrite file WITHOUT the execute bit set, and on the very
-  # first build it doesn't exist until the preceding rulebooktopostgres
-  # step creates it within this same `effortless build` run.
+  # The registered chmodinitdb step makes the generated reset script
+  # executable before initdb runs the compatibility selector. On the first
+  # build the selected script does not exist until the preceding
+  # rulebooktopostgres step creates it in this same `effortless build` run.
   #
   # -continueOnError is the WHOLE REASON this container survives a broken
   # transpiler. Without it, one failing step (historically rulebook-to-xlsx,

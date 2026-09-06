@@ -68,7 +68,7 @@ export const rulespeakFields: Record<string, RuleSpeakFieldRule> = {
     "table": "Customers",
     "field": "Initials",
     "kind": "formula",
-    "rule": "A customer\u0027s initials is computed as the first 1 character(s) of the first name, followed by the first 1 character(s) of the last name, followed by \u201C-v2\u201D.",
+    "rule": "A customer\u0027s initials is computed as the first 1 character(s) of the first name, followed by the first 1 character(s) of the last name.",
     "mechanical": false,
     "refs": [
       {

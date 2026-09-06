@@ -87,7 +87,7 @@
         "datatype": "string",
         "type": "raw",
         "nullable": true,
-        "Description": "Full git SHA where this loop row first landed in effortless-rulebook.json \u2014 the replay anchor for this turn of the Leopold loop."
+        "Description": "Full git SHA where this loop row first landed in effortless-rulebook.json \u2014 the replay anchor for this turn of the Effortless loop."
       },
       {
         "name": "CommitShort",
@@ -3537,7 +3537,7 @@
         "datatype": "integer",
         "type": "aggregation",
         "nullable": false,
-        "Description": "Count of Leopold Loops that drew primarily on this tradition\u0027s conceptual vocabulary.",
+        "Description": "Count of Effortless Loops that drew primarily on this tradition\u0027s conceptual vocabulary.",
         "formula": "=COUNTIFS(Loops!{{TraditionId}}, {{TraditionId}})"
       }
     ]

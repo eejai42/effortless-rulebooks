@@ -79764,9 +79764,9 @@
       "PioneeringResearcher": "researcher-spirtes-glymour-scheines"
     },
     {
-      "MethodologyId": "method-03-leopold-loops",
+      "MethodologyId": "method-03-effortless-loops",
       "Phase": "decomposition",
-      "Title": "Build the model incrementally via Leopold Loops \u2014 one new concept per loop",
+      "Title": "Build the model incrementally via Effortless Loops \u2014 one new concept per loop",
       "Statement": "Each loop introduces exactly one new first-class concept and asks the natural-language question that concept answers. The loop ends when the new derived fact is witnessed in the database. Loop N\u0027s NextSuggestion seeds Loop N\u002B1.",
       "WhyItMatters": "Introducing multiple concepts per loop makes it hard to witness whether each concept earns its place. One concept per loop forces the question: \u0027what new thing can I now ask that I couldn\u0027t before?\u0027",
       "IllustratedByLoop": "loop-01, loop-02, loop-03, loop-04, loop-05",

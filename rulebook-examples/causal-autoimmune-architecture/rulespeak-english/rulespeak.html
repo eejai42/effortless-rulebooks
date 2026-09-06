@@ -297,7 +297,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <li><a href="#en-t-openquestions">Open Question</a> <span class="toc-meta">2 rules · 0 links</span></li>
     <li><a href="#en-t-nongoals">Non Goal</a> <span class="toc-meta">2 rules · 0 links</span></li>
     <li><a href="#en-t-glossaryterms">Glossary Term</a> <span class="toc-meta">2 rules · 0 links</span></li>
-    <li><a href="#en-t-leopoldloops">Leopold Loop</a> <span class="toc-meta">4 rules · 0 links</span></li>
+    <li><a href="#en-t-effortlessloops">Effortless Loop</a> <span class="toc-meta">4 rules · 0 links</span></li>
     <li><a href="#en-t-routingandnavigation">Routing and Navigation</a> <span class="toc-meta">21 rules · 0 links</span></li>
     <li><a href="#en-t-statemachines">State Machine</a> <span class="toc-meta">4 rules · 3 links</span></li>
     <li><a href="#en-t-machinestates">Machine State</a> <span class="toc-meta">3 rules · 3 links</span></li>
@@ -16177,7 +16177,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
-    <p class="field-note elem elem-desc">FK -&gt; LeopoldLoops.LeopoldLoopId; empty if unscheduled.</p>
+    <p class="field-note elem elem-desc">FK -&gt; EffortlessLoops.EffortlessLoopId; empty if unscheduled.</p>
     </article>
   <article class="field tone-calc" id="en-f-features-name" data-entity="Feature" data-field="Name">
     <div class="field-head">
@@ -16846,12 +16846,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <p class="field-note elem elem-desc">Path to this GlossaryTerms entry: /admin/glossary/&lt;id&gt;.</p>
     </article>
 </section>
-<section class="entity" id="en-t-leopoldloops" data-entity="Leopold Loop">
+<section class="entity" id="en-t-effortlessloops" data-entity="Effortless Loop">
   <header class="entity-head">
-    <h2 class="entity-title">Leopold Loop</h2>
-    <p class="entity-synopsis">The ordered Leopold loops that build this platform, as data. The derived plan (LEOPOLD_LOOPs.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan.</p>
+    <h2 class="entity-title">Effortless Loop</h2>
+    <p class="entity-synopsis">The ordered Effortless loops that build this platform, as data. The derived plan (EFFORTLESS_LOOPS.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan.</p>
   </header>
-  <article class="field tone-raw" id="en-f-leopoldloops-loopnumber" data-entity="Leopold Loop" data-field="Loop Number">
+  <article class="field tone-raw" id="en-f-effortlessloops-loopnumber" data-entity="Effortless Loop" data-field="Loop Number">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Loop Number</span>
@@ -16864,12 +16864,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-consumers elem elem-consumers" open>
       <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-leopoldloops-name">ƒ Name <span class="ref-pill-tbl">Leopold Loop</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-effortlessloops-name">ƒ Name <span class="ref-pill-tbl">Effortless Loop</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Display number (0, 0.5, 1...).</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-title" data-entity="Leopold Loop" data-field="Title">
+  <article class="field tone-raw" id="en-f-effortlessloops-title" data-entity="Effortless Loop" data-field="Title">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Title</span>
@@ -16882,12 +16882,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-consumers elem elem-consumers" open>
       <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-leopoldloops-name">ƒ Name <span class="ref-pill-tbl">Leopold Loop</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-effortlessloops-name">ƒ Name <span class="ref-pill-tbl">Effortless Loop</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Loop title.</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-goal" data-entity="Leopold Loop" data-field="Goal">
+  <article class="field tone-raw" id="en-f-effortlessloops-goal" data-entity="Effortless Loop" data-field="Goal">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Goal</span>
@@ -16899,7 +16899,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     </div>
     <p class="field-note elem elem-desc">The one coherent rule-change / outcome.</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-status" data-entity="Leopold Loop" data-field="Status">
+  <article class="field tone-raw" id="en-f-effortlessloops-status" data-entity="Effortless Loop" data-field="Status">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Status</span>
@@ -16912,13 +16912,13 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-consumers elem elem-consumers" open>
       <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-calc" href="#en-f-leopoldloops-completedness">ƒ Completedness <span class="ref-pill-tbl">Leopold Loop</span></a>
-        <a class="ref-pill tone-calc" href="#en-f-leopoldloops-isincurrentplan">ƒ Is in Current Plan <span class="ref-pill-tbl">Leopold Loop</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-effortlessloops-completedness">ƒ Completedness <span class="ref-pill-tbl">Effortless Loop</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-effortlessloops-isincurrentplan">ƒ Is in Current Plan <span class="ref-pill-tbl">Effortless Loop</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">done | next | planned | backlog (the raw input that drives Completedness).</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-rulecommitmsg" data-entity="Leopold Loop" data-field="Rule Commit Msg">
+  <article class="field tone-raw" id="en-f-effortlessloops-rulecommitmsg" data-entity="Effortless Loop" data-field="Rule Commit Msg">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Rule Commit Msg</span>
@@ -16930,7 +16930,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     </div>
     <p class="field-note elem elem-desc">The rule commit message (or &quot;none — app-only loop&quot;).</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-statecommitmsg" data-entity="Leopold Loop" data-field="State Commit Msg">
+  <article class="field tone-raw" id="en-f-effortlessloops-statecommitmsg" data-entity="Effortless Loop" data-field="State Commit Msg">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">State Commit Msg</span>
@@ -16942,7 +16942,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     </div>
     <p class="field-note elem elem-desc">The state commit message.</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-sortorder" data-entity="Leopold Loop" data-field="Sort Order">
+  <article class="field tone-raw" id="en-f-effortlessloops-sortorder" data-entity="Effortless Loop" data-field="Sort Order">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Sort Order</span>
@@ -16954,7 +16954,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     </div>
     <p class="field-note elem elem-desc">Ordering within the plan.</p>
     </article>
-  <article class="field tone-calc" id="en-f-leopoldloops-name" data-entity="Leopold Loop" data-field="Name">
+  <article class="field tone-calc" id="en-f-effortlessloops-name" data-entity="Effortless Loop" data-field="Name">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Name</span>
@@ -16966,26 +16966,26 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A leopold loop's <a class="ref" href="#en-f-leopoldloops-name">name</a> is computed as “Loop ”, followed by the <a class="ref" href="#en-f-leopoldloops-loopnumber">loop number</a>, followed by “ — ”, followed by the <a class="ref" href="#en-f-leopoldloops-title">title</a>.</p>
+        <p class="view-body">An effortless loop's <a class="ref" href="#en-f-effortlessloops-name">name</a> is computed as “Loop ”, followed by the <a class="ref" href="#en-f-effortlessloops-loopnumber">loop number</a>, followed by “ — ”, followed by the <a class="ref" href="#en-f-effortlessloops-title">title</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">&quot;Loop &quot;, <a class="ref" href="#en-f-leopoldloops-loopnumber">loop number</a>, &quot; — &quot;, joined with <a class="ref" href="#en-f-leopoldloops-title">title</a>.</p>
+        <p class="view-body">&quot;Loop &quot;, <a class="ref" href="#en-f-effortlessloops-loopnumber">loop number</a>, &quot; — &quot;, joined with <a class="ref" href="#en-f-effortlessloops-title">title</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>CONCATENATE(&quot;Loop &quot;, <a class="fx-chip" href="#en-f-leopoldloops-loopnumber">Loop Number</a>, &quot; — &quot;, <a class="fx-chip" href="#en-f-leopoldloops-title">Title</a>)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>CONCATENATE(&quot;Loop &quot;, <a class="fx-chip" href="#en-f-effortlessloops-loopnumber">Loop Number</a>, &quot; — &quot;, <a class="fx-chip" href="#en-f-effortlessloops-title">Title</a>)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-leopoldloops-loopnumber">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Loop Number</span><span class="input-table">Leopold Loop</span></span>
+        <a class="input tone-raw" href="#en-f-effortlessloops-loopnumber">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Loop Number</span><span class="input-table">Effortless Loop</span></span>
           <span class="input-en muted">Display number (0, 0.5, 1...).</span>
         </a>
-        <a class="input tone-raw" href="#en-f-leopoldloops-title">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Title</span><span class="input-table">Leopold Loop</span></span>
+        <a class="input tone-raw" href="#en-f-effortlessloops-title">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Title</span><span class="input-table">Effortless Loop</span></span>
           <span class="input-en muted">Loop title.</span>
         </a>
       </div>
@@ -16993,13 +16993,13 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-leopoldloops-loopnumber">● Loop Number <span class="ref-pill-tbl">Leopold Loop</span></a>
-        <a class="ref-pill tone-raw" href="#en-f-leopoldloops-title">● Title <span class="ref-pill-tbl">Leopold Loop</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-effortlessloops-loopnumber">● Loop Number <span class="ref-pill-tbl">Effortless Loop</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-effortlessloops-title">● Title <span class="ref-pill-tbl">Effortless Loop</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Display label.</p>
     </article>
-  <article class="field tone-calc" id="en-f-leopoldloops-relativepath" data-entity="Leopold Loop" data-field="Relative Path">
+  <article class="field tone-calc" id="en-f-effortlessloops-relativepath" data-entity="Effortless Loop" data-field="Relative Path">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Relative Path</span>
@@ -17011,22 +17011,22 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A leopold loop's <a class="ref" href="#en-f-leopoldloops-relativepath">relative path</a> is computed as “/admin/leopold-loops/”, followed by the leopold loop ID.</p>
+        <p class="view-body">An effortless loop's <a class="ref" href="#en-f-effortlessloops-relativepath">relative path</a> is computed as “/admin/effortless-loops/”, followed by the effortless loop ID.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">&quot;/admin/leopold-loops/&quot; joined with leopold loop ID.</p>
+        <p class="view-body">&quot;/admin/effortless-loops/&quot; joined with effortless loop ID.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>&quot;/admin/leopold-loops/&quot; &amp; <span class="fx-chip">Leopold Loop ID</span></div>
+        <div class="view-body fx"><span class="fx-eq">= </span>&quot;/admin/effortless-loops/&quot; &amp; <span class="fx-chip">Effortless Loop ID</span></div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
         <span class="input input-static tone-raw">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Leopold Loop ID</span><span class="input-table">Leopold Loop</span></span>
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Effortless Loop ID</span><span class="input-table">Effortless Loop</span></span>
           <span class="input-en muted">Stable identifier.</span>
         </span>
       </div>
@@ -17034,12 +17034,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <span class="ref-pill tone-raw">● Leopold Loop ID <span class="ref-pill-tbl">Leopold Loop</span></span>
+        <span class="ref-pill tone-raw">● Effortless Loop ID <span class="ref-pill-tbl">Effortless Loop</span></span>
       </div>
     </details>
-    <p class="field-note elem elem-desc">Path to this LeopoldLoops entry: /admin/leopold-loops/&lt;id&gt;.</p>
+    <p class="field-note elem elem-desc">Path to this EffortlessLoops entry: /admin/effortless-loops/&lt;id&gt;.</p>
     </article>
-  <article class="field tone-calc" id="en-f-leopoldloops-completedness" data-entity="Leopold Loop" data-field="Completedness">
+  <article class="field tone-calc" id="en-f-effortlessloops-completedness" data-entity="Effortless Loop" data-field="Completedness">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Completedness</span>
@@ -17051,22 +17051,22 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <p class="view-body">A leopold loop's <a class="ref" href="#en-f-leopoldloops-completedness">completedness</a> is the same as its <a class="ref" href="#en-f-leopoldloops-status">status</a>.</p>
+        <p class="view-body">An effortless loop's <a class="ref" href="#en-f-effortlessloops-completedness">completedness</a> is the same as its <a class="ref" href="#en-f-effortlessloops-status">status</a>.</p>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body"><a class="ref" href="#en-f-leopoldloops-status">Status</a>.</p>
+        <p class="view-body"><a class="ref" href="#en-f-effortlessloops-status">Status</a>.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-leopoldloops-status">Status</a></div>
+        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-effortlessloops-status">Status</a></div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-leopoldloops-status">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Status</span><span class="input-table">Leopold Loop</span></span>
+        <a class="input tone-raw" href="#en-f-effortlessloops-status">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Status</span><span class="input-table">Effortless Loop</span></span>
           <span class="input-en muted">done | next | planned | backlog (the raw input that drives Completedness).</span>
         </a>
       </div>
@@ -17074,12 +17074,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-leopoldloops-status">● Status <span class="ref-pill-tbl">Leopold Loop</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-effortlessloops-status">● Status <span class="ref-pill-tbl">Effortless Loop</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Normalized status used by the derived plan to decide placement.</p>
     </article>
-  <article class="field tone-calc" id="en-f-leopoldloops-isincurrentplan" data-entity="Leopold Loop" data-field="Is in Current Plan">
+  <article class="field tone-calc" id="en-f-effortlessloops-isincurrentplan" data-entity="Effortless Loop" data-field="Is in Current Plan">
     <div class="field-head">
       <span class="field-glyph" title="Calculated">ƒ</span>
       <span class="field-name">Is in Current Plan</span>
@@ -17091,22 +17091,22 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="narr-views">
       <div class="view elem elem-rulespeak">
         <span class="view-label">In RuleSpeak®</span>
-        <div class="view-body"><p class="rt-headline">The leopold loop's <a class="ref" href="#en-f-leopoldloops-isincurrentplan">is in current plan</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">false</span> <span class="rt-when">if the <a class="ref" href="#en-f-leopoldloops-status">status</a> is “done”</span></li><li><span class="rt-value">true</span> <span class="rt-when">in all other cases</span></li></ol></div>
+        <div class="view-body"><p class="rt-headline">The effortless loop's <a class="ref" href="#en-f-effortlessloops-isincurrentplan">is in current plan</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">false</span> <span class="rt-when">if the <a class="ref" href="#en-f-effortlessloops-status">status</a> is “done”</span></li><li><span class="rt-value">true</span> <span class="rt-when">in all other cases</span></li></ol></div>
       </div>
       <div class="view elem elem-english">
         <span class="view-label">In plain words</span>
-        <p class="view-body">True when not <a class="ref" href="#en-f-leopoldloops-status">status</a> is &quot;done&quot;.</p>
+        <p class="view-body">True when not <a class="ref" href="#en-f-effortlessloops-status">status</a> is &quot;done&quot;.</p>
       </div>
       <div class="view elem elem-formula">
         <span class="view-label">As a formula</span>
-        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-leopoldloops-status">Status</a> = &quot;done&quot;, FALSE, TRUE)</div>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-effortlessloops-status">Status</a> = &quot;done&quot;, FALSE, TRUE)</div>
       </div>
     </div>
     <details class="prov prov-inputs elem elem-inputs" open>
       <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
       <div class="prov-grid">
-        <a class="input tone-raw" href="#en-f-leopoldloops-status">
-          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Status</span><span class="input-table">Leopold Loop</span></span>
+        <a class="input tone-raw" href="#en-f-effortlessloops-status">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Status</span><span class="input-table">Effortless Loop</span></span>
           <span class="input-en muted">done | next | planned | backlog (the raw input that drives Completedness).</span>
         </a>
       </div>
@@ -17114,12 +17114,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <details class="prov prov-leaves elem elem-inputs">
       <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
       <div class="prov-pills">
-        <a class="ref-pill tone-raw" href="#en-f-leopoldloops-status">● Status <span class="ref-pill-tbl">Leopold Loop</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-effortlessloops-status">● Status <span class="ref-pill-tbl">Effortless Loop</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">TRUE for the current &quot;next&quot; loop and anything still planned/backlog (not done).</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-statusbadge" data-entity="Leopold Loop" data-field="Status Badge">
+  <article class="field tone-raw" id="en-f-effortlessloops-statusbadge" data-entity="Effortless Loop" data-field="Status Badge">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Status Badge</span>
@@ -17131,7 +17131,7 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     </div>
     <p class="field-note elem elem-desc">Display badge for the derived plan, e.g. [DONE] / [NEXT] / [PLANNED] / [BACKLOG].</p>
     </article>
-  <article class="field tone-raw" id="en-f-leopoldloops-statusline" data-entity="Leopold Loop" data-field="Status Line">
+  <article class="field tone-raw" id="en-f-effortlessloops-statusline" data-entity="Effortless Loop" data-field="Status Line">
     <div class="field-head">
       <span class="field-glyph" title="Ground truth">●</span>
       <span class="field-name">Status Line</span>

@@ -67,8 +67,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>Golang Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>40/40 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-danger">50.0%</span></div>
+            <div class="stat"><span>3/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -128,10 +128,10 @@ Golang substrate: ALL 1 tables processed successfully (3 total records)
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">40</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
-                    <div class="result-item"><div class="result-value">40</div><div class="result-label">Total</div></div>
+                    <div class="result-item"><div class="result-value score-danger">50.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>
         </div>
@@ -356,7 +356,7 @@ func SaveCustomerRecords(path string, records []Customer) error {
             <div class="card">
                 <div class="code-header">
                     <h2>main.go</h2>
-                    <div><span class="code-info">98 lines</span><button class="copy-btn" onclick="copyCode('main-code')">Copy</button></div>
+                    <div><span class="code-info">99 lines</span><button class="copy-btn" onclick="copyCode('main-code')">Copy</button></div>
                 </div>
                 <pre id="main-code">// ERB SDK - Go Test Runner (GENERATED - DO NOT EDIT)
 // =======================================================
@@ -377,22 +377,23 @@ import (
 )
 
 func main() {
-	scriptDir, err := os.Getwd()
+	_, err := os.Getwd()
 	if err != nil {
 		fmt.Fprintf(os.Stderr, &quot;FATAL: Failed to get working directory: %v\n&quot;, err)
 		os.Exit(1)
 	}
 
-	// Resolve testing dirs from ERB_TESTING_DIR env var (domain-scoped) or fallback
+	// ERB_TESTING_DIR is required — defaulting to the repo testing dir
+	// silently uses the wrong domain.
 	erbTesting := os.Getenv(&quot;ERB_TESTING_DIR&quot;)
-	var blankTestsDir, testAnswersDir string
-	if erbTesting != &quot;&quot; {
-		blankTestsDir = filepath.Join(erbTesting, &quot;blank-tests&quot;)
-		testAnswersDir = filepath.Join(erbTesting, &quot;golang&quot;, &quot;test-answers&quot;)
-	} else {
-		blankTestsDir = filepath.Join(scriptDir, &quot;..&quot;, &quot;..&quot;, &quot;testing&quot;, &quot;blank-tests&quot;)
-		testAnswersDir = filepath.Join(scriptDir, &quot;test-answers&quot;)
+	if erbTesting == &quot;&quot; {
+		fmt.Fprintln(os.Stderr, &quot;FATAL: ERB_TESTING_DIR is not set. main.go must be&quot;)
+		fmt.Fprintln(os.Stderr, &quot;  invoked by the orchestrator with ERB_TESTING_DIR pointing&quot;)
+		fmt.Fprintln(os.Stderr, &quot;  at the active domain&#x27;s testing/ directory.&quot;)
+		os.Exit(1)
 	}
+	blankTestsDir := filepath.Join(erbTesting, &quot;blank-tests&quot;)
+	testAnswersDir := filepath.Join(erbTesting, &quot;golang&quot;, &quot;test-answers&quot;)
 
 	// Ensure output directory exists
 	if err := os.MkdirAll(testAnswersDir, 0755); err != nil {

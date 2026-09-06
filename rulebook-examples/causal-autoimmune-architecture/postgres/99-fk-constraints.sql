@@ -258,7 +258,7 @@ ALTER TABLE intervention_targets ADD CONSTRAINT fk_intervention_targets_autoimmu
 -- Features
 ALTER TABLE features DROP CONSTRAINT IF EXISTS fk_features_assigned_loop;
 ALTER TABLE features ADD CONSTRAINT fk_features_assigned_loop
-  FOREIGN KEY (assigned_loop) REFERENCES leopold_loops (leopold_loop_id);
+  FOREIGN KEY (assigned_loop) REFERENCES effortless_loops (effortless_loop_id);
 
 -- StateMachines
 ALTER TABLE state_machines DROP CONSTRAINT IF EXISTS fk_state_machines_machine_states;

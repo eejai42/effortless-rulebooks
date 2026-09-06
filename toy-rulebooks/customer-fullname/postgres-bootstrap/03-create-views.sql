@@ -23,6 +23,6 @@ SELECT
   t.first_name,                                                                 -- First Name of the customer
   t.last_name,                                                                  -- Last Name of the customer
   calc_customers_name(t.customer_id) AS name,                                   -- Full name: first and last
-  calc_customers_initials(t.customer_id) AS initials                            -- Last letter of first and last name, dot-separated with trailing dot
+  calc_customers_initials(t.customer_id) AS initials                            -- First letter of the first and last name
 FROM customers t;
 

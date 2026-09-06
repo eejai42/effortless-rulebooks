@@ -51,8 +51,22 @@ def _get_active_domain():
         )
     return domain
 
+def _find_domain_dir(domain):
+    # Mirrors orchestrate.sh's find_domain_dir(): check rulebook-examples/
+    # first, then toy-rulebooks/. Fails loudly if the domain is in neither.
+    examples_dir = os.path.join(REPO_ROOT, "..", "..", "rulebook-examples", domain)
+    toy_dir = os.path.join(REPO_ROOT, "..", "..", "toy-rulebooks", domain)
+    if os.path.isdir(examples_dir):
+        return examples_dir
+    if os.path.isdir(toy_dir):
+        return toy_dir
+    raise RuntimeError(
+        f"Domain '{domain}' not found under rulebook-examples/ or toy-rulebooks/ "
+        f"(checked {examples_dir} and {toy_dir})."
+    )
+
 ACTIVE_DOMAIN = _get_active_domain()
-DOMAIN_DIR = os.path.join(REPO_ROOT, "..", "..", "rulebook-examples", ACTIVE_DOMAIN)
+DOMAIN_DIR = _find_domain_dir(ACTIVE_DOMAIN)
 RULEBOOK_DIR = os.path.join(DOMAIN_DIR, "effortless-rulebook")
 RULEBOOK_PATH = os.path.join(RULEBOOK_DIR, f"{ACTIVE_DOMAIN}-rulebook.json")
 
@@ -716,8 +730,10 @@ def get_substrates() -> list:
     domain = os.path.basename(DOMAIN_DIR.rstrip(os.sep))
 
     # If the active domain has no effortless.json, self-heal by running
-    # `effortless -init` in the domain dir, then re-read.
-    domain_dir_abs = os.path.join(REPO_ROOT, "..", "..", "rulebook-examples", domain)
+    # `effortless -init` in the domain dir, then re-read. Reuse the already
+    # correctly-resolved DOMAIN_DIR (rulebook-examples/ or toy-rulebooks/)
+    # instead of recomputing it — see _find_domain_dir() above.
+    domain_dir_abs = DOMAIN_DIR
     effortless_json = os.path.join(domain_dir_abs, "effortless.json")
     if not os.path.exists(effortless_json):
         print(

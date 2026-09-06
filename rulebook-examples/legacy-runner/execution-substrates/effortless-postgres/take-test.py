@@ -33,8 +33,28 @@ if not ACTIVE_DOMAIN:
         "ERB_DOMAIN is not set. effortless-postgres/take-test.py must be "
         "invoked with ERB_DOMAIN=<slug> in its environment."
     )
-DOMAIN_DIR = PROJECT_ROOT / "rulebook-examples" / ACTIVE_DOMAIN
-TESTING_DIR = DOMAIN_DIR / "testing"
+
+# ERB_TESTING_DIR wins when the caller sets it (orchestrate.sh's
+# run_substrates() does); else derive it by checking rulebook-examples/ then
+# toy-rulebooks/, mirroring orchestrate.sh's find_domain_dir(). Fails loudly
+# if the domain is in neither and no override was given.
+_env_testing_dir = os.environ.get("ERB_TESTING_DIR", "").strip()
+if _env_testing_dir:
+    TESTING_DIR = Path(_env_testing_dir)
+else:
+    _examples_dir = PROJECT_ROOT / "rulebook-examples" / ACTIVE_DOMAIN
+    _toy_dir = PROJECT_ROOT / "toy-rulebooks" / ACTIVE_DOMAIN
+    if _examples_dir.is_dir():
+        DOMAIN_DIR = _examples_dir
+    elif _toy_dir.is_dir():
+        DOMAIN_DIR = _toy_dir
+    else:
+        raise RuntimeError(
+            f"Domain '{ACTIVE_DOMAIN}' not found under rulebook-examples/ or "
+            f"toy-rulebooks/ (checked {_examples_dir} and {_toy_dir}), and "
+            f"ERB_TESTING_DIR was not set to override."
+        )
+    TESTING_DIR = DOMAIN_DIR / "testing"
 BLANK_TESTS_DIR = TESTING_DIR / "blank-tests"
 TEST_ANSWERS_DIR = TESTING_DIR / SCRIPT_DIR.name / "test-answers"
 

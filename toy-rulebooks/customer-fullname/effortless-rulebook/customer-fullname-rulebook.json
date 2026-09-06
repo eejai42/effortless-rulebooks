@@ -32,30 +32,38 @@
         "name": "Initials",
         "datatype": "string",
         "type": "calculated",
-        "Description": "Last letter of first and last name, dot-separated with trailing dot",
-        "formula": "=LEFT({{FirstName}}, 1) &LEFT({{LastName}}, 1) & \"-v2\""
+        "Description": "First letter of the first and last name",
+        "formula": "=LEFT({{FirstName}}, 1) &LEFT({{LastName}}, 1)"
       }
     ],
     "data": [
       {
-        "CustomerId": "jane-smith-email-com",
+        "CustomerId": "jane-smith",
         "FirstName": "Jane",
-        "LastName": "Smith"
+        "LastName": "Smith",
+        "Name": "Smith, Jane",
+        "Initials": "JS"
       },
       {
-        "CustomerId": "john-doe-email-com",
+        "CustomerId": "john-doe",
         "FirstName": "John",
-        "LastName": "Doe"
+        "LastName": "Doe",
+        "Name": "Doe, John",
+        "Initials": "JD"
       },
       {
-        "CustomerId": "emily-jones-email-com",
+        "CustomerId": "emily-jones",
         "FirstName": "Emily",
-        "LastName": "Jones"
+        "LastName": "Jones",
+        "Name": "Jones, Emily",
+        "Initials": "EJ"
       },
       {
-        "CustomerId": "alice-cooper",
+        "CustomerId": "mary-gutknecht",
         "FirstName": "Mary",
-        "LastName": "Gutknecht"
+        "LastName": "Gutknecht",
+        "Name": "Gutknecht, Mary",
+        "Initials": "MG"
       }
     ]
   },

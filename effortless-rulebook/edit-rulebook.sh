@@ -19,7 +19,7 @@ DOCKERFILE_PATH="docker/Dockerfile"
 EXTERNAL_SRC_MOUNTED=
 EXTERNAL_SRC_HOST_PATH=""
 RULEBOOK_SELF_UPDATE_PATH="effortless-rulebook.json"
-EDITOR_RUNTIME_VERSION="2026.9.2.241"
+EDITOR_RUNTIME_VERSION="2026.9.6.1406"
 
 # The launcher is the OUTER half of the editor and therefore cannot rely on the
 # container's inner `effortless -upgradeAll`. Update and regenerate this runtime

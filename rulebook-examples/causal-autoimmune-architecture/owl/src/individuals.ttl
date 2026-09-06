@@ -786,7 +786,7 @@ effortless-ntwf:ph-sev-a a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "blood" ;
     effortless-ntwf:severityScore 9 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-b a effortless-ntwf:ClinicalPhenotypes ;
@@ -797,7 +797,7 @@ effortless-ntwf:ph-sev-b a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "blood" ;
     effortless-ntwf:severityScore 8 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-c a effortless-ntwf:ClinicalPhenotypes ;
@@ -808,7 +808,7 @@ effortless-ntwf:ph-sev-c a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "blood" ;
     effortless-ntwf:severityScore 9 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-d a effortless-ntwf:ClinicalPhenotypes ;
@@ -819,7 +819,7 @@ effortless-ntwf:ph-sev-d a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "kidney" ;
     effortless-ntwf:severityScore 8 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-e a effortless-ntwf:ClinicalPhenotypes ;
@@ -830,7 +830,7 @@ effortless-ntwf:ph-sev-e a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "blood" ;
     effortless-ntwf:severityScore 3 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-f a effortless-ntwf:ClinicalPhenotypes ;
@@ -841,7 +841,7 @@ effortless-ntwf:ph-sev-f a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "psa-active" ;
     effortless-ntwf:tissue "synovium" ;
     effortless-ntwf:severityScore 2 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-g a effortless-ntwf:ClinicalPhenotypes ;
@@ -852,7 +852,7 @@ effortless-ntwf:ph-sev-g a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "psa-active" ;
     effortless-ntwf:tissue "skin" ;
     effortless-ntwf:severityScore 6 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-h a effortless-ntwf:ClinicalPhenotypes ;
@@ -863,7 +863,7 @@ effortless-ntwf:ph-sev-h a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "blood" ;
     effortless-ntwf:severityScore 9 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-i a effortless-ntwf:ClinicalPhenotypes ;
@@ -874,7 +874,7 @@ effortless-ntwf:ph-sev-i a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "kidney" ;
     effortless-ntwf:severityScore 8 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-j a effortless-ntwf:ClinicalPhenotypes ;
@@ -885,7 +885,7 @@ effortless-ntwf:ph-sev-j a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "sle-active" ;
     effortless-ntwf:tissue "blood" ;
     effortless-ntwf:severityScore 8 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-k a effortless-ntwf:ClinicalPhenotypes ;
@@ -896,7 +896,7 @@ effortless-ntwf:ph-sev-k a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "psa-active" ;
     effortless-ntwf:tissue "synovium" ;
     effortless-ntwf:severityScore 2 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 effortless-ntwf:ph-sev-l a effortless-ntwf:ClinicalPhenotypes ;
@@ -907,7 +907,7 @@ effortless-ntwf:ph-sev-l a effortless-ntwf:ClinicalPhenotypes ;
     effortless-ntwf:diseaseStage "psa-active" ;
     effortless-ntwf:tissue "skin" ;
     effortless-ntwf:severityScore 6 ;
-    effortless-ntwf:measurementDate "2024-03-01" ;
+    effortless-ntwf:measurementDate "2024-03-01"^^xsd:date ;
     effortless-ntwf:hasImmuneDysfunction true .
 
 # === Individuals: CohortReplications ===
@@ -1531,6 +1531,200 @@ effortless-ntwf:psa-active a effortless-ntwf:DiseaseStages ;
     effortless-ntwf:sortOrder 1 ;
     effortless-ntwf:autoimmuneDisease "psa" .
 
+# === Individuals: EffortlessLoops ===
+
+effortless-ntwf:loop-0 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-0" ;
+    effortless-ntwf:loopNumber "0" ;
+    effortless-ntwf:title "Solve-by-inference rulebook" ;
+    effortless-ntwf:goal "Convert 7 hand-entered answers to derived; add evidence/replication/control/calibration tables; wire raw observations to keystone." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: keystone IsClinicallyActionable now derived from observations" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 0 - Postgres solve-by-inference verified" ;
+    effortless-ntwf:sortOrder 0 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: keystone IsClinicallyActionable now derived from observations`; state `state: Loop 0 - Postgres solve-by-inference verified`" .
+
+effortless-ntwf:loop-0-5 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-0-5" ;
+    effortless-ntwf:loopNumber "0.5" ;
+    effortless-ntwf:title "Test Harness First (the red contract)" ;
+    effortless-ntwf:goal "Ship a witnessed inference harness asserting the entire DAG x 7 patients via the app API; red on arrival, load-bearing." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "none - app-only loop, test-harness-first, no rule change" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 0.5 - red witnessed-inference harness is the app's contract" ;
+    effortless-ntwf:sortOrder 1 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `none - app-only loop, test-harness-first, no rule change`; state `state: Loop 0.5 - red witnessed-inference harness is the app's contract`" .
+
+effortless-ntwf:loop-1 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-1" ;
+    effortless-ntwf:loopNumber "1" ;
+    effortless-ntwf:title "Intake app skeleton" ;
+    effortless-ntwf:goal "Turn keystone-level red tests green: wire cohort + prediction-panel endpoints reading vw_*." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "none - app-only loop, no rule change" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 1 - read-only intake app surfaces the keystone" ;
+    effortless-ntwf:sortOrder 2 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `none - app-only loop, no rule change`; state `state: Loop 1 - read-only intake app surfaces the keystone`" .
+
+effortless-ntwf:loop-2 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-2" ;
+    effortless-ntwf:loopNumber "2" ;
+    effortless-ntwf:title "Patient intake (facts in)" ;
+    effortless-ntwf:goal "Form writes a new Individual + child observation rows to base tables, then re-reads the derived panel. The knob-editing payoff." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule (if any) for new intake field" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 2 - facts-in to derived diagnosis works end to end" ;
+    effortless-ntwf:sortOrder 3 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule (if any) for new intake field`; state `state: Loop 2 - facts-in to derived diagnosis works end to end`" .
+
+effortless-ntwf:loop-3 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-3" ;
+    effortless-ntwf:loopNumber "3" ;
+    effortless-ntwf:title "3-panel witness — provenance back into the case text" ;
+    effortless-ntwf:goal "Show why each gate passed/failed one level down; consider installing the explainer-DAG transpiler." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: install explainer-dag" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 3 - gate explainability" ;
+    effortless-ntwf:sortOrder 4 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: install explainer-dag`; state `state: Loop 3 - gate explainability`" .
+
+effortless-ntwf:loop-4 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-4" ;
+    effortless-ntwf:loopNumber "4" ;
+    effortless-ntwf:title "Second prediction type (severity)" ;
+    effortless-ntwf:goal "Add a derived severity prediction grounded in ClinicalPhenotypes.SeverityScore; pull one context table onto the load-bearing path." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: derive a severity prediction (IsSeverityActionable) chained to the onset gates" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 4 - severity prediction (second prediction type) green" ;
+    effortless-ntwf:sortOrder 5 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: derive a severity prediction (IsSeverityActionable) chained to the onset gates`; state `state: Loop 4 - severity prediction (second prediction type) green`" .
+
+effortless-ntwf:loop-5 a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-5" ;
+    effortless-ntwf:loopNumber "5" ;
+    effortless-ntwf:title "Treatment-response prediction" ;
+    effortless-ntwf:goal "Derive a treatment-response prediction from Treatments + mechanism match; surface in the panel." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: derive a treatment-response prediction (IsTreatmentResponseActionable) via mechanism match" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 5 - treatment-response prediction (third prediction type) green" ;
+    effortless-ntwf:sortOrder 6 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: derive a treatment-response prediction (IsTreatmentResponseActionable) via mechanism match`; state `state: Loop 5 - treatment-response prediction (third prediction type) green`" .
+
+effortless-ntwf:loop-vocab-completeness a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-vocab-completeness" ;
+    effortless-ntwf:loopNumber "6" ;
+    effortless-ntwf:title "Vocabulary completeness - every audit-named concept enters the hub" ;
+    effortless-ntwf:goal "Answer the audit's breadth: bring every concept the physician named (lupus nephritis, NPSLE, cutaneous lupus, sero+/-RA, erosive disease, axial PsA, enthesitis, dactylitis, uveitis, IBD overlap, organ damage, flare patterns, treatment lines, SLEDAI/DAS28) into the hub as DiseaseDomainConcepts, each with an honest ModelingStatus (deep-DAG / schema / vocabulary). Coverage becomes checkable by grep, not by trust." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: DiseaseDomainConcepts - every audit-named concept in the hub with honest ModelingStatus" ;
+    effortless-ntwf:stateCommitMsg "state: v2 step1 - vocabulary completeness; coverage checkable by grep" ;
+    effortless-ntwf:sortOrder 7 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: DiseaseDomainConcepts - every audit-named concept in the hub with honest ModelingStatus`; state `state: v2 step1 - vocabulary completeness; coverage checkable by grep`" .
+
+effortless-ntwf:loop-disease-state a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-disease-state" ;
+    effortless-ntwf:loopNumber "7" ;
+    effortless-ntwf:title "Disease-state simulator - the layer the audit said did not exist" ;
+    effortless-ntwf:goal "Reframe: v1 was a per-patient evidence gate; v2 adds the disease-state layer. A disease progressing is a state machine (lupus-nephritis-progression: Presymptomatic then SerologicActive then EarlyNephritis then RenalFlareRisk then BiopsyIndicated) whose CURRENT state is DERIVED purely from raw serology leaves (rising anti-dsDNA + falling complement + proteinuria + sediment) - never hand-set. Bitemporal DwellDays answers the audit's 'how long in this state.' Same trust boundary: labs are the LLM's/clinician's, the state is the model's. Diego Santos's first worked example computes (derived SledaiScore 12, High/flare)." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: lupus-nephritis-progression state machine - disease state DERIVED from raw serology" ;
+    effortless-ntwf:stateCommitMsg "state: v2 step3 - disease-state simulator; harness green, counter-example witnessed" ;
+    effortless-ntwf:sortOrder 8 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: lupus-nephritis-progression state machine - disease state DERIVED from raw serology`; state `state: v2 step3 - disease-state simulator; harness green, counter-example witnessed`" .
+
+effortless-ntwf:loop-treatment-line a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-treatment-line" ;
+    effortless-ntwf:loopNumber "8" ;
+    effortless-ntwf:title "Treatment-line recommendation + the disagreement counter-example" ;
+    effortless-ntwf:goal "The audit's second worked example, computed: a derived RecommendedTreatmentLine + single TreatmentLineDecidingFactor (mycophenolate for active nephritis, anifrolumab for type-I-IFN, belimumab for autoantibody-driven, secukinumab for IL-17/23) - differentiated by confirmed mechanism x disease state, never by a label. The load-bearing proof: Diego is progression_vs_actionability_disagree = TRUE - the disease-state simulator says he IS progressing (BiopsyIndicated, high activity) while the actionability gate says NOT actionable (cryptic-relatedness leakage). A pure evidence gate could never produce that sentence; that it can is the proof v2 != v1 relabeled." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: RecommendedTreatmentLine + progression_vs_actionability_disagree counter-example" ;
+    effortless-ntwf:stateCommitMsg "state: v2 - treatment-line + disagreement; the two layers proven independent" ;
+    effortless-ntwf:sortOrder 9 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: RecommendedTreatmentLine + progression_vs_actionability_disagree counter-example`; state `state: v2 - treatment-line + disagreement; the two layers proven independent`" .
+
+effortless-ntwf:loop-cohort-discovery a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-cohort-discovery" ;
+    effortless-ntwf:loopNumber "9" ;
+    effortless-ntwf:title "Cohort discovery board - the corpus-level surface" ;
+    effortless-ntwf:goal "The doctor's deepest point: discovery is corpus-level - a single chart never discovers a mechanism, a pattern across many patients does. Build the top-level, all-roles Cohort discovery board over a 12-member claim-bearing cohort: the disease-state map, the emergent serology-signature scatter, the disease-vs-evidence disagreement board, and the treatment-line distribution - all reading derived fields. Per-patient progression + treatment-line tabs hang off the same model. The punchline, sorted to the top of the nav." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: 12-member cohort expansion; corpus-level derived fields for the discovery board" ;
+    effortless-ntwf:stateCommitMsg "state: v2 steps9-10 - Cohort discovery is the top-level all-roles nav item" ;
+    effortless-ntwf:sortOrder 10 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: 12-member cohort expansion; corpus-level derived fields for the discovery board`; state `state: v2 steps9-10 - Cohort discovery is the top-level all-roles nav item`" .
+
+effortless-ntwf:loop-progression-admin a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-progression-admin" ;
+    effortless-ntwf:loopNumber "10" ;
+    effortless-ntwf:title "Progression machine in the state-machine admin" ;
+    effortless-ntwf:goal "The one concrete unbuilt admin-witness item. StateMachineView is hardcoded to diagnosis-lifecycle; lupus-nephritis-progression already lives in vw_state_machines and is served by the same router. Make StateMachineView select the machine (a binding change, not a model change): render its states, the 5 raw-leaf-triggered transition rules, and a per-state cohort-occupancy strip. Closes the loop between the disease-state simulator and its admin witness." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "none - app-only loop; occupancy already derived (IsCurrent), admin-witness binding only" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 10 - progression machine bound into the state-machine admin; per-state cohort occupancy is the simulator's admin witness" ;
+    effortless-ntwf:sortOrder 11 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `none - app-only loop; occupancy already derived (IsCurrent), admin-witness binding only`; state `state: Loop 10 - progression machine bound into the state-machine admin; per-state cohort occupancy is the simulator's admin witness`" .
+
+effortless-ntwf:loop-serology-discovery a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-serology-discovery" ;
+    effortless-ntwf:loopNumber "11" ;
+    effortless-ntwf:title "Serology-signature discovery - emergent cluster, not a label" ;
+    effortless-ntwf:goal "Make the discovery claim falsifiable at corpus scale. The serology signature that PRECEDES nephritis (the rising-anti-dsDNA / falling-complement trajectory) should surface as a DERIVED corpus-level cluster on the cohort scatter - emergent from the population's raw serology series, not a label anyone assigned. Derive the cluster membership / signature-strength field in the hub so the discovery is reproducible and witnessed, then surface it on the cohort board. This is the literal answer to 'discovery is corpus-level.'" ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "rule: derive emergent pre-nephritic serology-signature cluster (IsPreNephriticSignaturePanel -> CountPreNephriticSignaturePanels -> IsInPreNephriticSignatureCluster + SignatureStrength)" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 11 - emergent serology-signature cluster; 6/12 in cluster, perfectly separating active/progressing from quiescent; surfaced as derived halo on the cohort scatter" ;
+    effortless-ntwf:sortOrder 12 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `rule: derive emergent pre-nephritic serology-signature cluster (IsPreNephriticSignaturePanel -> CountPreNephriticSignaturePanels -> IsInPreNephriticSignatureCluster + SignatureStrength)`; state `state: Loop 11 - emergent serology-signature cluster; 6/12 in cluster, perfectly separating active/progressing from quiescent; surfaced as derived halo on the cohort scatter`" .
+
+effortless-ntwf:loop-prune-nonloadbearing a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-prune-nonloadbearing" ;
+    effortless-ntwf:loopNumber "12" ;
+    effortless-ntwf:title "Prune excess engineering - keep only what is load-bearing for the v1 audit response" ;
+    effortless-ntwf:goal "A deliberate trimming pass (NOT a delete spree). Walk the model, the app, and the docs and find anything that was UPGRADED or SUPERSEDED and now lingers as a duplicate, plus any engineering that is not actually load-bearing toward the clearest pedagogical answer to the v1 audit. Candidates to scrutinise: superseded prediction types that don't earn their keep (e.g. a 4th parallel adverse-effect prediction once severity + treatment-response + treatment-line exist), redundant ontology slots that no longer carry a claim, and any view/endpoint with no consumer. Promotion rule inverted: if a thing is neither traceable to problem-to-solve.md nor load-bearing toward the keystone or the audit response, retire it. Goal: the clearest, most complete, DUPLICATE-FREE representation of the problem - so the audit response is concise as well as complete." ;
+    effortless-ntwf:status "done" ;
+    effortless-ntwf:ruleCommitMsg "none - verification loop, no rule change; inventory found nothing load-bearing to retire" ;
+    effortless-ntwf:stateCommitMsg "state: Loop 12 - verified lean. Every endpoint is consumed (client or witnessed harness); no 4th adverse-effect prediction exists; the 3 zero-ref context tables (CounterfactualTrajectories/EnvironmentalExposures/TherapyOptions) are each named in problem-to-solve.md so they stay as honest schema coverage; no duplicate ontology slots or dead calc fields. The inverted promotion rule held: nothing is neither-traceable-nor-load-bearing." ;
+    effortless-ntwf:sortOrder 13 ;
+    effortless-ntwf:statusBadge "[DONE]" ;
+    effortless-ntwf:statusLine " - rule `none - verification loop, no rule change; inventory found nothing load-bearing to retire`; state `state: Loop 12 - verified lean. Every endpoint is consumed (client or witnessed harness); no 4th adverse-effect prediction exists; the 3 zero-ref context tables are each named in problem-to-solve.md so they stay as honest schema coverage; no duplicate ontology slots or dead calc fields.`" .
+
+effortless-ntwf:loop-llm-intake a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-llm-intake" ;
+    effortless-ntwf:loopNumber "13" ;
+    effortless-ntwf:title "LLM intake clerk + synthetic lab" ;
+    effortless-ntwf:goal "FUTURE ROADMAP (not part of the v1-audit response - this is the framework-thesis deliverable, the next conversation). The trust-boundary payoff: wire the LLM to read a natural-language case and write ONLY leaf observations - intake facts + synthetic-but-transparent test results - with the three-panel witness (case text / extracted facts with per-fact provenance / derived diagnosis + gate trace). The LLM never computes a higher-order inference; every value it emits is an editable knob. Demotes the model to a replaceable, fully-overridable transcriber - the structural defeat of 'a hallucination laundered through a deterministic function.'" ;
+    effortless-ntwf:status "roadmap" ;
+    effortless-ntwf:ruleCommitMsg "rule (if any) for provenance fields" ;
+    effortless-ntwf:stateCommitMsg "state: LLM intake clerk, everything-is-a-knob" ;
+    effortless-ntwf:sortOrder 14 ;
+    effortless-ntwf:statusBadge "[ROADMAP]" ;
+    effortless-ntwf:statusLine "" .
+
+effortless-ntwf:loop-equity a effortless-ntwf:EffortlessLoops ;
+    effortless-ntwf:effortlessLoopId "loop-equity" ;
+    effortless-ntwf:loopNumber "14" ;
+    effortless-ntwf:title "Cohort-level equity report" ;
+    effortless-ntwf:goal "FUTURE ROADMAP (traceable to the original challenge's equity requirement, but not part of the v1-audit response). Ancestry-equity made structural and corpus-level: calibration and actionability rates by ancestry (gates 2 and 4 of the keystone) as a derived dashboard, complementing the cohort discovery board. Equity is a checkable rate, not a promise." ;
+    effortless-ntwf:status "roadmap" ;
+    effortless-ntwf:ruleCommitMsg "" ;
+    effortless-ntwf:stateCommitMsg "" ;
+    effortless-ntwf:sortOrder 15 ;
+    effortless-ntwf:statusBadge "[ROADMAP]" ;
+    effortless-ntwf:statusLine "" .
+
 # === Individuals: EnvironmentalExposures ===
 
 effortless-ntwf:exp-context a effortless-ntwf:EnvironmentalExposures ;
@@ -1538,7 +1732,7 @@ effortless-ntwf:exp-context a effortless-ntwf:EnvironmentalExposures ;
     effortless-ntwf:exposureLabel "Smoking pack-years (context only)" ;
     effortless-ntwf:individual "ind-a-reyes" ;
     effortless-ntwf:exposureLevel 3 ;
-    effortless-ntwf:exposureStartDate "2015-01-01" ;
+    effortless-ntwf:exposureStartDate "2015-01-01"^^xsd:date ;
     effortless-ntwf:isMaternalEffect false .
 
 # === Individuals: EpistaticInteractions ===
@@ -2738,7 +2932,7 @@ effortless-ntwf:ind-a-reyes a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 34 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
     effortless-ntwf:federatedDataset "fed-europe" ;
-    effortless-ntwf:enrollmentDate "2023-04-10" ;
+    effortless-ntwf:enrollmentDate "2023-04-10"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "Ana Reyes, a 34-year-old woman of European ancestry (cohort is in the training set), presents with photosensitive malar rash, arthralgia, and a positive ANA, raising concern for SLE onset. Family history is notable for lupus in a maternal aunt. Genotyping finds the IRF5 regulatory variant rs2004640 at an allele frequency of 0.006 (rare), and allele-specific expression is present at the locus. Functional workup of the IRF5 -> type-I interferon -> SLE-risk edge returns a cis-eQTL in blood RNA-seq with effect 0.91 (SE 0.20), a caQTL in blood ATAC-seq with effect 0.73 (SE 0.19), and a pQTL in blood proteomics with effect 0.66 (SE 0.20) — three assays across two omics modalities, all ancestry-PC and batch adjusted. The edge replicates with a positive effect sign in an East Asian cohort (p=0.004) and in an African cohort (p=0.013), while a European replication is directionally consistent but not significant (p=0.18). Two ancestry-permutation negative controls collapse to the null (permutation effect 0.012 and 0.028, well inside the +/-0.1 null band). The IL-interferon target is druggable (anifrolumab, anti-IFNAR1), giving a perturbable intervention target. For SLE-onset risk, the model's reliability bins each carry coverage of 29-34 held-out individuals, with observed event rates tracking predicted bands closely (e.g. 0.09 observed at the 0.1 band, 0.88 at the 0.9 band). No cryptic-relatedness or assortative-mating leakage was flagged." .
 
@@ -2750,7 +2944,7 @@ effortless-ntwf:ind-b-okafor a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 41 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
     effortless-ntwf:federatedDataset "fed-europe" ;
-    effortless-ntwf:enrollmentDate "2023-05-12" ;
+    effortless-ntwf:enrollmentDate "2023-05-12"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "Bili Okafor, a 41-year-old man of European ancestry (in the training set), presents with serositis, fatigue, and a high-titre ANA suggestive of SLE onset. Genotyping finds the IRF5 regulatory variant rs2004640 at an allele frequency of 0.006 (rare), with allele-specific expression present. The IRF5 -> type-I interferon -> SLE-risk edge is supported by a cis-eQTL in blood RNA-seq with effect 0.84 (SE 0.21), a caQTL in blood ATAC-seq with effect 0.79 (SE 0.20), and a pQTL in blood proteomics with effect 0.58 (SE 0.20), spanning two omics modalities and adjusted for ancestry PCs and batch. It replicates positive in an East Asian cohort (p=0.006) and an African cohort (p=0.017), with a non-significant European replication (p=0.22). Two ancestry-permutation controls collapse to the null (permutation effect 0.015 and 0.024 inside +/-0.1). The interferon target is druggable. The mechanism is as solid as Ana's — but the calibration substrate is thin: this site only accrued coverage of 7-14 held-out individuals per reliability bin, far below the 20-count floor needed to trust the predicted-vs-observed match. No cryptic-relatedness leakage was flagged." .
 
@@ -2762,7 +2956,7 @@ effortless-ntwf:ind-c-chen a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 47 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
     effortless-ntwf:federatedDataset "fed-east-asia" ;
-    effortless-ntwf:enrollmentDate "2022-09-01" ;
+    effortless-ntwf:enrollmentDate "2022-09-01"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "Chen Wei, a 47-year-old woman of East Asian ancestry (in the training set), presents with arthritis, oral ulcers, and anti-dsDNA positivity concerning for SLE onset. Genotyping finds the STAT4 regulatory variant rs7574865 at an allele frequency of 0.008 (rare), with allele-specific expression present. The STAT4 -> Th1/IFN -> SLE-risk edge shows a cis-eQTL in blood RNA-seq with effect 1.02 (SE 0.23), a caQTL in blood ATAC-seq with effect 0.61 (SE 0.20), and a pQTL in blood proteomics with effect 0.55 (SE 0.21), across two modalities, ancestry-PC and batch adjusted. Replication is troubling: the effect is positive in an East Asian cohort (p=0.009) but the SIGN FLIPS to negative in an African cohort (p=0.024), and the European replication is non-significant (p=0.27) — only one concordant cohort. Worse, while one ancestry-permutation control collapses (permutation effect 0.013), a second negative control does NOT collapse: its permutation effect is 0.46, far outside the +/-0.1 null band, so the signal is not separable from permuted noise. Reliability bins carry coverage of 28-32 per bin. No cryptic-relatedness leakage was flagged." .
 
@@ -2774,7 +2968,7 @@ effortless-ntwf:ind-d-santos a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 29 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
     effortless-ntwf:federatedDataset "fed-europe" ;
-    effortless-ntwf:enrollmentDate "2024-01-20" ;
+    effortless-ntwf:enrollmentDate "2024-01-20"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag true ;
     effortless-ntwf:caseNarrative "Diego Santos, a 29-year-old man of European ancestry (in the training set), presents with nephritis and a malar rash concerning for SLE onset. Genotyping finds the IRF5 regulatory variant rs2004640 at an allele frequency of 0.006 (rare), with allele-specific expression present. The IRF5 -> type-I interferon -> SLE-risk edge is fully supported: a cis-eQTL in blood RNA-seq with effect 0.88 (SE 0.20), a caQTL in blood ATAC-seq with effect 0.95 (SE 0.21), and a pQTL in blood proteomics with effect 0.62 (SE 0.20), across two modalities and adjusted for ancestry PCs and batch. It replicates positive in an East Asian cohort (p=0.003) and an African cohort (p=0.019), with a non-significant European replication (p=0.16). Two ancestry-permutation controls collapse to the null (permutation effect 0.009 and 0.031 inside +/-0.1). The interferon target is druggable, and reliability bins carry coverage of 30-36 per bin. However, sample QC raised a cryptic-relatedness / assortative-mating flag for this participant: kinship estimates indicate undeclared relatives inside the cohort, so the prediction may be confounded by leakage rather than the mechanism alone." .
 
@@ -2786,7 +2980,7 @@ effortless-ntwf:ind-e-mensah a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 38 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
     effortless-ntwf:federatedDataset "fed-west-africa" ;
-    effortless-ntwf:enrollmentDate "2023-07-15" ;
+    effortless-ntwf:enrollmentDate "2023-07-15"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "Esi Mensah, a 38-year-old woman of African ancestry (in the training set), presents with arthralgia and cytopenias concerning for SLE onset. Genotyping finds the CTLA4 enhancer variant rs3087243 at an allele frequency of 0.007 (rare), with allele-specific expression present. The CTLA4 -> T-cell costimulation -> SLE-risk edge is well supported: a cis-eQTL in blood RNA-seq with effect 0.79 (SE 0.21), a caQTL in blood ATAC-seq with effect 0.71 (SE 0.20), and a pQTL in blood proteomics with effect 0.41 (SE 0.20), across two modalities, ancestry-PC and batch adjusted. It replicates positive in an East Asian cohort (p=0.007) and a European cohort (p=0.021), with a non-significant African replication (p=0.19). Two ancestry-permutation controls collapse to the null (permutation effect 0.011 and 0.026 inside +/-0.1), and reliability bins carry coverage of 27-33 per bin. The gap is experimental: no perturbable intervention target has been mapped for this edge — there is no agent or assay that could knock the costimulation node down to test it, so the mechanism is not experimentally falsifiable as stated." .
 
@@ -2798,7 +2992,7 @@ effortless-ntwf:ind-f-haidar a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 31 ;
     effortless-ntwf:isAncestryAbsentFromTraining true ;
     effortless-ntwf:federatedDataset "fed-amazon" ;
-    effortless-ntwf:enrollmentDate "2025-02-01" ;
+    effortless-ntwf:enrollmentDate "2025-02-01"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "Faisal Haidar, a 31-year-old man of Indigenous American ancestry — an ancestry deliberately HELD OUT of the training set — presents with dactylitis, enthesitis, and nail pitting concerning for psoriatic-arthritis (PsA) onset. Genotyping finds the IL23R regulatory variant rs11209026 at an allele frequency of 0.009 (rare), with allele-specific expression present. The IL23R -> IL-17 axis -> PsA-risk edge is well supported: a cis-eQTL in blood RNA-seq with effect 1.07 (SE 0.20), a caQTL in blood ATAC-seq with effect 0.83 (SE 0.21), and a pQTL in blood proteomics with effect 0.74 (SE 0.20), across two modalities and adjusted for ancestry PCs and batch. The IL-17 target is druggable (secukinumab). Two ancestry-permutation controls collapse to the null (permutation effect 0.008 and 0.022 inside +/-0.1), and reliability bins carry coverage of 30-35 per bin. But every replication of this edge was run in an Indigenous American cohort: p=0.005, p=0.015, and p=0.034, all positive, all in the SAME ancestry. There is no cohort in a DIFFERENT ancestry confirming the effect — so for a patient whose ancestry is absent from training, nothing demonstrates the mechanism transports. No cryptic-relatedness leakage was flagged." .
 
@@ -2810,7 +3004,7 @@ effortless-ntwf:ind-g-lin a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 36 ;
     effortless-ntwf:isAncestryAbsentFromTraining true ;
     effortless-ntwf:federatedDataset "fed-amazon" ;
-    effortless-ntwf:enrollmentDate "2025-02-03" ;
+    effortless-ntwf:enrollmentDate "2025-02-03"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "Grace Lin, a 36-year-old woman of Indigenous American ancestry — again an ancestry HELD OUT of the training set — presents with plaque psoriasis and asymmetric oligoarthritis concerning for psoriatic-arthritis (PsA) onset. Genotyping finds the IL23R regulatory variant rs11209026 at an allele frequency of 0.009 (rare), with allele-specific expression present. The IL23R -> IL-17 axis -> PsA-risk edge is well supported: a cis-eQTL in blood RNA-seq with effect 0.96 (SE 0.20), a caQTL in blood ATAC-seq with effect 0.88 (SE 0.21), and a pQTL in blood proteomics with effect 0.69 (SE 0.20), across two modalities and adjusted for ancestry PCs and batch. The IL-17 target is druggable (secukinumab). Two ancestry-permutation controls collapse to the null (permutation effect 0.007 and 0.019 inside +/-0.1), and reliability bins carry coverage of 30-36 per bin. Crucially — and unlike Faisal — this edge was MEASURED to replicate ACROSS ancestries: positive in a European cohort (p=0.004), positive in an East Asian cohort (p=0.012), and positive in an Indigenous American cohort (p=0.029). Because the mechanism demonstrably holds in ancestries other than the held-out one, the prediction transports. No cryptic-relatedness leakage was flagged." .
 
@@ -2821,7 +3015,7 @@ effortless-ntwf:ind-h-yamamoto a effortless-ntwf:Individuals ;
     effortless-ntwf:ancestryLabel "East Asian" ;
     effortless-ntwf:ageYears 33 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
-    effortless-ntwf:enrollmentDate "2025-07-01" ;
+    effortless-ntwf:enrollmentDate "2025-07-01"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "33yo East Asian woman; rising anti-dsDNA with falling complement and new significant proteinuria (0.7 g/day) over one quarter — early lupus nephritis. Progression-demo case (no v1 keystone mechanism attached)." .
 
@@ -2832,7 +3026,7 @@ effortless-ntwf:ind-i-conteh a effortless-ntwf:Individuals ;
     effortless-ntwf:ancestryLabel "African" ;
     effortless-ntwf:ageYears 45 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
-    effortless-ntwf:enrollmentDate "2025-06-01" ;
+    effortless-ntwf:enrollmentDate "2025-06-01"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag true ;
     effortless-ntwf:caseNarrative "45yo African man; brisk serologic activity and proteinuria climbing to 1.5 g/day — at risk of renal flare. Progression-demo case (no v1 keystone mechanism attached)." .
 
@@ -2844,7 +3038,7 @@ effortless-ntwf:ind-j-brooks a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 52 ;
     effortless-ntwf:isAncestryAbsentFromTraining false ;
     effortless-ntwf:federatedDataset "fed-europe" ;
-    effortless-ntwf:enrollmentDate "2023-05-12" ;
+    effortless-ntwf:enrollmentDate "2023-05-12"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "52yo Hispanic/Latino man; the targeted mechanism is confirmed but the calibration bins are under-covered — uncertainty collapses, so NOT actionable on the calibration gate." .
 
@@ -2856,7 +3050,7 @@ effortless-ntwf:ind-k-nair a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 39 ;
     effortless-ntwf:isAncestryAbsentFromTraining true ;
     effortless-ntwf:federatedDataset "fed-amazon" ;
-    effortless-ntwf:enrollmentDate "2025-02-01" ;
+    effortless-ntwf:enrollmentDate "2025-02-01"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "39yo South Asian woman, ancestry absent from training; confirmed mechanism but all replications ran in one ancestry — fails ancestry transport, NOT actionable." .
 
@@ -2868,7 +3062,7 @@ effortless-ntwf:ind-l-brandt a effortless-ntwf:Individuals ;
     effortless-ntwf:ageYears 28 ;
     effortless-ntwf:isAncestryAbsentFromTraining true ;
     effortless-ntwf:federatedDataset "fed-amazon" ;
-    effortless-ntwf:enrollmentDate "2025-02-03" ;
+    effortless-ntwf:enrollmentDate "2025-02-03"^^xsd:date ;
     effortless-ntwf:hasCrypticRelatednessFlag false ;
     effortless-ntwf:caseNarrative "28yo Indigenous-American woman, holdout ancestry; the positive twin — the IL23R node replicated cross-ancestry, so transport passes and she is actionable." .
 
@@ -3027,200 +3221,6 @@ effortless-ntwf:it-l a effortless-ntwf:InterventionTargets ;
     effortless-ntwf:therapyClass "Cell-based" ;
     effortless-ntwf:isValidated true .
 
-# === Individuals: LeopoldLoops ===
-
-effortless-ntwf:loop-0 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-0" ;
-    effortless-ntwf:loopNumber "0" ;
-    effortless-ntwf:title "Solve-by-inference rulebook" ;
-    effortless-ntwf:goal "Convert 7 hand-entered answers to derived; add evidence/replication/control/calibration tables; wire raw observations to keystone." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: keystone IsClinicallyActionable now derived from observations" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 0 - Postgres solve-by-inference verified" ;
-    effortless-ntwf:sortOrder 0 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: keystone IsClinicallyActionable now derived from observations`; state `state: Loop 0 - Postgres solve-by-inference verified`" .
-
-effortless-ntwf:loop-0-5 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-0-5" ;
-    effortless-ntwf:loopNumber "0.5" ;
-    effortless-ntwf:title "Test Harness First (the red contract)" ;
-    effortless-ntwf:goal "Ship a witnessed inference harness asserting the entire DAG x 7 patients via the app API; red on arrival, load-bearing." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "none - app-only loop, test-harness-first, no rule change" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 0.5 - red witnessed-inference harness is the app's contract" ;
-    effortless-ntwf:sortOrder 1 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `none - app-only loop, test-harness-first, no rule change`; state `state: Loop 0.5 - red witnessed-inference harness is the app's contract`" .
-
-effortless-ntwf:loop-1 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-1" ;
-    effortless-ntwf:loopNumber "1" ;
-    effortless-ntwf:title "Intake app skeleton" ;
-    effortless-ntwf:goal "Turn keystone-level red tests green: wire cohort + prediction-panel endpoints reading vw_*." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "none - app-only loop, no rule change" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 1 - read-only intake app surfaces the keystone" ;
-    effortless-ntwf:sortOrder 2 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `none - app-only loop, no rule change`; state `state: Loop 1 - read-only intake app surfaces the keystone`" .
-
-effortless-ntwf:loop-2 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-2" ;
-    effortless-ntwf:loopNumber "2" ;
-    effortless-ntwf:title "Patient intake (facts in)" ;
-    effortless-ntwf:goal "Form writes a new Individual + child observation rows to base tables, then re-reads the derived panel. The knob-editing payoff." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule (if any) for new intake field" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 2 - facts-in to derived diagnosis works end to end" ;
-    effortless-ntwf:sortOrder 3 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule (if any) for new intake field`; state `state: Loop 2 - facts-in to derived diagnosis works end to end`" .
-
-effortless-ntwf:loop-3 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-3" ;
-    effortless-ntwf:loopNumber "3" ;
-    effortless-ntwf:title "3-panel witness — provenance back into the case text" ;
-    effortless-ntwf:goal "Show why each gate passed/failed one level down; consider installing the explainer-DAG transpiler." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: install explainer-dag" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 3 - gate explainability" ;
-    effortless-ntwf:sortOrder 4 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: install explainer-dag`; state `state: Loop 3 - gate explainability`" .
-
-effortless-ntwf:loop-4 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-4" ;
-    effortless-ntwf:loopNumber "4" ;
-    effortless-ntwf:title "Second prediction type (severity)" ;
-    effortless-ntwf:goal "Add a derived severity prediction grounded in ClinicalPhenotypes.SeverityScore; pull one context table onto the load-bearing path." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: derive a severity prediction (IsSeverityActionable) chained to the onset gates" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 4 - severity prediction (second prediction type) green" ;
-    effortless-ntwf:sortOrder 5 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: derive a severity prediction (IsSeverityActionable) chained to the onset gates`; state `state: Loop 4 - severity prediction (second prediction type) green`" .
-
-effortless-ntwf:loop-5 a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-5" ;
-    effortless-ntwf:loopNumber "5" ;
-    effortless-ntwf:title "Treatment-response prediction" ;
-    effortless-ntwf:goal "Derive a treatment-response prediction from Treatments + mechanism match; surface in the panel." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: derive a treatment-response prediction (IsTreatmentResponseActionable) via mechanism match" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 5 - treatment-response prediction (third prediction type) green" ;
-    effortless-ntwf:sortOrder 6 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: derive a treatment-response prediction (IsTreatmentResponseActionable) via mechanism match`; state `state: Loop 5 - treatment-response prediction (third prediction type) green`" .
-
-effortless-ntwf:loop-vocab-completeness a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-vocab-completeness" ;
-    effortless-ntwf:loopNumber "6" ;
-    effortless-ntwf:title "Vocabulary completeness - every audit-named concept enters the hub" ;
-    effortless-ntwf:goal "Answer the audit's breadth: bring every concept the physician named (lupus nephritis, NPSLE, cutaneous lupus, sero+/-RA, erosive disease, axial PsA, enthesitis, dactylitis, uveitis, IBD overlap, organ damage, flare patterns, treatment lines, SLEDAI/DAS28) into the hub as DiseaseDomainConcepts, each with an honest ModelingStatus (deep-DAG / schema / vocabulary). Coverage becomes checkable by grep, not by trust." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: DiseaseDomainConcepts - every audit-named concept in the hub with honest ModelingStatus" ;
-    effortless-ntwf:stateCommitMsg "state: v2 step1 - vocabulary completeness; coverage checkable by grep" ;
-    effortless-ntwf:sortOrder 7 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: DiseaseDomainConcepts - every audit-named concept in the hub with honest ModelingStatus`; state `state: v2 step1 - vocabulary completeness; coverage checkable by grep`" .
-
-effortless-ntwf:loop-disease-state a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-disease-state" ;
-    effortless-ntwf:loopNumber "7" ;
-    effortless-ntwf:title "Disease-state simulator - the layer the audit said did not exist" ;
-    effortless-ntwf:goal "Reframe: v1 was a per-patient evidence gate; v2 adds the disease-state layer. A disease progressing is a state machine (lupus-nephritis-progression: Presymptomatic then SerologicActive then EarlyNephritis then RenalFlareRisk then BiopsyIndicated) whose CURRENT state is DERIVED purely from raw serology leaves (rising anti-dsDNA + falling complement + proteinuria + sediment) - never hand-set. Bitemporal DwellDays answers the audit's 'how long in this state.' Same trust boundary: labs are the LLM's/clinician's, the state is the model's. Diego Santos's first worked example computes (derived SledaiScore 12, High/flare)." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: lupus-nephritis-progression state machine - disease state DERIVED from raw serology" ;
-    effortless-ntwf:stateCommitMsg "state: v2 step3 - disease-state simulator; harness green, counter-example witnessed" ;
-    effortless-ntwf:sortOrder 8 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: lupus-nephritis-progression state machine - disease state DERIVED from raw serology`; state `state: v2 step3 - disease-state simulator; harness green, counter-example witnessed`" .
-
-effortless-ntwf:loop-treatment-line a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-treatment-line" ;
-    effortless-ntwf:loopNumber "8" ;
-    effortless-ntwf:title "Treatment-line recommendation + the disagreement counter-example" ;
-    effortless-ntwf:goal "The audit's second worked example, computed: a derived RecommendedTreatmentLine + single TreatmentLineDecidingFactor (mycophenolate for active nephritis, anifrolumab for type-I-IFN, belimumab for autoantibody-driven, secukinumab for IL-17/23) - differentiated by confirmed mechanism x disease state, never by a label. The load-bearing proof: Diego is progression_vs_actionability_disagree = TRUE - the disease-state simulator says he IS progressing (BiopsyIndicated, high activity) while the actionability gate says NOT actionable (cryptic-relatedness leakage). A pure evidence gate could never produce that sentence; that it can is the proof v2 != v1 relabeled." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: RecommendedTreatmentLine + progression_vs_actionability_disagree counter-example" ;
-    effortless-ntwf:stateCommitMsg "state: v2 - treatment-line + disagreement; the two layers proven independent" ;
-    effortless-ntwf:sortOrder 9 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: RecommendedTreatmentLine + progression_vs_actionability_disagree counter-example`; state `state: v2 - treatment-line + disagreement; the two layers proven independent`" .
-
-effortless-ntwf:loop-cohort-discovery a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-cohort-discovery" ;
-    effortless-ntwf:loopNumber "9" ;
-    effortless-ntwf:title "Cohort discovery board - the corpus-level surface" ;
-    effortless-ntwf:goal "The doctor's deepest point: discovery is corpus-level - a single chart never discovers a mechanism, a pattern across many patients does. Build the top-level, all-roles Cohort discovery board over a 12-member claim-bearing cohort: the disease-state map, the emergent serology-signature scatter, the disease-vs-evidence disagreement board, and the treatment-line distribution - all reading derived fields. Per-patient progression + treatment-line tabs hang off the same model. The punchline, sorted to the top of the nav." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: 12-member cohort expansion; corpus-level derived fields for the discovery board" ;
-    effortless-ntwf:stateCommitMsg "state: v2 steps9-10 - Cohort discovery is the top-level all-roles nav item" ;
-    effortless-ntwf:sortOrder 10 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: 12-member cohort expansion; corpus-level derived fields for the discovery board`; state `state: v2 steps9-10 - Cohort discovery is the top-level all-roles nav item`" .
-
-effortless-ntwf:loop-progression-admin a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-progression-admin" ;
-    effortless-ntwf:loopNumber "10" ;
-    effortless-ntwf:title "Progression machine in the state-machine admin" ;
-    effortless-ntwf:goal "The one concrete unbuilt admin-witness item. StateMachineView is hardcoded to diagnosis-lifecycle; lupus-nephritis-progression already lives in vw_state_machines and is served by the same router. Make StateMachineView select the machine (a binding change, not a model change): render its states, the 5 raw-leaf-triggered transition rules, and a per-state cohort-occupancy strip. Closes the loop between the disease-state simulator and its admin witness." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "none - app-only loop; occupancy already derived (IsCurrent), admin-witness binding only" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 10 - progression machine bound into the state-machine admin; per-state cohort occupancy is the simulator's admin witness" ;
-    effortless-ntwf:sortOrder 11 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `none - app-only loop; occupancy already derived (IsCurrent), admin-witness binding only`; state `state: Loop 10 - progression machine bound into the state-machine admin; per-state cohort occupancy is the simulator's admin witness`" .
-
-effortless-ntwf:loop-serology-discovery a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-serology-discovery" ;
-    effortless-ntwf:loopNumber "11" ;
-    effortless-ntwf:title "Serology-signature discovery - emergent cluster, not a label" ;
-    effortless-ntwf:goal "Make the discovery claim falsifiable at corpus scale. The serology signature that PRECEDES nephritis (the rising-anti-dsDNA / falling-complement trajectory) should surface as a DERIVED corpus-level cluster on the cohort scatter - emergent from the population's raw serology series, not a label anyone assigned. Derive the cluster membership / signature-strength field in the hub so the discovery is reproducible and witnessed, then surface it on the cohort board. This is the literal answer to 'discovery is corpus-level.'" ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "rule: derive emergent pre-nephritic serology-signature cluster (IsPreNephriticSignaturePanel -> CountPreNephriticSignaturePanels -> IsInPreNephriticSignatureCluster + SignatureStrength)" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 11 - emergent serology-signature cluster; 6/12 in cluster, perfectly separating active/progressing from quiescent; surfaced as derived halo on the cohort scatter" ;
-    effortless-ntwf:sortOrder 12 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `rule: derive emergent pre-nephritic serology-signature cluster (IsPreNephriticSignaturePanel -> CountPreNephriticSignaturePanels -> IsInPreNephriticSignatureCluster + SignatureStrength)`; state `state: Loop 11 - emergent serology-signature cluster; 6/12 in cluster, perfectly separating active/progressing from quiescent; surfaced as derived halo on the cohort scatter`" .
-
-effortless-ntwf:loop-prune-nonloadbearing a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-prune-nonloadbearing" ;
-    effortless-ntwf:loopNumber "12" ;
-    effortless-ntwf:title "Prune excess engineering - keep only what is load-bearing for the v1 audit response" ;
-    effortless-ntwf:goal "A deliberate trimming pass (NOT a delete spree). Walk the model, the app, and the docs and find anything that was UPGRADED or SUPERSEDED and now lingers as a duplicate, plus any engineering that is not actually load-bearing toward the clearest pedagogical answer to the v1 audit. Candidates to scrutinise: superseded prediction types that don't earn their keep (e.g. a 4th parallel adverse-effect prediction once severity + treatment-response + treatment-line exist), redundant ontology slots that no longer carry a claim, and any view/endpoint with no consumer. Promotion rule inverted: if a thing is neither traceable to problem-to-solve.md nor load-bearing toward the keystone or the audit response, retire it. Goal: the clearest, most complete, DUPLICATE-FREE representation of the problem - so the audit response is concise as well as complete." ;
-    effortless-ntwf:status "done" ;
-    effortless-ntwf:ruleCommitMsg "none - verification loop, no rule change; inventory found nothing load-bearing to retire" ;
-    effortless-ntwf:stateCommitMsg "state: Loop 12 - verified lean. Every endpoint is consumed (client or witnessed harness); no 4th adverse-effect prediction exists; the 3 zero-ref context tables (CounterfactualTrajectories/EnvironmentalExposures/TherapyOptions) are each named in problem-to-solve.md so they stay as honest schema coverage; no duplicate ontology slots or dead calc fields. The inverted promotion rule held: nothing is neither-traceable-nor-load-bearing." ;
-    effortless-ntwf:sortOrder 13 ;
-    effortless-ntwf:statusBadge "[DONE]" ;
-    effortless-ntwf:statusLine " - rule `none - verification loop, no rule change; inventory found nothing load-bearing to retire`; state `state: Loop 12 - verified lean. Every endpoint is consumed (client or witnessed harness); no 4th adverse-effect prediction exists; the 3 zero-ref context tables are each named in problem-to-solve.md so they stay as honest schema coverage; no duplicate ontology slots or dead calc fields.`" .
-
-effortless-ntwf:loop-llm-intake a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-llm-intake" ;
-    effortless-ntwf:loopNumber "13" ;
-    effortless-ntwf:title "LLM intake clerk + synthetic lab" ;
-    effortless-ntwf:goal "FUTURE ROADMAP (not part of the v1-audit response - this is the framework-thesis deliverable, the next conversation). The trust-boundary payoff: wire the LLM to read a natural-language case and write ONLY leaf observations - intake facts + synthetic-but-transparent test results - with the three-panel witness (case text / extracted facts with per-fact provenance / derived diagnosis + gate trace). The LLM never computes a higher-order inference; every value it emits is an editable knob. Demotes the model to a replaceable, fully-overridable transcriber - the structural defeat of 'a hallucination laundered through a deterministic function.'" ;
-    effortless-ntwf:status "roadmap" ;
-    effortless-ntwf:ruleCommitMsg "rule (if any) for provenance fields" ;
-    effortless-ntwf:stateCommitMsg "state: LLM intake clerk, everything-is-a-knob" ;
-    effortless-ntwf:sortOrder 14 ;
-    effortless-ntwf:statusBadge "[ROADMAP]" ;
-    effortless-ntwf:statusLine "" .
-
-effortless-ntwf:loop-equity a effortless-ntwf:LeopoldLoops ;
-    effortless-ntwf:leopoldLoopId "loop-equity" ;
-    effortless-ntwf:loopNumber "14" ;
-    effortless-ntwf:title "Cohort-level equity report" ;
-    effortless-ntwf:goal "FUTURE ROADMAP (traceable to the original challenge's equity requirement, but not part of the v1-audit response). Ancestry-equity made structural and corpus-level: calibration and actionability rates by ancestry (gates 2 and 4 of the keystone) as a derived dashboard, complementing the cohort discovery board. Equity is a checkable rate, not a promise." ;
-    effortless-ntwf:status "roadmap" ;
-    effortless-ntwf:ruleCommitMsg "" ;
-    effortless-ntwf:stateCommitMsg "" ;
-    effortless-ntwf:sortOrder 15 ;
-    effortless-ntwf:statusBadge "[ROADMAP]" ;
-    effortless-ntwf:statusLine "" .
-
 # === Individuals: MachineStates ===
 
 effortless-ntwf:diagnosis-lifecycle--intake a effortless-ntwf:MachineStates ;
@@ -3308,9 +3308,9 @@ effortless-ntwf:lupus-nephritis-progression--quiescent a effortless-ntwf:Machine
     effortless-ntwf:orderIndex 0 ;
     effortless-ntwf:isInitial false ;
     effortless-ntwf:isTerminal true ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -3322,9 +3322,9 @@ effortless-ntwf:lupus-nephritis-progression--presymptomaticautoimmunity a effort
     effortless-ntwf:orderIndex 1 ;
     effortless-ntwf:isInitial true ;
     effortless-ntwf:isTerminal false ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -3336,9 +3336,9 @@ effortless-ntwf:lupus-nephritis-progression--serologicactive a effortless-ntwf:M
     effortless-ntwf:orderIndex 2 ;
     effortless-ntwf:isInitial false ;
     effortless-ntwf:isTerminal false ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -3350,9 +3350,9 @@ effortless-ntwf:lupus-nephritis-progression--earlynephritis a effortless-ntwf:Ma
     effortless-ntwf:orderIndex 3 ;
     effortless-ntwf:isInitial false ;
     effortless-ntwf:isTerminal false ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -3364,9 +3364,9 @@ effortless-ntwf:lupus-nephritis-progression--renalflarerisk a effortless-ntwf:Ma
     effortless-ntwf:orderIndex 4 ;
     effortless-ntwf:isInitial false ;
     effortless-ntwf:isTerminal false ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -3378,9 +3378,9 @@ effortless-ntwf:lupus-nephritis-progression--biopsyindicated a effortless-ntwf:M
     effortless-ntwf:orderIndex 5 ;
     effortless-ntwf:isInitial false ;
     effortless-ntwf:isTerminal true ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -4597,18 +4597,18 @@ effortless-ntwf:nav-admin-cohort a effortless-ntwf:RoutingAndNavigation ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
 
-effortless-ntwf:nav-admin-leopold a effortless-ntwf:RoutingAndNavigation ;
-    effortless-ntwf:routingAndNavigationId "nav-admin-leopold" ;
-    effortless-ntwf:displayName "Leopold Loops" ;
-    effortless-ntwf:route "/admin/leopold" ;
-    effortless-ntwf:description "Edit the Leopold loop plan rows and regenerate LEOPOLD_LOOPs.md." ;
+effortless-ntwf:nav-admin-loops a effortless-ntwf:RoutingAndNavigation ;
+    effortless-ntwf:routingAndNavigationId "nav-admin-loops" ;
+    effortless-ntwf:displayName "Effortless Loops" ;
+    effortless-ntwf:route "/admin/loops" ;
+    effortless-ntwf:description "Edit the Effortless loop plan rows and regenerate EFFORTLESS_LOOPS.md." ;
     effortless-ntwf:sortOrder 96 ;
     effortless-ntwf:parentRouteKey "admin" ;
-    effortless-ntwf:routeKey "admin.leopold" ;
+    effortless-ntwf:routeKey "admin.loops" ;
     effortless-ntwf:navLevel "sub" ;
     effortless-ntwf:roleVisibility "admin" ;
-    effortless-ntwf:primaryTable "LeopoldLoops" ;
-    effortless-ntwf:primaryView "vw_leopold_loops" ;
+    effortless-ntwf:primaryTable "EffortlessLoops" ;
+    effortless-ntwf:primaryView "vw_effortless_loops" ;
     effortless-ntwf:iconHint "repeat" ;
     effortless-ntwf:isDynamic false ;
     effortless-ntwf:pinToTop false ;
@@ -4624,7 +4624,7 @@ effortless-ntwf:nav-admin-leopold a effortless-ntwf:RoutingAndNavigation ;
 effortless-ntwf:sero-ind-a-reyes-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-a-reyes-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-a-reyes ;
-    effortless-ntwf:observedAt "2025-09-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-09-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 40 ;
     effortless-ntwf:complementC3 110 ;
@@ -4636,7 +4636,7 @@ effortless-ntwf:sero-ind-a-reyes-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-a-reyes-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-a-reyes-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-a-reyes ;
-    effortless-ntwf:observedAt "2025-12-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-12-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 95 ;
     effortless-ntwf:complementC3 78 ;
@@ -4649,7 +4649,7 @@ effortless-ntwf:sero-ind-a-reyes-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-b-okafor-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-b-okafor-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-b-okafor ;
-    effortless-ntwf:observedAt "2025-08-15T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-08-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 30 ;
     effortless-ntwf:complementC3 120 ;
@@ -4661,7 +4661,7 @@ effortless-ntwf:sero-ind-b-okafor-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-b-okafor-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-b-okafor-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-b-okafor ;
-    effortless-ntwf:observedAt "2025-11-15T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-11-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 33 ;
     effortless-ntwf:complementC3 118 ;
@@ -4674,7 +4674,7 @@ effortless-ntwf:sero-ind-b-okafor-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-c-chen-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-c-chen-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-c-chen ;
-    effortless-ntwf:observedAt "2025-07-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-07-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 50 ;
     effortless-ntwf:complementC3 100 ;
@@ -4686,7 +4686,7 @@ effortless-ntwf:sero-ind-c-chen-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-c-chen-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-c-chen-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-c-chen ;
-    effortless-ntwf:observedAt "2025-10-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-10-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 120 ;
     effortless-ntwf:complementC3 70 ;
@@ -4699,7 +4699,7 @@ effortless-ntwf:sero-ind-c-chen-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-d-santos-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-d-santos-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-d-santos ;
-    effortless-ntwf:observedAt "2025-06-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-06-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 60 ;
     effortless-ntwf:complementC3 95 ;
@@ -4711,7 +4711,7 @@ effortless-ntwf:sero-ind-d-santos-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-d-santos-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-d-santos-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-d-santos ;
-    effortless-ntwf:observedAt "2025-09-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-09-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 140 ;
     effortless-ntwf:complementC3 60 ;
@@ -4724,7 +4724,7 @@ effortless-ntwf:sero-ind-d-santos-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-d-santos-3 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-d-santos-3" ;
     effortless-ntwf:individual effortless-ntwf:ind-d-santos ;
-    effortless-ntwf:observedAt "2025-12-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-12-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:antiDsDnaIU 180 ;
     effortless-ntwf:complementC3 45 ;
@@ -4737,7 +4737,7 @@ effortless-ntwf:sero-ind-d-santos-3 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-e-mensah-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-e-mensah-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-e-mensah ;
-    effortless-ntwf:observedAt "2025-08-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-08-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 25 ;
     effortless-ntwf:complementC3 125 ;
@@ -4749,7 +4749,7 @@ effortless-ntwf:sero-ind-e-mensah-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-e-mensah-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-e-mensah-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-e-mensah ;
-    effortless-ntwf:observedAt "2025-11-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-11-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 24 ;
     effortless-ntwf:complementC3 124 ;
@@ -4762,7 +4762,7 @@ effortless-ntwf:sero-ind-e-mensah-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-f-haidar-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-f-haidar-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-f-haidar ;
-    effortless-ntwf:observedAt "2025-09-10T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-09-10T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 20 ;
     effortless-ntwf:complementC3 130 ;
@@ -4774,7 +4774,7 @@ effortless-ntwf:sero-ind-f-haidar-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-f-haidar-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-f-haidar-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-f-haidar ;
-    effortless-ntwf:observedAt "2025-12-10T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-12-10T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 22 ;
     effortless-ntwf:complementC3 128 ;
@@ -4787,7 +4787,7 @@ effortless-ntwf:sero-ind-f-haidar-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-g-lin-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-g-lin-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-g-lin ;
-    effortless-ntwf:observedAt "2025-09-05T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-09-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 18 ;
     effortless-ntwf:complementC3 132 ;
@@ -4799,7 +4799,7 @@ effortless-ntwf:sero-ind-g-lin-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-g-lin-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-g-lin-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-g-lin ;
-    effortless-ntwf:observedAt "2025-12-05T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-12-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 19 ;
     effortless-ntwf:complementC3 131 ;
@@ -4812,7 +4812,7 @@ effortless-ntwf:sero-ind-g-lin-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-h-yamamoto-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-h-yamamoto-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-h-yamamoto ;
-    effortless-ntwf:observedAt "2025-07-20T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-07-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 55 ;
     effortless-ntwf:complementC3 98 ;
@@ -4824,7 +4824,7 @@ effortless-ntwf:sero-ind-h-yamamoto-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-h-yamamoto-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-h-yamamoto-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-h-yamamoto ;
-    effortless-ntwf:observedAt "2025-10-20T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-10-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 110 ;
     effortless-ntwf:complementC3 72 ;
@@ -4837,7 +4837,7 @@ effortless-ntwf:sero-ind-h-yamamoto-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-i-conteh-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-i-conteh-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-i-conteh ;
-    effortless-ntwf:observedAt "2025-06-15T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-06-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 70 ;
     effortless-ntwf:complementC3 90 ;
@@ -4849,7 +4849,7 @@ effortless-ntwf:sero-ind-i-conteh-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-i-conteh-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-i-conteh-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-i-conteh ;
-    effortless-ntwf:observedAt "2025-09-15T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-09-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 150 ;
     effortless-ntwf:complementC3 55 ;
@@ -4862,7 +4862,7 @@ effortless-ntwf:sero-ind-i-conteh-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-j-brooks-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-j-brooks-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-j-brooks ;
-    effortless-ntwf:observedAt "2025-08-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-08-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 48 ;
     effortless-ntwf:complementC3 100 ;
@@ -4874,7 +4874,7 @@ effortless-ntwf:sero-ind-j-brooks-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-j-brooks-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-j-brooks-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-j-brooks ;
-    effortless-ntwf:observedAt "2025-11-01T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-11-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 115 ;
     effortless-ntwf:complementC3 70 ;
@@ -4887,7 +4887,7 @@ effortless-ntwf:sero-ind-j-brooks-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-k-nair-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-k-nair-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-k-nair ;
-    effortless-ntwf:observedAt "2025-07-05T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-07-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 30 ;
     effortless-ntwf:complementC3 120 ;
@@ -4899,7 +4899,7 @@ effortless-ntwf:sero-ind-k-nair-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-k-nair-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-k-nair-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-k-nair ;
-    effortless-ntwf:observedAt "2025-10-05T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-10-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 33 ;
     effortless-ntwf:complementC3 118 ;
@@ -4912,7 +4912,7 @@ effortless-ntwf:sero-ind-k-nair-2 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-l-brandt-1 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-l-brandt-1" ;
     effortless-ntwf:individual effortless-ntwf:ind-l-brandt ;
-    effortless-ntwf:observedAt "2025-09-05T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-09-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:antiDsDnaIU 22 ;
     effortless-ntwf:complementC3 130 ;
@@ -4924,7 +4924,7 @@ effortless-ntwf:sero-ind-l-brandt-1 a effortless-ntwf:SerologyObservations ;
 effortless-ntwf:sero-ind-l-brandt-2 a effortless-ntwf:SerologyObservations ;
     effortless-ntwf:serologyObservationId "sero-ind-l-brandt-2" ;
     effortless-ntwf:individual effortless-ntwf:ind-l-brandt ;
-    effortless-ntwf:observedAt "2025-12-05T00:00:00Z" ;
+    effortless-ntwf:observedAt "2025-12-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:antiDsDnaIU 24 ;
     effortless-ntwf:complementC3 128 ;
@@ -4951,9 +4951,9 @@ effortless-ntwf:lupus-nephritis-progression a effortless-ntwf:StateMachines ;
     effortless-ntwf:description "Disease-state simulator: a patient's lupus-nephritis course derived from raw serology trajectories. Presymptomatic -> SerologicActive -> EarlyNephritis -> RenalFlareRisk -> BiopsyIndicated (+ Quiescent). Current state is the derived Individuals.NephritisProgressionStateKey; never hand-set." ;
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectStateColumn "NephritisProgressionStateKey" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5058,9 +5058,9 @@ effortless-ntwf:lupus-nephritis-progression--presymptomaticautoimmunity--serolog
     effortless-ntwf:ruleRefs "SERO-ACTIVE" ;
     effortless-ntwf:triggerEndpoint "/api/individuals/:id/serology" ;
     effortless-ntwf:triggeredByRole "system" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5073,9 +5073,9 @@ effortless-ntwf:lupus-nephritis-progression--serologicactive--earlynephritis a e
     effortless-ntwf:ruleRefs "NEPH-ONSET" ;
     effortless-ntwf:triggerEndpoint "/api/individuals/:id/serology" ;
     effortless-ntwf:triggeredByRole "system" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5088,9 +5088,9 @@ effortless-ntwf:lupus-nephritis-progression--earlynephritis--renalflarerisk a ef
     effortless-ntwf:ruleRefs "FLARE-RISK" ;
     effortless-ntwf:triggerEndpoint "/api/individuals/:id/serology" ;
     effortless-ntwf:triggeredByRole "system" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5103,9 +5103,9 @@ effortless-ntwf:lupus-nephritis-progression--renalflarerisk--biopsyindicated a e
     effortless-ntwf:ruleRefs "BIOPSY-IND" ;
     effortless-ntwf:triggerEndpoint "/api/individuals/:id/serology" ;
     effortless-ntwf:triggeredByRole "system" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5118,9 +5118,9 @@ effortless-ntwf:lupus-nephritis-progression--serologicactive--quiescent a effort
     effortless-ntwf:ruleRefs "REMISSION" ;
     effortless-ntwf:triggerEndpoint "/api/individuals/:id/serology" ;
     effortless-ntwf:triggeredByRole "system" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5473,9 +5473,9 @@ effortless-ntwf:st-ind-a-reyes-presymptomaticautoimmunity-1 a effortless-ntwf:St
     effortless-ntwf:transitionAt "2025-09-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5489,9 +5489,9 @@ effortless-ntwf:st-ind-a-reyes-serologicactive-2 a effortless-ntwf:StateTransiti
     effortless-ntwf:transitionAt "2025-12-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to SerologicActive" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5504,9 +5504,9 @@ effortless-ntwf:st-ind-b-okafor-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:transitionAt "2025-08-15T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5519,9 +5519,9 @@ effortless-ntwf:st-ind-c-chen-presymptomaticautoimmunity-1 a effortless-ntwf:Sta
     effortless-ntwf:transitionAt "2025-07-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5535,9 +5535,9 @@ effortless-ntwf:st-ind-c-chen-serologicactive-2 a effortless-ntwf:StateTransitio
     effortless-ntwf:transitionAt "2025-10-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to SerologicActive" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5550,9 +5550,9 @@ effortless-ntwf:st-ind-d-santos-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:transitionAt "2025-06-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5566,9 +5566,9 @@ effortless-ntwf:st-ind-d-santos-renalflarerisk-2 a effortless-ntwf:StateTransiti
     effortless-ntwf:transitionAt "2025-09-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to RenalFlareRisk" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5582,9 +5582,9 @@ effortless-ntwf:st-ind-d-santos-biopsyindicated-3 a effortless-ntwf:StateTransit
     effortless-ntwf:transitionAt "2025-12-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to BiopsyIndicated" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5597,9 +5597,9 @@ effortless-ntwf:st-ind-e-mensah-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:transitionAt "2025-08-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5612,9 +5612,9 @@ effortless-ntwf:st-ind-f-haidar-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:transitionAt "2025-09-10T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5627,9 +5627,9 @@ effortless-ntwf:st-ind-g-lin-presymptomaticautoimmunity-1 a effortless-ntwf:Stat
     effortless-ntwf:transitionAt "2025-09-05T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5642,9 +5642,9 @@ effortless-ntwf:st-ind-h-yamamoto-presymptomaticautoimmunity-1 a effortless-ntwf
     effortless-ntwf:transitionAt "2025-07-20T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5658,9 +5658,9 @@ effortless-ntwf:st-ind-h-yamamoto-earlynephritis-2 a effortless-ntwf:StateTransi
     effortless-ntwf:transitionAt "2025-10-20T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to EarlyNephritis" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5673,9 +5673,9 @@ effortless-ntwf:st-pred-h-intake-1 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-02T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Intake" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5689,9 +5689,9 @@ effortless-ntwf:st-pred-h-evidenceassessed-2 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-03T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to EvidenceAssessed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5705,9 +5705,9 @@ effortless-ntwf:st-pred-h-mechanismconfirmed-3 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-04T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to MechanismConfirmed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5721,9 +5721,9 @@ effortless-ntwf:st-pred-h-calibrationchecked-4 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-05T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to CalibrationChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5737,9 +5737,9 @@ effortless-ntwf:st-pred-h-transportchecked-5 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-06T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to TransportChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5753,9 +5753,9 @@ effortless-ntwf:st-pred-h-actionable-6 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-07T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Actionable" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5768,9 +5768,9 @@ effortless-ntwf:st-ind-i-conteh-earlynephritis-1 a effortless-ntwf:StateTransiti
     effortless-ntwf:transitionAt "2025-06-15T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to EarlyNephritis" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5784,9 +5784,9 @@ effortless-ntwf:st-ind-i-conteh-renalflarerisk-2 a effortless-ntwf:StateTransiti
     effortless-ntwf:transitionAt "2025-09-15T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to RenalFlareRisk" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5799,9 +5799,9 @@ effortless-ntwf:st-pred-i-intake-1 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-02T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Intake" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5815,9 +5815,9 @@ effortless-ntwf:st-pred-i-evidenceassessed-2 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-03T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to EvidenceAssessed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5831,9 +5831,9 @@ effortless-ntwf:st-pred-i-mechanismconfirmed-3 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-04T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to MechanismConfirmed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5847,9 +5847,9 @@ effortless-ntwf:st-pred-i-notactionable-4 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-05T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to NotActionable" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5862,9 +5862,9 @@ effortless-ntwf:st-ind-j-brooks-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:transitionAt "2025-08-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5878,9 +5878,9 @@ effortless-ntwf:st-ind-j-brooks-serologicactive-2 a effortless-ntwf:StateTransit
     effortless-ntwf:transitionAt "2025-11-01T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to SerologicActive" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5893,9 +5893,9 @@ effortless-ntwf:st-pred-j-intake-1 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-02T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Intake" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5909,9 +5909,9 @@ effortless-ntwf:st-pred-j-evidenceassessed-2 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-03T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to EvidenceAssessed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5925,9 +5925,9 @@ effortless-ntwf:st-pred-j-mechanismconfirmed-3 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-04T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to MechanismConfirmed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5941,9 +5941,9 @@ effortless-ntwf:st-pred-j-calibrationchecked-4 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-05T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to CalibrationChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5957,9 +5957,9 @@ effortless-ntwf:st-pred-j-notactionable-5 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-06T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to NotActionable" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5972,9 +5972,9 @@ effortless-ntwf:st-ind-k-nair-presymptomaticautoimmunity-1 a effortless-ntwf:Sta
     effortless-ntwf:transitionAt "2025-07-05T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -5987,9 +5987,9 @@ effortless-ntwf:st-pred-k-intake-1 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-02T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Intake" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6003,9 +6003,9 @@ effortless-ntwf:st-pred-k-evidenceassessed-2 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-03T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to EvidenceAssessed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6019,9 +6019,9 @@ effortless-ntwf:st-pred-k-mechanismconfirmed-3 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-04T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to MechanismConfirmed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6035,9 +6035,9 @@ effortless-ntwf:st-pred-k-calibrationchecked-4 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-05T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to CalibrationChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6051,9 +6051,9 @@ effortless-ntwf:st-pred-k-transportchecked-5 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-06T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to TransportChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6067,9 +6067,9 @@ effortless-ntwf:st-pred-k-notactionable-6 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-07T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to NotActionable" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6082,9 +6082,9 @@ effortless-ntwf:st-ind-l-brandt-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:transitionAt "2025-09-05T00:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Serology-derived transition to PresymptomaticAutoimmunity" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6097,9 +6097,9 @@ effortless-ntwf:st-pred-l-intake-1 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-02T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Intake" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6113,9 +6113,9 @@ effortless-ntwf:st-pred-l-evidenceassessed-2 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-03T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to EvidenceAssessed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6129,9 +6129,9 @@ effortless-ntwf:st-pred-l-mechanismconfirmed-3 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-04T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to MechanismConfirmed" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6145,9 +6145,9 @@ effortless-ntwf:st-pred-l-calibrationchecked-4 a effortless-ntwf:StateTransition
     effortless-ntwf:transitionAt "2026-06-05T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to CalibrationChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6161,9 +6161,9 @@ effortless-ntwf:st-pred-l-transportchecked-5 a effortless-ntwf:StateTransitions 
     effortless-ntwf:transitionAt "2026-06-06T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to TransportChecked" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6177,9 +6177,9 @@ effortless-ntwf:st-pred-l-actionable-6 a effortless-ntwf:StateTransitions ;
     effortless-ntwf:transitionAt "2026-06-07T09:00:00Z" ;
     effortless-ntwf:triggeredByRole "system" ;
     effortless-ntwf:reason "Lifecycle transition to Actionable" ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" .
 
@@ -6191,8 +6191,8 @@ effortless-ntwf:ssi-pred-a-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-a" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6203,8 +6203,8 @@ effortless-ntwf:ssi-pred-a-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-a" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-a-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-a-02-intake-to-evidenceassessed ;
@@ -6217,8 +6217,8 @@ effortless-ntwf:ssi-pred-a-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-a" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-a-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-a-03-evidenceassessed-to-mechanismconfirmed ;
@@ -6231,8 +6231,8 @@ effortless-ntwf:ssi-pred-a-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-a" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-a-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-a-04-mechanismconfirmed-to-calibrationchecked ;
@@ -6245,8 +6245,8 @@ effortless-ntwf:ssi-pred-a-transportchecked-5 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-a" ;
     effortless-ntwf:stateKey "TransportChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-a-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-a-05-calibrationchecked-to-transportchecked ;
@@ -6259,7 +6259,7 @@ effortless-ntwf:ssi-pred-a-actionable-6 a effortless-ntwf:SubjectStateInstances 
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-a" ;
     effortless-ntwf:stateKey "Actionable" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 6 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-a-transportchecked-5 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-a-06-transportchecked-to-actionable ;
@@ -6272,8 +6272,8 @@ effortless-ntwf:ssi-pred-b-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-b" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6284,8 +6284,8 @@ effortless-ntwf:ssi-pred-b-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-b" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-b-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-b-02-intake-to-evidenceassessed ;
@@ -6298,8 +6298,8 @@ effortless-ntwf:ssi-pred-b-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-b" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-b-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-b-03-evidenceassessed-to-mechanismconfirmed ;
@@ -6312,8 +6312,8 @@ effortless-ntwf:ssi-pred-b-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-b" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-b-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-b-04-mechanismconfirmed-to-calibrationchecked ;
@@ -6326,7 +6326,7 @@ effortless-ntwf:ssi-pred-b-notactionable-5 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-b" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-b-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-b-05-calibrationchecked-to-notactionable ;
@@ -6339,8 +6339,8 @@ effortless-ntwf:ssi-pred-c-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-c" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6351,8 +6351,8 @@ effortless-ntwf:ssi-pred-c-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-c" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-c-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-c-02-intake-to-evidenceassessed ;
@@ -6365,7 +6365,7 @@ effortless-ntwf:ssi-pred-c-notactionable-3 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-c" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-c-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-c-03-evidenceassessed-to-notactionable ;
@@ -6378,8 +6378,8 @@ effortless-ntwf:ssi-pred-d-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-d" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6390,8 +6390,8 @@ effortless-ntwf:ssi-pred-d-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-d" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-d-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-d-02-intake-to-evidenceassessed ;
@@ -6404,8 +6404,8 @@ effortless-ntwf:ssi-pred-d-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-d" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-d-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-d-03-evidenceassessed-to-mechanismconfirmed ;
@@ -6418,7 +6418,7 @@ effortless-ntwf:ssi-pred-d-notactionable-4 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-d" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-d-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-d-04-mechanismconfirmed-to-notactionable ;
@@ -6431,8 +6431,8 @@ effortless-ntwf:ssi-pred-e-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-e" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6443,8 +6443,8 @@ effortless-ntwf:ssi-pred-e-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-e" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-e-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-e-02-intake-to-evidenceassessed ;
@@ -6457,7 +6457,7 @@ effortless-ntwf:ssi-pred-e-notactionable-3 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-e" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-e-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-e-03-evidenceassessed-to-notactionable ;
@@ -6470,8 +6470,8 @@ effortless-ntwf:ssi-pred-f-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-f" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6482,8 +6482,8 @@ effortless-ntwf:ssi-pred-f-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-f" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-f-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-f-02-intake-to-evidenceassessed ;
@@ -6496,8 +6496,8 @@ effortless-ntwf:ssi-pred-f-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-f" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-f-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-f-03-evidenceassessed-to-mechanismconfirmed ;
@@ -6510,8 +6510,8 @@ effortless-ntwf:ssi-pred-f-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-f" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-f-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-f-04-mechanismconfirmed-to-calibrationchecked ;
@@ -6524,8 +6524,8 @@ effortless-ntwf:ssi-pred-f-transportchecked-5 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-f" ;
     effortless-ntwf:stateKey "TransportChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-f-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-f-05-calibrationchecked-to-transportchecked ;
@@ -6538,7 +6538,7 @@ effortless-ntwf:ssi-pred-f-notactionable-6 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-f" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 6 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-f-transportchecked-5 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-f-06-transportchecked-to-notactionable ;
@@ -6551,8 +6551,8 @@ effortless-ntwf:ssi-pred-g-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-g" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-01T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:createdBy "build-seed" ;
     effortless-ntwf:modifiedBy "build-seed" .
@@ -6563,8 +6563,8 @@ effortless-ntwf:ssi-pred-g-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-g" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-g-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-g-02-intake-to-evidenceassessed ;
@@ -6577,8 +6577,8 @@ effortless-ntwf:ssi-pred-g-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-g" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-g-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-g-03-evidenceassessed-to-mechanismconfirmed ;
@@ -6591,8 +6591,8 @@ effortless-ntwf:ssi-pred-g-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-g" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-g-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-g-04-mechanismconfirmed-to-calibrationchecked ;
@@ -6605,8 +6605,8 @@ effortless-ntwf:ssi-pred-g-transportchecked-5 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-g" ;
     effortless-ntwf:stateKey "TransportChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-g-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-g-05-calibrationchecked-to-transportchecked ;
@@ -6619,7 +6619,7 @@ effortless-ntwf:ssi-pred-g-actionable-6 a effortless-ntwf:SubjectStateInstances 
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-g" ;
     effortless-ntwf:stateKey "Actionable" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 6 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-g-transportchecked-5 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-g-06-transportchecked-to-actionable ;
@@ -6632,13 +6632,13 @@ effortless-ntwf:ssi-ind-a-reyes-presymptomaticautoimmunity-1 a effortless-ntwf:S
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-a-reyes" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-09-01T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-12-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-09-01T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-12-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-a-reyes-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -6649,13 +6649,13 @@ effortless-ntwf:ssi-ind-a-reyes-serologicactive-2 a effortless-ntwf:SubjectState
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-a-reyes" ;
     effortless-ntwf:stateKey "SerologicActive" ;
-    effortless-ntwf:enteredAt "2025-12-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-12-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-a-reyes-presymptomaticautoimmunity-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-a-reyes-serologicactive-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6666,12 +6666,12 @@ effortless-ntwf:ssi-ind-b-okafor-presymptomaticautoimmunity-1 a effortless-ntwf:
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-b-okafor" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-08-15T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-08-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-b-okafor-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6682,13 +6682,13 @@ effortless-ntwf:ssi-ind-c-chen-presymptomaticautoimmunity-1 a effortless-ntwf:Su
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-c-chen" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-07-01T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-10-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-07-01T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-10-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-c-chen-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -6699,13 +6699,13 @@ effortless-ntwf:ssi-ind-c-chen-serologicactive-2 a effortless-ntwf:SubjectStateI
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-c-chen" ;
     effortless-ntwf:stateKey "SerologicActive" ;
-    effortless-ntwf:enteredAt "2025-10-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-10-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-c-chen-presymptomaticautoimmunity-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-c-chen-serologicactive-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6716,13 +6716,13 @@ effortless-ntwf:ssi-ind-d-santos-presymptomaticautoimmunity-1 a effortless-ntwf:
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-d-santos" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-06-01T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-09-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-06-01T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-09-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-d-santos-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -6733,14 +6733,14 @@ effortless-ntwf:ssi-ind-d-santos-renalflarerisk-2 a effortless-ntwf:SubjectState
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-d-santos" ;
     effortless-ntwf:stateKey "RenalFlareRisk" ;
-    effortless-ntwf:enteredAt "2025-09-01T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-12-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-09-01T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-12-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-d-santos-presymptomaticautoimmunity-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-d-santos-renalflarerisk-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -6751,13 +6751,13 @@ effortless-ntwf:ssi-ind-d-santos-biopsyindicated-3 a effortless-ntwf:SubjectStat
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-d-santos" ;
     effortless-ntwf:stateKey "BiopsyIndicated" ;
-    effortless-ntwf:enteredAt "2025-12-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-12-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-d-santos-renalflarerisk-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-d-santos-biopsyindicated-3 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6768,12 +6768,12 @@ effortless-ntwf:ssi-ind-e-mensah-presymptomaticautoimmunity-1 a effortless-ntwf:
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-e-mensah" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-08-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-08-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-e-mensah-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6784,12 +6784,12 @@ effortless-ntwf:ssi-ind-f-haidar-presymptomaticautoimmunity-1 a effortless-ntwf:
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-f-haidar" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-09-10T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-09-10T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-f-haidar-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6800,12 +6800,12 @@ effortless-ntwf:ssi-ind-g-lin-presymptomaticautoimmunity-1 a effortless-ntwf:Sub
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-g-lin" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-09-05T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-09-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-g-lin-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6816,13 +6816,13 @@ effortless-ntwf:ssi-ind-h-yamamoto-presymptomaticautoimmunity-1 a effortless-ntw
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-h-yamamoto" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-07-20T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-10-20T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-07-20T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-10-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-h-yamamoto-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -6833,13 +6833,13 @@ effortless-ntwf:ssi-ind-h-yamamoto-earlynephritis-2 a effortless-ntwf:SubjectSta
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-h-yamamoto" ;
     effortless-ntwf:stateKey "EarlyNephritis" ;
-    effortless-ntwf:enteredAt "2025-10-20T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-10-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-h-yamamoto-presymptomaticautoimmunity-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-h-yamamoto-earlynephritis-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6850,13 +6850,13 @@ effortless-ntwf:ssi-pred-h-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-h" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-h-intake-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -6867,14 +6867,14 @@ effortless-ntwf:ssi-pred-h-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-h" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-h-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-h-evidenceassessed-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -6885,14 +6885,14 @@ effortless-ntwf:ssi-pred-h-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-h" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-h-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-h-mechanismconfirmed-3 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -6903,14 +6903,14 @@ effortless-ntwf:ssi-pred-h-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-h" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-h-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-h-calibrationchecked-4 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -6921,14 +6921,14 @@ effortless-ntwf:ssi-pred-h-transportchecked-5 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-h" ;
     effortless-ntwf:stateKey "TransportChecked" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-07T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-07T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-h-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-h-transportchecked-5 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -6939,13 +6939,13 @@ effortless-ntwf:ssi-pred-h-actionable-6 a effortless-ntwf:SubjectStateInstances 
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-h" ;
     effortless-ntwf:stateKey "Actionable" ;
-    effortless-ntwf:enteredAt "2026-06-07T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-07T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 6 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-h-transportchecked-5 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-h-actionable-6 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -6956,13 +6956,13 @@ effortless-ntwf:ssi-ind-i-conteh-earlynephritis-1 a effortless-ntwf:SubjectState
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-i-conteh" ;
     effortless-ntwf:stateKey "EarlyNephritis" ;
-    effortless-ntwf:enteredAt "2025-06-15T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-09-15T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-06-15T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-09-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-i-conteh-earlynephritis-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -6973,13 +6973,13 @@ effortless-ntwf:ssi-ind-i-conteh-renalflarerisk-2 a effortless-ntwf:SubjectState
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-i-conteh" ;
     effortless-ntwf:stateKey "RenalFlareRisk" ;
-    effortless-ntwf:enteredAt "2025-09-15T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-09-15T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-i-conteh-earlynephritis-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-i-conteh-renalflarerisk-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step3" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step3" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -6990,13 +6990,13 @@ effortless-ntwf:ssi-pred-i-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-i" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-i-intake-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7007,14 +7007,14 @@ effortless-ntwf:ssi-pred-i-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-i" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-i-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-i-evidenceassessed-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7025,14 +7025,14 @@ effortless-ntwf:ssi-pred-i-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-i" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-i-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-i-mechanismconfirmed-3 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7043,13 +7043,13 @@ effortless-ntwf:ssi-pred-i-notactionable-4 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-i" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-i-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-i-notactionable-4 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7060,13 +7060,13 @@ effortless-ntwf:ssi-ind-j-brooks-presymptomaticautoimmunity-1 a effortless-ntwf:
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-j-brooks" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-08-01T00:00:00Z" ;
-    effortless-ntwf:exitedAt "2025-11-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-08-01T00:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2025-11-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-j-brooks-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 90 .
@@ -7077,13 +7077,13 @@ effortless-ntwf:ssi-ind-j-brooks-serologicactive-2 a effortless-ntwf:SubjectStat
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-j-brooks" ;
     effortless-ntwf:stateKey "SerologicActive" ;
-    effortless-ntwf:enteredAt "2025-11-01T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-11-01T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-ind-j-brooks-presymptomaticautoimmunity-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-j-brooks-serologicactive-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -7094,13 +7094,13 @@ effortless-ntwf:ssi-pred-j-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-j" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-j-intake-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7111,14 +7111,14 @@ effortless-ntwf:ssi-pred-j-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-j" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-j-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-j-evidenceassessed-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7129,14 +7129,14 @@ effortless-ntwf:ssi-pred-j-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-j" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-j-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-j-mechanismconfirmed-3 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7147,14 +7147,14 @@ effortless-ntwf:ssi-pred-j-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-j" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-j-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-j-calibrationchecked-4 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7165,13 +7165,13 @@ effortless-ntwf:ssi-pred-j-notactionable-5 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-j" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-j-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-j-notactionable-5 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7182,12 +7182,12 @@ effortless-ntwf:ssi-ind-k-nair-presymptomaticautoimmunity-1 a effortless-ntwf:Su
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-k-nair" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-07-05T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-07-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-k-nair-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -7198,13 +7198,13 @@ effortless-ntwf:ssi-pred-k-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-k" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-k-intake-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7215,14 +7215,14 @@ effortless-ntwf:ssi-pred-k-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-k" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-k-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-k-evidenceassessed-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7233,14 +7233,14 @@ effortless-ntwf:ssi-pred-k-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-k" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-k-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-k-mechanismconfirmed-3 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7251,14 +7251,14 @@ effortless-ntwf:ssi-pred-k-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-k" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-k-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-k-calibrationchecked-4 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7269,14 +7269,14 @@ effortless-ntwf:ssi-pred-k-transportchecked-5 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-k" ;
     effortless-ntwf:stateKey "TransportChecked" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-07T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-07T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-k-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-k-transportchecked-5 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7287,13 +7287,13 @@ effortless-ntwf:ssi-pred-k-notactionable-6 a effortless-ntwf:SubjectStateInstanc
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-k" ;
     effortless-ntwf:stateKey "NotActionable" ;
-    effortless-ntwf:enteredAt "2026-06-07T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-07T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 6 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-k-transportchecked-5 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-k-notactionable-6 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7304,12 +7304,12 @@ effortless-ntwf:ssi-ind-l-brandt-presymptomaticautoimmunity-1 a effortless-ntwf:
     effortless-ntwf:subjectTableName "Individuals" ;
     effortless-ntwf:subjectId "ind-l-brandt" ;
     effortless-ntwf:stateKey "PresymptomaticAutoimmunity" ;
-    effortless-ntwf:enteredAt "2025-09-05T00:00:00Z" ;
+    effortless-ntwf:enteredAt "2025-09-05T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-ind-l-brandt-presymptomaticautoimmunity-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 120 .
@@ -7320,13 +7320,13 @@ effortless-ntwf:ssi-pred-l-intake-1 a effortless-ntwf:SubjectStateInstances ;
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-l" ;
     effortless-ntwf:stateKey "Intake" ;
-    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-02T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-l-intake-1 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7337,14 +7337,14 @@ effortless-ntwf:ssi-pred-l-evidenceassessed-2 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-l" ;
     effortless-ntwf:stateKey "EvidenceAssessed" ;
-    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-03T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 2 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-l-intake-1 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-l-evidenceassessed-2 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7355,14 +7355,14 @@ effortless-ntwf:ssi-pred-l-mechanismconfirmed-3 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-l" ;
     effortless-ntwf:stateKey "MechanismConfirmed" ;
-    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-04T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 3 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-l-evidenceassessed-2 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-l-mechanismconfirmed-3 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7373,14 +7373,14 @@ effortless-ntwf:ssi-pred-l-calibrationchecked-4 a effortless-ntwf:SubjectStateIn
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-l" ;
     effortless-ntwf:stateKey "CalibrationChecked" ;
-    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-05T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 4 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-l-mechanismconfirmed-3 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-l-calibrationchecked-4 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7391,14 +7391,14 @@ effortless-ntwf:ssi-pred-l-transportchecked-5 a effortless-ntwf:SubjectStateInst
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-l" ;
     effortless-ntwf:stateKey "TransportChecked" ;
-    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z" ;
-    effortless-ntwf:exitedAt "2026-06-07T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-06T09:00:00Z"^^xsd:dateTime ;
+    effortless-ntwf:exitedAt "2026-06-07T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 5 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-l-calibrationchecked-4 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-l-transportchecked-5 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7409,13 +7409,13 @@ effortless-ntwf:ssi-pred-l-actionable-6 a effortless-ntwf:SubjectStateInstances 
     effortless-ntwf:subjectTableName "IndividualPredictions" ;
     effortless-ntwf:subjectId "pred-l" ;
     effortless-ntwf:stateKey "Actionable" ;
-    effortless-ntwf:enteredAt "2026-06-07T09:00:00Z" ;
+    effortless-ntwf:enteredAt "2026-06-07T09:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:sequenceIndex 6 ;
     effortless-ntwf:priorInstance effortless-ntwf:ssi-pred-l-transportchecked-5 ;
     effortless-ntwf:enteredViaTransition effortless-ntwf:st-pred-l-actionable-6 ;
-    effortless-ntwf:createdAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:createdAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:createdBy "v2-step10" ;
-    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z" ;
+    effortless-ntwf:modifiedAt "2026-06-20T00:00:00Z"^^xsd:dateTime ;
     effortless-ntwf:modifiedBy "v2-step10" ;
     effortless-ntwf:modifiedByModel "claude-opus-4-8" ;
     effortless-ntwf:dwellDays 1 .
@@ -7555,7 +7555,7 @@ effortless-ntwf:tx-a a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Partial" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-b a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-b" ;
@@ -7566,7 +7566,7 @@ effortless-ntwf:tx-b a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Complete" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-c a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-c" ;
@@ -7577,7 +7577,7 @@ effortless-ntwf:tx-c a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Partial" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-d a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-d" ;
@@ -7588,7 +7588,7 @@ effortless-ntwf:tx-d a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Complete" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect true ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-e a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-e" ;
@@ -7599,7 +7599,7 @@ effortless-ntwf:tx-e a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "None" ;
     effortless-ntwf:hasTreatmentInducedChange false ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-f a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-f" ;
@@ -7610,7 +7610,7 @@ effortless-ntwf:tx-f a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "None" ;
     effortless-ntwf:hasTreatmentInducedChange false ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-g a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-g" ;
@@ -7621,7 +7621,7 @@ effortless-ntwf:tx-g a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Partial" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-h a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-h" ;
@@ -7632,7 +7632,7 @@ effortless-ntwf:tx-h a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Partial" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-i a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-i" ;
@@ -7643,7 +7643,7 @@ effortless-ntwf:tx-i a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Complete" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect true ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-j a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-j" ;
@@ -7654,7 +7654,7 @@ effortless-ntwf:tx-j a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Complete" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-k a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-k" ;
@@ -7665,7 +7665,7 @@ effortless-ntwf:tx-k a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "None" ;
     effortless-ntwf:hasTreatmentInducedChange false ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 effortless-ntwf:tx-l a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentId "tx-l" ;
@@ -7676,7 +7676,7 @@ effortless-ntwf:tx-l a effortless-ntwf:Treatments ;
     effortless-ntwf:treatmentResponse "Partial" ;
     effortless-ntwf:hasTreatmentInducedChange true ;
     effortless-ntwf:hasAdverseEffect false ;
-    effortless-ntwf:startDate "2024-04-01" .
+    effortless-ntwf:startDate "2024-04-01"^^xsd:date .
 
 # === Individuals: VariantTypes ===
 

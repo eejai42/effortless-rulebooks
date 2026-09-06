@@ -817,6 +817,94 @@ effortless-ntwf:isPresymptomatic a owl:DatatypeProperty ;
     rdfs:comment "True when stage is presymptomatic diagnosis window." .
     # calculated: calculated
 
+# === Class: EffortlessLoops ===
+effortless-ntwf:EffortlessLoops a owl:Class ;
+    rdfs:label "EffortlessLoops" ;
+    rdfs:comment "The ordered Effortless loops that build this platform, as data. The derived plan (EFFORTLESS_LOOPS.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan." .
+
+effortless-ntwf:effortlessLoopId a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "EffortlessLoopId" ;
+    rdfs:comment "Stable identifier." .
+
+effortless-ntwf:loopNumber a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "LoopNumber" ;
+    rdfs:comment "Display number (0, 0.5, 1...)." .
+
+effortless-ntwf:title a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "Title" ;
+    rdfs:comment "Loop title." .
+
+effortless-ntwf:goal a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "Goal" ;
+    rdfs:comment "The one coherent rule-change / outcome." .
+
+effortless-ntwf:status a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "Status" ;
+    rdfs:comment "done | next | planned | backlog (the raw input that drives Completedness)." .
+
+effortless-ntwf:ruleCommitMsg a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "RuleCommitMsg" ;
+    rdfs:comment "The rule commit message (or \"none — app-only loop\")." .
+
+effortless-ntwf:stateCommitMsg a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "StateCommitMsg" ;
+    rdfs:comment "The state commit message." .
+
+effortless-ntwf:sortOrder a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "SortOrder" ;
+    rdfs:comment "Ordering within the plan." .
+
+effortless-ntwf:name a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "Name" ;
+    rdfs:comment "Display label." .
+    # calculated: calculated
+
+effortless-ntwf:relativePath a owl:DatatypeProperty ;
+    rdfs:range xsd:string ;
+    rdfs:label "RelativePath" ;
+    rdfs:comment "Path to this EffortlessLoops entry: /admin/effortless-loops/<id>." .
+    # calculated: calculated
+
+effortless-ntwf:completedness a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "Completedness" ;
+    rdfs:comment "Normalized status used by the derived plan to decide placement." .
+    # calculated: calculated
+
+effortless-ntwf:isInCurrentPlan a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:boolean ;
+    rdfs:label "IsInCurrentPlan" ;
+    rdfs:comment "TRUE for the current \"next\" loop and anything still planned/backlog (not done)." .
+    # calculated: calculated
+
+effortless-ntwf:statusBadge a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "StatusBadge" ;
+    rdfs:comment "Display badge for the derived plan, e.g. [DONE] / [NEXT] / [PLANNED] / [BACKLOG]." .
+
+effortless-ntwf:statusLine a owl:DatatypeProperty ;
+    rdfs:domain effortless-ntwf:EffortlessLoops ;
+    rdfs:range xsd:string ;
+    rdfs:label "StatusLine" ;
+    rdfs:comment "Extra plan line: commit messages for done/next loops; empty otherwise." .
+
 # === Class: EnvironmentalExposures ===
 effortless-ntwf:EnvironmentalExposures a owl:Class ;
     rdfs:label "EnvironmentalExposures" ;
@@ -1151,7 +1239,7 @@ effortless-ntwf:assignedLoop a owl:DatatypeProperty ;
     rdfs:domain effortless-ntwf:Features ;
     rdfs:range xsd:string ;
     rdfs:label "AssignedLoop" ;
-    rdfs:comment "FK -> LeopoldLoops.LeopoldLoopId; empty if unscheduled." .
+    rdfs:comment "FK -> EffortlessLoops.EffortlessLoopId; empty if unscheduled." .
 
 effortless-ntwf:name a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
@@ -2166,94 +2254,6 @@ effortless-ntwf:isCellBasedTherapy a owl:DatatypeProperty ;
     rdfs:label "IsCellBasedTherapy" ;
     rdfs:comment "True when therapy class is cell-based." .
     # calculated: calculated
-
-# === Class: LeopoldLoops ===
-effortless-ntwf:LeopoldLoops a owl:Class ;
-    rdfs:label "LeopoldLoops" ;
-    rdfs:comment "The ordered Leopold loops that build this platform, as data. The derived plan (LEOPOLD_LOOPs.md, via json-hbars-transform) is generated from these rows; completed ([DONE]) loops are pruned at publish so only current/roadmap work shows in the plan." .
-
-effortless-ntwf:leopoldLoopId a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "LeopoldLoopId" ;
-    rdfs:comment "Stable identifier." .
-
-effortless-ntwf:loopNumber a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "LoopNumber" ;
-    rdfs:comment "Display number (0, 0.5, 1...)." .
-
-effortless-ntwf:title a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "Title" ;
-    rdfs:comment "Loop title." .
-
-effortless-ntwf:goal a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "Goal" ;
-    rdfs:comment "The one coherent rule-change / outcome." .
-
-effortless-ntwf:status a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "Status" ;
-    rdfs:comment "done | next | planned | backlog (the raw input that drives Completedness)." .
-
-effortless-ntwf:ruleCommitMsg a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "RuleCommitMsg" ;
-    rdfs:comment "The rule commit message (or \"none — app-only loop\")." .
-
-effortless-ntwf:stateCommitMsg a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "StateCommitMsg" ;
-    rdfs:comment "The state commit message." .
-
-effortless-ntwf:sortOrder a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "SortOrder" ;
-    rdfs:comment "Ordering within the plan." .
-
-effortless-ntwf:name a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "Name" ;
-    rdfs:comment "Display label." .
-    # calculated: calculated
-
-effortless-ntwf:relativePath a owl:DatatypeProperty ;
-    rdfs:range xsd:string ;
-    rdfs:label "RelativePath" ;
-    rdfs:comment "Path to this LeopoldLoops entry: /admin/leopold-loops/<id>." .
-    # calculated: calculated
-
-effortless-ntwf:completedness a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "Completedness" ;
-    rdfs:comment "Normalized status used by the derived plan to decide placement." .
-    # calculated: calculated
-
-effortless-ntwf:isInCurrentPlan a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:boolean ;
-    rdfs:label "IsInCurrentPlan" ;
-    rdfs:comment "TRUE for the current \"next\" loop and anything still planned/backlog (not done)." .
-    # calculated: calculated
-
-effortless-ntwf:statusBadge a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "StatusBadge" ;
-    rdfs:comment "Display badge for the derived plan, e.g. [DONE] / [NEXT] / [PLANNED] / [BACKLOG]." .
-
-effortless-ntwf:statusLine a owl:DatatypeProperty ;
-    rdfs:domain effortless-ntwf:LeopoldLoops ;
-    rdfs:range xsd:string ;
-    rdfs:label "StatusLine" ;
-    rdfs:comment "Extra plan line: commit messages for done/next loops; empty otherwise." .
 
 # === Class: MachineStates ===
 effortless-ntwf:MachineStates a owl:Class ;

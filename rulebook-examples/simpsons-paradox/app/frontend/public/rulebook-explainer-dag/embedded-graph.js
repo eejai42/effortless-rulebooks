@@ -6,22 +6,122 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Loops": {
     "Description": "Table: Loops — build history and forward plan, carried as a first-class entity inside the model. Each row documents what new concept is introduced, what was witnessed, and (for planned rows) the next empirical question. Loops 62–67 are the corpus-scale research sweep + catalog expansion. Loops 68+ are the expansion encode waves: pre-register in DiscoveryHypotheses, encode via StudyImportTemplate, LoopReview at end of each turn before committing vocabulary.",
     "schema": [
-      { "name": "LoopId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique identifier: loop-01 through loop-10." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{LoopId}}" },
-      { "name": "Title", "datatype": "string", "type": "raw", "nullable": false, "Description": "Short title for what this loop adds to the domain model." },
-      { "name": "Status", "datatype": "string", "type": "raw", "nullable": false, "Description": "planned | in-progress | complete" },
-      { "name": "NewConcept", "datatype": "string", "type": "raw", "nullable": true, "Description": "The new first-class domain concept introduced this loop." },
-      { "name": "DomainQuestion", "datatype": "string", "type": "raw", "nullable": true, "Description": "The natural-language question this loop's concept answers FROM the domain data." },
-      { "name": "MockDataNote", "datatype": "string", "type": "raw", "nullable": true, "Description": "What the seed data is designed to show." },
-      { "name": "NextSuggestion", "datatype": "string", "type": "raw", "nullable": true, "Description": "Suggestion for the next loop, written after witnessing the DAG at this loop's end." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition whose conceptual vocabulary this loop primarily draws on — tracks which tradition has driven each stage of the instrument's development." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionCoreConern", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.CoreConcern via TraditionId — which intellectual concern drove this loop.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[CoreConcern])" },
-      { "name": "CommitHash", "datatype": "string", "type": "raw", "nullable": true, "Description": "Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Leopold loop." },
-      { "name": "CommitShort", "datatype": "string", "type": "calculated", "nullable": true, "Description": "First 7 characters of CommitHash for display and git checkout.", "formula": "=LEFT({{CommitHash}}, 7)" },
-      { "name": "CommitDate", "datatype": "string", "type": "raw", "nullable": true, "Description": "ISO date (YYYY-MM-DD) of the commit where this loop landed." },
-      { "name": "CommitMessage", "datatype": "string", "type": "raw", "nullable": true, "Description": "Git commit subject line for this loop's landing commit." },
-      { "name": "GitTag", "datatype": "string", "type": "raw", "nullable": true, "Description": "Optional milestone tag pointing at this loop's landing commit (sp-loop-milestone-*). Used for discovery replay without memorizing SHAs." }
+      {
+        "name": "LoopId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique identifier: loop-01 through loop-10."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{LoopId}}"
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Short title for what this loop adds to the domain model."
+      },
+      {
+        "name": "Status",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "planned | in-progress | complete"
+      },
+      {
+        "name": "NewConcept",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The new first-class domain concept introduced this loop."
+      },
+      {
+        "name": "DomainQuestion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The natural-language question this loop's concept answers FROM the domain data."
+      },
+      {
+        "name": "MockDataNote",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "What the seed data is designed to show."
+      },
+      {
+        "name": "NextSuggestion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Suggestion for the next loop, written after witnessing the DAG at this loop's end."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition whose conceptual vocabulary this loop primarily draws on — tracks which tradition has driven each stage of the instrument's development."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionCoreConern",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.CoreConcern via TraditionId — which intellectual concern drove this loop.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[CoreConcern])"
+      },
+      {
+        "name": "CommitHash",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Effortless loop."
+      },
+      {
+        "name": "CommitShort",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "First 7 characters of CommitHash for display and git checkout.",
+        "formula": "=LEFT({{CommitHash}}, 7)"
+      },
+      {
+        "name": "CommitDate",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "ISO date (YYYY-MM-DD) of the commit where this loop landed."
+      },
+      {
+        "name": "CommitMessage",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Git commit subject line for this loop's landing commit."
+      },
+      {
+        "name": "GitTag",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Optional milestone tag pointing at this loop's landing commit (sp-loop-milestone-*). Used for discovery replay without memorizing SHAs."
+      }
     ],
     "data": [
       { "LoopId": "loop-01", "Title": "Core domain: Study, Treatment, Stratum, CaseCell → SuccessRate falls out", "Status": "complete", "NewConcept": "Studies, Treatments, Strata, CaseCells", "DomainQuestion": "For each (stratum, treatment) cell in a study, what is the success rate?", "MockDataNote": "Kidney stone study (Charig 1986): 2 strata (small/large), 2 treatments (A/B), 4 cells. CellSuccessRate is the first derived fact.", "NextSuggestion": "Ask: for each treatment, what is its pooled (across all strata) success rate? That requires TreatmentSummary — aggregating CaseCells by treatment, ignoring stratum.", "TraditionId": "tradition-historical", "CommitHash": "b96e0fe6e3402d85b16e9772518d9241c64c1b1e", "CommitDate": "2026-06-27", "CommitMessage": "loop-05: StratumVariables + IsParadoxExplained — the DAG witnesses its own explanation", "GitTag": "sp-loop-milestone-01-loops-01-10" },
@@ -123,38 +223,249 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Studies": {
     "Description": "Table: Studies — a clinical or empirical study comparing two or more treatments for a condition, with patient cases stratified by a confounding variable. The top-level entity in the domain.",
     "schema": [
-      { "name": "StudyId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug for this study (e.g. kidney-1986, berkeley-1973)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors StudyId.", "formula": "={{StudyId}}" },
-      { "name": "Title", "datatype": "string", "type": "raw", "nullable": true, "Description": "Human-readable title of the study." },
-      { "name": "Source", "datatype": "string", "type": "raw", "nullable": true, "Description": "Citation or description of the original data source." },
-      { "name": "SourceUrl", "datatype": "string", "type": "raw", "nullable": true, "Description": "URL to the original source." },
-      { "name": "PublicationYear", "type": "raw", "datatype": "integer", "Description": "Year the study was published. Used for temporal stratification and pre-registration dating.", "nullable": true },
-      { "name": "Domain", "type": "raw", "datatype": "string", "Description": "Research domain: medicine | epidemiology | social-science | education | legal | sports | economics | synthetic. Enables cross-domain SignalPurity stratification.", "nullable": true },
-      { "name": "IsSynthetic", "type": "raw", "datatype": "boolean", "Description": "TRUE for constructed/counterfactual studies; FALSE for real published studies. Filters the corpus for empirical claims.", "nullable": true },
-      { "name": "TotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total number of cases (trials) across all CaseCells in this study.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{StudyId}})" },
-      { "name": "CellCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of CaseCell rows for this study.", "formula": "=COUNTIFS(CaseCells!{{Study}}, {{StudyId}})" },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition whose framing best characterizes this study's paradox type. Synthetic studies inherit the tradition of their conceptual origin." },
-      { "name": "PrimaryResearcherId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Researchers.ResearcherId. The researcher most associated with first surfacing or canonically citing this study in the Simpson's Paradox literature." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionCoreConern", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.CoreConcern via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[CoreConcern])" },
-      { "name": "PrimaryResearcherName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Name via PrimaryResearcherId.", "formula": "=LOOKUP({{PrimaryResearcherId}}, Researchers[ResearcherId], Researchers[Name])" },
-      { "name": "PrimaryResearcherAffiliation", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Affiliation via PrimaryResearcherId.", "formula": "=LOOKUP({{PrimaryResearcherId}}, Researchers[ResearcherId], Researchers[Affiliation])" },
-      { "name": "DistortionType", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.DistortionType for this study — the geometric classification of its paradox.", "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])" },
-      { "name": "PolicyImplication", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.CorrectedPolicyImplication for this study.", "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[CorrectedPolicyImplication])" },
-      { "name": "AllocationDistortion", "datatype": "float", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.AllocationDistortion for this study — the scalar severity of allocation-induced distortion.", "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[AllocationDistortion])" },
-      { "name": "SignalPurity", "datatype": "float", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.SignalPurity for this study — ratio of true signal to total gap width.", "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[SignalPurity])" },
-      { "name": "IsSignFlip", "datatype": "boolean", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.IsSignFlip for this study — true if the paradox satisfies the continuous sign-flip definition.", "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[IsSignFlip])" },
-      { "name": "CorrectedWinner", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.CorrectedWinner for this study — which treatment wins after allocation correction.", "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[CorrectedWinner])" },
-      { "name": "ConfoundingVariable", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: StratumVariables.VariableName for this study — the named stratifying variable.", "formula": "=LOOKUP({{StudyId}}, StratumVariables[Study], StratumVariables[VariableName])" },
-      { "name": "CausalRole", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: StratumVariables.CausalRole for this study — confounder, mediator, collider, proxy, or contested.", "formula": "=LOOKUP({{StudyId}}, StratumVariables[Study], StratumVariables[CausalRole])" },
-      { "name": "IngestionCellParity", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when CellCount = 2 x StratumCount.", "formula": "=AND(LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[StratumCount]) >= 2, {{CellCount}} = LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[StratumCount]) * 2)" },
-      { "name": "IngestionCompliance", "datatype": "string", "type": "calculated", "nullable": true, "Description": "all | partial | exempt-synthetic.", "formula": "=IF({{IsSynthetic}}, \"exempt-synthetic\", IF(AND({{IngestionCellParity}}, LOOKUP({{StudyId}}, StratumVariables[Study], StratumVariables[VariableName]) <> \"\"), \"all\", \"partial\"))" },
-      { "name": "IsControlStudy", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "TRUE if this study is a control (no Simpson's paradox expected/found); FALSE for the main Simpson's Paradox corpus." },
-      { "name": "ControlDomain", "datatype": "string", "type": "raw", "nullable": true, "Description": "Domain slug for control studies (e.g. medicine-rct, education-higher). NULL for non-control studies." },
-      { "name": "ValidTimeStart", "datatype": "integer", "type": "raw", "nullable": true, "Description": "First year of the real-world cohort period this study's data covers (valid-time, not publication year). Defaults to PublicationYear when the true cohort window is not independently known." },
-      { "name": "ValidTimeEnd", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Last year of the real-world cohort period this study's data covers (valid-time, not publication year). Defaults to PublicationYear when the true cohort window is not independently known." },
-      { "name": "ValidTimeMidpoint", "datatype": "float", "type": "calculated", "nullable": true, "Description": "Midpoint year of the valid-time cohort window, used to bucket studies by when their underlying data actually occurred rather than when the paper was published.", "formula": "=IF(AND({{ValidTimeStart}} <> \"\", {{ValidTimeEnd}} <> \"\"), ({{ValidTimeStart}} + {{ValidTimeEnd}}) / 2, {{PublicationYear}})" },
-      { "name": "ValidTimeDecade", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "ValidTimeMidpoint floored to the decade (e.g. 1973 -> 1970). The bucket key ConfounderDistortionTimeline aggregates over.", "formula": "=IF({{ValidTimeMidpoint}} = \"\", \"\", FLOOR({{ValidTimeMidpoint}} / 10) * 10)" }
+      {
+        "name": "StudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug for this study (e.g. kidney-1986, berkeley-1973)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors StudyId.",
+        "formula": "={{StudyId}}"
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Human-readable title of the study."
+      },
+      {
+        "name": "Source",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Citation or description of the original data source."
+      },
+      {
+        "name": "SourceUrl",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "URL to the original source."
+      },
+      {
+        "name": "PublicationYear",
+        "type": "raw",
+        "datatype": "integer",
+        "Description": "Year the study was published. Used for temporal stratification and pre-registration dating.",
+        "nullable": true
+      },
+      {
+        "name": "Domain",
+        "type": "raw",
+        "datatype": "string",
+        "Description": "Research domain: medicine | epidemiology | social-science | education | legal | sports | economics | synthetic. Enables cross-domain SignalPurity stratification.",
+        "nullable": true
+      },
+      {
+        "name": "IsSynthetic",
+        "type": "raw",
+        "datatype": "boolean",
+        "Description": "TRUE for constructed/counterfactual studies; FALSE for real published studies. Filters the corpus for empirical claims.",
+        "nullable": true
+      },
+      {
+        "name": "TotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total number of cases (trials) across all CaseCells in this study.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{StudyId}})"
+      },
+      {
+        "name": "CellCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of CaseCell rows for this study.",
+        "formula": "=COUNTIFS(CaseCells!{{Study}}, {{StudyId}})"
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition whose framing best characterizes this study's paradox type. Synthetic studies inherit the tradition of their conceptual origin."
+      },
+      {
+        "name": "PrimaryResearcherId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Researchers.ResearcherId. The researcher most associated with first surfacing or canonically citing this study in the Simpson's Paradox literature."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionCoreConern",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.CoreConcern via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[CoreConcern])"
+      },
+      {
+        "name": "PrimaryResearcherName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Name via PrimaryResearcherId.",
+        "formula": "=LOOKUP({{PrimaryResearcherId}}, Researchers[ResearcherId], Researchers[Name])"
+      },
+      {
+        "name": "PrimaryResearcherAffiliation",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Affiliation via PrimaryResearcherId.",
+        "formula": "=LOOKUP({{PrimaryResearcherId}}, Researchers[ResearcherId], Researchers[Affiliation])"
+      },
+      {
+        "name": "DistortionType",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.DistortionType for this study — the geometric classification of its paradox.",
+        "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])"
+      },
+      {
+        "name": "PolicyImplication",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.CorrectedPolicyImplication for this study.",
+        "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[CorrectedPolicyImplication])"
+      },
+      {
+        "name": "AllocationDistortion",
+        "datatype": "float",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.AllocationDistortion for this study — the scalar severity of allocation-induced distortion.",
+        "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[AllocationDistortion])"
+      },
+      {
+        "name": "SignalPurity",
+        "datatype": "float",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.SignalPurity for this study — ratio of true signal to total gap width.",
+        "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[SignalPurity])"
+      },
+      {
+        "name": "IsSignFlip",
+        "datatype": "boolean",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.IsSignFlip for this study — true if the paradox satisfies the continuous sign-flip definition.",
+        "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[IsSignFlip])"
+      },
+      {
+        "name": "CorrectedWinner",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.CorrectedWinner for this study — which treatment wins after allocation correction.",
+        "formula": "=LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[CorrectedWinner])"
+      },
+      {
+        "name": "ConfoundingVariable",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: StratumVariables.VariableName for this study — the named stratifying variable.",
+        "formula": "=LOOKUP({{StudyId}}, StratumVariables[Study], StratumVariables[VariableName])"
+      },
+      {
+        "name": "CausalRole",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: StratumVariables.CausalRole for this study — confounder, mediator, collider, proxy, or contested.",
+        "formula": "=LOOKUP({{StudyId}}, StratumVariables[Study], StratumVariables[CausalRole])"
+      },
+      {
+        "name": "IngestionCellParity",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when CellCount = 2 x StratumCount.",
+        "formula": "=AND(LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[StratumCount]) >= 2, {{CellCount}} = LOOKUP({{StudyId}}, TreatmentRankings[Study], TreatmentRankings[StratumCount]) * 2)"
+      },
+      {
+        "name": "IngestionCompliance",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "all | partial | exempt-synthetic.",
+        "formula": "=IF({{IsSynthetic}}, \"exempt-synthetic\", IF(AND({{IngestionCellParity}}, LOOKUP({{StudyId}}, StratumVariables[Study], StratumVariables[VariableName]) <> \"\"), \"all\", \"partial\"))"
+      },
+      {
+        "name": "IsControlStudy",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "TRUE if this study is a control (no Simpson's paradox expected/found); FALSE for the main Simpson's Paradox corpus."
+      },
+      {
+        "name": "ControlDomain",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Domain slug for control studies (e.g. medicine-rct, education-higher). NULL for non-control studies."
+      },
+      {
+        "name": "ValidTimeStart",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "First year of the real-world cohort period this study's data covers (valid-time, not publication year). Defaults to PublicationYear when the true cohort window is not independently known."
+      },
+      {
+        "name": "ValidTimeEnd",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Last year of the real-world cohort period this study's data covers (valid-time, not publication year). Defaults to PublicationYear when the true cohort window is not independently known."
+      },
+      {
+        "name": "ValidTimeMidpoint",
+        "datatype": "float",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Midpoint year of the valid-time cohort window, used to bucket studies by when their underlying data actually occurred rather than when the paper was published.",
+        "formula": "=IF(AND({{ValidTimeStart}} <> \"\", {{ValidTimeEnd}} <> \"\"), ({{ValidTimeStart}} + {{ValidTimeEnd}}) / 2, {{PublicationYear}})"
+      },
+      {
+        "name": "ValidTimeDecade",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ValidTimeMidpoint floored to the decade (e.g. 1973 -> 1970). The bucket key ConfounderDistortionTimeline aggregates over.",
+        "formula": "=IF({{ValidTimeMidpoint}} = \"\", \"\", FLOOR({{ValidTimeMidpoint}} / 10) * 10)"
+      }
     ],
     "data": [
       { "StudyId": "kidney-1986", "Title": "Kidney Stone Treatment Study (Charig et al. 1986)", "Source": "Charig CR et al. Comparison of treatment of renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave lithotripsy. Br Med J. 1986;292:879.", "SourceUrl": "https://www.bmj.com/content/292/6524/879", "Name": "kidney-1986", "TotalCases": 700, "CellCount": 4, "TraditionId": "tradition-historical", "PrimaryResearcherId": "researcher-blyth", "PublicationYear": 1986, "Domain": "medicine", "IsSynthetic": false, "IsControlStudy": false, "ControlDomain": null, "ValidTimeStart": 1986, "ValidTimeEnd": 1986 },
@@ -461,14 +772,67 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Treatments": {
     "Description": "Table: Treatments — the interventions being compared within a study. Each treatment belongs to one study.",
     "schema": [
-      { "name": "TreatmentId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. kidney-1986-A, kidney-1986-B)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{TreatmentId}}" },
-      { "name": "Study", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK to the parent Study.", "RelatedTo": "Studies" },
-      { "name": "TreatmentLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "Short label used in CaseCells and comparisons (e.g. A, B)." },
-      { "name": "Description", "datatype": "string", "type": "raw", "nullable": true, "Description": "Plain-language description of what this treatment is." },
-      { "name": "TotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases for this treatment across all strata.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})" },
-      { "name": "TotalSuccesses", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total successes for this treatment across all strata.", "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})" },
-      { "name": "PooledSuccessRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Pooled (across all strata) success rate for this treatment: TotalSuccesses / TotalCases.", "formula": "=IF({{TotalCases}} = 0, \"\", {{TotalSuccesses}} / {{TotalCases}})" }
+      {
+        "name": "TreatmentId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. kidney-1986-A, kidney-1986-B)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{TreatmentId}}"
+      },
+      {
+        "name": "Study",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the parent Study.",
+        "RelatedTo": "Studies"
+      },
+      {
+        "name": "TreatmentLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Short label used in CaseCells and comparisons (e.g. A, B)."
+      },
+      {
+        "name": "Description",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Plain-language description of what this treatment is."
+      },
+      {
+        "name": "TotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases for this treatment across all strata.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})"
+      },
+      {
+        "name": "TotalSuccesses",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total successes for this treatment across all strata.",
+        "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})"
+      },
+      {
+        "name": "PooledSuccessRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Pooled (across all strata) success rate for this treatment: TotalSuccesses / TotalCases.",
+        "formula": "=IF({{TotalCases}} = 0, \"\", {{TotalSuccesses}} / {{TotalCases}})"
+      }
     ],
     "data": [
       { "TreatmentId": "kidney-1986-A", "Study": "kidney-1986", "TreatmentLabel": "A", "Description": "Open surgery / percutaneous nephrolithotomy (PCNL) — the more invasive procedure, used preferentially for large stones.", "Name": "kidney-1986-A", "TotalCases": 350, "TotalSuccesses": 273, "PooledSuccessRate": 0.78 },
@@ -1105,12 +1469,51 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Strata": {
     "Description": "Table: Strata — the subdivisions of patients within a study by the value of the confounding variable (e.g. stone size). Each stratum belongs to one study.",
     "schema": [
-      { "name": "StratumId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. kidney-1986-small, kidney-1986-large)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{StratumId}}" },
-      { "name": "Study", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK to the parent Study.", "RelatedTo": "Studies" },
-      { "name": "StratumLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "Short label used in CaseCells (e.g. small, large, dept-A)." },
-      { "name": "Description", "datatype": "string", "type": "raw", "nullable": true, "Description": "Plain-language description of what defines this stratum." },
-      { "name": "TotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases in this stratum across all treatments.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}})" }
+      {
+        "name": "StratumId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. kidney-1986-small, kidney-1986-large)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{StratumId}}"
+      },
+      {
+        "name": "Study",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the parent Study.",
+        "RelatedTo": "Studies"
+      },
+      {
+        "name": "StratumLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Short label used in CaseCells (e.g. small, large, dept-A)."
+      },
+      {
+        "name": "Description",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Plain-language description of what defines this stratum."
+      },
+      {
+        "name": "TotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases in this stratum across all treatments.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}})"
+      }
     ],
     "data": [
       { "StratumId": "kidney-1986-small", "Study": "kidney-1986", "StratumLabel": "small", "Description": "Patients with small kidney stones — easier to treat, higher baseline success rate regardless of treatment.", "Name": "kidney-1986-small", "TotalCases": 357 },
@@ -1791,17 +2194,89 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "CaseCells": {
     "Description": "Table: CaseCells — the raw leaves of the DAG. One row per (study, stratum, treatment) combination recording the aggregate count of successes and total cases. Every derived fact in the model traces back to these numbers. Nothing above this row is a raw input.",
     "schema": [
-      { "name": "CaseCellId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. kidney-1986-small-A)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{CaseCellId}}" },
-      { "name": "Study", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK to the parent Study.", "RelatedTo": "Studies" },
-      { "name": "StratumLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "The stratum this cell belongs to (matches Strata.StratumLabel)." },
-      { "name": "TreatmentLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "The treatment applied in this cell (matches Treatments.TreatmentLabel)." },
-      { "name": "Successes", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Number of patients in this cell who had a successful outcome. RAW INPUT — never derived." },
-      { "name": "Cases", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Total number of patients in this cell. RAW INPUT — never derived." },
-      { "name": "CellSuccessRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Success rate within this cell: Successes / Cases. The first derived fact in the DAG. Fixed loop-90: this rulebook's IF(x=0,\"\",...) idiom transpiles to a bare ''::numeric cast that errors at runtime for the one CaseCells row with Cases=0 (surfaced only once _erb_tr_metrics stopped masking it). Returns 0 for the degenerate zero-cases cell instead.", "formula": "=IF({{Cases}} = 0, 0, {{Successes}} / {{Cases}})" },
-      { "name": "TotalCasesForTreatment", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases across ALL strata for this treatment in this study — the denominator for TreatmentExposureFraction.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})" },
-      { "name": "TreatmentExposureFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of this treatment's total cases that fall in this stratum: Cases / TotalCasesForTreatment. High imbalance across strata is the mechanism of confounding — when treatments are allocated very differently across strata, the pooled rate conflates treatment effect with stratum difficulty.", "formula": "=IF({{TotalCasesForTreatment}} = 0, \"\", {{Cases}} / {{TotalCasesForTreatment}})" },
-      { "name": "IsValidIngestionCell", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when Cases>=0, Successes>=0, and Successes<=Cases (loop-92: a stratum-treatment combination can legitimately have zero observed cases in real source data -- e.g. rdatasets-mtcars-engine has zero 8-cylinder straight-engine cars -- so Cases=0 is a valid ingestion cell, not a defect).", "formula": "=AND({{Cases}} >= 0, {{Successes}} >= 0, {{Successes}} <= {{Cases}})" }
+      {
+        "name": "CaseCellId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. kidney-1986-small-A)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{CaseCellId}}"
+      },
+      {
+        "name": "Study",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the parent Study.",
+        "RelatedTo": "Studies"
+      },
+      {
+        "name": "StratumLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The stratum this cell belongs to (matches Strata.StratumLabel)."
+      },
+      {
+        "name": "TreatmentLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The treatment applied in this cell (matches Treatments.TreatmentLabel)."
+      },
+      {
+        "name": "Successes",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Number of patients in this cell who had a successful outcome. RAW INPUT — never derived."
+      },
+      {
+        "name": "Cases",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Total number of patients in this cell. RAW INPUT — never derived."
+      },
+      {
+        "name": "CellSuccessRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Success rate within this cell: Successes / Cases. The first derived fact in the DAG. Fixed loop-90: this rulebook's IF(x=0,\"\",...) idiom transpiles to a bare ''::numeric cast that errors at runtime for the one CaseCells row with Cases=0 (surfaced only once _erb_tr_metrics stopped masking it). Returns 0 for the degenerate zero-cases cell instead.",
+        "formula": "=IF({{Cases}} = 0, 0, {{Successes}} / {{Cases}})"
+      },
+      {
+        "name": "TotalCasesForTreatment",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases across ALL strata for this treatment in this study — the denominator for TreatmentExposureFraction.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})"
+      },
+      {
+        "name": "TreatmentExposureFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of this treatment's total cases that fall in this stratum: Cases / TotalCasesForTreatment. High imbalance across strata is the mechanism of confounding — when treatments are allocated very differently across strata, the pooled rate conflates treatment effect with stratum difficulty.",
+        "formula": "=IF({{TotalCasesForTreatment}} = 0, \"\", {{Cases}} / {{TotalCasesForTreatment}})"
+      },
+      {
+        "name": "IsValidIngestionCell",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when Cases>=0, Successes>=0, and Successes<=Cases (loop-92: a stratum-treatment combination can legitimately have zero observed cases in real source data -- e.g. rdatasets-mtcars-engine has zero 8-cylinder straight-engine cars -- so Cases=0 is a valid ingestion cell, not a defect).",
+        "formula": "=AND({{Cases}} >= 0, {{Successes}} >= 0, {{Successes}} <= {{Cases}})"
+      }
     ],
     "data": [
       { "CaseCellId": "kidney-1986-small-A", "Study": "kidney-1986", "StratumLabel": "small", "TreatmentLabel": "A", "Successes": 81, "Cases": 87, "Name": "kidney-1986-small-A", "CellSuccessRate": 0.9310344827586207, "TotalCasesForTreatment": 350, "TreatmentExposureFraction": 0.24857142857142858 },
@@ -3333,36 +3808,243 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "StratumSummaries": {
     "Description": "Table: StratumSummaries — one row per (study, stratum, treatment). Computes the success rate WITHIN each stratum for each treatment. This is the stratified view that contradicts the pooled conclusion when a Simpson's Paradox reversal is present. Each row belongs to both a Stratum and a Treatment in the same Study.",
     "schema": [
-      { "name": "StratumSummaryId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. kidney-1986-small-A)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{StratumSummaryId}}" },
-      { "name": "Study", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK to the parent Study.", "RelatedTo": "Studies" },
-      { "name": "StratumLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "Which stratum (matches Strata.StratumLabel)." },
-      { "name": "TreatmentLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "Which treatment (matches Treatments.TreatmentLabel)." },
-      { "name": "StratumSuccesses", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total successes in this (stratum, treatment) cell for this study.", "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})" },
-      { "name": "StratumCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases in this (stratum, treatment) cell for this study.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})" },
-      { "name": "StratumSuccessRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Success rate within this stratum for this treatment: StratumSuccesses / StratumCases. The true per-stratum picture.", "formula": "=IF({{StratumCases}} = 0, \"\", {{StratumSuccesses}} / {{StratumCases}})" },
-      { "name": "StratumSuccessesA", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Successes for treatment A in this (study, stratum) — used to determine the per-stratum winner.", "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"A\")" },
-      { "name": "StratumCasesA", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Cases for treatment A in this (study, stratum).", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"A\")" },
-      { "name": "StratumRateA", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Success rate for treatment A in this stratum.", "formula": "=IF({{StratumCasesA}} = 0, \"\", {{StratumSuccessesA}} / {{StratumCasesA}})" },
-      { "name": "StratumSuccessesB", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Successes for treatment B in this (study, stratum).", "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"B\")" },
-      { "name": "StratumCasesB", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Cases for treatment B in this (study, stratum).", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"B\")" },
-      { "name": "StratumRateB", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Success rate for treatment B in this stratum.", "formula": "=IF({{StratumCasesB}} = 0, \"\", {{StratumSuccessesB}} / {{StratumCasesB}})" },
-      { "name": "StratumWinner", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Which treatment wins in this stratum: 'A' if StratumRateA > StratumRateB, else 'B'. Used by TreatmentRankings to detect paradox.", "formula": "=IF({{StratumRateA}} > {{StratumRateB}}, \"A\", \"B\")" },
-      { "name": "StudyTotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases across ALL strata and ALL treatments in this study. The denominator for StratumFraction.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}})" },
-      { "name": "StratumTotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases in this stratum across both treatments (A + B combined). Numerator for StratumFraction.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}})" },
-      { "name": "StratumFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of the study's total cases that fall in this stratum: StratumTotalCases / StudyTotalCases. The weight the confounder assigns to each stratum. A large StratumFraction on a low-success stratum pulls the pooled rate down; when that stratum is also over-allocated to one treatment, it creates the reversal.", "formula": "=IF({{StudyTotalCases}} = 0, \"\", {{StratumTotalCases}} / {{StudyTotalCases}})" },
-      { "name": "WeightedStratumRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "StratumFraction × StratumSuccessRate. The contribution of this (stratum, treatment) row to the study-level pooled rate. Summing WeightedStratumRate across all strata for a given treatment reconstructs that treatment's pooled rate from stratum weights — witnessing the mechanism equation.", "formula": "=IF({{StratumFraction}} = \"\", \"\", {{StratumFraction}} * {{StratumSuccessRate}})" },
-      { "name": "TreatmentACasesHere", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Cases for treatment A in this stratum — used to compute TreatmentA's allocation fraction in this stratum.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"A\")" },
-      { "name": "TreatmentBCasesHere", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Cases for treatment B in this stratum — used to compute TreatmentB's allocation fraction in this stratum.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"B\")" },
-      { "name": "TreatmentATotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases for treatment A across all strata in this study — denominator for AllocationFractionA.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, \"A\")" },
-      { "name": "TreatmentBTotalCases", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases for treatment B across all strata in this study — denominator for AllocationFractionB.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, \"B\")" },
-      { "name": "AllocationFractionA", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of treatment A's total cases that land in this stratum: TreatmentACasesHere / TreatmentATotalCases. Equivalent to TreatmentExposureFraction for A.", "formula": "=IF({{TreatmentATotalCases}} = 0, \"\", {{TreatmentACasesHere}} / {{TreatmentATotalCases}})" },
-      { "name": "AllocationFractionB", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of treatment B's total cases that land in this stratum: TreatmentBCasesHere / TreatmentBTotalCases.", "formula": "=IF({{TreatmentBTotalCases}} = 0, \"\", {{TreatmentBCasesHere}} / {{TreatmentBTotalCases}})" },
-      { "name": "AllocationBias", "datatype": "number", "type": "calculated", "nullable": true, "Description": "AllocationFractionA minus AllocationFractionB: how much more of treatment A (relative to B) is concentrated in this stratum. Positive = A is over-allocated here; negative = B is over-allocated here. When AllocationBias is large and negative in a low-success stratum, treatment A is under-represented in the hard cases — making A look worse in the pooled view than it is in any stratum. This is the confounder's fingerprint as a signed number.", "formula": "=IF({{AllocationFractionA}} = \"\", \"\", {{AllocationFractionA}} - {{AllocationFractionB}})" },
-      { "name": "StratumGap", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Signed rate difference within this stratum: StratumRateA minus StratumRateB. Positive = A wins here; negative = B wins here; zero = tied. When every stratum has StratumGap > 0 but the pooled gap is negative, the contradiction IS Simpson's Paradox made arithmetically visible in one column. Multiply StratumGap × StratumFraction and sum across strata to get the equal-weight pooled gap (the signal allocation would produce without confounding).", "formula": "=IF({{StratumRateA}} = \"\", \"\", {{StratumRateA}} - {{StratumRateB}})" },
-      { "name": "WeightedStratumGap", "datatype": "number", "type": "calculated", "nullable": true, "Description": "StratumGap × StratumFraction: the contribution of this stratum's treatment-rate difference to the equal-weight pooled gap. Summing WeightedStratumGap across all TreatmentA rows for a study gives WeightedStratumGapSum — the pooled gap the study would show under balanced allocation. This is the per-stratum building block of the sign-flip test.", "formula": "=IF({{StratumGap}} = \"\", \"\", {{StratumGap}} * {{StratumFraction}})" },
-      { "name": "AbsAllocationBias", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ABS(AllocationBias). MAXIFS-friendly unsigned magnitude so TreatmentRankings.MaxStratumImbalance can compute live via MAXIFS instead of a hand-written cache.", "formula": "=IF({{AllocationBias}} = \"\", \"\", ABS({{AllocationBias}}))" },
-      { "name": "AbsStratumGap", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ABS(StratumGap). MAXIFS-friendly unsigned magnitude so TreatmentRankings.MaxStratumGap can compute live via MAXIFS instead of a hand-written cache.", "formula": "=IF({{StratumGap}} = \"\", \"\", ABS({{StratumGap}}))" }
+      {
+        "name": "StratumSummaryId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. kidney-1986-small-A)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{StratumSummaryId}}"
+      },
+      {
+        "name": "Study",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the parent Study.",
+        "RelatedTo": "Studies"
+      },
+      {
+        "name": "StratumLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Which stratum (matches Strata.StratumLabel)."
+      },
+      {
+        "name": "TreatmentLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Which treatment (matches Treatments.TreatmentLabel)."
+      },
+      {
+        "name": "StratumSuccesses",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total successes in this (stratum, treatment) cell for this study.",
+        "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})"
+      },
+      {
+        "name": "StratumCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases in this (stratum, treatment) cell for this study.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, {{TreatmentLabel}})"
+      },
+      {
+        "name": "StratumSuccessRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Success rate within this stratum for this treatment: StratumSuccesses / StratumCases. The true per-stratum picture.",
+        "formula": "=IF({{StratumCases}} = 0, \"\", {{StratumSuccesses}} / {{StratumCases}})"
+      },
+      {
+        "name": "StratumSuccessesA",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Successes for treatment A in this (study, stratum) — used to determine the per-stratum winner.",
+        "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"A\")"
+      },
+      {
+        "name": "StratumCasesA",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Cases for treatment A in this (study, stratum).",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"A\")"
+      },
+      {
+        "name": "StratumRateA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Success rate for treatment A in this stratum.",
+        "formula": "=IF({{StratumCasesA}} = 0, \"\", {{StratumSuccessesA}} / {{StratumCasesA}})"
+      },
+      {
+        "name": "StratumSuccessesB",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Successes for treatment B in this (study, stratum).",
+        "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"B\")"
+      },
+      {
+        "name": "StratumCasesB",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Cases for treatment B in this (study, stratum).",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"B\")"
+      },
+      {
+        "name": "StratumRateB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Success rate for treatment B in this stratum.",
+        "formula": "=IF({{StratumCasesB}} = 0, \"\", {{StratumSuccessesB}} / {{StratumCasesB}})"
+      },
+      {
+        "name": "StratumWinner",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Which treatment wins in this stratum: 'A' if StratumRateA > StratumRateB, else 'B'. Used by TreatmentRankings to detect paradox.",
+        "formula": "=IF({{StratumRateA}} > {{StratumRateB}}, \"A\", \"B\")"
+      },
+      {
+        "name": "StudyTotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases across ALL strata and ALL treatments in this study. The denominator for StratumFraction.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}})"
+      },
+      {
+        "name": "StratumTotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases in this stratum across both treatments (A + B combined). Numerator for StratumFraction.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}})"
+      },
+      {
+        "name": "StratumFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of the study's total cases that fall in this stratum: StratumTotalCases / StudyTotalCases. The weight the confounder assigns to each stratum. A large StratumFraction on a low-success stratum pulls the pooled rate down; when that stratum is also over-allocated to one treatment, it creates the reversal.",
+        "formula": "=IF({{StudyTotalCases}} = 0, \"\", {{StratumTotalCases}} / {{StudyTotalCases}})"
+      },
+      {
+        "name": "WeightedStratumRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "StratumFraction × StratumSuccessRate. The contribution of this (stratum, treatment) row to the study-level pooled rate. Summing WeightedStratumRate across all strata for a given treatment reconstructs that treatment's pooled rate from stratum weights — witnessing the mechanism equation.",
+        "formula": "=IF({{StratumFraction}} = \"\", \"\", {{StratumFraction}} * {{StratumSuccessRate}})"
+      },
+      {
+        "name": "TreatmentACasesHere",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Cases for treatment A in this stratum — used to compute TreatmentA's allocation fraction in this stratum.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"A\")"
+      },
+      {
+        "name": "TreatmentBCasesHere",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Cases for treatment B in this stratum — used to compute TreatmentB's allocation fraction in this stratum.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{StratumLabel}}, {{StratumLabel}}, CaseCells!{{TreatmentLabel}}, \"B\")"
+      },
+      {
+        "name": "TreatmentATotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases for treatment A across all strata in this study — denominator for AllocationFractionA.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, \"A\")"
+      },
+      {
+        "name": "TreatmentBTotalCases",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases for treatment B across all strata in this study — denominator for AllocationFractionB.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, \"B\")"
+      },
+      {
+        "name": "AllocationFractionA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of treatment A's total cases that land in this stratum: TreatmentACasesHere / TreatmentATotalCases. Equivalent to TreatmentExposureFraction for A.",
+        "formula": "=IF({{TreatmentATotalCases}} = 0, \"\", {{TreatmentACasesHere}} / {{TreatmentATotalCases}})"
+      },
+      {
+        "name": "AllocationFractionB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of treatment B's total cases that land in this stratum: TreatmentBCasesHere / TreatmentBTotalCases.",
+        "formula": "=IF({{TreatmentBTotalCases}} = 0, \"\", {{TreatmentBCasesHere}} / {{TreatmentBTotalCases}})"
+      },
+      {
+        "name": "AllocationBias",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "AllocationFractionA minus AllocationFractionB: how much more of treatment A (relative to B) is concentrated in this stratum. Positive = A is over-allocated here; negative = B is over-allocated here. When AllocationBias is large and negative in a low-success stratum, treatment A is under-represented in the hard cases — making A look worse in the pooled view than it is in any stratum. This is the confounder's fingerprint as a signed number.",
+        "formula": "=IF({{AllocationFractionA}} = \"\", \"\", {{AllocationFractionA}} - {{AllocationFractionB}})"
+      },
+      {
+        "name": "StratumGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Signed rate difference within this stratum: StratumRateA minus StratumRateB. Positive = A wins here; negative = B wins here; zero = tied. When every stratum has StratumGap > 0 but the pooled gap is negative, the contradiction IS Simpson's Paradox made arithmetically visible in one column. Multiply StratumGap × StratumFraction and sum across strata to get the equal-weight pooled gap (the signal allocation would produce without confounding).",
+        "formula": "=IF({{StratumRateA}} = \"\", \"\", {{StratumRateA}} - {{StratumRateB}})"
+      },
+      {
+        "name": "WeightedStratumGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "StratumGap × StratumFraction: the contribution of this stratum's treatment-rate difference to the equal-weight pooled gap. Summing WeightedStratumGap across all TreatmentA rows for a study gives WeightedStratumGapSum — the pooled gap the study would show under balanced allocation. This is the per-stratum building block of the sign-flip test.",
+        "formula": "=IF({{StratumGap}} = \"\", \"\", {{StratumGap}} * {{StratumFraction}})"
+      },
+      {
+        "name": "AbsAllocationBias",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ABS(AllocationBias). MAXIFS-friendly unsigned magnitude so TreatmentRankings.MaxStratumImbalance can compute live via MAXIFS instead of a hand-written cache.",
+        "formula": "=IF({{AllocationBias}} = \"\", \"\", ABS({{AllocationBias}}))"
+      },
+      {
+        "name": "AbsStratumGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ABS(StratumGap). MAXIFS-friendly unsigned magnitude so TreatmentRankings.MaxStratumGap can compute live via MAXIFS instead of a hand-written cache.",
+        "formula": "=IF({{StratumGap}} = \"\", \"\", ABS({{StratumGap}}))"
+      }
     ],
     "data": [
       { "StratumSummaryId": "kidney-1986-small-A", "Study": "kidney-1986", "StratumLabel": "small", "TreatmentLabel": "A", "Name": "kidney-1986-small-A", "StratumSuccesses": 81, "StratumCases": 87, "StratumSuccessRate": 0.9310344827586207, "StratumSuccessesA": 81, "StratumCasesA": 87, "StratumRateA": 0.9310344827586207, "StratumSuccessesB": 234, "StratumCasesB": 270, "StratumRateB": 0.8666666666666667, "StratumWinner": "A", "StudyTotalCases": 700, "StratumTotalCases": 357, "StratumFraction": 0.51, "WeightedStratumRate": 0.4748275862068966, "TreatmentACasesHere": 87, "TreatmentBCasesHere": 270, "TreatmentATotalCases": 350, "TreatmentBTotalCases": 350, "AllocationFractionA": 0.24857142857142858, "AllocationFractionB": 0.7714285714285715, "AllocationBias": -0.5228571428571429, "StratumGap": 0.06436781609195402, "WeightedStratumGap": 0.032827586206896554 },
@@ -4380,128 +5062,972 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "ModelSummary": {
     "Description": "Table: ModelSummary — one row describing the epistemic coverage of this entire model instance. Aggregates across all TreatmentRankings to witness how many studies were examined, how many showed a full reversal, how many were explained, and the average paradox strength. The model holds a mirror to itself.",
     "schema": [
-      { "name": "ModelSummaryId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique identifier for this model instance." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{ModelSummaryId}}" },
-      { "name": "ReversalCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of studies with IsReversal=TRUE (sign-flip / allocation-driven reversal).", "formula": "=COUNTIFS(TreatmentRankings!{{IsReversal}}, TRUE())" },
-      { "name": "NonReversalCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of studies with IsReversal=FALSE.", "formula": "=COUNTIFS(TreatmentRankings!{{IsReversal}}, FALSE())" },
-      { "name": "StudyCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Total number of TreatmentRankings in this model: ReversalCount + NonReversalCount.", "formula": "={{ReversalCount}} + {{NonReversalCount}}" },
-      { "name": "ExplainedCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of studies with IsParadoxExplained=TRUE (reversal AND confirmed confounder).", "formula": "=COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE())" },
-      { "name": "TotalParadoxStrength", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Sum of ParadoxStrength across all studies. Used to compute average.", "formula": "=SUMIFS(TreatmentRankings!{{ParadoxStrength}}, TreatmentRankings!{{TreatmentA}}, \"A\")" },
-      { "name": "AvgParadoxStrength", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Average ParadoxStrength across all studies: TotalParadoxStrength / StudyCount. A scalar summary of how paradox-rich this dataset is.", "formula": "=IF({{StudyCount}} = 0, \"\", {{TotalParadoxStrength}} / {{StudyCount}})" },
-      { "name": "TypeACount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies classified as Type-A: sign flip AND full reversal (ReversalIntensity=1). The canonical Simpson's Paradox — allocation distortion reverses the pooled winner.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"A\")" },
-      { "name": "DangerTierCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies where TreatmentRankings.ScreeningTier = DANGER — pooled sign is wrong (DistortionType A or B).", "formula": "=COUNTIFS(TreatmentRankings!{{ScreeningTier}}, \"DANGER\")" },
-      { "name": "CautionTierCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies where TreatmentRankings.ScreeningTier = CAUTION — pooled sign holds but magnitude is distorted (DistortionType C+ or C-).", "formula": "=COUNTIFS(TreatmentRankings!{{ScreeningTier}}, \"CAUTION\")" },
-      { "name": "SafeTierCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies where TreatmentRankings.ScreeningTier = SAFE — pooling is trustworthy (DistortionType D).", "formula": "=COUNTIFS(TreatmentRankings!{{ScreeningTier}}, \"SAFE\")" },
-      { "name": "TypeBCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies classified as Type-B: sign flip but partial reversal (ReversalIntensity<1). Allocation distortion creates a sign flip but the pooled signal partially reflects per-stratum reality.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"B\")" },
-      { "name": "TypeDCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies classified as Type-D: no sign flip, negligible distortion. Pooled analysis is trustworthy — allocation is sufficiently balanced.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"D\")" },
-      { "name": "TypeCPlusCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies classified as Type-C+: sign flip with amplification (ReversalIntensity>1). Pooled effect overstates the true per-stratum effect.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C+\")" },
-      { "name": "TypeCMinusCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies classified as Type-C-: sign flip with attenuation. Pooled effect understates or masks the true per-stratum effect.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C-\")" },
-      { "name": "TypeAFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of studies that are Type-A (full canonical reversals). TypeACount / StudyCount.", "formula": "=IF({{StudyCount}} = 0, \"\", {{TypeACount}} / {{StudyCount}})" },
-      { "name": "DistortionTaxonomyCoverage", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Human-readable summary of the four-type distribution: e.g. 'A:2 B:1 C:1 D:0'. The model's self-portrait of its own distortion geometry.", "formula": "=CONCAT(\"A:\", {{TypeACount}}, \" B:\", {{TypeBCount}}, \" C+:\", {{CAmplificationCount}}, \" C-:\", {{CCompressionCount}}, \" D:\", {{TypeDCount}})" },
-      { "name": "DistortionOnlyCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Number of studies with real allocation distortion but no sign flip: TypeCCount. The pooled winner is correct but the effect size is biased. Distinct from ZeroStrengthCount, which conflates Type-C (real distortion) with Type-D (neutral).", "formula": "={{CAmplificationCount}} + {{CCompressionCount}}" },
-      { "name": "CAmplificationCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of studies classified as type C+ (allocation-amplified): pooled winner is correct but pooled gap overstates true advantage. Causes researcher overconfidence — may accept higher cost/risk than true effect warrants.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C+\")" },
-      { "name": "CCompressionCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of studies classified as type C- (allocation-compressed): pooled winner is correct but pooled gap understates true advantage. Causes researcher underconfidence — effective treatment may be prematurely abandoned.", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C-\")" },
-      { "name": "AvgSignalPurity", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Average SignalPurity across all TreatmentRankings. Below 0.5 means allocation noise exceeds true signal on average — the corpus is predominantly misleading at the pooled level. Above 0.5 means the corpus is predominantly trustworthy. Fixed loop-90: COUNTIFS(...,\"<>\")/SUMIFS(...,\"<>\") mistranslate to a literal '<>' string-equality filter (a known transpiler bug), always returning 0/NULL; replaced with SUM/COUNT, both of which transpile correctly.", "formula": "=SUM(TreatmentRankings!{{SignalPurity}}) / COUNT(TreatmentRankings!{{TreatmentRankingId}})" },
-      { "name": "SweepCorrectedGapMax", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Maximum SweepCorrectedGap across all AllocationSweep rows. Should equal SweepCorrectedGapMin — the invariant.", "formula": "=MAXIFS(AllocationSweep!{{SweepCorrectedGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\")" },
-      { "name": "SweepCorrectedGapMin", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Minimum SweepCorrectedGap across all AllocationSweep rows. Should equal SweepCorrectedGapMax — the invariant.", "formula": "=MINIFS(AllocationSweep!{{SweepCorrectedGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\")" },
-      { "name": "SweepCorrectedGapRange", "datatype": "number", "type": "calculated", "nullable": true, "Description": "SweepCorrectedGapMax − SweepCorrectedGapMin. The allocation-invariance witness: this should be zero (up to floating-point rounding). If nonzero, the corrected gap is not allocation-free.", "formula": "=IF({{SweepCorrectedGapMax}} = \"\", \"\", {{SweepCorrectedGapMax}} - {{SweepCorrectedGapMin}})" },
-      { "name": "SweepPooledGapRange", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "MAX(SweepPooledGap) − MIN(SweepPooledGap) across all AllocationSweep rows. Expected to be large (≈0.21) — the pooled gap wanders as allocation shifts.", "formula": "=MAXIFS(AllocationSweep!{{SweepPooledGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\") - MINIFS(AllocationSweep!{{SweepPooledGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\")" },
-      { "name": "RealStudyCount", "datatype": "integer", "formula": "=COUNTIFS(Studies!{{IsSynthetic}}, FALSE())", "type": "aggregation", "Description": "Number of real (non-synthetic) published studies in the corpus. Retyped loop-90: was mis-declared raw with a formula, which is why the transpiler emitted no native function and 02b had to hand-write calc_model_summary_real_study_count.", "nullable": true },
-      { "name": "AvgSignalPurityReversal", "datatype": "number", "formula": "=AVERAGEIFS(TreatmentRankings!{{SignalPurity}}, TreatmentRankings!{{AllocationDirection}}, \"reversal\")", "type": "calculated", "Description": "Average SignalPurity across reversal studies (type A and B). Theorem predicts this must be < 0.5. Retyped loop-90 (see RealStudyCount); rewritten from SUMIFS/COUNTIFS division to AVERAGEIFS because the SUMIFS/COUNTIFS division form transpiled with a mangled cross-table alias.", "nullable": true },
-      { "name": "AvgSignalPurityNonReversal", "datatype": "number", "formula": "=AVERAGEIFS(TreatmentRankings!{{SignalPurity}}, TreatmentRankings!{{AllocationDirection}}, \"<>reversal\")", "type": "calculated", "Description": "Average SignalPurity across non-reversal studies (type C+, C-, D). Theorem predicts this must be >= 0.5 except edge cases. Retyped loop-90 (see RealStudyCount); rewritten from SUMIFS/COUNTIFS division to AVERAGEIFS (see AvgSignalPurityReversal).", "nullable": true },
-      { "name": "SignalPurityGap", "datatype": "number", "formula": "={{AvgSignalPurityNonReversal}} - {{AvgSignalPurityReversal}}", "type": "calculated", "Description": "Separation between reversal and non-reversal average SignalPurity. The larger this gap, the more discriminating the threshold at 0.5. Retyped loop-90 (see RealStudyCount).", "nullable": true },
-      { "name": "MedicineStudyCount", "datatype": "integer", "formula": "=COUNTIFS(Studies!{{Domain}}, \"medicine\", Studies!{{IsSynthetic}}, FALSE())", "type": "aggregation", "Description": "Real published studies in the medicine domain. Retyped loop-90 (see RealStudyCount).", "nullable": true },
-      { "name": "EpidemiologyStudyCount", "datatype": "integer", "formula": "=COUNTIFS(Studies!{{Domain}}, \"epidemiology\", Studies!{{IsSynthetic}}, FALSE())", "type": "aggregation", "Description": "Real published studies in the epidemiology domain. Retyped loop-90 (see RealStudyCount).", "nullable": true },
-      { "name": "OtherDomainStudyCount", "datatype": "integer", "formula": "={{RealStudyCount}} - {{MedicineStudyCount}} - {{EpidemiologyStudyCount}}", "type": "calculated", "Description": "Real published studies outside medicine and epidemiology (sports, legal, education, social-science). Retyped loop-90 (see RealStudyCount).", "nullable": true },
-      { "name": "DomainDiversityNote", "datatype": "string", "formula": "=CONCAT(\"real=\", {{RealStudyCount}}, \" studies; wave2=\", {{ExpansionWave2StudyCount}}, \"; eduLatent=\", ROUND({{EducationLatentFraction}} * 100, 0), \"%; sportsLatent=\", ROUND({{SportsLatentFraction}} * 100, 0), \"%; econFlipRate=\", ROUND({{EconomicsSignFlipRate}} * 100, 0), \"%\")", "type": "calculated", "Description": "Human-readable domain breakdown. Witnesses corpus diversity — a prerequisite for cross-domain SignalPurity claims. Retyped loop-90 (see RealStudyCount); TEXT(...,\"0%\") is not a supported transpiler function, replaced with ROUND(x*100,0) + literal '%'.", "nullable": true },
-      { "name": "SyntheticPhaseCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Number of parameter grid points in SyntheticPhase. Refreshed from vw_phase_diagram_summary by 05b-customize-data.sql." },
-      { "name": "PhaseDiagramComplete", "datatype": "boolean", "type": "raw", "nullable": true, "Description": "TRUE when all five DistortionType cells are populated in the synthetic phase grid. Refreshed from vw_phase_diagram_summary by 05b." },
-      { "name": "PhaseTaxonomyCoverage", "datatype": "string", "type": "raw", "nullable": true, "Description": "Type counts across the synthetic phase grid. Refreshed from vw_phase_diagram_summary by 05b." },
-      { "name": "IngestionProtocolItemCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of rows in IngestionProtocol — the documented contract items. Fixed loop-90 (see IngestionSummary.ProtocolItemCount for why COUNTIFS(...,\"<>\") is unsafe).", "formula": "=COUNT(IngestionProtocol!{{ProtocolId}})" },
-      { "name": "CorpusPassesIngestionContract", "datatype": "boolean", "type": "lookup", "nullable": true, "Description": "Lookup: IngestionSummary.IngestionContractPasses.", "formula": "=LOOKUP(\"ingestion-v1\", IngestionSummary[IngestionSummaryId], IngestionSummary[IngestionContractPasses])" },
-      { "name": "IngestionWitnessNote", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Human-readable ingestion contract witness from IngestionSummary.", "formula": "=LOOKUP(\"ingestion-v1\", IngestionSummary[IngestionSummaryId], IngestionSummary[IngestionWitnessNote])" },
-      { "name": "CatalogEntryCount", "datatype": "integer", "type": "lookup", "nullable": true, "Description": "Total catalog rows.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TotalCatalogEntries])" },
-      { "name": "PendingImportCount", "datatype": "integer", "type": "lookup", "nullable": true, "Description": "Candidate studies queued.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[CandidateCount])" },
-      { "name": "ReadyToEncodeCount", "datatype": "integer", "type": "lookup", "nullable": true, "Description": "Encode-ready candidates.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[ReadyToEncodeCount])" },
-      { "name": "ImportSessionReady", "datatype": "boolean", "type": "lookup", "nullable": true, "Description": "Bulk import session readiness flag.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[ImportSessionReady])" },
-      { "name": "CatalogWitnessNote", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Import backlog witness string.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[CatalogWitnessNote])" },
-      { "name": "LatentTypeDCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Type-D studies with LatentFlipPotential=TRUE.", "formula": "=COUNTIFS(TreatmentRankings!{{LatentFlipPotential}}, TRUE())" },
-      { "name": "StableTypeDCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Type-D studies without latent flip potential (allocation-stable at observed and counterfactual sweep).", "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, FALSE())" },
-      { "name": "LatentTypeDFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of Type-D studies with latent flip potential.", "formula": "=IF({{TypeDCount}} = 0, \"\", {{LatentTypeDCount}} / {{TypeDCount}})" },
-      { "name": "CrossZeroCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Studies whose pooled gap crosses zero under allocation sweep.", "formula": "=COUNTIFS(TreatmentRankings!{{PooledGapCrossesZero}}, TRUE())" },
-      { "name": "SignFlipSignalPurityMax", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Maximum SignalPurity among sign-flip studies. Must stay below 0.5 for the signal-purity theorem.", "formula": "=MAXIFS(TreatmentRankings!{{SignalPurity}}, TreatmentRankings!{{IsSignFlip}}, TRUE())" },
-      { "name": "EconomicsSignFlipCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Sign-flip count in economics domain.", "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\", TreatmentRankings!{{IsSignFlip}}, TRUE())" },
-      { "name": "SumPooledGapLatentD", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "SUM(PooledGap) among Type-D studies with latent flip potential — a bare, unwrapped SUMIFS split out as its own field because nesting a cross-table SUMIFS/AVERAGEIFS as an operand inside another IF/division expression transpiles with a mangled WHERE-clause column alias (e.g. rankings_latent_flip_potential) that errors at runtime; a bare top-level SUMIFS transpiles correctly (loop-90).", "formula": "=SUMIFS(TreatmentRankings!{{PooledGap}}, TreatmentRankings!{{LatentFlipPotential}}, TRUE())" },
-      { "name": "AvgPooledGapLatentD", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Average PooledGap among Type-D studies with latent flip potential. Fixed loop-90 (see SumPooledGapLatentD for why the sum is split into its own field).", "formula": "=IF({{LatentTypeDCount}} = 0, 0, {{SumPooledGapLatentD}} / {{LatentTypeDCount}})" },
-      { "name": "SumPooledGapStableD", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "SUM(PooledGap) among allocation-stable Type-D studies — split out as a bare field for the same reason as SumPooledGapLatentD.", "formula": "=SUMIFS(TreatmentRankings!{{PooledGap}}, TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, FALSE())" },
-      { "name": "AvgPooledGapStableD", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Average PooledGap among allocation-stable Type-D studies. Fixed loop-90 (see SumPooledGapLatentD).", "formula": "=IF({{StableTypeDCount}} = 0, 0, {{SumPooledGapStableD}} / {{StableTypeDCount}})" },
-      { "name": "EpidemiologyAvgDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Mean AllocationDistortion in epidemiology studies.", "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{StudyDomain}}, \"epidemiology\")" },
-      { "name": "EducationAvgDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Mean AllocationDistortion in education studies.", "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{StudyDomain}}, \"education\")" },
-      { "name": "ConfounderSignFlipCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Sign-flip count among confounder-labeled studies.", "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"confounder\", TreatmentRankings!{{IsSignFlip}}, TRUE())" },
-      { "name": "ConfounderLatentOnlyCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Latent-only flip count among confounder-labeled studies.", "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"confounder\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE())" },
-      { "name": "ColliderSelectionCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Studies tagged collider or selection on StratumVariables.", "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"collider\") + COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"selection\")" },
-      { "name": "ColliderSelectionManifestCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Manifest sign-flips among collider/selection studies.", "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"collider\", TreatmentRankings!{{IsSignFlip}}, TRUE()) + COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"selection\", TreatmentRankings!{{IsSignFlip}}, TRUE())" },
-      { "name": "ColliderSelectionLatentOnlyCount", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Latent-only flips among collider/selection studies.", "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"collider\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE()) + COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"selection\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE())" },
-      { "name": "ExplainedConfounderCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Count of TreatmentRankings rows where IsParadoxExplained=TRUE (should equal ConfounderSignFlipCount).", "formula": "=COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE())" },
-      { "name": "ContestedOrMediatorExplainedCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Count of contested or mediator sign-flip rows where IsParadoxExplained=TRUE (should be zero).", "formula": "=COUNTIFS(TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{IsParadoxExplained}}, TRUE(), TreatmentRankings!{{AdjustmentAppropriate}}, FALSE())" },
-      { "name": "DiscoveryWitnessNote", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Research sweep synthesis rollup (loops 61–66).", "formula": "=CONCAT(\"sweep: latentD=\", {{LatentTypeDFraction}}, \" purityMax=\", {{SignFlipSignalPurityMax}}, \" catalogExact=\", {{TypePredictionMatchRate}}, \" identities=\", {{ConfounderIdentityCount}})" },
-      { "name": "TypePredictionMatchCount", "datatype": "integer", "type": "lookup", "nullable": true, "Description": "Lookup: CorpusCatalogSummary.TypePredictionMatchCount.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TypePredictionMatchCount])" },
-      { "name": "TypePredictionMismatchCount", "datatype": "integer", "type": "lookup", "nullable": true, "Description": "Lookup: CorpusCatalogSummary.TypePredictionMismatchCount.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TypePredictionMismatchCount])" },
-      { "name": "TypePredictionMatchRate", "datatype": "number", "type": "lookup", "nullable": true, "Description": "Lookup: CorpusCatalogSummary.TypePredictionMatchRate.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TypePredictionMatchRate])" },
-      { "name": "SignFlipPredictionMatchRate", "datatype": "number", "type": "lookup", "nullable": true, "Description": "Lookup: CorpusCatalogSummary.SignFlipPredictionMatchRate.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[SignFlipPredictionMatchRate])" },
-      { "name": "CatalogPredictionWitnessNote", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: CorpusCatalogSummary.CatalogPredictionWitnessNote.", "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[CatalogPredictionWitnessNote])" },
-      { "name": "HighImbalanceSignFlipThreshold", "datatype": "number", "type": "raw", "nullable": true, "Description": "max_stratum_imbalance cutoff for geometry-controlled domain screening (loop-66). Set from corpus median by customize SQL." },
-      { "name": "EconomicsHighImbalanceSignFlipCount", "datatype": "number", "type": "raw", "nullable": true, "Description": "Sign-flip count among economics studies with max_stratum_imbalance >= threshold." },
-      { "name": "EpidemiologyHighImbalanceSignFlipRate", "datatype": "number", "type": "raw", "nullable": true, "Description": "Sign-flip rate among high-imbalance epidemiology studies." },
-      { "name": "LegalHighImbalanceSignFlipRate", "datatype": "number", "type": "raw", "nullable": true, "Description": "Sign-flip rate among high-imbalance legal studies." },
-      { "name": "SportsHighImbalanceSignFlipRate", "datatype": "number", "type": "raw", "nullable": true, "Description": "Sign-flip rate among high-imbalance sports studies." },
-      { "name": "CPlusAvgDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Mean AllocationDistortion among Type-C+ studies.", "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{DistortionType}}, \"C+\")" },
-      { "name": "CMinusAvgDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Mean AllocationDistortion among Type-C- studies.", "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{DistortionType}}, \"C-\")" },
-      { "name": "TypeDAvgDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Mean AllocationDistortion among Type-D studies.", "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{DistortionType}}, \"D\")" },
-      { "name": "SweepFragileCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Count of TreatmentRankings with IsSweepFragile=TRUE.", "formula": "=COUNTIFS(TreatmentRankings!{{IsSweepFragile}}, TRUE())" },
-      { "name": "ExpansionWave1EconomicsExpectedACount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Imported expansion-wave-1 economics catalog rows tagged Expected A.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-1\", CandidateStudyCatalog!{{Domain}}, \"economics\", CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{ExpectedDistortionType}}, \"A\")" },
-      { "name": "ExpansionWave1EconomicsExpectedADCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Expansion-wave-1 economics Expected-A imports observed as Type D.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-1\", CandidateStudyCatalog!{{Domain}}, \"economics\", CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{ExpectedDistortionType}}, \"A\", CandidateStudyCatalog!{{ObservedDistortionType}}, \"D\")" },
-      { "name": "EconomicsExpectedAMismatchRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of expansion-wave-1 economics Expected-A imports observed as Type D.", "formula": "=IF({{ExpansionWave1EconomicsExpectedACount}} = 0, \"\", {{ExpansionWave1EconomicsExpectedADCount}} / {{ExpansionWave1EconomicsExpectedACount}})" },
-      { "name": "UnanimousSignFlipCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Sign-flip studies with unanimous stratum direction (IsSignFlip AND IsStratumUnanimous).", "formula": "=COUNTIFS(TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{IsStratumUnanimous}}, TRUE())" },
-      { "name": "MaxStudySweepCorrectedGapRange", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "MAX(SweepStudySummary.SweepCorrectedGapRange) — must stay below 0.0001 for CorrectedGap invariance theorem.", "formula": "=MAX(SweepStudySummary!{{SweepCorrectedGapRange}})" },
-      { "name": "CorrectedGapInvariantFailCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Count of SweepStudySummary rows where SweepCorrectedGapRange >= 0.0001.", "formula": "=COUNTIFS(SweepStudySummary!{{SweepCorrectedGapRange}}, \">=0.0001\")" },
-      { "name": "FalsePositiveExplainedCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "IsParadoxExplained=TRUE rows that are not confounder manifest sign-flips — must be 0 for explained↔confounder theorem.", "formula": "=COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE(), TreatmentRankings!{{IsSignFlip}}, FALSE()) + COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE(), TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{StratumCausalRole}}, \"<>confounder\")" },
-      { "name": "UnexplainedConfounderSignFlipCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Confounder sign-flips with IsParadoxExplained=FALSE — must be 0 for explained↔confounder theorem.", "formula": "=COUNTIFS(TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{StratumCausalRole}}, \"confounder\", TreatmentRankings!{{IsParadoxExplained}}, FALSE())" },
-      { "name": "TheoremCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Count of witnessed Conclusions with Category=corpus-theorem (portfolio rollup for loop-76; category renamed from theorem in loop-91).", "formula": "=COUNTIFS(Conclusions!{{Category}}, \"corpus-theorem\", Conclusions!{{Status}}, \"witnessed\")" },
-      { "name": "EducationLatentFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of education Type-D studies with LatentFlipPotential=TRUE.", "formula": "=IF(COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\") = 0, \"\", COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE()) / COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\"))" },
-      { "name": "SportsLatentFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of sports Type-D studies with LatentFlipPotential=TRUE.", "formula": "=IF(COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\") = 0, \"\", COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE()) / COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\"))" },
-      { "name": "EconomicsSignFlipRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Manifest sign-flip rate among economics studies.", "formula": "=IF(COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\") = 0, \"\", COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\", TreatmentRankings!{{IsSignFlip}}, TRUE()) / COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\"))" },
-      { "name": "EducationTypeDCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Type-D studies in education domain.", "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\")" },
-      { "name": "EducationLatentDCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Education Type-D studies with LatentFlipPotential.", "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, TRUE())" },
-      { "name": "SportsTypeDCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Type-D studies in sports domain.", "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\")" },
-      { "name": "SportsLatentDCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Sports Type-D studies with LatentFlipPotential.", "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, TRUE())" },
-      { "name": "EconomicsStudyCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Real economics studies in corpus.", "formula": "=COUNTIFS(Studies!{{Domain}}, \"economics\", Studies!{{IsSynthetic}}, FALSE())" },
-      { "name": "ExpansionWave2StudyCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Studies imported in expansion wave 2.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-2\", CandidateStudyCatalog!{{IsImported}}, TRUE())" },
-      { "name": "ConfounderIdentityCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Canonical ConfounderIdentity archetypes in ontology (loop-80).", "formula": "=COUNT(ConfounderIdentities!{{ConfounderIdentityId}})" },
-      { "name": "MappedStratumVariableCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Stratum variables with an identity map row.", "formula": "=COUNT(StratumVariableIdentityMaps!{{MapId}})" },
-      { "name": "UnmappedStratumVariableCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Stratum variables lacking identity map (should be 0).", "formula": "=COUNT(StratumVariables!{{StratumVariableId}}) - {{MappedStratumVariableCount}}" },
-      { "name": "AgeIdentityManifestFlipRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Manifest flip rate for id-age-composition cluster (loop-81).", "formula": "=LOOKUP(\"id-age-composition\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[ManifestFlipRate])" },
-      { "name": "AgeIdentityStudyCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Real-study count in id-age-composition cluster (loop-81).", "formula": "=LOOKUP(\"id-age-composition\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[StudyCount])" },
-      { "name": "AgeIdentityLatentFractionAmongTypeD", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Type-D latent fraction for id-age-composition cluster (loop-81).", "formula": "=LOOKUP(\"id-age-composition\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[LatentFractionAmongTypeD])" },
-      { "name": "SeverityIdentityLatentFractionAmongTypeD", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Type-D latent fraction for id-disease-severity cluster (loop-81).", "formula": "=LOOKUP(\"id-disease-severity\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[LatentFractionAmongTypeD])" },
-      { "name": "IdentityMapCoverageRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Fraction of real-study StratumVariables with a ConfounderIdentity map (loop-81 customize SQL).", "formula": "=IF({{RealStudyCount}}=0, \"\", {{MappedStratumVariableCount}} / {{RealStudyCount}})" },
-      { "name": "IdentityClusterWitnessNote", "datatype": "string", "type": "raw", "nullable": true, "Description": "Loop-80 identity layer witness rollup (customize SQL)." },
-      { "name": "SeverityMedicineManifestFlipRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Severity identity manifest flip rate in medicine domain.", "formula": "=LOOKUP(\"cell-id-disease-severity-x-medicine\", IdentityDomainCells[CellId], IdentityDomainCells[ManifestFlipRate])" },
-      { "name": "SeverityEpiManifestFlipCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Severity identity manifest flip count in epidemiology domain.", "formula": "=LOOKUP(\"cell-id-disease-severity-x-epidemiology\", IdentityDomainCells[CellId], IdentityDomainCells[ManifestFlipCount])" },
-      { "name": "IdentityDomainCellCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of identity×domain cells.", "formula": "=COUNT(IdentityDomainCells!{{CellId}})" },
-      { "name": "SelectionFrailtyManifestFlipCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Manifest flip count for selection-frailty identity.", "formula": "=LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipCount])" },
-      { "name": "SelectionFrailtyStudyCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Study count for selection-frailty identity cluster.", "formula": "=LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])" },
-      { "name": "ColliderIdentityManifestFlipRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Manifest flip rate for collider-proxy identity.", "formula": "=LOOKUP(\"cluster-id-collider-proxy\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipRate])" },
-      { "name": "GeographicTypeDFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Type-D fraction for geographic-composition identity.", "formula": "=IF(LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])=0, \"\", LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[TypeDCount]) / LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]))" },
-      { "name": "SeverityDriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-disease-severity (severity-case-mix archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.", "formula": "=LOOKUP(\"id-disease-severity\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])" },
-      { "name": "GeographicDriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-geographic-composition (geography archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.", "formula": "=LOOKUP(\"id-geographic-composition\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])" },
-      { "name": "SituationalDriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-situational-context (sports-situation archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.", "formula": "=LOOKUP(\"id-situational-context\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])" },
-      { "name": "AgeDriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-age-composition (demographic-composition archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.", "formula": "=LOOKUP(\"id-age-composition\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])" },
-      { "name": "InstitutionalDriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-institutional-unit (organizational-unit archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.", "formula": "=LOOKUP(\"id-institutional-unit\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])" },
-      { "name": "SocioeconomicDriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-socioeconomic-status (ses-income archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.", "formula": "=LOOKUP(\"id-socioeconomic-status\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])" },
-      { "name": "DomainFlipGapSurvivesGeometryControl", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when the economics-vs-epidemiology sign-flip-rate gap for H-domain-flip-geometry-controlled survives after restricting to high-imbalance studies (loop-90 native promotion of the former 02b hand function).", "formula": "=AND({{EconomicsHighImbalanceSignFlipCount}} = 0, {{EpidemiologyHighImbalanceSignFlipRate}} > 0.15)" },
-      { "name": "CorpusPatternSupersededFailCount", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Count of DiscoveryFindings rows for the 6 superseded-pattern hypotheses (H-econ-zero, H-domain-dist, H-catalog-flip-prediction, H-domain-flip-geometry-controlled, H-econ-encoding-selection, H-domain-profiles-stable) where IsConfirmed=FALSE. Six separate COUNTIFS summed with '+' because this rulebook's formula vocabulary has no IN-list/pipe-delimited OR criterion for COUNTIFS (loop-90 native promotion of the former 02b hand function).", "formula": "=COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-econ-zero\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-domain-dist\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-catalog-flip-prediction\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-domain-flip-geometry-controlled\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-econ-encoding-selection\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-domain-profiles-stable\", DiscoveryFindings!{{IsConfirmed}}, FALSE())" },
-      { "name": "ExpansionWave3DiscoveryNote", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Expansion-wave-3 supersession-audit synthesis rollup (loop-78, promoted to native loop-90).", "formula": "=CONCAT(\"superseded=\", {{CorpusPatternSupersededFailCount}}, \"; econFlips=\", {{EconomicsSignFlipCount}}, \"; flipPred=\", {{SignFlipPredictionMatchRate}}, \"; catalogExact=\", {{TypePredictionMatchRate}}, \"; theorems=\", {{TheoremCount}})" }
+      {
+        "name": "ModelSummaryId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique identifier for this model instance."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{ModelSummaryId}}"
+      },
+      {
+        "name": "ReversalCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of studies with IsReversal=TRUE (sign-flip / allocation-driven reversal).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsReversal}}, TRUE())"
+      },
+      {
+        "name": "NonReversalCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of studies with IsReversal=FALSE.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsReversal}}, FALSE())"
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Total number of TreatmentRankings in this model: ReversalCount + NonReversalCount.",
+        "formula": "={{ReversalCount}} + {{NonReversalCount}}"
+      },
+      {
+        "name": "ExplainedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of studies with IsParadoxExplained=TRUE (reversal AND confirmed confounder).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE())"
+      },
+      {
+        "name": "TotalParadoxStrength",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Sum of ParadoxStrength across all studies. Used to compute average.",
+        "formula": "=SUMIFS(TreatmentRankings!{{ParadoxStrength}}, TreatmentRankings!{{TreatmentA}}, \"A\")"
+      },
+      {
+        "name": "AvgParadoxStrength",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Average ParadoxStrength across all studies: TotalParadoxStrength / StudyCount. A scalar summary of how paradox-rich this dataset is.",
+        "formula": "=IF({{StudyCount}} = 0, \"\", {{TotalParadoxStrength}} / {{StudyCount}})"
+      },
+      {
+        "name": "TypeACount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies classified as Type-A: sign flip AND full reversal (ReversalIntensity=1). The canonical Simpson's Paradox — allocation distortion reverses the pooled winner.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"A\")"
+      },
+      {
+        "name": "DangerTierCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies where TreatmentRankings.ScreeningTier = DANGER — pooled sign is wrong (DistortionType A or B).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{ScreeningTier}}, \"DANGER\")"
+      },
+      {
+        "name": "CautionTierCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies where TreatmentRankings.ScreeningTier = CAUTION — pooled sign holds but magnitude is distorted (DistortionType C+ or C-).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{ScreeningTier}}, \"CAUTION\")"
+      },
+      {
+        "name": "SafeTierCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies where TreatmentRankings.ScreeningTier = SAFE — pooling is trustworthy (DistortionType D).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{ScreeningTier}}, \"SAFE\")"
+      },
+      {
+        "name": "TypeBCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies classified as Type-B: sign flip but partial reversal (ReversalIntensity<1). Allocation distortion creates a sign flip but the pooled signal partially reflects per-stratum reality.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"B\")"
+      },
+      {
+        "name": "TypeDCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies classified as Type-D: no sign flip, negligible distortion. Pooled analysis is trustworthy — allocation is sufficiently balanced.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"D\")"
+      },
+      {
+        "name": "TypeCPlusCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies classified as Type-C+: sign flip with amplification (ReversalIntensity>1). Pooled effect overstates the true per-stratum effect.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C+\")"
+      },
+      {
+        "name": "TypeCMinusCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies classified as Type-C-: sign flip with attenuation. Pooled effect understates or masks the true per-stratum effect.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C-\")"
+      },
+      {
+        "name": "TypeAFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of studies that are Type-A (full canonical reversals). TypeACount / StudyCount.",
+        "formula": "=IF({{StudyCount}} = 0, \"\", {{TypeACount}} / {{StudyCount}})"
+      },
+      {
+        "name": "DistortionTaxonomyCoverage",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Human-readable summary of the four-type distribution: e.g. 'A:2 B:1 C:1 D:0'. The model's self-portrait of its own distortion geometry.",
+        "formula": "=CONCAT(\"A:\", {{TypeACount}}, \" B:\", {{TypeBCount}}, \" C+:\", {{CAmplificationCount}}, \" C-:\", {{CCompressionCount}}, \" D:\", {{TypeDCount}})"
+      },
+      {
+        "name": "DistortionOnlyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Number of studies with real allocation distortion but no sign flip: TypeCCount. The pooled winner is correct but the effect size is biased. Distinct from ZeroStrengthCount, which conflates Type-C (real distortion) with Type-D (neutral).",
+        "formula": "={{CAmplificationCount}} + {{CCompressionCount}}"
+      },
+      {
+        "name": "CAmplificationCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of studies classified as type C+ (allocation-amplified): pooled winner is correct but pooled gap overstates true advantage. Causes researcher overconfidence — may accept higher cost/risk than true effect warrants.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C+\")"
+      },
+      {
+        "name": "CCompressionCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of studies classified as type C- (allocation-compressed): pooled winner is correct but pooled gap understates true advantage. Causes researcher underconfidence — effective treatment may be prematurely abandoned.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"C-\")"
+      },
+      {
+        "name": "AvgSignalPurity",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Average SignalPurity across all TreatmentRankings. Below 0.5 means allocation noise exceeds true signal on average — the corpus is predominantly misleading at the pooled level. Above 0.5 means the corpus is predominantly trustworthy. Fixed loop-90: COUNTIFS(...,\"<>\")/SUMIFS(...,\"<>\") mistranslate to a literal '<>' string-equality filter (a known transpiler bug), always returning 0/NULL; replaced with SUM/COUNT, both of which transpile correctly.",
+        "formula": "=SUM(TreatmentRankings!{{SignalPurity}}) / COUNT(TreatmentRankings!{{TreatmentRankingId}})"
+      },
+      {
+        "name": "SweepCorrectedGapMax",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Maximum SweepCorrectedGap across all AllocationSweep rows. Should equal SweepCorrectedGapMin — the invariant.",
+        "formula": "=MAXIFS(AllocationSweep!{{SweepCorrectedGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\")"
+      },
+      {
+        "name": "SweepCorrectedGapMin",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Minimum SweepCorrectedGap across all AllocationSweep rows. Should equal SweepCorrectedGapMax — the invariant.",
+        "formula": "=MINIFS(AllocationSweep!{{SweepCorrectedGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\")"
+      },
+      {
+        "name": "SweepCorrectedGapRange",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "SweepCorrectedGapMax − SweepCorrectedGapMin. The allocation-invariance witness: this should be zero (up to floating-point rounding). If nonzero, the corrected gap is not allocation-free.",
+        "formula": "=IF({{SweepCorrectedGapMax}} = \"\", \"\", {{SweepCorrectedGapMax}} - {{SweepCorrectedGapMin}})"
+      },
+      {
+        "name": "SweepPooledGapRange",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "MAX(SweepPooledGap) − MIN(SweepPooledGap) across all AllocationSweep rows. Expected to be large (≈0.21) — the pooled gap wanders as allocation shifts.",
+        "formula": "=MAXIFS(AllocationSweep!{{SweepPooledGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\") - MINIFS(AllocationSweep!{{SweepPooledGap}}, AllocationSweep!{{StudyId}}, \"kidney-1986\")"
+      },
+      {
+        "name": "RealStudyCount",
+        "datatype": "integer",
+        "formula": "=COUNTIFS(Studies!{{IsSynthetic}}, FALSE())",
+        "type": "aggregation",
+        "Description": "Number of real (non-synthetic) published studies in the corpus. Retyped loop-90: was mis-declared raw with a formula, which is why the transpiler emitted no native function and 02b had to hand-write calc_model_summary_real_study_count.",
+        "nullable": true
+      },
+      {
+        "name": "AvgSignalPurityReversal",
+        "datatype": "number",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{SignalPurity}}, TreatmentRankings!{{AllocationDirection}}, \"reversal\")",
+        "type": "calculated",
+        "Description": "Average SignalPurity across reversal studies (type A and B). Theorem predicts this must be < 0.5. Retyped loop-90 (see RealStudyCount); rewritten from SUMIFS/COUNTIFS division to AVERAGEIFS because the SUMIFS/COUNTIFS division form transpiled with a mangled cross-table alias.",
+        "nullable": true
+      },
+      {
+        "name": "AvgSignalPurityNonReversal",
+        "datatype": "number",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{SignalPurity}}, TreatmentRankings!{{AllocationDirection}}, \"<>reversal\")",
+        "type": "calculated",
+        "Description": "Average SignalPurity across non-reversal studies (type C+, C-, D). Theorem predicts this must be >= 0.5 except edge cases. Retyped loop-90 (see RealStudyCount); rewritten from SUMIFS/COUNTIFS division to AVERAGEIFS (see AvgSignalPurityReversal).",
+        "nullable": true
+      },
+      {
+        "name": "SignalPurityGap",
+        "datatype": "number",
+        "formula": "={{AvgSignalPurityNonReversal}} - {{AvgSignalPurityReversal}}",
+        "type": "calculated",
+        "Description": "Separation between reversal and non-reversal average SignalPurity. The larger this gap, the more discriminating the threshold at 0.5. Retyped loop-90 (see RealStudyCount).",
+        "nullable": true
+      },
+      {
+        "name": "MedicineStudyCount",
+        "datatype": "integer",
+        "formula": "=COUNTIFS(Studies!{{Domain}}, \"medicine\", Studies!{{IsSynthetic}}, FALSE())",
+        "type": "aggregation",
+        "Description": "Real published studies in the medicine domain. Retyped loop-90 (see RealStudyCount).",
+        "nullable": true
+      },
+      {
+        "name": "EpidemiologyStudyCount",
+        "datatype": "integer",
+        "formula": "=COUNTIFS(Studies!{{Domain}}, \"epidemiology\", Studies!{{IsSynthetic}}, FALSE())",
+        "type": "aggregation",
+        "Description": "Real published studies in the epidemiology domain. Retyped loop-90 (see RealStudyCount).",
+        "nullable": true
+      },
+      {
+        "name": "OtherDomainStudyCount",
+        "datatype": "integer",
+        "formula": "={{RealStudyCount}} - {{MedicineStudyCount}} - {{EpidemiologyStudyCount}}",
+        "type": "calculated",
+        "Description": "Real published studies outside medicine and epidemiology (sports, legal, education, social-science). Retyped loop-90 (see RealStudyCount).",
+        "nullable": true
+      },
+      {
+        "name": "DomainDiversityNote",
+        "datatype": "string",
+        "formula": "=CONCAT(\"real=\", {{RealStudyCount}}, \" studies; wave2=\", {{ExpansionWave2StudyCount}}, \"; eduLatent=\", ROUND({{EducationLatentFraction}} * 100, 0), \"%; sportsLatent=\", ROUND({{SportsLatentFraction}} * 100, 0), \"%; econFlipRate=\", ROUND({{EconomicsSignFlipRate}} * 100, 0), \"%\")",
+        "type": "calculated",
+        "Description": "Human-readable domain breakdown. Witnesses corpus diversity — a prerequisite for cross-domain SignalPurity claims. Retyped loop-90 (see RealStudyCount); TEXT(...,\"0%\") is not a supported transpiler function, replaced with ROUND(x*100,0) + literal '%'.",
+        "nullable": true
+      },
+      {
+        "name": "SyntheticPhaseCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Number of parameter grid points in SyntheticPhase. Refreshed from vw_phase_diagram_summary by 05b-customize-data.sql."
+      },
+      {
+        "name": "PhaseDiagramComplete",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": true,
+        "Description": "TRUE when all five DistortionType cells are populated in the synthetic phase grid. Refreshed from vw_phase_diagram_summary by 05b."
+      },
+      {
+        "name": "PhaseTaxonomyCoverage",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Type counts across the synthetic phase grid. Refreshed from vw_phase_diagram_summary by 05b."
+      },
+      {
+        "name": "IngestionProtocolItemCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of rows in IngestionProtocol — the documented contract items. Fixed loop-90 (see IngestionSummary.ProtocolItemCount for why COUNTIFS(...,\"<>\") is unsafe).",
+        "formula": "=COUNT(IngestionProtocol!{{ProtocolId}})"
+      },
+      {
+        "name": "CorpusPassesIngestionContract",
+        "datatype": "boolean",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: IngestionSummary.IngestionContractPasses.",
+        "formula": "=LOOKUP(\"ingestion-v1\", IngestionSummary[IngestionSummaryId], IngestionSummary[IngestionContractPasses])"
+      },
+      {
+        "name": "IngestionWitnessNote",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Human-readable ingestion contract witness from IngestionSummary.",
+        "formula": "=LOOKUP(\"ingestion-v1\", IngestionSummary[IngestionSummaryId], IngestionSummary[IngestionWitnessNote])"
+      },
+      {
+        "name": "CatalogEntryCount",
+        "datatype": "integer",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Total catalog rows.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TotalCatalogEntries])"
+      },
+      {
+        "name": "PendingImportCount",
+        "datatype": "integer",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Candidate studies queued.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[CandidateCount])"
+      },
+      {
+        "name": "ReadyToEncodeCount",
+        "datatype": "integer",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Encode-ready candidates.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[ReadyToEncodeCount])"
+      },
+      {
+        "name": "ImportSessionReady",
+        "datatype": "boolean",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Bulk import session readiness flag.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[ImportSessionReady])"
+      },
+      {
+        "name": "CatalogWitnessNote",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Import backlog witness string.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[CatalogWitnessNote])"
+      },
+      {
+        "name": "LatentTypeDCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D studies with LatentFlipPotential=TRUE.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{LatentFlipPotential}}, TRUE())"
+      },
+      {
+        "name": "StableTypeDCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D studies without latent flip potential (allocation-stable at observed and counterfactual sweep).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, FALSE())"
+      },
+      {
+        "name": "LatentTypeDFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of Type-D studies with latent flip potential.",
+        "formula": "=IF({{TypeDCount}} = 0, \"\", {{LatentTypeDCount}} / {{TypeDCount}})"
+      },
+      {
+        "name": "CrossZeroCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Studies whose pooled gap crosses zero under allocation sweep.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{PooledGapCrossesZero}}, TRUE())"
+      },
+      {
+        "name": "SignFlipSignalPurityMax",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Maximum SignalPurity among sign-flip studies. Must stay below 0.5 for the signal-purity theorem.",
+        "formula": "=MAXIFS(TreatmentRankings!{{SignalPurity}}, TreatmentRankings!{{IsSignFlip}}, TRUE())"
+      },
+      {
+        "name": "EconomicsSignFlipCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Sign-flip count in economics domain.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\", TreatmentRankings!{{IsSignFlip}}, TRUE())"
+      },
+      {
+        "name": "SumPooledGapLatentD",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "SUM(PooledGap) among Type-D studies with latent flip potential — a bare, unwrapped SUMIFS split out as its own field because nesting a cross-table SUMIFS/AVERAGEIFS as an operand inside another IF/division expression transpiles with a mangled WHERE-clause column alias (e.g. rankings_latent_flip_potential) that errors at runtime; a bare top-level SUMIFS transpiles correctly (loop-90).",
+        "formula": "=SUMIFS(TreatmentRankings!{{PooledGap}}, TreatmentRankings!{{LatentFlipPotential}}, TRUE())"
+      },
+      {
+        "name": "AvgPooledGapLatentD",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Average PooledGap among Type-D studies with latent flip potential. Fixed loop-90 (see SumPooledGapLatentD for why the sum is split into its own field).",
+        "formula": "=IF({{LatentTypeDCount}} = 0, 0, {{SumPooledGapLatentD}} / {{LatentTypeDCount}})"
+      },
+      {
+        "name": "SumPooledGapStableD",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "SUM(PooledGap) among allocation-stable Type-D studies — split out as a bare field for the same reason as SumPooledGapLatentD.",
+        "formula": "=SUMIFS(TreatmentRankings!{{PooledGap}}, TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, FALSE())"
+      },
+      {
+        "name": "AvgPooledGapStableD",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Average PooledGap among allocation-stable Type-D studies. Fixed loop-90 (see SumPooledGapLatentD).",
+        "formula": "=IF({{StableTypeDCount}} = 0, 0, {{SumPooledGapStableD}} / {{StableTypeDCount}})"
+      },
+      {
+        "name": "EpidemiologyAvgDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Mean AllocationDistortion in epidemiology studies.",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{StudyDomain}}, \"epidemiology\")"
+      },
+      {
+        "name": "EducationAvgDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Mean AllocationDistortion in education studies.",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{StudyDomain}}, \"education\")"
+      },
+      {
+        "name": "ConfounderSignFlipCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Sign-flip count among confounder-labeled studies.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"confounder\", TreatmentRankings!{{IsSignFlip}}, TRUE())"
+      },
+      {
+        "name": "ConfounderLatentOnlyCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Latent-only flip count among confounder-labeled studies.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"confounder\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE())"
+      },
+      {
+        "name": "ColliderSelectionCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Studies tagged collider or selection on StratumVariables.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"collider\") + COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"selection\")"
+      },
+      {
+        "name": "ColliderSelectionManifestCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Manifest sign-flips among collider/selection studies.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"collider\", TreatmentRankings!{{IsSignFlip}}, TRUE()) + COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"selection\", TreatmentRankings!{{IsSignFlip}}, TRUE())"
+      },
+      {
+        "name": "ColliderSelectionLatentOnlyCount",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Latent-only flips among collider/selection studies.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"collider\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE()) + COUNTIFS(TreatmentRankings!{{StratumCausalRole}}, \"selection\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE())"
+      },
+      {
+        "name": "ExplainedConfounderCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Count of TreatmentRankings rows where IsParadoxExplained=TRUE (should equal ConfounderSignFlipCount).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE())"
+      },
+      {
+        "name": "ContestedOrMediatorExplainedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Count of contested or mediator sign-flip rows where IsParadoxExplained=TRUE (should be zero).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{IsParadoxExplained}}, TRUE(), TreatmentRankings!{{AdjustmentAppropriate}}, FALSE())"
+      },
+      {
+        "name": "DiscoveryWitnessNote",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Research sweep synthesis rollup (loops 61–66).",
+        "formula": "=CONCAT(\"sweep: latentD=\", {{LatentTypeDFraction}}, \" purityMax=\", {{SignFlipSignalPurityMax}}, \" catalogExact=\", {{TypePredictionMatchRate}}, \" identities=\", {{ConfounderIdentityCount}})"
+      },
+      {
+        "name": "TypePredictionMatchCount",
+        "datatype": "integer",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: CorpusCatalogSummary.TypePredictionMatchCount.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TypePredictionMatchCount])"
+      },
+      {
+        "name": "TypePredictionMismatchCount",
+        "datatype": "integer",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: CorpusCatalogSummary.TypePredictionMismatchCount.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TypePredictionMismatchCount])"
+      },
+      {
+        "name": "TypePredictionMatchRate",
+        "datatype": "number",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: CorpusCatalogSummary.TypePredictionMatchRate.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[TypePredictionMatchRate])"
+      },
+      {
+        "name": "SignFlipPredictionMatchRate",
+        "datatype": "number",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: CorpusCatalogSummary.SignFlipPredictionMatchRate.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[SignFlipPredictionMatchRate])"
+      },
+      {
+        "name": "CatalogPredictionWitnessNote",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: CorpusCatalogSummary.CatalogPredictionWitnessNote.",
+        "formula": "=LOOKUP(\"catalog-v1\", CorpusCatalogSummary[CatalogSummaryId], CorpusCatalogSummary[CatalogPredictionWitnessNote])"
+      },
+      {
+        "name": "HighImbalanceSignFlipThreshold",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "max_stratum_imbalance cutoff for geometry-controlled domain screening (loop-66). Set from corpus median by customize SQL."
+      },
+      {
+        "name": "EconomicsHighImbalanceSignFlipCount",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Sign-flip count among economics studies with max_stratum_imbalance >= threshold."
+      },
+      {
+        "name": "EpidemiologyHighImbalanceSignFlipRate",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Sign-flip rate among high-imbalance epidemiology studies."
+      },
+      {
+        "name": "LegalHighImbalanceSignFlipRate",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Sign-flip rate among high-imbalance legal studies."
+      },
+      {
+        "name": "SportsHighImbalanceSignFlipRate",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Sign-flip rate among high-imbalance sports studies."
+      },
+      {
+        "name": "CPlusAvgDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Mean AllocationDistortion among Type-C+ studies.",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{DistortionType}}, \"C+\")"
+      },
+      {
+        "name": "CMinusAvgDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Mean AllocationDistortion among Type-C- studies.",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{DistortionType}}, \"C-\")"
+      },
+      {
+        "name": "TypeDAvgDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Mean AllocationDistortion among Type-D studies.",
+        "formula": "=AVERAGEIFS(TreatmentRankings!{{AllocationDistortion}}, TreatmentRankings!{{DistortionType}}, \"D\")"
+      },
+      {
+        "name": "SweepFragileCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Count of TreatmentRankings with IsSweepFragile=TRUE.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsSweepFragile}}, TRUE())"
+      },
+      {
+        "name": "ExpansionWave1EconomicsExpectedACount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Imported expansion-wave-1 economics catalog rows tagged Expected A.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-1\", CandidateStudyCatalog!{{Domain}}, \"economics\", CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{ExpectedDistortionType}}, \"A\")"
+      },
+      {
+        "name": "ExpansionWave1EconomicsExpectedADCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Expansion-wave-1 economics Expected-A imports observed as Type D.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-1\", CandidateStudyCatalog!{{Domain}}, \"economics\", CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{ExpectedDistortionType}}, \"A\", CandidateStudyCatalog!{{ObservedDistortionType}}, \"D\")"
+      },
+      {
+        "name": "EconomicsExpectedAMismatchRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of expansion-wave-1 economics Expected-A imports observed as Type D.",
+        "formula": "=IF({{ExpansionWave1EconomicsExpectedACount}} = 0, \"\", {{ExpansionWave1EconomicsExpectedADCount}} / {{ExpansionWave1EconomicsExpectedACount}})"
+      },
+      {
+        "name": "UnanimousSignFlipCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Sign-flip studies with unanimous stratum direction (IsSignFlip AND IsStratumUnanimous).",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{IsStratumUnanimous}}, TRUE())"
+      },
+      {
+        "name": "MaxStudySweepCorrectedGapRange",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "MAX(SweepStudySummary.SweepCorrectedGapRange) — must stay below 0.0001 for CorrectedGap invariance theorem.",
+        "formula": "=MAX(SweepStudySummary!{{SweepCorrectedGapRange}})"
+      },
+      {
+        "name": "CorrectedGapInvariantFailCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Count of SweepStudySummary rows where SweepCorrectedGapRange >= 0.0001.",
+        "formula": "=COUNTIFS(SweepStudySummary!{{SweepCorrectedGapRange}}, \">=0.0001\")"
+      },
+      {
+        "name": "FalsePositiveExplainedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "IsParadoxExplained=TRUE rows that are not confounder manifest sign-flips — must be 0 for explained↔confounder theorem.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE(), TreatmentRankings!{{IsSignFlip}}, FALSE()) + COUNTIFS(TreatmentRankings!{{IsParadoxExplained}}, TRUE(), TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{StratumCausalRole}}, \"<>confounder\")"
+      },
+      {
+        "name": "UnexplainedConfounderSignFlipCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Confounder sign-flips with IsParadoxExplained=FALSE — must be 0 for explained↔confounder theorem.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{IsSignFlip}}, TRUE(), TreatmentRankings!{{StratumCausalRole}}, \"confounder\", TreatmentRankings!{{IsParadoxExplained}}, FALSE())"
+      },
+      {
+        "name": "TheoremCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Count of witnessed Conclusions with Category=corpus-theorem (portfolio rollup for loop-76; category renamed from theorem in loop-91).",
+        "formula": "=COUNTIFS(Conclusions!{{Category}}, \"corpus-theorem\", Conclusions!{{Status}}, \"witnessed\")"
+      },
+      {
+        "name": "EducationLatentFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of education Type-D studies with LatentFlipPotential=TRUE.",
+        "formula": "=IF(COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\") = 0, \"\", COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE()) / COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\"))"
+      },
+      {
+        "name": "SportsLatentFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of sports Type-D studies with LatentFlipPotential=TRUE.",
+        "formula": "=IF(COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\") = 0, \"\", COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{IsLatentOnlyFlip}}, TRUE()) / COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\"))"
+      },
+      {
+        "name": "EconomicsSignFlipRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Manifest sign-flip rate among economics studies.",
+        "formula": "=IF(COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\") = 0, \"\", COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\", TreatmentRankings!{{IsSignFlip}}, TRUE()) / COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"economics\"))"
+      },
+      {
+        "name": "EducationTypeDCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D studies in education domain.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\")"
+      },
+      {
+        "name": "EducationLatentDCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Education Type-D studies with LatentFlipPotential.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"education\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, TRUE())"
+      },
+      {
+        "name": "SportsTypeDCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D studies in sports domain.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\")"
+      },
+      {
+        "name": "SportsLatentDCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Sports Type-D studies with LatentFlipPotential.",
+        "formula": "=COUNTIFS(TreatmentRankings!{{StudyDomain}}, \"sports\", TreatmentRankings!{{DistortionType}}, \"D\", TreatmentRankings!{{LatentFlipPotential}}, TRUE())"
+      },
+      {
+        "name": "EconomicsStudyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Real economics studies in corpus.",
+        "formula": "=COUNTIFS(Studies!{{Domain}}, \"economics\", Studies!{{IsSynthetic}}, FALSE())"
+      },
+      {
+        "name": "ExpansionWave2StudyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Studies imported in expansion wave 2.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-2\", CandidateStudyCatalog!{{IsImported}}, TRUE())"
+      },
+      {
+        "name": "ConfounderIdentityCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Canonical ConfounderIdentity archetypes in ontology (loop-80).",
+        "formula": "=COUNT(ConfounderIdentities!{{ConfounderIdentityId}})"
+      },
+      {
+        "name": "MappedStratumVariableCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Stratum variables with an identity map row.",
+        "formula": "=COUNT(StratumVariableIdentityMaps!{{MapId}})"
+      },
+      {
+        "name": "UnmappedStratumVariableCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Stratum variables lacking identity map (should be 0).",
+        "formula": "=COUNT(StratumVariables!{{StratumVariableId}}) - {{MappedStratumVariableCount}}"
+      },
+      {
+        "name": "AgeIdentityManifestFlipRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Manifest flip rate for id-age-composition cluster (loop-81).",
+        "formula": "=LOOKUP(\"id-age-composition\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[ManifestFlipRate])"
+      },
+      {
+        "name": "AgeIdentityStudyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Real-study count in id-age-composition cluster (loop-81).",
+        "formula": "=LOOKUP(\"id-age-composition\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[StudyCount])"
+      },
+      {
+        "name": "AgeIdentityLatentFractionAmongTypeD",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D latent fraction for id-age-composition cluster (loop-81).",
+        "formula": "=LOOKUP(\"id-age-composition\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[LatentFractionAmongTypeD])"
+      },
+      {
+        "name": "SeverityIdentityLatentFractionAmongTypeD",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D latent fraction for id-disease-severity cluster (loop-81).",
+        "formula": "=LOOKUP(\"id-disease-severity\", IdentityClusterSummaries[ConfounderIdentity], IdentityClusterSummaries[LatentFractionAmongTypeD])"
+      },
+      {
+        "name": "IdentityMapCoverageRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Fraction of real-study StratumVariables with a ConfounderIdentity map (loop-81 customize SQL).",
+        "formula": "=IF({{RealStudyCount}}=0, \"\", {{MappedStratumVariableCount}} / {{RealStudyCount}})"
+      },
+      {
+        "name": "IdentityClusterWitnessNote",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Loop-80 identity layer witness rollup (customize SQL)."
+      },
+      {
+        "name": "SeverityMedicineManifestFlipRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Severity identity manifest flip rate in medicine domain.",
+        "formula": "=LOOKUP(\"cell-id-disease-severity-x-medicine\", IdentityDomainCells[CellId], IdentityDomainCells[ManifestFlipRate])"
+      },
+      {
+        "name": "SeverityEpiManifestFlipCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Severity identity manifest flip count in epidemiology domain.",
+        "formula": "=LOOKUP(\"cell-id-disease-severity-x-epidemiology\", IdentityDomainCells[CellId], IdentityDomainCells[ManifestFlipCount])"
+      },
+      {
+        "name": "IdentityDomainCellCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of identity×domain cells.",
+        "formula": "=COUNT(IdentityDomainCells!{{CellId}})"
+      },
+      {
+        "name": "SelectionFrailtyManifestFlipCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Manifest flip count for selection-frailty identity.",
+        "formula": "=LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipCount])"
+      },
+      {
+        "name": "SelectionFrailtyStudyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Study count for selection-frailty identity cluster.",
+        "formula": "=LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])"
+      },
+      {
+        "name": "ColliderIdentityManifestFlipRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Manifest flip rate for collider-proxy identity.",
+        "formula": "=LOOKUP(\"cluster-id-collider-proxy\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipRate])"
+      },
+      {
+        "name": "GeographicTypeDFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D fraction for geographic-composition identity.",
+        "formula": "=IF(LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])=0, \"\", LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[TypeDCount]) / LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]))"
+      },
+      {
+        "name": "SeverityDriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-disease-severity (severity-case-mix archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.",
+        "formula": "=LOOKUP(\"id-disease-severity\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])"
+      },
+      {
+        "name": "GeographicDriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-geographic-composition (geography archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.",
+        "formula": "=LOOKUP(\"id-geographic-composition\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])"
+      },
+      {
+        "name": "SituationalDriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-situational-context (sports-situation archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.",
+        "formula": "=LOOKUP(\"id-situational-context\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])"
+      },
+      {
+        "name": "AgeDriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-age-composition (demographic-composition archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.",
+        "formula": "=LOOKUP(\"id-age-composition\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])"
+      },
+      {
+        "name": "InstitutionalDriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-institutional-unit (organizational-unit archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.",
+        "formula": "=LOOKUP(\"id-institutional-unit\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])"
+      },
+      {
+        "name": "SocioeconomicDriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "loop-92: ConfounderDistortionTimeline.DriftDirection for id-socioeconomic-status (ses-income archetype), valid-time Type-D drift. Overridden in 02b-customize-functions.sql: native transpiler mistranslates LOOKUP(constant, Table[NonPKColumn], Table[TargetColumn]) into a lookup keyed on the table's PK instead of the specified match column.",
+        "formula": "=LOOKUP(\"id-socioeconomic-status\", ConfounderDistortionTimeline[ConfounderIdentity], ConfounderDistortionTimeline[DriftDirection])"
+      },
+      {
+        "name": "DomainFlipGapSurvivesGeometryControl",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when the economics-vs-epidemiology sign-flip-rate gap for H-domain-flip-geometry-controlled survives after restricting to high-imbalance studies (loop-90 native promotion of the former 02b hand function).",
+        "formula": "=AND({{EconomicsHighImbalanceSignFlipCount}} = 0, {{EpidemiologyHighImbalanceSignFlipRate}} > 0.15)"
+      },
+      {
+        "name": "CorpusPatternSupersededFailCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Count of DiscoveryFindings rows for the 6 superseded-pattern hypotheses (H-econ-zero, H-domain-dist, H-catalog-flip-prediction, H-domain-flip-geometry-controlled, H-econ-encoding-selection, H-domain-profiles-stable) where IsConfirmed=FALSE. Six separate COUNTIFS summed with '+' because this rulebook's formula vocabulary has no IN-list/pipe-delimited OR criterion for COUNTIFS (loop-90 native promotion of the former 02b hand function).",
+        "formula": "=COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-econ-zero\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-domain-dist\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-catalog-flip-prediction\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-domain-flip-geometry-controlled\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-econ-encoding-selection\", DiscoveryFindings!{{IsConfirmed}}, FALSE()) + COUNTIFS(DiscoveryFindings!{{HypothesisId}}, \"H-domain-profiles-stable\", DiscoveryFindings!{{IsConfirmed}}, FALSE())"
+      },
+      {
+        "name": "ExpansionWave3DiscoveryNote",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Expansion-wave-3 supersession-audit synthesis rollup (loop-78, promoted to native loop-90).",
+        "formula": "=CONCAT(\"superseded=\", {{CorpusPatternSupersededFailCount}}, \"; econFlips=\", {{EconomicsSignFlipCount}}, \"; flipPred=\", {{SignFlipPredictionMatchRate}}, \"; catalogExact=\", {{TypePredictionMatchRate}}, \"; theorems=\", {{TheoremCount}})"
+      }
     ],
     "data": [
       { "ModelSummaryId": "simpsons-paradox-v1", "Name": "simpsons-paradox-v1", "ReversalCount": 89, "NonReversalCount": 153, "StudyCount": 242, "ExplainedCount": 85, "TotalParadoxStrength": 3.328593565157105, "AvgParadoxStrength": 0.013754518864285557, "TypeACount": 79, "TypeBCount": 10, "TypeDCount": 138, "TypeAFraction": 0.32644628099173556, "DistortionTaxonomyCoverage": "A:79 B:10 C+:8 C-:7 D:138", "DistortionOnlyCount": 15 }
@@ -4510,21 +6036,115 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "StratumVariables": {
     "Description": "Table: StratumVariables — one row per study, naming the variable that defines the strata and describing its causal role. A confounder affects both treatment assignment AND outcome; a mediator is downstream of treatment; a contested variable is one where the causal role is disputed. IsConfounder is derived from these two boolean flags.",
     "schema": [
-      { "name": "StratumVariableId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. kidney-1986-stone-size)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{StratumVariableId}}" },
-      { "name": "Study", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK to the parent Study.", "RelatedTo": "Studies" },
-      { "name": "VariableName", "datatype": "string", "type": "raw", "nullable": false, "Description": "The name of the stratifying variable (e.g. stone_size, department, age_group)." },
-      { "name": "CausalRole", "datatype": "string", "type": "raw", "nullable": false, "Description": "The variable's causal role: 'confounder' (affects both assignment and outcome), 'mediator' (downstream of treatment), 'contested' (causal role disputed), 'unknown'." },
-      { "name": "AffectsTreatmentAssignment", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "TRUE if this variable causally influences which treatment a patient receives. Required for confounding." },
-      { "name": "AffectsOutcome", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "TRUE if this variable causally influences the outcome independently of treatment. Required for confounding." },
-      { "name": "IsConfounder", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when AffectsTreatmentAssignment AND AffectsOutcome AND CausalRole = 'confounder'. A confounder is the classic driver of Simpson's Paradox.", "formula": "=AND({{AffectsTreatmentAssignment}}, {{AffectsOutcome}}, {{CausalRole}} = \"confounder\")" },
-      { "name": "MechanismNote", "datatype": "string", "type": "raw", "nullable": true, "Description": "Plain-language description of how this variable creates the confounding: why it affects both assignment and outcome." },
-      { "name": "ConditioningRisk", "datatype": "string", "type": "raw", "nullable": true, "Description": "The causal hazard posed by conditioning on this variable. Values: confounder (safe to condition — removes bias), mediator (conditioning blocks the causal path of interest — harmful), collider (conditioning opens a spurious backdoor — harmful), proxy (conditioning on a noisy proxy of the true confounder — risky), none (no conditioning risk identified). NULL means unclassified." },
-      { "name": "ConfounderIdentity", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Canonical cross-study identity via StratumVariableIdentityMaps (loop-80).", "formula": "=LOOKUP({{StratumVariableId}}, StratumVariableIdentityMaps[StratumVariable], StratumVariableIdentityMaps[ConfounderIdentity])" },
-      { "name": "AnnotationCommitHash", "datatype": "string", "type": "raw", "nullable": true, "Description": "Full git SHA of the commit that first introduced this row's CausalRole/MechanismNote — derived via `git log -S` pickaxe search on this row's StratumVariableId (loop-98 audit-trail backfill). Real repo history, not a hand-entered label." },
-      { "name": "AnnotationCommitDate", "datatype": "string", "type": "raw", "nullable": true, "Description": "ISO date (YYYY-MM-DD) of AnnotationCommitHash." },
-      { "name": "AnnotationCommitSubject", "datatype": "string", "type": "raw", "nullable": true, "Description": "Git commit subject line of AnnotationCommitHash — the loop/change that landed this row's causal-role judgment call." },
-      { "name": "CausalRoleEverRevised", "datatype": "boolean", "type": "raw", "nullable": true, "Description": "TRUE if this row's CausalRole value differs across any two points in its git history (a real reclassification); FALSE if the value has been identical since AnnotationCommitHash. Computed once at loop-97 backfill via full-history diff, not re-derived live — re-run the backfill script after any future CausalRole edit to keep this accurate." }
+      {
+        "name": "StratumVariableId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. kidney-1986-stone-size)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{StratumVariableId}}"
+      },
+      {
+        "name": "Study",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the parent Study.",
+        "RelatedTo": "Studies"
+      },
+      {
+        "name": "VariableName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The name of the stratifying variable (e.g. stone_size, department, age_group)."
+      },
+      {
+        "name": "CausalRole",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The variable's causal role: 'confounder' (affects both assignment and outcome), 'mediator' (downstream of treatment), 'contested' (causal role disputed), 'unknown'."
+      },
+      {
+        "name": "AffectsTreatmentAssignment",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "TRUE if this variable causally influences which treatment a patient receives. Required for confounding."
+      },
+      {
+        "name": "AffectsOutcome",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "TRUE if this variable causally influences the outcome independently of treatment. Required for confounding."
+      },
+      {
+        "name": "IsConfounder",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when AffectsTreatmentAssignment AND AffectsOutcome AND CausalRole = 'confounder'. A confounder is the classic driver of Simpson's Paradox.",
+        "formula": "=AND({{AffectsTreatmentAssignment}}, {{AffectsOutcome}}, {{CausalRole}} = \"confounder\")"
+      },
+      {
+        "name": "MechanismNote",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Plain-language description of how this variable creates the confounding: why it affects both assignment and outcome."
+      },
+      {
+        "name": "ConditioningRisk",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The causal hazard posed by conditioning on this variable. Values: confounder (safe to condition — removes bias), mediator (conditioning blocks the causal path of interest — harmful), collider (conditioning opens a spurious backdoor — harmful), proxy (conditioning on a noisy proxy of the true confounder — risky), none (no conditioning risk identified). NULL means unclassified."
+      },
+      {
+        "name": "ConfounderIdentity",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Canonical cross-study identity via StratumVariableIdentityMaps (loop-80).",
+        "formula": "=LOOKUP({{StratumVariableId}}, StratumVariableIdentityMaps[StratumVariable], StratumVariableIdentityMaps[ConfounderIdentity])"
+      },
+      {
+        "name": "AnnotationCommitHash",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Full git SHA of the commit that first introduced this row's CausalRole/MechanismNote — derived via `git log -S` pickaxe search on this row's StratumVariableId (loop-98 audit-trail backfill). Real repo history, not a hand-entered label."
+      },
+      {
+        "name": "AnnotationCommitDate",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "ISO date (YYYY-MM-DD) of AnnotationCommitHash."
+      },
+      {
+        "name": "AnnotationCommitSubject",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Git commit subject line of AnnotationCommitHash — the loop/change that landed this row's causal-role judgment call."
+      },
+      {
+        "name": "CausalRoleEverRevised",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": true,
+        "Description": "TRUE if this row's CausalRole value differs across any two points in its git history (a real reclassification); FALSE if the value has been identical since AnnotationCommitHash. Computed once at loop-97 backfill via full-history diff, not re-derived live — re-run the backfill script after any future CausalRole edit to keep this accurate."
+      }
     ],
     "data": [
       { "StratumVariableId": "kidney-1986-stone-size", "Study": "kidney-1986", "VariableName": "stone_size", "CausalRole": "confounder", "AffectsTreatmentAssignment": true, "AffectsOutcome": true, "MechanismNote": "Large kidney stones were preferentially assigned to Treatment A (the more aggressive procedure), while small stones more often received Treatment B. Independently, large stones have lower baseline cure rates regardless of treatment. This dual influence — on both assignment and on outcome — is what drives the pooled reversal.", "Name": "kidney-1986-stone-size", "IsConfounder": true, "ConditioningRisk": "confounder", "AnnotationCommitHash": "b96e0fe6e3402d85b16e9772518d9241c64c1b1e", "AnnotationCommitDate": "2026-06-27", "AnnotationCommitSubject": "loop-05: StratumVariables + IsParadoxExplained — the DAG witnesses its own explanation", "CausalRoleEverRevised": false },
@@ -4774,67 +6394,489 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "TreatmentRankings": {
     "Description": "Table: TreatmentRankings — one row per treatment-pair comparison within a study. Derives the pooled winner, the per-stratum winner, and the IsReversal boolean. The paradox emerges here as a derived fact: IsReversal is true when the pooled winner and the per-stratum winner disagree.",
     "schema": [
-      { "name": "TreatmentRankingId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. kidney-1986-A-vs-B)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{TreatmentRankingId}}" },
-      { "name": "Study", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK to the parent Study.", "RelatedTo": "Studies" },
-      { "name": "TreatmentA", "datatype": "string", "type": "raw", "nullable": false, "Description": "Label for the first treatment in the comparison (matches Treatments.TreatmentLabel)." },
-      { "name": "TreatmentB", "datatype": "string", "type": "raw", "nullable": false, "Description": "Label for the second treatment in the comparison." },
-      { "name": "TotalCasesA", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases for TreatmentA across all strata in this study.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentA}})" },
-      { "name": "TotalSuccessesA", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total successes for TreatmentA across all strata.", "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentA}})" },
-      { "name": "PooledRateA", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Pooled success rate for TreatmentA: TotalSuccessesA / TotalCasesA.", "formula": "=IF({{TotalCasesA}} = 0, \"\", {{TotalSuccessesA}} / {{TotalCasesA}})" },
-      { "name": "TotalCasesB", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total cases for TreatmentB across all strata.", "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentB}})" },
-      { "name": "TotalSuccessesB", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Total successes for TreatmentB across all strata.", "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentB}})" },
-      { "name": "PooledRateB", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Pooled success rate for TreatmentB: TotalSuccessesB / TotalCasesB.", "formula": "=IF({{TotalCasesB}} = 0, \"\", {{TotalSuccessesB}} / {{TotalCasesB}})" },
-      { "name": "PooledWinner", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Which treatment wins when strata are ignored. Returns tie when pooled rates are equal within floating-point tolerance.", "formula": "=IF(OR({{PooledRateA}} = \"\", {{PooledRateB}} = \"\"), \"\", IF(ABS({{PooledRateA}} - {{PooledRateB}}) < 0.0000001, \"tie\", IF({{PooledRateA}} > {{PooledRateB}}, {{TreatmentA}}, {{TreatmentB}})))" },
-      { "name": "StratumCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of strata in this study. Counted from StratumSummaries filtered to TreatmentA rows (one row per stratum).", "formula": "=COUNTIFS(StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}})" },
-      { "name": "StrataWonByA", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of strata where A wins: count StratumSummaries rows whose TreatmentLabel=TreatmentA AND StratumWinner=TreatmentA. These are the one-per-stratum sentinel rows.", "formula": "=COUNTIFS(StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}}, StratumSummaries!{{StratumWinner}}, {{TreatmentA}})" },
-      { "name": "StrataWonByB", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Number of strata where B wins: count StratumSummaries rows whose TreatmentLabel=TreatmentA AND StratumWinner=TreatmentB.", "formula": "=COUNTIFS(StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}}, StratumSummaries!{{StratumWinner}}, {{TreatmentB}})" },
-      { "name": "PerStratumWinner", "datatype": "string", "type": "calculated", "nullable": true, "Description": "The treatment that wins in every stratum — 'A' if StrataWonByA = StratumCount, 'B' if StrataWonByB = StratumCount, else 'none' (no unanimous per-stratum winner).", "formula": "=IF({{StrataWonByA}} = {{StratumCount}}, {{TreatmentA}}, IF({{StrataWonByB}} = {{StratumCount}}, {{TreatmentB}}, \"none\"))" },
-      { "name": "IsStratumUnanimous", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when one treatment wins every stratum (StrataWonByA = StratumCount OR StrataWonByB = StratumCount). Maps A/B policy split: unanimous → stratify-immediately geometry; heterogeneous → investigate-confounder.", "formula": "=OR({{StrataWonByA}} = {{StratumCount}}, {{StrataWonByB}} = {{StratumCount}})" },
-      { "name": "IsReversal", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when the equal-weight pooled signal (WeightedStratumGapSum) and the actual pooled signal (SignedPooledGap) point in opposite directions — allocation has flipped the direction of the aggregate conclusion. This is Simpson's Paradox as a derived fact.", "formula": "=IF({{IsSignFlip}} = \"\", \"\", {{IsSignFlip}})" },
-      { "name": "ConfoundersInStudy", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Count of StratumVariables in this study whose IsConfounder = TRUE. When > 0, the paradox has a causal explanation.", "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{IsConfounder}}, TRUE())" },
-      { "name": "IsParadoxExplained", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when IsReversal is present AND at least one confirmed confounder exists in the study.", "formula": "=AND({{IsReversal}}, {{ConfoundersInStudy}} > 0)" },
-      { "name": "PooledGap", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Absolute difference between the two pooled rates: |PooledRateA - PooledRateB|. The size of the aggregate misleading signal.", "formula": "=IF({{PooledRateA}} = \"\", \"\", ABS({{PooledRateA}} - {{PooledRateB}}))" },
-      { "name": "StrataWonByLoser", "datatype": "integer", "type": "calculated", "nullable": true, "Description": "Number of strata won by the pooled loser — the counter-signal. For full reversals this equals StratumCount; for partial paradoxes it is between 0 and StratumCount.", "formula": "=IF({{PooledWinner}} = {{TreatmentA}}, {{StrataWonByB}}, {{StrataWonByA}})" },
-      { "name": "ParadoxStrength", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Scalar severity of the paradox: PooledGap × (StrataWonByLoser / StratumCount). Zero when no strata go against the pooled winner. Positive for partial paradoxes. Maximum when every stratum contradicts the pooled result.", "formula": "=IF({{StratumCount}} = 0, \"\", {{PooledGap}} * ({{StrataWonByLoser}} / {{StratumCount}}))" },
-      { "name": "PooledRateFromWeightsA", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Pooled rate for TreatmentA reconstructed as a weighted average of stratum rates: SUM(WeightedStratumRate) across all stratum rows for TreatmentA. Must match PooledRateA — this witnesses the mechanism equation: the pooled rate IS a weighted average of stratum rates, weighted by StratumFraction.", "formula": "=SUMIFS(StratumSummaries!{{WeightedStratumRate}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}})" },
-      { "name": "PooledRateFromWeightsB", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Pooled rate for TreatmentB reconstructed as a weighted average. Must match PooledRateB. If it does, the mechanism equation is verified: reversal is purely a consequence of differential weighting.", "formula": "=SUMIFS(StratumSummaries!{{WeightedStratumRate}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentB}})" },
-      { "name": "ReversalIntensity", "datatype": "number", "type": "calculated", "nullable": true, "Description": "StrataWonByLoser / StratumCount: the fraction of strata that go against the pooled winner. Zero for no paradox, 1.0 for full reversal, between 0 and 1 for partial. This is the allocation-side measure of how deeply the confounding has penetrated the stratified view.", "formula": "=IF({{StratumCount}} = 0, \"\", {{StrataWonByLoser}} / {{StratumCount}})" },
-      { "name": "ThresholdMargin", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ReversalIntensity minus 0.5: positive when more than half the strata go against the pooled winner (reversal is robust), zero at the tipping point (exactly half), negative when fewer than half oppose the pooled winner (reversal is fragile or absent). A study with ThresholdMargin > 0 is robustly paradoxical; one with ThresholdMargin < 0 has a weak or absent paradox.", "formula": "=IF({{StratumCount}} = 0, \"\", {{ReversalIntensity}} - 0.5)" },
-      { "name": "SignedPooledGap", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Signed difference between pooled rates: PooledRateA minus PooledRateB. Positive = A wins pooled; negative = B wins pooled. Unlike PooledGap (which is absolute), this preserves direction — essential for detecting sign flips between the equal-weight and actual pooled signals.", "formula": "=IF({{PooledRateA}} = \"\", \"\", {{PooledRateA}} - {{PooledRateB}})" },
-      { "name": "WeightedStratumGapSum", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "Sum of WeightedStratumGap (= StratumGap × StratumFraction) across all StratumSummaries rows where TreatmentLabel = TreatmentA for this study. This is the equal-weight pooled gap — the gap the pooled analysis would produce if allocation were perfectly balanced across strata. When this has the opposite sign to SignedPooledGap, the allocation has not merely compressed the signal: it has flipped it entirely.", "formula": "=SUMIFS(StratumSummaries!{{WeightedStratumGap}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}})" },
-      { "name": "IsSignFlip", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when WeightedStratumGapSum and SignedPooledGap have opposite signs. Same condition as IsReversal; retained as the coordinate-level name in the DAG.", "formula": "=IF({{WeightedStratumGapSum}} = \"\", \"\", IF({{WeightedStratumGapSum}} > 0, {{SignedPooledGap}} < 0, {{SignedPooledGap}} > 0))" },
-      { "name": "AllocationDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "The magnitude of how far the allocation has bent the pooled signal: |WeightedStratumGapSum − SignedPooledGap|. Zero means the allocation is neutral — the pooled analysis faithfully represents the equal-weight stratum evidence. A large AllocationDistortion means the allocation is doing most of the work: the pooled number is mostly noise from how cases were assigned, not signal about which treatment is better. This measure does NOT require a sign flip to be nonzero — it captures any allocation-induced distortion, not just reversals.", "formula": "=IF({{WeightedStratumGapSum}} = \"\", \"\", ABS({{WeightedStratumGapSum}} - {{SignedPooledGap}}))" },
-      { "name": "DistortionType", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Geometric classification (five types A/B/C+/C-/D). Sign-flip types: A = unanimous stratum direction (IsStratumUnanimous); B = heterogeneous stratum directions. Non-flip: C+/C-/D by distortion ratio.", "formula": "=IF({{AllocationDistortion}} = \"\", \"\", IF({{IsSignFlip}}, IF({{IsStratumUnanimous}}, \"A\", \"B\"), IF(AND(NOT({{IsSignFlip}}), {{AllocationDistortion}} > 0.01, ABS({{SignedPooledGap}}) > ABS({{CorrectedGap}}) + 0.001), \"C+\", IF(AND(NOT({{IsSignFlip}}), {{AllocationDistortion}} > 0.01, ABS({{SignedPooledGap}}) < ABS({{CorrectedGap}}) - 0.001), \"C-\", \"D\"))))" },
-      { "name": "PolicyImplication", "datatype": "string", "type": "calculated", "nullable": true, "Description": "The researcher action implied by the geometric classification. Derived from DistortionType: type A (full reversal) → 'stratify-immediately' — the pooled conclusion is directionally wrong; do not act on it without stratifying. Type B (partial sign-flip) → 'investigate-confounder' — the equal-weight signal opposes the pooled signal, but the per-stratum picture is mixed; the causal mechanism needs examination before trusting either estimate. Type C (compression without flip) → 'check-allocation-bias' — the pooled winner is probably correct but the effect size is distorted; report adjusted or standardized margins rather than the raw pooled gap. Type D (neutral) → 'pooled-analysis-trustworthy' — allocation is not materially distorting the signal; the pooled conclusion is safe with respect to this stratification.", "formula": "=IF({{DistortionType}} = \"\", \"\", IF({{DistortionType}} = \"A\", \"stratify-immediately\", IF({{DistortionType}} = \"B\", \"investigate-confounder\", IF(OR({{DistortionType}} = \"C+\", {{DistortionType}} = \"C-\"), \"check-allocation-bias\", \"pooled-analysis-trustworthy\"))))" },
-      { "name": "CorrectedGap", "datatype": "number", "type": "calculated", "nullable": true, "Description": "The allocation-corrected treatment gap: WeightedStratumGapSum, i.e. what SignedPooledGap would be if allocation were equal across strata. Positive means A is favoured in the corrected world; negative means B is favoured.", "formula": "={{WeightedStratumGapSum}}" },
-      { "name": "CorrectedWinner", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Which treatment wins once allocation bias is removed. Derived from CorrectedGap: positive → TreatmentA; negative → TreatmentB; near-zero → tie.", "formula": "=IF({{CorrectedGap}} = \"\", \"\", IF(ABS({{CorrectedGap}}) < 0.0001, \"tie\", IF({{CorrectedGap}} > 0, {{TreatmentA}}, IF({{CorrectedGap}} < 0, {{TreatmentB}}, \"tie\"))))" },
-      { "name": "CorrectedVsPooledAgreement", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when the allocation-corrected winner matches the pooled winner. FALSE when removing allocation bias would change which treatment appears to win — the machine-readable definition of a reversal recovery.", "formula": "=IF({{CorrectedWinner}} = \"\", \"\", {{CorrectedWinner}} = {{PooledWinner}})" },
-      { "name": "CorrectedPolicyImplication", "datatype": "string", "type": "calculated", "nullable": true, "Description": "The allocation-aware researcher action: what to do when the corrected verdict is available. Derived from DistortionType and CorrectedWinner together, making the instrument self-consistent with Reversal Recovery (loop-27). Type A (full sign-flip, unanimous per-stratum reversal): CorrectedWinner is the true signal — 'use-corrected-winner'. The pooled analysis was directionally wrong; act on CorrectedWinner, not PooledWinner. Type B (partial sign-flip, non-unanimous): CorrectedWinner points against the pooled signal but strata disagree among themselves — 'use-corrected-winner-with-caution'. Trust the corrected direction but acknowledge residual uncertainty. Type C (compression, no sign flip): PooledWinner is directionally correct; the distortion is in the magnitude, not the direction — 'check-allocation-bias'. Same as PolicyImplication. Type D (neutral): allocation is not materially distorting the signal — 'pooled-analysis-trustworthy'. Same as PolicyImplication. For Types C and D, CorrectedPolicyImplication and PolicyImplication always agree; for Types A and B, CorrectedPolicyImplication supersedes PolicyImplication with the allocation-corrected verdict.", "formula": "=IF({{DistortionType}} = \"\", \"\", IF({{DistortionType}} = \"A\", \"use-corrected-winner\", IF({{DistortionType}} = \"B\", \"use-corrected-winner-with-caution\", IF(OR({{DistortionType}} = \"C+\", {{DistortionType}} = \"C-\"), \"check-allocation-bias\", \"pooled-analysis-trustworthy\"))))" },
-      { "name": "AllocationDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Whether the allocation is reversing, amplifying, or compressing the true treatment signal (CorrectedGap). 'reversal': allocation changed the sign of the pooled gap relative to CorrectedGap — worst case; pooled winner is wrong (types A and B). 'amplification': allocation inflated the pooled gap beyond CorrectedGap in the same direction — pooled winner is correct but effect size is overstated (type C+). 'compression': allocation shrank the pooled gap below CorrectedGap in the same direction — pooled winner is correct but effect size is understated (type C-). 'neutral': allocation had negligible effect on the pooled gap (type D). Policy consequences: reversal → wrong decision; amplification → overconfidence; compression → underconfidence / premature abandonment; neutral → trustworthy.", "formula": "=IF({{CorrectedGap}} = \"\", \"\", IF({{IsSignFlip}}, \"reversal\", IF(ABS({{SignedPooledGap}}) > ABS({{CorrectedGap}}) + 0.001, \"amplification\", IF(ABS({{SignedPooledGap}}) < ABS({{CorrectedGap}}) - 0.001, \"compression\", \"neutral\"))))" },
-      { "name": "SignalPurity", "datatype": "number", "type": "calculated", "nullable": true, "Description": "The fraction of total observed variation (|CorrectedGap| + AllocationDistortion) that is genuine treatment signal rather than allocation noise. SignalPurity = |CorrectedGap| / (|CorrectedGap| + AllocationDistortion). Range [0,1]: 1.0 = allocation contributed nothing (type D); 0 = corrected gap is zero (pure noise). Critical threshold is 0.5: SignalPurity < 0.5 means allocation noise exceeds true signal. The signal-purity theorem (loop-44): AllocationDirection='reversal' → SignalPurity < 0.5. Equivalently: a sign flip requires the confound to produce more distortion than the treatment produced signal. This is the mechanistic account of why reversals happen: not study-design accidents but algebraic necessities.", "formula": "=IF({{CorrectedGap}} = \"\", \"\", IF(ABS({{CorrectedGap}}) + {{AllocationDistortion}} = 0, 1, ABS({{CorrectedGap}}) / (ABS({{CorrectedGap}}) + {{AllocationDistortion}})))" },
-      { "name": "PooledGapCrossesZero", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "Lookup: SweepStudySummary.PooledGapCrossesZero via Study. TRUE when reweighting allocation would change the sign of the pooled gap.", "formula": "=LOOKUP({{Study}}, SweepStudySummary[SweepStudyId], SweepStudySummary[PooledGapCrossesZero])" },
-      { "name": "SweepPooledGapRange", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Lookup: SweepStudySummary.SweepPooledGapRange via Study. Width of pooled-gap wander under allocation sweep.", "formula": "=LOOKUP({{Study}}, SweepStudySummary[SweepStudyId], SweepStudySummary[SweepPooledGapRange])" },
-      { "name": "LatentFlipPotential", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when DistortionType=D but PooledGapCrossesZero=TRUE — SAFE at observed allocation but flip-capable under counterfactual reweighting.", "formula": "=IF({{DistortionType}} = \"\", \"\", AND({{DistortionType}} = \"D\", {{PooledGapCrossesZero}} = TRUE))" },
-      { "name": "AllocationFragility", "datatype": "number", "type": "calculated", "nullable": true, "Description": "SweepPooledGapRange divided by |PooledGap|. High values mean small observed effect but wide counterfactual wander. Fixed loop-90: this rulebook's IF(x=\"\",\"\",...) blank-on-degenerate idiom transpiles to a bare ''::numeric cast that errors at runtime the moment a live row genuinely has PooledGap=0 (surfaced only once _erb_tr_metrics, which masked this row, was eliminated). Returns 0 for the degenerate case instead — see TreatmentRankings.DistortionRatio for the same fix pattern.", "formula": "=IF(OR({{SweepPooledGapRange}} = \"\", {{PooledGap}} = \"\", {{PooledGap}} = 0), 0, {{SweepPooledGapRange}} / ABS({{PooledGap}}))" },
-      { "name": "MaxStratumImbalance", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "MAXIFS(StratumSummaries.AbsAllocationBias) over rows where Study matches and TreatmentLabel='A' — the largest allocation-share skew any single stratum shows for this study. Live aggregation; replaces the former hand-written _erb_tr_metrics cache column of the same name.", "formula": "=MAXIFS(StratumSummaries!{{AbsAllocationBias}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, \"A\")" },
-      { "name": "MaxStratumGap", "datatype": "number", "type": "aggregation", "nullable": true, "Description": "MAXIFS(StratumSummaries.AbsStratumGap) over rows where Study matches and TreatmentLabel='A' — the largest within-stratum rate gap for this study. Live aggregation; replaces the former hand-written _erb_tr_metrics cache column of the same name.", "formula": "=MAXIFS(StratumSummaries!{{AbsStratumGap}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, \"A\")" },
-      { "name": "IsSweepFragile", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "Type-D study that is pooled-safe but ultra-fragile under allocation reweighting: signal_purity=1, allocation_distortion=0, sweep_pooled_gap_range>0.3, allocation_fragility>=10.", "formula": "=AND({{DistortionType}} = \"D\", {{SignalPurity}} = 1, {{AllocationDistortion}} = 0, {{SweepPooledGapRange}} > 0.3, {{AllocationFragility}} >= 10)" },
-      { "name": "StudyDomain", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Lookup: Studies.Domain via Study.", "formula": "=LOOKUP({{Study}}, Studies[StudyId], Studies[Domain])" },
-      { "name": "StratumCausalRole", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: StratumVariables.CausalRole for this study — confounder, mediator, collider, selection, contested, etc.", "formula": "=LOOKUP({{Study}}, StratumVariables[Study], StratumVariables[CausalRole])" },
-      { "name": "IsLatentOnlyFlip", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when allocation sweep crosses zero but observed allocation shows no sign flip — latent-only reversal.", "formula": "=IF({{PooledGapCrossesZero}} = \"\", \"\", AND({{PooledGapCrossesZero}} = TRUE(), {{IsSignFlip}} = FALSE()))" },
-      { "name": "ConfirmedCausalRoleCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of StratumVariables in this study whose CausalRole is \"confounder\" — includes variables that confound the outcome regardless of whether allocation was balanced.", "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{CausalRole}}, \"confounder\")" },
-      { "name": "MediatorRiskCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of StratumVariables in this study whose ConditioningRisk is mediator or collider — the hazardous conditioning types.", "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{ConditioningRisk}}, \"mediator\") + COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{ConditioningRisk}}, \"collider\")" },
-      { "name": "ContestedStratumCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of StratumVariables in this study whose CausalRole is contested — the causal interpretation is disputed.", "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{CausalRole}}, \"contested\")" },
-      { "name": "UnknownCausalRoleCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of StratumVariables in this study whose CausalRole is unknown — no causal account has been established.", "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{CausalRole}}, \"unknown\")" },
-      { "name": "CausalClaimStatus", "datatype": "string", "type": "calculated", "nullable": false, "Description": "The epistemic status of the causal interpretation for this study. Values: established (all stratum variables are confirmed confounders with known mechanisms), contested (at least one stratum variable has a disputed causal role — e.g. Berkeley 1973 where department choice may be endogenous), geometric-only (no stratum variable has an established causal role — the distortion is a geometric fact, not a causal claim). Derived from StratumVariables.CausalRole and ConditioningRisk.", "formula": "=IF({{ContestedStratumCount}} > 0, \"contested\", IF({{UnknownCausalRoleCount}} > 0, \"geometric-only\", IF({{ConfirmedCausalRoleCount}} > 0, \"established\", \"geometric-only\")))" },
-      { "name": "AdjustmentAppropriate", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE only when it is epistemically safe to act on CorrectedGap as the causal treatment effect estimate: no mediator/collider conditioning risk AND causal claim is established (not contested or geometric-only). FALSE for the birth-weight paradox (mediator), berkeley-1973 (contested), and synthetic/degenerate studies (geometric-only).", "formula": "=AND({{MediatorRiskCount}} = 0, {{CausalClaimStatus}} = \"established\")" },
-      { "name": "AdjustmentRationale", "datatype": "string", "type": "raw", "nullable": true, "Description": "Human-authored note explaining why AdjustmentAppropriate is TRUE or FALSE for this study. Covers mediator/collider hazards, contested causal roles, and cases where geometric correction is valid but causal interpretation is uncertain." },
-      { "name": "PurityTrapFlag", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when SignalPurity >= 0.90 AND the study's confounder identity has PolicyDefault IN ('do-not-condition','do-not-naively-adjust'). Marks the purity trap: data appears cleanest where naive stratification is most harmful." },
-      { "name": "DistortionRatio", "datatype": "number", "type": "calculated", "nullable": true, "Description": "SignedPooledGap / WeightedStratumGapSum. Promoted loop-90 from a 03b-customize-views.sql presentation-layer bolt-on to a first-class rulebook field. The IF(x=0,\"\",...) blank-on-zero-denominator idiom used elsewhere in this rulebook is unsafe here: NULLIF is not a supported transpiler function, and the transpiler's translation of the \"\" branch for a numeric-typed field is a bare ''::numeric cast that errors at runtime the moment a live row actually hits it (4 of 242 TreatmentRankings rows have WeightedStratumGapSum=0). Returns 0 in that case instead — WeightedStratumGapSum=0 means there is no equal-weight baseline signal to compare against, so a 0 ratio (no distortion multiplier) is the defensible convention, not a guess.", "formula": "=IF({{WeightedStratumGapSum}} = 0, 0, {{SignedPooledGap}} / {{WeightedStratumGapSum}})" },
-      { "name": "ScreeningTier", "datatype": "string", "type": "calculated", "nullable": true, "Description": "DANGER when DistortionType is A or B, CAUTION when C+/C-, SAFE when D. Promoted loop-90 (see DistortionRatio).", "formula": "=IF(OR({{DistortionType}} = \"A\", {{DistortionType}} = \"B\"), \"DANGER\", IF(OR({{DistortionType}} = \"C+\", {{DistortionType}} = \"C-\"), \"CAUTION\", IF({{DistortionType}} = \"D\", \"SAFE\", \"\")))" },
-      { "name": "ArmSizeRatio", "datatype": "number", "type": "calculated", "nullable": true, "Description": "TotalCasesA / (TotalCasesA + TotalCasesB) — the share of total cases allocated to TreatmentA. Promoted loop-90 (see DistortionRatio for why the empty-string zero-denominator idiom is unsafe on a numeric field). Returns 0 for the degenerate zero-case-count edge (never occurs in this corpus, kept for defensive symmetry with DistortionRatio).", "formula": "=IF({{TotalCasesA}} + {{TotalCasesB}} = 0, 0, {{TotalCasesA}} / ({{TotalCasesA}} + {{TotalCasesB}}))" },
-      { "name": "SymmetryDeparture", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ABS(ArmSizeRatio - 0.5) — how far the case allocation departs from a balanced 50/50 split. Promoted loop-90 (see DistortionRatio).", "formula": "=ABS({{ArmSizeRatio}} - 0.5)" }
+      {
+        "name": "TreatmentRankingId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. kidney-1986-A-vs-B)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{TreatmentRankingId}}"
+      },
+      {
+        "name": "Study",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK to the parent Study.",
+        "RelatedTo": "Studies"
+      },
+      {
+        "name": "TreatmentA",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Label for the first treatment in the comparison (matches Treatments.TreatmentLabel)."
+      },
+      {
+        "name": "TreatmentB",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Label for the second treatment in the comparison."
+      },
+      {
+        "name": "TotalCasesA",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases for TreatmentA across all strata in this study.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentA}})"
+      },
+      {
+        "name": "TotalSuccessesA",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total successes for TreatmentA across all strata.",
+        "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentA}})"
+      },
+      {
+        "name": "PooledRateA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Pooled success rate for TreatmentA: TotalSuccessesA / TotalCasesA.",
+        "formula": "=IF({{TotalCasesA}} = 0, \"\", {{TotalSuccessesA}} / {{TotalCasesA}})"
+      },
+      {
+        "name": "TotalCasesB",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total cases for TreatmentB across all strata.",
+        "formula": "=SUMIFS(CaseCells!{{Cases}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentB}})"
+      },
+      {
+        "name": "TotalSuccessesB",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Total successes for TreatmentB across all strata.",
+        "formula": "=SUMIFS(CaseCells!{{Successes}}, CaseCells!{{Study}}, {{Study}}, CaseCells!{{TreatmentLabel}}, {{TreatmentB}})"
+      },
+      {
+        "name": "PooledRateB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Pooled success rate for TreatmentB: TotalSuccessesB / TotalCasesB.",
+        "formula": "=IF({{TotalCasesB}} = 0, \"\", {{TotalSuccessesB}} / {{TotalCasesB}})"
+      },
+      {
+        "name": "PooledWinner",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Which treatment wins when strata are ignored. Returns tie when pooled rates are equal within floating-point tolerance.",
+        "formula": "=IF(OR({{PooledRateA}} = \"\", {{PooledRateB}} = \"\"), \"\", IF(ABS({{PooledRateA}} - {{PooledRateB}}) < 0.0000001, \"tie\", IF({{PooledRateA}} > {{PooledRateB}}, {{TreatmentA}}, {{TreatmentB}})))"
+      },
+      {
+        "name": "StratumCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of strata in this study. Counted from StratumSummaries filtered to TreatmentA rows (one row per stratum).",
+        "formula": "=COUNTIFS(StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}})"
+      },
+      {
+        "name": "StrataWonByA",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of strata where A wins: count StratumSummaries rows whose TreatmentLabel=TreatmentA AND StratumWinner=TreatmentA. These are the one-per-stratum sentinel rows.",
+        "formula": "=COUNTIFS(StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}}, StratumSummaries!{{StratumWinner}}, {{TreatmentA}})"
+      },
+      {
+        "name": "StrataWonByB",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Number of strata where B wins: count StratumSummaries rows whose TreatmentLabel=TreatmentA AND StratumWinner=TreatmentB.",
+        "formula": "=COUNTIFS(StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}}, StratumSummaries!{{StratumWinner}}, {{TreatmentB}})"
+      },
+      {
+        "name": "PerStratumWinner",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The treatment that wins in every stratum — 'A' if StrataWonByA = StratumCount, 'B' if StrataWonByB = StratumCount, else 'none' (no unanimous per-stratum winner).",
+        "formula": "=IF({{StrataWonByA}} = {{StratumCount}}, {{TreatmentA}}, IF({{StrataWonByB}} = {{StratumCount}}, {{TreatmentB}}, \"none\"))"
+      },
+      {
+        "name": "IsStratumUnanimous",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when one treatment wins every stratum (StrataWonByA = StratumCount OR StrataWonByB = StratumCount). Maps A/B policy split: unanimous → stratify-immediately geometry; heterogeneous → investigate-confounder.",
+        "formula": "=OR({{StrataWonByA}} = {{StratumCount}}, {{StrataWonByB}} = {{StratumCount}})"
+      },
+      {
+        "name": "IsReversal",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when the equal-weight pooled signal (WeightedStratumGapSum) and the actual pooled signal (SignedPooledGap) point in opposite directions — allocation has flipped the direction of the aggregate conclusion. This is Simpson's Paradox as a derived fact.",
+        "formula": "=IF({{IsSignFlip}} = \"\", \"\", {{IsSignFlip}})"
+      },
+      {
+        "name": "ConfoundersInStudy",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Count of StratumVariables in this study whose IsConfounder = TRUE. When > 0, the paradox has a causal explanation.",
+        "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{IsConfounder}}, TRUE())"
+      },
+      {
+        "name": "IsParadoxExplained",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when IsReversal is present AND at least one confirmed confounder exists in the study.",
+        "formula": "=AND({{IsReversal}}, {{ConfoundersInStudy}} > 0)"
+      },
+      {
+        "name": "PooledGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Absolute difference between the two pooled rates: |PooledRateA - PooledRateB|. The size of the aggregate misleading signal.",
+        "formula": "=IF({{PooledRateA}} = \"\", \"\", ABS({{PooledRateA}} - {{PooledRateB}}))"
+      },
+      {
+        "name": "StrataWonByLoser",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Number of strata won by the pooled loser — the counter-signal. For full reversals this equals StratumCount; for partial paradoxes it is between 0 and StratumCount.",
+        "formula": "=IF({{PooledWinner}} = {{TreatmentA}}, {{StrataWonByB}}, {{StrataWonByA}})"
+      },
+      {
+        "name": "ParadoxStrength",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Scalar severity of the paradox: PooledGap × (StrataWonByLoser / StratumCount). Zero when no strata go against the pooled winner. Positive for partial paradoxes. Maximum when every stratum contradicts the pooled result.",
+        "formula": "=IF({{StratumCount}} = 0, \"\", {{PooledGap}} * ({{StrataWonByLoser}} / {{StratumCount}}))"
+      },
+      {
+        "name": "PooledRateFromWeightsA",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Pooled rate for TreatmentA reconstructed as a weighted average of stratum rates: SUM(WeightedStratumRate) across all stratum rows for TreatmentA. Must match PooledRateA — this witnesses the mechanism equation: the pooled rate IS a weighted average of stratum rates, weighted by StratumFraction.",
+        "formula": "=SUMIFS(StratumSummaries!{{WeightedStratumRate}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}})"
+      },
+      {
+        "name": "PooledRateFromWeightsB",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Pooled rate for TreatmentB reconstructed as a weighted average. Must match PooledRateB. If it does, the mechanism equation is verified: reversal is purely a consequence of differential weighting.",
+        "formula": "=SUMIFS(StratumSummaries!{{WeightedStratumRate}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentB}})"
+      },
+      {
+        "name": "ReversalIntensity",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "StrataWonByLoser / StratumCount: the fraction of strata that go against the pooled winner. Zero for no paradox, 1.0 for full reversal, between 0 and 1 for partial. This is the allocation-side measure of how deeply the confounding has penetrated the stratified view.",
+        "formula": "=IF({{StratumCount}} = 0, \"\", {{StrataWonByLoser}} / {{StratumCount}})"
+      },
+      {
+        "name": "ThresholdMargin",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ReversalIntensity minus 0.5: positive when more than half the strata go against the pooled winner (reversal is robust), zero at the tipping point (exactly half), negative when fewer than half oppose the pooled winner (reversal is fragile or absent). A study with ThresholdMargin > 0 is robustly paradoxical; one with ThresholdMargin < 0 has a weak or absent paradox.",
+        "formula": "=IF({{StratumCount}} = 0, \"\", {{ReversalIntensity}} - 0.5)"
+      },
+      {
+        "name": "SignedPooledGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Signed difference between pooled rates: PooledRateA minus PooledRateB. Positive = A wins pooled; negative = B wins pooled. Unlike PooledGap (which is absolute), this preserves direction — essential for detecting sign flips between the equal-weight and actual pooled signals.",
+        "formula": "=IF({{PooledRateA}} = \"\", \"\", {{PooledRateA}} - {{PooledRateB}})"
+      },
+      {
+        "name": "WeightedStratumGapSum",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Sum of WeightedStratumGap (= StratumGap × StratumFraction) across all StratumSummaries rows where TreatmentLabel = TreatmentA for this study. This is the equal-weight pooled gap — the gap the pooled analysis would produce if allocation were perfectly balanced across strata. When this has the opposite sign to SignedPooledGap, the allocation has not merely compressed the signal: it has flipped it entirely.",
+        "formula": "=SUMIFS(StratumSummaries!{{WeightedStratumGap}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, {{TreatmentA}})"
+      },
+      {
+        "name": "IsSignFlip",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when WeightedStratumGapSum and SignedPooledGap have opposite signs. Same condition as IsReversal; retained as the coordinate-level name in the DAG.",
+        "formula": "=IF({{WeightedStratumGapSum}} = \"\", \"\", IF({{WeightedStratumGapSum}} > 0, {{SignedPooledGap}} < 0, {{SignedPooledGap}} > 0))"
+      },
+      {
+        "name": "AllocationDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The magnitude of how far the allocation has bent the pooled signal: |WeightedStratumGapSum − SignedPooledGap|. Zero means the allocation is neutral — the pooled analysis faithfully represents the equal-weight stratum evidence. A large AllocationDistortion means the allocation is doing most of the work: the pooled number is mostly noise from how cases were assigned, not signal about which treatment is better. This measure does NOT require a sign flip to be nonzero — it captures any allocation-induced distortion, not just reversals.",
+        "formula": "=IF({{WeightedStratumGapSum}} = \"\", \"\", ABS({{WeightedStratumGapSum}} - {{SignedPooledGap}}))"
+      },
+      {
+        "name": "DistortionType",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Geometric classification (five types A/B/C+/C-/D). Sign-flip types: A = unanimous stratum direction (IsStratumUnanimous); B = heterogeneous stratum directions. Non-flip: C+/C-/D by distortion ratio.",
+        "formula": "=IF({{AllocationDistortion}} = \"\", \"\", IF({{IsSignFlip}}, IF({{IsStratumUnanimous}}, \"A\", \"B\"), IF(AND(NOT({{IsSignFlip}}), {{AllocationDistortion}} > 0.01, ABS({{SignedPooledGap}}) > ABS({{CorrectedGap}}) + 0.001), \"C+\", IF(AND(NOT({{IsSignFlip}}), {{AllocationDistortion}} > 0.01, ABS({{SignedPooledGap}}) < ABS({{CorrectedGap}}) - 0.001), \"C-\", \"D\"))))"
+      },
+      {
+        "name": "PolicyImplication",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The researcher action implied by the geometric classification. Derived from DistortionType: type A (full reversal) → 'stratify-immediately' — the pooled conclusion is directionally wrong; do not act on it without stratifying. Type B (partial sign-flip) → 'investigate-confounder' — the equal-weight signal opposes the pooled signal, but the per-stratum picture is mixed; the causal mechanism needs examination before trusting either estimate. Type C (compression without flip) → 'check-allocation-bias' — the pooled winner is probably correct but the effect size is distorted; report adjusted or standardized margins rather than the raw pooled gap. Type D (neutral) → 'pooled-analysis-trustworthy' — allocation is not materially distorting the signal; the pooled conclusion is safe with respect to this stratification.",
+        "formula": "=IF({{DistortionType}} = \"\", \"\", IF({{DistortionType}} = \"A\", \"stratify-immediately\", IF({{DistortionType}} = \"B\", \"investigate-confounder\", IF(OR({{DistortionType}} = \"C+\", {{DistortionType}} = \"C-\"), \"check-allocation-bias\", \"pooled-analysis-trustworthy\"))))"
+      },
+      {
+        "name": "CorrectedGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The allocation-corrected treatment gap: WeightedStratumGapSum, i.e. what SignedPooledGap would be if allocation were equal across strata. Positive means A is favoured in the corrected world; negative means B is favoured.",
+        "formula": "={{WeightedStratumGapSum}}"
+      },
+      {
+        "name": "CorrectedWinner",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Which treatment wins once allocation bias is removed. Derived from CorrectedGap: positive → TreatmentA; negative → TreatmentB; near-zero → tie.",
+        "formula": "=IF({{CorrectedGap}} = \"\", \"\", IF(ABS({{CorrectedGap}}) < 0.0001, \"tie\", IF({{CorrectedGap}} > 0, {{TreatmentA}}, IF({{CorrectedGap}} < 0, {{TreatmentB}}, \"tie\"))))"
+      },
+      {
+        "name": "CorrectedVsPooledAgreement",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when the allocation-corrected winner matches the pooled winner. FALSE when removing allocation bias would change which treatment appears to win — the machine-readable definition of a reversal recovery.",
+        "formula": "=IF({{CorrectedWinner}} = \"\", \"\", {{CorrectedWinner}} = {{PooledWinner}})"
+      },
+      {
+        "name": "CorrectedPolicyImplication",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The allocation-aware researcher action: what to do when the corrected verdict is available. Derived from DistortionType and CorrectedWinner together, making the instrument self-consistent with Reversal Recovery (loop-27). Type A (full sign-flip, unanimous per-stratum reversal): CorrectedWinner is the true signal — 'use-corrected-winner'. The pooled analysis was directionally wrong; act on CorrectedWinner, not PooledWinner. Type B (partial sign-flip, non-unanimous): CorrectedWinner points against the pooled signal but strata disagree among themselves — 'use-corrected-winner-with-caution'. Trust the corrected direction but acknowledge residual uncertainty. Type C (compression, no sign flip): PooledWinner is directionally correct; the distortion is in the magnitude, not the direction — 'check-allocation-bias'. Same as PolicyImplication. Type D (neutral): allocation is not materially distorting the signal — 'pooled-analysis-trustworthy'. Same as PolicyImplication. For Types C and D, CorrectedPolicyImplication and PolicyImplication always agree; for Types A and B, CorrectedPolicyImplication supersedes PolicyImplication with the allocation-corrected verdict.",
+        "formula": "=IF({{DistortionType}} = \"\", \"\", IF({{DistortionType}} = \"A\", \"use-corrected-winner\", IF({{DistortionType}} = \"B\", \"use-corrected-winner-with-caution\", IF(OR({{DistortionType}} = \"C+\", {{DistortionType}} = \"C-\"), \"check-allocation-bias\", \"pooled-analysis-trustworthy\"))))"
+      },
+      {
+        "name": "AllocationDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Whether the allocation is reversing, amplifying, or compressing the true treatment signal (CorrectedGap). 'reversal': allocation changed the sign of the pooled gap relative to CorrectedGap — worst case; pooled winner is wrong (types A and B). 'amplification': allocation inflated the pooled gap beyond CorrectedGap in the same direction — pooled winner is correct but effect size is overstated (type C+). 'compression': allocation shrank the pooled gap below CorrectedGap in the same direction — pooled winner is correct but effect size is understated (type C-). 'neutral': allocation had negligible effect on the pooled gap (type D). Policy consequences: reversal → wrong decision; amplification → overconfidence; compression → underconfidence / premature abandonment; neutral → trustworthy.",
+        "formula": "=IF({{CorrectedGap}} = \"\", \"\", IF({{IsSignFlip}}, \"reversal\", IF(ABS({{SignedPooledGap}}) > ABS({{CorrectedGap}}) + 0.001, \"amplification\", IF(ABS({{SignedPooledGap}}) < ABS({{CorrectedGap}}) - 0.001, \"compression\", \"neutral\"))))"
+      },
+      {
+        "name": "SignalPurity",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The fraction of total observed variation (|CorrectedGap| + AllocationDistortion) that is genuine treatment signal rather than allocation noise. SignalPurity = |CorrectedGap| / (|CorrectedGap| + AllocationDistortion). Range [0,1]: 1.0 = allocation contributed nothing (type D); 0 = corrected gap is zero (pure noise). Critical threshold is 0.5: SignalPurity < 0.5 means allocation noise exceeds true signal. The signal-purity theorem (loop-44): AllocationDirection='reversal' → SignalPurity < 0.5. Equivalently: a sign flip requires the confound to produce more distortion than the treatment produced signal. This is the mechanistic account of why reversals happen: not study-design accidents but algebraic necessities.",
+        "formula": "=IF({{CorrectedGap}} = \"\", \"\", IF(ABS({{CorrectedGap}}) + {{AllocationDistortion}} = 0, 1, ABS({{CorrectedGap}}) / (ABS({{CorrectedGap}}) + {{AllocationDistortion}})))"
+      },
+      {
+        "name": "PooledGapCrossesZero",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Lookup: SweepStudySummary.PooledGapCrossesZero via Study. TRUE when reweighting allocation would change the sign of the pooled gap.",
+        "formula": "=LOOKUP({{Study}}, SweepStudySummary[SweepStudyId], SweepStudySummary[PooledGapCrossesZero])"
+      },
+      {
+        "name": "SweepPooledGapRange",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Lookup: SweepStudySummary.SweepPooledGapRange via Study. Width of pooled-gap wander under allocation sweep.",
+        "formula": "=LOOKUP({{Study}}, SweepStudySummary[SweepStudyId], SweepStudySummary[SweepPooledGapRange])"
+      },
+      {
+        "name": "LatentFlipPotential",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when DistortionType=D but PooledGapCrossesZero=TRUE — SAFE at observed allocation but flip-capable under counterfactual reweighting.",
+        "formula": "=IF({{DistortionType}} = \"\", \"\", AND({{DistortionType}} = \"D\", {{PooledGapCrossesZero}} = TRUE))"
+      },
+      {
+        "name": "AllocationFragility",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "SweepPooledGapRange divided by |PooledGap|. High values mean small observed effect but wide counterfactual wander. Fixed loop-90: this rulebook's IF(x=\"\",\"\",...) blank-on-degenerate idiom transpiles to a bare ''::numeric cast that errors at runtime the moment a live row genuinely has PooledGap=0 (surfaced only once _erb_tr_metrics, which masked this row, was eliminated). Returns 0 for the degenerate case instead — see TreatmentRankings.DistortionRatio for the same fix pattern.",
+        "formula": "=IF(OR({{SweepPooledGapRange}} = \"\", {{PooledGap}} = \"\", {{PooledGap}} = 0), 0, {{SweepPooledGapRange}} / ABS({{PooledGap}}))"
+      },
+      {
+        "name": "MaxStratumImbalance",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "MAXIFS(StratumSummaries.AbsAllocationBias) over rows where Study matches and TreatmentLabel='A' — the largest allocation-share skew any single stratum shows for this study. Live aggregation; replaces the former hand-written _erb_tr_metrics cache column of the same name.",
+        "formula": "=MAXIFS(StratumSummaries!{{AbsAllocationBias}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, \"A\")"
+      },
+      {
+        "name": "MaxStratumGap",
+        "datatype": "number",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "MAXIFS(StratumSummaries.AbsStratumGap) over rows where Study matches and TreatmentLabel='A' — the largest within-stratum rate gap for this study. Live aggregation; replaces the former hand-written _erb_tr_metrics cache column of the same name.",
+        "formula": "=MAXIFS(StratumSummaries!{{AbsStratumGap}}, StratumSummaries!{{Study}}, {{Study}}, StratumSummaries!{{TreatmentLabel}}, \"A\")"
+      },
+      {
+        "name": "IsSweepFragile",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Type-D study that is pooled-safe but ultra-fragile under allocation reweighting: signal_purity=1, allocation_distortion=0, sweep_pooled_gap_range>0.3, allocation_fragility>=10.",
+        "formula": "=AND({{DistortionType}} = \"D\", {{SignalPurity}} = 1, {{AllocationDistortion}} = 0, {{SweepPooledGapRange}} > 0.3, {{AllocationFragility}} >= 10)"
+      },
+      {
+        "name": "StudyDomain",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Lookup: Studies.Domain via Study.",
+        "formula": "=LOOKUP({{Study}}, Studies[StudyId], Studies[Domain])"
+      },
+      {
+        "name": "StratumCausalRole",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: StratumVariables.CausalRole for this study — confounder, mediator, collider, selection, contested, etc.",
+        "formula": "=LOOKUP({{Study}}, StratumVariables[Study], StratumVariables[CausalRole])"
+      },
+      {
+        "name": "IsLatentOnlyFlip",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when allocation sweep crosses zero but observed allocation shows no sign flip — latent-only reversal.",
+        "formula": "=IF({{PooledGapCrossesZero}} = \"\", \"\", AND({{PooledGapCrossesZero}} = TRUE(), {{IsSignFlip}} = FALSE()))"
+      },
+      {
+        "name": "ConfirmedCausalRoleCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of StratumVariables in this study whose CausalRole is \"confounder\" — includes variables that confound the outcome regardless of whether allocation was balanced.",
+        "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{CausalRole}}, \"confounder\")"
+      },
+      {
+        "name": "MediatorRiskCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of StratumVariables in this study whose ConditioningRisk is mediator or collider — the hazardous conditioning types.",
+        "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{ConditioningRisk}}, \"mediator\") + COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{ConditioningRisk}}, \"collider\")"
+      },
+      {
+        "name": "ContestedStratumCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of StratumVariables in this study whose CausalRole is contested — the causal interpretation is disputed.",
+        "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{CausalRole}}, \"contested\")"
+      },
+      {
+        "name": "UnknownCausalRoleCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of StratumVariables in this study whose CausalRole is unknown — no causal account has been established.",
+        "formula": "=COUNTIFS(StratumVariables!{{Study}}, {{Study}}, StratumVariables!{{CausalRole}}, \"unknown\")"
+      },
+      {
+        "name": "CausalClaimStatus",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "The epistemic status of the causal interpretation for this study. Values: established (all stratum variables are confirmed confounders with known mechanisms), contested (at least one stratum variable has a disputed causal role — e.g. Berkeley 1973 where department choice may be endogenous), geometric-only (no stratum variable has an established causal role — the distortion is a geometric fact, not a causal claim). Derived from StratumVariables.CausalRole and ConditioningRisk.",
+        "formula": "=IF({{ContestedStratumCount}} > 0, \"contested\", IF({{UnknownCausalRoleCount}} > 0, \"geometric-only\", IF({{ConfirmedCausalRoleCount}} > 0, \"established\", \"geometric-only\")))"
+      },
+      {
+        "name": "AdjustmentAppropriate",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE only when it is epistemically safe to act on CorrectedGap as the causal treatment effect estimate: no mediator/collider conditioning risk AND causal claim is established (not contested or geometric-only). FALSE for the birth-weight paradox (mediator), berkeley-1973 (contested), and synthetic/degenerate studies (geometric-only).",
+        "formula": "=AND({{MediatorRiskCount}} = 0, {{CausalClaimStatus}} = \"established\")"
+      },
+      {
+        "name": "AdjustmentRationale",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Human-authored note explaining why AdjustmentAppropriate is TRUE or FALSE for this study. Covers mediator/collider hazards, contested causal roles, and cases where geometric correction is valid but causal interpretation is uncertain."
+      },
+      {
+        "name": "PurityTrapFlag",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when SignalPurity >= 0.90 AND the study's confounder identity has PolicyDefault IN ('do-not-condition','do-not-naively-adjust'). Marks the purity trap: data appears cleanest where naive stratification is most harmful."
+      },
+      {
+        "name": "DistortionRatio",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "SignedPooledGap / WeightedStratumGapSum. Promoted loop-90 from a 03b-customize-views.sql presentation-layer bolt-on to a first-class rulebook field. The IF(x=0,\"\",...) blank-on-zero-denominator idiom used elsewhere in this rulebook is unsafe here: NULLIF is not a supported transpiler function, and the transpiler's translation of the \"\" branch for a numeric-typed field is a bare ''::numeric cast that errors at runtime the moment a live row actually hits it (4 of 242 TreatmentRankings rows have WeightedStratumGapSum=0). Returns 0 in that case instead — WeightedStratumGapSum=0 means there is no equal-weight baseline signal to compare against, so a 0 ratio (no distortion multiplier) is the defensible convention, not a guess.",
+        "formula": "=IF({{WeightedStratumGapSum}} = 0, 0, {{SignedPooledGap}} / {{WeightedStratumGapSum}})"
+      },
+      {
+        "name": "ScreeningTier",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "DANGER when DistortionType is A or B, CAUTION when C+/C-, SAFE when D. Promoted loop-90 (see DistortionRatio).",
+        "formula": "=IF(OR({{DistortionType}} = \"A\", {{DistortionType}} = \"B\"), \"DANGER\", IF(OR({{DistortionType}} = \"C+\", {{DistortionType}} = \"C-\"), \"CAUTION\", IF({{DistortionType}} = \"D\", \"SAFE\", \"\")))"
+      },
+      {
+        "name": "ArmSizeRatio",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TotalCasesA / (TotalCasesA + TotalCasesB) — the share of total cases allocated to TreatmentA. Promoted loop-90 (see DistortionRatio for why the empty-string zero-denominator idiom is unsafe on a numeric field). Returns 0 for the degenerate zero-case-count edge (never occurs in this corpus, kept for defensive symmetry with DistortionRatio).",
+        "formula": "=IF({{TotalCasesA}} + {{TotalCasesB}} = 0, 0, {{TotalCasesA}} / ({{TotalCasesA}} + {{TotalCasesB}}))"
+      },
+      {
+        "name": "SymmetryDeparture",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ABS(ArmSizeRatio - 0.5) — how far the case allocation departs from a balanced 50/50 split. Promoted loop-90 (see DistortionRatio).",
+        "formula": "=ABS({{ArmSizeRatio}} - 0.5)"
+      }
     ],
     "data": [
       { "TreatmentRankingId": "kidney-1986-A-vs-B", "Study": "kidney-1986", "TreatmentA": "A", "TreatmentB": "B", "Name": "kidney-1986-A-vs-B", "TotalCasesA": 350, "TotalSuccessesA": 273, "PooledRateA": 0.78, "TotalCasesB": 350, "TotalSuccessesB": 289, "PooledRateB": 0.8257142857142857, "PooledWinner": "B", "StratumCount": 2, "StrataWonByA": 2, "StrataWonByB": 0, "PerStratumWinner": "A", "IsReversal": true, "ConfoundersInStudy": 1, "IsParadoxExplained": true, "PooledGap": 0.045714285714285714, "StrataWonByLoser": 2, "ParadoxStrength": 0.045714285714285714, "PooledRateFromWeightsA": 0.8325462173856037, "PooledRateFromWeightsB": 0.778875, "ReversalIntensity": 1.0, "ThresholdMargin": 0.5, "SignedPooledGap": -0.045714285714285714, "WeightedStratumGapSum": 0.05367121738560378, "IsSignFlip": true, "AllocationDistortion": 0.09938550309988949, "DistortionType": "A", "PolicyImplication": "stratify-immediately", "AdjustmentRationale": "Stone size is a confirmed confounder (affects both assignment and outcome via baseline severity). Conditioning recovers the true per-stratum treatment effect." },
@@ -5084,27 +7126,161 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "InvariantChecks": {
     "Description": "Table: InvariantChecks — one row per algebraic invariant across the 40-study validation corpus. PassCount and FailCount are populated by run_invariant_checks() in 05b-customize-data.sql. Any critical FailCount > 0 breaks the build.",
     "schema": [
-      { "name": "InvariantCheckId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug for this invariant (e.g. inv-balanced-alloc)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{InvariantCheckId}}" },
-      { "name": "AlgebraicStatement", "datatype": "string", "type": "raw", "nullable": false, "Description": "The mathematical assertion in compact symbolic form." },
-      { "name": "NaturalLanguage", "datatype": "string", "type": "raw", "nullable": false, "Description": "Plain-English statement of what property must hold and why it is an invariant of the model." },
-      { "name": "SourceTable", "datatype": "string", "type": "raw", "nullable": false, "Description": "The DAG table whose rows are checked (TreatmentRankings or StratumSummaries)." },
-      { "name": "FilterExpression", "datatype": "string", "type": "raw", "nullable": true, "Description": "Condition selecting the universe of rows this invariant applies to. Empty means all rows." },
-      { "name": "AssertionExpression", "datatype": "string", "type": "raw", "nullable": false, "Description": "The per-row condition that must be TRUE for every row in scope." },
-      { "name": "SqlFilter", "datatype": "string", "type": "raw", "nullable": true, "Description": "Optional SQL WHERE clause that selects the universe of rows in scope for this invariant (e.g. distortion_type = 'D'). Empty string means all rows." },
-      { "name": "SqlAssertion", "datatype": "string", "type": "raw", "nullable": false, "Description": "The SQL WHERE clause (without WHERE keyword) that counts PASSING rows from vw_treatment_rankings for this invariant. Used by run_invariant_checks() to evaluate each assertion dynamically from the rulebook table." },
-      { "name": "PassCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Rows where the invariant holds. Populated by 05b-customize-data.sql from a live query against vw_treatment_rankings." },
-      { "name": "FailCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Rows where the invariant is violated. Any FailCount > 0 is a build-breaking bug." },
-      { "name": "UniverseCount", "datatype": "integer", "type": "calculated", "nullable": false, "Description": "Total rows in scope (PassCount + FailCount).", "formula": "={{PassCount}} + {{FailCount}}" },
-      { "name": "IsGreen", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when FailCount = 0.", "formula": "={{FailCount}} = 0" },
-      { "name": "StatusLabel", "datatype": "string", "type": "calculated", "nullable": false, "Description": "PASS or FAIL(n) summary for display.", "formula": "=IF({{IsGreen}}, \"PASS\", CONCAT(\"FAIL(\", {{FailCount}}, \")\"))" },
-      { "name": "Severity", "datatype": "string", "type": "raw", "nullable": false, "Description": "critical | warning — critical means any FailCount > 0 is a build-breaking bug." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId. The tradition whose theoretical commitments this algebraic invariant protects — a failed invariant would falsify that tradition's key claim." },
-      { "name": "ProtectsConclusion", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Conclusions.ConclusionId. The conclusion whose witness depends on this invariant holding. If this invariant fails, that conclusion is undermined." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionKeyClaimSummary", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.KeyClaim via TraditionId — a failed invariant would falsify this tradition's key claim.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[KeyClaim])" },
-      { "name": "ProtectsConclusionTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Title via ProtectsConclusion.", "formula": "=LOOKUP({{ProtectsConclusion}}, Conclusions[ConclusionId], Conclusions[Title])" },
-      { "name": "ProtectsConclusionCategory", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Category via ProtectsConclusion.", "formula": "=LOOKUP({{ProtectsConclusion}}, Conclusions[ConclusionId], Conclusions[Category])" }
+      {
+        "name": "InvariantCheckId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug for this invariant (e.g. inv-balanced-alloc)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{InvariantCheckId}}"
+      },
+      {
+        "name": "AlgebraicStatement",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The mathematical assertion in compact symbolic form."
+      },
+      {
+        "name": "NaturalLanguage",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Plain-English statement of what property must hold and why it is an invariant of the model."
+      },
+      {
+        "name": "SourceTable",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The DAG table whose rows are checked (TreatmentRankings or StratumSummaries)."
+      },
+      {
+        "name": "FilterExpression",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Condition selecting the universe of rows this invariant applies to. Empty means all rows."
+      },
+      {
+        "name": "AssertionExpression",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The per-row condition that must be TRUE for every row in scope."
+      },
+      {
+        "name": "SqlFilter",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Optional SQL WHERE clause that selects the universe of rows in scope for this invariant (e.g. distortion_type = 'D'). Empty string means all rows."
+      },
+      {
+        "name": "SqlAssertion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The SQL WHERE clause (without WHERE keyword) that counts PASSING rows from vw_treatment_rankings for this invariant. Used by run_invariant_checks() to evaluate each assertion dynamically from the rulebook table."
+      },
+      {
+        "name": "PassCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Rows where the invariant holds. Populated by 05b-customize-data.sql from a live query against vw_treatment_rankings."
+      },
+      {
+        "name": "FailCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Rows where the invariant is violated. Any FailCount > 0 is a build-breaking bug."
+      },
+      {
+        "name": "UniverseCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total rows in scope (PassCount + FailCount).",
+        "formula": "={{PassCount}} + {{FailCount}}"
+      },
+      {
+        "name": "IsGreen",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when FailCount = 0.",
+        "formula": "={{FailCount}} = 0"
+      },
+      {
+        "name": "StatusLabel",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "PASS or FAIL(n) summary for display.",
+        "formula": "=IF({{IsGreen}}, \"PASS\", CONCAT(\"FAIL(\", {{FailCount}}, \")\"))"
+      },
+      {
+        "name": "Severity",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "critical | warning — critical means any FailCount > 0 is a build-breaking bug."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId. The tradition whose theoretical commitments this algebraic invariant protects — a failed invariant would falsify that tradition's key claim."
+      },
+      {
+        "name": "ProtectsConclusion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Conclusions.ConclusionId. The conclusion whose witness depends on this invariant holding. If this invariant fails, that conclusion is undermined."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionKeyClaimSummary",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.KeyClaim via TraditionId — a failed invariant would falsify this tradition's key claim.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[KeyClaim])"
+      },
+      {
+        "name": "ProtectsConclusionTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Title via ProtectsConclusion.",
+        "formula": "=LOOKUP({{ProtectsConclusion}}, Conclusions[ConclusionId], Conclusions[Title])"
+      },
+      {
+        "name": "ProtectsConclusionCategory",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Category via ProtectsConclusion.",
+        "formula": "=LOOKUP({{ProtectsConclusion}}, Conclusions[ConclusionId], Conclusions[Category])"
+      }
     ],
     "data": [
       { "InvariantCheckId": "inv-taxonomy-complete", "AlgebraicStatement": "DistortionType ∈ {A,B,C+,C-,D} for all rows", "NaturalLanguage": "Every TreatmentRanking row in the 40-study corpus must have a non-null five-type DistortionType. A blank classification means the DAG has a gap.", "SourceTable": "TreatmentRankings", "FilterExpression": "", "AssertionExpression": "DistortionType IS NOT NULL AND DistortionType <> ''", "PassCount": 40, "FailCount": 0, "Severity": "critical", "SqlFilter": "", "SqlAssertion": "distortion_type IS NOT NULL AND distortion_type <> ''", "TraditionId": "tradition-historical", "ProtectsConclusion": "conc-01-paradox-is-derived" },
@@ -5144,13 +7320,56 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "MaterializedEntities": {
     "Description": "Table: MaterializedEntities — governance record of every entity in this rulebook whose fields are principled materializations rather than live-calculated (per project CLAUDE.md: allowed only when the computation is genuinely expensive AND its upstream is sealed/stable, expressed as data in the rulebook itself, never as an ad-hoc application cache). Each row names the entity, the refresh contract, the refresh function that implements it, and the measured cost that justified materializing it. If this table's row for an entity were deleted, the entity's fields should still be regeneratable identically from the SSoT + the refresh function — that is the test for whether a materialization here is principled.",
     "schema": [
-      { "name": "MaterializedEntityId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. mat-sweep-study-summary)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors MaterializedEntityId.", "formula": "={{MaterializedEntityId}}" },
-      { "name": "EntityTable", "datatype": "string", "type": "raw", "nullable": false, "Description": "The rulebook table whose fields are materialized (e.g. SweepStudySummary)." },
-      { "name": "RefreshContract", "datatype": "string", "type": "raw", "nullable": false, "Description": "eager-on-write | on-demand | scheduled — when the refresh function is invoked relative to writes on the upstream data." },
-      { "name": "RefreshFunction", "datatype": "string", "type": "raw", "nullable": false, "Description": "The SQL function (in the customize-* override files) that recomputes this entity's materialized fields from its upstream SSoT tables." },
-      { "name": "UpstreamTables", "datatype": "string", "type": "raw", "nullable": false, "Description": "Comma-separated list of the tables this materialization is derived from — its sealed/stable upstream." },
-      { "name": "Justification", "datatype": "string", "type": "raw", "nullable": true, "Description": "The measured cost or evidence that justified materializing this entity instead of leaving it as a live calculated/aggregation field." }
+      {
+        "name": "MaterializedEntityId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. mat-sweep-study-summary)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors MaterializedEntityId.",
+        "formula": "={{MaterializedEntityId}}"
+      },
+      {
+        "name": "EntityTable",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The rulebook table whose fields are materialized (e.g. SweepStudySummary)."
+      },
+      {
+        "name": "RefreshContract",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "eager-on-write | on-demand | scheduled — when the refresh function is invoked relative to writes on the upstream data."
+      },
+      {
+        "name": "RefreshFunction",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The SQL function (in the customize-* override files) that recomputes this entity's materialized fields from its upstream SSoT tables."
+      },
+      {
+        "name": "UpstreamTables",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Comma-separated list of the tables this materialization is derived from — its sealed/stable upstream."
+      },
+      {
+        "name": "Justification",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The measured cost or evidence that justified materializing this entity instead of leaving it as a live calculated/aggregation field."
+      }
     ],
     "data": [
       { "MaterializedEntityId": "mat-sweep-study-summary", "EntityTable": "SweepStudySummary", "RefreshContract": "eager-on-write", "RefreshFunction": "refresh_sweep_study_summary()", "UpstreamTables": "AllocationSweep, SweepStudyConfig", "Justification": "Loop-93: computing calc_model_summary_latent_type_d_count (or any ModelSummary/DiscoveryFindings field touching PooledGapCrossesZero/SweepPooledGapRange) fanned a 242-study TreatmentRankings scan out into 242 independent 10-row AllocationSweep sub-scans with zero memoization, measured at 22.5s for a single field (single-study sub-scan alone: 67.7ms). AllocationSweep/SweepStudyConfig are both sealed per build (raw sweep-simulation input, unchanged unless the sweep is re-run), so materializing SweepStudySummary once collapses every downstream consumer (TreatmentRankings.PooledGapCrossesZero/SweepPooledGapRange, 37+ ModelSummary aggregates, DiscoveryFindings rows keyed to H-latent-d and related hypotheses) from a nested function fan-out to a single indexed row read." },
@@ -5161,11 +7380,42 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "__meta__": {
     "Description": "Table: __meta__ — project-level metadata for the Simpson's Paradox domain. One row per key. Transparent to transpilers.",
     "schema": [
-      { "name": "MetaKey", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique key identifying this metadata entry." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors MetaKey.", "formula": "={{MetaKey}}" },
-      { "name": "ValueType", "datatype": "string", "type": "raw", "nullable": false, "Description": "Type of value stored: string | object | array" },
-      { "name": "StringValue", "datatype": "string", "type": "raw", "nullable": true, "Description": "Value when ValueType = string." },
-      { "name": "JsonValue", "datatype": "string", "type": "raw", "nullable": true, "Description": "JSON-encoded value when ValueType = object or array." }
+      {
+        "name": "MetaKey",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique key identifying this metadata entry."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors MetaKey.",
+        "formula": "={{MetaKey}}"
+      },
+      {
+        "name": "ValueType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Type of value stored: string | object | array"
+      },
+      {
+        "name": "StringValue",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Value when ValueType = string."
+      },
+      {
+        "name": "JsonValue",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "JSON-encoded value when ValueType = object or array."
+      }
     ],
     "data": [
       { "MetaKey": "cmcc_summary", "ValueType": "string", "StringValue": "Domain mirror of Simpson's Paradox. Entities: Studies, Treatments, Strata, CaseCells. CellSuccessRate is the first derived fact. Pooled rates, per-stratum rates, and the reversal fall out as higher-order derived nodes in subsequent loops." },
@@ -5184,25 +7434,115 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Methodology": {
     "Description": "Table: Methodology — the first-principles process used to build this domain model. Each row documents one methodological axiom or step. Together these rows let a reader (or an LLM) reconstruct why the model is shaped the way it is, and re-apply the same process to a new domain.",
     "schema": [
-      { "name": "MethodologyId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. method-01-cmcc, method-02-dag-first)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors MethodologyId.", "formula": "={{MethodologyId}}" },
-      { "name": "Phase", "datatype": "string", "type": "raw", "nullable": false, "Description": "Broad phase: axiom | decomposition | derivation | hydration | validation | taxonomy | conclusion" },
-      { "name": "Title", "datatype": "string", "type": "raw", "nullable": false, "Description": "Short title of the methodological principle or step." },
-      { "name": "Statement", "datatype": "string", "type": "raw", "nullable": false, "Description": "One-to-three sentence statement of the principle, precise enough to be applied or falsified." },
-      { "name": "WhyItMatters", "datatype": "string", "type": "raw", "nullable": true, "Description": "Why this step or principle is load-bearing for this model — what breaks if you skip it." },
-      { "name": "IllustratedByLoop", "datatype": "string", "type": "raw", "nullable": true, "Description": "LoopId(s) where this principle was concretely demonstrated (comma-separated)." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition that introduced or most relies on this methodological approach." },
-      { "name": "PioneeringResearcher", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Researchers.ResearcherId. The researcher most associated with developing or popularising this methodological principle in the Simpson's Paradox context." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionPrimaryVenue", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.PrimaryVenue via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[PrimaryVenue])" },
-      { "name": "PioneeringResearcherName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Name via PioneeringResearcher.", "formula": "=LOOKUP({{PioneeringResearcher}}, Researchers[ResearcherId], Researchers[Name])" },
-      { "name": "PioneeringResearcherAffiliation", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Affiliation via PioneeringResearcher.", "formula": "=LOOKUP({{PioneeringResearcher}}, Researchers[ResearcherId], Researchers[Affiliation])" },
-      { "name": "LoopCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of Loops whose TraditionId matches this methodology entry's TraditionId — how many build iterations this methodological tradition has driven.", "formula": "=COUNTIFS(Loops!{{TraditionId}}, {{TraditionId}})" }
+      {
+        "name": "MethodologyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. method-01-cmcc, method-02-dag-first)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors MethodologyId.",
+        "formula": "={{MethodologyId}}"
+      },
+      {
+        "name": "Phase",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Broad phase: axiom | decomposition | derivation | hydration | validation | taxonomy | conclusion"
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Short title of the methodological principle or step."
+      },
+      {
+        "name": "Statement",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "One-to-three sentence statement of the principle, precise enough to be applied or falsified."
+      },
+      {
+        "name": "WhyItMatters",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Why this step or principle is load-bearing for this model — what breaks if you skip it."
+      },
+      {
+        "name": "IllustratedByLoop",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "LoopId(s) where this principle was concretely demonstrated (comma-separated)."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition that introduced or most relies on this methodological approach."
+      },
+      {
+        "name": "PioneeringResearcher",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Researchers.ResearcherId. The researcher most associated with developing or popularising this methodological principle in the Simpson's Paradox context."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionPrimaryVenue",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.PrimaryVenue via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[PrimaryVenue])"
+      },
+      {
+        "name": "PioneeringResearcherName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Name via PioneeringResearcher.",
+        "formula": "=LOOKUP({{PioneeringResearcher}}, Researchers[ResearcherId], Researchers[Name])"
+      },
+      {
+        "name": "PioneeringResearcherAffiliation",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Affiliation via PioneeringResearcher.",
+        "formula": "=LOOKUP({{PioneeringResearcher}}, Researchers[ResearcherId], Researchers[Affiliation])"
+      },
+      {
+        "name": "LoopCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of Loops whose TraditionId matches this methodology entry's TraditionId — how many build iterations this methodological tradition has driven.",
+        "formula": "=COUNTIFS(Loops!{{TraditionId}}, {{TraditionId}})"
+      }
     ],
     "data": [
       { "MethodologyId": "method-01-cmcc", "Phase": "axiom", "Title": "CMCC: any sufficiently crisp conceptual world decomposes into a DAG of S/D/L/A/F primitives", "Statement": "The Conceptual Model Conjecture (CMCC) holds that every domain can be decomposed into Schema, Data, Lookups, Aggregations, and Functions arranged as a directed acyclic graph. Each node is locally simple; complexity emerges from composition, not from any single node. This is the working assumption for the entire model, not a hypothesis to relitigate each turn.", "WhyItMatters": "If CMCC holds, the paradox can be derived rather than modeled. The model does not need a 'ReversalDetection' entity — it just needs the right leaf data and the right DAG edges. The paradox falls out as a consequence.", "IllustratedByLoop": "loop-01", "TraditionId": "tradition-historical", "PioneeringResearcher": null },
       { "MethodologyId": "method-02-dag-first", "Phase": "decomposition", "Title": "Model the domain entities first; derived facts emerge from the DAG", "Statement": "Start with the empirical leaf data: Cases and Successes in each (Study, Stratum, Treatment) cell. Never model the phenomenon of interest (the paradox) directly. The paradox is a derived fact — it emerges when you ask the right questions of a correctly-shaped DAG.", "WhyItMatters": "Modeling the paradox directly (e.g. a 'ReversalDetection' table) would conflate the phenomenon with the domain. The domain is Studies, Treatments, Strata, and CaseCells. The paradox is a read on that domain.", "IllustratedByLoop": "loop-01, loop-04", "TraditionId": "tradition-dag", "PioneeringResearcher": "researcher-spirtes-glymour-scheines" },
-      { "MethodologyId": "method-03-leopold-loops", "Phase": "decomposition", "Title": "Build the model incrementally via Leopold Loops — one new concept per loop", "Statement": "Each loop introduces exactly one new first-class concept and asks the natural-language question that concept answers. The loop ends when the new derived fact is witnessed in the database. Loop N's NextSuggestion seeds Loop N+1.", "WhyItMatters": "Introducing multiple concepts per loop makes it hard to witness whether each concept earns its place. One concept per loop forces the question: 'what new thing can I now ask that I couldn't before?'", "IllustratedByLoop": "loop-01, loop-02, loop-03, loop-04, loop-05", "TraditionId": "tradition-historical", "PioneeringResearcher": null },
+      { "MethodologyId": "method-03-effortless-loops", "Phase": "decomposition", "Title": "Build the model incrementally via Effortless Loops — one new concept per loop", "Statement": "Each loop introduces exactly one new first-class concept and asks the natural-language question that concept answers. The loop ends when the new derived fact is witnessed in the database. Loop N's NextSuggestion seeds Loop N+1.", "WhyItMatters": "Introducing multiple concepts per loop makes it hard to witness whether each concept earns its place. One concept per loop forces the question: 'what new thing can I now ask that I couldn't before?'", "IllustratedByLoop": "loop-01, loop-02, loop-03, loop-04, loop-05", "TraditionId": "tradition-historical", "PioneeringResearcher": null },
       { "MethodologyId": "method-04-witness-not-claim", "Phase": "derivation", "Title": "Every derived fact must be witnessed from the database, not claimed from the rulebook", "Statement": "A field is not 'done' when it is added to the rulebook. It is done when a Postgres query returns the expected value for the seeded data. MockDataNote in each Loop row states what value is expected and from which study. If the DB returns a different value, the formula or the seed data is wrong.", "WhyItMatters": "Without witnessing, silent fallbacks and mistranslations accumulate invisibly. The rulebook says CellSuccessRate = Successes/Cases; the DB must actually return 0.931 for kidney small-A.", "IllustratedByLoop": "loop-01, loop-06, loop-12, loop-17", "TraditionId": "tradition-dag", "PioneeringResearcher": "researcher-spirtes-glymour-scheines" },
       { "MethodologyId": "method-05-synthetic-controls", "Phase": "validation", "Title": "Introduce synthetic control studies to test structural impossibility", "Statement": "For every interesting derived boolean (IsReversal, IsSignFlip), add at least one synthetic study where the boolean MUST be false by construction. Witnessing the false case in the DB proves the derivation is not vacuously true.", "WhyItMatters": "Without a structural-impossibility witness, a bug in the formula that always returns TRUE would pass all the positive tests. The balanced-synthetic and kidney-balanced studies exist solely to witness IsReversal=FALSE and AllocationDistortion=0.", "IllustratedByLoop": "loop-07, loop-14", "TraditionId": "tradition-epidemiology", "PioneeringResearcher": "researcher-greenland" },
       { "MethodologyId": "method-06-real-data-hydration", "Phase": "hydration", "Title": "Real study data lives in the rulebook JSON — the SSoT is unified", "Statement": "The rulebook JSON is the single source of truth for both schema and instance data. Real published study counts (Successes, Cases per cell) live directly in each table's data array alongside the synthetic studies. Provenance for each real study is recorded in data/raw/<study-id>/provenance.md. The view chain computes every derived field from the rulebook without any separate hydration step.", "WhyItMatters": "Keeping schema and instance data together in one document makes the instrument self-contained and auditable. The rulebook JSON can be shared, forked, or loaded without a separate SQL hydration step. The schema still defines derivations; the data rows supply the raw inputs.", "IllustratedByLoop": "loop-01, loop-20, loop-20b", "TraditionId": "tradition-epidemiology", "PioneeringResearcher": "researcher-robins" },
@@ -5215,32 +7555,202 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Conclusions": {
     "Description": "Table: Conclusions — the substantive epistemic findings that this model has produced or is designed to produce. Each row is one conclusion: a claim about the domain, about the instrument, or about the methodology that is either already witnessed or is the target of a planned loop.",
     "schema": [
-      { "name": "ConclusionId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. conc-01-paradox-is-derived)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors ConclusionId.", "formula": "={{ConclusionId}}" },
-      { "name": "Category", "datatype": "string", "type": "raw", "nullable": false, "Description": "domain | instrument | methodology | open-question | corpus-theorem" },
-      { "name": "Status", "datatype": "string", "type": "raw", "nullable": false, "Description": "witnessed | planned | open" },
-      { "name": "ReportTier", "datatype": "string", "type": "raw", "nullable": false, "Description": "critical | supporting | transient — controls how much space this conclusion gets in the generated PDF/summary report. critical = full section with evidence + chart; supporting = 1-2 line bullet; transient = folded into a single compact list." },
-      { "name": "ValidatingHypothesis", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → DiscoveryHypotheses.HypothesisId. The pre-registered hypothesis whose live DiscoveryFindings.IsConfirmed value is the current-truth check for this conclusion — set on theorem/corpus-theorem conclusions so a report can distinguish a conclusion's archived prose (may say 'Proved') from its live status (may since be contradicted by corpus growth). Null when no single hypothesis tests this exact claim." },
-      { "name": "LiveStatusConfirmed", "datatype": "boolean", "type": "lookup", "nullable": true, "Description": "Lookup: DiscoveryFindings.IsConfirmed via ValidatingHypothesis — the current pass/fail state of the hypothesis backing this conclusion, recomputed on every build from live corpus data. NULL when ValidatingHypothesis is not set (no live check exists for this conclusion).", "formula": "=LOOKUP({{ValidatingHypothesis}}, DiscoveryFindings[HypothesisId], DiscoveryFindings[IsConfirmed])" },
-      { "name": "LiveStatusObservedMetric", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: DiscoveryFindings.ObservedMetric via ValidatingHypothesis — the current observed values for the hypothesis backing this conclusion, so a reader can see exactly why it currently passes or fails.", "formula": "=LOOKUP({{ValidatingHypothesis}}, DiscoveryFindings[HypothesisId], DiscoveryFindings[ObservedMetric])" },
-      { "name": "Title", "datatype": "string", "type": "raw", "nullable": false, "Description": "One-line statement of the conclusion." },
-      { "name": "Evidence", "datatype": "string", "type": "raw", "nullable": true, "Description": "The specific DB query result, loop outcome, or argument that establishes or will establish this conclusion." },
-      { "name": "WitnessedInLoop", "datatype": "string", "type": "raw", "nullable": true, "Description": "LoopId where this conclusion was first witnessed (if status=witnessed)." },
-      { "name": "TargetLoop", "datatype": "string", "type": "raw", "nullable": true, "Description": "LoopId that is designed to witness this conclusion (if status=planned)." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId. The tradition whose theoretical framework this conclusion primarily vindicates, refines, or challenges." },
-      { "name": "ResearcherId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Researchers.ResearcherId. The researcher whose specific claim, definition, or framework this conclusion directly affirms." },
-      { "name": "ChallengesResearcher", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Researchers.ResearcherId. A researcher whose position this conclusion refutes or qualifies (e.g. conc-03 refutes Blyth's unanimity criterion as the primary definition)." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionKeyClaimSummary", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.KeyClaim via TraditionId — shows which tradition's central claim this conclusion validates or refines.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[KeyClaim])" },
-      { "name": "ResearcherName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Name via ResearcherId.", "formula": "=LOOKUP({{ResearcherId}}, Researchers[ResearcherId], Researchers[Name])" },
-      { "name": "ResearcherAffiliation", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Affiliation via ResearcherId.", "formula": "=LOOKUP({{ResearcherId}}, Researchers[ResearcherId], Researchers[Affiliation])" },
-      { "name": "ChallengesResearcherName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Researchers.Name via ChallengesResearcher.", "formula": "=LOOKUP({{ChallengesResearcher}}, Researchers[ResearcherId], Researchers[Name])" },
-      { "name": "WitnessedInLoopTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Loops.Title via WitnessedInLoop.", "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[Title])" },
-      { "name": "WitnessedInLoopCommitHash", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Loops.CommitHash via WitnessedInLoop — git checkout this SHA to replay the instrument state when this conclusion was first witnessed.", "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[CommitHash])" },
-      { "name": "WitnessedInLoopCommitShort", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Loops.CommitShort via WitnessedInLoop.", "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[CommitShort])" },
-      { "name": "WitnessedInLoopCommitDate", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Loops.CommitDate via WitnessedInLoop.", "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[CommitDate])" },
-      { "name": "WitnessedInLoopGitTag", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Loops.GitTag via WitnessedInLoop — preferred replay entry point when a milestone tag exists.", "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[GitTag])" },
-      { "name": "InvariantProtectingCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of InvariantChecks whose ProtectsConclusion FK points to this conclusion — how many algebraic invariants stand behind this finding.", "formula": "=COUNTIFS(InvariantChecks!{{ProtectsConclusion}}, {{ConclusionId}})" }
+      {
+        "name": "ConclusionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. conc-01-paradox-is-derived)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors ConclusionId.",
+        "formula": "={{ConclusionId}}"
+      },
+      {
+        "name": "Category",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "domain | instrument | methodology | open-question | corpus-theorem"
+      },
+      {
+        "name": "Status",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "witnessed | planned | open"
+      },
+      {
+        "name": "ReportTier",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "critical | supporting | transient — controls how much space this conclusion gets in the generated PDF/summary report. critical = full section with evidence + chart; supporting = 1-2 line bullet; transient = folded into a single compact list."
+      },
+      {
+        "name": "ValidatingHypothesis",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → DiscoveryHypotheses.HypothesisId. The pre-registered hypothesis whose live DiscoveryFindings.IsConfirmed value is the current-truth check for this conclusion — set on theorem/corpus-theorem conclusions so a report can distinguish a conclusion's archived prose (may say 'Proved') from its live status (may since be contradicted by corpus growth). Null when no single hypothesis tests this exact claim."
+      },
+      {
+        "name": "LiveStatusConfirmed",
+        "datatype": "boolean",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: DiscoveryFindings.IsConfirmed via ValidatingHypothesis — the current pass/fail state of the hypothesis backing this conclusion, recomputed on every build from live corpus data. NULL when ValidatingHypothesis is not set (no live check exists for this conclusion).",
+        "formula": "=LOOKUP({{ValidatingHypothesis}}, DiscoveryFindings[HypothesisId], DiscoveryFindings[IsConfirmed])"
+      },
+      {
+        "name": "LiveStatusObservedMetric",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: DiscoveryFindings.ObservedMetric via ValidatingHypothesis — the current observed values for the hypothesis backing this conclusion, so a reader can see exactly why it currently passes or fails.",
+        "formula": "=LOOKUP({{ValidatingHypothesis}}, DiscoveryFindings[HypothesisId], DiscoveryFindings[ObservedMetric])"
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "One-line statement of the conclusion."
+      },
+      {
+        "name": "Evidence",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The specific DB query result, loop outcome, or argument that establishes or will establish this conclusion."
+      },
+      {
+        "name": "WitnessedInLoop",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "LoopId where this conclusion was first witnessed (if status=witnessed)."
+      },
+      {
+        "name": "TargetLoop",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "LoopId that is designed to witness this conclusion (if status=planned)."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId. The tradition whose theoretical framework this conclusion primarily vindicates, refines, or challenges."
+      },
+      {
+        "name": "ResearcherId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Researchers.ResearcherId. The researcher whose specific claim, definition, or framework this conclusion directly affirms."
+      },
+      {
+        "name": "ChallengesResearcher",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Researchers.ResearcherId. A researcher whose position this conclusion refutes or qualifies (e.g. conc-03 refutes Blyth's unanimity criterion as the primary definition)."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionKeyClaimSummary",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.KeyClaim via TraditionId — shows which tradition's central claim this conclusion validates or refines.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[KeyClaim])"
+      },
+      {
+        "name": "ResearcherName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Name via ResearcherId.",
+        "formula": "=LOOKUP({{ResearcherId}}, Researchers[ResearcherId], Researchers[Name])"
+      },
+      {
+        "name": "ResearcherAffiliation",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Affiliation via ResearcherId.",
+        "formula": "=LOOKUP({{ResearcherId}}, Researchers[ResearcherId], Researchers[Affiliation])"
+      },
+      {
+        "name": "ChallengesResearcherName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Researchers.Name via ChallengesResearcher.",
+        "formula": "=LOOKUP({{ChallengesResearcher}}, Researchers[ResearcherId], Researchers[Name])"
+      },
+      {
+        "name": "WitnessedInLoopTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Loops.Title via WitnessedInLoop.",
+        "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[Title])"
+      },
+      {
+        "name": "WitnessedInLoopCommitHash",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Loops.CommitHash via WitnessedInLoop — git checkout this SHA to replay the instrument state when this conclusion was first witnessed.",
+        "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[CommitHash])"
+      },
+      {
+        "name": "WitnessedInLoopCommitShort",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Loops.CommitShort via WitnessedInLoop.",
+        "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[CommitShort])"
+      },
+      {
+        "name": "WitnessedInLoopCommitDate",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Loops.CommitDate via WitnessedInLoop.",
+        "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[CommitDate])"
+      },
+      {
+        "name": "WitnessedInLoopGitTag",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Loops.GitTag via WitnessedInLoop — preferred replay entry point when a milestone tag exists.",
+        "formula": "=LOOKUP({{WitnessedInLoop}}, Loops[LoopId], Loops[GitTag])"
+      },
+      {
+        "name": "InvariantProtectingCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of InvariantChecks whose ProtectsConclusion FK points to this conclusion — how many algebraic invariants stand behind this finding.",
+        "formula": "=COUNTIFS(InvariantChecks!{{ProtectsConclusion}}, {{ConclusionId}})"
+      }
     ],
     "data": [
       { "ConclusionId": "conc-01-paradox-is-derived", "Category": "domain", "Status": "witnessed", "ReportTier": "supporting", "Title": "Simpson's Paradox is a derived fact from the DAG, not a modeled entity", "Evidence": "IsReversal (and later IsSignFlip) falls out as a calculated field on TreatmentRankings, derived from aggregated CaseCell counts. No 'ReversalDetection' entity was ever needed.", "WitnessedInLoop": "loop-04", "TraditionId": "tradition-historical", "ResearcherId": "researcher-blyth", "ChallengesResearcher": null },
@@ -5286,20 +7796,109 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "UIScreens": {
     "Description": "Table: UIScreens — the canonical screens that comprise the Simpson's Paradox Explorer UI. Each row defines one screen: its purpose, its primary data source (which rulebook view it reads), and the user action it supports. A developer can reconstruct the full UI from this table without any prior knowledge of the application.",
     "schema": [
-      { "name": "ScreenId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. screen-01-study-list)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors ScreenId.", "formula": "={{ScreenId}}" },
-      { "name": "Title", "datatype": "string", "type": "raw", "nullable": false, "Description": "Human-readable screen title shown in the UI." },
-      { "name": "Route", "datatype": "string", "type": "raw", "nullable": false, "Description": "URL path pattern (e.g. /, /study/:studyId, /compare)." },
-      { "name": "PrimaryEntity", "datatype": "string", "type": "raw", "nullable": false, "Description": "The main rulebook entity this screen reads from (the vw_* view name without prefix)." },
-      { "name": "Purpose", "datatype": "string", "type": "raw", "nullable": false, "Description": "One sentence: what a user can learn or do on this screen." },
-      { "name": "KeyFields", "datatype": "string", "type": "raw", "nullable": true, "Description": "Comma-separated list of the most important fields displayed on this screen." },
-      { "name": "UserAction", "datatype": "string", "type": "raw", "nullable": true, "Description": "Primary user action available on this screen (e.g. select a study, drill into a stratum)." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition whose lens this screen primarily serves — determines which framing language and which fields are most prominent." },
-      { "name": "PrimaryConclusion", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Conclusions.ConclusionId. The conclusion this screen most directly visualises or communicates to the user." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionCoreConern", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.CoreConcern via TraditionId — the lens this screen applies.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[CoreConcern])" },
-      { "name": "PrimaryConclusionTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Title via PrimaryConclusion.", "formula": "=LOOKUP({{PrimaryConclusion}}, Conclusions[ConclusionId], Conclusions[Title])" },
-      { "name": "PrimaryConclusionEvidence", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Evidence via PrimaryConclusion.", "formula": "=LOOKUP({{PrimaryConclusion}}, Conclusions[ConclusionId], Conclusions[Evidence])" }
+      {
+        "name": "ScreenId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. screen-01-study-list)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors ScreenId.",
+        "formula": "={{ScreenId}}"
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Human-readable screen title shown in the UI."
+      },
+      {
+        "name": "Route",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "URL path pattern (e.g. /, /study/:studyId, /compare)."
+      },
+      {
+        "name": "PrimaryEntity",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The main rulebook entity this screen reads from (the vw_* view name without prefix)."
+      },
+      {
+        "name": "Purpose",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "One sentence: what a user can learn or do on this screen."
+      },
+      {
+        "name": "KeyFields",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Comma-separated list of the most important fields displayed on this screen."
+      },
+      {
+        "name": "UserAction",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Primary user action available on this screen (e.g. select a study, drill into a stratum)."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId. The scholarly tradition whose lens this screen primarily serves — determines which framing language and which fields are most prominent."
+      },
+      {
+        "name": "PrimaryConclusion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Conclusions.ConclusionId. The conclusion this screen most directly visualises or communicates to the user."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionCoreConern",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.CoreConcern via TraditionId — the lens this screen applies.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[CoreConcern])"
+      },
+      {
+        "name": "PrimaryConclusionTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Title via PrimaryConclusion.",
+        "formula": "=LOOKUP({{PrimaryConclusion}}, Conclusions[ConclusionId], Conclusions[Title])"
+      },
+      {
+        "name": "PrimaryConclusionEvidence",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Evidence via PrimaryConclusion.",
+        "formula": "=LOOKUP({{PrimaryConclusion}}, Conclusions[ConclusionId], Conclusions[Evidence])"
+      }
     ],
     "data": [
       { "ScreenId": "screen-01-study-list", "Title": "Study List", "Route": "/", "PrimaryEntity": "Studies", "Purpose": "Show all studies with their DistortionType badge and AllocationDistortion magnitude so a user can immediately see which studies exhibit the paradox and how severely.", "KeyFields": "Title, DistortionType (from TreatmentRankings), AllocationDistortion, PolicyImplication, IsSignFlip, TotalCases", "UserAction": "Click a study row to navigate to the Study Detail screen.", "TraditionId": "tradition-historical", "PrimaryConclusion": "conc-05-real-data-generalizes" },
@@ -5317,14 +7916,63 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "UIComponents": {
     "Description": "Table: UIComponents — the reusable visual building blocks used across UIScreens. Each row defines one component: what it renders, which entity it reads, and what props it requires. A developer can implement the full UI by composing these components onto the screens defined in UIScreens.",
     "schema": [
-      { "name": "ComponentId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. comp-01-distortion-badge)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label, mirrors ComponentId.", "formula": "={{ComponentId}}" },
-      { "name": "ComponentName", "datatype": "string", "type": "raw", "nullable": false, "Description": "Code-level component name (PascalCase, e.g. DistortionBadge)." },
-      { "name": "UsedOnScreens", "datatype": "string", "type": "raw", "nullable": true, "Description": "Comma-separated ScreenIds where this component appears." },
-      { "name": "PrimaryEntity", "datatype": "string", "type": "raw", "nullable": false, "Description": "The rulebook entity this component reads (the vw_* view)." },
-      { "name": "Description", "datatype": "string", "type": "raw", "nullable": false, "Description": "What this component renders and what decisions a developer must make to implement it." },
-      { "name": "RequiredFields", "datatype": "string", "type": "raw", "nullable": true, "Description": "Comma-separated rulebook fields this component must receive as props." },
-      { "name": "VisualSpec", "datatype": "string", "type": "raw", "nullable": true, "Description": "Plain-English description of the visual output: shape, color coding, interactivity." }
+      {
+        "name": "ComponentId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. comp-01-distortion-badge)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label, mirrors ComponentId.",
+        "formula": "={{ComponentId}}"
+      },
+      {
+        "name": "ComponentName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Code-level component name (PascalCase, e.g. DistortionBadge)."
+      },
+      {
+        "name": "UsedOnScreens",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Comma-separated ScreenIds where this component appears."
+      },
+      {
+        "name": "PrimaryEntity",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The rulebook entity this component reads (the vw_* view)."
+      },
+      {
+        "name": "Description",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "What this component renders and what decisions a developer must make to implement it."
+      },
+      {
+        "name": "RequiredFields",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Comma-separated rulebook fields this component must receive as props."
+      },
+      {
+        "name": "VisualSpec",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Plain-English description of the visual output: shape, color coding, interactivity."
+      }
     ],
     "data": [
       { "ComponentId": "comp-01-distortion-badge", "ComponentName": "DistortionBadge", "UsedOnScreens": "screen-01-study-list, screen-02-study-detail, screen-05-distortion-plane", "PrimaryEntity": "TreatmentRankings", "Description": "A colored pill/chip that shows DistortionType (A/B/C/D) and PolicyImplication for one study. Color-coded: A=red (stratify-immediately), B=orange (investigate-confounder), C=yellow (check-allocation-bias), D=green (pooled-analysis-trustworthy).", "RequiredFields": "DistortionType, PolicyImplication", "VisualSpec": "Pill shape, 2–3 chars for the type letter, tooltip on hover showing PolicyImplication text. Consistent color across all screens." },
@@ -5343,15 +7991,70 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "InstrumentSpec": {
     "Description": "Table: InstrumentSpec — the complete specification of the Simpson's Paradox classification instrument. One row per component: required input fields, derived coordinates, classification outputs, and adapter requirements. Every row is machine-verifiable against the 238-study corpus. This table is the distillation of loops 1–25 into a reusable tool.",
     "schema": [
-      { "name": "SpecId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique identifier for this instrument component." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{SpecId}}" },
-      { "name": "ComponentType", "datatype": "string", "type": "raw", "nullable": false, "Description": "input | derived | classification | adapter-requirement" },
-      { "name": "FieldName", "datatype": "string", "type": "raw", "nullable": false, "Description": "The field or variable name in the DAG." },
-      { "name": "DataType", "datatype": "string", "type": "raw", "nullable": true, "Description": "integer | decimal | boolean | string | categorical" },
-      { "name": "SourceTable", "datatype": "string", "type": "raw", "nullable": true, "Description": "The DAG table where this field is computed or stored." },
-      { "name": "Formula", "datatype": "string", "type": "raw", "nullable": true, "Description": "The ERB formula or derivation rule for this component." },
-      { "name": "NaturalLanguage", "datatype": "string", "type": "raw", "nullable": false, "Description": "Plain-English statement of what this component represents or requires." },
-      { "name": "AdapterNote", "datatype": "string", "type": "raw", "nullable": true, "Description": "What a researcher must supply or verify to satisfy this component when hydrating a new study." }
+      {
+        "name": "SpecId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique identifier for this instrument component."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{SpecId}}"
+      },
+      {
+        "name": "ComponentType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "input | derived | classification | adapter-requirement"
+      },
+      {
+        "name": "FieldName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The field or variable name in the DAG."
+      },
+      {
+        "name": "DataType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "integer | decimal | boolean | string | categorical"
+      },
+      {
+        "name": "SourceTable",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The DAG table where this field is computed or stored."
+      },
+      {
+        "name": "Formula",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The ERB formula or derivation rule for this component."
+      },
+      {
+        "name": "NaturalLanguage",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Plain-English statement of what this component represents or requires."
+      },
+      {
+        "name": "AdapterNote",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "What a researcher must supply or verify to satisfy this component when hydrating a new study."
+      }
     ],
     "data": [
       { "SpecId": "input-study", "ComponentType": "input", "FieldName": "Study", "DataType": "string", "SourceTable": "CaseCells", "Formula": "", "NaturalLanguage": "A unique identifier for the study being classified (e.g. 'kidney-1986').", "AdapterNote": "Assign a slug that is stable and unique. All rows for a study share this value." },
@@ -5383,25 +8086,155 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "AllocationSweep": {
     "Description": "Table: AllocationSweep — parametric sweep of treatment-A allocation fraction within each study's most confounded stratum (see SweepStudyConfig). Ten fractions from 0.05 to 0.95 per study. SweepCorrectedGap is invariant; SweepPooledGap wanders.",
     "schema": [
-      { "name": "SweepId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique row identifier: <study>-f<pct> where pct is AllocFractionA*100." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{SweepId}}" },
-      { "name": "StudyId", "datatype": "string", "type": "raw", "nullable": false, "Description": "The study being swept — all 238 studies in the corpus." },
-      { "name": "AllocFractionA", "datatype": "number", "type": "raw", "nullable": false, "Description": "Fraction of the sweep-stratum cases assigned to treatment A. Ranges from 0.05 to 0.95. The sweep stratum is the one whose allocation was most confounded in the original study." },
-      { "name": "IsOriginal", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE for the row closest to the actual original study allocation.", "formula": "=ABS({{AllocFractionA}} - LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[OriginalAllocFractionA])) < 0.03" },
-      { "name": "NSweepStratumTotal", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Total cases in the sweep stratum (the stratum whose allocation is being varied). Fixed per study.", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[NSweepStratumTotal])" },
-      { "name": "NSweepA", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Cases in the sweep stratum assigned to treatment A = ROUND(NSweepStratumTotal * AllocFractionA).", "formula": "=ROUND({{NSweepStratumTotal}} * {{AllocFractionA}})" },
-      { "name": "NSweepB", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Cases in the sweep stratum assigned to treatment B = NSweepStratumTotal - NSweepA.", "formula": "={{NSweepStratumTotal}} - {{NSweepA}}" },
-      { "name": "NFixedA", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Total A-treatment cases in all NON-swept strata (held fixed across sweep rows). For kidney-1986 = 87 (small-stratum A). For berkeley-1973 = 1302 (depts B+C+D male). For compressed-synthetic = 80 (easy-stratum A). For balanced-synthetic = 100 (hard-stratum A).", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[NFixedA])" },
-      { "name": "NFixedB", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Total B-treatment cases in all NON-swept strata (held fixed across sweep rows). For kidney-1986 = 270 (small-stratum B). For berkeley-1973 = 993 (depts B+C+D female). For compressed-synthetic = 120 (easy-stratum B). For balanced-synthetic = 100 (hard-stratum B).", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[NFixedB])" },
-      { "name": "SweepRateA", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Per-cell success rate for treatment A in the sweep stratum. Fixed per study.", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepRateA])" },
-      { "name": "SweepRateB", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Per-cell success rate for treatment B in the sweep stratum. Fixed per study.", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepRateB])" },
-      { "name": "FixedRateA", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Weighted success rate for treatment A across all fixed (non-swept) strata. Constant per study.", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[FixedRateA])" },
-      { "name": "FixedRateB", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Weighted success rate for treatment B across all fixed (non-swept) strata. Constant per study.", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[FixedRateB])" },
-      { "name": "SweepPooledRateA", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Pooled success rate for treatment A = (NSweepA * SweepRateA + NFixedA * FixedRateA) / (NSweepA + NFixedA). Changes as AllocFractionA varies.", "formula": "=IF({{NSweepA}} + {{NFixedA}} = 0, \"\", ({{NSweepA}} * {{SweepRateA}} + {{NFixedA}} * {{FixedRateA}}) / ({{NSweepA}} + {{NFixedA}}))" },
-      { "name": "SweepPooledRateB", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Pooled success rate for treatment B = (NSweepB * SweepRateB + NFixedB * FixedRateB) / (NSweepB + NFixedB). Changes as AllocFractionA varies.", "formula": "=IF({{NSweepB}} + {{NFixedB}} = 0, \"\", ({{NSweepB}} * {{SweepRateB}} + {{NFixedB}} * {{FixedRateB}}) / ({{NSweepB}} + {{NFixedB}}))" },
-      { "name": "SweepPooledGap", "datatype": "number", "type": "calculated", "nullable": false, "Description": "SweepPooledRateA minus SweepPooledRateB. Wanders as AllocFractionA varies because pooled rates mix stratum sizes unequally. Crosses zero at some allocation (the paradox reversal point).", "formula": "=IF({{SweepPooledRateA}} = \"\", \"\", {{SweepPooledRateA}} - {{SweepPooledRateB}})" },
-      { "name": "SweepCorrectedGap", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Allocation-free signal: sum over strata of (n_s/N) * (rate_As - rate_Bs). Constant across the sweep by construction — the allocation variable does not appear. This is the conserved quantity under re-stratification.", "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepCorrectedGap])" },
-      { "name": "AllocationDistortionWitness", "datatype": "number", "type": "calculated", "nullable": false, "Description": "SweepPooledGap minus SweepCorrectedGap. The allocation distortion: how much the pooled signal has been inflated or deflated by differential stratum allocation. Zero only when allocation is balanced.", "formula": "=IF({{SweepPooledGap}} = \"\", \"\", {{SweepPooledGap}} - {{SweepCorrectedGap}})" }
+      {
+        "name": "SweepId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique row identifier: <study>-f<pct> where pct is AllocFractionA*100."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{SweepId}}"
+      },
+      {
+        "name": "StudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "The study being swept — all 238 studies in the corpus."
+      },
+      {
+        "name": "AllocFractionA",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Fraction of the sweep-stratum cases assigned to treatment A. Ranges from 0.05 to 0.95. The sweep stratum is the one whose allocation was most confounded in the original study."
+      },
+      {
+        "name": "IsOriginal",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE for the row closest to the actual original study allocation.",
+        "formula": "=ABS({{AllocFractionA}} - LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[OriginalAllocFractionA])) < 0.03"
+      },
+      {
+        "name": "NSweepStratumTotal",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total cases in the sweep stratum (the stratum whose allocation is being varied). Fixed per study.",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[NSweepStratumTotal])"
+      },
+      {
+        "name": "NSweepA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Cases in the sweep stratum assigned to treatment A = ROUND(NSweepStratumTotal * AllocFractionA).",
+        "formula": "=ROUND({{NSweepStratumTotal}} * {{AllocFractionA}})"
+      },
+      {
+        "name": "NSweepB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Cases in the sweep stratum assigned to treatment B = NSweepStratumTotal - NSweepA.",
+        "formula": "={{NSweepStratumTotal}} - {{NSweepA}}"
+      },
+      {
+        "name": "NFixedA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total A-treatment cases in all NON-swept strata (held fixed across sweep rows). For kidney-1986 = 87 (small-stratum A). For berkeley-1973 = 1302 (depts B+C+D male). For compressed-synthetic = 80 (easy-stratum A). For balanced-synthetic = 100 (hard-stratum A).",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[NFixedA])"
+      },
+      {
+        "name": "NFixedB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total B-treatment cases in all NON-swept strata (held fixed across sweep rows). For kidney-1986 = 270 (small-stratum B). For berkeley-1973 = 993 (depts B+C+D female). For compressed-synthetic = 120 (easy-stratum B). For balanced-synthetic = 100 (hard-stratum B).",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[NFixedB])"
+      },
+      {
+        "name": "SweepRateA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Per-cell success rate for treatment A in the sweep stratum. Fixed per study.",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepRateA])"
+      },
+      {
+        "name": "SweepRateB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Per-cell success rate for treatment B in the sweep stratum. Fixed per study.",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepRateB])"
+      },
+      {
+        "name": "FixedRateA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Weighted success rate for treatment A across all fixed (non-swept) strata. Constant per study.",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[FixedRateA])"
+      },
+      {
+        "name": "FixedRateB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Weighted success rate for treatment B across all fixed (non-swept) strata. Constant per study.",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[FixedRateB])"
+      },
+      {
+        "name": "SweepPooledRateA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Pooled success rate for treatment A = (NSweepA * SweepRateA + NFixedA * FixedRateA) / (NSweepA + NFixedA). Changes as AllocFractionA varies.",
+        "formula": "=IF({{NSweepA}} + {{NFixedA}} = 0, \"\", ({{NSweepA}} * {{SweepRateA}} + {{NFixedA}} * {{FixedRateA}}) / ({{NSweepA}} + {{NFixedA}}))"
+      },
+      {
+        "name": "SweepPooledRateB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Pooled success rate for treatment B = (NSweepB * SweepRateB + NFixedB * FixedRateB) / (NSweepB + NFixedB). Changes as AllocFractionA varies.",
+        "formula": "=IF({{NSweepB}} + {{NFixedB}} = 0, \"\", ({{NSweepB}} * {{SweepRateB}} + {{NFixedB}} * {{FixedRateB}}) / ({{NSweepB}} + {{NFixedB}}))"
+      },
+      {
+        "name": "SweepPooledGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "SweepPooledRateA minus SweepPooledRateB. Wanders as AllocFractionA varies because pooled rates mix stratum sizes unequally. Crosses zero at some allocation (the paradox reversal point).",
+        "formula": "=IF({{SweepPooledRateA}} = \"\", \"\", {{SweepPooledRateA}} - {{SweepPooledRateB}})"
+      },
+      {
+        "name": "SweepCorrectedGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Allocation-free signal: sum over strata of (n_s/N) * (rate_As - rate_Bs). Constant across the sweep by construction — the allocation variable does not appear. This is the conserved quantity under re-stratification.",
+        "formula": "=LOOKUP({{StudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepCorrectedGap])"
+      },
+      {
+        "name": "AllocationDistortionWitness",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "SweepPooledGap minus SweepCorrectedGap. The allocation distortion: how much the pooled signal has been inflated or deflated by differential stratum allocation. Zero only when allocation is balanced.",
+        "formula": "=IF({{SweepPooledGap}} = \"\", \"\", {{SweepPooledGap}} - {{SweepCorrectedGap}})"
+      }
     ],
     "data": [
       { "SweepId": "kidney-1986-f005", "StudyId": "kidney-1986", "AllocFractionA": 0.05 },
@@ -7828,19 +10661,100 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   },
   "SweepStudySummary": {
     "schema": [
-      { "name": "SweepStudyId", "datatype": "string", "type": "raw", "nullable": false, "Description": "FK to Studies.StudyId. One row per study in the AllocationSweep." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{SweepStudyId}}" },
-      { "name": "DistortionTypeLabel", "datatype": "string", "type": "calculated", "Description": "DistortionType for this study (A, B, C, or D) — provides context for what the sweep should show.", "formula": "=LOOKUP({{SweepStudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])" },
-      { "name": "CorrectedGapConstant", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary(), 03b/05b customize SQL). The allocation-free corrected gap for this study = MINIFS(AllocationSweep[SweepCorrectedGap], AllocationSweep[StudyId], SweepStudyId). Upstream (AllocationSweep, SweepStudyConfig) is sealed/stable per build; recomputing this per-row via nested calc_* calls was measured to fan out to 22.5s for a 242-study corpus scan with zero memoization — materialized here instead of left as a live calculated field. See MaterializedEntities." },
-      { "name": "SweepCorrectedGapMax", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). Maximum SweepCorrectedGap across all allocation fractions for this study = MAXIFS(AllocationSweep[SweepCorrectedGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "SweepCorrectedGapMin", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). Minimum SweepCorrectedGap across all allocation fractions for this study = MINIFS(AllocationSweep[SweepCorrectedGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "SweepCorrectedGapRange", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). Range of SweepCorrectedGap across the sweep = SweepCorrectedGapMax - SweepCorrectedGapMin. Should be effectively zero (< 0.0001) for all studies if CorrectedGap is truly allocation-free. See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "SweepPooledGapMax", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). Maximum SweepPooledGap across all allocation fractions for this study = MAXIFS(AllocationSweep[SweepPooledGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "SweepPooledGapMin", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). Minimum SweepPooledGap across all allocation fractions for this study = MINIFS(AllocationSweep[SweepPooledGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "SweepPooledGapRange", "datatype": "number", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). Range of SweepPooledGap across the sweep = SweepPooledGapMax - SweepPooledGapMin. Should be large for Type A/B studies (pooled gap wanders) and smaller for Type D (balanced allocation = less wandering). See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "PooledGapCrossesZero", "datatype": "boolean", "type": "raw", "nullable": true, "Description": "Principled materialization (refresh_sweep_study_summary()). TRUE when SweepPooledGapMin < 0 and SweepPooledGapMax > 0 — the pooled gap changes sign somewhere in the sweep, meaning the paradox can be created or destroyed by pure allocation. See CorrectedGapConstant for why this is materialized rather than calculated." },
-      { "name": "InvariantWitness", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Summary witness statement: PASS if CorrectedGap is invariant (range < 0.0001), FAIL otherwise.", "formula": "=IF({{SweepCorrectedGapRange}} < 0.0001, \"PASS: CorrectedGap invariant across allocation sweep\", \"FAIL: CorrectedGap varies — formula error\")" },
-      { "name": "SweepStratumLabel", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Which stratum is being swept for this study.", "formula": "=LOOKUP({{SweepStudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepStratumLabel])" }
+      {
+        "name": "SweepStudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "FK to Studies.StudyId. One row per study in the AllocationSweep."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{SweepStudyId}}"
+      },
+      {
+        "name": "DistortionTypeLabel",
+        "datatype": "string",
+        "type": "calculated",
+        "Description": "DistortionType for this study (A, B, C, or D) — provides context for what the sweep should show.",
+        "formula": "=LOOKUP({{SweepStudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])"
+      },
+      {
+        "name": "CorrectedGapConstant",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary(), 03b/05b customize SQL). The allocation-free corrected gap for this study = MINIFS(AllocationSweep[SweepCorrectedGap], AllocationSweep[StudyId], SweepStudyId). Upstream (AllocationSweep, SweepStudyConfig) is sealed/stable per build; recomputing this per-row via nested calc_* calls was measured to fan out to 22.5s for a 242-study corpus scan with zero memoization — materialized here instead of left as a live calculated field. See MaterializedEntities."
+      },
+      {
+        "name": "SweepCorrectedGapMax",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). Maximum SweepCorrectedGap across all allocation fractions for this study = MAXIFS(AllocationSweep[SweepCorrectedGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "SweepCorrectedGapMin",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). Minimum SweepCorrectedGap across all allocation fractions for this study = MINIFS(AllocationSweep[SweepCorrectedGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "SweepCorrectedGapRange",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). Range of SweepCorrectedGap across the sweep = SweepCorrectedGapMax - SweepCorrectedGapMin. Should be effectively zero (< 0.0001) for all studies if CorrectedGap is truly allocation-free. See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "SweepPooledGapMax",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). Maximum SweepPooledGap across all allocation fractions for this study = MAXIFS(AllocationSweep[SweepPooledGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "SweepPooledGapMin",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). Minimum SweepPooledGap across all allocation fractions for this study = MINIFS(AllocationSweep[SweepPooledGap], AllocationSweep[StudyId], SweepStudyId). See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "SweepPooledGapRange",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). Range of SweepPooledGap across the sweep = SweepPooledGapMax - SweepPooledGapMin. Should be large for Type A/B studies (pooled gap wanders) and smaller for Type D (balanced allocation = less wandering). See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "PooledGapCrossesZero",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Principled materialization (refresh_sweep_study_summary()). TRUE when SweepPooledGapMin < 0 and SweepPooledGapMax > 0 — the pooled gap changes sign somewhere in the sweep, meaning the paradox can be created or destroyed by pure allocation. See CorrectedGapConstant for why this is materialized rather than calculated."
+      },
+      {
+        "name": "InvariantWitness",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Summary witness statement: PASS if CorrectedGap is invariant (range < 0.0001), FAIL otherwise.",
+        "formula": "=IF({{SweepCorrectedGapRange}} < 0.0001, \"PASS: CorrectedGap invariant across allocation sweep\", \"FAIL: CorrectedGap varies — formula error\")"
+      },
+      {
+        "name": "SweepStratumLabel",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Which stratum is being swept for this study.",
+        "formula": "=LOOKUP({{SweepStudyId}}, SweepStudyConfig[StudyId], SweepStudyConfig[SweepStratumLabel])"
+      }
     ],
     "data": [
       { "SweepStudyId": "kidney-1986" },
@@ -8090,24 +11004,140 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "ResearchTraditions": {
     "Description": "Table: ResearchTraditions — the six scholarly lineages that have engaged with Simpson's Paradox. Each row is a named intellectual tradition, not a specific paper or result.",
     "schema": [
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Slug identifier, e.g. tradition-historical." },
-      { "name": "Name", "datatype": "string", "type": "raw", "nullable": false, "Description": "Short display name for the tradition." },
-      { "name": "Era", "datatype": "string", "type": "raw", "nullable": true, "Description": "Approximate active period, e.g. \"1899–1972\"." },
-      { "name": "CoreConcern", "datatype": "string", "type": "raw", "nullable": true, "Description": "The central question this tradition asks about the paradox." },
-      { "name": "PrimaryVenue", "datatype": "string", "type": "raw", "nullable": true, "Description": "Where this tradition publishes (journal, conference, book series)." },
-      { "name": "KeyClaim", "datatype": "string", "type": "raw", "nullable": true, "Description": "The tradition's signature thesis or resolution strategy." },
-      { "name": "OpenQuestion", "datatype": "string", "type": "raw", "nullable": true, "Description": "What this tradition leaves unresolved or contested." },
-      { "name": "VerifiedByDeepResearch", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "True if the 2026-06-28 adversarial deep-research pass confirmed the tradition at high confidence." },
-      { "name": "IllustratedByStudy", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Studies.StudyId. The study in this model that most vividly illustrates this tradition's characteristic concern or resolution strategy." },
-      { "name": "SupportingConclusion", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Conclusions.ConclusionId. The conclusion in this model that most directly validates or advances this tradition's central claim about Simpson's Paradox." },
-      { "name": "IllustratedByStudyTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Studies.Title via IllustratedByStudy.", "formula": "=LOOKUP({{IllustratedByStudy}}, Studies[StudyId], Studies[Title])" },
-      { "name": "IllustratedByStudySource", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Studies.Source via IllustratedByStudy — the citation for the study that best illustrates this tradition.", "formula": "=LOOKUP({{IllustratedByStudy}}, Studies[StudyId], Studies[Source])" },
-      { "name": "IllustratedByStudyDistortionType", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.DistortionType for the illustrated study.", "formula": "=LOOKUP({{IllustratedByStudy}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])" },
-      { "name": "SupportingConclusionTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Title via SupportingConclusion.", "formula": "=LOOKUP({{SupportingConclusion}}, Conclusions[ConclusionId], Conclusions[Title])" },
-      { "name": "SupportingConclusionCategory", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Category via SupportingConclusion.", "formula": "=LOOKUP({{SupportingConclusion}}, Conclusions[ConclusionId], Conclusions[Category])" },
-      { "name": "ResearcherCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of researchers in this tradition.", "formula": "=COUNTIFS(Researchers!{{TraditionId}}, {{TraditionId}})" },
-      { "name": "StudyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of studies in this model whose TraditionId matches this tradition.", "formula": "=COUNTIFS(Studies!{{TraditionId}}, {{TraditionId}})" },
-      { "name": "LoopCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of Leopold Loops that drew primarily on this tradition's conceptual vocabulary.", "formula": "=COUNTIFS(Loops!{{TraditionId}}, {{TraditionId}})" }
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Slug identifier, e.g. tradition-historical."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Short display name for the tradition."
+      },
+      {
+        "name": "Era",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Approximate active period, e.g. \"1899–1972\"."
+      },
+      {
+        "name": "CoreConcern",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The central question this tradition asks about the paradox."
+      },
+      {
+        "name": "PrimaryVenue",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Where this tradition publishes (journal, conference, book series)."
+      },
+      {
+        "name": "KeyClaim",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The tradition's signature thesis or resolution strategy."
+      },
+      {
+        "name": "OpenQuestion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "What this tradition leaves unresolved or contested."
+      },
+      {
+        "name": "VerifiedByDeepResearch",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "True if the 2026-06-28 adversarial deep-research pass confirmed the tradition at high confidence."
+      },
+      {
+        "name": "IllustratedByStudy",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Studies.StudyId. The study in this model that most vividly illustrates this tradition's characteristic concern or resolution strategy."
+      },
+      {
+        "name": "SupportingConclusion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Conclusions.ConclusionId. The conclusion in this model that most directly validates or advances this tradition's central claim about Simpson's Paradox."
+      },
+      {
+        "name": "IllustratedByStudyTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Studies.Title via IllustratedByStudy.",
+        "formula": "=LOOKUP({{IllustratedByStudy}}, Studies[StudyId], Studies[Title])"
+      },
+      {
+        "name": "IllustratedByStudySource",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Studies.Source via IllustratedByStudy — the citation for the study that best illustrates this tradition.",
+        "formula": "=LOOKUP({{IllustratedByStudy}}, Studies[StudyId], Studies[Source])"
+      },
+      {
+        "name": "IllustratedByStudyDistortionType",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.DistortionType for the illustrated study.",
+        "formula": "=LOOKUP({{IllustratedByStudy}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])"
+      },
+      {
+        "name": "SupportingConclusionTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Title via SupportingConclusion.",
+        "formula": "=LOOKUP({{SupportingConclusion}}, Conclusions[ConclusionId], Conclusions[Title])"
+      },
+      {
+        "name": "SupportingConclusionCategory",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Category via SupportingConclusion.",
+        "formula": "=LOOKUP({{SupportingConclusion}}, Conclusions[ConclusionId], Conclusions[Category])"
+      },
+      {
+        "name": "ResearcherCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of researchers in this tradition.",
+        "formula": "=COUNTIFS(Researchers!{{TraditionId}}, {{TraditionId}})"
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of studies in this model whose TraditionId matches this tradition.",
+        "formula": "=COUNTIFS(Studies!{{TraditionId}}, {{TraditionId}})"
+      },
+      {
+        "name": "LoopCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of Effortless Loops that drew primarily on this tradition's conceptual vocabulary.",
+        "formula": "=COUNTIFS(Loops!{{TraditionId}}, {{TraditionId}})"
+      }
     ],
     "data": [
       { "TraditionId": "tradition-historical", "Name": "Historical Statistical Origins", "Era": "1899–1972", "CoreConcern": "Documenting that aggregate and partial associations can differ or reverse", "PrimaryVenue": "Biometrika; Journal of the Royal Statistical Society", "KeyClaim": "The reversal is a well-defined mathematical property of weighted averages, not a logical paradox — formalised by Blyth (1972)", "OpenQuestion": "Whether \"disappearing association\" (Pearson/Yule) and \"sign reversal\" (Cohen/Nagel) are the same phenomenon or two distinct effects", "VerifiedByDeepResearch": true, "IllustratedByStudy": "kidney-1986", "SupportingConclusion": "conc-01-paradox-is-derived" },
@@ -8121,25 +11151,146 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "Researchers": {
     "Description": "Table: Researchers — individuals who have made named, verified contributions to understanding Simpson's Paradox. Linked to ResearchTraditions by TraditionId.",
     "schema": [
-      { "name": "ResearcherId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Slug, e.g. researcher-pearson." },
-      { "name": "Name", "datatype": "string", "type": "raw", "nullable": false, "Description": "Full name as commonly cited." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": false, "Description": "FK → ResearchTraditions.TraditionId" },
-      { "name": "ActivePeriod", "datatype": "string", "type": "raw", "nullable": true, "Description": "Approximate years of relevant work, e.g. \"1899\"." },
-      { "name": "Affiliation", "datatype": "string", "type": "raw", "nullable": true, "Description": "Primary institutional affiliation for the relevant work." },
-      { "name": "KeyContribution", "datatype": "string", "type": "raw", "nullable": false, "Description": "One-sentence description of their specific contribution to the paradox literature." },
-      { "name": "SignatureWork", "datatype": "string", "type": "raw", "nullable": true, "Description": "The canonical paper or book most associated with their contribution." },
-      { "name": "RelationToHannanPearl", "datatype": "string", "type": "raw", "nullable": true, "Description": "How this researcher's line of work relates to or differs from Hannan (aggregation bias) and Pearl (DAG/do-calculus)." },
-      { "name": "VerifiedByDeepResearch", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "True if the 2026-06-28 adversarial deep-research pass confirmed this person at high confidence." },
-      { "name": "ConfidenceLevel", "datatype": "string", "type": "raw", "nullable": true, "Description": "high | medium | unverified — matches deep-research vote outcome." },
-      { "name": "CanonicalStudyId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Studies.StudyId. The study in this model that best illustrates this researcher's specific contribution to the Simpson's Paradox literature." },
-      { "name": "IllustratesConclusion", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → Conclusions.ConclusionId. The conclusion in this model that this researcher's work directly supports, challenges, or frames." },
-      { "name": "TraditionName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Name via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])" },
-      { "name": "TraditionEra", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.Era via TraditionId.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Era])" },
-      { "name": "CanonicalStudyTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Studies.Title via CanonicalStudyId.", "formula": "=LOOKUP({{CanonicalStudyId}}, Studies[StudyId], Studies[Title])" },
-      { "name": "CanonicalStudyDistortionType", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.DistortionType for the canonical study — the geometric type of paradox this researcher's work exemplifies.", "formula": "=LOOKUP({{CanonicalStudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])" },
-      { "name": "CanonicalStudyPolicyImplication", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: TreatmentRankings.CorrectedPolicyImplication for the canonical study.", "formula": "=LOOKUP({{CanonicalStudyId}}, TreatmentRankings[Study], TreatmentRankings[CorrectedPolicyImplication])" },
-      { "name": "IllustratesConclusionTitle", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: Conclusions.Title via IllustratesConclusion.", "formula": "=LOOKUP({{IllustratesConclusion}}, Conclusions[ConclusionId], Conclusions[Title])" },
-      { "name": "TraditionKeyClaimSummary", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ResearchTraditions.KeyClaim via TraditionId — the tradition's signature thesis this researcher contributed to.", "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[KeyClaim])" }
+      {
+        "name": "ResearcherId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Slug, e.g. researcher-pearson."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Full name as commonly cited."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "FK → ResearchTraditions.TraditionId"
+      },
+      {
+        "name": "ActivePeriod",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Approximate years of relevant work, e.g. \"1899\"."
+      },
+      {
+        "name": "Affiliation",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Primary institutional affiliation for the relevant work."
+      },
+      {
+        "name": "KeyContribution",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "One-sentence description of their specific contribution to the paradox literature."
+      },
+      {
+        "name": "SignatureWork",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The canonical paper or book most associated with their contribution."
+      },
+      {
+        "name": "RelationToHannanPearl",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "How this researcher's line of work relates to or differs from Hannan (aggregation bias) and Pearl (DAG/do-calculus)."
+      },
+      {
+        "name": "VerifiedByDeepResearch",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "True if the 2026-06-28 adversarial deep-research pass confirmed this person at high confidence."
+      },
+      {
+        "name": "ConfidenceLevel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "high | medium | unverified — matches deep-research vote outcome."
+      },
+      {
+        "name": "CanonicalStudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Studies.StudyId. The study in this model that best illustrates this researcher's specific contribution to the Simpson's Paradox literature."
+      },
+      {
+        "name": "IllustratesConclusion",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → Conclusions.ConclusionId. The conclusion in this model that this researcher's work directly supports, challenges, or frames."
+      },
+      {
+        "name": "TraditionName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Name via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Name])"
+      },
+      {
+        "name": "TraditionEra",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.Era via TraditionId.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[Era])"
+      },
+      {
+        "name": "CanonicalStudyTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Studies.Title via CanonicalStudyId.",
+        "formula": "=LOOKUP({{CanonicalStudyId}}, Studies[StudyId], Studies[Title])"
+      },
+      {
+        "name": "CanonicalStudyDistortionType",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.DistortionType for the canonical study — the geometric type of paradox this researcher's work exemplifies.",
+        "formula": "=LOOKUP({{CanonicalStudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])"
+      },
+      {
+        "name": "CanonicalStudyPolicyImplication",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: TreatmentRankings.CorrectedPolicyImplication for the canonical study.",
+        "formula": "=LOOKUP({{CanonicalStudyId}}, TreatmentRankings[Study], TreatmentRankings[CorrectedPolicyImplication])"
+      },
+      {
+        "name": "IllustratesConclusionTitle",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: Conclusions.Title via IllustratesConclusion.",
+        "formula": "=LOOKUP({{IllustratesConclusion}}, Conclusions[ConclusionId], Conclusions[Title])"
+      },
+      {
+        "name": "TraditionKeyClaimSummary",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ResearchTraditions.KeyClaim via TraditionId — the tradition's signature thesis this researcher contributed to.",
+        "formula": "=LOOKUP({{TraditionId}}, ResearchTraditions[TraditionId], ResearchTraditions[KeyClaim])"
+      }
     ],
     "data": [
       { "ResearcherId": "researcher-pearson", "Name": "Karl Pearson", "TraditionId": "tradition-historical", "ActivePeriod": "1899", "Affiliation": "University College London", "KeyContribution": "First (1899) observed that marginal and partial associations between continuous variables can differ, producing spurious correlations — the pre-Simpson precursor.", "SignatureWork": "Pearson et al. (1899) — early work on genetic inheritance and spurious correlation", "RelationToHannanPearl": "Predates both; Pearl's DAG tradition explicitly cites Pearson as the origin point of the confusion his framework resolves", "VerifiedByDeepResearch": true, "ConfidenceLevel": "high", "CanonicalStudyId": "kidney-1986", "IllustratesConclusion": null },
@@ -8165,30 +11316,193 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "SyntheticPhase": {
     "Description": "Table: SyntheticPhase — a parametric grid of canonical 2×2 synthetic studies at controlled (ParamStratumFraction, ParamStratumGap1, ParamStratumGap2, ParamAllocationBias) coordinates. Stratum 1 is the hard stratum (base rate 0.45); stratum 2 is easy (base rate 0.75). Each row constructs cell counts from the parameters and derives PhaseDistortionType using the same geometric classification as TreatmentRankings. This maps the A/B/C+/C-/D phase boundaries algebraically — independent of empirical corpus data.",
     "schema": [
-      { "name": "PhaseId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique grid-point identifier encoding (w, g1, g2, b) coordinates." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{PhaseId}}" },
-      { "name": "ParamStratumFraction", "datatype": "number", "type": "raw", "nullable": false, "Description": "w — fraction of total cases in the hard (stratum-1) subgroup. Range 0.30–0.75 in this grid." },
-      { "name": "ParamStratumGap1", "datatype": "number", "type": "raw", "nullable": false, "Description": "g1 — signed treatment advantage (rate_A − rate_B) in the hard stratum. Positive means A wins stratum 1." },
-      { "name": "ParamStratumGap2", "datatype": "number", "type": "raw", "nullable": false, "Description": "g2 — signed treatment advantage in the easy stratum. Negative g2 enables type-B (partial reversal) cells." },
-      { "name": "ParamAllocationBias", "datatype": "number", "type": "raw", "nullable": false, "Description": "b — allocation bias in stratum 1: extra fraction of stratum-1 cases assigned to treatment A above 50/50. Range 0.00–0.95." },
-      { "name": "PhaseS1Total", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Total cases in stratum 1 = ROUND(200 × ParamStratumFraction).", "formula": "=ROUND(200 * {{ParamStratumFraction}})" },
-      { "name": "PhaseNA1", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Treatment-A cases in stratum 1.", "formula": "=ROUND({{PhaseS1Total}} * (0.5 + {{ParamAllocationBias}} / 2))" },
-      { "name": "PhaseNB1", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Treatment-B cases in stratum 1.", "formula": "={{PhaseS1Total}} - {{PhaseNA1}}" },
-      { "name": "PhaseNA2", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Treatment-A cases in stratum 2.", "formula": "=100 - {{PhaseNA1}}" },
-      { "name": "PhaseNB2", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Treatment-B cases in stratum 2.", "formula": "=100 - {{PhaseNB1}}" },
-      { "name": "PhaseRateA1", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Success rate for A in hard stratum.", "formula": "=0.45 + {{ParamStratumGap1}} / 2" },
-      { "name": "PhaseRateB1", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Success rate for B in hard stratum.", "formula": "=0.45 - {{ParamStratumGap1}} / 2" },
-      { "name": "PhaseRateA2", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Success rate for A in easy stratum.", "formula": "=0.75 + {{ParamStratumGap2}} / 2" },
-      { "name": "PhaseRateB2", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Success rate for B in easy stratum.", "formula": "=0.75 - {{ParamStratumGap2}} / 2" },
-      { "name": "PhasePooledRateA", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Pooled success rate for treatment A.", "formula": "=({{PhaseNA1}} * {{PhaseRateA1}} + {{PhaseNA2}} * {{PhaseRateA2}}) / 100" },
-      { "name": "PhasePooledRateB", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Pooled success rate for treatment B.", "formula": "=({{PhaseNB1}} * {{PhaseRateB1}} + {{PhaseNB2}} * {{PhaseRateB2}}) / 100" },
-      { "name": "PhaseSignedPooledGap", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Pooled rate gap (A minus B).", "formula": "={{PhasePooledRateA}} - {{PhasePooledRateB}}" },
-      { "name": "PhaseCorrectedGap", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Allocation-free equal-weight gap = w×g1 + (1−w)×g2.", "formula": "={{ParamStratumFraction}} * {{ParamStratumGap1}} + (1 - {{ParamStratumFraction}}) * {{ParamStratumGap2}}" },
-      { "name": "PhaseStrataWonByLoser", "datatype": "number", "type": "calculated", "nullable": false, "Description": "Count of strata whose per-stratum winner disagrees with the pooled winner.", "formula": "=IF({{PhaseSignedPooledGap}} > 0, IF({{ParamStratumGap1}} < 0, 1, 0) + IF({{ParamStratumGap2}} < 0, 1, 0), IF({{ParamStratumGap1}} > 0, 1, 0) + IF({{ParamStratumGap2}} > 0, 1, 0))" },
-      { "name": "PhaseReversalIntensity", "datatype": "number", "type": "calculated", "nullable": false, "Description": "PhaseStrataWonByLoser / 2 for this 2-stratum template.", "formula": "={{PhaseStrataWonByLoser}} / 2" },
-      { "name": "PhaseIsSignFlip", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when equal-weight and pooled gaps have opposite signs.", "formula": "=IF({{PhaseCorrectedGap}} > 0, {{PhaseSignedPooledGap}} < 0, {{PhaseSignedPooledGap}} > 0)" },
-      { "name": "PhaseAllocationDistortion", "datatype": "number", "type": "calculated", "nullable": false, "Description": "|PhaseCorrectedGap − PhaseSignedPooledGap|.", "formula": "=ABS({{PhaseCorrectedGap}} - {{PhaseSignedPooledGap}})" },
-      { "name": "PhaseDistortionType", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Five-type geometric classification at this parameter point.", "formula": "=IF(AND({{PhaseIsSignFlip}}, {{PhaseReversalIntensity}} = 1), \"A\", IF(AND({{PhaseIsSignFlip}}, {{PhaseReversalIntensity}} < 1), \"B\", IF(AND(NOT({{PhaseIsSignFlip}}), {{PhaseAllocationDistortion}} > 0.01, ABS({{PhaseSignedPooledGap}}) > ABS({{PhaseCorrectedGap}}) + 0.001), \"C+\", IF(AND(NOT({{PhaseIsSignFlip}}), {{PhaseAllocationDistortion}} > 0.01, ABS({{PhaseSignedPooledGap}}) < ABS({{PhaseCorrectedGap}}) - 0.001), \"C-\", \"D\"))))" }
+      {
+        "name": "PhaseId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique grid-point identifier encoding (w, g1, g2, b) coordinates."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{PhaseId}}"
+      },
+      {
+        "name": "ParamStratumFraction",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "w — fraction of total cases in the hard (stratum-1) subgroup. Range 0.30–0.75 in this grid."
+      },
+      {
+        "name": "ParamStratumGap1",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "g1 — signed treatment advantage (rate_A − rate_B) in the hard stratum. Positive means A wins stratum 1."
+      },
+      {
+        "name": "ParamStratumGap2",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "g2 — signed treatment advantage in the easy stratum. Negative g2 enables type-B (partial reversal) cells."
+      },
+      {
+        "name": "ParamAllocationBias",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "b — allocation bias in stratum 1: extra fraction of stratum-1 cases assigned to treatment A above 50/50. Range 0.00–0.95."
+      },
+      {
+        "name": "PhaseS1Total",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total cases in stratum 1 = ROUND(200 × ParamStratumFraction).",
+        "formula": "=ROUND(200 * {{ParamStratumFraction}})"
+      },
+      {
+        "name": "PhaseNA1",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Treatment-A cases in stratum 1.",
+        "formula": "=ROUND({{PhaseS1Total}} * (0.5 + {{ParamAllocationBias}} / 2))"
+      },
+      {
+        "name": "PhaseNB1",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Treatment-B cases in stratum 1.",
+        "formula": "={{PhaseS1Total}} - {{PhaseNA1}}"
+      },
+      {
+        "name": "PhaseNA2",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Treatment-A cases in stratum 2.",
+        "formula": "=100 - {{PhaseNA1}}"
+      },
+      {
+        "name": "PhaseNB2",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Treatment-B cases in stratum 2.",
+        "formula": "=100 - {{PhaseNB1}}"
+      },
+      {
+        "name": "PhaseRateA1",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Success rate for A in hard stratum.",
+        "formula": "=0.45 + {{ParamStratumGap1}} / 2"
+      },
+      {
+        "name": "PhaseRateB1",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Success rate for B in hard stratum.",
+        "formula": "=0.45 - {{ParamStratumGap1}} / 2"
+      },
+      {
+        "name": "PhaseRateA2",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Success rate for A in easy stratum.",
+        "formula": "=0.75 + {{ParamStratumGap2}} / 2"
+      },
+      {
+        "name": "PhaseRateB2",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Success rate for B in easy stratum.",
+        "formula": "=0.75 - {{ParamStratumGap2}} / 2"
+      },
+      {
+        "name": "PhasePooledRateA",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Pooled success rate for treatment A.",
+        "formula": "=({{PhaseNA1}} * {{PhaseRateA1}} + {{PhaseNA2}} * {{PhaseRateA2}}) / 100"
+      },
+      {
+        "name": "PhasePooledRateB",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Pooled success rate for treatment B.",
+        "formula": "=({{PhaseNB1}} * {{PhaseRateB1}} + {{PhaseNB2}} * {{PhaseRateB2}}) / 100"
+      },
+      {
+        "name": "PhaseSignedPooledGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Pooled rate gap (A minus B).",
+        "formula": "={{PhasePooledRateA}} - {{PhasePooledRateB}}"
+      },
+      {
+        "name": "PhaseCorrectedGap",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Allocation-free equal-weight gap = w×g1 + (1−w)×g2.",
+        "formula": "={{ParamStratumFraction}} * {{ParamStratumGap1}} + (1 - {{ParamStratumFraction}}) * {{ParamStratumGap2}}"
+      },
+      {
+        "name": "PhaseStrataWonByLoser",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Count of strata whose per-stratum winner disagrees with the pooled winner.",
+        "formula": "=IF({{PhaseSignedPooledGap}} > 0, IF({{ParamStratumGap1}} < 0, 1, 0) + IF({{ParamStratumGap2}} < 0, 1, 0), IF({{ParamStratumGap1}} > 0, 1, 0) + IF({{ParamStratumGap2}} > 0, 1, 0))"
+      },
+      {
+        "name": "PhaseReversalIntensity",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "PhaseStrataWonByLoser / 2 for this 2-stratum template.",
+        "formula": "={{PhaseStrataWonByLoser}} / 2"
+      },
+      {
+        "name": "PhaseIsSignFlip",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when equal-weight and pooled gaps have opposite signs.",
+        "formula": "=IF({{PhaseCorrectedGap}} > 0, {{PhaseSignedPooledGap}} < 0, {{PhaseSignedPooledGap}} > 0)"
+      },
+      {
+        "name": "PhaseAllocationDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "|PhaseCorrectedGap − PhaseSignedPooledGap|.",
+        "formula": "=ABS({{PhaseCorrectedGap}} - {{PhaseSignedPooledGap}})"
+      },
+      {
+        "name": "PhaseDistortionType",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Five-type geometric classification at this parameter point.",
+        "formula": "=IF(AND({{PhaseIsSignFlip}}, {{PhaseReversalIntensity}} = 1), \"A\", IF(AND({{PhaseIsSignFlip}}, {{PhaseReversalIntensity}} < 1), \"B\", IF(AND(NOT({{PhaseIsSignFlip}}), {{PhaseAllocationDistortion}} > 0.01, ABS({{PhaseSignedPooledGap}}) > ABS({{PhaseCorrectedGap}}) + 0.001), \"C+\", IF(AND(NOT({{PhaseIsSignFlip}}), {{PhaseAllocationDistortion}} > 0.01, ABS({{PhaseSignedPooledGap}}) < ABS({{PhaseCorrectedGap}}) - 0.001), \"C-\", \"D\"))))"
+      }
     ],
     "data": [
       { "PhaseId": "phase-w30-g104-g200-b00", "ParamStratumFraction": 0.3, "ParamStratumGap1": 0.04, "ParamStratumGap2": -0.08, "ParamAllocationBias": 0.0 },
@@ -8436,17 +11750,88 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "PhaseDiagramSummary": {
     "Description": "Table: PhaseDiagramSummary — one row summarising the SyntheticPhase grid. Witnesses that all five DistortionType cells (A, B, C+, C-, D) are nonempty in parameter space.",
     "schema": [
-      { "name": "PhaseDiagramId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique identifier for this phase diagram instance." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{PhaseDiagramId}}" },
-      { "name": "PhasePointCount", "datatype": "integer", "type": "calculated", "nullable": false, "Description": "Total grid points in SyntheticPhase (sum of type counts). Refreshed from vw_synthetic_phase by 05b-customize-data.sql.", "formula": "={{PhaseTypeACount}} + {{PhaseTypeBCount}} + {{PhaseTypeCPlusCount}} + {{PhaseTypeCMinusCount}} + {{PhaseTypeDCount}}" },
-      { "name": "PhaseTypeACount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Grid points classified as type A. Populated from vw_synthetic_phase by 05b-customize-data.sql." },
-      { "name": "PhaseTypeBCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Grid points classified as type B. Populated from vw_synthetic_phase by 05b-customize-data.sql." },
-      { "name": "PhaseTypeCPlusCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Grid points classified as type C+. Populated from vw_synthetic_phase by 05b-customize-data.sql." },
-      { "name": "PhaseTypeCMinusCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Grid points classified as type C-. Populated from vw_synthetic_phase by 05b-customize-data.sql." },
-      { "name": "PhaseTypeDCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Grid points classified as type D. Populated from vw_synthetic_phase by 05b-customize-data.sql." },
-      { "name": "AllFiveTypesPresent", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when every DistortionType cell has at least one grid point.", "formula": "=AND({{PhaseTypeACount}} > 0, {{PhaseTypeBCount}} > 0, {{PhaseTypeCPlusCount}} > 0, {{PhaseTypeCMinusCount}} > 0, {{PhaseTypeDCount}} > 0)" },
-      { "name": "PhaseTaxonomyWitness", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Human-readable witness string of type counts across the grid.", "formula": "=CONCAT(\"A:\", {{PhaseTypeACount}}, \" B:\", {{PhaseTypeBCount}}, \" C+:\", {{PhaseTypeCPlusCount}}, \" C-:\", {{PhaseTypeCMinusCount}}, \" D:\", {{PhaseTypeDCount}})" },
-      { "name": "PhaseWitnessNote", "datatype": "string", "type": "calculated", "nullable": false, "Description": "PASS/FAIL summary for taxonomy completeness.", "formula": "=IF({{AllFiveTypesPresent}}, \"PASS: all five distortion types populated in parameter space\", \"FAIL: missing distortion type in grid\")" }
+      {
+        "name": "PhaseDiagramId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique identifier for this phase diagram instance."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{PhaseDiagramId}}"
+      },
+      {
+        "name": "PhasePointCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total grid points in SyntheticPhase (sum of type counts). Refreshed from vw_synthetic_phase by 05b-customize-data.sql.",
+        "formula": "={{PhaseTypeACount}} + {{PhaseTypeBCount}} + {{PhaseTypeCPlusCount}} + {{PhaseTypeCMinusCount}} + {{PhaseTypeDCount}}"
+      },
+      {
+        "name": "PhaseTypeACount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Grid points classified as type A. Populated from vw_synthetic_phase by 05b-customize-data.sql."
+      },
+      {
+        "name": "PhaseTypeBCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Grid points classified as type B. Populated from vw_synthetic_phase by 05b-customize-data.sql."
+      },
+      {
+        "name": "PhaseTypeCPlusCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Grid points classified as type C+. Populated from vw_synthetic_phase by 05b-customize-data.sql."
+      },
+      {
+        "name": "PhaseTypeCMinusCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Grid points classified as type C-. Populated from vw_synthetic_phase by 05b-customize-data.sql."
+      },
+      {
+        "name": "PhaseTypeDCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Grid points classified as type D. Populated from vw_synthetic_phase by 05b-customize-data.sql."
+      },
+      {
+        "name": "AllFiveTypesPresent",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when every DistortionType cell has at least one grid point.",
+        "formula": "=AND({{PhaseTypeACount}} > 0, {{PhaseTypeBCount}} > 0, {{PhaseTypeCPlusCount}} > 0, {{PhaseTypeCMinusCount}} > 0, {{PhaseTypeDCount}} > 0)"
+      },
+      {
+        "name": "PhaseTaxonomyWitness",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Human-readable witness string of type counts across the grid.",
+        "formula": "=CONCAT(\"A:\", {{PhaseTypeACount}}, \" B:\", {{PhaseTypeBCount}}, \" C+:\", {{PhaseTypeCPlusCount}}, \" C-:\", {{PhaseTypeCMinusCount}}, \" D:\", {{PhaseTypeDCount}})"
+      },
+      {
+        "name": "PhaseWitnessNote",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "PASS/FAIL summary for taxonomy completeness.",
+        "formula": "=IF({{AllFiveTypesPresent}}, \"PASS: all five distortion types populated in parameter space\", \"FAIL: missing distortion type in grid\")"
+      }
     ],
     "data": [
       { "PhaseDiagramId": "phase-diagram-v1", "PhaseTypeACount": 0, "PhaseTypeBCount": 0, "PhaseTypeCPlusCount": 0, "PhaseTypeCMinusCount": 0, "PhaseTypeDCount": 0 }
@@ -8455,14 +11840,63 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "IngestionProtocol": {
     "Description": "Table: IngestionProtocol — the minimal formal contract for adding a new 2×K study to the corpus.",
     "schema": [
-      { "name": "ProtocolId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug for this contract item." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{ProtocolId}}" },
-      { "name": "RuleType", "datatype": "string", "type": "raw", "nullable": false, "Description": "required-input | structural | inclusion | exclusion | adapter-metadata" },
-      { "name": "TargetTable", "datatype": "string", "type": "raw", "nullable": false, "Description": "Rulebook table this item applies to." },
-      { "name": "FieldName", "datatype": "string", "type": "raw", "nullable": true, "Description": "Column name when RuleType=required-input." },
-      { "name": "RequirementStatement", "datatype": "string", "type": "raw", "nullable": false, "Description": "Plain-English statement of the requirement." },
-      { "name": "MechanicalCheck", "datatype": "string", "type": "raw", "nullable": false, "Description": "How to verify compliance before classification." },
-      { "name": "SortOrder", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Display order in the ingestion checklist." }
+      {
+        "name": "ProtocolId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug for this contract item."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{ProtocolId}}"
+      },
+      {
+        "name": "RuleType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "required-input | structural | inclusion | exclusion | adapter-metadata"
+      },
+      {
+        "name": "TargetTable",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Rulebook table this item applies to."
+      },
+      {
+        "name": "FieldName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Column name when RuleType=required-input."
+      },
+      {
+        "name": "RequirementStatement",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Plain-English statement of the requirement."
+      },
+      {
+        "name": "MechanicalCheck",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "How to verify compliance before classification."
+      },
+      {
+        "name": "SortOrder",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Display order in the ingestion checklist."
+      }
     ],
     "data": [
       { "ProtocolId": "ingest-input-study", "RuleType": "required-input", "TargetTable": "CaseCells", "FieldName": "Study", "RequirementStatement": "Every cell row must name its parent study with a stable unique slug.", "MechanicalCheck": "Non-empty string; identical across all cells in the study; matches Studies.StudyId.", "SortOrder": 1 },
@@ -8487,20 +11921,117 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "IngestionSummary": {
     "Description": "Table: IngestionSummary — witnesses that the current corpus satisfies the IngestionProtocol contract.",
     "schema": [
-      { "name": "IngestionSummaryId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique identifier." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{IngestionSummaryId}}" },
-      { "name": "ProtocolItemCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Total contract items. Fixed loop-90: COUNTIFS(...,\"<>\") mistranslates to a literal '<>' string-equality filter (a known transpiler bug) instead of IS NOT NULL, always returning 0; replaced with bare COUNT(), which transpiles correctly.", "formula": "=COUNT(IngestionProtocol!{{ProtocolId}})" },
-      { "name": "CorpusCellCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Total CaseCell rows. Fixed loop-90 (see ProtocolItemCount).", "formula": "=COUNT(CaseCells!{{CaseCellId}})" },
-      { "name": "ValidCellCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Valid CaseCells.", "formula": "=COUNTIFS(CaseCells!{{IsValidIngestionCell}}, TRUE())" },
-      { "name": "AllCellsValid", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "Every cell passes validity predicate.", "formula": "={{ValidCellCount}} = {{CorpusCellCount}}" },
-      { "name": "StudyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Count of studies subject to the ingestion contract (excludes control studies, loop-92 -- control studies were never encoded with paired treatment arms, so IngestionCellParity is structurally undefined for them, not a real ingestion defect).", "formula": "=COUNTIFS(Studies!{{IsControlStudy}}, FALSE())" },
-      { "name": "StructuralCompliantCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Studies with IngestionCellParity.", "formula": "=COUNTIFS(Studies!{{IngestionCellParity}}, TRUE())" },
-      { "name": "AllStudiesStructural", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "All studies structurally valid.", "formula": "={{StructuralCompliantCount}} = {{StudyCount}}" },
-      { "name": "RealStudyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Non-synthetic, non-control studies (loop-92 -- control studies were never encoded with paired treatment arms, so they are outside the ingestion contract's scope, same as StructuralCompliantCount's StudyCount).", "formula": "=COUNTIFS(Studies!{{IsSynthetic}}, FALSE(), Studies!{{IsControlStudy}}, FALSE())" },
-      { "name": "RealFullyCompliantCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Real studies with IngestionCompliance=all.", "formula": "=COUNTIFS(Studies!{{IngestionCompliance}}, \"all\")" },
-      { "name": "AllRealStudiesCompliant", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "All real studies fully compliant.", "formula": "={{RealFullyCompliantCount}} = {{RealStudyCount}}" },
-      { "name": "IngestionContractPasses", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "Full contract passes.", "formula": "=AND({{AllCellsValid}}, {{AllStudiesStructural}}, {{AllRealStudiesCompliant}})" },
-      { "name": "IngestionWitnessNote", "datatype": "string", "type": "calculated", "nullable": false, "Description": "PASS/FAIL summary.", "formula": "=IF({{IngestionContractPasses}}, CONCAT(\"PASS: \", {{ProtocolItemCount}}, \" contract items; \", {{CorpusCellCount}}, \" cells valid; \", {{RealFullyCompliantCount}}, \"/\", {{RealStudyCount}}, \" real studies fully compliant\"), \"FAIL: ingestion contract violated\")" }
+      {
+        "name": "IngestionSummaryId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique identifier."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{IngestionSummaryId}}"
+      },
+      {
+        "name": "ProtocolItemCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Total contract items. Fixed loop-90: COUNTIFS(...,\"<>\") mistranslates to a literal '<>' string-equality filter (a known transpiler bug) instead of IS NOT NULL, always returning 0; replaced with bare COUNT(), which transpiles correctly.",
+        "formula": "=COUNT(IngestionProtocol!{{ProtocolId}})"
+      },
+      {
+        "name": "CorpusCellCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Total CaseCell rows. Fixed loop-90 (see ProtocolItemCount).",
+        "formula": "=COUNT(CaseCells!{{CaseCellId}})"
+      },
+      {
+        "name": "ValidCellCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Valid CaseCells.",
+        "formula": "=COUNTIFS(CaseCells!{{IsValidIngestionCell}}, TRUE())"
+      },
+      {
+        "name": "AllCellsValid",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Every cell passes validity predicate.",
+        "formula": "={{ValidCellCount}} = {{CorpusCellCount}}"
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Count of studies subject to the ingestion contract (excludes control studies, loop-92 -- control studies were never encoded with paired treatment arms, so IngestionCellParity is structurally undefined for them, not a real ingestion defect).",
+        "formula": "=COUNTIFS(Studies!{{IsControlStudy}}, FALSE())"
+      },
+      {
+        "name": "StructuralCompliantCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Studies with IngestionCellParity.",
+        "formula": "=COUNTIFS(Studies!{{IngestionCellParity}}, TRUE())"
+      },
+      {
+        "name": "AllStudiesStructural",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "All studies structurally valid.",
+        "formula": "={{StructuralCompliantCount}} = {{StudyCount}}"
+      },
+      {
+        "name": "RealStudyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Non-synthetic, non-control studies (loop-92 -- control studies were never encoded with paired treatment arms, so they are outside the ingestion contract's scope, same as StructuralCompliantCount's StudyCount).",
+        "formula": "=COUNTIFS(Studies!{{IsSynthetic}}, FALSE(), Studies!{{IsControlStudy}}, FALSE())"
+      },
+      {
+        "name": "RealFullyCompliantCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Real studies with IngestionCompliance=all.",
+        "formula": "=COUNTIFS(Studies!{{IngestionCompliance}}, \"all\")"
+      },
+      {
+        "name": "AllRealStudiesCompliant",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "All real studies fully compliant.",
+        "formula": "={{RealFullyCompliantCount}} = {{RealStudyCount}}"
+      },
+      {
+        "name": "IngestionContractPasses",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Full contract passes.",
+        "formula": "=AND({{AllCellsValid}}, {{AllStudiesStructural}}, {{AllRealStudiesCompliant}})"
+      },
+      {
+        "name": "IngestionWitnessNote",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "PASS/FAIL summary.",
+        "formula": "=IF({{IngestionContractPasses}}, CONCAT(\"PASS: \", {{ProtocolItemCount}}, \" contract items; \", {{CorpusCellCount}}, \" cells valid; \", {{RealFullyCompliantCount}}, \"/\", {{RealStudyCount}}, \" real studies fully compliant\"), \"FAIL: ingestion contract violated\")"
+      }
     ],
     "data": [
       { "IngestionSummaryId": "ingestion-v1" }
@@ -8509,33 +12040,204 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "CandidateStudyCatalog": {
     "Description": "Table: CandidateStudyCatalog — curated backlog of published Simpson's-paradox-eligible studies. Tracks import status, expected distortion type, and encoding metadata before CaseCells exist.",
     "schema": [
-      { "name": "CandidateId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug for this catalog entry." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{CandidateId}}" },
-      { "name": "ProposedStudyId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Stable slug to assign in Studies when imported." },
-      { "name": "Title", "datatype": "string", "type": "raw", "nullable": false, "Description": "Human-readable study title." },
-      { "name": "Citation", "datatype": "string", "type": "raw", "nullable": false, "Description": "Primary publication citation." },
-      { "name": "SourceUrl", "datatype": "string", "type": "raw", "nullable": true, "Description": "URL to source paper or data." },
-      { "name": "Domain", "datatype": "string", "type": "raw", "nullable": false, "Description": "Domain tag: medicine, epidemiology, legal, sports, education, economics, social-science." },
-      { "name": "StratumVariableName", "datatype": "string", "type": "raw", "nullable": false, "Description": "Pre-registered stratifying variable name for encoding." },
-      { "name": "ExpectedDistortionType", "datatype": "string", "type": "raw", "nullable": false, "Description": "Hypothesized DistortionType after classification: A, B, C+, C-, D, or unknown." },
-      { "name": "IngestionStatus", "datatype": "string", "type": "raw", "nullable": false, "Description": "imported | candidate | blocked | rejected" },
-      { "name": "Priority", "datatype": "integer", "type": "raw", "nullable": false, "Description": "1=high priority encode next; 5=blocked/duplicate." },
-      { "name": "StratumCountEstimate", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Expected number of strata (minimum 2)." },
-      { "name": "DataSourceNote", "datatype": "string", "type": "raw", "nullable": false, "Description": "Where to find cell counts and encoding notes." },
-      { "name": "LinkedStudyId", "datatype": "string", "type": "raw", "nullable": true, "Description": "Studies.StudyId when IngestionStatus=imported." },
-      { "name": "PublicationYear", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Publication year when known." },
-      { "name": "IsReadyToEncode", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when candidate has citation, proposed id, and stratum variable — ready for an import session.", "formula": "=AND({{IngestionStatus}} = \"candidate\", {{ProposedStudyId}} <> \"\", {{Citation}} <> \"\", {{StratumVariableName}} <> \"\")" },
-      { "name": "IsImported", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when already in corpus.", "formula": "={{IngestionStatus}} = \"imported\"" },
-      { "name": "ObservedDistortionType", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Actual DistortionType from TreatmentRankings when imported.", "formula": "=LOOKUP({{LinkedStudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])" },
-      { "name": "TypePredictionMatch", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when observed type matches expected (imported rows only).", "formula": "=IF({{IsImported}}, {{ObservedDistortionType}} = {{ExpectedDistortionType}}, \"\")" },
-      { "name": "ExpectedSignFlip", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when curator tagged ExpectedDistortionType as A or B (sign-flip expectation).", "formula": "=OR({{ExpectedDistortionType}} = \"A\", {{ExpectedDistortionType}} = \"B\")" },
-      { "name": "ObservedSignFlipType", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when observed DistortionType is A or B (imported rows only).", "formula": "=IF({{IsImported}}, OR({{ObservedDistortionType}} = \"A\", {{ObservedDistortionType}} = \"B\"), \"\")" },
-      { "name": "SignFlipPredictionMatch", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when Expected A∪B and observed is A∪B — weaker flip-type prediction test.", "formula": "=IF(AND({{IsImported}}, {{ExpectedSignFlip}}), {{ObservedSignFlipType}}, \"\")" },
-      { "name": "DataAcquisitionStatus", "datatype": "string", "type": "raw", "nullable": false, "Description": "not_started | downloaded | manual_only | blocked" },
-      { "name": "ReversalMechanism", "datatype": "string", "type": "raw", "nullable": false, "Description": "Plain-language reversal mechanism from expansion plan." },
-      { "name": "ParadoxConfirmation", "datatype": "string", "type": "raw", "nullable": false, "Description": "confirmed | plausible | pending | not_applicable" },
-      { "name": "ExpansionWave", "datatype": "string", "type": "raw", "nullable": true, "Description": "Catalog wave tag; loop-67 expansion rows = expansion-wave-1." },
-      { "name": "IsDataReady", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when stratified data is downloaded or available from published tables.", "formula": "=OR({{DataAcquisitionStatus}} = \"downloaded\", {{DataAcquisitionStatus}} = \"manual_only\")" }
+      {
+        "name": "CandidateId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug for this catalog entry."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{CandidateId}}"
+      },
+      {
+        "name": "ProposedStudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stable slug to assign in Studies when imported."
+      },
+      {
+        "name": "Title",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Human-readable study title."
+      },
+      {
+        "name": "Citation",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Primary publication citation."
+      },
+      {
+        "name": "SourceUrl",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "URL to source paper or data."
+      },
+      {
+        "name": "Domain",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Domain tag: medicine, epidemiology, legal, sports, education, economics, social-science."
+      },
+      {
+        "name": "StratumVariableName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Pre-registered stratifying variable name for encoding."
+      },
+      {
+        "name": "ExpectedDistortionType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Hypothesized DistortionType after classification: A, B, C+, C-, D, or unknown."
+      },
+      {
+        "name": "IngestionStatus",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "imported | candidate | blocked | rejected"
+      },
+      {
+        "name": "Priority",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "1=high priority encode next; 5=blocked/duplicate."
+      },
+      {
+        "name": "StratumCountEstimate",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Expected number of strata (minimum 2)."
+      },
+      {
+        "name": "DataSourceNote",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Where to find cell counts and encoding notes."
+      },
+      {
+        "name": "LinkedStudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Studies.StudyId when IngestionStatus=imported."
+      },
+      {
+        "name": "PublicationYear",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Publication year when known."
+      },
+      {
+        "name": "IsReadyToEncode",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when candidate has citation, proposed id, and stratum variable — ready for an import session.",
+        "formula": "=AND({{IngestionStatus}} = \"candidate\", {{ProposedStudyId}} <> \"\", {{Citation}} <> \"\", {{StratumVariableName}} <> \"\")"
+      },
+      {
+        "name": "IsImported",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when already in corpus.",
+        "formula": "={{IngestionStatus}} = \"imported\""
+      },
+      {
+        "name": "ObservedDistortionType",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Actual DistortionType from TreatmentRankings when imported.",
+        "formula": "=LOOKUP({{LinkedStudyId}}, TreatmentRankings[Study], TreatmentRankings[DistortionType])"
+      },
+      {
+        "name": "TypePredictionMatch",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when observed type matches expected (imported rows only).",
+        "formula": "=IF({{IsImported}}, {{ObservedDistortionType}} = {{ExpectedDistortionType}}, \"\")"
+      },
+      {
+        "name": "ExpectedSignFlip",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when curator tagged ExpectedDistortionType as A or B (sign-flip expectation).",
+        "formula": "=OR({{ExpectedDistortionType}} = \"A\", {{ExpectedDistortionType}} = \"B\")"
+      },
+      {
+        "name": "ObservedSignFlipType",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when observed DistortionType is A or B (imported rows only).",
+        "formula": "=IF({{IsImported}}, OR({{ObservedDistortionType}} = \"A\", {{ObservedDistortionType}} = \"B\"), \"\")"
+      },
+      {
+        "name": "SignFlipPredictionMatch",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when Expected A∪B and observed is A∪B — weaker flip-type prediction test.",
+        "formula": "=IF(AND({{IsImported}}, {{ExpectedSignFlip}}), {{ObservedSignFlipType}}, \"\")"
+      },
+      {
+        "name": "DataAcquisitionStatus",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "not_started | downloaded | manual_only | blocked"
+      },
+      {
+        "name": "ReversalMechanism",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Plain-language reversal mechanism from expansion plan."
+      },
+      {
+        "name": "ParadoxConfirmation",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "confirmed | plausible | pending | not_applicable"
+      },
+      {
+        "name": "ExpansionWave",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Catalog wave tag; loop-67 expansion rows = expansion-wave-1."
+      },
+      {
+        "name": "IsDataReady",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when stratified data is downloaded or available from published tables.",
+        "formula": "=OR({{DataAcquisitionStatus}} = \"downloaded\", {{DataAcquisitionStatus}} = \"manual_only\")"
+      }
     ],
     "data": [
       { "CandidateId": "cand-kidney-1986", "ProposedStudyId": "kidney-1986", "Title": "Kidney Stone Treatment (Charig 1986)", "Citation": "Charig CR et al. BMJ 1986;292:879.", "SourceUrl": "https://www.bmj.com/content/292/6524/879", "Domain": "medicine", "StratumVariableName": "stone_size", "ExpectedDistortionType": "A", "IngestionStatus": "imported", "Priority": 0, "StratumCountEstimate": 2, "DataSourceNote": "Already in corpus.", "LinkedStudyId": "kidney-1986", "PublicationYear": 1986, "DataAcquisitionStatus": "manual_only", "ReversalMechanism": "Encoded in prior import wave.", "ParadoxConfirmation": "confirmed", "ExpansionWave": null },
@@ -8780,26 +12482,165 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "CorpusCatalogSummary": {
     "Description": "Table: CorpusCatalogSummary — one row witnessing import-backlog readiness for bulk encoding sessions.",
     "schema": [
-      { "name": "CatalogSummaryId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique identifier." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{CatalogSummaryId}}" },
-      { "name": "TotalCatalogEntries", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "All catalog rows. Fixed loop-90 (see IngestionSummary.ProtocolItemCount for why COUNTIFS(...,\"<>\") is unsafe).", "formula": "=COUNT(CandidateStudyCatalog!{{CandidateId}})" },
-      { "name": "ImportedCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Rows already imported.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"imported\")" },
-      { "name": "CandidateCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Rows queued for import.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\")" },
-      { "name": "BlockedCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Duplicate or blocked rows.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"blocked\")" },
-      { "name": "ReadyToEncodeCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Candidates passing IsReadyToEncode.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsReadyToEncode}}, TRUE())" },
-      { "name": "HighPriorityCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Candidates with Priority <= 2.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\", CandidateStudyCatalog!{{Priority}}, 1) + COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\", CandidateStudyCatalog!{{Priority}}, 2)" },
-      { "name": "ImportSessionReady", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when backlog is large enough for a bulk import session.", "formula": "=AND({{CandidateCount}} >= 20, {{ReadyToEncodeCount}} >= 15)" },
-      { "name": "TypePredictionMatchCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Imported catalog rows where ObservedDistortionType exactly matches ExpectedDistortionType.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{TypePredictionMatch}}, TRUE())" },
-      { "name": "TypePredictionMismatchCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Imported catalog rows where exact type prediction failed.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{TypePredictionMatch}}, FALSE())" },
-      { "name": "SignFlipPredictionEligibleCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Imported rows where ExpectedDistortionType was A or B.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{ExpectedSignFlip}}, TRUE())" },
-      { "name": "SignFlipPredictionMatchCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Expected A∪B rows where observed type is also A∪B.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{SignFlipPredictionMatch}}, TRUE())" },
-      { "name": "TypePredictionMatchRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Exact-match rate across imported catalog rows.", "formula": "=IF({{ImportedCount}} = 0, \"\", {{TypePredictionMatchCount}} / {{ImportedCount}})" },
-      { "name": "SignFlipPredictionMatchRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "Sign-flip-type match rate among Expected A∪B rows.", "formula": "=IF({{SignFlipPredictionEligibleCount}} = 0, \"\", {{SignFlipPredictionMatchCount}} / {{SignFlipPredictionEligibleCount}})" },
-      { "name": "CatalogWitnessNote", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Human-readable readiness summary.", "formula": "=IF({{ImportSessionReady}}, CONCAT(\"READY: \", {{ReadyToEncodeCount}}, \" encode-ready (\", {{DataReadyCount}}, \" data-ready) of \", {{CandidateCount}}, \" candidates\"), CONCAT(\"BUILDING: \", {{CandidateCount}}, \" candidates — \", {{DataReadyCount}}, \" data-ready, \", {{ReadyToEncodeCount}}, \" encode-ready\"))" },
-      { "name": "CatalogPredictionWitnessNote", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Loop-65 type-prediction audit summary.", "formula": "=CONCAT(\"exact=\", {{TypePredictionMatchCount}}, \"/\", {{ImportedCount}}, \" (\", ROUND({{TypePredictionMatchRate}} * 100, 1), \"%); flipPred=\", {{SignFlipPredictionMatchCount}}, \"/\", {{SignFlipPredictionEligibleCount}}, \" (\", ROUND({{SignFlipPredictionMatchRate}} * 100, 1), \"%)\")" },
-      { "name": "DataReadyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Candidates with IsDataReady=TRUE.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsDataReady}}, TRUE(), CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\")" },
-      { "name": "EncodePipelineReadyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Candidates both data-ready and encode-ready.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsReadyToEncode}}, TRUE(), CandidateStudyCatalog!{{IsDataReady}}, TRUE())" },
-      { "name": "ExpansionCandidateCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Loop-67 expansion-wave-1 candidates.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-1\")" }
+      {
+        "name": "CatalogSummaryId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique identifier."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{CatalogSummaryId}}"
+      },
+      {
+        "name": "TotalCatalogEntries",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "All catalog rows. Fixed loop-90 (see IngestionSummary.ProtocolItemCount for why COUNTIFS(...,\"<>\") is unsafe).",
+        "formula": "=COUNT(CandidateStudyCatalog!{{CandidateId}})"
+      },
+      {
+        "name": "ImportedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Rows already imported.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"imported\")"
+      },
+      {
+        "name": "CandidateCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Rows queued for import.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\")"
+      },
+      {
+        "name": "BlockedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Duplicate or blocked rows.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"blocked\")"
+      },
+      {
+        "name": "ReadyToEncodeCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Candidates passing IsReadyToEncode.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsReadyToEncode}}, TRUE())"
+      },
+      {
+        "name": "HighPriorityCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Candidates with Priority <= 2.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\", CandidateStudyCatalog!{{Priority}}, 1) + COUNTIFS(CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\", CandidateStudyCatalog!{{Priority}}, 2)"
+      },
+      {
+        "name": "ImportSessionReady",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when backlog is large enough for a bulk import session.",
+        "formula": "=AND({{CandidateCount}} >= 20, {{ReadyToEncodeCount}} >= 15)"
+      },
+      {
+        "name": "TypePredictionMatchCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Imported catalog rows where ObservedDistortionType exactly matches ExpectedDistortionType.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{TypePredictionMatch}}, TRUE())"
+      },
+      {
+        "name": "TypePredictionMismatchCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Imported catalog rows where exact type prediction failed.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{TypePredictionMatch}}, FALSE())"
+      },
+      {
+        "name": "SignFlipPredictionEligibleCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Imported rows where ExpectedDistortionType was A or B.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsImported}}, TRUE(), CandidateStudyCatalog!{{ExpectedSignFlip}}, TRUE())"
+      },
+      {
+        "name": "SignFlipPredictionMatchCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Expected A∪B rows where observed type is also A∪B.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{SignFlipPredictionMatch}}, TRUE())"
+      },
+      {
+        "name": "TypePredictionMatchRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Exact-match rate across imported catalog rows.",
+        "formula": "=IF({{ImportedCount}} = 0, \"\", {{TypePredictionMatchCount}} / {{ImportedCount}})"
+      },
+      {
+        "name": "SignFlipPredictionMatchRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Sign-flip-type match rate among Expected A∪B rows.",
+        "formula": "=IF({{SignFlipPredictionEligibleCount}} = 0, \"\", {{SignFlipPredictionMatchCount}} / {{SignFlipPredictionEligibleCount}})"
+      },
+      {
+        "name": "CatalogWitnessNote",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Human-readable readiness summary.",
+        "formula": "=IF({{ImportSessionReady}}, CONCAT(\"READY: \", {{ReadyToEncodeCount}}, \" encode-ready (\", {{DataReadyCount}}, \" data-ready) of \", {{CandidateCount}}, \" candidates\"), CONCAT(\"BUILDING: \", {{CandidateCount}}, \" candidates — \", {{DataReadyCount}}, \" data-ready, \", {{ReadyToEncodeCount}}, \" encode-ready\"))"
+      },
+      {
+        "name": "CatalogPredictionWitnessNote",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Loop-65 type-prediction audit summary.",
+        "formula": "=CONCAT(\"exact=\", {{TypePredictionMatchCount}}, \"/\", {{ImportedCount}}, \" (\", ROUND({{TypePredictionMatchRate}} * 100, 1), \"%); flipPred=\", {{SignFlipPredictionMatchCount}}, \"/\", {{SignFlipPredictionEligibleCount}}, \" (\", ROUND({{SignFlipPredictionMatchRate}} * 100, 1), \"%)\")"
+      },
+      {
+        "name": "DataReadyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Candidates with IsDataReady=TRUE.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsDataReady}}, TRUE(), CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\")"
+      },
+      {
+        "name": "EncodePipelineReadyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Candidates both data-ready and encode-ready.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{IsReadyToEncode}}, TRUE(), CandidateStudyCatalog!{{IsDataReady}}, TRUE())"
+      },
+      {
+        "name": "ExpansionCandidateCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Loop-67 expansion-wave-1 candidates.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{ExpansionWave}}, \"expansion-wave-1\")"
+      }
     ],
     "data": [
       { "CatalogSummaryId": "catalog-v1" }
@@ -8808,16 +12649,82 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "DomainExpansionTargets": {
     "Description": "Table: DomainExpansionTargets — per-domain corpus growth targets for bulk import prioritisation.",
     "schema": [
-      { "name": "DomainTargetId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{DomainTargetId}}" },
-      { "name": "Domain", "datatype": "string", "type": "raw", "nullable": false, "Description": "Domain tag matching Studies.Domain." },
-      { "name": "LegacyDomainAlias", "datatype": "string", "type": "raw", "nullable": true, "Description": "Studies.Domain slug for legacy imported corpus rows." },
-      { "name": "TargetMinCount", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Minimum real studies desired in this domain." },
-      { "name": "CurrentImportedCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Real studies in corpus matching LegacyDomainAlias (or Domain when no alias).", "formula": "=COUNTIFS(Studies!{{Domain}}, IF({{LegacyDomainAlias}}<>\"\", {{LegacyDomainAlias}}, {{Domain}}), Studies!{{IsSynthetic}}, FALSE())" },
-      { "name": "CandidateQueuedCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Catalog candidates in this domain.", "formula": "=COUNTIFS(CandidateStudyCatalog!{{Domain}}, {{Domain}}, CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\")" },
-      { "name": "ProjectedCount", "datatype": "integer", "type": "calculated", "nullable": false, "Description": "Current + queued candidates.", "formula": "={{CurrentImportedCount}} + {{CandidateQueuedCount}}" },
-      { "name": "GapCount", "datatype": "integer", "type": "calculated", "nullable": false, "Description": "Studies still needed to hit target after queued imports.", "formula": "=MAX(0, {{TargetMinCount}} - {{ProjectedCount}})" },
-      { "name": "IsUnderRepresented", "datatype": "boolean", "type": "calculated", "nullable": false, "Description": "TRUE when projected count still below target.", "formula": "={{ProjectedCount}} < {{TargetMinCount}}" }
+      {
+        "name": "DomainTargetId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{DomainTargetId}}"
+      },
+      {
+        "name": "Domain",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Domain tag matching Studies.Domain."
+      },
+      {
+        "name": "LegacyDomainAlias",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Studies.Domain slug for legacy imported corpus rows."
+      },
+      {
+        "name": "TargetMinCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Minimum real studies desired in this domain."
+      },
+      {
+        "name": "CurrentImportedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Real studies in corpus matching LegacyDomainAlias (or Domain when no alias).",
+        "formula": "=COUNTIFS(Studies!{{Domain}}, IF({{LegacyDomainAlias}}<>\"\", {{LegacyDomainAlias}}, {{Domain}}), Studies!{{IsSynthetic}}, FALSE())"
+      },
+      {
+        "name": "CandidateQueuedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Catalog candidates in this domain.",
+        "formula": "=COUNTIFS(CandidateStudyCatalog!{{Domain}}, {{Domain}}, CandidateStudyCatalog!{{IngestionStatus}}, \"candidate\")"
+      },
+      {
+        "name": "ProjectedCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Current + queued candidates.",
+        "formula": "={{CurrentImportedCount}} + {{CandidateQueuedCount}}"
+      },
+      {
+        "name": "GapCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Studies still needed to hit target after queued imports.",
+        "formula": "=MAX(0, {{TargetMinCount}} - {{ProjectedCount}})"
+      },
+      {
+        "name": "IsUnderRepresented",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "TRUE when projected count still below target.",
+        "formula": "={{ProjectedCount}} < {{TargetMinCount}}"
+      }
     ],
     "data": [
       { "DomainTargetId": "domain-target-economics", "Domain": "economics", "LegacyDomainAlias": "economics", "TargetMinCount": 25 },
@@ -8836,13 +12743,56 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "StudyImportTemplate": {
     "Description": "Table: StudyImportTemplate — mechanical checklist of rulebook rows to create when importing one catalog candidate.",
     "schema": [
-      { "name": "TemplateStepId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{TemplateStepId}}" },
-      { "name": "SortOrder", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Order to execute during import." },
-      { "name": "TargetTable", "datatype": "string", "type": "raw", "nullable": false, "Description": "Rulebook table to write." },
-      { "name": "RowDescription", "datatype": "string", "type": "raw", "nullable": false, "Description": "What rows to create." },
-      { "name": "RequiredFields", "datatype": "string", "type": "raw", "nullable": false, "Description": "Key columns that must be populated." },
-      { "name": "MechanicalCheck", "datatype": "string", "type": "raw", "nullable": false, "Description": "How to verify step complete." }
+      {
+        "name": "TemplateStepId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{TemplateStepId}}"
+      },
+      {
+        "name": "SortOrder",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Order to execute during import."
+      },
+      {
+        "name": "TargetTable",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Rulebook table to write."
+      },
+      {
+        "name": "RowDescription",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "What rows to create."
+      },
+      {
+        "name": "RequiredFields",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Key columns that must be populated."
+      },
+      {
+        "name": "MechanicalCheck",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "How to verify step complete."
+      }
     ],
     "data": [
       { "TemplateStepId": "import-step-studies", "SortOrder": 1, "TargetTable": "Studies", "RowDescription": "One Studies row with StudyId, Title, Source, SourceUrl, Domain, PublicationYear, IsSynthetic=FALSE.", "RequiredFields": "StudyId, Title, Source, SourceUrl", "MechanicalCheck": "StudyId unique; Source is citation string." },
@@ -8858,19 +12808,98 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "SweepStudyConfig": {
     "Description": "Table: SweepStudyConfig — per-study allocation-sweep parameters derived from CaseCells. Picks the highest-allocation-bias stratum to sweep; holds all other strata fixed.",
     "schema": [
-      { "name": "ConfigId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug; mirrors StudyId." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{ConfigId}}" },
-      { "name": "StudyId", "datatype": "string", "type": "raw", "nullable": false, "Description": "FK to Studies.StudyId." },
-      { "name": "SweepStratumLabel", "datatype": "string", "type": "raw", "nullable": false, "Description": "Stratum whose A/B allocation is swept (highest |AllocationBias| in original data)." },
-      { "name": "NSweepStratumTotal", "datatype": "number", "type": "raw", "nullable": false, "Description": "Total cases in the sweep stratum (fixed across sweep rows)." },
-      { "name": "SweepRateA", "datatype": "number", "type": "raw", "nullable": false, "Description": "Success rate for treatment A in the sweep stratum." },
-      { "name": "SweepRateB", "datatype": "number", "type": "raw", "nullable": false, "Description": "Success rate for treatment B in the sweep stratum." },
-      { "name": "NFixedA", "datatype": "number", "type": "raw", "nullable": false, "Description": "A cases in all non-swept strata (fixed)." },
-      { "name": "NFixedB", "datatype": "number", "type": "raw", "nullable": false, "Description": "B cases in all non-swept strata (fixed)." },
-      { "name": "FixedRateA", "datatype": "number", "type": "raw", "nullable": false, "Description": "Weighted success rate for A in fixed strata." },
-      { "name": "FixedRateB", "datatype": "number", "type": "raw", "nullable": false, "Description": "Weighted success rate for B in fixed strata." },
-      { "name": "OriginalAllocFractionA", "datatype": "number", "type": "raw", "nullable": false, "Description": "Observed fraction of sweep-stratum cases assigned to treatment A." },
-      { "name": "SweepCorrectedGap", "datatype": "number", "type": "raw", "nullable": false, "Description": "Allocation-free gap: sum_s (n_s/N)*(rate_As-rate_Bs). Invariant under within-stratum reallocation." }
+      {
+        "name": "ConfigId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug; mirrors StudyId."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{ConfigId}}"
+      },
+      {
+        "name": "StudyId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "FK to Studies.StudyId."
+      },
+      {
+        "name": "SweepStratumLabel",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Stratum whose A/B allocation is swept (highest |AllocationBias| in original data)."
+      },
+      {
+        "name": "NSweepStratumTotal",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Total cases in the sweep stratum (fixed across sweep rows)."
+      },
+      {
+        "name": "SweepRateA",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Success rate for treatment A in the sweep stratum."
+      },
+      {
+        "name": "SweepRateB",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Success rate for treatment B in the sweep stratum."
+      },
+      {
+        "name": "NFixedA",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "A cases in all non-swept strata (fixed)."
+      },
+      {
+        "name": "NFixedB",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "B cases in all non-swept strata (fixed)."
+      },
+      {
+        "name": "FixedRateA",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Weighted success rate for A in fixed strata."
+      },
+      {
+        "name": "FixedRateB",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Weighted success rate for B in fixed strata."
+      },
+      {
+        "name": "OriginalAllocFractionA",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Observed fraction of sweep-stratum cases assigned to treatment A."
+      },
+      {
+        "name": "SweepCorrectedGap",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Allocation-free gap: sum_s (n_s/N)*(rate_As-rate_Bs). Invariant under within-stratum reallocation."
+      }
     ],
     "data": [
       { "ConfigId": "kidney-1986", "StudyId": "kidney-1986", "SweepStratumLabel": "large", "NSweepStratumTotal": 343.0, "SweepRateA": 0.730038, "SweepRateB": 0.6875, "NFixedA": 87.0, "NFixedB": 270.0, "FixedRateA": 0.931034, "FixedRateB": 0.866667, "OriginalAllocFractionA": 0.766764, "SweepCorrectedGap": 0.053671 },
@@ -9120,15 +13149,70 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "SubstrateConformanceFields": {
     "Description": "Table: SubstrateConformanceFields — cross-substrate OWL-SHACL vs Postgres compare manifest for owl/reason.py. Rows with AssertFromPostgres=TRUE are asserted as leaf facts before SHACL fixpoint (OWL transpiler lacks CONSTRUCT for nested IF chains).",
     "schema": [
-      { "name": "FieldId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{FieldId}}" },
-      { "name": "SourceTable", "datatype": "string", "type": "raw", "nullable": false, "Description": "TreatmentRankings | StratumSummaries | StratumVariables" },
-      { "name": "FieldName", "datatype": "string", "type": "raw", "nullable": false, "Description": "PascalCase rulebook field name." },
-      { "name": "PgColumn", "datatype": "string", "type": "raw", "nullable": false, "Description": "snake_case vw_* column." },
-      { "name": "OwlLocalName", "datatype": "string", "type": "raw", "nullable": false, "Description": "camelCase OWL property local name." },
-      { "name": "DataType", "datatype": "string", "type": "raw", "nullable": false, "Description": "float | int | bool | str" },
-      { "name": "AssertFromPostgres", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "TRUE when OWL cannot derive this field yet and Postgres value is asserted before SHACL fixpoint." },
-      { "name": "InCompareSet", "datatype": "boolean", "type": "raw", "nullable": false, "Description": "TRUE when reason.py diffs this field between substrates." }
+      {
+        "name": "FieldId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{FieldId}}"
+      },
+      {
+        "name": "SourceTable",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "TreatmentRankings | StratumSummaries | StratumVariables"
+      },
+      {
+        "name": "FieldName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "PascalCase rulebook field name."
+      },
+      {
+        "name": "PgColumn",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "snake_case vw_* column."
+      },
+      {
+        "name": "OwlLocalName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "camelCase OWL property local name."
+      },
+      {
+        "name": "DataType",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "float | int | bool | str"
+      },
+      {
+        "name": "AssertFromPostgres",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "TRUE when OWL cannot derive this field yet and Postgres value is asserted before SHACL fixpoint."
+      },
+      {
+        "name": "InCompareSet",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": false,
+        "Description": "TRUE when reason.py diffs this field between substrates."
+      }
     ],
     "data": [
       { "FieldId": "tr-pooled-rate-a", "SourceTable": "TreatmentRankings", "FieldName": "PooledRateA", "PgColumn": "pooled_rate_a", "OwlLocalName": "pooledRateA", "DataType": "float", "AssertFromPostgres": false, "InCompareSet": true },
@@ -9162,13 +13246,56 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "DiscoveryHypotheses": {
     "Description": "Table: DiscoveryHypotheses — pre-registered empirical claims tested against the corpus at loop-61. Each row states an expected pattern before querying the DAG.",
     "schema": [
-      { "name": "HypothesisId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. H-latent-d)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{HypothesisId}}" },
-      { "name": "Statement", "datatype": "string", "type": "raw", "nullable": false, "Description": "Natural-language claim under test." },
-      { "name": "ExpectedOutcome", "datatype": "string", "type": "raw", "nullable": false, "Description": "Pass criterion in plain language." },
-      { "name": "RegisteredInLoop", "datatype": "string", "type": "raw", "nullable": false, "Description": "LoopId where this hypothesis was registered." },
-      { "name": "TraditionId", "datatype": "string", "type": "raw", "nullable": true, "Description": "FK → ResearchTraditions.TraditionId." },
-      { "name": "EpistemicTier", "datatype": "string", "type": "raw", "nullable": false, "Description": "consistency-check (definition-linked regression) | corpus-hypothesis (contingent corpus pattern)" }
+      {
+        "name": "HypothesisId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. H-latent-d)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{HypothesisId}}"
+      },
+      {
+        "name": "Statement",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Natural-language claim under test."
+      },
+      {
+        "name": "ExpectedOutcome",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Pass criterion in plain language."
+      },
+      {
+        "name": "RegisteredInLoop",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "LoopId where this hypothesis was registered."
+      },
+      {
+        "name": "TraditionId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "FK → ResearchTraditions.TraditionId."
+      },
+      {
+        "name": "EpistemicTier",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "consistency-check (definition-linked regression) | corpus-hypothesis (contingent corpus pattern)"
+      }
     ],
     "data": [
       { "HypothesisId": "H-latent-d", "Statement": "More than half of Type-D (SAFE) studies would flip their pooled winner under counterfactual allocation reweighting.", "ExpectedOutcome": "LatentTypeDFraction > 0.5", "RegisteredInLoop": "loop-61", "TraditionId": "tradition-historical", "EpistemicTier": "corpus-hypothesis" },
@@ -9210,14 +13337,67 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "DiscoveryFindings": {
     "Description": "Table: DiscoveryFindings — witnessed outcomes for each pre-registered DiscoveryHypothesis. IsConfirmed is computed live from ModelSummary aggregates.",
     "schema": [
-      { "name": "FindingId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug; one row per hypothesis." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{FindingId}}" },
-      { "name": "HypothesisId", "datatype": "string", "type": "raw", "nullable": false, "Description": "FK → DiscoveryHypotheses.HypothesisId." },
-      { "name": "HypothesisStatement", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: DiscoveryHypotheses.Statement.", "formula": "=LOOKUP({{HypothesisId}}, DiscoveryHypotheses[HypothesisId], DiscoveryHypotheses[Statement])" },
-      { "name": "ObservedMetric", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Witnessed metric value from ModelSummary for this hypothesis.", "formula": "=IF({{HypothesisId}} = \"H-latent-d\", CONCAT(\"fraction=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[LatentTypeDFraction])), IF({{HypothesisId}} = \"H-purity\", CONCAT(\"maxPurity=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipSignalPurityMax])), IF({{HypothesisId}} = \"H-small-effect\", CONCAT(\"stable=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapStableD]), \" latent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapLatentD])), IF({{HypothesisId}} = \"H-econ-zero\", CONCAT(\"flips=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipCount])), IF({{HypothesisId}} = \"H-domain-dist\", CONCAT(\"epi=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyAvgDistortion]), \" edu=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationAvgDistortion])), IF({{HypothesisId}} = \"H-causal-manifest\", CONCAT(\"confFlip=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), \" collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount])), IF({{HypothesisId}} = \"H-causal-latent\", CONCAT(\"collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]), \" collLatent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionLatentOnlyCount]), \" collN=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionCount])), IF({{HypothesisId}} = \"H-explained-confounder\", CONCAT(\"ExplainedConfounderCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]), \", ConfounderSignFlipCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount])), IF({{HypothesisId}} = \"H-unexplained-nonconfounder\", CONCAT(\"ContestedOrMediatorExplainedCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ContestedOrMediatorExplainedCount])), IF({{HypothesisId}} = \"H-catalog-exact-match\", CONCAT(\"exactRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypePredictionMatchRate])), IF({{HypothesisId}} = \"H-catalog-flip-prediction\", CONCAT(\"flipPredRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipPredictionMatchRate])), IF({{HypothesisId}} = \"H-domain-flip-geometry-controlled\", CONCAT(\"econHighImbFlips=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsHighImbalanceSignFlipCount]), \"; epiRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyHighImbalanceSignFlipRate]), \"; legal=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[LegalHighImbalanceSignFlipRate]), \"; sports=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SportsHighImbalanceSignFlipRate])), IF({{HypothesisId}} = \"H-collider-no-manifest-v2\", CONCAT(\"collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount])), IF({{HypothesisId}} = \"H-cplus-magnitude\", CONCAT(\"C+=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CPlusAvgDistortion]), \" C-=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CMinusAvgDistortion]), \" D=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypeDAvgDistortion])), IF({{HypothesisId}} = \"H-econ-encoding-selection\", CONCAT(\"EconExpectedAMismatchRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsExpectedAMismatchRate])), IF({{HypothesisId}} = \"H-domain-profiles-stable\", CONCAT(\"eduLatent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationLatentFraction]), \" sportsLatent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SportsLatentFraction]), \" econFlipRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipRate])), IF({{HypothesisId}} = \"H-corrected-gap-invariant\", CONCAT(\"maxRange=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[MaxStudySweepCorrectedGapRange]), \" fails=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CorrectedGapInvariantFailCount])), IF({{HypothesisId}} = \"H-explained-bidirectional\", CONCAT(\"explained=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]), \" confFlip=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), \" falsePos=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[FalsePositiveExplainedCount]), \" unexplained=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount])), IF({{HypothesisId}} = \"H-collider-no-manifest-theorem\", CONCAT(\"collN=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionCount]), \" collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount])), IF({{HypothesisId}} = \"H-theorem-portfolio\", CONCAT(\"theoremCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TheoremCount])), IF({{HypothesisId}} = \"H-age-identity-flip-rate\", CONCAT(\"rate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityManifestFlipRate]), \", n=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityStudyCount])), IF({{HypothesisId}} = \"H-identity-map-coverage\", CONCAT(\"coverage=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[IdentityMapCoverageRate])), IF({{HypothesisId}} = \"H-severity-medicine-manifest\", CONCAT(\"medicine_flip_rate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityMedicineManifestFlipRate])), IF({{HypothesisId}} = \"H-severity-epi-latent-only\", CONCAT(\"epi_manifest_count=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityEpiManifestFlipCount])), IF({{HypothesisId}} = \"H-mechanism-other-drain\", CONCAT(\"other_count=\", LOOKUP(\"cluster-id-mechanism-other\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])), IF({{HypothesisId}} = \"H-selection-frailty-zero-manifest\", CONCAT(\"manifest=\", LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipCount]), \", n=\", LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])), IF({{HypothesisId}} = \"H-collider-identity-low-manifest\", CONCAT(\"rate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderIdentityManifestFlipRate])), IF({{HypothesisId}} = \"H-geographic-stable-type-d\", CONCAT(\"type_d_frac=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicTypeDFraction])), IF({{HypothesisId}} = \"H-unexplained-flips-only-nonconfounders\", CONCAT(\"unexplained_confounder_flips=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount])), IF({{HypothesisId}} = \"H-confounder-drift-type-d\", CONCAT(\"severity=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityDriftDirection]), \" geography=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicDriftDirection]), \" situational=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SituationalDriftDirection]), \" age=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeDriftDirection]), \" institutional=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[InstitutionalDriftDirection]), \" socioeconomic=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SocioeconomicDriftDirection])), \"\")))))))))))))))))))))))))))))" },
-      { "name": "IsConfirmed", "datatype": "boolean", "type": "calculated", "nullable": true, "Description": "TRUE when the witnessed metric satisfies the pre-registered ExpectedOutcome.", "formula": "=IF({{HypothesisId}} = \"H-latent-d\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[LatentTypeDFraction]) > 0.5, IF({{HypothesisId}} = \"H-purity\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipSignalPurityMax]) < 0.5, IF({{HypothesisId}} = \"H-small-effect\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapStableD]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapLatentD]), IF({{HypothesisId}} = \"H-econ-zero\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipCount]) = 0, IF({{HypothesisId}} = \"H-domain-dist\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyAvgDistortion]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationAvgDistortion]), IF({{HypothesisId}} = \"H-causal-manifest\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]) >= 10), IF({{HypothesisId}} = \"H-causal-latent\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionLatentOnlyCount]) >= 5), IF({{HypothesisId}} = \"H-explained-confounder\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]) = LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]) >= 10), IF({{HypothesisId}} = \"H-unexplained-nonconfounder\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ContestedOrMediatorExplainedCount]) = 0, IF({{HypothesisId}} = \"H-catalog-exact-match\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypePredictionMatchRate]) < 0.5, IF({{HypothesisId}} = \"H-catalog-flip-prediction\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipPredictionMatchRate]) < 0.5, IF({{HypothesisId}} = \"H-domain-flip-geometry-controlled\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsHighImbalanceSignFlipCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyHighImbalanceSignFlipRate]) > 0.15), IF({{HypothesisId}} = \"H-collider-no-manifest-v2\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]) = 0, IF({{HypothesisId}} = \"H-cplus-magnitude\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CPlusAvgDistortion]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CMinusAvgDistortion]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CPlusAvgDistortion]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypeDAvgDistortion])), IF({{HypothesisId}} = \"H-econ-encoding-selection\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsExpectedAMismatchRate]) > 0.5, IF({{HypothesisId}} = \"H-domain-profiles-stable\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationLatentFraction]) > 0.5, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SportsLatentFraction]) > 0.5, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipRate]) < 0.05), IF({{HypothesisId}} = \"H-corrected-gap-invariant\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[MaxStudySweepCorrectedGapRange]) < 0.0001, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CorrectedGapInvariantFailCount]) = 0), IF({{HypothesisId}} = \"H-explained-bidirectional\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]) = LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[FalsePositiveExplainedCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount]) = 0), IF({{HypothesisId}} = \"H-collider-no-manifest-theorem\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionCount]) >= 10), IF({{HypothesisId}} = \"H-theorem-portfolio\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TheoremCount]) >= 4, IF({{HypothesisId}} = \"H-age-identity-flip-rate\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityManifestFlipRate]) >= 0.40, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityStudyCount]) >= 10), IF({{HypothesisId}} = \"H-identity-map-coverage\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[IdentityMapCoverageRate]) >= 0.95, IF({{HypothesisId}} = \"H-severity-medicine-manifest\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityMedicineManifestFlipRate]) >= 0.45, IF({{HypothesisId}} = \"H-severity-epi-latent-only\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityEpiManifestFlipCount]) = 0, IF({{HypothesisId}} = \"H-mechanism-other-drain\", LOOKUP(\"cluster-id-mechanism-other\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) <= 5, IF({{HypothesisId}} = \"H-selection-frailty-zero-manifest\", AND(LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipCount]) = 0, LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) >= 3), IF({{HypothesisId}} = \"H-collider-identity-low-manifest\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderIdentityManifestFlipRate]) <= 0.15, LOOKUP(\"cluster-id-collider-proxy\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) >= 5), IF({{HypothesisId}} = \"H-geographic-stable-type-d\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicTypeDFraction]) >= 0.25, LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) >= 3), IF({{HypothesisId}} = \"H-unexplained-flips-only-nonconfounders\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount]) = 0, IF({{HypothesisId}} = \"H-confounder-drift-type-d\", AND(OR(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityDriftDirection]) = \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityDriftDirection]) = \"single-decade\"), OR(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicDriftDirection]) = \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicDriftDirection]) = \"single-decade\"), OR(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SituationalDriftDirection]) = \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SituationalDriftDirection]) = \"single-decade\"), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeDriftDirection]) <> \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[InstitutionalDriftDirection]) <> \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SocioeconomicDriftDirection]) <> \"rising\"), FALSE()))))))))))))))))))))))))))))))" },
-      { "name": "Evidence", "datatype": "string", "type": "calculated", "nullable": true, "Description": "Pass/fail witness string for UI and conclusions.", "formula": "=IF({{IsConfirmed}} = TRUE(), CONCAT(\"PASS: \", {{ObservedMetric}}), IF({{IsConfirmed}} = FALSE(), CONCAT(\"FAIL: \", {{ObservedMetric}}), \"\"))" },
-      { "name": "WitnessedInLoop", "datatype": "string", "type": "raw", "nullable": false, "Description": "LoopId where this finding was witnessed." }
+      {
+        "name": "FindingId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug; one row per hypothesis."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{FindingId}}"
+      },
+      {
+        "name": "HypothesisId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "FK → DiscoveryHypotheses.HypothesisId."
+      },
+      {
+        "name": "HypothesisStatement",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: DiscoveryHypotheses.Statement.",
+        "formula": "=LOOKUP({{HypothesisId}}, DiscoveryHypotheses[HypothesisId], DiscoveryHypotheses[Statement])"
+      },
+      {
+        "name": "ObservedMetric",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Witnessed metric value from ModelSummary for this hypothesis.",
+        "formula": "=IF({{HypothesisId}} = \"H-latent-d\", CONCAT(\"fraction=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[LatentTypeDFraction])), IF({{HypothesisId}} = \"H-purity\", CONCAT(\"maxPurity=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipSignalPurityMax])), IF({{HypothesisId}} = \"H-small-effect\", CONCAT(\"stable=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapStableD]), \" latent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapLatentD])), IF({{HypothesisId}} = \"H-econ-zero\", CONCAT(\"flips=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipCount])), IF({{HypothesisId}} = \"H-domain-dist\", CONCAT(\"epi=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyAvgDistortion]), \" edu=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationAvgDistortion])), IF({{HypothesisId}} = \"H-causal-manifest\", CONCAT(\"confFlip=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), \" collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount])), IF({{HypothesisId}} = \"H-causal-latent\", CONCAT(\"collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]), \" collLatent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionLatentOnlyCount]), \" collN=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionCount])), IF({{HypothesisId}} = \"H-explained-confounder\", CONCAT(\"ExplainedConfounderCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]), \", ConfounderSignFlipCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount])), IF({{HypothesisId}} = \"H-unexplained-nonconfounder\", CONCAT(\"ContestedOrMediatorExplainedCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ContestedOrMediatorExplainedCount])), IF({{HypothesisId}} = \"H-catalog-exact-match\", CONCAT(\"exactRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypePredictionMatchRate])), IF({{HypothesisId}} = \"H-catalog-flip-prediction\", CONCAT(\"flipPredRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipPredictionMatchRate])), IF({{HypothesisId}} = \"H-domain-flip-geometry-controlled\", CONCAT(\"econHighImbFlips=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsHighImbalanceSignFlipCount]), \"; epiRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyHighImbalanceSignFlipRate]), \"; legal=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[LegalHighImbalanceSignFlipRate]), \"; sports=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SportsHighImbalanceSignFlipRate])), IF({{HypothesisId}} = \"H-collider-no-manifest-v2\", CONCAT(\"collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount])), IF({{HypothesisId}} = \"H-cplus-magnitude\", CONCAT(\"C+=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CPlusAvgDistortion]), \" C-=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CMinusAvgDistortion]), \" D=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypeDAvgDistortion])), IF({{HypothesisId}} = \"H-econ-encoding-selection\", CONCAT(\"EconExpectedAMismatchRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsExpectedAMismatchRate])), IF({{HypothesisId}} = \"H-domain-profiles-stable\", CONCAT(\"eduLatent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationLatentFraction]), \" sportsLatent=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SportsLatentFraction]), \" econFlipRate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipRate])), IF({{HypothesisId}} = \"H-corrected-gap-invariant\", CONCAT(\"maxRange=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[MaxStudySweepCorrectedGapRange]), \" fails=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CorrectedGapInvariantFailCount])), IF({{HypothesisId}} = \"H-explained-bidirectional\", CONCAT(\"explained=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]), \" confFlip=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), \" falsePos=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[FalsePositiveExplainedCount]), \" unexplained=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount])), IF({{HypothesisId}} = \"H-collider-no-manifest-theorem\", CONCAT(\"collN=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionCount]), \" collManifest=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount])), IF({{HypothesisId}} = \"H-theorem-portfolio\", CONCAT(\"theoremCount=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TheoremCount])), IF({{HypothesisId}} = \"H-age-identity-flip-rate\", CONCAT(\"rate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityManifestFlipRate]), \", n=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityStudyCount])), IF({{HypothesisId}} = \"H-identity-map-coverage\", CONCAT(\"coverage=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[IdentityMapCoverageRate])), IF({{HypothesisId}} = \"H-severity-medicine-manifest\", CONCAT(\"medicine_flip_rate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityMedicineManifestFlipRate])), IF({{HypothesisId}} = \"H-severity-epi-latent-only\", CONCAT(\"epi_manifest_count=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityEpiManifestFlipCount])), IF({{HypothesisId}} = \"H-mechanism-other-drain\", CONCAT(\"other_count=\", LOOKUP(\"cluster-id-mechanism-other\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])), IF({{HypothesisId}} = \"H-selection-frailty-zero-manifest\", CONCAT(\"manifest=\", LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipCount]), \", n=\", LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount])), IF({{HypothesisId}} = \"H-collider-identity-low-manifest\", CONCAT(\"rate=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderIdentityManifestFlipRate])), IF({{HypothesisId}} = \"H-geographic-stable-type-d\", CONCAT(\"type_d_frac=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicTypeDFraction])), IF({{HypothesisId}} = \"H-unexplained-flips-only-nonconfounders\", CONCAT(\"unexplained_confounder_flips=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount])), IF({{HypothesisId}} = \"H-confounder-drift-type-d\", CONCAT(\"severity=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityDriftDirection]), \" geography=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicDriftDirection]), \" situational=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SituationalDriftDirection]), \" age=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeDriftDirection]), \" institutional=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[InstitutionalDriftDirection]), \" socioeconomic=\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SocioeconomicDriftDirection])), \"\")))))))))))))))))))))))))))))"
+      },
+      {
+        "name": "IsConfirmed",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE when the witnessed metric satisfies the pre-registered ExpectedOutcome.",
+        "formula": "=IF({{HypothesisId}} = \"H-latent-d\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[LatentTypeDFraction]) > 0.5, IF({{HypothesisId}} = \"H-purity\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipSignalPurityMax]) < 0.5, IF({{HypothesisId}} = \"H-small-effect\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapStableD]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AvgPooledGapLatentD]), IF({{HypothesisId}} = \"H-econ-zero\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipCount]) = 0, IF({{HypothesisId}} = \"H-domain-dist\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyAvgDistortion]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationAvgDistortion]), IF({{HypothesisId}} = \"H-causal-manifest\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]) >= 10), IF({{HypothesisId}} = \"H-causal-latent\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionLatentOnlyCount]) >= 5), IF({{HypothesisId}} = \"H-explained-confounder\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]) = LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]) >= 10), IF({{HypothesisId}} = \"H-unexplained-nonconfounder\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ContestedOrMediatorExplainedCount]) = 0, IF({{HypothesisId}} = \"H-catalog-exact-match\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypePredictionMatchRate]) < 0.5, IF({{HypothesisId}} = \"H-catalog-flip-prediction\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SignFlipPredictionMatchRate]) < 0.5, IF({{HypothesisId}} = \"H-domain-flip-geometry-controlled\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsHighImbalanceSignFlipCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EpidemiologyHighImbalanceSignFlipRate]) > 0.15), IF({{HypothesisId}} = \"H-collider-no-manifest-v2\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]) = 0, IF({{HypothesisId}} = \"H-cplus-magnitude\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CPlusAvgDistortion]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CMinusAvgDistortion]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CPlusAvgDistortion]) > LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TypeDAvgDistortion])), IF({{HypothesisId}} = \"H-econ-encoding-selection\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsExpectedAMismatchRate]) > 0.5, IF({{HypothesisId}} = \"H-domain-profiles-stable\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EducationLatentFraction]) > 0.5, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SportsLatentFraction]) > 0.5, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[EconomicsSignFlipRate]) < 0.05), IF({{HypothesisId}} = \"H-corrected-gap-invariant\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[MaxStudySweepCorrectedGapRange]) < 0.0001, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[CorrectedGapInvariantFailCount]) = 0), IF({{HypothesisId}} = \"H-explained-bidirectional\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ExplainedConfounderCount]) = LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ConfounderSignFlipCount]), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[FalsePositiveExplainedCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount]) = 0), IF({{HypothesisId}} = \"H-collider-no-manifest-theorem\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionManifestCount]) = 0, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderSelectionCount]) >= 10), IF({{HypothesisId}} = \"H-theorem-portfolio\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[TheoremCount]) >= 4, IF({{HypothesisId}} = \"H-age-identity-flip-rate\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityManifestFlipRate]) >= 0.40, LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeIdentityStudyCount]) >= 10), IF({{HypothesisId}} = \"H-identity-map-coverage\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[IdentityMapCoverageRate]) >= 0.95, IF({{HypothesisId}} = \"H-severity-medicine-manifest\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityMedicineManifestFlipRate]) >= 0.45, IF({{HypothesisId}} = \"H-severity-epi-latent-only\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityEpiManifestFlipCount]) = 0, IF({{HypothesisId}} = \"H-mechanism-other-drain\", LOOKUP(\"cluster-id-mechanism-other\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) <= 5, IF({{HypothesisId}} = \"H-selection-frailty-zero-manifest\", AND(LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[ManifestFlipCount]) = 0, LOOKUP(\"cluster-id-selection-frailty\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) >= 3), IF({{HypothesisId}} = \"H-collider-identity-low-manifest\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[ColliderIdentityManifestFlipRate]) <= 0.15, LOOKUP(\"cluster-id-collider-proxy\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) >= 5), IF({{HypothesisId}} = \"H-geographic-stable-type-d\", AND(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicTypeDFraction]) >= 0.25, LOOKUP(\"cluster-id-geographic-composition\", IdentityClusterSummaries[IdentityClusterId], IdentityClusterSummaries[StudyCount]) >= 3), IF({{HypothesisId}} = \"H-unexplained-flips-only-nonconfounders\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[UnexplainedConfounderSignFlipCount]) = 0, IF({{HypothesisId}} = \"H-confounder-drift-type-d\", AND(OR(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityDriftDirection]) = \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SeverityDriftDirection]) = \"single-decade\"), OR(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicDriftDirection]) = \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[GeographicDriftDirection]) = \"single-decade\"), OR(LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SituationalDriftDirection]) = \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SituationalDriftDirection]) = \"single-decade\"), LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[AgeDriftDirection]) <> \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[InstitutionalDriftDirection]) <> \"rising\", LOOKUP(\"simpsons-paradox-v1\", ModelSummary[ModelSummaryId], ModelSummary[SocioeconomicDriftDirection]) <> \"rising\"), FALSE()))))))))))))))))))))))))))))))"
+      },
+      {
+        "name": "Evidence",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Pass/fail witness string for UI and conclusions.",
+        "formula": "=IF({{IsConfirmed}} = TRUE(), CONCAT(\"PASS: \", {{ObservedMetric}}), IF({{IsConfirmed}} = FALSE(), CONCAT(\"FAIL: \", {{ObservedMetric}}), \"\"))"
+      },
+      {
+        "name": "WitnessedInLoop",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "LoopId where this finding was witnessed."
+      }
     ],
     "data": [
       { "FindingId": "find-H-latent-d", "HypothesisId": "H-latent-d", "WitnessedInLoop": "loop-61" },
@@ -9259,12 +13439,49 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "CorpusDomains": {
     "Description": "Table: CorpusDomains — canonical expansion-domain slugs from corpus-expansion-plan.md (loop-67).",
     "schema": [
-      { "name": "DomainId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (matches CandidateStudyCatalog.Domain for expansion wave)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{DomainId}}" },
-      { "name": "DisplayName", "datatype": "string", "type": "raw", "nullable": false, "Description": "Human-readable domain name." },
-      { "name": "ExpansionTarget", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Target study count from corpus-expansion-plan.md." },
-      { "name": "LegacyStudiesDomain", "datatype": "string", "type": "raw", "nullable": true, "Description": "Studies.Domain alias for counting already-imported corpus rows." },
-      { "name": "PlanSourceSection", "datatype": "string", "type": "raw", "nullable": false, "Description": "Section heading in corpus-expansion-plan.md." }
+      {
+        "name": "DomainId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (matches CandidateStudyCatalog.Domain for expansion wave)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{DomainId}}"
+      },
+      {
+        "name": "DisplayName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Human-readable domain name."
+      },
+      {
+        "name": "ExpansionTarget",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Target study count from corpus-expansion-plan.md."
+      },
+      {
+        "name": "LegacyStudiesDomain",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Studies.Domain alias for counting already-imported corpus rows."
+      },
+      {
+        "name": "PlanSourceSection",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Section heading in corpus-expansion-plan.md."
+      }
     ],
     "data": [
       { "DomainId": "economics", "DisplayName": "Economics", "ExpansionTarget": 25, "LegacyStudiesDomain": "economics", "PlanSourceSection": "Domain 1: Economics" },
@@ -9283,13 +13500,57 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "ConfounderIdentities": {
     "Description": "Table: ConfounderIdentities — canonical cross-study archetypes for stratum variables. Each identity names a reusable confounding mechanism accountable across the corpus (loop-80).",
     "schema": [
-      { "name": "ConfounderIdentityId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug (e.g. id-age-composition)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{ConfounderIdentityId}}" },
-      { "name": "DisplayName", "datatype": "string", "type": "raw", "nullable": false, "Description": "Human-readable archetype name." },
-      { "name": "MechanismClass", "datatype": "string", "type": "raw", "nullable": false, "Description": "Mechanism taxonomy token." },
-      { "name": "Description", "datatype": "string", "type": "raw", "nullable": true, "Description": "Narrative description of confounding mechanism." },
-      { "name": "PolicyDefault", "datatype": "string", "type": "raw", "nullable": true, "Description": "Default analytic policy for this confounding archetype." },
-      { "name": "StudyCount", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Studies with a StratumVariable mapped to this identity.", "formula": "=COUNT(StratumVariableIdentityMaps!{{MapId}}, ConfounderIdentity, {{ConfounderIdentityId}})" }
+      {
+        "name": "ConfounderIdentityId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug (e.g. id-age-composition)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{ConfounderIdentityId}}"
+      },
+      {
+        "name": "DisplayName",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Human-readable archetype name."
+      },
+      {
+        "name": "MechanismClass",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Mechanism taxonomy token."
+      },
+      {
+        "name": "Description",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Narrative description of confounding mechanism."
+      },
+      {
+        "name": "PolicyDefault",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Default analytic policy for this confounding archetype."
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Studies with a StratumVariable mapped to this identity.",
+        "formula": "=COUNT(StratumVariableIdentityMaps!{{MapId}}, ConfounderIdentity, {{ConfounderIdentityId}})"
+      }
     ],
     "data": [
       { "ConfounderIdentityId": "id-age-composition", "DisplayName": "Age Composition", "MechanismClass": "demographic-composition", "Description": "Age or cohort stratification shifts treatment exposure and baseline outcome rates independently — classic demographic confounding (CFR by age, trial subgroups, school entry age).", "PolicyDefault": "stratify-by-age" },
@@ -9316,11 +13577,44 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "StratumVariableIdentityMaps": {
     "Description": "Table: StratumVariableIdentityMaps — many-to-one map from per-study StratumVariables to canonical ConfounderIdentities (loop-80).",
     "schema": [
-      { "name": "MapId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{MapId}}" },
-      { "name": "StratumVariable", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK → StratumVariables.", "RelatedTo": "StratumVariables" },
-      { "name": "ConfounderIdentity", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK → ConfounderIdentities.", "RelatedTo": "ConfounderIdentities" },
-      { "name": "VariableNameNormalized", "datatype": "string", "type": "raw", "nullable": false, "Description": "Lowercase normalized variable token for dedup audit." }
+      {
+        "name": "MapId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{MapId}}"
+      },
+      {
+        "name": "StratumVariable",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK → StratumVariables.",
+        "RelatedTo": "StratumVariables"
+      },
+      {
+        "name": "ConfounderIdentity",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK → ConfounderIdentities.",
+        "RelatedTo": "ConfounderIdentities"
+      },
+      {
+        "name": "VariableNameNormalized",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Lowercase normalized variable token for dedup audit."
+      }
     ],
     "data": [
       { "MapId": "map-kidney-1986-stone-size", "StratumVariable": "kidney-1986-stone-size", "ConfounderIdentity": "id-disease-severity", "VariableNameNormalized": "stone_size" },
@@ -9566,18 +13860,94 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "IdentityClusterSummaries": {
     "Description": "Table: IdentityClusterSummaries — witnessed geometry rollup per ConfounderIdentity (manifest flip, latent-D, avg distortion) — loop-80 open-question substrate.",
     "schema": [
-      { "name": "IdentityClusterId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug; one row per ConfounderIdentity cluster." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{IdentityClusterId}}" },
-      { "name": "ConfounderIdentity", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK → ConfounderIdentities.", "RelatedTo": "ConfounderIdentities" },
-      { "name": "DisplayName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup archetype display name.", "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[DisplayName])" },
-      { "name": "StudyCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Real studies in cluster (customize SQL)." },
-      { "name": "ManifestFlipCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "IsSignFlip=TRUE count in cluster." },
-      { "name": "LatentFlipCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "LatentFlipPotential=TRUE without manifest flip." },
-      { "name": "TypeDCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Type-D studies in cluster." },
-      { "name": "AvgAllocationDistortion", "datatype": "number", "type": "raw", "nullable": true, "Description": "Mean allocation distortion in cluster." },
-      { "name": "LatentFractionAmongTypeD", "datatype": "number", "type": "raw", "nullable": true, "Description": "Fraction of Type-D rows with LatentFlipPotential." },
-      { "name": "DomainCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Distinct Studies.Domain values in cluster." },
-      { "name": "ManifestFlipRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ManifestFlipCount / StudyCount.", "formula": "=IF({{StudyCount}}=0, \"\", {{ManifestFlipCount}} / {{StudyCount}})" }
+      {
+        "name": "IdentityClusterId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug; one row per ConfounderIdentity cluster."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{IdentityClusterId}}"
+      },
+      {
+        "name": "ConfounderIdentity",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK → ConfounderIdentities.",
+        "RelatedTo": "ConfounderIdentities"
+      },
+      {
+        "name": "DisplayName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup archetype display name.",
+        "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[DisplayName])"
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Real studies in cluster (customize SQL)."
+      },
+      {
+        "name": "ManifestFlipCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "IsSignFlip=TRUE count in cluster."
+      },
+      {
+        "name": "LatentFlipCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "LatentFlipPotential=TRUE without manifest flip."
+      },
+      {
+        "name": "TypeDCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Type-D studies in cluster."
+      },
+      {
+        "name": "AvgAllocationDistortion",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Mean allocation distortion in cluster."
+      },
+      {
+        "name": "LatentFractionAmongTypeD",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Fraction of Type-D rows with LatentFlipPotential."
+      },
+      {
+        "name": "DomainCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Distinct Studies.Domain values in cluster."
+      },
+      {
+        "name": "ManifestFlipRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ManifestFlipCount / StudyCount.",
+        "formula": "=IF({{StudyCount}}=0, \"\", {{ManifestFlipCount}} / {{StudyCount}})"
+      }
     ],
     "data": [
       { "IdentityClusterId": "cluster-id-age-composition", "ConfounderIdentity": "id-age-composition" },
@@ -9603,17 +13973,87 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   },
   "IdentityDomainCells": {
     "schema": [
-      { "name": "CellId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug: identity-id + '-x-' + domain slug." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{CellId}}" },
-      { "name": "ConfounderIdentity", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK → ConfounderIdentities.", "RelatedTo": "ConfounderIdentities" },
-      { "name": "Domain", "datatype": "string", "type": "raw", "nullable": false, "Description": "Studies.Domain value (e.g. medicine, epidemiology)." },
-      { "name": "StudyCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Studies with this identity in this domain (customize SQL)." },
-      { "name": "ManifestFlipCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "IsSignFlip=TRUE count in cell." },
-      { "name": "LatentFlipCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "LatentFlipPotential=TRUE without manifest flip." },
-      { "name": "TypeDCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Type-D studies in cell." },
-      { "name": "LatentFractionAmongTypeD", "datatype": "number", "type": "raw", "nullable": true, "Description": "Fraction of Type-D rows with LatentFlipPotential in cell." },
-      { "name": "ManifestFlipRate", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ManifestFlipCount / StudyCount.", "formula": "=IF({{StudyCount}}=0, \"\", {{ManifestFlipCount}} / {{StudyCount}})" },
-      { "name": "IdentityDisplayName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup archetype display name.", "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[DisplayName])" }
+      {
+        "name": "CellId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug: identity-id + '-x-' + domain slug."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{CellId}}"
+      },
+      {
+        "name": "ConfounderIdentity",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK → ConfounderIdentities.",
+        "RelatedTo": "ConfounderIdentities"
+      },
+      {
+        "name": "Domain",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Studies.Domain value (e.g. medicine, epidemiology)."
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Studies with this identity in this domain (customize SQL)."
+      },
+      {
+        "name": "ManifestFlipCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "IsSignFlip=TRUE count in cell."
+      },
+      {
+        "name": "LatentFlipCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "LatentFlipPotential=TRUE without manifest flip."
+      },
+      {
+        "name": "TypeDCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Type-D studies in cell."
+      },
+      {
+        "name": "LatentFractionAmongTypeD",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Fraction of Type-D rows with LatentFlipPotential in cell."
+      },
+      {
+        "name": "ManifestFlipRate",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ManifestFlipCount / StudyCount.",
+        "formula": "=IF({{StudyCount}}=0, \"\", {{ManifestFlipCount}} / {{StudyCount}})"
+      },
+      {
+        "name": "IdentityDisplayName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup archetype display name.",
+        "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[DisplayName])"
+      }
     ],
     "data": [
       { "CellId": "cell-id-disease-severity-x-medicine", "ConfounderIdentity": "id-disease-severity", "Domain": "medicine" },
@@ -9629,26 +14069,159 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   "ConfounderDistortionTimeline": {
     "Description": "Table: ConfounderDistortionTimeline -- derived geometry at the (ConfounderIdentity x ValidTimeDecade) grain. Each row aggregates the studies whose real-world cohort period (valid-time, not publication year) falls in that decade and that carry the given confounder archetype, tracking whether the corpus drifts toward clean Type-D (non-reversing, zero-allocation-distortion) outcomes over time and whether that drift is confounder-specific. Principled materialization per CLAUDE.md (N-way join over a sealed, bounded study set) -- refreshed via refresh_confounder_distortion_timeline(), same pattern as IdentityClusterSummaries/IdentityDomainCells.",
     "schema": [
-      { "name": "CellId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Unique slug: confounder-identity-id + '-x-' + valid-time decade (e.g. id-disease-severity-x-1980)." },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "Display label.", "formula": "={{CellId}}" },
-      { "name": "ConfounderIdentity", "datatype": "string", "type": "relationship", "nullable": false, "Description": "FK -> ConfounderIdentities.", "RelatedTo": "ConfounderIdentities" },
-      { "name": "ValidTimeDecade", "datatype": "integer", "type": "raw", "nullable": false, "Description": "Studies.ValidTimeDecade bucket this cell aggregates over (e.g. 1980 covers valid-time midpoints 1980-1989)." },
-      { "name": "StudyCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Studies carrying this ConfounderIdentity whose ValidTimeDecade falls in this bucket (refresh_confounder_distortion_timeline())." },
-      { "name": "TypeDCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Of those, count with TreatmentRankings.DistortionType = 'D' (clean, non-reversing)." },
-      { "name": "SignFlipCount", "datatype": "integer", "type": "raw", "nullable": true, "Description": "Of those, count with TreatmentRankings.IsSignFlip = TRUE." },
-      { "name": "SumSignalPurity", "datatype": "number", "type": "raw", "nullable": true, "Description": "Sum of TreatmentRankings.SignalPurity across cell studies (numerator for MeanSignalPurity; summed rather than pre-averaged so the aggregate survives refresh re-runs without drift)." },
-      { "name": "SumAllocationDistortion", "datatype": "number", "type": "raw", "nullable": true, "Description": "Sum of TreatmentRankings.AllocationDistortion across cell studies (numerator for MeanAllocationDistortion)." },
-      { "name": "TypeDFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "TypeDCount / StudyCount.", "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{TypeDCount}} / {{StudyCount}})" },
-      { "name": "SignFlipFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "SignFlipCount / StudyCount.", "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{SignFlipCount}} / {{StudyCount}})" },
-      { "name": "MeanSignalPurity", "datatype": "number", "type": "calculated", "nullable": true, "Description": "SumSignalPurity / StudyCount.", "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{SumSignalPurity}} / {{StudyCount}})" },
-      { "name": "MeanAllocationDistortion", "datatype": "number", "type": "calculated", "nullable": true, "Description": "SumAllocationDistortion / StudyCount.", "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{SumAllocationDistortion}} / {{StudyCount}})" },
-      { "name": "IdentityDisplayName", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ConfounderIdentities.DisplayName via ConfounderIdentity.", "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[DisplayName])" },
-      { "name": "MechanismClass", "datatype": "string", "type": "lookup", "nullable": true, "Description": "Lookup: ConfounderIdentities.MechanismClass via ConfounderIdentity — the archetype group used to test whether Type-D drift is confounder-specific.", "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[MechanismClass])" },
-      { "name": "IdentityEarliestDecade", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Earliest ValidTimeDecade present in this table for this ConfounderIdentity.", "formula": "=MINIFS(ConfounderDistortionTimeline!{{ValidTimeDecade}}, ConfounderDistortionTimeline!{{ConfounderIdentity}}, {{ConfounderIdentity}})" },
-      { "name": "IdentityLatestDecade", "datatype": "integer", "type": "aggregation", "nullable": true, "Description": "Latest ValidTimeDecade present in this table for this ConfounderIdentity.", "formula": "=MAXIFS(ConfounderDistortionTimeline!{{ValidTimeDecade}}, ConfounderDistortionTimeline!{{ConfounderIdentity}}, {{ConfounderIdentity}})" },
-      { "name": "IdentityEarliestTypeDFraction", "datatype": "number", "type": "lookup", "nullable": true, "Description": "TypeDFraction of this ConfounderIdentity's earliest decade cell -- the start point for the drift comparison.", "formula": "=LOOKUP(CONCAT({{ConfounderIdentity}}, \"-x-\", {{IdentityEarliestDecade}}), ConfounderDistortionTimeline[CellId], ConfounderDistortionTimeline[TypeDFraction])" },
-      { "name": "IdentityLatestTypeDFraction", "datatype": "number", "type": "lookup", "nullable": true, "Description": "TypeDFraction of this ConfounderIdentity's latest decade cell -- the end point for the drift comparison.", "formula": "=LOOKUP(CONCAT({{ConfounderIdentity}}, \"-x-\", {{IdentityLatestDecade}}), ConfounderDistortionTimeline[CellId], ConfounderDistortionTimeline[TypeDFraction])" },
-      { "name": "DriftDirection", "datatype": "string", "type": "calculated", "nullable": true, "Description": "rising | falling | flat | single-decade -- compares this ConfounderIdentity's earliest-decade TypeDFraction to its latest-decade TypeDFraction across the whole table (same value on every row for a given ConfounderIdentity by construction).", "formula": "=IF({{IdentityEarliestDecade}} = {{IdentityLatestDecade}}, \"single-decade\", IF(OR({{IdentityEarliestTypeDFraction}} = \"\", {{IdentityLatestTypeDFraction}} = \"\"), \"\", IF({{IdentityLatestTypeDFraction}} > {{IdentityEarliestTypeDFraction}} + 0.05, \"rising\", IF({{IdentityLatestTypeDFraction}} < {{IdentityEarliestTypeDFraction}} - 0.05, \"falling\", \"flat\"))))" }
+      {
+        "name": "CellId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Unique slug: confounder-identity-id + '-x-' + valid-time decade (e.g. id-disease-severity-x-1980)."
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Display label.",
+        "formula": "={{CellId}}"
+      },
+      {
+        "name": "ConfounderIdentity",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "Description": "FK -> ConfounderIdentities.",
+        "RelatedTo": "ConfounderIdentities"
+      },
+      {
+        "name": "ValidTimeDecade",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Studies.ValidTimeDecade bucket this cell aggregates over (e.g. 1980 covers valid-time midpoints 1980-1989)."
+      },
+      {
+        "name": "StudyCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Studies carrying this ConfounderIdentity whose ValidTimeDecade falls in this bucket (refresh_confounder_distortion_timeline())."
+      },
+      {
+        "name": "TypeDCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Of those, count with TreatmentRankings.DistortionType = 'D' (clean, non-reversing)."
+      },
+      {
+        "name": "SignFlipCount",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Of those, count with TreatmentRankings.IsSignFlip = TRUE."
+      },
+      {
+        "name": "SumSignalPurity",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Sum of TreatmentRankings.SignalPurity across cell studies (numerator for MeanSignalPurity; summed rather than pre-averaged so the aggregate survives refresh re-runs without drift)."
+      },
+      {
+        "name": "SumAllocationDistortion",
+        "datatype": "number",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Sum of TreatmentRankings.AllocationDistortion across cell studies (numerator for MeanAllocationDistortion)."
+      },
+      {
+        "name": "TypeDFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TypeDCount / StudyCount.",
+        "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{TypeDCount}} / {{StudyCount}})"
+      },
+      {
+        "name": "SignFlipFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "SignFlipCount / StudyCount.",
+        "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{SignFlipCount}} / {{StudyCount}})"
+      },
+      {
+        "name": "MeanSignalPurity",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "SumSignalPurity / StudyCount.",
+        "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{SumSignalPurity}} / {{StudyCount}})"
+      },
+      {
+        "name": "MeanAllocationDistortion",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "SumAllocationDistortion / StudyCount.",
+        "formula": "=IF(OR({{StudyCount}} = \"\", {{StudyCount}} = 0), \"\", {{SumAllocationDistortion}} / {{StudyCount}})"
+      },
+      {
+        "name": "IdentityDisplayName",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ConfounderIdentities.DisplayName via ConfounderIdentity.",
+        "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[DisplayName])"
+      },
+      {
+        "name": "MechanismClass",
+        "datatype": "string",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "Lookup: ConfounderIdentities.MechanismClass via ConfounderIdentity — the archetype group used to test whether Type-D drift is confounder-specific.",
+        "formula": "=LOOKUP({{ConfounderIdentity}}, ConfounderIdentities[ConfounderIdentityId], ConfounderIdentities[MechanismClass])"
+      },
+      {
+        "name": "IdentityEarliestDecade",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Earliest ValidTimeDecade present in this table for this ConfounderIdentity.",
+        "formula": "=MINIFS(ConfounderDistortionTimeline!{{ValidTimeDecade}}, ConfounderDistortionTimeline!{{ConfounderIdentity}}, {{ConfounderIdentity}})"
+      },
+      {
+        "name": "IdentityLatestDecade",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "Latest ValidTimeDecade present in this table for this ConfounderIdentity.",
+        "formula": "=MAXIFS(ConfounderDistortionTimeline!{{ValidTimeDecade}}, ConfounderDistortionTimeline!{{ConfounderIdentity}}, {{ConfounderIdentity}})"
+      },
+      {
+        "name": "IdentityEarliestTypeDFraction",
+        "datatype": "number",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "TypeDFraction of this ConfounderIdentity's earliest decade cell -- the start point for the drift comparison.",
+        "formula": "=LOOKUP(CONCAT({{ConfounderIdentity}}, \"-x-\", {{IdentityEarliestDecade}}), ConfounderDistortionTimeline[CellId], ConfounderDistortionTimeline[TypeDFraction])"
+      },
+      {
+        "name": "IdentityLatestTypeDFraction",
+        "datatype": "number",
+        "type": "lookup",
+        "nullable": true,
+        "Description": "TypeDFraction of this ConfounderIdentity's latest decade cell -- the end point for the drift comparison.",
+        "formula": "=LOOKUP(CONCAT({{ConfounderIdentity}}, \"-x-\", {{IdentityLatestDecade}}), ConfounderDistortionTimeline[CellId], ConfounderDistortionTimeline[TypeDFraction])"
+      },
+      {
+        "name": "DriftDirection",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "rising | falling | flat | single-decade -- compares this ConfounderIdentity's earliest-decade TypeDFraction to its latest-decade TypeDFraction across the whole table (same value on every row for a given ConfounderIdentity by construction).",
+        "formula": "=IF({{IdentityEarliestDecade}} = {{IdentityLatestDecade}}, \"single-decade\", IF(OR({{IdentityEarliestTypeDFraction}} = \"\", {{IdentityLatestTypeDFraction}} = \"\"), \"\", IF({{IdentityLatestTypeDFraction}} > {{IdentityEarliestTypeDFraction}} + 0.05, \"rising\", IF({{IdentityLatestTypeDFraction}} < {{IdentityEarliestTypeDFraction}} - 0.05, \"falling\", \"flat\"))))"
+      }
     ],
     "data": [
       { "CellId": "id-age-composition-x-1900", "ConfounderIdentity": "id-age-composition", "ValidTimeDecade": 1900 },
@@ -9732,18 +14305,74 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
   },
   "CorpusBalance": {
     "schema": [
-      { "name": "BalanceId", "datatype": "string", "type": "raw", "nullable": false, "Description": "Primary key (singleton: 'corpus-balance')" },
-      { "name": "Name", "datatype": "string", "type": "calculated", "nullable": false, "Description": "=BalanceId", "formula": "={{BalanceId}}" },
-      { "name": "TotalStudyCount", "datatype": "integer", "type": "calculated", "nullable": false, "Description": "Total studies in corpus (Simpson + control). Fixed loop-90: was authored with COUNTA/bareword refs and an uppercase Formula key, which the transpiler cannot parse. COUNTIFS(...,\"<>\") also mistranslates (known transpiler bug: literal '<>' string instead of IS NOT NULL), so this is expressed as SimpsonStudyCount + ControlStudyCount instead.", "formula": "={{SimpsonStudyCount}} + {{ControlStudyCount}}" },
-      { "name": "SimpsonStudyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Studies where IsControlStudy=FALSE. Fixed loop-90 (see TotalStudyCount).", "formula": "=COUNTIFS(Studies!{{IsControlStudy}}, FALSE())" },
-      { "name": "ControlStudyCount", "datatype": "integer", "type": "aggregation", "nullable": false, "Description": "Studies where IsControlStudy=TRUE. Fixed loop-90 (see TotalStudyCount).", "formula": "=COUNTIFS(Studies!{{IsControlStudy}}, TRUE())" },
-      { "name": "ControlFraction", "datatype": "number", "type": "calculated", "nullable": true, "Description": "ControlStudyCount / TotalStudyCount. Fixed loop-90 (see TotalStudyCount); returns 0 for the degenerate empty-corpus edge instead of \"\" (see TreatmentRankings.DistortionRatio for why IF(x=0,\"\",...) is unsafe on a numeric-typed field).", "formula": "=IF({{TotalStudyCount}} = 0, 0, {{ControlStudyCount}} / {{TotalStudyCount}})" }
+      {
+        "name": "BalanceId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false,
+        "Description": "Primary key (singleton: 'corpus-balance')"
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "=BalanceId",
+        "formula": "={{BalanceId}}"
+      },
+      {
+        "name": "TotalStudyCount",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": false,
+        "Description": "Total studies in corpus (Simpson + control). Fixed loop-90: was authored with COUNTA/bareword refs and an uppercase Formula key, which the transpiler cannot parse. COUNTIFS(...,\"<>\") also mistranslates (known transpiler bug: literal '<>' string instead of IS NOT NULL), so this is expressed as SimpsonStudyCount + ControlStudyCount instead.",
+        "formula": "={{SimpsonStudyCount}} + {{ControlStudyCount}}"
+      },
+      {
+        "name": "SimpsonStudyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Studies where IsControlStudy=FALSE. Fixed loop-90 (see TotalStudyCount).",
+        "formula": "=COUNTIFS(Studies!{{IsControlStudy}}, FALSE())"
+      },
+      {
+        "name": "ControlStudyCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": false,
+        "Description": "Studies where IsControlStudy=TRUE. Fixed loop-90 (see TotalStudyCount).",
+        "formula": "=COUNTIFS(Studies!{{IsControlStudy}}, TRUE())"
+      },
+      {
+        "name": "ControlFraction",
+        "datatype": "number",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "ControlStudyCount / TotalStudyCount. Fixed loop-90 (see TotalStudyCount); returns 0 for the degenerate empty-corpus edge instead of \"\" (see TreatmentRankings.DistortionRatio for why IF(x=0,\"\",...) is unsafe on a numeric-typed field).",
+        "formula": "=IF({{TotalStudyCount}} = 0, 0, {{ControlStudyCount}} / {{TotalStudyCount}})"
+      }
     ],
     "data": [
       { "BalanceId": "corpus-balance" }
     ]
   }
 }, rulespeakFields: {
+  "Loops.Name": {
+    "table": "Loops",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A loop's name is the same as its loop ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Loops",
+        "field": "LoopId",
+        "label": "loop ID"
+      }
+    ],
+    "structure": null
+  },
   "Loops.TraditionName": {
     "table": "Loops",
     "field": "TraditionName",
@@ -9785,6 +14414,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "Loops",
         "field": "CommitHash",
         "label": "commit hash"
+      }
+    ],
+    "structure": null
+  },
+  "Studies.Name": {
+    "table": "Studies",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A study's name is the same as its study ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Studies",
+        "field": "StudyId",
+        "label": "study ID"
       }
     ],
     "structure": null
@@ -10063,7 +14707,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Studies",
     "field": "ValidTimeMidpoint",
     "kind": "formula",
-    "rule": "The study's valid time midpoint is determined by the following priority:\n1. the valid time start plus the valid time end divided by 2, if all of the following hold: the valid time start has a value and the valid time end has a value;\n2. otherwise the publication year.",
+    "rule": "The study's valid time midpoint is determined by the following priority:\n1. the valid time start plus the valid time end divided by 2, if all of the following hold: the valid time start has a value and the valid time end has a value;\n2. in all other cases, the publication year.",
     "mechanical": false,
     "refs": [
       {
@@ -10114,7 +14758,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Studies",
     "field": "ValidTimeDecade",
     "kind": "formula",
-    "rule": "The study's valid time decade is determined by the following priority:\n1. an empty string, if the valid time midpoint is blank;\n2. otherwise the valid time midpoint divided by 10 rounded down to a whole number times 10.",
+    "rule": "The study's valid time decade is determined by the following priority:\n1. an empty string, if the valid time midpoint is blank;\n2. in all other cases, the valid time midpoint divided by 10 rounded down to a whole number times 10.",
     "mechanical": false,
     "refs": [
       {
@@ -10141,6 +14785,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       ],
       "children": null
     }
+  },
+  "Treatments.Name": {
+    "table": "Treatments",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A treatment's name is the same as its treatment ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Treatments",
+        "field": "TreatmentId",
+        "label": "treatment ID"
+      }
+    ],
+    "structure": null
   },
   "Treatments.TotalCases": {
     "table": "Treatments",
@@ -10216,7 +14875,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "Treatments",
     "field": "PooledSuccessRate",
     "kind": "formula",
-    "rule": "The treatment's pooled success rate is determined by the following priority:\n1. an empty string, if the total cases is 0;\n2. otherwise the total successes divided by the total cases.",
+    "rule": "The treatment's pooled success rate is determined by the following priority:\n1. an empty string, if the total cases is 0;\n2. in all other cases, the total successes divided by the total cases.",
     "mechanical": false,
     "refs": [
       {
@@ -10248,6 +14907,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       ],
       "children": null
     }
+  },
+  "Strata.Name": {
+    "table": "Strata",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A strata's name is the same as its stratum ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Strata",
+        "field": "StratumId",
+        "label": "stratum ID"
+      }
+    ],
+    "structure": null
   },
   "Strata.TotalCases": {
     "table": "Strata",
@@ -10284,11 +14958,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "CaseCells.Name": {
+    "table": "CaseCells",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A case cell's name is the same as its case cell ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "CaseCells",
+        "field": "CaseCellId",
+        "label": "case cell ID"
+      }
+    ],
+    "structure": null
+  },
   "CaseCells.CellSuccessRate": {
     "table": "CaseCells",
     "field": "CellSuccessRate",
     "kind": "formula",
-    "rule": "The case cell's cell success rate is determined by the following priority:\n1. 0, if the cases is 0;\n2. otherwise the successes divided by the cases.",
+    "rule": "The case cell's cell success rate is determined by the following priority:\n1. 0, if the cases is 0;\n2. in all other cases, the successes divided by the cases.",
     "mechanical": false,
     "refs": [
       {
@@ -10350,7 +15039,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CaseCells",
     "field": "TreatmentExposureFraction",
     "kind": "formula",
-    "rule": "The case cell's treatment exposure fraction is determined by the following priority:\n1. an empty string, if the total cases for treatment is 0;\n2. otherwise the cases divided by the total cases for treatment.",
+    "rule": "The case cell's treatment exposure fraction is determined by the following priority:\n1. an empty string, if the total cases for treatment is 0;\n2. in all other cases, the cases divided by the total cases for treatment.",
     "mechanical": false,
     "refs": [
       {
@@ -10425,6 +15114,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         }
       ]
     }
+  },
+  "StratumSummaries.Name": {
+    "table": "StratumSummaries",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A stratum summary's name is the same as its stratum summary ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StratumSummaries",
+        "field": "StratumSummaryId",
+        "label": "stratum summary ID"
+      }
+    ],
+    "structure": null
   },
   "StratumSummaries.StratumSuccesses": {
     "table": "StratumSummaries",
@@ -10520,7 +15224,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "StratumSuccessRate",
     "kind": "formula",
-    "rule": "The stratum summary's stratum success rate is determined by the following priority:\n1. an empty string, if the stratum cases is 0;\n2. otherwise the stratum successes divided by the stratum cases.",
+    "rule": "The stratum summary's stratum success rate is determined by the following priority:\n1. an empty string, if the stratum cases is 0;\n2. in all other cases, the stratum successes divided by the stratum cases.",
     "mechanical": false,
     "refs": [
       {
@@ -10637,7 +15341,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "StratumRateA",
     "kind": "formula",
-    "rule": "The stratum summary's stratum rate a is determined by the following priority:\n1. an empty string, if the stratum cases a is 0;\n2. otherwise the stratum successes a divided by the stratum cases a.",
+    "rule": "The stratum summary's stratum rate a is determined by the following priority:\n1. an empty string, if the stratum cases a is 0;\n2. in all other cases, the stratum successes a divided by the stratum cases a.",
     "mechanical": false,
     "refs": [
       {
@@ -10754,7 +15458,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "StratumRateB",
     "kind": "formula",
-    "rule": "The stratum summary's stratum rate b is determined by the following priority:\n1. an empty string, if the stratum cases b is 0;\n2. otherwise the stratum successes b divided by the stratum cases b.",
+    "rule": "The stratum summary's stratum rate b is determined by the following priority:\n1. an empty string, if the stratum cases b is 0;\n2. in all other cases, the stratum successes b divided by the stratum cases b.",
     "mechanical": false,
     "refs": [
       {
@@ -10791,7 +15495,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "StratumWinner",
     "kind": "formula",
-    "rule": "The stratum summary's stratum winner is determined by the following priority:\n1. the literal “A”, if the stratum rate a is greater than the stratum rate b;\n2. otherwise the literal “B”.",
+    "rule": "The stratum summary's stratum winner is determined by the following priority:\n1. “A”, if the stratum rate a is greater than the stratum rate b;\n2. in all other cases, “B”.",
     "mechanical": false,
     "refs": [
       {
@@ -10810,14 +15514,14 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The stratum summary's stratum winner is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “A”",
+          "value": "“A”",
           "when": {
             "kind": "leaf",
             "text": "the stratum rate a is greater than the stratum rate b"
           }
         },
         {
-          "value": "the literal “B”",
+          "value": "“B”",
           "when": null
         }
       ],
@@ -10888,7 +15592,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "StratumFraction",
     "kind": "formula",
-    "rule": "The stratum summary's stratum fraction is determined by the following priority:\n1. an empty string, if the study total cases is 0;\n2. otherwise the stratum total cases divided by the study total cases.",
+    "rule": "The stratum summary's stratum fraction is determined by the following priority:\n1. an empty string, if the study total cases is 0;\n2. in all other cases, the stratum total cases divided by the study total cases.",
     "mechanical": false,
     "refs": [
       {
@@ -10925,7 +15629,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "WeightedStratumRate",
     "kind": "formula",
-    "rule": "The stratum summary's weighted stratum rate is determined by the following priority:\n1. an empty string, if the stratum fraction is blank;\n2. otherwise the stratum fraction times the stratum success rate.",
+    "rule": "The stratum summary's weighted stratum rate is determined by the following priority:\n1. an empty string, if the stratum fraction is blank;\n2. in all other cases, the stratum fraction times the stratum success rate.",
     "mechanical": false,
     "refs": [
       {
@@ -11102,7 +15806,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "AllocationFractionA",
     "kind": "formula",
-    "rule": "The stratum summary's allocation fraction a is determined by the following priority:\n1. an empty string, if the treatment a total cases is 0;\n2. otherwise the treatment a cases here divided by the treatment a total cases.",
+    "rule": "The stratum summary's allocation fraction a is determined by the following priority:\n1. an empty string, if the treatment a total cases is 0;\n2. in all other cases, the treatment a cases here divided by the treatment a total cases.",
     "mechanical": false,
     "refs": [
       {
@@ -11139,7 +15843,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "AllocationFractionB",
     "kind": "formula",
-    "rule": "The stratum summary's allocation fraction b is determined by the following priority:\n1. an empty string, if the treatment b total cases is 0;\n2. otherwise the treatment b cases here divided by the treatment b total cases.",
+    "rule": "The stratum summary's allocation fraction b is determined by the following priority:\n1. an empty string, if the treatment b total cases is 0;\n2. in all other cases, the treatment b cases here divided by the treatment b total cases.",
     "mechanical": false,
     "refs": [
       {
@@ -11176,7 +15880,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "AllocationBias",
     "kind": "formula",
-    "rule": "The stratum summary's allocation bias is determined by the following priority:\n1. an empty string, if the allocation fraction a is blank;\n2. otherwise the allocation fraction a minus the allocation fraction b.",
+    "rule": "The stratum summary's allocation bias is determined by the following priority:\n1. an empty string, if the allocation fraction a is blank;\n2. in all other cases, the allocation fraction a minus the allocation fraction b.",
     "mechanical": false,
     "refs": [
       {
@@ -11213,7 +15917,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "StratumGap",
     "kind": "formula",
-    "rule": "The stratum summary's stratum gap is determined by the following priority:\n1. an empty string, if the stratum rate a is blank;\n2. otherwise the stratum rate a minus the stratum rate b.",
+    "rule": "The stratum summary's stratum gap is determined by the following priority:\n1. an empty string, if the stratum rate a is blank;\n2. in all other cases, the stratum rate a minus the stratum rate b.",
     "mechanical": false,
     "refs": [
       {
@@ -11250,7 +15954,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "WeightedStratumGap",
     "kind": "formula",
-    "rule": "The stratum summary's weighted stratum gap is determined by the following priority:\n1. an empty string, if the stratum gap is blank;\n2. otherwise the stratum gap times the stratum fraction.",
+    "rule": "The stratum summary's weighted stratum gap is determined by the following priority:\n1. an empty string, if the stratum gap is blank;\n2. in all other cases, the stratum gap times the stratum fraction.",
     "mechanical": false,
     "refs": [
       {
@@ -11287,7 +15991,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "AbsAllocationBias",
     "kind": "formula",
-    "rule": "The stratum summary's abs allocation bias is determined by the following priority:\n1. an empty string, if the allocation bias is blank;\n2. otherwise the absolute value of the allocation bias.",
+    "rule": "The stratum summary's abs allocation bias is determined by the following priority:\n1. an empty string, if the allocation bias is blank;\n2. in all other cases, the absolute value of the allocation bias.",
     "mechanical": false,
     "refs": [
       {
@@ -11319,7 +16023,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "StratumSummaries",
     "field": "AbsStratumGap",
     "kind": "formula",
-    "rule": "The stratum summary's abs stratum gap is determined by the following priority:\n1. an empty string, if the stratum gap is blank;\n2. otherwise the absolute value of the stratum gap.",
+    "rule": "The stratum summary's abs stratum gap is determined by the following priority:\n1. an empty string, if the stratum gap is blank;\n2. in all other cases, the absolute value of the stratum gap.",
     "mechanical": false,
     "refs": [
       {
@@ -11346,6 +16050,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       ],
       "children": null
     }
+  },
+  "ModelSummary.Name": {
+    "table": "ModelSummary",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A model summary's name is the same as its model summary ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "ModelSummary",
+        "field": "ModelSummaryId",
+        "label": "model summary ID"
+      }
+    ],
+    "structure": null
   },
   "ModelSummary.ReversalCount": {
     "table": "ModelSummary",
@@ -11436,7 +16155,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "AvgParadoxStrength",
     "kind": "formula",
-    "rule": "The model summary's avg paradox strength is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. otherwise the total paradox strength divided by the study count.",
+    "rule": "The model summary's avg paradox strength is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. in all other cases, the total paradox strength divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -11593,7 +16312,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "TypeAFraction",
     "kind": "formula",
-    "rule": "The model summary's type a fraction is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. otherwise the type a count divided by the study count.",
+    "rule": "The model summary's type a fraction is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. in all other cases, the type a count divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -11630,7 +16349,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "DistortionTaxonomyCoverage",
     "kind": "formula",
-    "rule": "A model summary's distortion taxonomy coverage is computed as the literal “A:”, followed by the type a count, followed by the literal “ B:”, followed by the type b count, followed by the literal “ C+:”, followed by the c amplification count, followed by the literal “ C-:”, followed by the c compression count, followed by the literal “ D:”, followed by the type d count.",
+    "rule": "A model summary's distortion taxonomy coverage is computed as “A:”, followed by the type a count, followed by “ B:”, followed by the type b count, followed by “ C+:”, followed by the c amplification count, followed by “ C-:”, followed by the c compression count, followed by “ D:”, followed by the type d count.",
     "mechanical": false,
     "refs": [
       {
@@ -11775,7 +16494,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "SweepCorrectedGapRange",
     "kind": "formula",
-    "rule": "The model summary's sweep corrected gap range is determined by the following priority:\n1. an empty string, if the sweep corrected gap max is blank;\n2. otherwise the sweep corrected gap max minus the sweep corrected gap min.",
+    "rule": "The model summary's sweep corrected gap range is determined by the following priority:\n1. an empty string, if the sweep corrected gap max is blank;\n2. in all other cases, the sweep corrected gap max minus the sweep corrected gap min.",
     "mechanical": false,
     "refs": [
       {
@@ -11907,7 +16626,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "MedicineStudyCount",
     "kind": "rollup",
-    "rule": "A model summary's medicine study count is the number of the model summary's studies that are not synthetics.",
+    "rule": "A model summary's medicine study count is the number of the model summary's studies that are not synthetic.",
     "mechanical": false,
     "refs": [
       {
@@ -11927,7 +16646,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "EpidemiologyStudyCount",
     "kind": "rollup",
-    "rule": "A model summary's epidemiology study count is the number of the model summary's studies that are not synthetics.",
+    "rule": "A model summary's epidemiology study count is the number of the model summary's studies that are not synthetic.",
     "mechanical": false,
     "refs": [
       {
@@ -11972,7 +16691,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "DomainDiversityNote",
     "kind": "formula",
-    "rule": "A model summary's domain diversity note is computed as the literal “real=”, followed by the real study count, followed by the literal “ studies; wave2=”, followed by the expansion wave2 study count, followed by the literal “; eduLatent=”, followed by the education latent fraction times 100 rounded to 0 decimal place(s), followed by the literal “%; sportsLatent=”, followed by the sports latent fraction times 100 rounded to 0 decimal place(s), followed by the literal “%; econFlipRate=”, followed by the economics sign flip rate times 100 rounded to 0 decimal place(s), followed by the literal “%”.",
+    "rule": "A model summary's domain diversity note is computed as “real=”, followed by the real study count, followed by “ studies; wave2=”, followed by the expansion wave2 study count, followed by “; eduLatent=”, followed by the education latent fraction times 100 rounded to 0 decimal place(s), followed by “%; sportsLatent=”, followed by the sports latent fraction times 100 rounded to 0 decimal place(s), followed by “%; econFlipRate=”, followed by the economics sign flip rate times 100 rounded to 0 decimal place(s), followed by “%”.",
     "mechanical": true,
     "refs": [
       {
@@ -12120,7 +16839,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "LatentTypeDFraction",
     "kind": "formula",
-    "rule": "The model summary's latent type d fraction is determined by the following priority:\n1. an empty string, if the type d count is 0;\n2. otherwise the latent type d count divided by the type d count.",
+    "rule": "The model summary's latent type d fraction is determined by the following priority:\n1. an empty string, if the type d count is 0;\n2. in all other cases, the latent type d count divided by the type d count.",
     "mechanical": false,
     "refs": [
       {
@@ -12232,7 +16951,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "AvgPooledGapLatentD",
     "kind": "formula",
-    "rule": "The model summary's avg pooled gap latent d is determined by the following priority:\n1. 0, if the latent type d count is 0;\n2. otherwise the sum pooled gap latent d divided by the latent type d count.",
+    "rule": "The model summary's avg pooled gap latent d is determined by the following priority:\n1. 0, if the latent type d count is 0;\n2. in all other cases, the sum pooled gap latent d divided by the latent type d count.",
     "mechanical": false,
     "refs": [
       {
@@ -12294,7 +17013,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "AvgPooledGapStableD",
     "kind": "formula",
-    "rule": "The model summary's avg pooled gap stable d is determined by the following priority:\n1. 0, if the stable type d count is 0;\n2. otherwise the sum pooled gap stable d divided by the stable type d count.",
+    "rule": "The model summary's avg pooled gap stable d is determined by the following priority:\n1. 0, if the stable type d count is 0;\n2. in all other cases, the sum pooled gap stable d divided by the stable type d count.",
     "mechanical": false,
     "refs": [
       {
@@ -12481,7 +17200,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "ContestedOrMediatorExplainedCount",
     "kind": "rollup",
-    "rule": "A model summary's contested or mediator explained count is the number of the model summary's treatment rankings that are paradox explained and are not adjustment appropriate.",
+    "rule": "A model summary's contested or mediator explained count is the number of the model summary's treatment rankings that are paradox-explained and are not adjustment appropriate.",
     "mechanical": false,
     "refs": [
       {
@@ -12506,7 +17225,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "DiscoveryWitnessNote",
     "kind": "formula",
-    "rule": "A model summary's discovery witness note is computed as the literal “sweep: latentD=”, followed by the latent type d fraction, followed by the literal “ purityMax=”, followed by the sign flip signal purity max, followed by the literal “ catalogExact=”, followed by the type prediction match rate, followed by the literal “ identities=”, followed by the confounder identity count.",
+    "rule": "A model summary's discovery witness note is computed as “sweep: latentD=”, followed by the latent type d fraction, followed by “ purityMax=”, followed by the sign flip signal purity max, followed by “ catalogExact=”, followed by the type prediction match rate, followed by “ identities=”, followed by the confounder identity count.",
     "mechanical": false,
     "refs": [
       {
@@ -12721,7 +17440,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "EconomicsExpectedAMismatchRate",
     "kind": "formula",
-    "rule": "The model summary's economics expected a mismatch rate is determined by the following priority:\n1. an empty string, if the expansion wave1 economics expected a count is 0;\n2. otherwise the expansion wave1 economics expected AD count divided by the expansion wave1 economics expected a count.",
+    "rule": "The model summary's economics expected a mismatch rate is determined by the following priority:\n1. an empty string, if the expansion wave1 economics expected a count is 0;\n2. in all other cases, the expansion wave1 economics expected AD count divided by the expansion wave1 economics expected a count.",
     "mechanical": false,
     "refs": [
       {
@@ -12758,7 +17477,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "UnanimousSignFlipCount",
     "kind": "formula",
-    "rule": "A model summary's unanimous sign flip count is the number of the model summary's treatment rankings that are stratum unanimouses.",
+    "rule": "A model summary's unanimous sign flip count is the number of the model summary's treatment rankings that are stratum-unanimous.",
     "mechanical": false,
     "refs": [
       {
@@ -12833,7 +17552,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "UnexplainedConfounderSignFlipCount",
     "kind": "rollup",
-    "rule": "A model summary's unexplained confounder sign flip count is the number of the model summary's treatment rankings that are not paradox explained and have a stratum causal role of “confounder”.",
+    "rule": "A model summary's unexplained confounder sign flip count is the number of the model summary's treatment rankings that are not paradox-explained and have a stratum causal role of “confounder”.",
     "mechanical": false,
     "refs": [
       {
@@ -12878,7 +17597,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "EducationLatentFraction",
     "kind": "formula",
-    "rule": "The model summary's education latent fraction is determined by the following priority:\n1. an empty string, if the model summary has no treatment rankings that have a distortion type of “D”;\n2. otherwise the number of the model summary's treatment rankings that are latent only flips and have a distortion type of “D” divided by the number of the model summary's treatment rankings that have a distortion type of “D”.",
+    "rule": "The model summary's education latent fraction is determined by the following priority:\n1. an empty string, if the model summary has no treatment rankings that have a distortion type of “D”;\n2. in all other cases, the number of the model summary's treatment rankings that are latent only flips and have a distortion type of “D” divided by the number of the model summary's treatment rankings that have a distortion type of “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -12920,7 +17639,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "SportsLatentFraction",
     "kind": "formula",
-    "rule": "The model summary's sports latent fraction is determined by the following priority:\n1. an empty string, if the model summary has no treatment rankings that have a distortion type of “D”;\n2. otherwise the number of the model summary's treatment rankings that are latent only flips and have a distortion type of “D” divided by the number of the model summary's treatment rankings that have a distortion type of “D”.",
+    "rule": "The model summary's sports latent fraction is determined by the following priority:\n1. an empty string, if the model summary has no treatment rankings that have a distortion type of “D”;\n2. in all other cases, the number of the model summary's treatment rankings that are latent only flips and have a distortion type of “D” divided by the number of the model summary's treatment rankings that have a distortion type of “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -12962,7 +17681,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "EconomicsSignFlipRate",
     "kind": "formula",
-    "rule": "The model summary's economics sign flip rate is determined by the following priority:\n1. an empty string, if the model summary has no treatment rankings;\n2. otherwise the number of the model summary's treatment rankings that are sign flips divided by the number of treatment rankings related to the model summary.",
+    "rule": "The model summary's economics sign flip rate is determined by the following priority:\n1. an empty string, if the model summary has no treatment rankings;\n2. in all other cases, the number of the model summary's treatment rankings that are sign flips divided by the number of treatment rankings related to the model summary.",
     "mechanical": false,
     "refs": [
       {
@@ -13089,7 +17808,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "EconomicsStudyCount",
     "kind": "formula",
-    "rule": "A model summary's economics study count is the number of the model summary's studies that are not synthetics.",
+    "rule": "A model summary's economics study count is the number of the model summary's studies that are not synthetic.",
     "mechanical": false,
     "refs": [
       {
@@ -13215,7 +17934,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "IdentityMapCoverageRate",
     "kind": "formula",
-    "rule": "The model summary's identity map coverage rate is determined by the following priority:\n1. an empty string, if the real study count is 0;\n2. otherwise the mapped stratum variable count divided by the real study count.",
+    "rule": "The model summary's identity map coverage rate is determined by the following priority:\n1. an empty string, if the real study count is 0;\n2. in all other cases, the mapped stratum variable count divided by the real study count.",
     "mechanical": false,
     "refs": [
       {
@@ -13434,7 +18153,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ModelSummary",
     "field": "ExpansionWave3DiscoveryNote",
     "kind": "formula",
-    "rule": "A model summary's expansion wave3 discovery note is computed as the literal “superseded=”, followed by the corpus pattern superseded fail count, followed by the literal “; econFlips=”, followed by the economics sign flip count, followed by the literal “; flipPred=”, followed by the sign flip prediction match rate, followed by the literal “; catalogExact=”, followed by the type prediction match rate, followed by the literal “; theorems=”, followed by the theorem count.",
+    "rule": "A model summary's expansion wave3 discovery note is computed as “superseded=”, followed by the corpus pattern superseded fail count, followed by “; econFlips=”, followed by the economics sign flip count, followed by “; flipPred=”, followed by the sign flip prediction match rate, followed by “; catalogExact=”, followed by the type prediction match rate, followed by “; theorems=”, followed by the theorem count.",
     "mechanical": false,
     "refs": [
       {
@@ -13465,11 +18184,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "StratumVariables.Name": {
+    "table": "StratumVariables",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A stratum variable's name is the same as its stratum variable ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StratumVariables",
+        "field": "StratumVariableId",
+        "label": "stratum variable ID"
+      }
+    ],
+    "structure": null
+  },
   "StratumVariables.IsConfounder": {
     "table": "StratumVariables",
     "field": "IsConfounder",
     "kind": "formula",
-    "rule": "A stratum variable is considered a confounder if all of the following hold: the affects treatment assignment flag is set; the affects outcome flag is set; and the causal role is the literal “confounder”.",
+    "rule": "A stratum variable is considered a confounder if all of the following hold: the affects treatment assignment flag is set; the affects outcome flag is set; and the causal role is “confounder”.",
     "mechanical": false,
     "refs": [
       {
@@ -13506,7 +18240,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             },
             {
               "kind": "leaf",
-              "text": "the causal role is the literal “confounder”"
+              "text": "the causal role is “confounder”"
             }
           ]
         }
@@ -13524,6 +18258,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "StratumVariables",
         "field": "StratumVariableId",
         "label": "stratum variable ID"
+      }
+    ],
+    "structure": null
+  },
+  "TreatmentRankings.Name": {
+    "table": "TreatmentRankings",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A treatment ranking's name is the same as its treatment ranking ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "TreatmentRankings",
+        "field": "TreatmentRankingId",
+        "label": "treatment ranking ID"
       }
     ],
     "structure": null
@@ -13602,7 +18351,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "PooledRateA",
     "kind": "formula",
-    "rule": "The treatment ranking's pooled rate a is determined by the following priority:\n1. an empty string, if the total cases a is 0;\n2. otherwise the total successes a divided by the total cases a.",
+    "rule": "The treatment ranking's pooled rate a is determined by the following priority:\n1. an empty string, if the total cases a is 0;\n2. in all other cases, the total successes a divided by the total cases a.",
     "mechanical": false,
     "refs": [
       {
@@ -13709,7 +18458,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "PooledRateB",
     "kind": "formula",
-    "rule": "The treatment ranking's pooled rate b is determined by the following priority:\n1. an empty string, if the total cases b is 0;\n2. otherwise the total successes b divided by the total cases b.",
+    "rule": "The treatment ranking's pooled rate b is determined by the following priority:\n1. an empty string, if the total cases b is 0;\n2. in all other cases, the total successes b divided by the total cases b.",
     "mechanical": false,
     "refs": [
       {
@@ -13746,7 +18495,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "PooledWinner",
     "kind": "formula",
-    "rule": "The treatment ranking's pooled winner is determined by the following priority:\n1. an empty string, if at least one of the following holds: the pooled rate a is blank or the pooled rate b is blank;\n2. the literal “tie”, if the absolute value of the pooled rate a minus the pooled rate b is less than 0.0000001;\n3. the treatment a, if the pooled rate a is greater than the pooled rate b;\n4. otherwise the treatment b.",
+    "rule": "The treatment ranking's pooled winner is determined by the following priority:\n1. an empty string, if at least one of the following holds: the pooled rate a is blank or the pooled rate b is blank;\n2. “tie”, if the absolute value of the pooled rate a minus the pooled rate b is less than 0.0000001;\n3. the treatment a, if the pooled rate a is greater than the pooled rate b;\n4. in all other cases, the treatment b.",
     "mechanical": false,
     "refs": [
       {
@@ -13791,7 +18540,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “tie”",
+          "value": "“tie”",
           "when": {
             "kind": "leaf",
             "text": "the absolute value of the pooled rate a minus the pooled rate b is less than 0.0000001"
@@ -13921,7 +18670,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "PerStratumWinner",
     "kind": "formula",
-    "rule": "The treatment ranking's per stratum winner is determined by the following priority:\n1. the treatment a, if the strata won by a is the stratum count;\n2. the treatment b, if the strata won by b is the stratum count;\n3. otherwise the literal “none”.",
+    "rule": "The treatment ranking's per stratum winner is determined by the following priority:\n1. the treatment a, if the strata won by a is the stratum count;\n2. the treatment b, if the strata won by b is the stratum count;\n3. in all other cases, “none”.",
     "mechanical": false,
     "refs": [
       {
@@ -13969,7 +18718,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “none”",
+          "value": "“none”",
           "when": null
         }
       ],
@@ -13980,7 +18729,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "IsStratumUnanimous",
     "kind": "formula",
-    "rule": "A treatment ranking is considered a stratum unanimous if at least one of the following holds: the strata won by a is the stratum count or the strata won by b is the stratum count.",
+    "rule": "A treatment ranking is considered stratum-unanimous if at least one of the following holds: the strata won by a is the stratum count or the strata won by b is the stratum count.",
     "mechanical": false,
     "refs": [
       {
@@ -14001,7 +18750,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "A treatment ranking is considered a stratum unanimous if all of the following:",
+      "headline": "A treatment ranking is considered stratum-unanimous if all of the following:",
       "cases": [],
       "children": [
         {
@@ -14024,7 +18773,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "IsReversal",
     "kind": "formula",
-    "rule": "A treatment ranking is considered a reversal if the is sign flip flag is set.",
+    "rule": "A treatment ranking is considered a reversal if the sign flip flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -14081,7 +18830,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "IsParadoxExplained",
     "kind": "formula",
-    "rule": "A treatment ranking is considered paradox explained if all of the following hold: the is reversal flag is set and the confounders in study is greater than 0.",
+    "rule": "A treatment ranking is considered paradox-explained if all of the following hold: the reversal flag is set and the confounders in study is greater than 0.",
     "mechanical": false,
     "refs": [
       {
@@ -14097,7 +18846,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": {
       "kind": "priority",
-      "headline": "A treatment ranking is considered paradox explained if all of the following:",
+      "headline": "A treatment ranking is considered paradox-explained if all of the following:",
       "cases": [],
       "children": [
         {
@@ -14105,7 +18854,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "children": [
             {
               "kind": "leaf",
-              "text": "the is reversal flag is set"
+              "text": "the reversal flag is set"
             },
             {
               "kind": "leaf",
@@ -14120,7 +18869,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "PooledGap",
     "kind": "formula",
-    "rule": "The treatment ranking's pooled gap is determined by the following priority:\n1. an empty string, if the pooled rate a is blank;\n2. otherwise the absolute value of the pooled rate a minus the pooled rate b.",
+    "rule": "The treatment ranking's pooled gap is determined by the following priority:\n1. an empty string, if the pooled rate a is blank;\n2. in all other cases, the absolute value of the pooled rate a minus the pooled rate b.",
     "mechanical": false,
     "refs": [
       {
@@ -14157,7 +18906,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "StrataWonByLoser",
     "kind": "formula",
-    "rule": "The treatment ranking's strata won by loser is determined by the following priority:\n1. the strata won by b, if the pooled winner is the treatment a;\n2. otherwise the strata won by a.",
+    "rule": "The treatment ranking's strata won by loser is determined by the following priority:\n1. the strata won by b, if the pooled winner is the treatment a;\n2. in all other cases, the strata won by a.",
     "mechanical": false,
     "refs": [
       {
@@ -14204,7 +18953,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "ParadoxStrength",
     "kind": "formula",
-    "rule": "The treatment ranking's paradox strength is determined by the following priority:\n1. an empty string, if the stratum count is 0;\n2. otherwise the pooled gap times the strata won by loser divided by the stratum count.",
+    "rule": "The treatment ranking's paradox strength is determined by the following priority:\n1. an empty string, if the stratum count is 0;\n2. in all other cases, the pooled gap times the strata won by loser divided by the stratum count.",
     "mechanical": false,
     "refs": [
       {
@@ -14316,7 +19065,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "ReversalIntensity",
     "kind": "formula",
-    "rule": "The treatment ranking's reversal intensity is determined by the following priority:\n1. an empty string, if the stratum count is 0;\n2. otherwise the strata won by loser divided by the stratum count.",
+    "rule": "The treatment ranking's reversal intensity is determined by the following priority:\n1. an empty string, if the stratum count is 0;\n2. in all other cases, the strata won by loser divided by the stratum count.",
     "mechanical": false,
     "refs": [
       {
@@ -14353,7 +19102,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "ThresholdMargin",
     "kind": "formula",
-    "rule": "The treatment ranking's threshold margin is determined by the following priority:\n1. an empty string, if the stratum count is 0;\n2. otherwise the reversal intensity minus 0.5.",
+    "rule": "The treatment ranking's threshold margin is determined by the following priority:\n1. an empty string, if the stratum count is 0;\n2. in all other cases, the reversal intensity minus 0.5.",
     "mechanical": false,
     "refs": [
       {
@@ -14390,7 +19139,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "SignedPooledGap",
     "kind": "formula",
-    "rule": "The treatment ranking's signed pooled gap is determined by the following priority:\n1. an empty string, if the pooled rate a is blank;\n2. otherwise the pooled rate a minus the pooled rate b.",
+    "rule": "The treatment ranking's signed pooled gap is determined by the following priority:\n1. an empty string, if the pooled rate a is blank;\n2. in all other cases, the pooled rate a minus the pooled rate b.",
     "mechanical": false,
     "refs": [
       {
@@ -14462,7 +19211,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "IsSignFlip",
     "kind": "formula",
-    "rule": "A treatment ranking is considered a sign flip if the signed pooled gap is less than 0 if the weighted stratum gap sum is greater than 0, otherwise the signed pooled gap is greater than 0.",
+    "rule": "A treatment ranking is considered a sign flip if the signed pooled gap is less than 0 if the weighted stratum gap sum is greater than 0, in all other cases the signed pooled gap is greater than 0.",
     "mechanical": false,
     "refs": [
       {
@@ -14506,7 +19255,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "AllocationDistortion",
     "kind": "formula",
-    "rule": "The treatment ranking's allocation distortion is determined by the following priority:\n1. an empty string, if the weighted stratum gap sum is blank;\n2. otherwise the absolute value of the weighted stratum gap sum minus the signed pooled gap.",
+    "rule": "The treatment ranking's allocation distortion is determined by the following priority:\n1. an empty string, if the weighted stratum gap sum is blank;\n2. in all other cases, the absolute value of the weighted stratum gap sum minus the signed pooled gap.",
     "mechanical": false,
     "refs": [
       {
@@ -14543,7 +19292,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "DistortionType",
     "kind": "formula",
-    "rule": "The treatment ranking's distortion type is determined by the following priority:\n1. an empty string, if the allocation distortion is blank;\n2. the literal “A” if the is stratum unanimous flag is set, otherwise the literal “B”, if the is sign flip flag is set;\n3. the literal “C+”, if all of the following hold: it is not the case that the is sign flip flag is set; the allocation distortion is greater than 0.01; and the absolute value of the signed pooled gap is greater than the absolute value of the corrected gap plus 0.001;\n4. the literal “C-”, if all of the following hold: it is not the case that the is sign flip flag is set; the allocation distortion is greater than 0.01; and the absolute value of the signed pooled gap is less than the absolute value of the corrected gap minus 0.001;\n5. otherwise the literal “D”.",
+    "rule": "The treatment ranking's distortion type is determined by the following priority:\n1. an empty string, if the allocation distortion is blank;\n2. “A” if the stratum unanimous flag is set, in all other cases “B”, if the sign flip flag is set;\n3. “C+”, if all of the following hold: the sign flip flag is not set; the allocation distortion is greater than 0.01; and the absolute value of the signed pooled gap is greater than the absolute value of the corrected gap plus 0.001;\n4. “C-”, if all of the following hold: the sign flip flag is not set; the allocation distortion is greater than 0.01; and the absolute value of the signed pooled gap is less than the absolute value of the corrected gap minus 0.001;\n5. in all other cases, “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -14584,20 +19333,20 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “A” if the is stratum unanimous flag is set, otherwise the literal “B”",
+          "value": "“A” if the stratum unanimous flag is set, in all other cases “B”",
           "when": {
             "kind": "leaf",
-            "text": "the is sign flip flag is set"
+            "text": "the sign flip flag is set"
           }
         },
         {
-          "value": "the literal “C+”",
+          "value": "“C+”",
           "when": {
             "kind": "all",
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the is sign flip flag is set"
+                "text": "the sign flip flag is not set"
               },
               {
                 "kind": "leaf",
@@ -14611,13 +19360,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “C-”",
+          "value": "“C-”",
           "when": {
             "kind": "all",
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the is sign flip flag is set"
+                "text": "the sign flip flag is not set"
               },
               {
                 "kind": "leaf",
@@ -14631,7 +19380,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “D”",
+          "value": "“D”",
           "when": null
         }
       ],
@@ -14642,7 +19391,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "PolicyImplication",
     "kind": "formula",
-    "rule": "The treatment ranking's policy implication is determined by the following priority:\n1. an empty string, if the distortion type is blank;\n2. the literal “stratify-immediately”, if the distortion type is the literal “A”;\n3. the literal “investigate-confounder”, if the distortion type is the literal “B”;\n4. the literal “check-allocation-bias”, if at least one of the following holds: the distortion type is the literal “C+” or the distortion type is the literal “C-”;\n5. otherwise the literal “pooled-analysis-trustworthy”.",
+    "rule": "The treatment ranking's policy implication is determined by the following priority:\n1. an empty string, if the distortion type is blank;\n2. “stratify-immediately”, if the distortion type is “A”;\n3. “investigate-confounder”, if the distortion type is “B”;\n4. “check-allocation-bias”, if at least one of the following holds: the distortion type is “C+” or the distortion type is “C-”;\n5. in all other cases, “pooled-analysis-trustworthy”.",
     "mechanical": false,
     "refs": [
       {
@@ -14663,37 +19412,37 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “stratify-immediately”",
+          "value": "“stratify-immediately”",
           "when": {
             "kind": "leaf",
-            "text": "the distortion type is the literal “A”"
+            "text": "the distortion type is “A”"
           }
         },
         {
-          "value": "the literal “investigate-confounder”",
+          "value": "“investigate-confounder”",
           "when": {
             "kind": "leaf",
-            "text": "the distortion type is the literal “B”"
+            "text": "the distortion type is “B”"
           }
         },
         {
-          "value": "the literal “check-allocation-bias”",
+          "value": "“check-allocation-bias”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “C+”"
+                "text": "the distortion type is “C+”"
               },
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “C-”"
+                "text": "the distortion type is “C-”"
               }
             ]
           }
         },
         {
-          "value": "the literal “pooled-analysis-trustworthy”",
+          "value": "“pooled-analysis-trustworthy”",
           "when": null
         }
       ],
@@ -14704,7 +19453,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "CorrectedGap",
     "kind": "formula",
-    "rule": "A treatment ranking's corrected gap is computed as the weighted stratum gap sum.",
+    "rule": "A treatment ranking's corrected gap is the same as its weighted stratum gap sum.",
     "mechanical": false,
     "refs": [
       {
@@ -14719,7 +19468,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "CorrectedWinner",
     "kind": "formula",
-    "rule": "The treatment ranking's corrected winner is determined by the following priority:\n1. an empty string, if the corrected gap is blank;\n2. the literal “tie”, if the absolute value of the corrected gap is less than 0.0001;\n3. the treatment a, if the corrected gap is greater than 0;\n4. the treatment b, if the corrected gap is less than 0;\n5. otherwise the literal “tie”.",
+    "rule": "The treatment ranking's corrected winner is determined by the following priority:\n1. an empty string, if the corrected gap is blank;\n2. “tie”, if the absolute value of the corrected gap is less than 0.0001;\n3. the treatment a, if the corrected gap is greater than 0;\n4. the treatment b, if the corrected gap is less than 0;\n5. in all other cases, “tie”.",
     "mechanical": false,
     "refs": [
       {
@@ -14750,7 +19499,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “tie”",
+          "value": "“tie”",
           "when": {
             "kind": "leaf",
             "text": "the absolute value of the corrected gap is less than 0.0001"
@@ -14771,7 +19520,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “tie”",
+          "value": "“tie”",
           "when": null
         }
       ],
@@ -14819,7 +19568,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "CorrectedPolicyImplication",
     "kind": "formula",
-    "rule": "The treatment ranking's corrected policy implication is determined by the following priority:\n1. an empty string, if the distortion type is blank;\n2. the literal “use-corrected-winner”, if the distortion type is the literal “A”;\n3. the literal “use-corrected-winner-with-caution”, if the distortion type is the literal “B”;\n4. the literal “check-allocation-bias”, if at least one of the following holds: the distortion type is the literal “C+” or the distortion type is the literal “C-”;\n5. otherwise the literal “pooled-analysis-trustworthy”.",
+    "rule": "The treatment ranking's corrected policy implication is determined by the following priority:\n1. an empty string, if the distortion type is blank;\n2. “use-corrected-winner”, if the distortion type is “A”;\n3. “use-corrected-winner-with-caution”, if the distortion type is “B”;\n4. “check-allocation-bias”, if at least one of the following holds: the distortion type is “C+” or the distortion type is “C-”;\n5. in all other cases, “pooled-analysis-trustworthy”.",
     "mechanical": false,
     "refs": [
       {
@@ -14840,37 +19589,37 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “use-corrected-winner”",
+          "value": "“use-corrected-winner”",
           "when": {
             "kind": "leaf",
-            "text": "the distortion type is the literal “A”"
+            "text": "the distortion type is “A”"
           }
         },
         {
-          "value": "the literal “use-corrected-winner-with-caution”",
+          "value": "“use-corrected-winner-with-caution”",
           "when": {
             "kind": "leaf",
-            "text": "the distortion type is the literal “B”"
+            "text": "the distortion type is “B”"
           }
         },
         {
-          "value": "the literal “check-allocation-bias”",
+          "value": "“check-allocation-bias”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “C+”"
+                "text": "the distortion type is “C+”"
               },
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “C-”"
+                "text": "the distortion type is “C-”"
               }
             ]
           }
         },
         {
-          "value": "the literal “pooled-analysis-trustworthy”",
+          "value": "“pooled-analysis-trustworthy”",
           "when": null
         }
       ],
@@ -14881,7 +19630,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "AllocationDirection",
     "kind": "formula",
-    "rule": "The treatment ranking's allocation direction is determined by the following priority:\n1. an empty string, if the corrected gap is blank;\n2. the literal “reversal”, if the is sign flip flag is set;\n3. the literal “amplification”, if the absolute value of the signed pooled gap is greater than the absolute value of the corrected gap plus 0.001;\n4. the literal “compression”, if the absolute value of the signed pooled gap is less than the absolute value of the corrected gap minus 0.001;\n5. otherwise the literal “neutral”.",
+    "rule": "The treatment ranking's allocation direction is determined by the following priority:\n1. an empty string, if the corrected gap is blank;\n2. “reversal”, if the sign flip flag is set;\n3. “amplification”, if the absolute value of the signed pooled gap is greater than the absolute value of the corrected gap plus 0.001;\n4. “compression”, if the absolute value of the signed pooled gap is less than the absolute value of the corrected gap minus 0.001;\n5. in all other cases, “neutral”.",
     "mechanical": false,
     "refs": [
       {
@@ -14912,28 +19661,28 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “reversal”",
+          "value": "“reversal”",
           "when": {
             "kind": "leaf",
-            "text": "the is sign flip flag is set"
+            "text": "the sign flip flag is set"
           }
         },
         {
-          "value": "the literal “amplification”",
+          "value": "“amplification”",
           "when": {
             "kind": "leaf",
             "text": "the absolute value of the signed pooled gap is greater than the absolute value of the corrected gap plus 0.001"
           }
         },
         {
-          "value": "the literal “compression”",
+          "value": "“compression”",
           "when": {
             "kind": "leaf",
             "text": "the absolute value of the signed pooled gap is less than the absolute value of the corrected gap minus 0.001"
           }
         },
         {
-          "value": "the literal “neutral”",
+          "value": "“neutral”",
           "when": null
         }
       ],
@@ -14944,7 +19693,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "SignalPurity",
     "kind": "formula",
-    "rule": "The treatment ranking's signal purity is determined by the following priority:\n1. an empty string, if the corrected gap is blank;\n2. 1, if the absolute value of the corrected gap plus the allocation distortion is 0;\n3. otherwise the absolute value of the corrected gap divided by the absolute value of the corrected gap plus the allocation distortion.",
+    "rule": "The treatment ranking's signal purity is determined by the following priority:\n1. an empty string, if the corrected gap is blank;\n2. 1, if the absolute value of the corrected gap plus the allocation distortion is 0;\n3. in all other cases, the absolute value of the corrected gap divided by the absolute value of the corrected gap plus the allocation distortion.",
     "mechanical": false,
     "refs": [
       {
@@ -15018,7 +19767,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "LatentFlipPotential",
     "kind": "formula",
-    "rule": "A treatment ranking is flagged latent flip potential if all of the following hold: the distortion type is the literal “D” and the pooled gap crosses zero is the TRUE.",
+    "rule": "A treatment ranking is flagged latent flip potential if all of the following hold: the distortion type is “D” and the pooled gap crosses zero is true.",
     "mechanical": false,
     "refs": [
       {
@@ -15044,7 +19793,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the AND of the distortion type is the literal “D” and the pooled gap crosses zero is the TRUE",
+          "value": "the AND of the distortion type is “D” and the pooled gap crosses zero is true",
           "when": null
         }
       ],
@@ -15055,7 +19804,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "AllocationFragility",
     "kind": "formula",
-    "rule": "The treatment ranking's allocation fragility is determined by the following priority:\n1. 0, if at least one of the following holds: the sweep pooled gap range is blank; the pooled gap is blank; or the pooled gap is 0;\n2. otherwise the sweep pooled gap range divided by the absolute value of the pooled gap.",
+    "rule": "The treatment ranking's allocation fragility is determined by the following priority:\n1. 0, if at least one of the following holds: the sweep pooled gap range is blank; the pooled gap is blank; or the pooled gap is 0;\n2. in all other cases, the sweep pooled gap range divided by the absolute value of the pooled gap.",
     "mechanical": false,
     "refs": [
       {
@@ -15165,7 +19914,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "IsSweepFragile",
     "kind": "formula",
-    "rule": "A treatment ranking is considered a sweep fragile if all of the following hold: the distortion type is the literal “D”; the signal purity is 1; the allocation distortion is 0; the sweep pooled gap range is greater than 0.3; and the allocation fragility is at least 10.",
+    "rule": "A treatment ranking is considered a sweep fragile if all of the following hold: the distortion type is “D”; the signal purity is 1; the allocation distortion is 0; the sweep pooled gap range is greater than 0.3; and the allocation fragility is at least 10.",
     "mechanical": false,
     "refs": [
       {
@@ -15204,7 +19953,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "children": [
             {
               "kind": "leaf",
-              "text": "the distortion type is the literal “D”"
+              "text": "the distortion type is “D”"
             },
             {
               "kind": "leaf",
@@ -15398,7 +20147,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "CausalClaimStatus",
     "kind": "formula",
-    "rule": "The treatment ranking's causal claim status is determined by the following priority:\n1. the literal “contested”, if the contested stratum count is greater than 0;\n2. the literal “geometric-only”, if the unknown causal role count is greater than 0;\n3. the literal “established”, if the confirmed causal role count is greater than 0;\n4. otherwise the literal “geometric-only”.",
+    "rule": "The treatment ranking's causal claim status is determined by the following priority:\n1. “contested”, if the contested stratum count is greater than 0;\n2. “geometric-only”, if the unknown causal role count is greater than 0;\n3. “established”, if the confirmed causal role count is greater than 0;\n4. in all other cases, “geometric-only”.",
     "mechanical": false,
     "refs": [
       {
@@ -15422,28 +20171,28 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The treatment ranking's causal claim status is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “contested”",
+          "value": "“contested”",
           "when": {
             "kind": "leaf",
             "text": "the contested stratum count is greater than 0"
           }
         },
         {
-          "value": "the literal “geometric-only”",
+          "value": "“geometric-only”",
           "when": {
             "kind": "leaf",
             "text": "the unknown causal role count is greater than 0"
           }
         },
         {
-          "value": "the literal “established”",
+          "value": "“established”",
           "when": {
             "kind": "leaf",
             "text": "the confirmed causal role count is greater than 0"
           }
         },
         {
-          "value": "the literal “geometric-only”",
+          "value": "“geometric-only”",
           "when": null
         }
       ],
@@ -15454,7 +20203,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "AdjustmentAppropriate",
     "kind": "formula",
-    "rule": "A treatment ranking is flagged adjustment appropriate if all of the following hold: the mediator risk count is 0 and the causal claim status is the literal “established”.",
+    "rule": "A treatment ranking is flagged adjustment appropriate if all of the following hold: the mediator risk count is 0 and the causal claim status is “established”.",
     "mechanical": false,
     "refs": [
       {
@@ -15482,7 +20231,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             },
             {
               "kind": "leaf",
-              "text": "the causal claim status is the literal “established”"
+              "text": "the causal claim status is “established”"
             }
           ]
         }
@@ -15502,7 +20251,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "DistortionRatio",
     "kind": "formula",
-    "rule": "The treatment ranking's distortion ratio is determined by the following priority:\n1. 0, if the weighted stratum gap sum is 0;\n2. otherwise the signed pooled gap divided by the weighted stratum gap sum.",
+    "rule": "The treatment ranking's distortion ratio is determined by the following priority:\n1. 0, if the weighted stratum gap sum is 0;\n2. in all other cases, the signed pooled gap divided by the weighted stratum gap sum.",
     "mechanical": false,
     "refs": [
       {
@@ -15539,7 +20288,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "ScreeningTier",
     "kind": "formula",
-    "rule": "The treatment ranking's screening tier is determined by the following priority:\n1. the literal “DANGER”, if at least one of the following holds: the distortion type is the literal “A” or the distortion type is the literal “B”;\n2. the literal “CAUTION”, if at least one of the following holds: the distortion type is the literal “C+” or the distortion type is the literal “C-”;\n3. the literal “SAFE”, if the distortion type is the literal “D”;\n4. otherwise an empty string.",
+    "rule": "The treatment ranking's screening tier is determined by the following priority:\n1. “DANGER”, if at least one of the following holds: the distortion type is “A” or the distortion type is “B”;\n2. “CAUTION”, if at least one of the following holds: the distortion type is “C+” or the distortion type is “C-”;\n3. “SAFE”, if the distortion type is “D”;\n4. in all other cases, an empty string.",
     "mechanical": false,
     "refs": [
       {
@@ -15553,42 +20302,42 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The treatment ranking's screening tier is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “DANGER”",
+          "value": "“DANGER”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “A”"
+                "text": "the distortion type is “A”"
               },
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “B”"
+                "text": "the distortion type is “B”"
               }
             ]
           }
         },
         {
-          "value": "the literal “CAUTION”",
+          "value": "“CAUTION”",
           "when": {
             "kind": "any",
             "children": [
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “C+”"
+                "text": "the distortion type is “C+”"
               },
               {
                 "kind": "leaf",
-                "text": "the distortion type is the literal “C-”"
+                "text": "the distortion type is “C-”"
               }
             ]
           }
         },
         {
-          "value": "the literal “SAFE”",
+          "value": "“SAFE”",
           "when": {
             "kind": "leaf",
-            "text": "the distortion type is the literal “D”"
+            "text": "the distortion type is “D”"
           }
         },
         {
@@ -15603,7 +20352,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "TreatmentRankings",
     "field": "ArmSizeRatio",
     "kind": "formula",
-    "rule": "The treatment ranking's arm size ratio is determined by the following priority:\n1. 0, if the total cases a plus the total cases b is 0;\n2. otherwise the total cases a divided by the total cases a plus the total cases b.",
+    "rule": "The treatment ranking's arm size ratio is determined by the following priority:\n1. 0, if the total cases a plus the total cases b is 0;\n2. in all other cases, the total cases a divided by the total cases a plus the total cases b.",
     "mechanical": false,
     "refs": [
       {
@@ -15651,6 +20400,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "InvariantChecks.Name": {
+    "table": "InvariantChecks",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An invariant check's name is the same as its invariant check ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "InvariantChecks",
+        "field": "InvariantCheckId",
+        "label": "invariant check ID"
+      }
+    ],
+    "structure": null
+  },
   "InvariantChecks.UniverseCount": {
     "table": "InvariantChecks",
     "field": "UniverseCount",
@@ -15690,7 +20454,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "InvariantChecks",
     "field": "StatusLabel",
     "kind": "formula",
-    "rule": "The invariant check's status label is determined by the following priority:\n1. the literal “PASS”, if the is green flag is set;\n2. otherwise the literal “FAIL(”, followed by the fail count, followed by the literal “)”.",
+    "rule": "The invariant check's status label is determined by the following priority:\n1. “PASS”, if the green flag is set;\n2. in all other cases, “FAIL(”, followed by the fail count, followed by “)”.",
     "mechanical": false,
     "refs": [
       {
@@ -15709,14 +20473,14 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The invariant check's status label is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “PASS”",
+          "value": "“PASS”",
           "when": {
             "kind": "leaf",
-            "text": "the is green flag is set"
+            "text": "the green flag is set"
           }
         },
         {
-          "value": "the literal “FAIL(”, followed by the fail count, followed by the literal “)”",
+          "value": "“FAIL(”, followed by the fail count, followed by “)”",
           "when": null
         }
       ],
@@ -15779,6 +20543,36 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "InvariantChecks",
         "field": "ProtectsConclusion",
         "label": "protects conclusion"
+      }
+    ],
+    "structure": null
+  },
+  "MaterializedEntities.Name": {
+    "table": "MaterializedEntities",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A materialized entity's name is the same as its materialized entity ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "MaterializedEntities",
+        "field": "MaterializedEntityId",
+        "label": "materialized entity ID"
+      }
+    ],
+    "structure": null
+  },
+  "Methodology.Name": {
+    "table": "Methodology",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A methodology's name is the same as its methodology ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Methodology",
+        "field": "MethodologyId",
+        "label": "methodology ID"
       }
     ],
     "structure": null
@@ -15859,6 +20653,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "Methodology",
         "field": "TraditionId",
         "label": "tradition ID"
+      }
+    ],
+    "structure": null
+  },
+  "Conclusions.Name": {
+    "table": "Conclusions",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A conclusion's name is the same as its conclusion ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "Conclusions",
+        "field": "ConclusionId",
+        "label": "conclusion ID"
       }
     ],
     "structure": null
@@ -16063,6 +20872,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "UIScreens.Name": {
+    "table": "UIScreens",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A UI screen's name is the same as its screen ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "UIScreens",
+        "field": "ScreenId",
+        "label": "screen ID"
+      }
+    ],
+    "structure": null
+  },
   "UIScreens.TraditionName": {
     "table": "UIScreens",
     "field": "TraditionName",
@@ -16119,6 +20943,51 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "UIScreens",
         "field": "PrimaryConclusion",
         "label": "primary conclusion"
+      }
+    ],
+    "structure": null
+  },
+  "UIComponents.Name": {
+    "table": "UIComponents",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A UI component's name is the same as its component ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "UIComponents",
+        "field": "ComponentId",
+        "label": "component ID"
+      }
+    ],
+    "structure": null
+  },
+  "InstrumentSpec.Name": {
+    "table": "InstrumentSpec",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An instrument spec's name is the same as its spec ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "InstrumentSpec",
+        "field": "SpecId",
+        "label": "spec ID"
+      }
+    ],
+    "structure": null
+  },
+  "AllocationSweep.Name": {
+    "table": "AllocationSweep",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An allocation sweep's name is the same as its sweep ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "AllocationSweep",
+        "field": "SweepId",
+        "label": "sweep ID"
       }
     ],
     "structure": null
@@ -16292,7 +21161,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AllocationSweep",
     "field": "SweepPooledRateA",
     "kind": "formula",
-    "rule": "The allocation sweep's sweep pooled rate a is determined by the following priority:\n1. an empty string, if the n sweep a plus the n fixed a is 0;\n2. otherwise the n sweep a times the sweep rate a plus the n fixed a times the fixed rate a divided by the n sweep a plus the n fixed a.",
+    "rule": "The allocation sweep's sweep pooled rate a is determined by the following priority:\n1. an empty string, if the n sweep a plus the n fixed a is 0;\n2. in all other cases, the n sweep a times the sweep rate a plus the n fixed a times the fixed rate a divided by the n sweep a plus the n fixed a.",
     "mechanical": false,
     "refs": [
       {
@@ -16339,7 +21208,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AllocationSweep",
     "field": "SweepPooledRateB",
     "kind": "formula",
-    "rule": "The allocation sweep's sweep pooled rate b is determined by the following priority:\n1. an empty string, if the n sweep b plus the n fixed b is 0;\n2. otherwise the n sweep b times the sweep rate b plus the n fixed b times the fixed rate b divided by the n sweep b plus the n fixed b.",
+    "rule": "The allocation sweep's sweep pooled rate b is determined by the following priority:\n1. an empty string, if the n sweep b plus the n fixed b is 0;\n2. in all other cases, the n sweep b times the sweep rate b plus the n fixed b times the fixed rate b divided by the n sweep b plus the n fixed b.",
     "mechanical": false,
     "refs": [
       {
@@ -16386,7 +21255,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AllocationSweep",
     "field": "SweepPooledGap",
     "kind": "formula",
-    "rule": "The allocation sweep's sweep pooled gap is determined by the following priority:\n1. an empty string, if the sweep pooled rate a is blank;\n2. otherwise the sweep pooled rate a minus the sweep pooled rate b.",
+    "rule": "The allocation sweep's sweep pooled gap is determined by the following priority:\n1. an empty string, if the sweep pooled rate a is blank;\n2. in all other cases, the sweep pooled rate a minus the sweep pooled rate b.",
     "mechanical": false,
     "refs": [
       {
@@ -16438,7 +21307,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "AllocationSweep",
     "field": "AllocationDistortionWitness",
     "kind": "formula",
-    "rule": "The allocation sweep's allocation distortion witness is determined by the following priority:\n1. an empty string, if the sweep pooled gap is blank;\n2. otherwise the sweep pooled gap minus the sweep corrected gap.",
+    "rule": "The allocation sweep's allocation distortion witness is determined by the following priority:\n1. an empty string, if the sweep pooled gap is blank;\n2. in all other cases, the sweep pooled gap minus the sweep corrected gap.",
     "mechanical": false,
     "refs": [
       {
@@ -16471,6 +21340,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "children": null
     }
   },
+  "SweepStudySummary.Name": {
+    "table": "SweepStudySummary",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A sweep study summary's name is the same as its sweep study ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "SweepStudySummary",
+        "field": "SweepStudyId",
+        "label": "sweep study ID"
+      }
+    ],
+    "structure": null
+  },
   "SweepStudySummary.DistortionTypeLabel": {
     "table": "SweepStudySummary",
     "field": "DistortionTypeLabel",
@@ -16490,7 +21374,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SweepStudySummary",
     "field": "InvariantWitness",
     "kind": "formula",
-    "rule": "The sweep study summary's invariant witness is determined by the following priority:\n1. the literal “PASS: CorrectedGap invariant across allocation sweep”, if the sweep corrected gap range is less than 0.0001;\n2. otherwise the literal “FAIL: CorrectedGap varies — formula error”.",
+    "rule": "The sweep study summary's invariant witness is determined by the following priority:\n1. “PASS: CorrectedGap invariant across allocation sweep”, if the sweep corrected gap range is less than 0.0001;\n2. in all other cases, “FAIL: CorrectedGap varies — formula error”.",
     "mechanical": false,
     "refs": [
       {
@@ -16504,14 +21388,14 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The sweep study summary's invariant witness is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “PASS: CorrectedGap invariant across allocation sweep”",
+          "value": "“PASS: CorrectedGap invariant across allocation sweep”",
           "when": {
             "kind": "leaf",
             "text": "the sweep corrected gap range is less than 0.0001"
           }
         },
         {
-          "value": "the literal “FAIL: CorrectedGap varies — formula error”",
+          "value": "“FAIL: CorrectedGap varies — formula error”",
           "when": null
         }
       ],
@@ -16773,6 +21657,21 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "SyntheticPhase.Name": {
+    "table": "SyntheticPhase",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A synthetic phase's name is the same as its phase ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "SyntheticPhase",
+        "field": "PhaseId",
+        "label": "phase ID"
+      }
+    ],
+    "structure": null
+  },
   "SyntheticPhase.PhaseS1Total": {
     "table": "SyntheticPhase",
     "field": "PhaseS1Total",
@@ -17027,7 +21926,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SyntheticPhase",
     "field": "PhaseStrataWonByLoser",
     "kind": "formula",
-    "rule": "The synthetic phase's phase strata won by loser is determined by the following priority:\n1. the count of the following that hold: the param stratum gap1 is less than 0 and the param stratum gap2 is less than 0, if the phase signed pooled gap is greater than 0;\n2. otherwise the count of the following that hold: the param stratum gap1 is greater than 0 and the param stratum gap2 is greater than 0.",
+    "rule": "The synthetic phase's phase strata won by loser is determined by the following priority:\n1. the count of the following that hold: the param stratum gap1 is less than 0 and the param stratum gap2 is less than 0, if the phase signed pooled gap is greater than 0;\n2. in all other cases, the count of the following that hold: the param stratum gap1 is greater than 0 and the param stratum gap2 is greater than 0.",
     "mechanical": false,
     "refs": [
       {
@@ -17084,7 +21983,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SyntheticPhase",
     "field": "PhaseIsSignFlip",
     "kind": "formula",
-    "rule": "A synthetic phase is flagged phase is sign flip if the phase signed pooled gap is less than 0 if the phase corrected gap is greater than 0, otherwise the phase signed pooled gap is greater than 0.",
+    "rule": "A synthetic phase is flagged phase is sign flip if the phase signed pooled gap is less than 0 if the phase corrected gap is greater than 0, in all other cases the phase signed pooled gap is greater than 0.",
     "mechanical": false,
     "refs": [
       {
@@ -17141,7 +22040,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "SyntheticPhase",
     "field": "PhaseDistortionType",
     "kind": "formula",
-    "rule": "The synthetic phase's phase distortion type is determined by the following priority:\n1. the literal “A”, if all of the following hold: the phase is sign flip flag is set and the phase reversal intensity is 1;\n2. the literal “B”, if all of the following hold: the phase is sign flip flag is set and the phase reversal intensity is less than 1;\n3. the literal “C+”, if all of the following hold: it is not the case that the phase is sign flip flag is set; the phase allocation distortion is greater than 0.01; and the absolute value of the phase signed pooled gap is greater than the absolute value of the phase corrected gap plus 0.001;\n4. the literal “C-”, if all of the following hold: it is not the case that the phase is sign flip flag is set; the phase allocation distortion is greater than 0.01; and the absolute value of the phase signed pooled gap is less than the absolute value of the phase corrected gap minus 0.001;\n5. otherwise the literal “D”.",
+    "rule": "The synthetic phase's phase distortion type is determined by the following priority:\n1. “A”, if all of the following hold: the phase is sign flip flag is set and the phase reversal intensity is 1;\n2. “B”, if all of the following hold: the phase is sign flip flag is set and the phase reversal intensity is less than 1;\n3. “C+”, if all of the following hold: the phase is sign flip flag is not set; the phase allocation distortion is greater than 0.01; and the absolute value of the phase signed pooled gap is greater than the absolute value of the phase corrected gap plus 0.001;\n4. “C-”, if all of the following hold: the phase is sign flip flag is not set; the phase allocation distortion is greater than 0.01; and the absolute value of the phase signed pooled gap is less than the absolute value of the phase corrected gap minus 0.001;\n5. in all other cases, “D”.",
     "mechanical": false,
     "refs": [
       {
@@ -17175,7 +22074,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The synthetic phase's phase distortion type is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “A”",
+          "value": "“A”",
           "when": {
             "kind": "all",
             "children": [
@@ -17191,7 +22090,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “B”",
+          "value": "“B”",
           "when": {
             "kind": "all",
             "children": [
@@ -17207,13 +22106,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “C+”",
+          "value": "“C+”",
           "when": {
             "kind": "all",
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the phase is sign flip flag is set"
+                "text": "the phase is sign flip flag is not set"
               },
               {
                 "kind": "leaf",
@@ -17227,13 +22126,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “C-”",
+          "value": "“C-”",
           "when": {
             "kind": "all",
             "children": [
               {
                 "kind": "leaf",
-                "text": "it is not the case that the phase is sign flip flag is set"
+                "text": "the phase is sign flip flag is not set"
               },
               {
                 "kind": "leaf",
@@ -17247,12 +22146,27 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “D”",
+          "value": "“D”",
           "when": null
         }
       ],
       "children": null
     }
+  },
+  "PhaseDiagramSummary.Name": {
+    "table": "PhaseDiagramSummary",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A phase diagram summary's name is the same as its phase diagram ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "PhaseDiagramSummary",
+        "field": "PhaseDiagramId",
+        "label": "phase diagram ID"
+      }
+    ],
+    "structure": null
   },
   "PhaseDiagramSummary.PhasePointCount": {
     "table": "PhaseDiagramSummary",
@@ -17359,7 +22273,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "PhaseDiagramSummary",
     "field": "PhaseTaxonomyWitness",
     "kind": "formula",
-    "rule": "A phase diagram summary's phase taxonomy witness is computed as the literal “A:”, followed by the phase type a count, followed by the literal “ B:”, followed by the phase type b count, followed by the literal “ C+:”, followed by the phase type c plus count, followed by the literal “ C-:”, followed by the phase type c minus count, followed by the literal “ D:”, followed by the phase type d count.",
+    "rule": "A phase diagram summary's phase taxonomy witness is computed as “A:”, followed by the phase type a count, followed by “ B:”, followed by the phase type b count, followed by “ C+:”, followed by the phase type c plus count, followed by “ C-:”, followed by the phase type c minus count, followed by “ D:”, followed by the phase type d count.",
     "mechanical": false,
     "refs": [
       {
@@ -17394,7 +22308,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "PhaseDiagramSummary",
     "field": "PhaseWitnessNote",
     "kind": "formula",
-    "rule": "The phase diagram summary's phase witness note is determined by the following priority:\n1. the literal “PASS: all five distortion types populated in parameter space”, if the all five types present flag is set;\n2. otherwise the literal “FAIL: missing distortion type in grid”.",
+    "rule": "The phase diagram summary's phase witness note is determined by the following priority:\n1. “PASS: all five distortion types populated in parameter space”, if the all five types present flag is set;\n2. in all other cases, “FAIL: missing distortion type in grid”.",
     "mechanical": false,
     "refs": [
       {
@@ -17408,19 +22322,49 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The phase diagram summary's phase witness note is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “PASS: all five distortion types populated in parameter space”",
+          "value": "“PASS: all five distortion types populated in parameter space”",
           "when": {
             "kind": "leaf",
             "text": "the all five types present flag is set"
           }
         },
         {
-          "value": "the literal “FAIL: missing distortion type in grid”",
+          "value": "“FAIL: missing distortion type in grid”",
           "when": null
         }
       ],
       "children": null
     }
+  },
+  "IngestionProtocol.Name": {
+    "table": "IngestionProtocol",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An ingestion protocol's name is the same as its protocol ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "IngestionProtocol",
+        "field": "ProtocolId",
+        "label": "protocol ID"
+      }
+    ],
+    "structure": null
+  },
+  "IngestionSummary.Name": {
+    "table": "IngestionSummary",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An ingestion summary's name is the same as its ingestion summary ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "IngestionSummary",
+        "field": "IngestionSummaryId",
+        "label": "ingestion summary ID"
+      }
+    ],
+    "structure": null
   },
   "IngestionSummary.ProtocolItemCount": {
     "table": "IngestionSummary",
@@ -17644,7 +22588,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IngestionSummary",
     "field": "IngestionWitnessNote",
     "kind": "formula",
-    "rule": "The ingestion summary's ingestion witness note is determined by the following priority:\n1. the literal “PASS: ”, followed by the protocol item count, followed by the literal “ contract items; ”, followed by the corpus cell count, followed by the literal “ cells valid; ”, followed by the real fully compliant count, followed by a slash, followed by the real study count, followed by the literal “ real studies fully compliant”, if the ingestion contract passes flag is set;\n2. otherwise the literal “FAIL: ingestion contract violated”.",
+    "rule": "The ingestion summary's ingestion witness note is determined by the following priority:\n1. “PASS: ”, followed by the protocol item count, followed by “ contract items; ”, followed by the corpus cell count, followed by “ cells valid; ”, followed by the real fully compliant count, followed by a slash, followed by the real study count, followed by “ real studies fully compliant”, if the ingestion contract passes flag is set;\n2. in all other cases, “FAIL: ingestion contract violated”.",
     "mechanical": false,
     "refs": [
       {
@@ -17678,25 +22622,40 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The ingestion summary's ingestion witness note is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “PASS: ”, followed by the protocol item count, followed by the literal “ contract items; ”, followed by the corpus cell count, followed by the literal “ cells valid; ”, followed by the real fully compliant count, followed by a slash, followed by the real study count, followed by the literal “ real studies fully compliant”",
+          "value": "“PASS: ”, followed by the protocol item count, followed by “ contract items; ”, followed by the corpus cell count, followed by “ cells valid; ”, followed by the real fully compliant count, followed by a slash, followed by the real study count, followed by “ real studies fully compliant”",
           "when": {
             "kind": "leaf",
             "text": "the ingestion contract passes flag is set"
           }
         },
         {
-          "value": "the literal “FAIL: ingestion contract violated”",
+          "value": "“FAIL: ingestion contract violated”",
           "when": null
         }
       ],
       "children": null
     }
   },
+  "CandidateStudyCatalog.Name": {
+    "table": "CandidateStudyCatalog",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A candidate study catalog's name is the same as its candidate ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "CandidateStudyCatalog",
+        "field": "CandidateId",
+        "label": "candidate ID"
+      }
+    ],
+    "structure": null
+  },
   "CandidateStudyCatalog.IsReadyToEncode": {
     "table": "CandidateStudyCatalog",
     "field": "IsReadyToEncode",
     "kind": "formula",
-    "rule": "A candidate study catalog is considered a ready to encode if all of the following hold: the ingestion status is the literal “candidate”; the proposed study ID has a value; the citation has a value; and the stratum variable name has a value.",
+    "rule": "A candidate study catalog is considered a ready to encode if all of the following hold: the ingestion status is “candidate”; the proposed study ID has a value; the citation has a value; and the stratum variable name has a value.",
     "mechanical": false,
     "refs": [
       {
@@ -17730,7 +22689,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "children": [
             {
               "kind": "leaf",
-              "text": "the ingestion status is the literal “candidate”"
+              "text": "the ingestion status is “candidate”"
             },
             {
               "kind": "leaf",
@@ -17753,7 +22712,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CandidateStudyCatalog",
     "field": "IsImported",
     "kind": "formula",
-    "rule": "A candidate study catalog is considered imported if the ingestion status is the literal “imported”.",
+    "rule": "A candidate study catalog is considered imported if the ingestion status is “imported”.",
     "mechanical": false,
     "refs": [
       {
@@ -17783,7 +22742,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CandidateStudyCatalog",
     "field": "TypePredictionMatch",
     "kind": "formula",
-    "rule": "A candidate study catalog is flagged type prediction match if the is imported flag is set and the observed distortion type is the expected distortion type.",
+    "rule": "A candidate study catalog is flagged type prediction match if the imported flag is set and the observed distortion type is the expected distortion type.",
     "mechanical": false,
     "refs": [
       {
@@ -17810,7 +22769,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "value": "the observed distortion type is the expected distortion type",
           "when": {
             "kind": "leaf",
-            "text": "the is imported flag is set"
+            "text": "the imported flag is set"
           }
         },
         {
@@ -17825,7 +22784,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CandidateStudyCatalog",
     "field": "ExpectedSignFlip",
     "kind": "formula",
-    "rule": "A candidate study catalog is flagged expected sign flip if at least one of the following holds: the expected distortion type is the literal “A” or the expected distortion type is the literal “B”.",
+    "rule": "A candidate study catalog is flagged expected sign flip if at least one of the following holds: the expected distortion type is “A” or the expected distortion type is “B”.",
     "mechanical": false,
     "refs": [
       {
@@ -17844,11 +22803,11 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "children": [
             {
               "kind": "leaf",
-              "text": "the expected distortion type is the literal “A”"
+              "text": "the expected distortion type is “A”"
             },
             {
               "kind": "leaf",
-              "text": "the expected distortion type is the literal “B”"
+              "text": "the expected distortion type is “B”"
             }
           ]
         }
@@ -17859,7 +22818,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CandidateStudyCatalog",
     "field": "ObservedSignFlipType",
     "kind": "formula",
-    "rule": "A candidate study catalog is flagged observed sign flip type if the is imported flag is set and at least one of the following holds: the observed distortion type is the literal “A” or the observed distortion type is the literal “B”.",
+    "rule": "A candidate study catalog is flagged observed sign flip type if the imported flag is set and at least one of the following holds: the observed distortion type is “A” or the observed distortion type is “B”.",
     "mechanical": false,
     "refs": [
       {
@@ -17878,10 +22837,10 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The candidate study catalog's observed sign flip type is determined by the following priority:",
       "cases": [
         {
-          "value": "the OR of the observed distortion type is the literal “A” and the observed distortion type is the literal “B”",
+          "value": "the OR of the observed distortion type is “A” and the observed distortion type is “B”",
           "when": {
             "kind": "leaf",
-            "text": "the is imported flag is set"
+            "text": "the imported flag is set"
           }
         },
         {
@@ -17896,7 +22855,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CandidateStudyCatalog",
     "field": "SignFlipPredictionMatch",
     "kind": "formula",
-    "rule": "A candidate study catalog is flagged sign flip prediction match if all of the following hold: the is imported flag is set and the expected sign flip flag is set and the observed sign flip type flag is set.",
+    "rule": "A candidate study catalog is flagged sign flip prediction match if all of the following hold: the imported flag is set and the expected sign flip flag is set and the observed sign flip type flag is set.",
     "mechanical": false,
     "refs": [
       {
@@ -17926,7 +22885,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
             "children": [
               {
                 "kind": "leaf",
-                "text": "the is imported flag is set"
+                "text": "the imported flag is set"
               },
               {
                 "kind": "leaf",
@@ -17947,7 +22906,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CandidateStudyCatalog",
     "field": "IsDataReady",
     "kind": "formula",
-    "rule": "A candidate study catalog is considered a data ready if at least one of the following holds: the data acquisition status is the literal “downloaded” or the data acquisition status is the literal “manual_only”.",
+    "rule": "A candidate study catalog is considered a data ready if at least one of the following holds: the data acquisition status is “downloaded” or the data acquisition status is “manual_only”.",
     "mechanical": false,
     "refs": [
       {
@@ -17966,16 +22925,31 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           "children": [
             {
               "kind": "leaf",
-              "text": "the data acquisition status is the literal “downloaded”"
+              "text": "the data acquisition status is “downloaded”"
             },
             {
               "kind": "leaf",
-              "text": "the data acquisition status is the literal “manual_only”"
+              "text": "the data acquisition status is “manual_only”"
             }
           ]
         }
       ]
     }
+  },
+  "CorpusCatalogSummary.Name": {
+    "table": "CorpusCatalogSummary",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A corpus catalog summary's name is the same as its catalog summary ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "CorpusCatalogSummary",
+        "field": "CatalogSummaryId",
+        "label": "catalog summary ID"
+      }
+    ],
+    "structure": null
   },
   "CorpusCatalogSummary.TotalCatalogEntries": {
     "table": "CorpusCatalogSummary",
@@ -18185,7 +23159,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CorpusCatalogSummary",
     "field": "TypePredictionMatchRate",
     "kind": "formula",
-    "rule": "The corpus catalog summary's type prediction match rate is determined by the following priority:\n1. an empty string, if the imported count is 0;\n2. otherwise the type prediction match count divided by the imported count.",
+    "rule": "The corpus catalog summary's type prediction match rate is determined by the following priority:\n1. an empty string, if the imported count is 0;\n2. in all other cases, the type prediction match count divided by the imported count.",
     "mechanical": false,
     "refs": [
       {
@@ -18222,7 +23196,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CorpusCatalogSummary",
     "field": "SignFlipPredictionMatchRate",
     "kind": "formula",
-    "rule": "The corpus catalog summary's sign flip prediction match rate is determined by the following priority:\n1. an empty string, if the sign flip prediction eligible count is 0;\n2. otherwise the sign flip prediction match count divided by the sign flip prediction eligible count.",
+    "rule": "The corpus catalog summary's sign flip prediction match rate is determined by the following priority:\n1. an empty string, if the sign flip prediction eligible count is 0;\n2. in all other cases, the sign flip prediction match count divided by the sign flip prediction eligible count.",
     "mechanical": false,
     "refs": [
       {
@@ -18259,7 +23233,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CorpusCatalogSummary",
     "field": "CatalogWitnessNote",
     "kind": "formula",
-    "rule": "The corpus catalog summary's catalog witness note is determined by the following priority:\n1. the literal “READY: ”, followed by the ready to encode count, followed by the literal “ encode-ready (”, followed by the data ready count, followed by the literal “ data-ready) of ”, followed by the candidate count, followed by the literal “ candidates”, if the import session ready flag is set;\n2. otherwise the literal “BUILDING: ”, followed by the candidate count, followed by the literal “ candidates — ”, followed by the data ready count, followed by the literal “ data-ready, ”, followed by the ready to encode count, followed by the literal “ encode-ready”.",
+    "rule": "The corpus catalog summary's catalog witness note is determined by the following priority:\n1. “READY: ”, followed by the ready to encode count, followed by “ encode-ready (”, followed by the data ready count, followed by “ data-ready) of ”, followed by the candidate count, followed by “ candidates”, if the import session ready flag is set;\n2. in all other cases, “BUILDING: ”, followed by the candidate count, followed by “ candidates — ”, followed by the data ready count, followed by “ data-ready, ”, followed by the ready to encode count, followed by “ encode-ready”.",
     "mechanical": false,
     "refs": [
       {
@@ -18288,14 +23262,14 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The corpus catalog summary's catalog witness note is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “READY: ”, followed by the ready to encode count, followed by the literal “ encode-ready (”, followed by the data ready count, followed by the literal “ data-ready) of ”, followed by the candidate count, followed by the literal “ candidates”",
+          "value": "“READY: ”, followed by the ready to encode count, followed by “ encode-ready (”, followed by the data ready count, followed by “ data-ready) of ”, followed by the candidate count, followed by “ candidates”",
           "when": {
             "kind": "leaf",
             "text": "the import session ready flag is set"
           }
         },
         {
-          "value": "the literal “BUILDING: ”, followed by the candidate count, followed by the literal “ candidates — ”, followed by the data ready count, followed by the literal “ data-ready, ”, followed by the ready to encode count, followed by the literal “ encode-ready”",
+          "value": "“BUILDING: ”, followed by the candidate count, followed by “ candidates — ”, followed by the data ready count, followed by “ data-ready, ”, followed by the ready to encode count, followed by “ encode-ready”",
           "when": null
         }
       ],
@@ -18306,7 +23280,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CorpusCatalogSummary",
     "field": "CatalogPredictionWitnessNote",
     "kind": "formula",
-    "rule": "A corpus catalog summary's catalog prediction witness note is computed as the literal “exact=”, followed by the type prediction match count, followed by a slash, followed by the imported count, followed by the literal “ (”, followed by the type prediction match rate times 100 rounded to 1 decimal place(s), followed by the literal “%); flipPred=”, followed by the sign flip prediction match count, followed by a slash, followed by the sign flip prediction eligible count, followed by the literal “ (”, followed by the sign flip prediction match rate times 100 rounded to 1 decimal place(s), followed by the literal “%)”.",
+    "rule": "A corpus catalog summary's catalog prediction witness note is computed as “exact=”, followed by the type prediction match count, followed by a slash, followed by the imported count, followed by “ (”, followed by the type prediction match rate times 100 rounded to 1 decimal place(s), followed by “%); flipPred=”, followed by the sign flip prediction match count, followed by a slash, followed by the sign flip prediction eligible count, followed by “ (”, followed by the sign flip prediction match rate times 100 rounded to 1 decimal place(s), followed by “%)”.",
     "mechanical": true,
     "refs": [
       {
@@ -18397,11 +23371,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "DomainExpansionTargets.Name": {
+    "table": "DomainExpansionTargets",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A domain expansion target's name is the same as its domain target ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "DomainExpansionTargets",
+        "field": "DomainTargetId",
+        "label": "domain target ID"
+      }
+    ],
+    "structure": null
+  },
   "DomainExpansionTargets.CurrentImportedCount": {
     "table": "DomainExpansionTargets",
     "field": "CurrentImportedCount",
     "kind": "rollup",
-    "rule": "A domain expansion target's current imported count is the number of the domain expansion target's studies that are not synthetics.",
+    "rule": "A domain expansion target's current imported count is the number of the domain expansion target's studies that are not synthetic.",
     "mechanical": false,
     "refs": [
       {
@@ -18496,7 +23485,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DomainExpansionTargets",
     "field": "IsUnderRepresented",
     "kind": "formula",
-    "rule": "A domain expansion target is considered under represented if the projected count is less than the target min count.",
+    "rule": "A domain expansion target is considered under-represented if the projected count is less than the target min count.",
     "mechanical": false,
     "refs": [
       {
@@ -18508,6 +23497,81 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "DomainExpansionTargets",
         "field": "TargetMinCount",
         "label": "target min count"
+      }
+    ],
+    "structure": null
+  },
+  "StudyImportTemplate.Name": {
+    "table": "StudyImportTemplate",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A study import template's name is the same as its template step ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StudyImportTemplate",
+        "field": "TemplateStepId",
+        "label": "template step ID"
+      }
+    ],
+    "structure": null
+  },
+  "SweepStudyConfig.Name": {
+    "table": "SweepStudyConfig",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A sweep study config's name is the same as its config ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "SweepStudyConfig",
+        "field": "ConfigId",
+        "label": "config ID"
+      }
+    ],
+    "structure": null
+  },
+  "SubstrateConformanceFields.Name": {
+    "table": "SubstrateConformanceFields",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A substrate conformance field's name is the same as its field ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "SubstrateConformanceFields",
+        "field": "FieldId",
+        "label": "field ID"
+      }
+    ],
+    "structure": null
+  },
+  "DiscoveryHypotheses.Name": {
+    "table": "DiscoveryHypotheses",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A discovery hypothes's name is the same as its hypothesis ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "DiscoveryHypotheses",
+        "field": "HypothesisId",
+        "label": "hypothesis ID"
+      }
+    ],
+    "structure": null
+  },
+  "DiscoveryFindings.Name": {
+    "table": "DiscoveryFindings",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A discovery finding's name is the same as its finding ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "DiscoveryFindings",
+        "field": "FindingId",
+        "label": "finding ID"
       }
     ],
     "structure": null
@@ -18561,7 +23625,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "DiscoveryFindings",
     "field": "Evidence",
     "kind": "formula",
-    "rule": "The discovery finding's evidence is determined by the following priority:\n1. the literal “PASS: ”, followed by the observed metric, if the is confirmed is true;\n2. the literal “FAIL: ”, followed by the observed metric, if the is confirmed is false;\n3. otherwise an empty string.",
+    "rule": "The discovery finding's evidence is determined by the following priority:\n1. “PASS: ”, followed by the observed metric, if the is confirmed is true;\n2. “FAIL: ”, followed by the observed metric, if the is confirmed is false;\n3. in all other cases, an empty string.",
     "mechanical": false,
     "refs": [
       {
@@ -18580,14 +23644,14 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The discovery finding's evidence is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “PASS: ”, followed by the observed metric",
+          "value": "“PASS: ”, followed by the observed metric",
           "when": {
             "kind": "leaf",
             "text": "the is confirmed is true"
           }
         },
         {
-          "value": "the literal “FAIL: ”, followed by the observed metric",
+          "value": "“FAIL: ”, followed by the observed metric",
           "when": {
             "kind": "leaf",
             "text": "the is confirmed is false"
@@ -18600,6 +23664,36 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       ],
       "children": null
     }
+  },
+  "CorpusDomains.Name": {
+    "table": "CorpusDomains",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A corpus domain's name is the same as its domain ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "CorpusDomains",
+        "field": "DomainId",
+        "label": "domain ID"
+      }
+    ],
+    "structure": null
+  },
+  "ConfounderIdentities.Name": {
+    "table": "ConfounderIdentities",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A confounder identity's name is the same as its confounder identity ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "ConfounderIdentities",
+        "field": "ConfounderIdentityId",
+        "label": "confounder identity ID"
+      }
+    ],
+    "structure": null
   },
   "ConfounderIdentities.StudyCount": {
     "table": "ConfounderIdentities",
@@ -18617,6 +23711,36 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
         "table": "ConfounderIdentities",
         "field": "ConfounderIdentityId",
         "label": "confounder identity ID"
+      }
+    ],
+    "structure": null
+  },
+  "StratumVariableIdentityMaps.Name": {
+    "table": "StratumVariableIdentityMaps",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A stratum variable identity map's name is the same as its map ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "StratumVariableIdentityMaps",
+        "field": "MapId",
+        "label": "map ID"
+      }
+    ],
+    "structure": null
+  },
+  "IdentityClusterSummaries.Name": {
+    "table": "IdentityClusterSummaries",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An identity cluster summary's name is the same as its identity cluster ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "IdentityClusterSummaries",
+        "field": "IdentityClusterId",
+        "label": "identity cluster ID"
       }
     ],
     "structure": null
@@ -18640,7 +23764,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "IdentityClusterSummaries",
     "field": "ManifestFlipRate",
     "kind": "formula",
-    "rule": "The identity cluster summary's manifest flip rate is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. otherwise the manifest flip count divided by the study count.",
+    "rule": "The identity cluster summary's manifest flip rate is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. in all other cases, the manifest flip count divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -18673,11 +23797,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "children": null
     }
   },
+  "IdentityDomainCells.Name": {
+    "table": "IdentityDomainCells",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "An identity domain cell's name is the same as its cell ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "IdentityDomainCells",
+        "field": "CellId",
+        "label": "cell ID"
+      }
+    ],
+    "structure": null
+  },
   "IdentityDomainCells.ManifestFlipRate": {
     "table": "IdentityDomainCells",
     "field": "ManifestFlipRate",
     "kind": "formula",
-    "rule": "The identity domain cell's manifest flip rate is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. otherwise the manifest flip count divided by the study count.",
+    "rule": "The identity domain cell's manifest flip rate is determined by the following priority:\n1. an empty string, if the study count is 0;\n2. in all other cases, the manifest flip count divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -18725,11 +23864,26 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     ],
     "structure": null
   },
+  "ConfounderDistortionTimeline.Name": {
+    "table": "ConfounderDistortionTimeline",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A confounder distortion timeline's name is the same as its cell ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "ConfounderDistortionTimeline",
+        "field": "CellId",
+        "label": "cell ID"
+      }
+    ],
+    "structure": null
+  },
   "ConfounderDistortionTimeline.TypeDFraction": {
     "table": "ConfounderDistortionTimeline",
     "field": "TypeDFraction",
     "kind": "formula",
-    "rule": "The confounder distortion timeline's type d fraction is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. otherwise the type d count divided by the study count.",
+    "rule": "The confounder distortion timeline's type d fraction is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. in all other cases, the type d count divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -18775,7 +23929,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ConfounderDistortionTimeline",
     "field": "SignFlipFraction",
     "kind": "formula",
-    "rule": "The confounder distortion timeline's sign flip fraction is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. otherwise the sign flip count divided by the study count.",
+    "rule": "The confounder distortion timeline's sign flip fraction is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. in all other cases, the sign flip count divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -18821,7 +23975,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ConfounderDistortionTimeline",
     "field": "MeanSignalPurity",
     "kind": "formula",
-    "rule": "The confounder distortion timeline's mean signal purity is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. otherwise the sum signal purity divided by the study count.",
+    "rule": "The confounder distortion timeline's mean signal purity is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. in all other cases, the sum signal purity divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -18867,7 +24021,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ConfounderDistortionTimeline",
     "field": "MeanAllocationDistortion",
     "kind": "formula",
-    "rule": "The confounder distortion timeline's mean allocation distortion is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. otherwise the sum allocation distortion divided by the study count.",
+    "rule": "The confounder distortion timeline's mean allocation distortion is determined by the following priority:\n1. an empty string, if at least one of the following holds: the study count is blank or the study count is 0;\n2. in all other cases, the sum allocation distortion divided by the study count.",
     "mechanical": false,
     "refs": [
       {
@@ -19023,7 +24177,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "ConfounderDistortionTimeline",
     "field": "DriftDirection",
     "kind": "formula",
-    "rule": "The confounder distortion timeline's drift direction is determined by the following priority:\n1. the literal “single-decade”, if the identity earliest decade is the identity latest decade;\n2. an empty string, if at least one of the following holds: the identity earliest type d fraction is blank or the identity latest type d fraction is blank;\n3. the literal “rising”, if the identity latest type d fraction is greater than the identity earliest type d fraction plus 0.05;\n4. the literal “falling”, if the identity latest type d fraction is less than the identity earliest type d fraction minus 0.05;\n5. otherwise the literal “flat”.",
+    "rule": "The confounder distortion timeline's drift direction is determined by the following priority:\n1. “single-decade”, if the identity earliest decade is the identity latest decade;\n2. an empty string, if at least one of the following holds: the identity earliest type d fraction is blank or the identity latest type d fraction is blank;\n3. “rising”, if the identity latest type d fraction is greater than the identity earliest type d fraction plus 0.05;\n4. “falling”, if the identity latest type d fraction is less than the identity earliest type d fraction minus 0.05;\n5. in all other cases, “flat”.",
     "mechanical": false,
     "refs": [
       {
@@ -19052,7 +24206,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
       "headline": "The confounder distortion timeline's drift direction is determined by the following priority:",
       "cases": [
         {
-          "value": "the literal “single-decade”",
+          "value": "“single-decade”",
           "when": {
             "kind": "leaf",
             "text": "the identity earliest decade is the identity latest decade"
@@ -19075,26 +24229,41 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
           }
         },
         {
-          "value": "the literal “rising”",
+          "value": "“rising”",
           "when": {
             "kind": "leaf",
             "text": "the identity latest type d fraction is greater than the identity earliest type d fraction plus 0.05"
           }
         },
         {
-          "value": "the literal “falling”",
+          "value": "“falling”",
           "when": {
             "kind": "leaf",
             "text": "the identity latest type d fraction is less than the identity earliest type d fraction minus 0.05"
           }
         },
         {
-          "value": "the literal “flat”",
+          "value": "“flat”",
           "when": null
         }
       ],
       "children": null
     }
+  },
+  "CorpusBalance.Name": {
+    "table": "CorpusBalance",
+    "field": "Name",
+    "kind": "formula",
+    "rule": "A corpus balance's name is the same as its balance ID.",
+    "mechanical": false,
+    "refs": [
+      {
+        "table": "CorpusBalance",
+        "field": "BalanceId",
+        "label": "balance ID"
+      }
+    ],
+    "structure": null
   },
   "CorpusBalance.TotalStudyCount": {
     "table": "CorpusBalance",
@@ -19150,7 +24319,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "table": "CorpusBalance",
     "field": "ControlFraction",
     "kind": "formula",
-    "rule": "The corpus balance's control fraction is determined by the following priority:\n1. 0, if the total study count is 0;\n2. otherwise the control study count divided by the total study count.",
+    "rule": "The corpus balance's control fraction is determined by the following priority:\n1. 0, if the total study count is 0;\n2. in all other cases, the control study count divided by the total study count.",
     "mechanical": false,
     "refs": [
       {
@@ -19236,13 +24405,13 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "An instrument spec **must** have a component type, a field name, and a natural language."
   ],
   "AllocationSweep": [
-    "An allocation sweep **must** have an alloc fraction a."
+    "An allocation sweep **must** have a study ID and an alloc fraction a."
   ],
   "ResearchTraditions": [
-    "A research tradition **must** record whether it is verified by deep research."
+    "A research tradition **must** have a name, and record whether it is verified by deep research."
   ],
   "Researchers": [
-    "A researcher **must** have a key contribution, and record whether it is verified by deep research."
+    "A researcher **must** have a name, a tradition ID, and a key contribution, and record whether it is verified by deep research."
   ],
   "SyntheticPhase": [
     "A synthetic phase **must** have a param stratum fraction, a param stratum gap1, a param stratum gap2, and a param allocation bias."
@@ -19254,7 +24423,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "An ingestion protocol **must** have a rule type, a target table, a requirement statement, a mechanical check, and a sort order."
   ],
   "CandidateStudyCatalog": [
-    "A candidate study catalog **must** have a title, a citation, a domain, a stratum variable name, an expected distortion type, an ingestion status, a priority, a stratum count estimate, a data source note, a data acquisition status, a reversal mechanism, and a paradox confirmation."
+    "A candidate study catalog **must** have a proposed study ID, a title, a citation, a domain, a stratum variable name, an expected distortion type, an ingestion status, a priority, a stratum count estimate, a data source note, a data acquisition status, a reversal mechanism, and a paradox confirmation."
   ],
   "DomainExpansionTargets": [
     "A domain expansion target **must** have a domain and a target min count."
@@ -19263,7 +24432,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "A study import template **must** have a sort order, a target table, a row description, a required fields, and a mechanical check."
   ],
   "SweepStudyConfig": [
-    "A sweep study config **must** have a sweep stratum label, a n sweep stratum total, a sweep rate a, a sweep rate b, a n fixed a, a n fixed b, a fixed rate a, a fixed rate b, an original alloc fraction a, and a sweep corrected gap."
+    "A sweep study config **must** have a study ID, a sweep stratum label, a n sweep stratum total, a sweep rate a, a sweep rate b, a n fixed a, a n fixed b, a fixed rate a, a fixed rate b, an original alloc fraction a, and a sweep corrected gap."
   ],
   "SubstrateConformanceFields": [
     "A substrate conformance field **must** have a source table, a field name, a pg column, an owl local name, and a data type, and record whether it is assert from postgres and whether it is in compare set."
@@ -19272,7 +24441,7 @@ window.__EFFORTLESS_EXPLAINER__ = { rulebook: {
     "A discovery hypothes **must** have a statement, an expected outcome, a registered in loop, and an epistemic tier."
   ],
   "DiscoveryFindings": [
-    "A discovery finding **must** have a witnessed in loop."
+    "A discovery finding **must** have a hypothesis ID and a witnessed in loop."
   ],
   "CorpusDomains": [
     "A corpus domain **must** have a display name, an expansion target, and a plan source section."

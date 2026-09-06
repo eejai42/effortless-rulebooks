@@ -2,26 +2,39 @@
 
 ## Configuration
 
-- **Rulebook:** `/Users/eejai42/effortlessapi-app-root/users/user_ee42ai73-18a9-47d5-8f99-954b00f6c041/my-projects/effortless-rulebooks/rulebook-examples/talisman-basic/effortless-rulebook/talisman-basic-rulebook.json`
-- **Substrates Tested:** 1
-- **Computed Columns Tested:** 3
+- **Rulebook:** `/Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/../../toy-rulebooks/acme-llc/effortless-rulebook/acme-llc-rulebook.json`
+- **Substrates Tested:** 14
+- **Computed Columns Tested:** 2
 
 ## Summary by Substrate
 
 | Substrate | Passed | Failed | Total | Score | Duration | Status |
 |-----------|--------|--------|-------|-------|----------|--------|
-| effortless-postgres | 21 | 0 | 21 | 100.0% | < 1s | PASS |
+| airtable | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| effortless-postgres | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| binary | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
+| cobol | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
+| golang | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
+| python | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
+| uml | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
+| csv | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
+| effortless-entity-framework | 0 | 6 | 6 | 0.0% | < 1s | ERROR: Script failed:  |
+| effortless-xlsx | 0 | 6 | 6 | 0.0% | < 1s | ERROR: Script failed:  |
+| english | 0 | 6 | 6 | 0.0% | 5s | FAIL |
+| explain-dag | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
+| owl | 0 | 6 | 6 | 0.0% | 8s | FAIL |
+| xlsx | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
 
 ## Overall Statistics
 
 | Metric | Value |
 |--------|-------|
-| Total Substrates | 1 |
-| Total Fields Tested | 21 |
-| Total Passed | 21 |
-| Total Failed | 0 |
-| Overall Score | 100.0% |
-| Total Duration | < 1s |
+| Total Substrates | 14 |
+| Total Fields Tested | 84 |
+| Total Passed | 27 |
+| Total Failed | 57 |
+| Overall Score | 32.1% |
+| Total Duration | 17s |
 
 ---
 

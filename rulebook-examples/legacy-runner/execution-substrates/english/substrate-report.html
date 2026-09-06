@@ -88,8 +88,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>English (NLG) Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
-            <div class="stat"><span>6/6 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-danger">0.0%</span></div>
+            <div class="stat"><span>0/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -148,20 +148,39 @@ English Execution Substrate - One-Shot All-Entities LLM Run
 PROMPT (first 2 lines):
   You are taking a test. Follow the English specification below to fill in
   every null derived field in the test data. The data spans multiple tables and many
-  ... (182 total lines, 6229 chars)
+  ... (182 total lines, 6195 chars)
 ============================================================
 Calling OpenAI (gpt-4o-mini)... please wait...
-============================================================
-RESPONSE (first 2 lines):
-  {
-    &quot;customers&quot;: [
-  ... (28 total lines, 716 chars)
-============================================================
-  -&gt; customers: 3 records written
-
-======================================================================
-English substrate: filled 6 derived fields across 1 entities
-======================================================================
+Traceback (most recent call last):
+  File &quot;/Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/english/take-test.py&quot;, line 285, in &lt;module&gt;
+    main()
+    ~~~~^^
+  File &quot;/Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/english/take-test.py&quot;, line 235, in main
+    response = call_llm(prompt)
+  File &quot;/Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/english/take-test.py&quot;, line 72, in call_llm
+    response = client.chat.completions.create(
+        model=DEFAULT_MODEL,
+    ...&lt;2 lines&gt;...
+        max_tokens=16384,
+    )
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/openai/_utils/_utils.py&quot;, line 287, in wrapper
+    return func(*args, **kwargs)
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/openai/resources/chat/completions/completions.py&quot;, line 925, in create
+    return self._post(
+           ~~~~~~~~~~^
+        &quot;/chat/completions&quot;,
+        ^^^^^^^^^^^^^^^^^^^^
+    ...&lt;43 lines&gt;...
+        stream_cls=Stream[ChatCompletionChunk],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/openai/_base_client.py&quot;, line 1249, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File &quot;/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/openai/_base_client.py&quot;, line 1037, in request
+    raise self._make_status_error_from_response(err.response) from None
+openai.RateLimitError: Error code: 429 - {&#x27;error&#x27;: {&#x27;message&#x27;: &#x27;You have no credits remaining. Add credits to continue using the API at https://platform.openai.com/settings/organization/billing/.&#x27;, &#x27;type&#x27;: &#x27;insufficient_quota&#x27;, &#x27;param&#x27;: None, &#x27;code&#x27;: &#x27;credit_balance_exhausted&#x27;}}
 
 </pre>
             </div>
@@ -170,9 +189,9 @@ English substrate: filled 6 derived fields across 1 entities
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value score-danger">0.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">0</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Failed</div></div>
                     <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>

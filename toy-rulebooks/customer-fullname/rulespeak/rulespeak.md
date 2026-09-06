@@ -15,7 +15,7 @@ _Hello World: a Customers table whose FullName is a calculated field over FirstN
 | First Name | A defined attribute. | _First Name of the customer_ |
 | Last Name | A defined attribute. | _Last Name of the customer_ |
 | Name | Computed as the last name, followed by a comma followed by a space, followed by the first name. | _Full name: first and last_ |
-| Initials | Computed as the first 1 character(s) of the first name, followed by the first 1 character(s) of the last name, followed by “-v2”. | _Last letter of first and last name, dot-separated with trailing dot_ |
+| Initials | Computed as the first 1 character(s) of the first name, followed by the first 1 character(s) of the last name. | _First letter of the first and last name_ |
 
 ## 3 Operative Rules
 
@@ -39,7 +39,7 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | ID | Declarative rule |
 |----|------------------|
 | **DR-1 Name** | A customer's name is computed as the last name, followed by a comma followed by a space, followed by the first name. |
-| **DR-2 Initials** | A customer's initials is computed as the first 1 character(s) of the first name, followed by the first 1 character(s) of the last name, followed by “-v2”. |
+| **DR-2 Initials** | A customer's initials is computed as the first 1 character(s) of the first name, followed by the first 1 character(s) of the last name. |
 
 ## 5 Traceability to Schema
 
@@ -49,7 +49,7 @@ the same logic the rulebook stores, written for a business reader._
 | Schema element | Kind | Expression |
 |----------------|------|------------|
 | **Customers.Name** | formula | `LastName & ", " & FirstName` |
-| **Customers.Initials** | formula | `Left(FirstName, 1) & Left(LastName, 1) & "-v2"` |
+| **Customers.Initials** | formula | `Left(FirstName, 1) & Left(LastName, 1)` |
 
 ---
 

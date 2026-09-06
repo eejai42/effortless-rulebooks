@@ -1641,7 +1641,7 @@ effortless-ntwf:commitHash a owl:DatatypeProperty ;
     rdfs:domain effortless-ntwf:Loops ;
     rdfs:range xsd:string ;
     rdfs:label "CommitHash" ;
-    rdfs:comment "Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Leopold loop." .
+    rdfs:comment "Full git SHA where this loop row first landed in effortless-rulebook.json — the replay anchor for this turn of the Effortless loop." .
 
 effortless-ntwf:commitShort a owl:DatatypeProperty ;
     rdfs:domain effortless-ntwf:Loops ;
@@ -2824,7 +2824,7 @@ effortless-ntwf:studyCount a owl:DatatypeProperty ;
 effortless-ntwf:loopCount a owl:DatatypeProperty ;
     rdfs:range xsd:integer ;
     rdfs:label "LoopCount" ;
-    rdfs:comment "Count of Leopold Loops that drew primarily on this tradition's conceptual vocabulary." .
+    rdfs:comment "Count of Effortless Loops that drew primarily on this tradition's conceptual vocabulary." .
     # calculated: aggregation
 
 # === Class: Researchers ===
