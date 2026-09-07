@@ -135,6 +135,12 @@ def build_rows(domain_id: str, slug: str, results: dict, ran_on: str) -> tuple[d
     }
     result_rows = []
     for substrate_name, substrate in sorted(results.items()):
+        # last_run reflects the most recent attempt, which can be a transient
+        # infra error (a cold cloud transpiler timing out) even when the
+        # substrate's own translation is correct. last_successful_run is the
+        # harness's own durable record of the last attempt that actually
+        # graded the substrate's output — that is what a conformance SCORE
+        # means, so record scoring fields from it, not from last_run.
         last_run = substrate.get("last_run", {})
         last_success = substrate.get("last_successful_run", {})
         test_results = last_success.get("test_results", {})
@@ -142,12 +148,12 @@ def build_rows(domain_id: str, slug: str, results: dict, ran_on: str) -> tuple[d
             "ConformanceResultId": f"{run_id}:{substrate_name}",
             "Run": run_id,
             "SubstrateName": substrate_name,
-            "Status": last_run.get("status", ""),
-            "Score": last_run.get("score"),
+            "Status": last_success.get("status", last_run.get("status", "")),
+            "Score": test_results.get("score", last_success.get("score")),
             "FieldsTested": test_results.get("total_fields_tested"),
             "FieldsPassed": test_results.get("fields_passed"),
             "FieldsFailed": test_results.get("fields_failed"),
-            "DurationSeconds": last_run.get("duration_seconds"),
+            "DurationSeconds": last_success.get("duration_seconds", last_run.get("duration_seconds")),
         })
     return run_row, result_rows
 

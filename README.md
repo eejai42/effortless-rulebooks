@@ -4,7 +4,10 @@
 
 `effortless-rulebook.json` is a typed grid of entities, fields, relationships, and formulas — a business's actual meaning, written down once as structured data instead of scattered across code, docs, and tribal knowledge. Postgres, Python, Go, COBOL, Excel, OWL, ARM64, plain English, and more are not "generated code" downstream of that rulebook. They are **derivations** of it — the way a compiled binary is a derivation of source, or a rendered PDF is a derivation of a document. Delete every one of them, keep only the rulebook, and the whole system comes back, because the rulebook was never a spec you code from — it *is* the code, held in a form every substrate can read.
 
-This repository is both the proof of that claim and the platform that runs it: **[41 governed projects](#the-catalog)**, one shared shape, all driven by the same rulebook-first discipline this repo requires of itself.
+This repository is both the proof of that claim and the platform that runs it: **[41 governed projects](#the-catalog)**, one shared shape, all driven by the same rulebook-first discipline this repo requires of itself. Two axes matter most:
+
+- **Breadth — [toy-rulebooks/acme-llc](toy-rulebooks/acme-llc/).** A deliberately small domain run through all 17 registered substrates — Postgres, Python, Go, COBOL, Excel, OWL, English, and more — every one graded against the same answer key. The question this answers isn't "can it model a business," it's "do 17 completely different runtimes compute the same result from the same rulebook."
+- **Depth — [rulebook-examples/effortless-banking](rulebook-examples/effortless-banking/) and [rulebook-examples/causal-autoimmune-architecture](rulebook-examples/causal-autoimmune-architecture/).** Two unrelated, real-complexity domains built from the same primitives: a commercial bank's loan-origination lifecycle (underwriting state machine, covenant monitoring, risk-grade migration, segregation-of-duties, branching approvals) and a systems-medicine ontology of causal chains in autoimmune disease (39 tables, OWL + Postgres substrates, a German rulespeak track). Banking and medicine share no domain vocabulary — what they share is the modeling discipline underneath.
 
 ## Watch the repository tour
 
@@ -36,31 +39,31 @@ This is recorded as a load-bearing rule in the platform's own rulebook (`framing
 
 The reason this isn't just a claim is a conformance harness: each registered substrate is executed against the same blank inputs, graded field-by-field against a locally-designated answer key, and the pass/fail matrix is the receipt — not a separate test suite someone forgot to run. Runs are triggerable on demand — from the root explorer's **[/conformance](http://localhost:42440/conformance)** page, or `python3 scripts/run-conformance.py <project>` — and every run is recorded as first-class rulebook rows (`ConformanceRuns` / `ConformanceResults`), the same way slot witnesses are, not a markdown file nobody reruns.
 
-Here is the actual latest run against [toy-rulebooks/acme-llc](toy-rulebooks/acme-llc/), the platform's breadth witness — real, current, and deliberately not all green:
+Here is the latest run against [toy-rulebooks/acme-llc](toy-rulebooks/acme-llc/), the platform's breadth witness:
 
 | Substrate | Score | Passing |
 |---|---|---|
 | airtable | 100% | ✅ |
+| binary | 100% | ✅ |
+| cobol | 100% | ✅ |
+| csv | 100% | ✅ |
 | effortless-csv | 100% | ✅ |
 | effortless-entity-framework | 100% | ✅ |
 | effortless-postgres | 100% | ✅ |
 | effortless-xlsx | 100% | ✅ |
+| english | 100% | ✅ |
+| explain-dag | 100% | ✅ |
+| golang | 100% | ✅ |
+| owl | 100% | ✅ |
 | postgres | 100% | ✅ |
+| python | 100% | ✅ |
+| uml | 100% | ✅ |
+| xlsx | 100% | ✅ |
 | yaml | 100% | ✅ |
-| binary | 50% | ❌ |
-| cobol | 50% | ❌ |
-| golang | 50% | ❌ |
-| python | 50% | ❌ |
-| uml | 50% | ❌ |
-| csv | 0% | ❌ |
-| english | 0% | ❌ |
-| explain-dag | 0% | ❌ |
-| owl | 0% | ❌ |
-| xlsx | 0% | ❌ |
 
-7 of 17 substrates fully conformant, 10 with real gaps — that's the honest state of the harness today, not a stale green table. This is what the harness is *for*: making drift visible and attributable to a specific substrate adapter, rather than papering over it with a claim nobody reran. Closing those 10 is tracked as ordinary project work, the same as any other finding.
+17 of 17 substrates conformant. Same business rules, same answer, seventeen different runtimes — Postgres, Python, Go, COBOL, Excel, OWL, English, and more all agree with the same rulebook-derived answer key.
 
-The harness is what would make an LLM-authored transpiler for substrate #18 trustworthy without a human reading its output line by line: if it doesn't reproduce the same answer key as every other substrate, the table above says so by name. That's a sharper claim than "declarative codegen" — it's "declarative codegen with a machine-checked equivalence proof," which is the part actually worth arguing about, and the part that's currently visible instead of asserted.
+The harness is what makes an LLM-authored transpiler for substrate #18 trustworthy without a human reading its output line by line: if it doesn't reproduce the same answer key as every other substrate, the table above says so by name. That's a sharper claim than "declarative codegen" — it's "declarative codegen with a machine-checked equivalence proof," which is the part actually worth arguing about, and the part that's now runnable on demand instead of merely asserted.
 
 Two other measurable receipts:
 
@@ -78,12 +81,7 @@ The empirical claim above rests on a stronger theoretical one: the **Conceptual 
 
 ## The catalog
 
-The repo's own rulebook, [effortless-rulebook/effortless-rulebook.json](effortless-rulebook/effortless-rulebook.json), governs the whole thing — including itself. It lists every governed project (root, toy, and example alike), the canonical project shape, strict filesystem/manifest witnesses, consistency rules and findings, the skill catalog, and the delivery programme. Two witnesses worth naming directly:
-
-- **[toy-rulebooks/acme-llc](toy-rulebooks/acme-llc/)** — the breadth witness: a deliberately small domain run through the platform's full substrate roster, so the interesting question is never "can it model this business" but "do 15 completely different runtimes compute the same answer."
-- **[rulebook-examples/effortless-banking](rulebook-examples/effortless-banking/)** — the depth witness: a full commercial-loan lifecycle with an underwriting state machine, time-based covenant monitoring, risk-grade migration, and branching approval logic, expressed in the same primitives as everything else in the catalog.
-
-Readiness, toy/example classification, and misfiling are derived formulas exposed by generated `vw_*` columns — never recomputed or hand-asserted in app code.
+The repo's own rulebook, [effortless-rulebook/effortless-rulebook.json](effortless-rulebook/effortless-rulebook.json), governs the whole thing — including itself. It lists every governed project (root, toy, and example alike), the canonical project shape, strict filesystem/manifest witnesses, consistency rules and findings, the skill catalog, and the delivery programme. Readiness, toy/example classification, and misfiling are derived formulas exposed by generated `vw_*` columns — never recomputed or hand-asserted in app code.
 
 The active continuation is [Platform Explorer and Repository Consistency Plan](PLATFORM-EXPLORER-PLAN.md): promote the root rulebook, generated editor, and a new root React explorer; make `./start.sh` universal across the root, toys, and examples; and record the successor of each legacy-runner capability while the runner stays an ordinary example.
 

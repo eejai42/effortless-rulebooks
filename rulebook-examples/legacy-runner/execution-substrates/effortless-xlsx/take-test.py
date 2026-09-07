@@ -138,7 +138,14 @@ def main():
     print()
 
     workbook_path = find_workbook()
-    print(f"Workbook: {workbook_path.relative_to(PROJECT_ROOT)}")
+    # workbook_path is resolved via ERB_DOMAIN_DIR, which may live outside
+    # PROJECT_ROOT's own domain (e.g. toy-rulebooks/<domain> vs legacy-runner) —
+    # display it relative to PROJECT_ROOT when possible, else the absolute path.
+    try:
+        display_path = workbook_path.relative_to(PROJECT_ROOT)
+    except ValueError:
+        display_path = workbook_path
+    print(f"Workbook: {display_path}")
 
     force_recalc_with_libreoffice(workbook_path)
 

@@ -8,8 +8,8 @@
     <AssemblyName>EffortlessEntityFrameworkRunner</AssemblyName>
     <NoWarn>$(NoWarn);CS8600;CS8601;CS8602;CS8603;CS8604;CS8618;CS8625;CS0108;CS0114</NoWarn>
     <!-- LicensedRoot defaults to the legacy global tools dir; the test runner
-         overrides it via the EF_TOOL_DIR env var to point at the active domain
-         (rulebook-examples/<domain>/entity-framework). -->
+         overrides it via the EF_TOOL_DIR env var to point at the active domain's
+         registered rulebooktoentityframework output (<domain>/effortless-entity-framework). -->
     <LicensedRoot Condition="'$(EF_TOOL_DIR)' != ''">$(EF_TOOL_DIR)/DataClasses</LicensedRoot>
     <LicensedRoot Condition="'$(LicensedRoot)' == ''">../../licensed-effortless-tools/entity-framework-dotnet/DataClasses</LicensedRoot>
     <LicensedLibRoot Condition="'$(EF_TOOL_DIR)' != ''">$(EF_TOOL_DIR)/SqlOnAir/DotNet/Lib</LicensedLibRoot>

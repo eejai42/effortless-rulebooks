@@ -1,70 +1,44 @@
 # ACME, LLC Rulebook Specification
 
 ## Overview
-This rulebook outlines the structure and computation methods for customer data at ACME, LLC. It includes raw input fields and derived fields that are calculated based on these inputs. The primary purpose of this rulebook is to provide a clear understanding of how to derive customer identifiers and names from their raw contact information.
+This rulebook outlines the structure and computation methods for customer data within ACME, LLC. It defines how to derive calculated fields from raw input data, specifically focusing on customer identifiers such as `Name` and `FullName`. The computations are designed to automatically update whenever the underlying raw data changes.
 
 ## Customers Entity
 
 ### Input Fields
-The following fields are classified as raw input fields:
+The following raw input fields are used to derive calculated fields:
 
 1. **EmailAddress**
-   - **Type**: String
-   - **Description**: The customer's email address.
+   - **Type:** String
+   - **Description:** The customer's email address.
 
 2. **FirstName**
-   - **Type**: String
-   - **Description**: First Name of the customer, used to create the full name.
+   - **Type:** String
+   - **Description:** First Name of the customer, used to create the full name.
 
 3. **LastName**
-   - **Type**: String
-   - **Description**: Last Name of the customer, used to create the full name.
+   - **Type:** String
+   - **Description:** Last Name of the customer, used to create the full name.
 
-4. **CustomerId**
-   - **Type**: String
-   - **Description**: Unique identifier for the customer.
-
-### Derived Fields
+### Calculated Fields
+The following fields are derived from the input fields:
 
 1. **Name**
-   - **Type**: Calculated
-   - **Description**: Identifier for the customer.
-   - **Computation**: The `Name` is derived from the `EmailAddress` by replacing the "@" symbol with a hyphen ("-"). 
-   - **Original Formula**: `=SUBSTITUTE({{EmailAddress}}, "@", "-")`
-   - **Example**: For a customer with `EmailAddress` of `bob@gmail.com`, the computed `Name` would be `bob-gmail.com`.
+   - **Type:** Calculated
+   - **Computation:** The `Name` is derived by replacing the "@" character in the `EmailAddress` with a "-". This creates a unique handle for the customer.
+   - **Original Formula:** `=SUBSTITUTE({{EmailAddress}}, "@", "-")`
+   - **Example:** For a customer with `EmailAddress` of `bob@gmail.com`, the computation would be:
+     - `Name = SUBSTITUTE("bob@gmail.com", "@", "-")` results in `bob-gmail.com`.
 
 2. **FullName**
-   - **Type**: Calculated
-   - **Description**: Full name is computed from the first and last name of the customer.
-   - **Computation**: The `FullName` is constructed by concatenating the `FirstName` and `LastName` with a space in between.
-   - **Original Formula**: `={{FirstName}} & " " & {{LastName}}`
-   - **Example**: For a customer with `FirstName` of `Bobby` and `LastName` of `Smith`, the computed `FullName` would be `Bobby Smith`.
+   - **Type:** Calculated
+   - **Computation:** The `FullName` is created by concatenating the `FirstName` and `LastName` with a space in between.
+   - **Original Formula:** `={{FirstName}} & " " & {{LastName}}`
+   - **Example:** For a customer with `FirstName` of `Bobby` and `LastName` of `Smith`, the computation would be:
+     - `FullName = "Bobby" & " " & "Smith"` results in `Bobby Smith`.
 
-### Data Examples
-Here are some examples of how the derived fields are computed based on the raw input fields:
+### Summary of Derived Fields
+- **Name:** A unique identifier derived from the customer's email address by replacing "@" with "-".
+- **FullName:** A concatenation of the customer's first and last names, providing a complete name representation.
 
-- **Customer 1**:
-  - **EmailAddress**: `bob@gmail.com`
-  - **FirstName**: `Bobby`
-  - **LastName**: `Smith`
-  - **Computed Fields**:
-    - **Name**: `bob-gmail.com` (derived from `bob@gmail.com`)
-    - **FullName**: `Bobby Smith` (derived from `Bobby` and `Smith`)
-
-- **Customer 2**:
-  - **EmailAddress**: `jimmy@gmail.com`
-  - **FirstName**: `Jimmy`
-  - **LastName**: `Doe`
-  - **Computed Fields**:
-    - **Name**: `jimmy-gmail.com` (derived from `jimmy@gmail.com`)
-    - **FullName**: `Jimmy Doe` (derived from `Jimmy` and `Doe`)
-
-- **Customer 3**:
-  - **EmailAddress**: `mary@gmail.com`
-  - **FirstName**: `Mary`
-  - **LastName**: `Jones`
-  - **Computed Fields**:
-    - **Name**: `mary-gmail.com` (derived from `mary@gmail.com`)
-    - **FullName**: `Mary Jones` (derived from `Mary` and `Jones`)
-
-This specification provides a comprehensive guide to understanding how to compute the derived fields for each customer in the ACME, LLC database.
+This specification provides a clear understanding of how to compute each derived field for the customers of ACME, LLC, ensuring that any changes to the raw input data will reflect in the calculated fields without the need for additional application code or migrations.
