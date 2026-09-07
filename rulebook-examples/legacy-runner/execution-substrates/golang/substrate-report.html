@@ -67,8 +67,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>Golang Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-danger">50.0%</span></div>
-            <div class="stat"><span>3/6 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
+            <div class="stat"><span>6/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -128,9 +128,9 @@ Golang substrate: ALL 1 tables processed successfully (3 total records)
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-danger">50.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
                     <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>
@@ -139,11 +139,11 @@ Golang substrate: ALL 1 tables processed successfully (3 total records)
             <div class="card">
                 <div class="code-header">
                     <h2>erb_sdk.go</h2>
-                    <div><span class="code-info">209 lines</span><button class="copy-btn" onclick="copyCode('sdk-code')">Copy</button></div>
+                    <div><span class="code-info">176 lines</span><button class="copy-btn" onclick="copyCode('sdk-code')">Copy</button></div>
                 </div>
                 <pre id="sdk-code">// ERB SDK - Go Implementation (GENERATED - DO NOT EDIT)
 // ======================================================
-// Generated from: effortless-rulebook/effortless-rulebook.json
+// Generated from: effortless-rulebook/acme-llc-rulebook.json
 //
 // This file contains structs and calculation functions
 // for all tables defined in the rulebook.
@@ -241,17 +241,17 @@ func (f FlexibleString) String() string {
 // Table: Customers
 type Customer struct {
 	CustomerId string `json:&quot;customer_id&quot;`
-	EmailAddress *string `json:&quot;email_address&quot;` // Thec ustomers email address
+	EmailAddress *string `json:&quot;email_address&quot;` // The customer&#x27;s email address
 	FirstName *string `json:&quot;first_name&quot;` // First Name of the customer - used to make the full name
 	LastName *string `json:&quot;last_name&quot;` // Last Name of the customer - used to make the full name
-	Name *string `json:&quot;name&quot;` // Identifier for the customers.
+	Name *string `json:&quot;name&quot;` // Identifier for the customer.
 	FullName *string `json:&quot;full_name&quot;` // Full name is computed from the first and last name of the customer
 }
 
 // --- Individual Calculation Functions ---
 
 // CalcName computes the Name calculated field
-// Identifier for the customers.
+// Identifier for the customer.
 // Formula: =SUBSTITUTE({{EmailAddress}}, &quot;@&quot;, &quot;-&quot;)
 func (tc *Customer) CalcName() string {
 	return strings.ReplaceAll(stringVal(tc.EmailAddress), &quot;@&quot;, &quot;-&quot;)
@@ -259,9 +259,9 @@ func (tc *Customer) CalcName() string {
 
 // CalcFullName computes the FullName calculated field
 // Full name is computed from the first and last name of the customer
-// Formula: ={{LastName}} &amp; &quot;, &quot; &amp; {{FirstName}}
+// Formula: ={{FirstName}} &amp; &quot; &quot; &amp; {{LastName}}
 func (tc *Customer) CalcFullName() string {
-	return stringVal(tc.LastName) + &quot;, &quot; + stringVal(tc.FirstName)
+	return stringVal(tc.FirstName) + &quot; &quot; + stringVal(tc.LastName)
 }
 
 // --- Compute All Calculated Fields ---
@@ -270,7 +270,7 @@ func (tc *Customer) CalcFullName() string {
 func (tc *Customer) ComputeAll() *Customer {
 	// Level 1 calculations
 	name := strings.ReplaceAll(stringVal(tc.EmailAddress), &quot;@&quot;, &quot;-&quot;)
-	fullName := stringVal(tc.LastName) + &quot;, &quot; + stringVal(tc.FirstName)
+	fullName := stringVal(tc.FirstName) + &quot; &quot; + stringVal(tc.LastName)
 
 	return &amp;Customer{
 		CustomerId: tc.CustomerId,
@@ -280,39 +280,6 @@ func (tc *Customer) ComputeAll() *Customer {
 		Name: nilIfEmpty(name),
 		FullName: nilIfEmpty(fullName),
 	}
-}
-
-// =============================================================================
-// ERBVERSIONS TABLE
-// Table: ERBVersions
-// =============================================================================
-
-// ERBVersion represents a row in the ERBVersions table
-// Table: ERBVersions
-type ERBVersion struct {
-	ERBVersionId string `json:&quot;erb_version_id&quot;`
-	BaseId *string `json:&quot;base_id&quot;`
-	Name *string `json:&quot;name&quot;`
-	Message *string `json:&quot;message&quot;`
-	Notes *string `json:&quot;notes&quot;`
-	CommitDate *string `json:&quot;commit_date&quot;`
-	IsPublished *bool `json:&quot;is_published&quot;`
-}
-
-// =============================================================================
-// ERBCUSTOMIZATIONS TABLE
-// Table: ERBCustomizations
-// =============================================================================
-
-// ERBCustomization represents a row in the ERBCustomizations table
-// Table: ERBCustomizations
-type ERBCustomization struct {
-	ERBCustomizationId string `json:&quot;erb_customization_id&quot;`
-	Name *string `json:&quot;name&quot;`
-	Title *string `json:&quot;title&quot;`
-	SQLCode *string `json:&quot;sql_code&quot;`
-	SQLTarget *string `json:&quot;sql_target&quot;`
-	CustomizationType *string `json:&quot;customization_type&quot;`
 }
 
 // =============================================================================
@@ -356,7 +323,7 @@ func SaveCustomerRecords(path string, records []Customer) error {
             <div class="card">
                 <div class="code-header">
                     <h2>main.go</h2>
-                    <div><span class="code-info">99 lines</span><button class="copy-btn" onclick="copyCode('main-code')">Copy</button></div>
+                    <div><span class="code-info">93 lines</span><button class="copy-btn" onclick="copyCode('main-code')">Copy</button></div>
                 </div>
                 <pre id="main-code">// ERB SDK - Go Test Runner (GENERATED - DO NOT EDIT)
 // =======================================================
@@ -377,19 +344,13 @@ import (
 )
 
 func main() {
-	_, err := os.Getwd()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, &quot;FATAL: Failed to get working directory: %v\n&quot;, err)
-		os.Exit(1)
-	}
-
 	// ERB_TESTING_DIR is required — defaulting to the repo testing dir
 	// silently uses the wrong domain.
 	erbTesting := os.Getenv(&quot;ERB_TESTING_DIR&quot;)
 	if erbTesting == &quot;&quot; {
 		fmt.Fprintln(os.Stderr, &quot;FATAL: ERB_TESTING_DIR is not set. main.go must be&quot;)
 		fmt.Fprintln(os.Stderr, &quot;  invoked by the orchestrator with ERB_TESTING_DIR pointing&quot;)
-		fmt.Fprintln(os.Stderr, &quot;  at the active domain&#x27;s testing/ directory.&quot;)
+		fmt.Fprintln(os.Stderr, &quot;  at the active domain\u0027s testing/ directory.&quot;)
 		os.Exit(1)
 	}
 	blankTestsDir := filepath.Join(erbTesting, &quot;blank-tests&quot;)

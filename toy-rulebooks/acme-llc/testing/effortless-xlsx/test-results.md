@@ -18,12 +18,6 @@
 | Lookup (INDEX/MATCH) | — | 0 | n/a |
 | Aggregation (COUNTIFS/SUMIFS) | — | 0 | n/a |
 
-## Error
-
-```
-Script failed: 
-```
-
 ## Results by Entity
 
 ### customers

@@ -17,19 +17,13 @@ import (
 )
 
 func main() {
-	_, err := os.Getwd()
-	if err != nil {
-		fmt.Fprintf(os.Stderr, "FATAL: Failed to get working directory: %v\n", err)
-		os.Exit(1)
-	}
-
 	// ERB_TESTING_DIR is required — defaulting to the repo testing dir
 	// silently uses the wrong domain.
 	erbTesting := os.Getenv("ERB_TESTING_DIR")
 	if erbTesting == "" {
 		fmt.Fprintln(os.Stderr, "FATAL: ERB_TESTING_DIR is not set. main.go must be")
 		fmt.Fprintln(os.Stderr, "  invoked by the orchestrator with ERB_TESTING_DIR pointing")
-		fmt.Fprintln(os.Stderr, "  at the active domain's testing/ directory.")
+		fmt.Fprintln(os.Stderr, "  at the active domain\u0027s testing/ directory.")
 		os.Exit(1)
 	}
 	blankTestsDir := filepath.Join(erbTesting, "blank-tests")

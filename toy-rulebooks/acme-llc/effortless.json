@@ -1,4 +1,8 @@
 {
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": "/effortless-rulebook",
+  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "63484082-c6d6-4259-a92c-3169e1e4d75a",
   "Name": "acme-llc",
   "Description": "A lean variant of ACME Corporation—demonstrating essential business rules in a simplified schema.",
@@ -99,8 +103,8 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/acme-llc-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.06.1148",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-06-1148-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.06.1424",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-06-1424-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -162,9 +166,5 @@
       "LastVersionUsed": "v2026.09.02.0241",
       "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
-  ],
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": "/effortless-rulebook",
-  "SSoTmeProjectFiles": null
+  ]
 }

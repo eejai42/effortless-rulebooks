@@ -1,5 +1,5 @@
        *> ERB Calculation Module (GENERATED - DO NOT EDIT)
-       *> Generated from: effortless-rulebook/effortless-rulebook.json
+       *> Generated from: effortless-rulebook/acme-llc-rulebook.json
        *> GnuCOBOL free-format: cobc -free -m erb_calc.cbl
        IDENTIFICATION DIVISION.
        PROGRAM-ID. ERBCALC.
@@ -42,9 +42,9 @@
        CALC-FULL-NAME.
            MOVE SPACES TO RECORD-FULL-NAME
            STRING
-               FUNCTION TRIM(RECORD-LAST-NAME TRAILING) DELIMITED SIZE
-               ", " DELIMITED SIZE
                FUNCTION TRIM(RECORD-FIRST-NAME TRAILING) DELIMITED SIZE
+               " " DELIMITED SIZE
+               FUNCTION TRIM(RECORD-LAST-NAME TRAILING) DELIMITED SIZE
                INTO RECORD-FULL-NAME
        .
 

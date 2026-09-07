@@ -5,7 +5,7 @@
     "first_name": "Bobby",
     "last_name": "Smith",
     "name": "bob-gmail.com",
-    "full_name": "Smith, Bobby"
+    "full_name": "Bobby Smith"
   },
   {
     "customer_id": "jimmy-gmail-com",
@@ -13,7 +13,7 @@
     "first_name": "Jimmy",
     "last_name": "Doe",
     "name": "jimmy-gmail.com",
-    "full_name": "Doe, Jimmy"
+    "full_name": "Jimmy Doe"
   },
   {
     "customer_id": "mary-gmail-com",
@@ -21,6 +21,6 @@
     "first_name": "Mary",
     "last_name": "Jones",
     "name": "mary-gmail.com",
-    "full_name": "Jones, Mary"
+    "full_name": "Mary Jones"
   }
 ]

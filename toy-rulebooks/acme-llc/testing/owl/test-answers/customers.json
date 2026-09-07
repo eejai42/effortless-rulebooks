@@ -3,18 +3,24 @@
     "customer_id": "bob-gmail-com",
     "email_address": "bob@gmail.com",
     "last_name": "Smith",
-    "first_name": "Bobby"
+    "first_name": "Bobby",
+    "name": "bob-gmail.com",
+    "full_name": "Bobby Smith"
   },
   {
     "customer_id": "jimmy-gmail-com",
     "email_address": "jimmy@gmail.com",
     "last_name": "Doe",
-    "first_name": "Jimmy"
+    "first_name": "Jimmy",
+    "name": "jimmy-gmail.com",
+    "full_name": "Jimmy Doe"
   },
   {
     "customer_id": "mary-gmail-com",
     "email_address": "mary@gmail.com",
     "last_name": "Jones",
-    "first_name": "Mary"
+    "first_name": "Mary",
+    "name": "mary-gmail.com",
+    "full_name": "Mary Jones"
   }
 ]

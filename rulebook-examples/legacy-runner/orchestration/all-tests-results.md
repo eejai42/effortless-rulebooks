@@ -11,19 +11,19 @@
 | Substrate | Passed | Failed | Total | Score | Duration | Status |
 |-----------|--------|--------|-------|-------|----------|--------|
 | airtable | 6 | 0 | 6 | 100.0% | < 1s | PASS |
-| effortless-postgres | 6 | 0 | 6 | 100.0% | < 1s | PASS |
-| binary | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
-| cobol | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
-| golang | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
-| python | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
-| uml | 3 | 3 | 6 | 50.0% | < 1s | FAIL |
-| csv | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
-| effortless-entity-framework | 0 | 6 | 6 | 0.0% | < 1s | ERROR: Script failed:  |
-| effortless-xlsx | 0 | 6 | 6 | 0.0% | < 1s | ERROR: Script failed:  |
+| explain-dag | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| python | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| uml | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| binary | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| cobol | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| csv | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| owl | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| xlsx | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| golang | 6 | 0 | 6 | 100.0% | < 1s | PASS |
+| effortless-entity-framework | 3 | 3 | 6 | 50.0% | 1s | FAIL |
+| effortless-postgres | 0 | 6 | 6 | 0.0% | 4s | FAIL |
+| effortless-xlsx | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
 | english | 0 | 6 | 6 | 0.0% | 5s | FAIL |
-| explain-dag | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
-| owl | 0 | 6 | 6 | 0.0% | 8s | FAIL |
-| xlsx | 0 | 6 | 6 | 0.0% | < 1s | FAIL |
 
 ## Overall Statistics
 
@@ -31,10 +31,10 @@
 |--------|-------|
 | Total Substrates | 14 |
 | Total Fields Tested | 84 |
-| Total Passed | 27 |
-| Total Failed | 57 |
-| Overall Score | 32.1% |
-| Total Duration | 17s |
+| Total Passed | 63 |
+| Total Failed | 21 |
+| Overall Score | 75.0% |
+| Total Duration | 15s |
 
 ---
 

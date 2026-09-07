@@ -7,41 +7,12 @@ end note
 
 class Customers {
   +CustomerId: String
-  +EmailAddress: String -- Thec ustomers email address
+  +EmailAddress: String -- The customer's email address
   +FirstName: String -- First Name of the customer - used to make the full name
   +LastName: String -- Last Name of the customer - used to make the full name
   --
-  /Name: String  {derived} -- Identifier for the customers.
+  /Name: String  {derived} -- Identifier for the customer.
   /FullName: String  {derived} -- Full name is computed from the first and last name of the customer
-}
-
-note top of ERBCustomizations
-  Table: ERBCustomizations
-end note
-
-class ERBCustomizations {
-  +ERBCustomizationId: String
-  +Name: String
-  +Title: String
-  +SQLCode: String
-  +SQLTarget: String
-  +CustomizationType: String
-  --
-}
-
-note top of ERBVersions
-  Table: ERBVersions
-end note
-
-class ERBVersions {
-  +ERBVersionId: String
-  +BaseId: String
-  +Name: String
-  +Message: String
-  +Notes: String
-  +CommitDate: String
-  +IsPublished: Boolean
-  --
 }
 
 @enduml

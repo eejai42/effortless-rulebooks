@@ -1,6 +1,6 @@
 // ERB SDK - Go Implementation (GENERATED - DO NOT EDIT)
 // ======================================================
-// Generated from: effortless-rulebook/effortless-rulebook.json
+// Generated from: effortless-rulebook/acme-llc-rulebook.json
 //
 // This file contains structs and calculation functions
 // for all tables defined in the rulebook.
@@ -98,17 +98,17 @@ func (f FlexibleString) String() string {
 // Table: Customers
 type Customer struct {
 	CustomerId string `json:"customer_id"`
-	EmailAddress *string `json:"email_address"` // Thec ustomers email address
+	EmailAddress *string `json:"email_address"` // The customer's email address
 	FirstName *string `json:"first_name"` // First Name of the customer - used to make the full name
 	LastName *string `json:"last_name"` // Last Name of the customer - used to make the full name
-	Name *string `json:"name"` // Identifier for the customers.
+	Name *string `json:"name"` // Identifier for the customer.
 	FullName *string `json:"full_name"` // Full name is computed from the first and last name of the customer
 }
 
 // --- Individual Calculation Functions ---
 
 // CalcName computes the Name calculated field
-// Identifier for the customers.
+// Identifier for the customer.
 // Formula: =SUBSTITUTE({{EmailAddress}}, "@", "-")
 func (tc *Customer) CalcName() string {
 	return strings.ReplaceAll(stringVal(tc.EmailAddress), "@", "-")
@@ -116,9 +116,9 @@ func (tc *Customer) CalcName() string {
 
 // CalcFullName computes the FullName calculated field
 // Full name is computed from the first and last name of the customer
-// Formula: ={{LastName}} & ", " & {{FirstName}}
+// Formula: ={{FirstName}} & " " & {{LastName}}
 func (tc *Customer) CalcFullName() string {
-	return stringVal(tc.LastName) + ", " + stringVal(tc.FirstName)
+	return stringVal(tc.FirstName) + " " + stringVal(tc.LastName)
 }
 
 // --- Compute All Calculated Fields ---
@@ -127,7 +127,7 @@ func (tc *Customer) CalcFullName() string {
 func (tc *Customer) ComputeAll() *Customer {
 	// Level 1 calculations
 	name := strings.ReplaceAll(stringVal(tc.EmailAddress), "@", "-")
-	fullName := stringVal(tc.LastName) + ", " + stringVal(tc.FirstName)
+	fullName := stringVal(tc.FirstName) + " " + stringVal(tc.LastName)
 
 	return &Customer{
 		CustomerId: tc.CustomerId,
@@ -137,39 +137,6 @@ func (tc *Customer) ComputeAll() *Customer {
 		Name: nilIfEmpty(name),
 		FullName: nilIfEmpty(fullName),
 	}
-}
-
-// =============================================================================
-// ERBVERSIONS TABLE
-// Table: ERBVersions
-// =============================================================================
-
-// ERBVersion represents a row in the ERBVersions table
-// Table: ERBVersions
-type ERBVersion struct {
-	ERBVersionId string `json:"erb_version_id"`
-	BaseId *string `json:"base_id"`
-	Name *string `json:"name"`
-	Message *string `json:"message"`
-	Notes *string `json:"notes"`
-	CommitDate *string `json:"commit_date"`
-	IsPublished *bool `json:"is_published"`
-}
-
-// =============================================================================
-// ERBCUSTOMIZATIONS TABLE
-// Table: ERBCustomizations
-// =============================================================================
-
-// ERBCustomization represents a row in the ERBCustomizations table
-// Table: ERBCustomizations
-type ERBCustomization struct {
-	ERBCustomizationId string `json:"erb_customization_id"`
-	Name *string `json:"name"`
-	Title *string `json:"title"`
-	SQLCode *string `json:"sql_code"`
-	SQLTarget *string `json:"sql_target"`
-	CustomizationType *string `json:"customization_type"`
 }
 
 // =============================================================================

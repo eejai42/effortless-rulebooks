@@ -67,8 +67,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>UML Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-danger">50.0%</span></div>
-            <div class="stat"><span>3/6 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
+            <div class="stat"><span>6/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -129,9 +129,9 @@ UML substrate: Processed 1 entities, 3 total records
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-danger">50.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">3</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">3</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
                     <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>
@@ -140,7 +140,7 @@ UML substrate: Processed 1 entities, 3 total records
             <div class="card">
                 <div class="code-header">
                     <h2>class-diagram.puml</h2>
-                    <div><span class="code-info">47 lines</span><button class="copy-btn" onclick="copyCode('class-code')">Copy</button></div>
+                    <div><span class="code-info">18 lines</span><button class="copy-btn" onclick="copyCode('class-code')">Copy</button></div>
                 </div>
                 <pre id="class-code">@startuml
 skinparam classAttributeIconSize 0
@@ -151,41 +151,12 @@ end note
 
 class Customers {
   +CustomerId: String
-  +EmailAddress: String -- Thec ustomers email address
+  +EmailAddress: String -- The customer&#x27;s email address
   +FirstName: String -- First Name of the customer - used to make the full name
   +LastName: String -- Last Name of the customer - used to make the full name
   --
-  /Name: String  {derived} -- Identifier for the customers.
+  /Name: String  {derived} -- Identifier for the customer.
   /FullName: String  {derived} -- Full name is computed from the first and last name of the customer
-}
-
-note top of ERBCustomizations
-  Table: ERBCustomizations
-end note
-
-class ERBCustomizations {
-  +ERBCustomizationId: String
-  +Name: String
-  +Title: String
-  +SQLCode: String
-  +SQLTarget: String
-  +CustomizationType: String
-  --
-}
-
-note top of ERBVersions
-  Table: ERBVersions
-end note
-
-class ERBVersions {
-  +ERBVersionId: String
-  +BaseId: String
-  +Name: String
-  +Message: String
-  +Notes: String
-  +CommitDate: String
-  +IsPublished: Boolean
-  --
 }
 
 @enduml</pre>
@@ -195,74 +166,29 @@ class ERBVersions {
             <div class="card">
                 <div class="code-header">
                     <h2>objects.puml</h2>
-                    <div><span class="code-info">69 lines</span><button class="copy-btn" onclick="copyCode('objects-code')">Copy</button></div>
+                    <div><span class="code-info">24 lines</span><button class="copy-btn" onclick="copyCode('objects-code')">Copy</button></div>
                 </div>
                 <pre id="objects-code">@startuml
 
-object &quot;jane.smith-email.com&quot; as Customers_0 {
-  CustomerId = &quot;jane-smith-email-com&quot;
-  EmailAddress = &quot;jane.smith@email.com&quot;
+object &quot;bob-gmail.com&quot; as Customers_0 {
+  CustomerId = &quot;bob-gmail-com&quot;
+  EmailAddress = &quot;bob@gmail.com&quot;
   FirstName = &quot;Bobby&quot;
   LastName = &quot;Smith&quot;
 }
 
-object &quot;john.doe-email.com&quot; as Customers_1 {
-  CustomerId = &quot;john-doe-email-com&quot;
-  EmailAddress = &quot;john.doe@email.com&quot;
+object &quot;jimmy-gmail.com&quot; as Customers_1 {
+  CustomerId = &quot;jimmy-gmail-com&quot;
+  EmailAddress = &quot;jimmy@gmail.com&quot;
   FirstName = &quot;Jimmy&quot;
   LastName = &quot;Doe&quot;
 }
 
-object &quot;emily.jones-email.com&quot; as Customers_2 {
-  CustomerId = &quot;emily-jones-email-com&quot;
-  EmailAddress = &quot;emily.jones@email.com&quot;
+object &quot;mary-gmail.com&quot; as Customers_2 {
+  CustomerId = &quot;mary-gmail-com&quot;
+  EmailAddress = &quot;mary@gmail.com&quot;
   FirstName = &quot;Mary&quot;
   LastName = &quot;Jones&quot;
-}
-
-object &quot;03a-customize-schema.sql&quot; as ERBCustomizations_0 {
-  ERBCustomizationId = &quot;03a-customize-schema-sql&quot;
-  Name = &quot;03a-customize-schema.sql&quot;
-  Title = &quot;Customize Schema&quot;
-  SQLCode = &quot;-- ========================...&quot;
-  SQLTarget = &quot;Postgres&quot;
-  CustomizationType = &quot;Schema&quot;
-}
-
-object &quot;03b-customize-functions.sql&quot; as ERBCustomizations_1 {
-  ERBCustomizationId = &quot;03b-customize-functions-sql&quot;
-  Name = &quot;03b-customize-functions.sql&quot;
-  Title = &quot;Customize Functions&quot;
-  SQLCode = &quot;-- ========================...&quot;
-  SQLTarget = &quot;Postgres&quot;
-  CustomizationType = &quot;Functions&quot;
-}
-
-object &quot;03c-customize-views.sql&quot; as ERBCustomizations_2 {
-  ERBCustomizationId = &quot;03c-customize-views-sql&quot;
-  Name = &quot;03c-customize-views.sql&quot;
-  Title = &quot;Customize Views&quot;
-  SQLCode = &quot;-- ========================...&quot;
-  SQLTarget = &quot;Postgres&quot;
-  CustomizationType = &quot;Views&quot;
-}
-
-object &quot;03d-customize-rls.sql&quot; as ERBCustomizations_3 {
-  ERBCustomizationId = &quot;03d-customize-rls-sql&quot;
-  Name = &quot;03d-customize-rls.sql&quot;
-  Title = &quot;Customize Policies (RLS)&quot;
-  SQLCode = &quot;-- ========================...&quot;
-  SQLTarget = &quot;Postgres&quot;
-  CustomizationType = &quot;RLS&quot;
-}
-
-object &quot;03e-customize-data.sql&quot; as ERBCustomizations_4 {
-  ERBCustomizationId = &quot;03e-customize-data-sql&quot;
-  Name = &quot;03e-customize-data.sql&quot;
-  Title = &quot;Customize Data (Seeds / Mig...&quot;
-  SQLCode = &quot;-- ========================...&quot;
-  SQLTarget = &quot;Postgres&quot;
-  CustomizationType = &quot;Data&quot;
 }
 
 @enduml</pre>
@@ -275,18 +201,18 @@ object &quot;03e-customize-data.sql&quot; as ERBCustomizations_4 {
                     <div><span class="code-info">14 lines</span><button class="copy-btn" onclick="copyCode('ocl-code')">Copy</button></div>
                 </div>
                 <pre id="ocl-code">-- OCL Constraints for ERB
--- Generated from effortless-rulebook.json
+-- Generated from acme-llc-rulebook.json
 
 -- Table: Customers
 context Customers
 
--- Identifier for the customers.
+-- Identifier for the customer.
 -- Formula: =SUBSTITUTE({{EmailAddress}}, &quot;@&quot;, &quot;-&quot;)
 derive Name: self.emailAddress.replace(&#x27;@&#x27;, &#x27;-&#x27;)
 
 -- Full name is computed from the first and last name of the customer
--- Formula: ={{LastName}} &amp; &quot;, &quot; &amp; {{FirstName}}
-derive FullName: self.lastName + &#x27;, &#x27; + self.firstName
+-- Formula: ={{FirstName}} &amp; &quot; &quot; &amp; {{LastName}}
+derive FullName: self.firstName + &#x27; &#x27; + self.lastName
 </pre>
             </div>
         </div>

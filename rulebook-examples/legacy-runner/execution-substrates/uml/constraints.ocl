@@ -1,13 +1,13 @@
 -- OCL Constraints for ERB
--- Generated from effortless-rulebook.json
+-- Generated from acme-llc-rulebook.json
 
 -- Table: Customers
 context Customers
 
--- Identifier for the customers.
+-- Identifier for the customer.
 -- Formula: =SUBSTITUTE({{EmailAddress}}, "@", "-")
 derive Name: self.emailAddress.replace('@', '-')
 
 -- Full name is computed from the first and last name of the customer
--- Formula: ={{LastName}} & ", " & {{FirstName}}
-derive FullName: self.lastName + ', ' + self.firstName
+-- Formula: ={{FirstName}} & " " & {{LastName}}
+derive FullName: self.firstName + ' ' + self.lastName

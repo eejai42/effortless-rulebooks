@@ -928,12 +928,6 @@ def generate_main_go(tables_with_calc: list, rulebook: Dict) -> str:
     lines.append(')')
     lines.append('')
     lines.append('func main() {')
-    lines.append('\tscriptDir, err := os.Getwd()')
-    lines.append('\tif err != nil {')
-    lines.append('\t\tfmt.Fprintf(os.Stderr, "FATAL: Failed to get working directory: %v\\n", err)')
-    lines.append('\t\tos.Exit(1)')
-    lines.append('\t}')
-    lines.append('')
     lines.append('\t// ERB_TESTING_DIR is required — defaulting to the repo testing dir')
     lines.append('\t// silently uses the wrong domain.')
     lines.append('\terbTesting := os.Getenv("ERB_TESTING_DIR")')
@@ -989,14 +983,10 @@ def generate_main_go(tables_with_calc: list, rulebook: Dict) -> str:
         lines.append('\t// ─────────────────────────────────────────────────────────────────')
         lines.append('\t// Note: SUMIFS loads from answer-keys (has computed fields)')
         lines.append('\t//       COUNTIFS loads from blank-tests')
-        # Only declare answerKeysDir if it will be used
+        # Only declare answerKeysDir if it will be used. erbTesting is always
+        # non-empty here (main() already exits above if ERB_TESTING_DIR is unset).
         if tables_needing_answer_keys:
-            lines.append('\tvar answerKeysDir string')
-            lines.append('\tif erbTesting != "" {')
-            lines.append('\t\tanswerKeysDir = filepath.Join(erbTesting, "answer-keys")')
-            lines.append('\t} else {')
-            lines.append('\t\tanswerKeysDir = filepath.Join(scriptDir, "..", "..", "testing", "answer-keys")')
-            lines.append('\t}')
+            lines.append('\tanswerKeysDir := filepath.Join(erbTesting, "answer-keys")')
         lines.append('')
 
         for related_table in sorted(all_related_tables):

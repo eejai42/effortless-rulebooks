@@ -44,19 +44,19 @@ from orchestration.shared import (
 
 def calc_customers_name(email_address):
     """
-    Identifier for the customers.
+    Identifier for the customer.
     
     Formula: =SUBSTITUTE({{EmailAddress}}, "@", "-")
     """
     return ((email_address or "").replace('@', '-'))
 
-def calc_customers_full_name(last_name, first_name):
+def calc_customers_full_name(first_name, last_name):
     """
     Full name is computed from the first and last name of the customer
     
-    Formula: ={{LastName}} & ", " & {{FirstName}}
+    Formula: ={{FirstName}} & " " & {{LastName}}
     """
-    return (str(last_name or "") + ', ' + str(first_name or ""))
+    return (str(first_name or "") + ' ' + str(last_name or ""))
 
 
 def compute_customers_fields(record: dict) -> dict:
@@ -69,7 +69,7 @@ def compute_customers_fields(record: dict) -> dict:
 
     # Level 1 calculations
     result['name'] = calc_customers_name(result.get('email_address'))
-    result['full_name'] = calc_customers_full_name(result.get('last_name'), result.get('first_name'))
+    result['full_name'] = calc_customers_full_name(result.get('first_name'), result.get('last_name'))
 
     # Convert empty strings to None for string fields
     for key in ['name', 'full_name']:
@@ -107,8 +107,7 @@ def compute_all_calculated_fields(record: dict, entity_name: str = None) -> dict
     if entity_lower == 'customers':
         return compute_customers_fields(record)
     else:
-        # Unknown entity - return record unchanged (no error)
-        return dict(record)
+        raise KeyError(f"compute_all_calculated_fields called with unknown entity {entity_name!r}. "f"Known entities in this generated erb_calc.py: ['customers']. "f"Check that the rulebook used to generate this file matches the data being computed.")
 
 # =============================================================================
 # INDEX/MATCH LOOKUP INTERPRETER (PYTHON SIMULATOR — DO NOT CALL FROM OTHER SUBSTRATES)
@@ -150,16 +149,16 @@ def parse_sumifs_formula(formula: str) -> tuple:
 def _get_testing_dir(project_root: Path) -> Path:
     """Return the active domain's testing/ dir. ERB_TESTING_DIR is required.
 
-    The simulator must operate on the same domain the orchestrator chose;
-    there is no implicit per-substrate testing dir.
+    The injector runs at build time and must operate on the same domain the
+    orchestrator chose. There is no implicit per-substrate testing dir.
     """
     import os
     erb = os.environ.get("ERB_TESTING_DIR")
     if not erb:
         raise RuntimeError(
-            "ERB_TESTING_DIR is not set. python_only_erb_simulator must be "
-            "invoked by the orchestrator with ERB_TESTING_DIR pointing at the "
-            "active domain's testing/ directory."
+            "ERB_TESTING_DIR is not set. inject-into-python.py must be invoked "
+            "by the orchestrator with ERB_TESTING_DIR pointing at the active "
+            "domain's testing/ directory."
         )
     return Path(erb)
 

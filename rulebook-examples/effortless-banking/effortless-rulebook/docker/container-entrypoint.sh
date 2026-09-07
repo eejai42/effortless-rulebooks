@@ -32,6 +32,15 @@
 
 set -uo pipefail
 
+BOOT_STATE_FILE="/tmp/boot-state"
+BUILD_LOG_FILE="/tmp/current-build.log"
+REBUILD_TRIGGER_FILE="/tmp/rebuild-trigger"
+# Both touched immediately so the RULEBOOK_FILENAME check just below can write
+# to them under `set -u` (the fuller boot-state init these are also part of
+# happens again, harmlessly, a few lines down alongside the other boot files).
+echo "booting" > "$BOOT_STATE_FILE"
+touch "$BUILD_LOG_FILE"
+
 # RULEBOOK_FILENAME is set by edit-rulebook.sh's `docker run -e` from its own
 # -p rulebookPath (see EditRulebookSh's RULEBOOK_SELF_UPDATE_PATH) -- the real
 # basename of the project's rulebook file, e.g. "effortless-banking-rulebook.json".
@@ -42,6 +51,9 @@ set -uo pipefail
 # fail with "No INPUT files matched" -- silently, since `effortless build`
 # keeps going after a failed step -- while the container still reported
 # itself as running. Fail loudly here instead, before anything else runs.
+# BOOT_STATE_FILE/BUILD_LOG_FILE are defined immediately above, before this
+# check, specifically so this FATAL path can write to them under `set -u`
+# instead of dying on an unbound-variable error and hiding the real message.
 if [ -z "${RULEBOOK_FILENAME:-}" ]; then
   echo "[entrypoint] FATAL: RULEBOOK_FILENAME was not set." >&2
   {
@@ -58,9 +70,6 @@ if [ -z "${RULEBOOK_FILENAME:-}" ]; then
 fi
 RULEBOOK_PATH="/app/effortless-rulebook/$RULEBOOK_FILENAME"
 RULEBOOK_DIR="/app/effortless-rulebook"
-BOOT_STATE_FILE="/tmp/boot-state"
-BUILD_LOG_FILE="/tmp/current-build.log"
-REBUILD_TRIGGER_FILE="/tmp/rebuild-trigger"
 # Where the effortless CLI writes its structured build-failure record when
 # -continueOnError is in effect (see BuildErrorLog in the CLI): the project root,
 # which for this container is always the effortless-root symlink target. Its mere

@@ -28,71 +28,9 @@
         {
           "name": "FullName",
           "type": "string",
-          "formula": "={{LastName}} & \", \" & {{FirstName}}"
+          "formula": "={{FirstName}} & \" \" & {{LastName}}"
         }
       ]
-    },
-    "ERBCustomizations": {
-      "attributes": [
-        {
-          "name": "ERBCustomizationId",
-          "type": "string"
-        },
-        {
-          "name": "Name",
-          "type": "string"
-        },
-        {
-          "name": "Title",
-          "type": "string"
-        },
-        {
-          "name": "SQLCode",
-          "type": "string"
-        },
-        {
-          "name": "SQLTarget",
-          "type": "string"
-        },
-        {
-          "name": "CustomizationType",
-          "type": "string"
-        }
-      ],
-      "derived": []
-    },
-    "ERBVersions": {
-      "attributes": [
-        {
-          "name": "ERBVersionId",
-          "type": "string"
-        },
-        {
-          "name": "BaseId",
-          "type": "string"
-        },
-        {
-          "name": "Name",
-          "type": "string"
-        },
-        {
-          "name": "Message",
-          "type": "string"
-        },
-        {
-          "name": "Notes",
-          "type": "string"
-        },
-        {
-          "name": "CommitDate",
-          "type": "datetime"
-        },
-        {
-          "name": "IsPublished",
-          "type": "boolean"
-        }
-      ],
-      "derived": []
     }
   },
   "instances": [
@@ -100,8 +38,8 @@
       "class": "Customers",
       "id": "Customers_0",
       "values": {
-        "CustomerId": "jane-smith-email-com",
-        "EmailAddress": "jane.smith@email.com",
+        "CustomerId": "bob-gmail-com",
+        "EmailAddress": "bob@gmail.com",
         "FirstName": "Bobby",
         "LastName": "Smith"
       }
@@ -110,8 +48,8 @@
       "class": "Customers",
       "id": "Customers_1",
       "values": {
-        "CustomerId": "john-doe-email-com",
-        "EmailAddress": "john.doe@email.com",
+        "CustomerId": "jimmy-gmail-com",
+        "EmailAddress": "jimmy@gmail.com",
         "FirstName": "Jimmy",
         "LastName": "Doe"
       }
@@ -120,70 +58,10 @@
       "class": "Customers",
       "id": "Customers_2",
       "values": {
-        "CustomerId": "emily-jones-email-com",
-        "EmailAddress": "emily.jones@email.com",
+        "CustomerId": "mary-gmail-com",
+        "EmailAddress": "mary@gmail.com",
         "FirstName": "Mary",
         "LastName": "Jones"
-      }
-    },
-    {
-      "class": "ERBCustomizations",
-      "id": "ERBCustomizations_0",
-      "values": {
-        "ERBCustomizationId": "03a-customize-schema-sql",
-        "Name": "03a-customize-schema.sql",
-        "Title": "Customize Schema",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE SCHEMA - User-defined tables and schema modifications\n-- ============================================================================\n-- This file is for YOUR custom schema changes that should persist across\n-- regeneration of the base ERB files.\n--\n-- USE THIS FILE FOR:\n--   - Additional tables not defined in the rulebook\n--   - Extra columns on existing tables (ALTER TABLE)\n--   - Custom indexes for performance tuning\n--   - Custom constraints or triggers\n--\n-- IMPORTANT:\n--   - This file runs AFTER 01-drop-and-create-tables.sql\n--   - The base tables already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom schema changes go here:\n",
-        "SQLTarget": "Postgres",
-        "CustomizationType": "Schema"
-      }
-    },
-    {
-      "class": "ERBCustomizations",
-      "id": "ERBCustomizations_1",
-      "values": {
-        "ERBCustomizationId": "03b-customize-functions-sql",
-        "Name": "03b-customize-functions.sql",
-        "Title": "Customize Functions",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE FUNCTIONS - User-defined calculation functions\n-- ============================================================================\n-- This file is for YOUR custom PostgreSQL functions that should persist\n-- across regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 02-create-functions.sql\n--   - Base ERB calc functions already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom functions go here:\n",
-        "SQLTarget": "Postgres",
-        "CustomizationType": "Functions"
-      }
-    },
-    {
-      "class": "ERBCustomizations",
-      "id": "ERBCustomizations_2",
-      "values": {
-        "ERBCustomizationId": "03c-customize-views-sql",
-        "Name": "03c-customize-views.sql",
-        "Title": "Customize Views",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE VIEWS - User-defined views and view extensions\n-- ============================================================================\n-- This file is for YOUR custom views that should persist across\n-- regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 03-create-views.sql\n--   - All base vw_* views already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom views go here:\n",
-        "SQLTarget": "Postgres",
-        "CustomizationType": "Views"
-      }
-    },
-    {
-      "class": "ERBCustomizations",
-      "id": "ERBCustomizations_3",
-      "values": {
-        "ERBCustomizationId": "03d-customize-rls-sql",
-        "Name": "03d-customize-rls.sql",
-        "Title": "Customize Policies (RLS)",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE POLICIES - User-defined Row Level Security policies\n-- ============================================================================\n-- This file is for YOUR custom RLS policies that should persist across\n-- regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 04-create-policies.sql\n--   - Base RLS policies already exist when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom policies go here:\n",
-        "SQLTarget": "Postgres",
-        "CustomizationType": "RLS"
-      }
-    },
-    {
-      "class": "ERBCustomizations",
-      "id": "ERBCustomizations_4",
-      "values": {
-        "ERBCustomizationId": "03e-customize-data-sql",
-        "Name": "03e-customize-data.sql",
-        "Title": "Customize Data (Seeds / Migrations)",
-        "SQLCode": "-- ============================================================================\n-- CUSTOMIZE DATA - User-defined seed data and data migrations\n-- ============================================================================\n-- This file is for YOUR custom seed data that should persist across\n-- regeneration of the base ERB files.\n--\n-- IMPORTANT:\n--   - This file runs AFTER 05-insert-data.sql\n--   - Base seed data already exists when this runs\n--   - This file will NOT be overwritten by ERB regeneration\n--\n-- ============================================================================\n\n-- Your custom data inserts go here:\n",
-        "SQLTarget": "Postgres",
-        "CustomizationType": "Data"
       }
     }
   ]

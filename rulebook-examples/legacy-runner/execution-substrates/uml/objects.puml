@@ -1,69 +1,24 @@
 @startuml
 
-object "jane.smith-email.com" as Customers_0 {
-  CustomerId = "jane-smith-email-com"
-  EmailAddress = "jane.smith@email.com"
+object "bob-gmail.com" as Customers_0 {
+  CustomerId = "bob-gmail-com"
+  EmailAddress = "bob@gmail.com"
   FirstName = "Bobby"
   LastName = "Smith"
 }
 
-object "john.doe-email.com" as Customers_1 {
-  CustomerId = "john-doe-email-com"
-  EmailAddress = "john.doe@email.com"
+object "jimmy-gmail.com" as Customers_1 {
+  CustomerId = "jimmy-gmail-com"
+  EmailAddress = "jimmy@gmail.com"
   FirstName = "Jimmy"
   LastName = "Doe"
 }
 
-object "emily.jones-email.com" as Customers_2 {
-  CustomerId = "emily-jones-email-com"
-  EmailAddress = "emily.jones@email.com"
+object "mary-gmail.com" as Customers_2 {
+  CustomerId = "mary-gmail-com"
+  EmailAddress = "mary@gmail.com"
   FirstName = "Mary"
   LastName = "Jones"
-}
-
-object "03a-customize-schema.sql" as ERBCustomizations_0 {
-  ERBCustomizationId = "03a-customize-schema-sql"
-  Name = "03a-customize-schema.sql"
-  Title = "Customize Schema"
-  SQLCode = "-- ========================..."
-  SQLTarget = "Postgres"
-  CustomizationType = "Schema"
-}
-
-object "03b-customize-functions.sql" as ERBCustomizations_1 {
-  ERBCustomizationId = "03b-customize-functions-sql"
-  Name = "03b-customize-functions.sql"
-  Title = "Customize Functions"
-  SQLCode = "-- ========================..."
-  SQLTarget = "Postgres"
-  CustomizationType = "Functions"
-}
-
-object "03c-customize-views.sql" as ERBCustomizations_2 {
-  ERBCustomizationId = "03c-customize-views-sql"
-  Name = "03c-customize-views.sql"
-  Title = "Customize Views"
-  SQLCode = "-- ========================..."
-  SQLTarget = "Postgres"
-  CustomizationType = "Views"
-}
-
-object "03d-customize-rls.sql" as ERBCustomizations_3 {
-  ERBCustomizationId = "03d-customize-rls-sql"
-  Name = "03d-customize-rls.sql"
-  Title = "Customize Policies (RLS)"
-  SQLCode = "-- ========================..."
-  SQLTarget = "Postgres"
-  CustomizationType = "RLS"
-}
-
-object "03e-customize-data.sql" as ERBCustomizations_4 {
-  ERBCustomizationId = "03e-customize-data-sql"
-  Name = "03e-customize-data.sql"
-  Title = "Customize Data (Seeds / Mig..."
-  SQLCode = "-- ========================..."
-  SQLTarget = "Postgres"
-  CustomizationType = "Data"
 }
 
 @enduml

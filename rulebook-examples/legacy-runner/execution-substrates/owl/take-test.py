@@ -324,10 +324,12 @@ def main():
     print("=" * 70)
     print()
 
-    # Check required files exist
-    ontology_path = script_dir / "ontology.owl"
-    individuals_path = script_dir / "individuals.ttl"
-    rules_path = script_dir / "rules.shacl.ttl"
+    # Check required files exist. inject-into-owl.py writes the TBox/ABox/SHACL
+    # source artifacts under src/ (test-answers.json/test-results.md stay at the
+    # substrate root); read from the same place they're written.
+    ontology_path = script_dir / "src" / "ontology.owl"
+    individuals_path = script_dir / "src" / "individuals.ttl"
+    rules_path = script_dir / "src" / "rules.shacl.ttl"
 
     for path in [ontology_path, individuals_path, rules_path]:
         if not path.exists():

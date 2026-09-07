@@ -67,8 +67,8 @@ pre { background: var(--code-bg); border: 1px solid var(--border-color); border-
             <h1>OWL/SHACL Execution Substrate</h1>
         </div>
         <div class="header-stats">
-            <div class="stat"><span>Score:</span><span class="stat-value score-danger">0.0%</span></div>
-            <div class="stat"><span>0/6 passed</span></div>
+            <div class="stat"><span>Score:</span><span class="stat-value score-perfect">100.0%</span></div>
+            <div class="stat"><span>6/6 passed</span></div>
         </div>
         <button id="theme-toggle" title="Toggle theme"><span class="sun">☀️</span><span class="moon">🌙</span></button>
     </header>
@@ -120,22 +120,20 @@ Loading rulebook...
 Tables with computed columns: Customers
 
 Loading ontology and data...
-   Loaded: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/owl/ontology.owl
-   Loaded: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/owl/individuals.ttl
-   Total triples: 1286
+   Loaded: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/owl/src/ontology.owl
+   Loaded: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/owl/src/individuals.ttl
+   Total triples: 50
 
 Loading SHACL rules...
-   Loaded: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/owl/rules.shacl.ttl
-   Rule triples: 671
+   Loaded: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/owl/src/rules.shacl.ttl
+   Rule triples: 12
 
 Running SHACL-SPARQL reasoning...
    (Multiple passes to resolve dependencies between computed fields)
-   Pass 1: 1286 -&gt; 1540 triples (254 added)
-   Pass 2: 1540 -&gt; 1575 triples (35 added)
-   Pass 3: 1575 -&gt; 1605 triples (30 added)
-   Pass 4: 1605 -&gt; 1605 triples (0 added)
-   Completed in 4 passes
-   Final triple count: 1605
+   Pass 1: 50 -&gt; 56 triples (6 added)
+   Pass 2: 56 -&gt; 56 triples (0 added)
+   Completed in 2 passes
+   Final triple count: 56
 
 Extracting computed values...
    Customers: 3 records (2 computed fields)
@@ -154,9 +152,9 @@ SHACL reasoning complete!
             <div class="card">
                 <h2>Test Summary</h2>
                 <div class="results-summary">
-                    <div class="result-item"><div class="result-value score-danger">0.0%</div><div class="result-label">Score</div></div>
-                    <div class="result-item"><div class="result-value score-perfect">0</div><div class="result-label">Passed</div></div>
-                    <div class="result-item"><div class="result-value">6</div><div class="result-label">Failed</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">100.0%</div><div class="result-label">Score</div></div>
+                    <div class="result-item"><div class="result-value score-perfect">6</div><div class="result-label">Passed</div></div>
+                    <div class="result-item"><div class="result-value">0</div><div class="result-label">Failed</div></div>
                     <div class="result-item"><div class="result-value">6</div><div class="result-label">Total</div></div>
                 </div>
             </div>
