@@ -75,7 +75,7 @@ effortless-rulebook/
   effortless-rulebook.json   # the single source of truth
 effortless.json              # transpiler pipeline config
 postgres/                    # GENERATED — SQL, init script, manifest
-  init-db.sh
+  reset-rulebook-db.sh
   00-bootstrap.sql … 05b-customize-data.sql
 server/                      # Express + pg API
   src/index.ts               # vw_* reads, base-table PATCH writes

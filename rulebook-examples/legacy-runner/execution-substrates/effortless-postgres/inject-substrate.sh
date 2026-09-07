@@ -40,18 +40,18 @@ fi
 
 # Initialise the local Postgres DB from the freshly-generated SQL so the
 # vw_* views reflect the current rulebook before take-test queries them.
-# init-db.sh targets a per-domain database; create it on demand so each
-# domain owns its own pristine schema.
-if [ -f "$POSTGRES_SSOTME_DIR/init-db.sh" ]; then
-    DB_NAME=$(grep -oE 'localhost:[0-9]+/[a-zA-Z0-9_-]+' "$POSTGRES_SSOTME_DIR/init-db.sh" | head -1 | sed 's/.*\///')
+# reset-rulebook-db.sh targets a per-domain database; create it on demand so
+# each domain owns its own pristine schema.
+if [ -f "$POSTGRES_SSOTME_DIR/reset-rulebook-db.sh" ]; then
+    DB_NAME=$(grep -oE 'localhost:[0-9]+/[a-zA-Z0-9_-]+' "$POSTGRES_SSOTME_DIR/reset-rulebook-db.sh" | head -1 | sed 's/.*\///')
     if [ -n "$DB_NAME" ]; then
         if ! psql -U postgres -d postgres -tAc "SELECT 1 FROM pg_database WHERE datname='$DB_NAME'" 2>/dev/null | grep -q 1; then
             echo "  Creating database '$DB_NAME'..."
             createdb -U postgres "$DB_NAME" || psql -U postgres -d postgres -c "CREATE DATABASE \"$DB_NAME\";"
         fi
     fi
-    echo "  Re-initializing database from $POSTGRES_SSOTME_DIR/init-db.sh"
-    bash "$POSTGRES_SSOTME_DIR/init-db.sh" 2>&1 | tail -10
+    echo "  Re-initializing database from $POSTGRES_SSOTME_DIR/reset-rulebook-db.sh"
+    bash "$POSTGRES_SSOTME_DIR/reset-rulebook-db.sh" 2>&1 | tail -10
 fi
 
 cd "$SCRIPT_DIR"

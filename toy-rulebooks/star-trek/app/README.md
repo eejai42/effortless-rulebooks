@@ -5,7 +5,7 @@ A simple web app for exploring Star Trek TV series, seasons, and episodes from t
 ## Requirements
 
 - Node.js 14+
-- PostgreSQL database initialized from `../postgres-bootstrap/init-db.sh`
+- PostgreSQL database initialized from `../postgres-bootstrap/reset-rulebook-db.sh`
 
 ## Setup
 
@@ -17,7 +17,7 @@ npm install
 2. Ensure the Postgres database is running:
 ```bash
 cd ../postgres-bootstrap
-./init-db.sh
+./reset-rulebook-db.sh
 ```
 
 3. Start the app:

@@ -91,7 +91,7 @@ cmd_build() {
 
 cmd_db() {
   # start.sh owns "make the database exist" (drop + create — the restart story);
-  # the transpiler-GENERATED init-db.sh owns "load all the SQL into it" (every
+  # the transpiler-GENERATED reset-rulebook-db.sh owns "load all the SQL into it" (every
   # NN[b]-*.sql: schema, functions, ALL views, data, the 03b gate engine). There
   # is exactly ONE initializer — the generated one — pointed at our domain DB.
   echo "[nna] (re)creating standalone Postgres: $DB"
@@ -102,7 +102,7 @@ cmd_db() {
   psql -h "$PGHOST" -U "$PGUSER" -q -c "DROP DATABASE IF EXISTS $DB"
   psql -h "$PGHOST" -U "$PGUSER" -q -c "CREATE DATABASE $DB"
   echo "[nna] loading generated SQL (schema + functions + views + data + gate engine)"
-  DATABASE_URL="postgresql://$PGUSER@$PGHOST:5432/$DB" bash "$PG_DIR/init-db.sh"
+  DATABASE_URL="postgresql://$PGUSER@$PGHOST:5432/$DB" bash "$PG_DIR/reset-rulebook-db.sh"
 }
 
 cmd_test() {

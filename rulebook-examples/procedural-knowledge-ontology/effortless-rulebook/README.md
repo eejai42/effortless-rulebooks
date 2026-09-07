@@ -17,7 +17,7 @@ containerized rulebook editor/viewer for any Effortless project:
   never changes, so a tab left open just starts working once ready.
 - `effortless.editor.json` -- the fixed, generic pipeline config (copied into
   the image as `/app/effortless.json`), registering `rulebook-to-postgres`,
-  its `-exec ./init-db.sh` step, `rulebook-to-node-postgres-api`,
+  its `-exec ./reset-rulebook-db.sh` step, `rulebook-to-node-postgres-api`,
   `rulebook-to-vite-admin-portal`, `rulebook-to-rulespeak`,
   `rulebook-to-rulespeak-de`, and `rulebook-to-xlsx`.
 - `edit-rulebook.sh` -- thin launcher: `docker build` + `docker run` with the

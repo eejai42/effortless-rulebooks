@@ -10,7 +10,7 @@ Rulebook formalizing naive set theory with three-valued (Strong Kleene) membersh
 
 ```bash
 cd rulebook-examples/naive-set-theory
-./init-db.sh   # once: load postgres/*.sql into erb_naive_set_theory
+./reset-rulebook-db.sh   # once: load postgres/*.sql into erb_naive_set_theory
 ./start.sh     # web http://localhost:43102 · API http://localhost:43302/api/views
 ```
 

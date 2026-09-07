@@ -27,12 +27,12 @@ DATABASE_URL="${DATABASE_URL:-postgresql://postgres@localhost:5432/simpsons_para
 export DATABASE_URL
 if ! psql "$DATABASE_URL" -c '\q' 2>/dev/null; then
   echo "[start] ERROR: cannot connect to $DATABASE_URL" >&2
-  echo "[start] Is Postgres running, and has 'effortless build && cd effortless-postgres && ./init-db.sh' been run yet?" >&2
+  echo "[start] Is Postgres running, and has 'effortless build && cd effortless-postgres && ./reset-rulebook-db.sh' been run yet?" >&2
   exit 1
 fi
 if ! psql "$DATABASE_URL" -tAc "SELECT to_regclass('public.vw_studies')" 2>/dev/null | grep -q vw_studies; then
   echo "[start] ERROR: $DATABASE_URL has no vw_studies view." >&2
-  echo "[start] Run 'effortless build' then 'cd effortless-postgres && ./init-db.sh' before starting the app." >&2
+  echo "[start] Run 'effortless build' then 'cd effortless-postgres && ./reset-rulebook-db.sh' before starting the app." >&2
   exit 1
 fi
 

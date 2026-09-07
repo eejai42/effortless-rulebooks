@@ -59,5 +59,5 @@ Generated files:
 - `04-create-policies.sql` - Create RLS policies
 - `05-insert-data.sql` - Insert data from rulebook
 - `99-fk-constraints.sql` - FK constraints (skipped unless EFFORTLESS_ENFORCE_FKS=true)
-- `init-db.sh` - Database initialization script
+- `reset-rulebook-db.sh` - Database initialization script
 

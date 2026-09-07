@@ -18,7 +18,7 @@ This is an ordinary governed project of the effortless-rulebooks repository: `ef
 
 ## Layout
 
-The hub is `effortless-rulebook/effortless-rulebook.json` (moved from the pre-canonical `ssot/ERB_*.json` on 2026-09-05; the old model name is kept in `__meta__` as `legacy_model_name`). Project metadata lives only in the `__meta__` table. The database is `erb_veritasium_power_laws_and_fractals`, recreated by the root `init-db.sh` wrapper on every build because the generated SQL is check-add. Do not hand-edit `postgres/init-db.sh`: the transpiler preserves an existing copy, and the hand-edited relic that lived there ignored `DATABASE_URL` and loaded a different database.
+The hub is `effortless-rulebook/effortless-rulebook.json` (moved from the pre-canonical `ssot/ERB_*.json` on 2026-09-05; the old model name is kept in `__meta__` as `legacy_model_name`). Project metadata lives only in the `__meta__` table. The database is `erb_veritasium_power_laws_and_fractals`, recreated by the root `reset-rulebook-db.sh` wrapper on every build because the generated SQL is check-add. Do not hand-edit `postgres/reset-rulebook-db.sh`: the transpiler preserves an existing copy, and the hand-edited relic that lived there ignored `DATABASE_URL` and loaded a different database.
 
 `rulebook-to-postgres` has no `NULLIF` and mis-emits single-argument `COUNTIF`: the 14 ratio fields are written `IF({{denominator}} = 0, 0, …)` (they read 0, not NULL, at a zero denominator) and `system_stats.PointCount` is a `COUNTIFS`. Keep it that way; every view must answer `SELECT *`.
 

@@ -5,7 +5,7 @@ Community-bank Small Business Banking Client Manager demo, built as an
 [`effortless-rulebook/effortless-banking-rulebook.json`](effortless-rulebook/effortless-banking-rulebook.json)
 is the single source of truth; `effortless build` regenerates Postgres
 schema, functions, views, and seed data under [`postgres/`](postgres/)
-and rebuilds the local DB via `init-db.sh`.
+and rebuilds the local DB via `reset-rulebook-db.sh`.
 
 The platform models a commercial RM workflow that competes on relationship
 depth: loan origination from inquiry through underwriting, committee
@@ -30,7 +30,7 @@ console) all reading from the same DAG.
 ## Layout
 
 - [`effortless-rulebook/`](effortless-rulebook/) — the SSoT rulebook JSON
-- [`postgres/`](postgres/) — generated SQL (`0*.sql`), `init-db.sh`, `*b-customize-*` seams
+- [`postgres/`](postgres/) — generated SQL (`0*.sql`), `reset-rulebook-db.sh`, `*b-customize-*` seams
 - [`bootstrap/`](bootstrap/) — narrative, glossary, vocabulary, diagrams, mock data
 - [`effortless.json`](effortless.json) — build pipeline configuration
 

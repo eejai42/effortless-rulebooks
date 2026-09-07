@@ -50,7 +50,7 @@ case "$COMMAND" in
   db)
     echo "Initializing database..."
     export DATABASE_URL
-    bash postgres-bootstrap/init-db.sh
+    bash postgres-bootstrap/reset-rulebook-db.sh
     ;;
   server)
     require_runtime

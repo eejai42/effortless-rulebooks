@@ -12,7 +12,7 @@ The video follows this project's kidney-stone counts through the inspectable ont
 
 **Start at `/discovery` or `/conclusions`.** Formal epistemic claims live in the rulebook `Conclusions` table — tiered by claim type (theorem · instrument · corpus snapshot). `DiscoveryHypotheses` split into **consistency checks** (definition-linked, e.g. H-purity) vs **corpus hypotheses** (contingent, provisional). SSoT is the rulebook JSON; the explorer reads `vw_*` views only. Run `./start.sh` → [Discovery Research](http://localhost:5173/discovery) · [Conclusions & Findings](http://localhost:5173/conclusions).
 
-[`simpsons-paradox-summary.pdf`](simpsons-paradox-summary.pdf) is a static export of the same tiered state (regenerated on `./init-db.sh`). For framing caveats — geometric vs causal, deductive vs empirical, convenience-sample limits — see [What this is not](#what-this-is-not) below.
+[`simpsons-paradox-summary.pdf`](simpsons-paradox-summary.pdf) is a static export of the same tiered state (regenerated on `./reset-rulebook-db.sh`). For framing caveats — geometric vs causal, deductive vs empirical, convenience-sample limits — see [What this is not](#what-this-is-not) below.
 
 ---
 
@@ -169,7 +169,7 @@ Standalone HTML: [`simpsons-paradox-explorer.html`](simpsons-paradox-explorer.ht
 
 ## Corpus summary (PDF)
 
-**[`simpsons-paradox-summary.pdf`](simpsons-paradox-summary.pdf)** — offline export of the same data as `/conclusions` (witnessed conclusions, discovery PASS/FAIL, corpus counts). Regenerated on `./init-db.sh`. With `./start.sh`: [localhost:3001/simpsons-paradox-summary.pdf](http://localhost:3001/simpsons-paradox-summary.pdf) or `GET /api/export/summary-pdf`.
+**[`simpsons-paradox-summary.pdf`](simpsons-paradox-summary.pdf)** — offline export of the same data as `/conclusions` (witnessed conclusions, discovery PASS/FAIL, corpus counts). Regenerated on `./reset-rulebook-db.sh`. With `./start.sh`: [localhost:3001/simpsons-paradox-summary.pdf](http://localhost:3001/simpsons-paradox-summary.pdf) or `GET /api/export/summary-pdf`.
 
 ---
 
@@ -178,7 +178,7 @@ Standalone HTML: [`simpsons-paradox-explorer.html`](simpsons-paradox-explorer.ht
 `effortless build` generates an OWL ontology + SHACL shapes under `owl/` via `rulebook-to-owl`. A **Postgres vs OWL-SHACL** receipt diff runs on demand (not during build — ~10 min at 238 studies):
 
 - **UI:** `/loops` → **Run conformance test**
-- **CLI:** `./owl/run-conformance.sh` (after `effortless build` + `./init-db.sh`)
+- **CLI:** `./owl/run-conformance.sh` (after `effortless build` + `./reset-rulebook-db.sh`)
 
 The `owl-conformance` transpiler is disabled in `effortless.json`; conformance is intentionally opt-in.
 
@@ -203,7 +203,7 @@ Transpilers are registered in `effortless.json` and run on hosted Effortless inf
 ```bash
 git status                               # always check first — rulebook JSON is sacred
 effortless build                         # hosted transpilers → postgres/, rulespeak/, owl/, explainer DAG, summary PDF
-cd effortless-postgres && ./init-db.sh   # drop and recreate local DB; writes simpsons-paradox-summary.pdf
+cd effortless-postgres && ./reset-rulebook-db.sh   # drop and recreate local DB; writes simpsons-paradox-summary.pdf
 ./start.sh                               # installs app deps if missing, then boots explorer UI on :5173 (API on :3001)
 ```
 
@@ -218,7 +218,7 @@ cd effortless-postgres && ./init-db.sh   # drop and recreate local DB; writes si
 | `rulebook-to-xlsx` | on-demand Excel export via API |
 | `generate-summary-pdf.sh` | `simpsons-paradox-summary.pdf` |
 
-No migrations. Edit rulebook → `effortless build` → `./init-db.sh` → DB reflects it.
+No migrations. Edit rulebook → `effortless build` → `./reset-rulebook-db.sh` → DB reflects it.
 
 **Bulk encode / import scripts** live under `scripts/`:
 

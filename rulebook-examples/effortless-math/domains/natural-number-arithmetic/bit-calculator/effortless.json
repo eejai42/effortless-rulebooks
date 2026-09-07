@@ -27,9 +27,9 @@
       "IsSSoTTranspiler": false,
       "Name": "execute",
       "RelativePath": "/effortless-postgres",
-      "CommandLine": "-exec ./init-db.sh",
+      "CommandLine": "-exec ./reset-rulebook-db.sh",
       "IsDisabled": false,
-      "Description": "Load the generated SQL into erb_bit_calculator (init-db.sh points at that DB). Runs on every build."
+      "Description": "Load the generated SQL into erb_bit_calculator (reset-rulebook-db.sh points at that DB). Runs on every build."
     },
     {
       "IsSSoTTranspiler": false,

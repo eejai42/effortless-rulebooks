@@ -47,7 +47,7 @@ anyone writing a migration.
 edit Airtable  →  effortless build (rulebook)  →  effortless build (postgres)
                                                         │
                                                         ▼
-                                                  init-db.sh
+                                                  reset-rulebook-db.sh
                                                         │
                                                         ▼
                                          new columns appear in vw_*
@@ -327,7 +327,7 @@ copy.
 ### 3.9 Data flow
 
 ```
-Airtable ──► effortless-rulebook.json ──► postgres/*.sql ──► init-db.sh
+Airtable ──► effortless-rulebook.json ──► postgres/*.sql ──► reset-rulebook-db.sh
     │                                                             │
     │                                                             ▼
     │                                                      PostgreSQL
@@ -370,7 +370,7 @@ Generated artifacts:
 - `05-insert-data.sql` — seed rows exported from Airtable
 - `function-overrides/*.sql` — hand-written overrides (see §4.4)
 - `XXb-customize-*.sql` — hand-written customizations (see §4.5)
-- `init-db.sh` — the executor that runs the whole stack in order
+- `reset-rulebook-db.sh` — the executor that runs the whole stack in order
 
 ### 4.2 Database naming conventions
 
@@ -416,7 +416,7 @@ Some `calc_*` functions need human intervention. Current overrides:
 | `calc_orders_payment_count.sql`        | Same                                                                 |
 | `calc_orders_last_payment_date.sql`    | Same                                                                 |
 
-`init-db.sh` runs every file in `function-overrides/*.sql` last, with
+`reset-rulebook-db.sh` runs every file in `function-overrides/*.sql` last, with
 **`ON_ERROR_STOP` off** — if an override targets a function that no longer
 exists after a rename, the script warns but keeps going.
 
@@ -442,7 +442,7 @@ are populated in v6 — they exist as escape hatches.
   ("Hast" instead of "Has"). The typo is preserved end-to-end so the
   rulebook stays the source of truth.
 - **`client_categorie_id`** — auto-singularized wrong. Same story.
-- **`vw_customers`** — leftover v3 view that `init-db.sh` still creates
+- **`vw_customers`** — leftover v3 view that `reset-rulebook-db.sh` still creates
   because the generator sees `Customers` referenced somewhere. Harmless;
   unused by the app.
 - These could be fixed with a rulebook-level rename, but v6 is an alignment
@@ -491,7 +491,7 @@ with other dev servers).
   a product requires no line items reference it
 - **Stock is derived** — `stock_quantity` is a SUM, not a column. Never
   UPDATE it directly; post an `inventory_adjustment` instead
-- **`init-db.sh` is destructive** — it drops and recreates the database.
+- **`reset-rulebook-db.sh` is destructive** — it drops and recreates the database.
   Do not run it on data you care about
 
 ### 4.10 Testing
@@ -528,7 +528,7 @@ fresh init-db; that work is not scoped yet.
 |-------------------------------------------------------------------|---------------------------------------------------|
 | [effortless.json](effortless.json)                                | ERB project config: base id, transpilers          |
 | [effortless-rulebook/](effortless-rulebook/)                      | Generated rulebook (overwritten by build)         |
-| [postgres/](postgres/)                                            | Generated SQL + customize hooks + `init-db.sh`    |
+| [postgres/](postgres/)                                            | Generated SQL + customize hooks + `reset-rulebook-db.sh`    |
 | [postgres/function-overrides/](postgres/function-overrides/)      | Hand-written SQL function overrides               |
 | [backend/](backend/)                                              | Node/Express API                                  |
 | [frontend/](frontend/)                                            | Vite + React UI                                   |

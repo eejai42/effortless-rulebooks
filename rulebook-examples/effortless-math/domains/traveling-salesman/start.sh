@@ -77,7 +77,7 @@ cmd_build() {
 }
 
 cmd_db() {
-  local init="$PG_DIR/init-db.sh"
+  local init="$PG_DIR/reset-rulebook-db.sh"
   if [ ! -f "$init" ]; then
     echo "missing generated Postgres initializer: $init" >&2
     echo "run ./start.sh build first" >&2

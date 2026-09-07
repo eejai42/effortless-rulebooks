@@ -55,8 +55,8 @@ db() {
   psql -U postgres -h localhost -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname='erb_customer_crm'" >/dev/null || true
   psql -U postgres -h localhost -d postgres -c "DROP DATABASE IF EXISTS erb_customer_crm"
   psql -U postgres -h localhost -d postgres -c "CREATE DATABASE erb_customer_crm"
-  chmod +x postgres-bootstrap/init-db.sh
-  bash postgres-bootstrap/init-db.sh
+  chmod +x postgres-bootstrap/reset-rulebook-db.sh
+  bash postgres-bootstrap/reset-rulebook-db.sh
 }
 
 server() {

@@ -19,8 +19,8 @@ effortless build
 # ── 2. Init database ──
 echo ""
 echo "[2/4] Initializing database..."
-chmod +x "$PROJECT_DIR/postgres/init-db.sh"
-"$PROJECT_DIR/postgres/init-db.sh"
+chmod +x "$PROJECT_DIR/postgres/reset-rulebook-db.sh"
+"$PROJECT_DIR/postgres/reset-rulebook-db.sh"
 
 # ── 3. Install dependencies ──
 echo ""

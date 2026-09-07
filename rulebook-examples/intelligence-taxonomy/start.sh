@@ -100,24 +100,24 @@ preflight_db() {
 
 db() {
   cd "$ROOT"
-  [ -f postgres-bootstrap/init-db.sh ] \
-    || die "missing generated artifact: $ROOT/postgres-bootstrap/init-db.sh"
+  [ -f postgres-bootstrap/reset-rulebook-db.sh ] \
+    || die "missing generated artifact: $ROOT/postgres-bootstrap/reset-rulebook-db.sh"
   ensure_db_exists
   echo "[db] applying schema + data in place (idempotent)"
-  chmod +x postgres-bootstrap/init-db.sh
-  DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/init-db.sh
+  chmod +x postgres-bootstrap/reset-rulebook-db.sh
+  DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/reset-rulebook-db.sh
 }
 
 db_reset() {
   cd "$ROOT"
-  [ -f postgres-bootstrap/init-db.sh ] \
-    || die "missing generated artifact: $ROOT/postgres-bootstrap/init-db.sh"
+  [ -f postgres-bootstrap/reset-rulebook-db.sh ] \
+    || die "missing generated artifact: $ROOT/postgres-bootstrap/reset-rulebook-db.sh"
   ensure_db_exists
   echo "[db-reset] TRUNCATE assessments, intelligences, capabilities CASCADE"
   psql "$DATABASE_URL" -c "TRUNCATE assessments, intelligences, capabilities CASCADE;"
-  chmod +x postgres-bootstrap/init-db.sh
+  chmod +x postgres-bootstrap/reset-rulebook-db.sh
   echo "[db-reset] re-seeding from rulebook"
-  DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/init-db.sh
+  DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/reset-rulebook-db.sh
 }
 
 server() {

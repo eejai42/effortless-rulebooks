@@ -91,7 +91,7 @@ effortless build          # or: ./start.sh build
 ```
 
 Then open **http://localhost:5175**. `effortless build` runs `rulebook-to-postgres`
-→ drops & recreates `erb_tiling_the_plane` via `postgres-bootstrap/init-db.sh`.
+→ drops & recreates `erb_tiling_the_plane` via `postgres-bootstrap/reset-rulebook-db.sh`.
 The control panel reads every value from the `vw_*` views and writes raw edits to
 the base tables.
 

@@ -83,7 +83,7 @@ rulebook first:
 ```bash
 cd ../postgres-bootstrap
 DATABASE_URL="postgresql://postgres@localhost:5432/erb_talismans_special_solutions" \
-  ERB_DOMAIN=talismans-special-solutions bash ./init-db.sh
+  ERB_DOMAIN=talismans-special-solutions bash ./reset-rulebook-db.sh
 ```
 
 ## Namespaces

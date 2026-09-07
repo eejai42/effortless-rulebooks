@@ -28,8 +28,8 @@ echo "[ 2/5 ] Generating SQL from rulebook..."
 echo ""
 echo "[ 3/5 ] Ensuring database exists and loading schema/data..."
 createdb effortless-rulebook-demo 2>/dev/null || true
-chmod +x "$SCRIPT_DIR/postgres/init-db.sh"
-(cd "$SCRIPT_DIR/postgres" && ./init-db.sh)
+chmod +x "$SCRIPT_DIR/postgres/reset-rulebook-db.sh"
+(cd "$SCRIPT_DIR/postgres" && ./reset-rulebook-db.sh)
 
 # ── 3. Install dependencies ──────────────────────────────────────────────────
 echo ""

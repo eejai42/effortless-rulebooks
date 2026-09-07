@@ -116,7 +116,7 @@ Every project — the root included, the legacy runner included — fills the sa
 | Story | `README.md`, ending with the *Local transpiler bus* section |
 | Doctrine marker | `CLAUDE.md` (required of showcase examples) |
 | Plain-English rules | `rulespeak/` via `rulebook-to-rulespeak` |
-| Reference substrate | `postgres/` via `rulebook-to-postgres` + `init-db.sh` (examples) |
+| Reference substrate | `postgres/` via `rulebook-to-postgres` + `reset-rulebook-db.sh` (examples) |
 | Editor | `effortless-rulebook/edit-rulebook.sh` via `effortless-rulebook-editor` (examples) |
 | An app that reads the views | `app/`, `web/`, `server/` … (examples) |
 | Run story | `start.sh` (root, toys, and examples) |

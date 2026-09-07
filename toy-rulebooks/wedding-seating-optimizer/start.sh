@@ -53,7 +53,7 @@ cmd_db() {
   echo "[start] drop+create $DB"
   psql -U postgres -h localhost -d postgres -c "DROP DATABASE IF EXISTS $DB" >/dev/null
   psql -U postgres -h localhost -d postgres -c "CREATE DATABASE $DB" >/dev/null
-  ( cd postgres-bootstrap && DATABASE_URL="$PG" ./init-db.sh "$PG" )
+  ( cd postgres-bootstrap && DATABASE_URL="$PG" ./reset-rulebook-db.sh "$PG" )
 }
 
 cmd_build() {

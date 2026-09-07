@@ -33,7 +33,7 @@
       "IsSSoTTranspiler": false,
       "Name": "init-db",
       "RelativePath": "/postgres-bootstrap",
-      "CommandLine": "-exec ./init-db.sh",
+      "CommandLine": "-exec ./reset-rulebook-db.sh",
       "IsDisabled": false
     },
     {
@@ -42,7 +42,7 @@
       "RelativePath": "/app/backend",
       "CommandLine": "-exec ./seed-dbjson.sh",
       "IsDisabled": false,
-      "_Note": "Reseed the reasoner's data store (app/backend/db.json) from the rulebook on EVERY build, parallel to init-db.sh for Postgres. Runs AFTER init-db.sh so the live DB columns exist for the authoritative raw/derived classification. Without this, db.json drifts: a raw field with a default added to the rulebook (e.g. RenewalWindowMonths=2) never lands in the stale db.json, the reasoner reads null, and the UI shows COMPLIANT when AT RISK. start.sh does NOT reseed, so only a build fixes it."
+      "_Note": "Reseed the reasoner's data store (app/backend/db.json) from the rulebook on EVERY build, parallel to reset-rulebook-db.sh for Postgres. Runs AFTER reset-rulebook-db.sh so the live DB columns exist for the authoritative raw/derived classification. Without this, db.json drifts: a raw field with a default added to the rulebook (e.g. RenewalWindowMonths=2) never lands in the stale db.json, the reasoner reads null, and the UI shows COMPLIANT when AT RISK. start.sh does NOT reseed, so only a build fixes it."
     },
     {
       "IsSSoTTranspiler": false,

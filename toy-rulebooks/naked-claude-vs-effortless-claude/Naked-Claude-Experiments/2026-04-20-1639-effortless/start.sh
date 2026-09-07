@@ -16,9 +16,9 @@ effortless build
 # 2. Re-initialize the database
 echo ""
 echo "--- Step 2: Initializing PostgreSQL database ---"
-chmod +x "$PROJECT_DIR/postgres/init-db.sh"
+chmod +x "$PROJECT_DIR/postgres/reset-rulebook-db.sh"
 cd "$PROJECT_DIR/postgres"
-./init-db.sh
+./reset-rulebook-db.sh
 
 # 3. Install backend dependencies
 echo ""

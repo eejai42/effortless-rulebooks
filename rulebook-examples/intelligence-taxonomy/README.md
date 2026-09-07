@@ -73,7 +73,7 @@ any glue code, or any cache invalidation. The view re-derives every read.
 effortless.json                  pipeline config (rulebook-to-postgres + explainer-dag)
 effortless-rulebook/
   effortless-rulebook.json       the single source of truth
-postgres/                        GENERATED — schema, functions, views, seed SQL, init-db.sh
+postgres/                        GENERATED — schema, functions, views, seed SQL, reset-rulebook-db.sh
 server/                          Express + pg API (hand-written)
   src/index.ts                   all routes (CRUD on capabilities/intelligences/assessments)
 web/                             Vite + React SPA (hand-written)

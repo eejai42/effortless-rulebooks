@@ -31,7 +31,7 @@
       "IsSSoTTranspiler": false,
       "Name": "execute",
       "RelativePath": "/postgres",
-      "CommandLine": "-exec ./init-db.sh",
+      "CommandLine": "-exec ./reset-rulebook-db.sh",
       "IsDisabled": false
     },
     {

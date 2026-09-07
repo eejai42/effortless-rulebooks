@@ -76,7 +76,7 @@ ensure_deps() {
 
 cmd_db() {
   echo "[start] re-initializing $DATABASE_URL"
-  ( cd postgres-bootstrap && chmod +x init-db.sh && ./init-db.sh )
+  ( cd postgres-bootstrap && chmod +x reset-rulebook-db.sh && ./reset-rulebook-db.sh )
 }
 
 cmd_build() {

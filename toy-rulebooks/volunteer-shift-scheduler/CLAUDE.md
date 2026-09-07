@@ -64,8 +64,8 @@ effortless build
 ```
 
 Runs:
-1. `rulebook-to-postgres` — generates `postgres/00-05` SQL files and `init-db.sh`.
-2. `execute -exec ./init-db.sh` — drops + recreates `erb_volunteer_shift_scheduler`, applies all SQL, loads seed.
+1. `rulebook-to-postgres` — generates `postgres/00-05` SQL files and `reset-rulebook-db.sh`.
+2. `execute -exec ./reset-rulebook-db.sh` — drops + recreates `erb_volunteer_shift_scheduler`, applies all SQL, loads seed.
 
 ## Database
 
@@ -86,7 +86,7 @@ cp effortless.env.example effortless.env
 | `effortless-rulebook/volunteer-shift-scheduler-rulebook.json` | The rulebook (SSoT) |
 | `effortless.env.example` | Committed canonical env (DATABASE_URL) |
 | `effortless.env` | Local env (gitignored) |
-| `postgres/` | Generated SQL + init-db.sh |
+| `postgres/` | Generated SQL + reset-rulebook-db.sh |
 
 ---
 

@@ -94,12 +94,12 @@ run_db() {
   psql -U postgres -h localhost -d postgres -c "CREATE DATABASE $DEFAULT_DB;"
 
   # Run init script
-  if [ -f postgres-bootstrap/init-db.sh ]; then
-    chmod +x postgres-bootstrap/init-db.sh
-    DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/init-db.sh
+  if [ -f postgres-bootstrap/reset-rulebook-db.sh ]; then
+    chmod +x postgres-bootstrap/reset-rulebook-db.sh
+    DATABASE_URL="$DATABASE_URL" ./postgres-bootstrap/reset-rulebook-db.sh
     echo -e "${GREEN}✓ Database initialized${NC}"
   else
-    echo "postgres-bootstrap/init-db.sh not found. Run './start.sh build' first."
+    echo "postgres-bootstrap/reset-rulebook-db.sh not found. Run './start.sh build' first."
     exit 1
   fi
 }

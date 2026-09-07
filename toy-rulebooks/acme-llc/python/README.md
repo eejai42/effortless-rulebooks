@@ -41,5 +41,5 @@ Generated files:
 - `05-insert-data.sql` - Insert data from rulebook
 - `05b-customize-data.sql` - User customizations for seed data
 - `99-fk-constraints.sql` - FK constraints (skipped unless EFFORTLESS_ENFORCE_FKS=true)
-- `init-db.sh` - Database initialization script
+- `reset-rulebook-db.sh` - Database initialization script
 

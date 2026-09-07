@@ -2,7 +2,7 @@
 
 This is an **Effortless Rulebook (ERB)** project. The SSoT is
 `effortless-rulebook/effortless-rulebook.json`. It is generated into Postgres
-SQL under `postgres/` and loaded into a local Postgres DB by `init-db.sh`. The
+SQL under `postgres/` and loaded into a local Postgres DB by `reset-rulebook-db.sh`. The
 rulebook is edited directly (Rulebook-First, the best-practice default); if the
 project opted into an upstream surface (Airtable / Excel / Notion), that surface
 is one optional input spoke pulled into the rulebook via its `*-to-rulebook`
@@ -23,7 +23,7 @@ When working in this project, load the relevant `effortless-*` skills:
 ## NO MIGRATIONS — read before touching Postgres
 
 This project's local Postgres DB is **regenerated from scratch on every
-`effortless build`** via `init-db.sh` (drop + recreate). There is no
+`effortless build`** via `reset-rulebook-db.sh` (drop + recreate). There is no
 `migrations/` folder, no migrations tracking table, no incremental SQL
 deltas in this paradigm.
 

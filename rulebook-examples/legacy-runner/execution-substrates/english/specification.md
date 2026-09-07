@@ -1,31 +1,34 @@
 # ACME, LLC Rulebook Specification
 
 ## Overview
-This rulebook outlines the structure and computation methods for customer data within ACME, LLC. It defines how to derive calculated fields from raw input data, specifically focusing on customer identifiers such as `Name` and `FullName`. The computations are designed to automatically update whenever the underlying raw data changes.
+This rulebook outlines the structure and computation of customer data for ACME, LLC. It includes raw input fields and derived fields that are calculated based on those inputs. The primary focus is on the customer ledger, which contains essential contact information and calculated identifiers for each customer.
 
 ## Customers Entity
 
 ### Input Fields
-The following raw input fields are used to derive calculated fields:
+The following are the raw input fields for the Customers entity:
 
-1. **EmailAddress**
+1. **CustomerId**
+   - **Type:** String
+   - **Description:** A unique identifier for the customer.
+
+2. **EmailAddress**
    - **Type:** String
    - **Description:** The customer's email address.
 
-2. **FirstName**
+3. **FirstName**
    - **Type:** String
-   - **Description:** First Name of the customer, used to create the full name.
+   - **Description:** The first name of the customer, used to create the full name.
 
-3. **LastName**
+4. **LastName**
    - **Type:** String
-   - **Description:** Last Name of the customer, used to create the full name.
+   - **Description:** The last name of the customer, used to create the full name.
 
-### Calculated Fields
-The following fields are derived from the input fields:
+### Derived Fields
 
 1. **Name**
    - **Type:** Calculated
-   - **Computation:** The `Name` is derived by replacing the "@" character in the `EmailAddress` with a "-". This creates a unique handle for the customer.
+   - **Computation:** The `Name` is derived from the `EmailAddress` by replacing the "@" character with a "-". 
    - **Original Formula:** `=SUBSTITUTE({{EmailAddress}}, "@", "-")`
    - **Example:** For a customer with `EmailAddress` of `bob@gmail.com`, the computation would be:
      - `Name = SUBSTITUTE("bob@gmail.com", "@", "-")` results in `bob-gmail.com`.
@@ -34,11 +37,11 @@ The following fields are derived from the input fields:
    - **Type:** Calculated
    - **Computation:** The `FullName` is created by concatenating the `FirstName` and `LastName` with a space in between.
    - **Original Formula:** `={{FirstName}} & " " & {{LastName}}`
-   - **Example:** For a customer with `FirstName` of `Bobby` and `LastName` of `Smith`, the computation would be:
+   - **Example:** For a customer with `FirstName` of "Bobby" and `LastName` of "Smith", the computation would be:
      - `FullName = "Bobby" & " " & "Smith"` results in `Bobby Smith`.
 
-### Summary of Derived Fields
-- **Name:** A unique identifier derived from the customer's email address by replacing "@" with "-".
-- **FullName:** A concatenation of the customer's first and last names, providing a complete name representation.
+### Summary of Computation
+- The `Name` field is a transformation of the `EmailAddress`, specifically changing the "@" symbol to a hyphen.
+- The `FullName` field is a straightforward concatenation of the `FirstName` and `LastName` fields, separated by a space.
 
-This specification provides a clear understanding of how to compute each derived field for the customers of ACME, LLC, ensuring that any changes to the raw input data will reflect in the calculated fields without the need for additional application code or migrations.
+By following the above specifications, one can accurately compute the `Name` and `FullName` for each customer in the ACME, LLC customer ledger based on the provided raw input fields.

@@ -38,7 +38,7 @@ export DB_PORT=${DB_PORT:-5432}
 export DB_USER=${DB_USER:-postgres}
 export DB_PASSWORD=${DB_PASSWORD:-}
 # Point Rails at THE canonical domain database — the same erb_customer_fullname
-# that postgres-bootstrap/init-db.sh builds (matches postgres-bootstrap/effortless.env
+# that postgres-bootstrap/reset-rulebook-db.sh builds (matches postgres-bootstrap/effortless.env
 # and server.js). Rails is a read substrate here: it consumes the vw_<entity> views
 # the bootstrap already materialised. It does NOT own schema/views/seed data — the
 # rulebook -> postgres-bootstrap pipeline is the single source of truth for those.
@@ -49,7 +49,7 @@ export DATABASE_URL="postgresql://${DB_USER}:${DB_PASSWORD}@${DB_HOST}:${DB_PORT
 echo "Verifying canonical database (erb_customer_fullname) is bootstrapped..."
 if ! psql "$DATABASE_URL" -tc "SELECT 1 FROM pg_views WHERE viewname = 'vw_customers'" 2>/dev/null | grep -q 1; then
   echo "ERROR: vw_customers not found in erb_customer_fullname." >&2
-  echo "Run the postgres bootstrap first:  (cd ../../postgres-bootstrap && ./init-db.sh)" >&2
+  echo "Run the postgres bootstrap first:  (cd ../../postgres-bootstrap && ./reset-rulebook-db.sh)" >&2
   exit 1
 fi
 

@@ -104,7 +104,7 @@ IsOverBudget + IsApproved  →  RequiresEscalation (3rd-order flag)
 The build pipeline:
 
 1. `rulebook-to-postgres` transpiler — reads the JSON, generates `postgres/00-05` SQL files (tables, functions, views)
-2. `init-db.sh` — drops and recreates the Postgres database, applies all SQL, inserts seed data
+2. `reset-rulebook-db.sh` — drops and recreates the Postgres database, applies all SQL, inserts seed data
 3. `rulebook-to-react-explainer-dag` transpiler — generates `web/src/explainer-dag/` (the clickable inference graph module)
 
 Stack: Express + pg (server), Vite + React + React Router (web), ExcelJS (Excel export), Effortless CLI (build pipeline).

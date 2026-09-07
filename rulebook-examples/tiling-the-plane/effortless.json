@@ -33,7 +33,7 @@
       "IsSSoTTranspiler": false,
       "Name": "initdb",
       "RelativePath": "/postgres-bootstrap",
-      "CommandLine": "-exec ./init-db.sh",
+      "CommandLine": "-exec ./reset-rulebook-db.sh",
       "IsDisabled": false,
       "Description": "Drop + recreate the local Postgres DB and run all NN[b]?-*.sql in lex order."
     },

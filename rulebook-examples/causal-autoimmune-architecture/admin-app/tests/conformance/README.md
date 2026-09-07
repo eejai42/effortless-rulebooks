@@ -35,7 +35,7 @@ equivalence of the whole model.
 ### Run
 
 ```bash
-# Prereqs: local DB seeded (cd postgres && ./init-db.sh); python3 with
+# Prereqs: local DB seeded (cd postgres && ./reset-rulebook-db.sh); python3 with
 # rdflib + owlrl + pyshacl; curl on PATH.
 python3 admin-app/tests/conformance/progression_closure_conformance.py
 ```

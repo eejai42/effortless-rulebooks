@@ -297,7 +297,7 @@ OWL-RL deductive closure against the Postgres recursive CTE and asserts the load
 
 ```bash
 ./start.sh build           # effortless build → regenerates the Postgres substrate
-cd postgres && ./init-db.sh # create + seed the local database
+cd postgres && ./reset-rulebook-db.sh # create + seed the local database
 cd ../admin-app && npm install && npm test   # the witnessed red→green inference harness
 ```
 

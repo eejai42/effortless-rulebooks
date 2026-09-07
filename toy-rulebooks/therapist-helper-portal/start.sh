@@ -51,7 +51,7 @@ reset_db() {
   echo "==> drop+create erb_therapist_helper_portal"
   psql -U postgres -h localhost -d postgres -c "DROP DATABASE IF EXISTS erb_therapist_helper_portal" >/dev/null
   psql -U postgres -h localhost -d postgres -c "CREATE DATABASE erb_therapist_helper_portal" >/dev/null
-  (cd postgres-bootstrap && DATABASE_URL="$DATABASE_URL" ./init-db.sh)
+  (cd postgres-bootstrap && DATABASE_URL="$DATABASE_URL" ./reset-rulebook-db.sh)
 }
 
 start_server() {

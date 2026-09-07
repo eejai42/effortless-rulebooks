@@ -16,8 +16,8 @@ effortless build
 # 2. Initialize database
 echo ""
 echo "[2/5] Initializing database..."
-chmod +x postgres/init-db.sh
-postgres/init-db.sh
+chmod +x postgres/reset-rulebook-db.sh
+postgres/reset-rulebook-db.sh
 
 # 3. Install backend deps
 echo ""

@@ -63,7 +63,7 @@ arrays is mock/demo data. The seed data is not "test data sitting next to real d
 authoritative content of the domain, and the dev database is a clean slate on every build.
 
 - The dev Postgres bootstrap runs with `drop_all=true` (`mode=drop-all`, `stage=dev` — see
-  `effortless.json` and `postgres-bootstrap/init-db.sh`). So **`init-db.sh` drops and recreates
+  `effortless.json` and `postgres-bootstrap/reset-rulebook-db.sh`). So **`reset-rulebook-db.sh` drops and recreates
   everything, then reloads exactly the rulebook seed data**, on every `effortless build`. Nothing
   you typed into the dev DB by hand survives a build — and that is intended.
 - The **only** difference between this dev instance and a hypothetical production instance is the
@@ -177,7 +177,7 @@ This is self-contained and safe to run anytime against the current rulebook. It:
 
 1. Spins up an **ephemeral throwaway database** (`erb_<domain>_keygen_<pid>`),
    leaving the dev DB `erb_talismans_special_solutions` untouched.
-2. Builds the schema + `vw_*` views into it (`init-db.sh`) — Postgres computes
+2. Builds the schema + `vw_*` views into it (`reset-rulebook-db.sh`) — Postgres computes
    every calc / lookup / aggregation / closure value.
 3. Exports `SELECT * FROM vw_<entity>` for every entity (`pull-from-postgres.sh`
    — it queries the **views**, not base tables, so the export carries the

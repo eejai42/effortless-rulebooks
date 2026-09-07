@@ -98,7 +98,7 @@ case "${1:-all}" in
     echo ""
     echo "Build and DB init are separate (run them yourself):"
     echo "  effortless build           - regenerate postgres-bootstrap/"
-    echo "  ./postgres-bootstrap/init-db.sh      - drop/recreate DB and apply schema"
+    echo "  ./postgres-bootstrap/reset-rulebook-db.sh      - drop/recreate DB and apply schema"
     echo ""
     echo "Environment variables:"
     echo "  PORT_SERVER=$PORT_SERVER"

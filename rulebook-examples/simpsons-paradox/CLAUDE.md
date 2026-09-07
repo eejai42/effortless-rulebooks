@@ -38,7 +38,7 @@ answers. Read it before making structural changes.
 ## NO MIGRATIONS
 
 Local Postgres regenerated from scratch on every `effortless build` via
-`effortless-postgres/init-db.sh`. Never write migrations. Edit rulebook → build.
+`effortless-postgres/reset-rulebook-db.sh`. Never write migrations. Edit rulebook → build.
 
 ## Build discipline
 

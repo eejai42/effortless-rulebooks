@@ -125,7 +125,7 @@ SLOTS: tuple[dict[str, Any], ...] = (
         "root": True,
         "example": True,
         "toy": False,
-        "description": "The build pipeline contains an explicit step that executes postgres/init-db.sh.",
+        "description": "The build pipeline contains an explicit step that executes postgres/reset-rulebook-db.sh (formerly init-db.sh).",
     },
     {
         "id": "slot-editor",
@@ -1336,7 +1336,8 @@ def observe_slot(
             for transpiler in observation["transpilers"]
             if transpiler["Name"] in {"init-db", "initdb", "execute"}
             and (
-                "-exec ./init-db.sh" in transpiler["CommandLine"]
+                "-exec ./reset-rulebook-db.sh" in transpiler["CommandLine"]
+                or "-exec ./init-db.sh" in transpiler["CommandLine"]
                 or "-exec ./init-root-db.sh" in transpiler["CommandLine"]
             )
             and not transpiler.get("IsDisabled", False)

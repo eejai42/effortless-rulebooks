@@ -53,8 +53,8 @@ effortless build
 ```
 
 This runs:
-1. `rulebook-to-postgres` — generates `postgres/00-05` SQL files and `init-db.sh`.
-2. `execute -exec ./init-db.sh` — drops + recreates `erb_expense_approval`, applies all SQL, loads seed data.
+1. `rulebook-to-postgres` — generates `postgres/00-05` SQL files and `reset-rulebook-db.sh`.
+2. `execute -exec ./reset-rulebook-db.sh` — drops + recreates `erb_expense_approval`, applies all SQL, loads seed data.
 
 ## Database
 
@@ -75,7 +75,7 @@ cp effortless.env.example effortless.env
 | `effortless-rulebook/expense-approval-rulebook.json` | The rulebook (SSoT) |
 | `effortless.env.example` | Committed canonical env (DATABASE_URL) |
 | `effortless.env` | Local env (gitignored) |
-| `postgres/` | Generated SQL + init-db.sh |
+| `postgres/` | Generated SQL + reset-rulebook-db.sh |
 | `README.md` | Narrative documentation for the full app |
 
 ---

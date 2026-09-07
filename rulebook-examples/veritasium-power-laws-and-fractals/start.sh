@@ -31,7 +31,7 @@ view_ready="$(psql -d "$PGDATABASE" -v ON_ERROR_STOP=1 -tAc \
   "SELECT 1 FROM information_schema.views WHERE table_schema='public' AND table_name LIKE 'vw\\_%' LIMIT 1" \
   2>/dev/null || true)"
 [ "$view_ready" = "1" ] \
-  || die "database $PGDATABASE at $PGHOST:$PGPORT is unavailable or has no vw_* views; run ./init-db.sh (or effortless build) first"
+  || die "database $PGDATABASE at $PGHOST:$PGPORT is unavailable or has no vw_* views; run ./reset-rulebook-db.sh (or effortless build) first"
 
 for port in "$API_PORT" "$WEB_PORT"; do
   pids="$(lsof -nP -tiTCP:"$port" -sTCP:LISTEN 2>/dev/null || true)"

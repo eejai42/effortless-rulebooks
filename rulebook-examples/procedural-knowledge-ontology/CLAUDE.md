@@ -75,16 +75,16 @@ To show a witness can fire, the violation is seeded, the column is confirmed red
 
 ```bash
 effortless build      # runs rulebook-to-rulespeak -> rulespeak/, rulebook-to-postgres
-                      # -> postgres-bootstrap/, then ./init-db.sh
-./init-db.sh          # DROP + CREATE erb_procedural_knowledge_ontology, then load it
+                      # -> postgres-bootstrap/, then ./reset-rulebook-db.sh
+./reset-rulebook-db.sh          # DROP + CREATE erb_procedural_knowledge_ontology, then load it
 ./start.sh            # validate + regenerate all projections + run tests
 ```
 
 ### Loading the database
 
-`./init-db.sh` at the project root **drops and recreates**
+`./reset-rulebook-db.sh` at the project root **drops and recreates**
 `erb_procedural_knowledge_ontology` (`WITH (FORCE)`) and then execs
-`postgres-bootstrap/init-db.sh`, which loads a freshly created, empty database
+`postgres-bootstrap/reset-rulebook-db.sh`, which loads a freshly created, empty database
 to completion in one run — consistency rule cr-20: no step may require schema a
 later step creates. The load runs in three phases:
 
@@ -100,7 +100,7 @@ later step creates. The load runs in three phases:
    schemas and narrowed views); `99-fk-constraints.sql` stays opt-in
    (`EFFORTLESS_ENFORCE_FKS=true`).
 
-`postgres-bootstrap/init-db.sh` was emitted `overwrite: Never` by the pinned
+`postgres-bootstrap/reset-rulebook-db.sh` was emitted `overwrite: Never` by the pinned
 transpiler and is project-owned: the phase ordering lives there. Before this,
 the generator ran before Phase A and a fresh database could never load — the
 root wrapper created the database but never dropped it, and `01-*.sql` is
@@ -155,7 +155,7 @@ blanked in it: selecting it raises `column does not exist`.
 Editing a policy writes to the rulebook; a separate rebuild applies it:
 
 ```
-integrity check -> effortless build -> init-db.sh (regenerates 06-access-control.sql)
+integrity check -> effortless build -> reset-rulebook-db.sh (regenerates 06-access-control.sql)
                 -> denial witnesses          ~14s
 ```
 
@@ -176,7 +176,7 @@ verified to exist before the test counts.
 
 | Tool | Purpose |
 |---|---|
-| `tools/generate_access_ddl.py` | Emits `postgres-bootstrap/06-access-control.sql`. Runs in Phase B of `init-db.sh`, after `00`–`05` exist: installs the `app.jwt_*` accessors, validates every predicate with `EXPLAIN` against the live DB and refuses to emit if any fails; intersects granted columns against live view columns (the catalog can be ahead of the DB). |
+| `tools/generate_access_ddl.py` | Emits `postgres-bootstrap/06-access-control.sql`. Runs in Phase B of `reset-rulebook-db.sh`, after `00`–`05` exist: installs the `app.jwt_*` accessors, validates every predicate with `EXPLAIN` against the live DB and refuses to emit if any fails; intersects granted columns against live view columns (the catalog can be ahead of the DB). |
 | `tools/run_denial_witnesses.py` | Runs the witnesses as each principal, writes results back from the substrate. |
 | `tools/check_rulebook_integrity.py` | Gates transpiler-defect classes: relationship-with-`formula`, `IIF`, multi-criteria `COUNTIFS`, non-PK `INDEX/MATCH`. |
 | `tools/verify_access_control.sh` | The acceptance test. |

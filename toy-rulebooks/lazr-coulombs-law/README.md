@@ -39,7 +39,7 @@ To rebuild the database after editing the rulebook:
 effortless build
 ```
 
-This will regenerate the SQL under `postgres/` and reinitialize the database via `init-db.sh`.
+This will regenerate the SQL under `postgres/` and reinitialize the database via `reset-rulebook-db.sh`.
 
 ## Project Structure
 
@@ -57,12 +57,12 @@ lazr-coulombs-law/
     ├── 03-create-views.sql
     ├── 04-create-policies.sql
     ├── 05-insert-data.sql
-    └── init-db.sh                     # One-command DB setup
+    └── reset-rulebook-db.sh                     # One-command DB setup
 ```
 
 ## Database Name
 
-`lazr_coulombs_law` — set via `DATABASE_URL` env var or `postgres/init-db.sh` default.
+`lazr_coulombs_law` — set via `DATABASE_URL` env var or `postgres/reset-rulebook-db.sh` default.
 
 ---
 

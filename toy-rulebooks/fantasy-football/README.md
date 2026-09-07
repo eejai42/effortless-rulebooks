@@ -155,7 +155,7 @@ fantasy-football/
 ├── effortless-rulebook/
 │   └── effortless-rulebook.json        (single source of truth — 6 entities, 4-hop DAG)
 ├── postgres/
-│   ├── init-db.sh                      (drop + recreate DB from scratch)
+│   ├── reset-rulebook-db.sh                      (drop + recreate DB from scratch)
 │   ├── 00-bootstrap.sql                (auth setup)
 │   ├── 01-drop-and-create-tables.sql   (base tables for all 6 entities)
 │   ├── 02-create-functions.sql         (52 calc/lookup functions)

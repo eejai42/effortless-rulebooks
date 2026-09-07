@@ -1276,7 +1276,7 @@ action_init_postgres() {
     local _db_url="postgresql://postgres@localhost:5432/${_db_name}"
     local _domain_dir
     _domain_dir=$(find_domain_dir "$_domain" 2>/dev/null) || _domain_dir="$RULEBOOK_EXAMPLES_DIR/$_domain"
-    local init_script="$_domain_dir/postgres-bootstrap/init-db.sh"
+    local init_script="$_domain_dir/postgres-bootstrap/reset-rulebook-db.sh"
 
     echo ""
     echo -e "${BOLD}${CYAN}Initialize PostgreSQL Database for ${WHITE}${_domain}${NC}"
@@ -1286,7 +1286,7 @@ action_init_postgres() {
     echo ""
 
     if [ ! -f "$init_script" ]; then
-        echo -e "${RED}Error: init-db.sh not found at $init_script${NC}"
+        echo -e "${RED}Error: reset-rulebook-db.sh not found at $init_script${NC}"
         echo -e "${YELLOW}Run [B] BUILD first so rulebooktopostgres generates it.${NC}"
         read -p "Press Enter to continue..."
         return
@@ -1342,9 +1342,9 @@ run_substrates() {
     # Ensure the per-domain DB exists with current schema before tests query it.
     # Every domain has rulebooktopostgres registered now, so this script must
     # exist after a build — fail loudly if it doesn't.
-    local _init_script="$ERB_DOMAIN_DIR/postgres-bootstrap/init-db.sh"
+    local _init_script="$ERB_DOMAIN_DIR/postgres-bootstrap/reset-rulebook-db.sh"
     if [ ! -f "$_init_script" ]; then
-        echo -e "${RED}FAIL: per-domain init-db.sh missing for '${_domain}'.${NC}"
+        echo -e "${RED}FAIL: per-domain reset-rulebook-db.sh missing for '${_domain}'.${NC}"
         echo -e "${RED}Expected: ${_init_script}${NC}"
         echo -e "${RED}Run BUILD first so rulebooktopostgres generates it.${NC}"
         return 1
@@ -1352,9 +1352,9 @@ run_substrates() {
     # createdb is a no-op when the DB already exists (we discard stderr only
     # for that specific case; psql errors below will still surface).
     createdb "$_db_name" 2>/dev/null || true
-    echo -e "${DIM}[db] applying schema to ${_db_name} via $(basename "$(dirname "$_init_script")")/init-db.sh${NC}"
+    echo -e "${DIM}[db] applying schema to ${_db_name} via $(basename "$(dirname "$_init_script")")/reset-rulebook-db.sh${NC}"
     if ! bash "$_init_script" "$DATABASE_URL" > /dev/null; then
-        echo -e "${RED}FAIL: init-db.sh failed against ${DATABASE_URL}${NC}"
+        echo -e "${RED}FAIL: reset-rulebook-db.sh failed against ${DATABASE_URL}${NC}"
         return 1
     fi
 

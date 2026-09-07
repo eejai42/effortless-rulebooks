@@ -104,7 +104,7 @@ Scenarios this dataset covers out of the box:
 - **Pipeline:** `effortless build` runs three transpilers in order:
   1. `airtable-to-rulebook` → [effortless-rulebook/effortless-rulebook.json](effortless-rulebook/effortless-rulebook.json)
   2. `rulebook-to-postgres` → numbered SQL files under [postgres/](postgres/)
-  3. `execute` → [postgres/init-db.sh](postgres/init-db.sh) (drops and rebuilds the local DB)
+  3. `execute` → [postgres/reset-rulebook-db.sh](postgres/reset-rulebook-db.sh) (drops and rebuilds the local DB)
 - **Database:** local Postgres database `v3_nakedclaude_demo`.
 - **App runtime:** Node.js + Express 4, EJS templates, `pg` for SQL,
   `express-session` for cart/account state.
@@ -128,7 +128,7 @@ postgres/
   05-insert-data.sql                 # generated seed
   05b-customize-data.sql             # hand-authored seed extras
   function-overrides/                # per-function SQL overrides
-  init-db.sh                         # drops & re-applies all of the above
+  reset-rulebook-db.sh                         # drops & re-applies all of the above
 app/
   server.js                          # Express bootstrap + admin CRUD
   shop.js                            # /shop router (catalog, cart, checkout, account)

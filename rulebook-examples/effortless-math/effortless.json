@@ -33,7 +33,7 @@
       "IsSSoTTranspiler": false,
       "Name": "init-db",
       "RelativePath": "/",
-      "CommandLine": "-exec ./init-db.sh",
+      "CommandLine": "-exec ./reset-rulebook-db.sh",
       "IsDisabled": false
     },
     {

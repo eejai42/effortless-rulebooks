@@ -54,7 +54,7 @@ npm install
 npm test          # 296 tests, currently 0 pass / 296 fail (all 501)
 ```
 
-The DB must be up (`postgres/init-db.sh` from the project root). Health (`/api/health`) is the one
+The DB must be up (`postgres/reset-rulebook-db.sh` from the project root). Health (`/api/health`) is the one
 wired endpoint, so the harness can boot the app; everything else is 501.
 
 ## What each test carries (the three things you asked for)

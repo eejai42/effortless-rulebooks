@@ -47,7 +47,7 @@ python3 bit-calculator/testing/take-test.py   # invariant + substrate equivalenc
 ```
 
 The database is **`erb_bit_calculator`**. There is exactly one initializer: the
-transpiler-generated `effortless-postgres/init-db.sh`, which loads every
+transpiler-generated `effortless-postgres/reset-rulebook-db.sh`, which loads every
 `NN[b]-*.sql` file. `./start.sh db` creates the database and points that generated
 init at it (`DATABASE_URL=…/erb_bit_calculator`) — start.sh owns "make the DB
 exist", the generated script owns "load all the SQL". The app connects to the same

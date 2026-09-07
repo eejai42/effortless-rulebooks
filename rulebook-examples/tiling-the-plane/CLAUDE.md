@@ -38,7 +38,7 @@ override) — not in the app. See the parent `../../CLAUDE.md` for the full doct
 ## NO MIGRATIONS
 
 The local DB (`erb_tiling_the_plane`) is dropped and recreated from scratch on every
-`effortless build` via `postgres-bootstrap/init-db.sh`. To change schema/formulas/seed
+`effortless build` via `postgres-bootstrap/reset-rulebook-db.sh`. To change schema/formulas/seed
 data: edit the rulebook → `effortless build`. Never `ALTER TABLE`, never edit generated
 `0*.sql`; use the `*b-customize-*` seams only.
 

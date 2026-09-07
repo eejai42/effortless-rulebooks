@@ -23,11 +23,11 @@ effortless -install rulebook-to-postgres -i ../effortless-rulebook/effortless-ru
 effortless build
 
 # 4. Fix DB name and run
-# Edit postgres/init-db.sh → set DB_NAME="2026-04-20-1951-effortless"
-chmod +x init-db.sh && ./init-db.sh
+# Edit postgres/reset-rulebook-db.sh → set DB_NAME="2026-04-20-1951-effortless"
+chmod +x reset-rulebook-db.sh && ./reset-rulebook-db.sh
 ```
 
-That's it. Once init-db.sh succeeds, your database has `vw_*` views ready
+That's it. Once reset-rulebook-db.sh succeeds, your database has `vw_*` views ready
 to query. Move immediately to writing application code.
 
 ## Key convention: view naming
@@ -56,7 +56,7 @@ query `vw_<tablename>` with the columns you expect from the specification.
   postgres/) that can regenerate the database from scratch.
 - Source code for a node/vite-react app using the generated views.
 - A `start.sh` at the repo root that brings the whole app up end-to-end:
-  runs `effortless build`, runs `init-db.sh`, installs deps, starts the
+  runs `effortless build`, runs `reset-rulebook-db.sh`, installs deps, starts the
   backend + frontend. The grader will run `./start.sh` to test.
 
 ## When you are done

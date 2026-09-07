@@ -63,7 +63,7 @@ production.
 
 ```
 effortless-rulebook/effortless-rulebook.json    # single source of truth
-postgres/                                       # generated SQL (00-05, init-db.sh)
+postgres/                                       # generated SQL (00-05, reset-rulebook-db.sh)
 server/                                         # Express API
 web/                                            # Vite + React SPA
   src/explainer-dag/                            # generated explainer module

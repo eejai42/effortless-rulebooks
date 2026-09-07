@@ -7,8 +7,8 @@ inspect its rulebook definition (formula, deps).
 ## Run it
 
 ```bash
-# 1. Make sure Postgres is up and init-db.sh has been run:
-( cd ../postgres && ./init-db.sh )
+# 1. Make sure Postgres is up and reset-rulebook-db.sh has been run:
+( cd ../postgres && bash reset-rulebook-db.sh )
 
 # 2. Backend (Express, port 4000):
 cd backend && npm install && npm run dev

@@ -87,7 +87,7 @@ Stub auth: pick an identity on the login screen, the email is sent as
 
 ```
 effortless-rulebook/effortless-rulebook.json   # SSoT — the rulebook
-postgres/                                       # generated SQL + init-db.sh
+postgres/                                       # generated SQL + reset-rulebook-db.sh
 server/src/index.ts                             # Express API; reads vw_* views,
                                                 #   writes raw columns only
 web/src/                                        # Vite + React + React Router

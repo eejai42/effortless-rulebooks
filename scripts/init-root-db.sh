@@ -3,7 +3,7 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-INIT_SCRIPT="$REPO_ROOT/postgres/init-db.sh"
+INIT_SCRIPT="$REPO_ROOT/postgres/reset-rulebook-db.sh"
 DATABASE_NAME="erb_effortless_rulebooks"
 DATABASE_URL="postgresql://postgres@localhost:5432/$DATABASE_NAME"
 

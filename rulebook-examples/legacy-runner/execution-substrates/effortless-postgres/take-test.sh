@@ -9,7 +9,7 @@ set -o pipefail  # Catch errors in pipes
 #
 # IMPORTANT: This script WILL fail loudly if:
 #   - Database connection fails
-#   - Views don't exist (run init-db.sh first)
+#   - Views don't exist (run reset-rulebook-db.sh first)
 #   - psycopg2 is not installed
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

@@ -26,7 +26,7 @@
       "IsSSoTTranspiler": false,
       "Name": "init-db",
       "RelativePath": "/postgres",
-      "CommandLine": "-exec ./init-db.sh -w 90000",
+      "CommandLine": "-exec ./reset-rulebook-db.sh -w 90000",
       "IsDisabled": false
     },
     {

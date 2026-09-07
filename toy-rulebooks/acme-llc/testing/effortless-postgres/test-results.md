@@ -8,7 +8,7 @@
 | Passed | 6 |
 | Failed | 0 |
 | Score | 100.0% |
-| Duration | < 1s |
+| Duration | 5s |
 
 ## Score by Field Class
 

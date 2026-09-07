@@ -19,8 +19,8 @@ The setup procedure (from the skill) is:
 6. `mkdir -p ../postgres && cd ../postgres`
 7. `effortless -install rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json`
 8. `effortless build` — generates SQL files (00-05)
-9. Fix `postgres/init-db.sh` to use database `effortless-rulebook-demo`
-10. Run `./init-db.sh` to create the database
+9. Fix `postgres/reset-rulebook-db.sh` to use database `effortless-rulebook-demo`
+10. Run `./reset-rulebook-db.sh` to create the database
 
 **Only AFTER this pipeline produces a working database with `vw_*` views
 do you proceed to write application code.**
@@ -45,7 +45,7 @@ hand-write SQL — that defeats the entire purpose of this project.
   postgres/) that can regenerate the database from scratch.
 - Source code for a node/vite-react app using the generated views.
 - A `start.sh` at the repo root that brings the whole app up end-to-end:
-  runs `effortless build`, runs `init-db.sh`, installs deps, starts the
+  runs `effortless build`, runs `reset-rulebook-db.sh`, installs deps, starts the
   backend + frontend. The grader will run `./start.sh` to test.
 
 ## When you are done
