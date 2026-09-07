@@ -15,26 +15,6 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o effortless-rulebooks-rulebook.json -account airtable -p \"view=Grid view\"",
-      "IsDisabled": true,
-      "LastVersionUsed": "v2026.04.23.1357",
-      "Enabled": false,
-      "Description": "Pull rulebook from Airtable (disabled — no Airtable base for this meta-ontology) [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
-    },
-    {
-      "IsSSoTTranspiler": false,
-      "Name": "rulebooktoairtable",
-      "RelativePath": "/effortless-rulebook/push-to-airtable",
-      "CommandLine": "rulebook-to-airtable -i ../effortless-rulebooks-rulebook.json -account airtable -w 300000",
-      "IsDisabled": true,
-      "LastVersionUsed": "v2026.04.13.2259",
-      "Enabled": false,
-      "Description": "Reverse-sync: push rulebook changes back to Airtable (optional)"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "rulebooktorulespeak",
       "RelativePath": "/rulespeak",
       "CommandLine": "rulebook-to-rulespeak -i ../effortless-rulebook/effortless-rulebooks-rulebook.json",

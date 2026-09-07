@@ -19,7 +19,7 @@ DOCKERFILE_PATH="docker/Dockerfile"
 EXTERNAL_SRC_MOUNTED=
 EXTERNAL_SRC_HOST_PATH=""
 RULEBOOK_SELF_UPDATE_PATH="is-everything-a-language-rulebook.json"
-EDITOR_RUNTIME_VERSION="2026.9.2.241"
+EDITOR_RUNTIME_VERSION="2026.9.7.138"
 
 # The launcher is the OUTER half of the editor and therefore cannot rely on the
 # container's inner `effortless -upgradeAll`. Update and regenerate this runtime
@@ -248,6 +248,7 @@ DOCKER_RUN_ARGS=(
   -p "$PG_PUBLISH"
   -v "$RULEBOOK_DIR_NATIVE:/app/effortless-rulebook"
   -v "$SSOTME_DIR_NATIVE:/root/.ssotme-ro:ro"
+  -e "RULEBOOK_FILENAME=$RULEBOOK_SELF_UPDATE_PATH"
 )
 
 # Second bind-mount: only when -p pathToExternalSrc=... was passed at

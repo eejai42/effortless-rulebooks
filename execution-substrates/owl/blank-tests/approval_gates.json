@@ -1,0 +1,15 @@
+[
+  {
+    "approval_gate_id": "ntwf-release-approval-gate",
+    "display_name": "Release Approval Gate",
+    "workflow_step": "prod-deploy-step-3",
+    "escalation_threshold_hours": 4,
+    "parent_path": null,
+    "relative_path": null,
+    "iri": null,
+    "name": null,
+    "gate_role": null,
+    "gate_approver_human": null,
+    "has_human_approver": null
+  }
+]

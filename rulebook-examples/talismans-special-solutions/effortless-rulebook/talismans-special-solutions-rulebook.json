@@ -428,7 +428,7 @@
         "CountApprovalConsistencyViolations": 0,
         "HasConsistencyViolation": false,
         "HasAIAgentStep": true,
-        "MonthsSinceModified": 2,
+        "MonthsSinceModified": 5,
         "IsStale": false,
         "IsStaleAndHasAIAgent": false,
         "CountDerivationLinks": 4,
@@ -445,7 +445,7 @@
         "CountGatesWithoutHumanApprover": 0,
         "CountWorkflowArtifacts": 5,
         "CountRolesWithEscalationViolation": 0,
-        "CountUnconsumedDatasets": 0,
+        "CountUnconsumedDatasets": 1,
         "Cq1Satisfied": true,
         "Cq2Satisfied": true,
         "Cq3Satisfied": true,
@@ -453,7 +453,7 @@
         "Cq5Satisfied": true,
         "Cq6Satisfied": true,
         "Cq7Satisfied": true,
-        "Cq8Satisfied": true
+        "Cq8Satisfied": false
       }
     ]
   },
@@ -839,7 +839,7 @@
         "AssignedRole": "ntwf-risk-analysis-role",
         "RequiresHumanApproval": false,
         "StepDurationMinutes": 15,
-        "ConsumesDataset": "ds-q1-2026-risk-metrics",
+        "ConsumesDataset": "",
         "ProducesArtifacts": "artifact-risk-report",
         "ApprovalGate": "",
         "Precedes": "prec-1-2",
@@ -1342,8 +1342,8 @@
         "RoleId": "ntwf-deployment-health-role",
         "DisplayName": "Deployment Health Agent",
         "Label": "Deployment Health Agent",
-        "Comment": "Generates the post-deployment health report by summarizing telemetry after a release. A role, not an identity — currently filled by the DeploymentHealth-AI agent (health-summarizer-v1.2.0), it could be reassigned to a human or a newer model without changing the workflow structure. Its RoleAssignments history records an earlier human-reviewer period and the agent-type transitions. Requires cap-deployment-health (telemetry summarization), NOT cap-risk-analysis — it scores live deployment health, it does not consume input risk datasets, so it is not a valid consumer of the Q1 Risk Metrics dataset (CQ8).",
-        "HasCapability": "cap-deployment-health",
+        "Comment": "Generates the post-deployment health report by summarizing telemetry after a release. A role, not an identity — currently filled by the DeploymentHealth-AI agent (health-summarizer-v1.2.0), it could be reassigned to a human or a newer model without changing the workflow structure. Its RoleAssignments history records an earlier human-reviewer period and the agent-type transitions.",
+        "HasCapability": "cap-risk-analysis",
         "FilledByHumanAgent": "",
         "FilledByAIAgent": "ntwf-health-ai",
         "FilledByAutomatedPipeline": "",
@@ -2298,7 +2298,7 @@
         "ConceptId": "cap-risk-analysis",
         "PrefLabel": "Risk Analysis",
         "AltLabel": "Risk Assessment",
-        "Definition": "The filler must be capable of probabilistic risk scoring over structured input datasets. This is the dataset-processing capability: a dcat:Dataset is consumed as input only by a step whose role requires this capability — which is what CQ8 checks (the dataset must be processed by an agent that can actually analyze it).",
+        "Definition": "The filler must be capable of probabilistic risk scoring over structured datasets.",
         "ScopeNote": "Can be satisfied by an AIAgent with an appropriate model version (e.g. risk-classifier-v2.4.1).",
         "Roles": "",
         "RelativePath": "concepts/agent-capability/cap-risk-analysis",
@@ -2519,10 +2519,10 @@
         "Identifier": "DS-RISK-2026-Q1",
         "Modified": "2026-03-31T00:00:00-05:00",
         "DistributionUrl": "https://data.internal.special-solutions.example/risk/q1-2026",
-        "ConsumedBySteps": "prod-deploy-step-1",
+        "ConsumedBySteps": null,
         "RelativePath": "datasets/ds-q1-2026-risk-metrics",
         "Iri": "datasets-ds-q1-2026-risk-metrics",
-        "IsConsumed": true
+        "IsConsumed": false
       }
     ]
   },
@@ -3344,7 +3344,7 @@
         "ScenarioId": "dataset-unconsumed",
         "Label": "Detach the risk dataset",
         "Icon": "📦",
-        "Explanation": "Clears the AI Risk Assessment step's ConsumesDataset link — the single authoritative DCAT forward FK. Both substrates now DERIVE the inverse (Datasets.ConsumedBySteps) from this forward FK — the reasoner via owl:inverseOf, Postgres via a reverse-lookup view column (rulebook-to-postgres honors the field's isReversed flag) — so clearing this one fact detaches the dataset identically on both. The Q1 Risk Metrics dataset is now consumed by no step: its 📦 node orphans on the Graph lens and its feeder box disappears from the Flow lens. Demonstrates CQ8: with nothing consuming it, the AI-provenance answer is gone and CQ8 flips to ✗.",
+        "Explanation": "Clears the AI Risk Assessment step's consumes-dataset link (WorkflowSteps.ConsumesDataset is the authoritative DCAT forward FK; Datasets.ConsumedBySteps is its derived inverse). The Q1 Risk Metrics dataset is now consumed by no step — on the Graph lens its 📦 node visibly detaches from step 1. Demonstrates CQ8: dataset consumption is a real relationship, and the answer is exactly which steps point at it; with nothing consuming it, the AI-provenance answer is gone.",
         "SortOrder": 80,
         "IsReset": false,
         "Edits": "[{\"class\": \"WorkflowSteps\", \"id\": \"prod-deploy-step-1\", \"set\": {\"consumesDataset\": \"\"}}]",

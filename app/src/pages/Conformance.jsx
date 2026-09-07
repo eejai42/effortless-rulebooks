@@ -6,7 +6,7 @@ import { Async, Panel, Pill, DataTable, Stat } from "../components.jsx";
 
 // Cross-substrate conformance harness results as first-class rows — the promoted
 // destination for LegacyRunnerCapabilities row cap-conformance-harness. The harness
-// itself (rulebook-examples/legacy-runner/orchestration/test-orchestrator.py) still
+// itself (orchestration/test-orchestrator.py) still
 // does the work; this page only reads ConformanceRuns/ConformanceResults through
 // the generated views and can trigger scripts/run-conformance.py for a new run.
 export function Conformance() {

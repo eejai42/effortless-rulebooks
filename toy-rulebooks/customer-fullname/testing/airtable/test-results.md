@@ -4,8 +4,8 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Fields Tested | 3 |
-| Passed | 3 |
+| Total Fields Tested | 8 |
+| Passed | 8 |
 | Failed | 0 |
 | Score | 100.0% |
 | Duration | < 1s |
@@ -14,7 +14,7 @@
 
 | Class | Passed | Tested | Score |
 |-------|--------|--------|-------|
-| Scalar (calculated) | 3 | 3 | 100.0% |
+| Scalar (calculated) | 8 | 8 | 100.0% |
 | Lookup (INDEX/MATCH) | — | 0 | n/a |
 | Aggregation (COUNTIFS/SUMIFS) | — | 0 | n/a |
 
@@ -22,5 +22,5 @@
 
 ### customers
 
-- Fields: 3/3 (100.0%)
-- Computed columns: full_name
+- Fields: 8/8 (100.0%)
+- Computed columns: name, initials

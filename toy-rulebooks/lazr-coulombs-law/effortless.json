@@ -25,6 +25,13 @@
       "IsDisabled": false,
       "LastVersionUsed": "v2026.08.30.1537",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-08-30-1537-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json -p rulebookPath=effortless-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false
     }
   ],
   "ShowHidden": false,

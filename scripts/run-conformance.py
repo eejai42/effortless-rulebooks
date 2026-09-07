@@ -3,9 +3,9 @@
 result as first-class rows in the root rulebook (ConformanceRuns / ConformanceResults).
 
 This does NOT reimplement the harness. It shells out to the existing
-rulebook-examples/legacy-runner/orchestration/test-orchestrator.py (unmodified
-except for its DOMAIN_DIR resolution, which now checks rulebook-examples/ then
-toy-rulebooks/ like orchestrate.sh's find_domain_dir already does), reads the
+orchestration/test-orchestrator.py (unmodified except for its DOMAIN_DIR
+resolution, which now checks rulebook-examples/ then toy-rulebooks/ like
+orchestrate.sh's find_domain_dir already does), reads the
 harness's own testing/_substrate_results.json output, and appends rows to
 effortless-rulebook/effortless-rulebook.json the same way scripts/record-finding.py
 and scripts/scan-project-slots.py add witnessed rows: edit the JSON directly, then
@@ -42,7 +42,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RULEBOOK_PATH = REPO_ROOT / "effortless-rulebook" / "effortless-rulebook.json"
-ORCHESTRATOR_DIR = REPO_ROOT / "rulebook-examples" / "legacy-runner" / "orchestration"
+ORCHESTRATOR_DIR = REPO_ROOT / "orchestration"
 ORCHESTRATOR_SCRIPT = ORCHESTRATOR_DIR / "test-orchestrator.py"
 
 
@@ -95,7 +95,7 @@ def run_harness(slug: str, domain_dir: Path) -> Path:
     env.setdefault("DATABASE_URL", f"postgresql://postgres@localhost:5432/{db_name}")
     # test-orchestrator.py resolves its own TESTING_DIR/RULEBOOK_PATH from
     # ERB_DOMAIN, but the individual substrate take-test.sh scripts it shells
-    # out to (rulebook-examples/legacy-runner/execution-substrates/*/take-test.py)
+    # out to (execution-substrates/*/take-test.py)
     # do NOT inherit those computed paths automatically — they read
     # ERB_TESTING_DIR / ERB_RULEBOOK_PATH directly from the environment. This
     # matches exactly what orchestrate.sh's run_substrates() exports before

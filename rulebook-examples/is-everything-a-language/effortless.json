@@ -15,32 +15,12 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o is-everything-a-language-rulebook.json -account airtable -p \"view=Grid view\"",
-      "IsDisabled": true,
-      "LastVersionUsed": "v2026.04.23.1357",
-      "Enabled": false,
-      "Description": "Pull rulebook from Airtable (optional; edit is-everything-a-language-rulebook.json directly if preferred) [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
-    },
-    {
-      "IsSSoTTranspiler": false,
-      "Name": "rulebooktoairtable",
-      "RelativePath": "/effortless-rulebook/push-to-airtable",
-      "CommandLine": "rulebook-to-airtable -i ../is-everything-a-language-rulebook.json -account airtable -w 300000",
-      "IsDisabled": true,
-      "LastVersionUsed": "v2026.04.13.2259",
-      "Enabled": false,
-      "Description": "Reverse-sync: push rulebook changes back to Airtable (optional)"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "rulebooktopostgres",
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/is-everything-a-language-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.05.1746",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-05-1746-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
+      "LastVersionUsed": "v2026.09.07.0336",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-07-0336-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Description": "Generate Postgres schema + seed data from the rulebook"
     },
     {
@@ -73,8 +53,8 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i is-everything-a-language-rulebook.json -p rulebookPath=is-everything-a-language-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.02.0241",
-      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.07.0138",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-07-0138-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ],
   "ShowHidden": false,

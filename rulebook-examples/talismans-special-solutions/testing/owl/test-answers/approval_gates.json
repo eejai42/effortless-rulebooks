@@ -9,6 +9,7 @@
     "name": "release-approval-gate",
     "workflow_step": "prod-deploy-step-3",
     "gate_role": "ntwf-release-manager-role",
-    "gate_approver_human": "ntwf-maria-gonzalez"
+    "gate_approver_human": "ntwf-maria-gonzalez",
+    "has_human_approver": true
   }
 ]

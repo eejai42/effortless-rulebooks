@@ -1,6 +1,6 @@
 {
   "_comment": "Stable DR-number ledger for rulebook-to-rulespeak. Auto-maintained; feed this file back in on the next build to keep rule numbers stable. Numbers in 'Retired' are tombstones and are never reissued. Hand-edit an Assignments number only to deliberately re-pin a rule.",
-  "NextId": 9,
+  "NextId": 18,
   "Assignments": {
     "LanguageCandidates.HasGrammar": 1,
     "LanguageCandidates.Question": 2,
@@ -9,7 +9,16 @@
     "LanguageCandidates.PredictionFail": 5,
     "LanguageCandidates.IsDescriptionOf": 6,
     "LanguageCandidates.IsOpenClosedWorldConflicted": 7,
-    "LanguageCandidates.RelationshipToConcept": 8
+    "LanguageCandidates.RelationshipToConcept": 8,
+    "LanguageCandidates.HockettAssessedCount": 9,
+    "LanguageCandidates.HockettYesCount": 10,
+    "LanguageCandidates.IsHockettAssessed": 11,
+    "LanguageCandidates.HockettScore": 12,
+    "LanguageCandidates.HockettVsGate": 13,
+    "HockettFeatures.AssessmentCount": 14,
+    "HockettFeatures.YesCount": 15,
+    "HockettAssessments.Name": 16,
+    "HockettAssessments.IsYesFlag": 17
   },
   "Retired": []
 }

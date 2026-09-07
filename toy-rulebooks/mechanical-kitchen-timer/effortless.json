@@ -45,6 +45,13 @@
       "IsDisabled": false,
       "LastVersionUsed": "v2026.06.06.0219",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-06-0219-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i mechanical-kitchen-timer-rulebook.json -p rulebookPath=mechanical-kitchen-timer-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false
     }
   ]
 }

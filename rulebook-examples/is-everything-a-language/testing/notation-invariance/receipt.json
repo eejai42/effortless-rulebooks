@@ -1,0 +1,92 @@
+[
+  {
+    "variant": "01-canonical.json",
+    "bytes": 142939,
+    "input_sha": "66cd2b07af5dbfe45cb119010d771143aea5ef0433f8758f6c993f32740f1f5b",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "02-keys-sorted.json",
+    "bytes": 56631,
+    "input_sha": "f2e28f8efaf6b0a43d9cf085f7a638566f497ce7f9ccaf38cb741e14abe862d8",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "03-rows-reversed.json",
+    "bytes": 56631,
+    "input_sha": "6f2f9d40fba1d6d5da0873e4cad8ab8a89a320159c34d1f2e0cda70049df8e43",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "60411edcf546dd832d068c8ec6dc08ac5b6331bb1b666af225d7572221d5cb4d",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "04-compact.json",
+    "bytes": 46017,
+    "input_sha": "0a2f52277b08470494994137d690da29805d98ed5b96821aa197bb3cad6d2ad8",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "05-block.yaml",
+    "bytes": 46786,
+    "input_sha": "49d2dab9ae4505d821eac044d447c0f65a9408d652a2c68cab67c77ddce9417d",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "06-flow.yaml",
+    "bytes": 48969,
+    "input_sha": "680b344137578876e928246c3a4036f442c0a3e5b7b35bd5c8a1229ca870b86e",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "07-elements.xml",
+    "bytes": 69249,
+    "input_sha": "a10f056a97166724334a44bbf346f3b280369574b8c7a23859ed29fdfc29f2d6",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "08-attributes.xml",
+    "bytes": 45662,
+    "input_sha": "c4836bd646c5f444d6e6ea0e34406988b8d8ff3a6d2e9f67e196248e6be3bae2",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "09-tables.csv",
+    "bytes": 22798,
+    "input_sha": "dfde8d64b325428961c8277380fd1d7cba8ff4c5815b4877c3c5978345bfe927",
+    "state_sha": "36a33fcedfb82a1d626ebe60ac78548443609ddbaa1da2529e4239dee1d19831",
+    "physical_sha": "36c88b8e85a68d27aaf95a2453080ef57b9edd09a016d047623528e0c91b6f73",
+    "answers_sha": "82fdeecdb9da541d8bdf87ff9149e00cf21ef29db148e4b5273328d996a1ed1f",
+    "converged": true
+  },
+  {
+    "variant": "10-fixed-width-30.csv",
+    "bytes": 13127,
+    "input_sha": "42da2c6d64c9928387ea8169237ecdea436416fb451b2484907ac615d295daaa",
+    "state_sha": "8a56697b2acfd2e54a9d718451adda8262f1987dbd6823909e6d6d7eeee9b674",
+    "physical_sha": "0a2845d28460b4b59458f29e6f76540bacc46620e4b75bce22fd44ff377a4fad",
+    "answers_sha": "8124a3dc56031da841cf8b2968d534c9998f60450af04feb126536786e92a29c",
+    "converged": false
+  }
+]

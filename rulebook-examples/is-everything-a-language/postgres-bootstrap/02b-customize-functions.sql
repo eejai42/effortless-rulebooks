@@ -16,36 +16,11 @@ BEGIN
 END;
 $function$;
 
-CREATE OR REPLACE FUNCTION public.calc_language_candidates_bio_hockett_score(p_language_candidate_id text)
- RETURNS integer
- LANGUAGE plpgsql
- STABLE SECURITY DEFINER
-AS $function$
-DECLARE
-    candidate_record RECORD;
-BEGIN
-    -- Select the required attributes for the given language candidate ID
-    SELECT bio_has_semanticity, bio_has_arbitrariness, bio_has_discreteness, 
-           bio_has_duality_of_patterning, bio_has_productivity, 
-           bio_has_displacement, bio_has_cultural_transmission, 
-           bio_has_interchangeability, bio_has_feedback, 
-           bio_has_broadcast_transmission, bio_has_rapid_fading
-    INTO candidate_record
-    FROM language_candidates
-    WHERE language_candidate_id = p_language_candidate_id;
-
-    -- Calculate and return the Hockett score by summing up the boolean attributes
-    RETURN 
-        COALESCE(candidate_record.bio_has_semanticity, FALSE)::int +
-        COALESCE(candidate_record.bio_has_arbitrariness, FALSE)::int +
-        COALESCE(candidate_record.bio_has_discreteness, FALSE)::int +
-        COALESCE(candidate_record.bio_has_duality_of_patterning, FALSE)::int +
-        COALESCE(candidate_record.bio_has_productivity, FALSE)::int +
-        COALESCE(candidate_record.bio_has_displacement, FALSE)::int +
-        COALESCE(candidate_record.bio_has_cultural_transmission, FALSE)::int +
-        COALESCE(candidate_record.bio_has_interchangeability, FALSE)::int +
-        COALESCE(candidate_record.bio_has_feedback, FALSE)::int +
-        COALESCE(candidate_record.bio_has_broadcast_transmission, FALSE)::int +
-        COALESCE(candidate_record.bio_has_rapid_fading, FALSE)::int;
-END;
-$function$;
+-- calc_language_candidates_bio_hockett_score was removed here. It summed eleven
+-- bio_has_* columns that were never declared in the rulebook, so it could only
+-- error when called or report every candidate as scoring zero. Hockett's design
+-- features are now first-class rulebook data (HockettFeatures,
+-- HockettAssessments) and LanguageCandidates.HockettScore is computed from them.
+-- The DROP is explicit because a check-add rebuild does not remove a function
+-- that has merely stopped being created.
+DROP FUNCTION IF EXISTS calc_language_candidates_bio_hockett_score(text);

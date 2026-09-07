@@ -1,0 +1,26 @@
+[
+  {
+    "governance_role_id": "gov-authority",
+    "display_name": "Ontology Authority",
+    "kind": "Authority",
+    "responsibilities": "Holds the power to approve changes to the CBox, ABox, and TBox. Decides how and where a change is made. Reviews changes proposed by the steward so that no single person alters the knowledge graph's semantic integrity unchecked.",
+    "approval_scope": "CBox, ABox, TBox",
+    "held_by": "Workflow Governance function",
+    "relative_path": null,
+    "iri": null,
+    "name": null,
+    "can_approve_changes": null
+  },
+  {
+    "governance_role_id": "gov-steward",
+    "display_name": "Ontology Steward",
+    "kind": "Steward",
+    "responsibilities": "Monitors the ontology for drift, tracks external-dependency updates (PROV-O, FOAF, Dublin Core, DCAT, Schema.org), fields questions from users, maintains documentation, and keeps the validation suite current. Identifies that a change is needed but does not approve it. Runs the periodic (at minimum quarterly) competency-question review: new unanswerable questions become scope-change requests, obsolete questions become deprecation candidates, and questions that return wrong answers are defects.",
+    "approval_scope": "none",
+    "held_by": "Engineering Knowledge Infrastructure team",
+    "relative_path": null,
+    "iri": null,
+    "name": null,
+    "can_approve_changes": null
+  }
+]

@@ -1,0 +1,26 @@
+[
+  {
+    "reconciliation_id": "recon-dcat-v3",
+    "deprecated_term": "dcat:Dataset (v2)",
+    "replacement_term": "dcat:Dataset (v3)",
+    "reconciliation_relation": "owl:sameAs",
+    "source_standard": "DCAT",
+    "introduced_in_version": "v1.1.0",
+    "rationale": "External-dependency fact: DCAT went through a major v2 -> v3 revision that introduced new classes and deprecated others. NTWF tracks the alignment so its dcat:Dataset usage stays semantically current; existing data remains valid because URIs do not disappear.",
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "reconciliation_id": "recon-foaf-name",
+    "deprecated_term": "foaf:name",
+    "replacement_term": "ntwf:name",
+    "reconciliation_relation": "owl:sameAs",
+    "source_standard": "FOAF",
+    "introduced_in_version": "v1.1.0",
+    "rationale": "Worked example: a deprecated FOAF element is re-prefixed into the NTWF namespace; existing data stays valid (URIs do not disappear), and foaf:name owl:sameAs ntwf:name keeps the two interchangeable for reasoners.",
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  }
+]

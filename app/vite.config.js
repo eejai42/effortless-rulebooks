@@ -173,7 +173,7 @@ function findingStatusPlugin() {
 // first-class explorer feature). Same shape as findingStatusPlugin: the write
 // path is a repo script, not a route bolted onto the generated API. Runs
 // scripts/run-conformance.py <slug>, which shells out to the EXISTING harness
-// (rulebook-examples/legacy-runner/orchestration/test-orchestrator.py — not
+// (orchestration/test-orchestrator.py — not
 // reimplemented here), records ConformanceRuns/ConformanceResults rows in the
 // rulebook JSON, then runs `effortless build` so the views pick them up.
 // This can run for a while (every registered substrate), so no artificial

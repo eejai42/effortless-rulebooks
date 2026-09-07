@@ -1,0 +1,13 @@
+=== UML/OCL Substrate Test Run ===
+
+======================================================================
+UML Execution Substrate - Multi-Entity Test Execution (OCL)
+======================================================================
+
+Loaded 2 OCL constraints from constraints.ocl
+
+  -> customers: 3 records (via OCL)
+
+UML substrate: Processed 1 entities, 3 total records
+======================================================================
+

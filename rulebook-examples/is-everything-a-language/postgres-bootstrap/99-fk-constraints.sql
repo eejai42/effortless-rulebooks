@@ -12,4 +12,12 @@
 -- enforcement. Idempotent: every constraint is dropped if present, then added.
 -- ============================================================================
 
--- (no FK fields detected in rulebook)
+-- HockettAssessments
+ALTER TABLE hockett_assessments DROP CONSTRAINT IF EXISTS fk_hockett_assessments_language_candidate;
+ALTER TABLE hockett_assessments ADD CONSTRAINT fk_hockett_assessments_language_candidate
+  FOREIGN KEY (language_candidate) REFERENCES language_candidates (language_candidate_id);
+ALTER TABLE hockett_assessments DROP CONSTRAINT IF EXISTS fk_hockett_assessments_hockett_feature;
+ALTER TABLE hockett_assessments ADD CONSTRAINT fk_hockett_assessments_hockett_feature
+  FOREIGN KEY (hockett_feature) REFERENCES hockett_features (hockett_feature_id);
+
+-- 2 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).

@@ -1,0 +1,32 @@
+[
+  {
+    "concept_id": "type-decision-record",
+    "pref_label": "Decision Record",
+    "alt_label": "Authorization",
+    "definition": "An artifact recording an approval or authorization decision (e.g. a release authorization, a legal clearance).",
+    "scope_note": "Use for sign-off / clearance / authorization artifacts.",
+    "workflow_artifacts": "",
+    "relative_path": null,
+    "iri": null
+  },
+  {
+    "concept_id": "type-log",
+    "pref_label": "Log",
+    "alt_label": "Machine Output",
+    "definition": "A machine-generated record of an automated activity (e.g. a deployment log).",
+    "scope_note": "Use for deterministic pipeline/system output, not human analysis.",
+    "workflow_artifacts": "",
+    "relative_path": null,
+    "iri": null
+  },
+  {
+    "concept_id": "type-report",
+    "pref_label": "Report",
+    "alt_label": "Assessment",
+    "definition": "A human- or AI-authored analytical document (e.g. a risk assessment report).",
+    "scope_note": "Use for narrative analytical artifacts, not for raw datasets or machine logs.",
+    "workflow_artifacts": "",
+    "relative_path": null,
+    "iri": null
+  }
+]

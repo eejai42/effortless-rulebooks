@@ -1,0 +1,250 @@
+[
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "english",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "english",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "spoken-words",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "spoken-words",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "sign-language",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "sign-language",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "editing-airtable-base",
+    "error": "drift: stored=\"No Syntax & No Parsing Neede & Describes the thing & No Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has Identity\" python-recompute=\"No Syntax & No Parsing Neede & Describes the thing & No Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "math",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "math",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "falsifier-a",
+    "error": "drift: stored='No Syntax & Requires Parsing & Is the Thing & No Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can Be Held, Has Identity' python-recompute='No Syntax & Requires Parsing & Is the Thing & No Decoding Pressure & No AST, Is Stable Ontology AND Can Be Held, Has Identity'",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "falsifier-b",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "falsifier-b",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "python",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "python",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "an-xlsx-doc",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "an-xlsx-doc",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "xlsx-editing",
+    "error": "drift: stored=\"No Syntax & No Parsing Neede & Is the Thing & No Decoding Pressure & Resolves to AST, Not 'Ontology' AND Can't Be Held, Has no Identity\" python-recompute=\"No Syntax & No Parsing Neede & Is the Thing & No Decoding Pressure & No AST, Not 'Ontology' AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "an-docx-doc",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "an-docx-doc",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "owl-rdf-graphql-generally",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "owl-rdf-graphql-generally",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "a-thunderstorm",
+    "error": "drift: stored=\"No Syntax & Requires Parsing & Is the Thing & No Decoding Pressure & Resolves to AST, Not 'Ontology' AND Can Be Held, Has Identity\" python-recompute=\"No Syntax & Requires Parsing & Is the Thing & No Decoding Pressure & No AST, Not 'Ontology' AND Can Be Held, Has Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "a-uml-file",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "a-uml-file",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "binary-code",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "binary-code",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "running-calculator-app",
+    "error": "drift: stored=\"No Syntax & Requires Parsing & Is the Thing & No Decoding Pressure & Resolves to AST, Not 'Ontology' AND Can't Be Held, Has Identity\" python-recompute=\"No Syntax & Requires Parsing & Is the Thing & No Decoding Pressure & No AST, Not 'Ontology' AND Can't Be Held, Has Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "owa-cwa-falsifier",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "owa-cwa-falsifier",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictedAnswer",
+    "formula": "=AND(\n  {{HasSyntax}},\n  {{IsParsed}},\n  {{IsDescriptionOf}},\n  {{HasLinearDecodingPressure}},\n  {{ResolvesToAnAST}},\n  {{IsStableOntologyReference}},\n  NOT({{CanBeHeld}}),\n  NOT({{HasIdentity}})\n)",
+    "record_id": "honeybee-waggle-dance",
+    "error": "drift: stored=True python-recompute=False",
+    "severity": "drift"
+  },
+  {
+    "entity": "LanguageCandidates",
+    "field": "PredictionPredicates",
+    "formula": "=IF({{HasSyntax}}, \"Has Syntax\", \"No Syntax\") & \" & \" & IF({{IsParsed}}, \"Requires Parsing\", \"No Parsing Neede\") & \" & \" & IF({{IsDescriptionOf}}, \"Describes the thing\", \"Is the Thing\") & \" & \" & IF({{HasLinearDecodingPressure}}, \"Has Linear Decoding Pressure\", \"No Decoding Pressure\") & \" & \" & IF({{ResolvesToAnAST}}, \"Resolves to AST\", \"No AST\") & \", \" & IF({{IsStableOntologyReference}}, \"Is Stable Ontology\", \"Not 'Ontology'\") & \" AND \" & IF({{CanBeHeld}}, \"Can Be Held\", \"Can't Be Held\") & \", \" &IF({{HasIdentity}}, \"Has Identity\", \"Has no Identity\")",
+    "record_id": "honeybee-waggle-dance",
+    "error": "drift: stored=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity\" python-recompute=\"Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity\"",
+    "severity": "drift"
+  }
+]

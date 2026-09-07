@@ -23,8 +23,8 @@
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/talismans-special-solutions-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.08.09.0157",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-08-09-0157-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
+      "LastVersionUsed": "v2026.09.07.0336",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-07-0336-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "_LocalDevUrl": "http://localhost:30038",
       "_ClosureNote": "The Postgres transpiler emits the transitive-closure views. postgres-bootstrap/03-create-views.sql (committed) contains both vw_step_precedence_closure and vw_roles_closure as WITH RECURSIVE views with is_inferred/hop_distance columns, and the committed SQL is what the demo runs against — closure is present out of the box. (_LocalDevUrl is an optional pointer for running the transpiler locally during tool development; it is not needed to build or run this demo.)",
       "Description": "Generate Postgres schema + seed data from the rulebook"
@@ -86,7 +86,7 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i talismans-special-solutions-rulebook.json -p rulebookPath=talismans-special-solutions-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.02.0241",
+      "LastVersionUsed": "v2026.09.07.0138",
       "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-02-0241-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     }
   ],

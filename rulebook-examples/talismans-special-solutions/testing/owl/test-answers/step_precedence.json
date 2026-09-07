@@ -4,6 +4,7 @@
     "parent_path": "workflows/production-deployment/steps/prod-deploy-step-1",
     "relative_path": "workflows/production-deployment/steps/prod-deploy-step-1/precedence/prec-1-2",
     "iri": "workflows-production-deployment-steps-prod-deploy-step-1-precedence-prec-1-2",
+    "name": "prod-deploy-step-1 -> prod-deploy-step-2",
     "from_step": "prod-deploy-step-1",
     "to_step": "prod-deploy-step-2"
   },
@@ -12,6 +13,7 @@
     "parent_path": "workflows/production-deployment/steps/prod-deploy-step-2",
     "relative_path": "workflows/production-deployment/steps/prod-deploy-step-2/precedence/prec-2-3",
     "iri": "workflows-production-deployment-steps-prod-deploy-step-2-precedence-prec-2-3",
+    "name": "prod-deploy-step-2 -> prod-deploy-step-3",
     "from_step": "prod-deploy-step-2",
     "to_step": "prod-deploy-step-3"
   },
@@ -20,6 +22,7 @@
     "parent_path": "workflows/production-deployment/steps/prod-deploy-step-3",
     "relative_path": "workflows/production-deployment/steps/prod-deploy-step-3/precedence/prec-3-4",
     "iri": "workflows-production-deployment-steps-prod-deploy-step-3-precedence-prec-3-4",
+    "name": "prod-deploy-step-3 -> prod-deploy-step-4",
     "from_step": "prod-deploy-step-3",
     "to_step": "prod-deploy-step-4"
   },
@@ -28,6 +31,7 @@
     "parent_path": "workflows/production-deployment/steps/prod-deploy-step-4",
     "relative_path": "workflows/production-deployment/steps/prod-deploy-step-4/precedence/prec-4-5",
     "iri": "workflows-production-deployment-steps-prod-deploy-step-4-precedence-prec-4-5",
+    "name": "prod-deploy-step-4 -> prod-deploy-step-5",
     "from_step": "prod-deploy-step-4",
     "to_step": "prod-deploy-step-5"
   }

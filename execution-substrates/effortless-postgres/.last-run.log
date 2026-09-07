@@ -1,0 +1,31 @@
+=== PostgreSQL Substrate Test Run ===
+
+effortless-postgres: Starting test...
+effortless-postgres: Connecting to database and querying views...
+PostgreSQL Substrate: Starting test...
+PostgreSQL Substrate: Connected to database
+PostgreSQL Substrate: Found 22 views
+  -> agent_capability_concepts: 6 records
+  -> ai_agents: 2 records
+  -> approval_gates: 1 records
+  -> artifact_type_concepts: 3 records
+  -> automated_pipelines: 1 records
+  -> change_log: 2 records
+  -> competency_questions: 8 records
+  -> conformance_tests: 72 records
+  -> datasets: 1 records
+  -> departments: 2 records
+  -> governance_roles: 2 records
+  -> human_agents: 5 records
+  -> role_assignments: 6 records
+  -> roles: 7 records
+  -> scenario_cq_effects: 12 records
+  -> scenarios: 12 records
+  -> step_precedence: 4 records
+  -> vocabulary_reconciliations: 2 records
+  -> workflow_artifacts: 5 records
+  -> workflow_status_concepts: 4 records
+  -> workflow_steps: 5 records
+  -> workflows: 1 records
+PostgreSQL Substrate: Processed 22 views, 163 total records
+

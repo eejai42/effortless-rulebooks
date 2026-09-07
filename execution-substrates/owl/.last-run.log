@@ -1,0 +1,58 @@
+=== OWL/SHACL Substrate Test Run ===
+
+======================================================================
+OWL Execution Substrate - SHACL Reasoning Test
+======================================================================
+
+Loading rulebook...
+Tables with computed columns: Workflows, WorkflowSteps, ApprovalGates, StepPrecedence, Roles, RoleAssignments, Departments, HumanAgents, AIAgents, AutomatedPipelines, WorkflowStatusConcepts, AgentCapabilityConcepts, ArtifactTypeConcepts, Datasets, WorkflowArtifacts, GovernanceRoles, ChangeLog, VocabularyReconciliations, Scenarios, CompetencyQuestions, ScenarioCQEffects, ConformanceTests
+
+Loading ontology and data...
+   Loaded: /Users/eejai42/development/effortless-rulebooks/execution-substrates/owl/src/ontology.owl
+   Loaded: /Users/eejai42/development/effortless-rulebooks/execution-substrates/owl/src/individuals.ttl
+   Total triples: 2575
+
+Loading SHACL rules...
+   Loaded: /Users/eejai42/development/effortless-rulebooks/execution-substrates/owl/src/rules.shacl.ttl
+   Rule triples: 831
+
+Running SHACL-SPARQL reasoning...
+   (Multiple passes to resolve dependencies between computed fields)
+   Pass 1: 2575 -> 3193 triples (618 added)
+   Pass 2: 3193 -> 3229 triples (36 added)
+   Pass 3: 3229 -> 3259 triples (30 added)
+   Pass 4: 3259 -> 3259 triples (0 added)
+   Completed in 4 passes
+   Final triple count: 3259
+
+Extracting computed values...
+   Workflows: 1 records (37 computed fields)
+   WorkflowSteps: 5 records (19 computed fields)
+   ApprovalGates: 1 records (7 computed fields)
+   StepPrecedence: 4 records (4 computed fields)
+   Roles: 7 records (8 computed fields)
+   RoleAssignments: 6 records (9 computed fields)
+   Departments: 2 records (3 computed fields)
+   HumanAgents: 5 records (2 computed fields)
+   AIAgents: 2 records (4 computed fields)
+   AutomatedPipelines: 1 records (2 computed fields)
+   WorkflowStatusConcepts: 4 records (2 computed fields)
+   AgentCapabilityConcepts: 6 records (2 computed fields)
+   ArtifactTypeConcepts: 3 records (2 computed fields)
+   Datasets: 1 records (3 computed fields)
+   WorkflowArtifacts: 5 records (7 computed fields)
+   GovernanceRoles: 2 records (4 computed fields)
+   ChangeLog: 2 records (5 computed fields)
+   VocabularyReconciliations: 2 records (3 computed fields)
+   Scenarios: 12 records (3 computed fields)
+   CompetencyQuestions: 8 records (3 computed fields)
+   ScenarioCQEffects: 12 records (3 computed fields)
+   ConformanceTests: 72 records (3 computed fields)
+
+Total: 163 records extracted
+Output: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/talismans-special-solutions/testing/owl/test-answers/
+
+======================================================================
+SHACL reasoning complete!
+======================================================================
+

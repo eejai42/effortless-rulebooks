@@ -34,17 +34,6 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -account airtable -o effortless-rulebook.json",
-      "IsDisabled": true,
-      "PinnedVersion": "v2026.04.02.1605",
-      "LastVersionUsed": "v2026.04.02.1605",
-      "LastUrl": "https://effortless-airtable-to-rulebook-v2026-04-02-1605-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
-      "Enabled": false
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "build-db",
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json",
@@ -61,17 +50,6 @@
       "CommandLine": "-exec ./reset-rulebook-db.sh",
       "IsDisabled": true,
       "PinnedVersion": "v2026.04.02.1900",
-      "Enabled": false
-    },
-    {
-      "IsSSoTTranspiler": false,
-      "Name": "airtabletoodxml",
-      "RelativePath": "/ODXML",
-      "CommandLine": "airtable-to-odxml -account airtable",
-      "IsDisabled": true,
-      "PinnedVersion": "v2026.04.06.2211",
-      "LastVersionUsed": "v2026.04.06.2211",
-      "LastUrl": "https://airtable-airtable-to-odxml-v2026-04-06-2211-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
       "Enabled": false
     },
     {

@@ -245,9 +245,10 @@ export function ProgressPage() {
 
           <Panel eyebrow="Legacy runner" title="Succession ledger">
             <p className="muted">
-              <code>rulebook-examples/legacy-runner/</code> is the way the platform used to run every project. It stays
-              as an ordinary governed example; this ledger records which surface now owns each capability's platform
-              role: the root explorer, the generated editor, or the effortless CLI's local transpiler host.
+              The orchestrator, transpiler bus, execution substrates, and conformance harness were briefly staged at
+              <code> rulebook-examples/legacy-runner/</code> (2026-08-30 to 2026-09-07) before that demotion was
+              reversed — they are root infrastructure again. This ledger records the capability-by-capability
+              decision: restored to root, or (the admin portal only) retired outright.
             </p>
             <div className="stats">
               <Stat label="Capabilities" value={meta.runner_capability_count} />

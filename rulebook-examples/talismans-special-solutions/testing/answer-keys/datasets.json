@@ -5,9 +5,9 @@
     "identifier": "DS-RISK-2026-Q1",
     "modified": "2026-03-31T00:00:00-05:00",
     "distribution_url": "https://data.internal.special-solutions.example/risk/q1-2026",
-    "consumed_by_steps": "prod-deploy-step-1",
+    "consumed_by_steps": null,
     "relative_path": "datasets/ds-q1-2026-risk-metrics",
     "iri": "datasets-ds-q1-2026-risk-metrics",
-    "is_consumed": true
+    "is_consumed": false
   }
 ]

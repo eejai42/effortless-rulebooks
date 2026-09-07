@@ -1,0 +1,47 @@
+[
+  {
+    "human_agent_id": "ntwf-david-chen",
+    "name": "David Chen",
+    "display_name": "David Chen",
+    "mbox": "david.chen@special-solutions.example",
+    "roles": "ntwf-vp-engineering-role",
+    "relative_path": null,
+    "iri": null
+  },
+  {
+    "human_agent_id": "ntwf-james-okafor",
+    "name": "James Okafor",
+    "display_name": "James Okafor",
+    "mbox": "james.okafor@special-solutions.example",
+    "roles": "ntwf-legal-compliance-role",
+    "relative_path": null,
+    "iri": null
+  },
+  {
+    "human_agent_id": "ntwf-maria-gonzalez",
+    "name": "Maria Gonzalez",
+    "display_name": "Maria Gonzalez",
+    "mbox": "maria.gonzalez@special-solutions.example",
+    "roles": "ntwf-release-manager-role",
+    "relative_path": null,
+    "iri": null
+  },
+  {
+    "human_agent_id": "ntwf-priya-nair",
+    "name": "Priya Nair",
+    "display_name": "Priya Nair",
+    "mbox": "priya.nair@special-solutions.example",
+    "roles": "",
+    "relative_path": null,
+    "iri": null
+  },
+  {
+    "human_agent_id": "ntwf-sarah-kim",
+    "name": "Sarah Kim",
+    "display_name": "Sarah Kim",
+    "mbox": "sarah.kim@special-solutions.example",
+    "roles": "ntwf-cto-role",
+    "relative_path": null,
+    "iri": null
+  }
+]

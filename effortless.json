@@ -1,8 +1,4 @@
 {
-  "ShowHidden": false,
-  "ShowAllFiles": false,
-  "CurrentPath": "/effortless-rulebook",
-  "SSoTmeProjectFiles": null,
   "SSoTmeProjectId": "f4f0515e-2efe-4a0a-8a22-acfe7a3b95f5",
   "Name": "effortless-rulebooks",
   "Description": "The repo-governing Effortless project: project catalog, consistency rules and findings, delivery programme, skill catalog, root explorer plan, universal launch contract, and legacy-runner retirement.",
@@ -28,8 +24,8 @@
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i effortless-rulebook.json -p rulebookPath=effortless-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.06.1406",
-      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-06-1406-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.07.0138",
+      "LastUrl": "https://effortless-effortless-rulebook-e-v2026-09-07-0138-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -46,8 +42,8 @@
       "RelativePath": "/postgres",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/effortless-rulebook.json -p drop_all=true",
       "IsDisabled": false,
-      "LastVersionUsed": "v2026.09.06.1424",
-      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-06-1424-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+      "LastVersionUsed": "v2026.09.07.0336",
+      "LastUrl": "https://effortless-rulebook-to-postgres-v2026-09-07-0336-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
     },
     {
       "IsSSoTTranspiler": false,
@@ -56,5 +52,9 @@
       "CommandLine": "-exec ./init-root-db.sh",
       "IsDisabled": false
     }
-  ]
+  ],
+  "ShowHidden": false,
+  "ShowAllFiles": false,
+  "CurrentPath": "/effortless-rulebook",
+  "SSoTmeProjectFiles": null
 }

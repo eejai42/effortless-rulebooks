@@ -19,24 +19,6 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o acme-corporation-rulebook.json -account airtable -p \"view=Grid view\"",
-      "IsDisabled": true,
-      "Enabled": false,
-      "Description": "Pull rulebook from Airtable [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
-    },
-    {
-      "IsSSoTTranspiler": false,
-      "Name": "rulebooktoairtable",
-      "RelativePath": "/effortless-rulebook/push-to-airtable",
-      "CommandLine": "rulebook-to-airtable -i ../acme-corporation-rulebook.json -account airtable -w 300000",
-      "IsDisabled": true,
-      "Enabled": false,
-      "Description": "Reverse-sync: push rulebook changes back to Airtable"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "rulebooktopostgres",
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/acme-corporation-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
@@ -68,6 +50,13 @@
       "IsDisabled": false,
       "LastVersionUsed": "v2026.06.06.0219",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-06-0219-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i acme-corporation-rulebook.json -p rulebookPath=acme-corporation-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false
     }
   ]
 }

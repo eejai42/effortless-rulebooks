@@ -94,6 +94,285 @@ RETURNS TEXT AS $$
   SELECT (CASE WHEN ((SELECT distance_from_concept FROM language_candidates WHERE language_candidate_id = p_language_candidate_id))::NUMERIC = 1 THEN ('IsMirrorOf')::text ELSE ('IsDescriptionOf')::text END)::text;
 $$ LANGUAGE sql STABLE;
 
+-- calc_language_candidates_hockett_assessed_count
+-- Field: LanguageCandidates.HockettAssessedCount
+-- Type: aggregation | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_language_candidates_hockett_assessed_count(p_language_candidate_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT ((SELECT COUNT(*) FROM hockett_assessments WHERE language_candidate = (SELECT NULLIF(name, '') FROM language_candidates WHERE language_candidate_id = p_language_candidate_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_language_candidates_hockett_yes_count
+-- Field: LanguageCandidates.HockettYesCount
+-- Type: aggregation | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_language_candidates_hockett_yes_count(p_language_candidate_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT ((SELECT COALESCE(SUM((calc_hockett_assessments_is_yes_flag(hockett_assessment_id))::numeric), 0) FROM hockett_assessments WHERE language_candidate = (SELECT NULLIF(name, '') FROM language_candidates WHERE language_candidate_id = p_language_candidate_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_language_candidates_is_hockett_assessed
+-- Field: LanguageCandidates.IsHockettAssessed
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_language_candidates_is_hockett_assessed(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_language_candidates_hockett_assessed_count(p_language_candidate_id))::NUMERIC > 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_language_candidates_hockett_score
+-- Field: LanguageCandidates.HockettScore
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_language_candidates_hockett_score(p_language_candidate_id TEXT)
+RETURNS TEXT AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_language_candidates_hockett_assessed_count(p_language_candidate_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN ('not assessed')::text ELSE (CONCAT(calc_language_candidates_hockett_yes_count(p_language_candidate_id), ' of ', (SELECT val FROM __erb_dedup_v1)))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_language_candidates_hockett_vs_gate
+-- Field: LanguageCandidates.HockettVsGate
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_language_candidates_hockett_vs_gate(p_language_candidate_id TEXT)
+RETURNS TEXT AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_language_candidates_hockett_assessed_count(p_language_candidate_id) AS val), __erb_dedup_v2 AS (SELECT calc_language_candidates_predicted_answer(p_language_candidate_id) AS val), __erb_dedup_v3 AS (SELECT calc_language_candidates_hockett_yes_count(p_language_candidate_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN ('')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v2) AND (SELECT val FROM __erb_dedup_v3) < (SELECT val FROM __erb_dedup_v1)) THEN (CONCAT('The eight-clause gate says language; Hockett''s features hold for only ', (SELECT val FROM __erb_dedup_v3), ' of ', (SELECT val FROM __erb_dedup_v1), '.'))::text ELSE (CASE WHEN (NOT ((SELECT val FROM __erb_dedup_v2)) AND (SELECT val FROM __erb_dedup_v3) = (SELECT val FROM __erb_dedup_v1)) THEN ('Hockett''s features all hold, and the eight-clause gate says not a language.')::text ELSE ('')::text END)::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_hockett_features_assessment_count
+-- Field: HockettFeatures.AssessmentCount
+-- Type: aggregation | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_hockett_features_assessment_count(p_hockett_feature_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT ((SELECT COUNT(*) FROM hockett_assessments WHERE hockett_feature = (SELECT NULLIF(name, '') FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_hockett_features_yes_count
+-- Field: HockettFeatures.YesCount
+-- Type: aggregation | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_hockett_features_yes_count(p_hockett_feature_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT ((SELECT COALESCE(SUM((calc_hockett_assessments_is_yes_flag(hockett_assessment_id))::numeric), 0) FROM hockett_assessments WHERE hockett_feature = (SELECT NULLIF(name, '') FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_name
+-- Helper function: Get Name from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_name(p_language_candidate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_is_language
+-- Helper function: Get IsLanguage from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_is_language(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_language FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_has_syntax
+-- Helper function: Get HasSyntax from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_has_syntax(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT has_syntax FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_can_be_held
+-- Helper function: Get CanBeHeld from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_can_be_held(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT can_be_held FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_category
+-- Helper function: Get Category from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_category(p_language_candidate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT category FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_has_identity
+-- Helper function: Get HasIdentity from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_has_identity(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT has_identity FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_is_parsed
+-- Helper function: Get IsParsed from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_is_parsed(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_parsed FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_resolves_to_an_ast
+-- Helper function: Get ResolvesToAnAST from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_language_candidates_resolves_to_an_ast(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT resolves_to_an_ast FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_has_linear_decoding_pressure
+-- Helper function: Get HasLinearDecodingPressure from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_has_linear_decoding_pressure(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT has_linear_decoding_pressure FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_is_stable_ontology_reference
+-- Helper function: Get IsStableOntologyReference from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_is_stable_ontology_reference(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_stable_ontology_reference FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_is_live_ontology_editor
+-- Helper function: Get IsLiveOntologyEditor from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_is_live_ontology_editor(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_live_ontology_editor FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_is_open_world
+-- Helper function: Get IsOpenWorld from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_is_open_world(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_open_world FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_is_closed_world
+-- Helper function: Get IsClosedWorld from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_is_closed_world(p_language_candidate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_closed_world FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_distance_from_concept
+-- Helper function: Get DistanceFromConcept from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_distance_from_concept(p_language_candidate_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT distance_from_concept FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_dimensionality_while_editing
+-- Helper function: Get DimensionalityWhileEditing from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_dimensionality_while_editing(p_language_candidate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT dimensionality_while_editing FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_model_object_facility_layer
+-- Helper function: Get ModelObjectFacilityLayer from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_model_object_facility_layer(p_language_candidate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT model_object_facility_layer FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_language_candidates_sort_order
+-- Helper function: Get SortOrder from LanguageCandidates by LanguageCandidateId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_language_candidates_sort_order(p_language_candidate_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT sort_order FROM language_candidates WHERE language_candidate_id = p_language_candidate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_hockett_features_name
+-- Helper function: Get Name from HockettFeatures by HockettFeatureId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_hockett_features_name(p_hockett_feature_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_hockett_features_feature_number
+-- Helper function: Get FeatureNumber from HockettFeatures by HockettFeatureId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_hockett_features_feature_number(p_hockett_feature_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT feature_number FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_hockett_features_definition
+-- Helper function: Get Definition from HockettFeatures by HockettFeatureId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_hockett_features_definition(p_hockett_feature_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT definition FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_hockett_features_is_original_thirteen
+-- Helper function: Get IsOriginalThirteen from HockettFeatures by HockettFeatureId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_hockett_features_is_original_thirteen(p_hockett_feature_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT is_original_thirteen FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_hockett_features_source
+-- Helper function: Get Source from HockettFeatures by HockettFeatureId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_hockett_features_source(p_hockett_feature_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT source FROM hockett_features WHERE hockett_feature_id = p_hockett_feature_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_hockett_assessments_name
+-- Field: HockettAssessments.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_hockett_assessments_name(p_hockett_assessment_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(language_candidate, '') FROM hockett_assessments WHERE hockett_assessment_id = p_hockett_assessment_id), ' / ', (SELECT NULLIF(hockett_feature, '') FROM hockett_assessments WHERE hockett_assessment_id = p_hockett_assessment_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_hockett_assessments_is_yes_flag
+-- Field: HockettAssessments.IsYesFlag
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_hockett_assessments_is_yes_flag(p_hockett_assessment_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (CASE WHEN (SELECT NULLIF(verdict, '') FROM hockett_assessments WHERE hockett_assessment_id = p_hockett_assessment_id) = 'Yes' THEN (1)::text ELSE (0)::text END)::integer;
+$$ LANGUAGE sql STABLE;
+
 -- ============================================================================
 -- MANY-SIDE RELATIONSHIP FUNCTIONS
 -- These functions aggregate child records for many-side relationships

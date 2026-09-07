@@ -1,0 +1,13 @@
+=== Effortless-XLSX Substrate Test Run ===
+
+Effortless-XLSX Substrate Test Runner
+==================================================
+
+Workbook: /Users/eejai42/development/effortless-rulebooks/toy-rulebooks/acme-llc/effortless-xlsx/acme-llc.xlsx
+  (LibreOffice not installed — relying on cached formula values)
+Sheets: ['Customers', '_original_json']
+
+  -> customers: 3 records
+
+effortless-xlsx: Processed 1 entities, 3 total records
+

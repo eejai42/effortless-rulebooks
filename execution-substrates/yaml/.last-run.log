@@ -1,0 +1,6 @@
+=== YAML Substrate Test Run ===
+
+YAML substrate: schema.yaml loaded (5 entities). Scalar formulas evaluated with the YAML-substrate-native evaluator; unsupported expressions (cross-table lookups / aggregations) stay null.
+  -> customers: 3 records (1 formulas)
+YAML substrate: Processed 1 entities, 3 total records
+

@@ -8,7 +8,7 @@
   "SSoTmeProjectFiles": null,
   "ProjectSettings": [
     { "Name": "project-name", "Value": "effortless-rulebook-editor-runtime" },
-    { "Name": "editor-pipeline-defaults-version", "Value": "2" }
+    { "Name": "editor-pipeline-defaults-version", "Value": "3" }
   ],
   "ProjectTranspilers": [
     {
@@ -25,15 +25,15 @@
       "RelativePath": "/postgres",
       "CommandLine": "-exec ./chmod-initdb.sh",
       "IsDisabled": false,
-      "Description": "rulebook-to-postgres emits init-db.sh without the execute bit set. The -exec engine passes NO arguments through to the invoked command (confirmed empirically: `-exec chmod +x ./init-db.sh` fails with 'missing operand' -- everything after the command token is swallowed), so this indirects through a tiny wrapper script (chmod-initdb.sh, placed in /postgres by container-entrypoint.sh) that takes no CLI args of its own."
+      "Description": "Prepare the generated database reset script and the stable selector wrapper for execution. The -exec engine accepts only one command token, so this uses a no-argument helper placed in /postgres by container-entrypoint.sh."
     },
     {
       "IsSSoTTranspiler": false,
       "Name": "initdb",
       "RelativePath": "/postgres",
-      "CommandLine": "-exec ./init-db.sh",
+      "CommandLine": "-exec ./run-rulebook-db-reset.sh",
       "IsDisabled": false,
-      "Description": "Drop + recreate the in-container Postgres DB from the freshly generated SQL. Connection string comes from the DATABASE_URL env var (exported by container-entrypoint.sh) rather than a CLI arg, since -exec does not pass arguments through to the invoked command."
+      "Description": "Reset the in-container Postgres DB using reset-rulebook-db.sh when present, with legacy init-db.sh compatibility for older rulebook-to-postgres versions. Connection string comes from the DATABASE_URL env var exported by container-entrypoint.sh."
     },
     {
       "IsSSoTTranspiler": false,

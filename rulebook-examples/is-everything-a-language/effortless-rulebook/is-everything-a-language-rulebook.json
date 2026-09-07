@@ -195,6 +195,50 @@
         "datatype": "integer",
         "type": "raw",
         "nullable": true
+      },
+      {
+        "name": "HockettAssessedCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "How many of Hockett's design features this candidate has a published assessment for. Zero means nobody has assessed it, which is not the same as failing.",
+        "formula": "=COUNTIFS(HockettAssessments!{{LanguageCandidate}}, {{Name}})"
+      },
+      {
+        "name": "HockettYesCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "How many assessed design features this candidate satisfies outright.",
+        "formula": "=SUMIFS(HockettAssessments!{{IsYesFlag}}, HockettAssessments!{{LanguageCandidate}}, {{Name}})"
+      },
+      {
+        "name": "IsHockettAssessed",
+        "datatype": "boolean",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "TRUE once this candidate has at least one published design-feature assessment.",
+        "formula": "={{HockettAssessedCount}} > 0"
+      },
+      {
+        "name": "HockettScore",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "The design-feature tally as text, reading \"not assessed\" rather than \"0\" when there is no published assessment. A hand-written Postgres function used to sum eleven bio_has_* columns that were never in the rulebook, so every candidate silently scored zero; this field replaces it.",
+        "formula": "=IF({{HockettAssessedCount}} = 0, \"not assessed\", {{HockettYesCount}} & \" of \" & {{HockettAssessedCount}})",
+        "important": true,
+        "explanation_rich": "**The rival definition's answer, next to this rulebook's own.** Where `PredictedAnswer` runs the eight-clause gate authored here, this counts how many of Hockett's design features a candidate satisfies according to published assessment. It deliberately reads *not assessed* instead of *0 of 13* for candidates nobody has scored: a silent zero was the exact defect in the hand-written `calc_language_candidates_bio_hockett_score()`, which summed columns that did not exist and so reported every candidate as scoring nothing."
+      },
+      {
+        "name": "HockettVsGate",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Names the disagreement, in English, when the eight-clause gate and Hockett's design features reach opposite conclusions. Empty when they agree or when the candidate is unassessed.",
+        "formula": "=IF({{HockettAssessedCount}} = 0, \"\", IF(AND({{PredictedAnswer}}, {{HockettYesCount}} < {{HockettAssessedCount}}), \"The eight-clause gate says language; Hockett's features hold for only \" & {{HockettYesCount}} & \" of \" & {{HockettAssessedCount}} & \".\", IF(AND(NOT({{PredictedAnswer}}), {{HockettYesCount}} = {{HockettAssessedCount}}), \"Hockett's features all hold, and the eight-clause gate says not a language.\", \"\")))",
+        "important": true,
+        "explanation_rich": "**Where the two definitions collide, with an address.** Two candidates currently disagree. **Sign Language** passes this rulebook's eight-clause gate while Hockett's very first feature, the vocal-auditory channel, excludes it outright, which is the best-known objection to the design-features framework. **Honeybee Waggle Dance** passes the gate too, and satisfies only four of Hockett's thirteen. Neither is settled by insisting harder: both now name a specific premise a reader can go and argue with."
       }
     ],
     "data": [
@@ -224,7 +268,12 @@
         "HasIdentity": false,
         "IsLiveOntologyEditor": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 13,
+        "HockettYesCount": 13,
+        "IsHockettAssessed": true,
+        "HockettScore": "13 of 13",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "a-coffee-mug",
@@ -252,7 +301,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "spoken-words",
@@ -280,7 +334,12 @@
         "HasIdentity": false,
         "IsLiveOntologyEditor": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 13,
+        "HockettYesCount": 13,
+        "IsHockettAssessed": true,
+        "HockettScore": "13 of 13",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "a-game-of-fortnite",
@@ -308,7 +367,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "sign-language",
@@ -336,7 +400,12 @@
         "HasIdentity": false,
         "IsLiveOntologyEditor": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 13,
+        "HockettYesCount": 10,
+        "IsHockettAssessed": true,
+        "HockettScore": "10 of 13",
+        "HockettVsGate": "The eight-clause gate says language; Hockett's features hold for only 10 of 13."
       },
       {
         "LanguageCandidateId": "editing-airtable-base",
@@ -364,7 +433,12 @@
         "IsParsed": false,
         "HasLinearDecodingPressure": false,
         "IsOpenWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "math",
@@ -392,7 +466,12 @@
         "HasIdentity": false,
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "falsifier-a",
@@ -420,7 +499,12 @@
         "IsOpenWorld": false,
         "IsClosedWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "falsifier-b",
@@ -448,7 +532,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "a-smartphone",
@@ -476,7 +565,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "python",
@@ -504,7 +598,12 @@
         "HasIdentity": false,
         "IsLiveOntologyEditor": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "a-running-app",
@@ -532,7 +631,12 @@
         "IsStableOntologyReference": false,
         "IsOpenWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "an-xlsx-doc",
@@ -560,7 +664,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "xlsx-editing",
@@ -588,7 +697,12 @@
         "IsOpenWorld": false,
         "IsClosedWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "an-docx-doc",
@@ -616,7 +730,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "docx-editing",
@@ -644,7 +763,12 @@
         "IsOpenWorld": false,
         "IsClosedWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "owl-rdf-graphql-generally",
@@ -672,7 +796,12 @@
         "HasIdentity": false,
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "a-thunderstorm",
@@ -700,7 +829,12 @@
         "IsOpenWorld": false,
         "IsClosedWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "a-uml-file",
@@ -728,7 +862,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "the-mona-lisa",
@@ -756,7 +895,12 @@
         "IsOpenWorld": false,
         "IsClosedWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "binary-code",
@@ -784,7 +928,12 @@
         "IsLiveOntologyEditor": false,
         "IsOpenWorld": false,
         "IsClosedWorld": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "running-calculator-app",
@@ -812,7 +961,12 @@
         "IsOpenWorld": false,
         "IsClosedWorld": false,
         "IsDescriptionOf": false,
-        "IsOpenClosedWorldConflicted": false
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "owa-cwa-falsifier",
@@ -840,7 +994,12 @@
         "PredictionPredicates": "Has Syntax & Requires Parsing & Describes the thing & Has Linear Decoding Pressure & Resolves to AST, Is Stable Ontology AND Can't Be Held, Has no Identity",
         "CanBeHeld": false,
         "HasIdentity": false,
-        "IsLiveOntologyEditor": false
+        "IsLiveOntologyEditor": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "honeybee-waggle-dance",
@@ -868,7 +1027,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "OneDimensionalSymbolic",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 13,
+        "HockettYesCount": 4,
+        "IsHockettAssessed": true,
+        "HockettScore": "4 of 13",
+        "HockettVsGate": "The eight-clause gate says language; Hockett's features hold for only 4 of 13."
       },
       {
         "LanguageCandidateId": "vervet-monkey-alarm-calls",
@@ -896,7 +1060,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "songbird-song-learned-dialects",
@@ -924,7 +1093,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "killer-whale-pod-dialects",
@@ -952,7 +1126,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "dolphin-signature-whistles",
@@ -980,7 +1159,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "ant-pheromone-trail-system",
@@ -1008,7 +1192,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "cuttlefish-chromatophore-displays",
@@ -1036,7 +1225,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "nicaraguan-sign-language-early-cohort",
@@ -1064,7 +1258,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "homesign-single-child",
@@ -1092,7 +1291,12 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       },
       {
         "LanguageCandidateId": "bonobo-lexigram-keyboard-communication",
@@ -1120,7 +1324,78 @@
         "IsOpenClosedWorldConflicted": false,
         "DimensionalityWhileEditing": "",
         "ModelObjectFacilityLayer": "",
-        "SortOrder": 0
+        "SortOrder": 0,
+        "HockettAssessedCount": 13,
+        "HockettYesCount": 8,
+        "IsHockettAssessed": true,
+        "HockettScore": "8 of 13",
+        "HockettVsGate": ""
+      },
+      {
+        "LanguageCandidateId": "an-sdlaf-container",
+        "Name": "An SDLAF Container",
+        "PredictedAnswer": false,
+        "IsStableOntologyReference": true,
+        "HasLinearDecodingPressure": false,
+        "IsParsed": false,
+        "HasSyntax": false,
+        "Category": "Conceptual Structure",
+        "IsLanguage": false,
+        "SortOrder": 24,
+        "Question": "Is An SDLAF Container a language?",
+        "RelationshipToConcept": "IsDescriptionOf",
+        "DistanceFromConcept": 2,
+        "HasGrammar": false,
+        "DimensionalityWhileEditing": "MultiDimensionalSymbolic",
+        "IsOpenWorld": false,
+        "IsDescriptionOf": true,
+        "ResolvesToAnAST": false,
+        "ModelObjectFacilityLayer": "M3",
+        "PredictionPredicates": "No Syntax & No Parsing Neede & Describes the thing & No Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has no Identity",
+        "CanBeHeld": false,
+        "PredictionFail": "",
+        "HasIdentity": false,
+        "IsLiveOntologyEditor": false,
+        "IsClosedWorld": true,
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
+      },
+      {
+        "LanguageCandidateId": "a-live-sdlaf-container",
+        "Name": "A Live SDLAF Container",
+        "PredictedAnswer": false,
+        "IsStableOntologyReference": true,
+        "HasLinearDecodingPressure": false,
+        "IsParsed": false,
+        "HasSyntax": false,
+        "Category": "Running Software",
+        "IsLanguage": false,
+        "SortOrder": 25,
+        "Question": "Is A Live SDLAF Container a language?",
+        "RelationshipToConcept": "IsMirrorOf",
+        "DistanceFromConcept": 1,
+        "HasGrammar": false,
+        "DimensionalityWhileEditing": "MultiDimensionalNonSymbolic",
+        "IsOpenWorld": false,
+        "IsDescriptionOf": false,
+        "ResolvesToAnAST": false,
+        "ModelObjectFacilityLayer": "M4",
+        "PredictionPredicates": "No Syntax & No Parsing Neede & Is the Thing & No Decoding Pressure & No AST, Is Stable Ontology AND Can't Be Held, Has Identity",
+        "CanBeHeld": false,
+        "PredictionFail": "",
+        "HasIdentity": true,
+        "IsLiveOntologyEditor": true,
+        "IsClosedWorld": true,
+        "IsOpenClosedWorldConflicted": false,
+        "HockettAssessedCount": 0,
+        "HockettYesCount": 0,
+        "IsHockettAssessed": false,
+        "HockettScore": "not assessed",
+        "HockettVsGate": ""
       }
     ]
   },
@@ -1414,6 +1689,1034 @@
       }
     ]
   },
+  "HockettFeatures": {
+    "Description": "Table: HockettFeatures",
+    "important": true,
+    "summary_rich": "**The other definition.** Charles Hockett's *design features* are the canonical linguistic answer to the same question this rulebook asks, so they belong in it as data rather than as prose. Thirteen features from 1960, plus `Prevarication`, `Reflexiveness` and `Learnability` added in 1968. `IsOriginalThirteen` separates the two. Each feature rolls up how many candidates have been assessed against it and how many satisfy it.",
+    "important_fields": [
+      "FeatureNumber",
+      "Name",
+      "IsOriginalThirteen",
+      "YesCount"
+    ],
+    "schema": [
+      {
+        "name": "HockettFeatureId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The design feature's name, as Hockett gives it."
+      },
+      {
+        "name": "FeatureNumber",
+        "datatype": "integer",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Hockett's own numbering, 1 through 13, then 14 through 16 for the 1968 additions."
+      },
+      {
+        "name": "Definition",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "What the feature asserts, in plain English."
+      },
+      {
+        "name": "IsOriginalThirteen",
+        "datatype": "boolean",
+        "type": "raw",
+        "nullable": true,
+        "Description": "TRUE for the thirteen features of the 1960 paper; FALSE for the three added in 1968."
+      },
+      {
+        "name": "Source",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Citation for the feature list."
+      },
+      {
+        "name": "AssessmentCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "How many candidates have been assessed against this feature.",
+        "formula": "=COUNTIFS(HockettAssessments!{{HockettFeature}}, {{Name}})"
+      },
+      {
+        "name": "YesCount",
+        "datatype": "integer",
+        "type": "aggregation",
+        "nullable": true,
+        "Description": "How many assessed candidates satisfy this feature outright.",
+        "formula": "=SUMIFS(HockettAssessments!{{IsYesFlag}}, HockettAssessments!{{HockettFeature}}, {{Name}})"
+      }
+    ],
+    "data": [
+      {
+        "HockettFeatureId": "vocal-auditory-channel",
+        "Name": "Vocal-Auditory Channel",
+        "FeatureNumber": 1,
+        "Definition": "Signals are made with the vocal tract and received by the auditory system.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 2
+      },
+      {
+        "HockettFeatureId": "broadcast-transmission-and-directional-reception",
+        "Name": "Broadcast Transmission And Directional Reception",
+        "FeatureNumber": 2,
+        "Definition": "The signal radiates to any receiver in range, and a receiver can locate its source.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 5
+      },
+      {
+        "HockettFeatureId": "rapid-fading",
+        "Name": "Rapid Fading",
+        "FeatureNumber": 3,
+        "Definition": "The signal does not persist. Unlike a track, a spoor or a written record, it is gone once transmitted and will not wait for the hearer's convenience.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 4
+      },
+      {
+        "HockettFeatureId": "interchangeability",
+        "Name": "Interchangeability",
+        "FeatureNumber": 4,
+        "Definition": "Any user who can understand a message can also produce it.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 4
+      },
+      {
+        "HockettFeatureId": "total-feedback",
+        "Name": "Total Feedback",
+        "FeatureNumber": 5,
+        "Definition": "The sender perceives everything relevant in their own signal.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 2
+      },
+      {
+        "HockettFeatureId": "specialization",
+        "Name": "Specialization",
+        "FeatureNumber": 6,
+        "Definition": "The signal exists in order to communicate, rather than being a side effect of some other behaviour.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 4
+      },
+      {
+        "HockettFeatureId": "semanticity",
+        "Name": "Semanticity",
+        "FeatureNumber": 7,
+        "Definition": "Signals carry fixed associations to things and situations in the world.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 5
+      },
+      {
+        "HockettFeatureId": "arbitrariness",
+        "Name": "Arbitrariness",
+        "FeatureNumber": 8,
+        "Definition": "The tie between a signal and its meaning is conventional rather than a resemblance.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 2
+      },
+      {
+        "HockettFeatureId": "discreteness",
+        "Name": "Discreteness",
+        "FeatureNumber": 9,
+        "Definition": "The signal is built from a repertoire of distinct units, so a small deviation either switches units outright or is heard as a noisy version of the same one.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 4
+      },
+      {
+        "HockettFeatureId": "displacement",
+        "Name": "Displacement",
+        "FeatureNumber": 10,
+        "Definition": "Messages can be about things remote in time or space.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 5
+      },
+      {
+        "HockettFeatureId": "productivity",
+        "Name": "Productivity",
+        "FeatureNumber": 11,
+        "Definition": "Messages never sent before can be produced and understood.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 4
+      },
+      {
+        "HockettFeatureId": "traditional-transmission",
+        "Name": "Traditional Transmission",
+        "FeatureNumber": 12,
+        "Definition": "The system is learned from other users rather than inherited genetically.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 3
+      },
+      {
+        "HockettFeatureId": "duality-of-patterning",
+        "Name": "Duality Of Patterning",
+        "FeatureNumber": 13,
+        "Definition": "A small stock of meaningless units combines into a large stock of meaningful ones.",
+        "IsOriginalThirteen": true,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 5,
+        "YesCount": 4
+      },
+      {
+        "HockettFeatureId": "prevarication",
+        "Name": "Prevarication",
+        "FeatureNumber": 14,
+        "Definition": "Messages can be false, deceptive or meaningless.",
+        "IsOriginalThirteen": false,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 0,
+        "YesCount": 0
+      },
+      {
+        "HockettFeatureId": "reflexiveness",
+        "Name": "Reflexiveness",
+        "FeatureNumber": 15,
+        "Definition": "The system can be used to communicate about itself.",
+        "IsOriginalThirteen": false,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 0,
+        "YesCount": 0
+      },
+      {
+        "HockettFeatureId": "learnability",
+        "Name": "Learnability",
+        "FeatureNumber": 16,
+        "Definition": "A user of one such system can learn another.",
+        "IsOriginalThirteen": false,
+        "Source": "Hockett, C. F. (1960). The Origin of Speech. Scientific American 203(3), 88-96. Features 14-16 were added in Hockett & Altmann (1968).",
+        "AssessmentCount": 0,
+        "YesCount": 0
+      }
+    ]
+  },
+  "HockettAssessments": {
+    "Description": "Table: HockettAssessments",
+    "important": true,
+    "summary_rich": "**One row per (candidate, design feature), with its receipt.** The published comparisons of Hockett's features are full of hedged cells, so `Verdict` resolves to Yes / No / Partial / Unknown while `VerbatimAssessment` preserves the source's exact wording (\"Limited\", \"Largely yes\", \"Debatable\", \"?\") and `SourceCitation` names the column it came from. `MappingNote` is filled in whenever a candidate in this rulebook maps only approximately onto the source's column, so an approximate row can never be mistaken for a direct quotation. Nothing here is assessed from intuition: a candidate with no published assessment gets no rows at all.",
+    "important_fields": [
+      "Name",
+      "Verdict",
+      "VerbatimAssessment",
+      "MappingNote"
+    ],
+    "schema": [
+      {
+        "name": "HockettAssessmentId",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": false
+      },
+      {
+        "name": "Name",
+        "datatype": "string",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "Logical key: the candidate and the feature being assessed.",
+        "formula": "={{LanguageCandidate}} & \" / \" & {{HockettFeature}}"
+      },
+      {
+        "name": "LanguageCandidate",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "RelatedTo": "LanguageCandidates",
+        "Description": "FK to the candidate being assessed."
+      },
+      {
+        "name": "HockettFeature",
+        "datatype": "string",
+        "type": "relationship",
+        "nullable": false,
+        "RelatedTo": "HockettFeatures",
+        "Description": "FK to the design feature being applied."
+      },
+      {
+        "name": "Verdict",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Yes, No, Partial or Unknown. Partial and Unknown exist because the published assessments hedge, and flattening a hedge into a boolean would bury a judgement call in the data."
+      },
+      {
+        "name": "VerbatimAssessment",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "The source's exact wording for this cell, so every resolution to Verdict stays auditable."
+      },
+      {
+        "name": "SourceCitation",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Where this cell came from, including which column."
+      },
+      {
+        "name": "MappingNote",
+        "datatype": "string",
+        "type": "raw",
+        "nullable": true,
+        "Description": "Empty when this candidate corresponds exactly to the source's column. Otherwise, how the two differ and how far the row should be trusted."
+      },
+      {
+        "name": "IsYesFlag",
+        "datatype": "integer",
+        "type": "calculated",
+        "nullable": true,
+        "Description": "1 when the verdict is an outright Yes, else 0. Summed by the rollups on LanguageCandidates and HockettFeatures.",
+        "formula": "=IF({{Verdict}} = \"Yes\", 1, 0)"
+      }
+    ],
+    "data": [
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--vocal-auditory-channel",
+        "Name": "Honeybee Waggle Dance / Vocal-Auditory Channel",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Vocal-Auditory Channel",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--broadcast-transmission-and-directional-reception",
+        "Name": "Honeybee Waggle Dance / Broadcast Transmission And Directional Reception",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Broadcast Transmission And Directional Reception",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--rapid-fading",
+        "Name": "Honeybee Waggle Dance / Rapid Fading",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Rapid Fading",
+        "Verdict": "Unknown",
+        "VerbatimAssessment": "?",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--interchangeability",
+        "Name": "Honeybee Waggle Dance / Interchangeability",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Interchangeability",
+        "Verdict": "Partial",
+        "VerbatimAssessment": "Limited",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--total-feedback",
+        "Name": "Honeybee Waggle Dance / Total Feedback",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Total Feedback",
+        "Verdict": "Unknown",
+        "VerbatimAssessment": "?",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--specialization",
+        "Name": "Honeybee Waggle Dance / Specialization",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Specialization",
+        "Verdict": "Unknown",
+        "VerbatimAssessment": "?",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--semanticity",
+        "Name": "Honeybee Waggle Dance / Semanticity",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Semanticity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--arbitrariness",
+        "Name": "Honeybee Waggle Dance / Arbitrariness",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Arbitrariness",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--discreteness",
+        "Name": "Honeybee Waggle Dance / Discreteness",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Discreteness",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--displacement",
+        "Name": "Honeybee Waggle Dance / Displacement",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Displacement",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes, always",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--productivity",
+        "Name": "Honeybee Waggle Dance / Productivity",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Productivity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--traditional-transmission",
+        "Name": "Honeybee Waggle Dance / Traditional Transmission",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Traditional Transmission",
+        "Verdict": "No",
+        "VerbatimAssessment": "Probably not",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "honeybee-waggle-dance--duality-of-patterning",
+        "Name": "Honeybee Waggle Dance / Duality Of Patterning",
+        "LanguageCandidate": "Honeybee Waggle Dance",
+        "HockettFeature": "Duality Of Patterning",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Bee dancing\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--vocal-auditory-channel",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Vocal-Auditory Channel",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Vocal-Auditory Channel",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--broadcast-transmission-and-directional-reception",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Broadcast Transmission And Directional Reception",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Broadcast Transmission And Directional Reception",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--rapid-fading",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Rapid Fading",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Rapid Fading",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--interchangeability",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Interchangeability",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Interchangeability",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--total-feedback",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Total Feedback",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Total Feedback",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--specialization",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Specialization",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Specialization",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--semanticity",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Semanticity",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Semanticity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--arbitrariness",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Arbitrariness",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Arbitrariness",
+        "Verdict": "Partial",
+        "VerbatimAssessment": "Largely yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--discreteness",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Discreteness",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Discreteness",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--displacement",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Displacement",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Displacement",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--productivity",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Productivity",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Productivity",
+        "Verdict": "Unknown",
+        "VerbatimAssessment": "Debatable",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--traditional-transmission",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Traditional Transmission",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Traditional Transmission",
+        "Verdict": "Partial",
+        "VerbatimAssessment": "Limited",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "bonobo-lexigram-keyboard-communication--duality-of-patterning",
+        "Name": "Bonobo/Lexigram Keyboard Communication / Duality Of Patterning",
+        "LanguageCandidate": "Bonobo/Lexigram Keyboard Communication",
+        "HockettFeature": "Duality Of Patterning",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Signing apes\".",
+        "MappingNote": "Approximate mapping: the source column is \"Signing apes\". This candidate is a lexigram-keyboard system rather than manual signing, so the row is indicative of ape symbol use generally, not of this exact apparatus.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--vocal-auditory-channel",
+        "Name": "Sign Language / Vocal-Auditory Channel",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Vocal-Auditory Channel",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "sign-language--broadcast-transmission-and-directional-reception",
+        "Name": "Sign Language / Broadcast Transmission And Directional Reception",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Broadcast Transmission And Directional Reception",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--rapid-fading",
+        "Name": "Sign Language / Rapid Fading",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Rapid Fading",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--interchangeability",
+        "Name": "Sign Language / Interchangeability",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Interchangeability",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--total-feedback",
+        "Name": "Sign Language / Total Feedback",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Total Feedback",
+        "Verdict": "No",
+        "VerbatimAssessment": "No",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "sign-language--specialization",
+        "Name": "Sign Language / Specialization",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Specialization",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--semanticity",
+        "Name": "Sign Language / Semanticity",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Semanticity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--arbitrariness",
+        "Name": "Sign Language / Arbitrariness",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Arbitrariness",
+        "Verdict": "Partial",
+        "VerbatimAssessment": "Largely yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 0
+      },
+      {
+        "HockettAssessmentId": "sign-language--discreteness",
+        "Name": "Sign Language / Discreteness",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Discreteness",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--displacement",
+        "Name": "Sign Language / Displacement",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Displacement",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes, often",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--productivity",
+        "Name": "Sign Language / Productivity",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Productivity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--traditional-transmission",
+        "Name": "Sign Language / Traditional Transmission",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Traditional Transmission",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "sign-language--duality-of-patterning",
+        "Name": "Sign Language / Duality Of Patterning",
+        "LanguageCandidate": "Sign Language",
+        "HockettFeature": "Duality Of Patterning",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Human sign languages\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--vocal-auditory-channel",
+        "Name": "Spoken Words / Vocal-Auditory Channel",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Vocal-Auditory Channel",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--broadcast-transmission-and-directional-reception",
+        "Name": "Spoken Words / Broadcast Transmission And Directional Reception",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Broadcast Transmission And Directional Reception",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--rapid-fading",
+        "Name": "Spoken Words / Rapid Fading",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Rapid Fading",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--interchangeability",
+        "Name": "Spoken Words / Interchangeability",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Interchangeability",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--total-feedback",
+        "Name": "Spoken Words / Total Feedback",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Total Feedback",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--specialization",
+        "Name": "Spoken Words / Specialization",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Specialization",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--semanticity",
+        "Name": "Spoken Words / Semanticity",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Semanticity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--arbitrariness",
+        "Name": "Spoken Words / Arbitrariness",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Arbitrariness",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--discreteness",
+        "Name": "Spoken Words / Discreteness",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Discreteness",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--displacement",
+        "Name": "Spoken Words / Displacement",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Displacement",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes, often",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--productivity",
+        "Name": "Spoken Words / Productivity",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Productivity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--traditional-transmission",
+        "Name": "Spoken Words / Traditional Transmission",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Traditional Transmission",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "spoken-words--duality-of-patterning",
+        "Name": "Spoken Words / Duality Of Patterning",
+        "LanguageCandidate": "Spoken Words",
+        "HockettFeature": "Duality Of Patterning",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--vocal-auditory-channel",
+        "Name": "English / Vocal-Auditory Channel",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Vocal-Auditory Channel",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--broadcast-transmission-and-directional-reception",
+        "Name": "English / Broadcast Transmission And Directional Reception",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Broadcast Transmission And Directional Reception",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--rapid-fading",
+        "Name": "English / Rapid Fading",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Rapid Fading",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--interchangeability",
+        "Name": "English / Interchangeability",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Interchangeability",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--total-feedback",
+        "Name": "English / Total Feedback",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Total Feedback",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--specialization",
+        "Name": "English / Specialization",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Specialization",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--semanticity",
+        "Name": "English / Semanticity",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Semanticity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--arbitrariness",
+        "Name": "English / Arbitrariness",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Arbitrariness",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--discreteness",
+        "Name": "English / Discreteness",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Discreteness",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--displacement",
+        "Name": "English / Displacement",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Displacement",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes, often",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--productivity",
+        "Name": "English / Productivity",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Productivity",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--traditional-transmission",
+        "Name": "English / Traditional Transmission",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Traditional Transmission",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      },
+      {
+        "HockettAssessmentId": "english--duality-of-patterning",
+        "Name": "English / Duality Of Patterning",
+        "LanguageCandidate": "English",
+        "HockettFeature": "Duality Of Patterning",
+        "Verdict": "Yes",
+        "VerbatimAssessment": "Yes",
+        "SourceCitation": "Comparative chart of Hockett's design features, J. Coleman, University of Oxford Phonetics Laboratory, phon.ox.ac.uk/jcoleman/design_features.htm, column \"Spoken language\".",
+        "MappingNote": "Approximate mapping: the source column is \"Spoken language\" in general. English is taken as an instance of it.",
+        "IsYesFlag": 1
+      }
+    ]
+  },
   "ERBCustomizations": {
     "Description": "Table: ERBCustomizations",
     "schema": [
@@ -1467,7 +2770,7 @@
         "ERBCustomizationId": "02b-customize-functions-sql",
         "Name": "02b-customize-functions.sql",
         "Title": "Customize Functions",
-        "SQLCode": "-- Prediction Fail: Returns TRUE when predicted_answer doesn't match is_language\nDROP FUNCTION calc_language_candidates_question;\n\nCREATE OR REPLACE FUNCTION public.calc_language_candidates_question(p_language_candidate_id text)\n RETURNS text\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\nAS $function$\nBEGIN\n  RETURN ('Is ' || (SELECT NULLIF(name, '''') FROM language_candidates WHERE language_candidate_id = p_language_candidate_id) || ' a language?')::text;\nEND;\n$function$;\n\nCREATE OR REPLACE FUNCTION public.calc_language_candidates_bio_hockett_score(p_language_candidate_id text)\n RETURNS integer\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\nAS $function$\nDECLARE\n    candidate_record RECORD;\nBEGIN\n    -- Select the required attributes for the given language candidate ID\n    SELECT bio_has_semanticity, bio_has_arbitrariness, bio_has_discreteness, \n           bio_has_duality_of_patterning, bio_has_productivity, \n           bio_has_displacement, bio_has_cultural_transmission, \n           bio_has_interchangeability, bio_has_feedback, \n           bio_has_broadcast_transmission, bio_has_rapid_fading\n    INTO candidate_record\n    FROM language_candidates\n    WHERE language_candidate_id = p_language_candidate_id;\n\n    -- Calculate and return the Hockett score by summing up the boolean attributes\n    RETURN \n        COALESCE(candidate_record.bio_has_semanticity, FALSE)::int +\n        COALESCE(candidate_record.bio_has_arbitrariness, FALSE)::int +\n        COALESCE(candidate_record.bio_has_discreteness, FALSE)::int +\n        COALESCE(candidate_record.bio_has_duality_of_patterning, FALSE)::int +\n        COALESCE(candidate_record.bio_has_productivity, FALSE)::int +\n        COALESCE(candidate_record.bio_has_displacement, FALSE)::int +\n        COALESCE(candidate_record.bio_has_cultural_transmission, FALSE)::int +\n        COALESCE(candidate_record.bio_has_interchangeability, FALSE)::int +\n        COALESCE(candidate_record.bio_has_feedback, FALSE)::int +\n        COALESCE(candidate_record.bio_has_broadcast_transmission, FALSE)::int +\n        COALESCE(candidate_record.bio_has_rapid_fading, FALSE)::int;\nEND;\n$function$;\n",
+        "SQLCode": "-- Prediction Fail: Returns TRUE when predicted_answer doesn't match is_language\nDROP FUNCTION calc_language_candidates_question;\n\nCREATE OR REPLACE FUNCTION public.calc_language_candidates_question(p_language_candidate_id text)\n RETURNS text\n LANGUAGE plpgsql\n STABLE SECURITY DEFINER\nAS $function$\nBEGIN\n  RETURN ('Is ' || (SELECT NULLIF(name, '''') FROM language_candidates WHERE language_candidate_id = p_language_candidate_id) || ' a language?')::text;\nEND;\n$function$;\n\n-- calc_language_candidates_bio_hockett_score was removed here. It summed eleven\n-- bio_has_* columns that were never declared in the rulebook, so it could only\n-- error when called or report every candidate as scoring zero. Hockett's design\n-- features are now first-class rulebook data (HockettFeatures,\n-- HockettAssessments) and LanguageCandidates.HockettScore is computed from them.\n-- The DROP is explicit because a check-add rebuild does not remove a function\n-- that has merely stopped being created.\nDROP FUNCTION IF EXISTS calc_language_candidates_bio_hockett_score(text);\n",
         "SQLTarget": "Postgres",
         "CustomizationType": "Functions"
       },

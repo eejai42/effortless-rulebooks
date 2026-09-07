@@ -1,0 +1,134 @@
+[
+  {
+    "scenario_cq_effect_id": "ai-at-gate-cq-3",
+    "scenario": "ai-at-gate",
+    "competency_question": "cq-3",
+    "effect_kind": "ripple",
+    "note": "Legal review step handed to AI \u2192 AI-step count rises 2 \u2192 3 (the headline effect is the consistency-violation witness, not a CQ).",
+    "sort_order": 120,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "ai-release-manager-cq-2",
+    "scenario": "ai-release-manager",
+    "competency_question": "cq-2",
+    "effect_kind": "trigger",
+    "note": "Release Manager filled by AI \u2192 the gate has no human approver.",
+    "sort_order": 20,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "ai-release-manager-cq-3",
+    "scenario": "ai-release-manager",
+    "competency_question": "cq-3",
+    "effect_kind": "ripple",
+    "note": "Same edit: the gate's step (3) is now AI-executed, so the AI-step count rises 2 \u2192 3. Cannot be avoided \u2014 the gate role is a step executor.",
+    "sort_order": 30,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "all-human-cq-3",
+    "scenario": "all-human",
+    "competency_question": "cq-3",
+    "effect_kind": "trigger",
+    "note": "Every AI/pipeline role reassigned to a human \u2192 AI-step count falls to 0.",
+    "sort_order": 110,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "break-delegation-cq-6",
+    "scenario": "break-delegation",
+    "competency_question": "cq-6",
+    "effect_kind": "trigger",
+    "note": "Release Manager \u2192 VP edge removed \u2192 the escalation closure collapses. Isolated.",
+    "sort_order": 70,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "break-derivation-cq-4",
+    "scenario": "break-derivation",
+    "competency_question": "cq-4",
+    "effect_kind": "trigger",
+    "note": "Legal Clearance loses its wasDerivedFrom parent \u2192 the PROV chain splits. Isolated.",
+    "sort_order": 50,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "dataset-unconsumed-cq-8",
+    "scenario": "dataset-unconsumed",
+    "competency_question": "cq-8",
+    "effect_kind": "trigger",
+    "note": "Dataset consumed-by link cleared \u2192 no step consumes it. Isolated.",
+    "sort_order": 90,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "drop-final-edge-cq-1",
+    "scenario": "drop-final-edge",
+    "competency_question": "cq-1",
+    "effect_kind": "trigger",
+    "note": "Deleting the step-4\u2192step-5 edge shrinks the precedence closure (10 \u2192 6 ordered pairs); step 5 leaves the chain. No other answer moves.",
+    "sort_order": 10,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "human-risk-step-cq-3",
+    "scenario": "human-risk-step",
+    "competency_question": "cq-3",
+    "effect_kind": "trigger",
+    "note": "Risk Analysis role handed to a human \u2192 AI-step count falls 2 \u2192 1. Isolated.",
+    "sort_order": 40,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "legal-to-engineering-cq-7",
+    "scenario": "legal-to-engineering",
+    "competency_question": "cq-7",
+    "effect_kind": "trigger",
+    "note": "Legal role re-owned by Engineering \u2192 zero legal-owned steps \u2192 eng-AND-legal flips No. Isolated.",
+    "sort_order": 80,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "stale-docs-cq-5",
+    "scenario": "stale-docs",
+    "competency_question": "cq-5",
+    "effect_kind": "trigger",
+    "note": "Modified date backdated past the window \u2192 IsStale flips true. Isolated.",
+    "sort_order": 60,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "scenario_cq_effect_id": "trigger-risk-cq-5",
+    "scenario": "trigger-risk",
+    "competency_question": "cq-5",
+    "effect_kind": "trigger",
+    "note": "Backdates the review date \u2192 IsStale true (while AI steps remain \u2014 the narrative risk).",
+    "sort_order": 100,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  }
+]

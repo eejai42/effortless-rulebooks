@@ -20,7 +20,7 @@ containerized rulebook editor/viewer for any Effortless project:
   the image as a SEED (`/app/effortless.editor.json.seed`), then copied to
   `/app/effortless-root/effortless.json` on first boot ONLY IF that file is
   not already there (see `effortless-root` below) -- registering
-  `rulebook-to-postgres`, its `-exec ./init-db.sh` step,
+  `rulebook-to-postgres`, its compatibility database-reset step,
   `rulebook-to-node-postgres-api`, `rulebook-to-vite-admin-portal`,
   `rulebook-to-explainer-dag` (into the portal's Vite `public/`, so the
   provenance assets are served at `/rulebook-explainer-dag/*`),

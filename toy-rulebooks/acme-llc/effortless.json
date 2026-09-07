@@ -19,16 +19,6 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o acme-llc-rulebook.json -account airtable -p \"view=Grid view\"",
-      "IsDisabled": true,
-      "LastVersionUsed": "v2026.04.23.1357",
-      "LastUrl": "https://effortless-airtable-to-rulebook-v2026-04-23-1357-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
-      "Description": "Pull rulebook from Airtable [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "httplocalhost4242rulebooktopython",
       "RelativePath": "/python",
       "CommandLine": "http://localhost:4242/rulebook-to-python -i ../effortless-rulebook/acme-llc-rulebook.json",
@@ -159,7 +149,7 @@
     },
     {
       "IsSSoTTranspiler": false,
-      "Name": "effortless-rulebook-editor",
+      "Name": "effortlessrulebookeditor",
       "RelativePath": "/effortless-rulebook",
       "CommandLine": "effortless-rulebook-editor -i acme-llc-rulebook.json -p rulebookPath=acme-llc-rulebook.json -p dockerfilePath=docker/Dockerfile",
       "IsDisabled": false,

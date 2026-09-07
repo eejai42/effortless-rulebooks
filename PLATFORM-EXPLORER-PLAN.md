@@ -5,6 +5,20 @@
 **Starting point:** commit `596716bf` (`PARTIAL FABLE REFACTOR`)  
 **Purpose:** make the next session self-sufficient; the prior Claude/Fable transcript is historical evidence, not required reading.
 
+## 2026-09-07 reversal — read this first
+
+Everything below this note documents the 2026-08-30 plan as it was written and executed, including its central premise that `rulebook-examples/legacy-runner/` "stays: an ordinary governed example... never privileged and never scheduled for deletion." **That premise is reversed.** The repo owner determined the demotion of the compiler, the CLI orchestrator, the `ssotme-proxy` transpiler bus, and the honest cross-substrate conformance matrix to a subdirectory four levels deep was a mistake: this evidence is the single most differentiating thing in the repo, and external review read its burial (plus the "no longer privileged" doctrine language) as a credibility signal against the methodology — even though nothing in the actual engineering had regressed.
+
+As of 2026-09-07:
+
+- `rulebook-examples/legacy-runner/` no longer exists. Its contents (`orchestration/`, `ssotme-proxy/`, `execution-substrates/`, `testing/`, `transpilers/`, `devops/`, `diagnostics/`, `research-campaigns/`, `execution-substrate-gt-explorer/`, `xlsx/`, plus loose config and historical docs) moved back to the literal repo root via `git mv`.
+- Its rulebook (`legacy-runner-rulebook.json`, ~31 tables) was hand-merged into the root's own `effortless-rulebook/effortless-rulebook.json` as additional top-level tables. There is exactly one governing rulebook for this repo again.
+- The admin portal (`admin-portal/`, `run-web-portal.sh`, and its rulebook tables `AppUsers`/`UserRoles`/`AppPermissions`/`AppNavigation`/`AppScreens`/`AppAPIs`/`RoleScreenHints`/`ClickTargets`/`AdminPortalRuntime`) was deleted outright — not restored, not archived. The React explorer (this plan's item 3 below) is its permanent, sole web replacement.
+- `./start.sh` at the repo root now launches the CLI orchestrator menu by default (this plan's "legacy" experience); `./start.sh --portal` launches the React explorer + generated rulebook editor (this plan's items 1-3).
+- `LegacyRunnerCapabilities` in the root rulebook records the capability-by-capability reversal: rows that said "replace / move to its own project" for the transpiler bus, the execution substrates, the formula core, and the CLI menu now say "restore" with an honest rationale citing this reversal. Rows unrelated to the promotion question (research artifacts, devops hooks, the old docs transpiler) are unchanged.
+
+Read the rest of this document as the historical record of the 2026-08-30 decision and its execution (Phases 0-5, all completed) — accurate as description of what was built, no longer accurate as a statement of where the runner's capabilities live or how privileged they are.
+
 ## Decision
 
 The repository root is the new platform experience.

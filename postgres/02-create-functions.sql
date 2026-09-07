@@ -5814,6 +5814,1974 @@ RETURNS TEXT AS $$
   SELECT (CASE WHEN calc_architectural_highlight_is_ready(p_architectural_highlight_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM architectural_highlight WHERE architectural_highlight_id = p_architectural_highlight_id), ' (ready)'))::text ELSE (CONCAT((SELECT NULLIF(name, '') FROM architectural_highlight WHERE architectural_highlight_id = p_architectural_highlight_id), ' (stub)'))::text END)::text;
 $$ LANGUAGE sql STABLE;
 
+-- get_add_tool_catalog_name
+-- Helper function: Get Name from AddToolCatalog by ToolId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_add_tool_catalog_name(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM add_tool_catalog WHERE tool_id = p_tool_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_add_tool_catalog_category
+-- Helper function: Get Category from AddToolCatalog by ToolId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_add_tool_catalog_category(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT category FROM add_tool_catalog WHERE tool_id = p_tool_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_add_tool_catalog_source
+-- Helper function: Get Source from AddToolCatalog by ToolId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_add_tool_catalog_source(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT source FROM add_tool_catalog WHERE tool_id = p_tool_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_add_tool_catalog_install_url
+-- Helper function: Get InstallUrl from AddToolCatalog by ToolId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_add_tool_catalog_install_url(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT install_url FROM add_tool_catalog WHERE tool_id = p_tool_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_add_tool_catalog_output_path
+-- Helper function: Get OutputPath from AddToolCatalog by ToolId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_add_tool_catalog_output_path(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT output_path FROM add_tool_catalog WHERE tool_id = p_tool_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_add_tool_catalog_description
+-- Helper function: Get Description from AddToolCatalog by ToolId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_add_tool_catalog_description(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM add_tool_catalog WHERE tool_id = p_tool_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_ssotme_proxy_route
+-- Helper function: Get Route from SsotmeProxy by RouteId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_ssotme_proxy_route(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT route FROM ssotme_proxy WHERE route_id = p_route_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_ssotme_proxy_injector_script
+-- Helper function: Get InjectorScript from SsotmeProxy by RouteId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_ssotme_proxy_injector_script(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT injector_script FROM ssotme_proxy WHERE route_id = p_route_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_ssotme_proxy_description
+-- Helper function: Get Description from SsotmeProxy by RouteId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_ssotme_proxy_description(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM ssotme_proxy WHERE route_id = p_route_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_tradeoffs_pro
+-- Helper function: Get Pro from SubstrateTradeoffs by TradeoffId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_tradeoffs_pro(p_tradeoff_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT pro FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_tradeoffs_con
+-- Helper function: Get Con from SubstrateTradeoffs by TradeoffId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_tradeoffs_con(p_tradeoff_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT con FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_tradeoffs_note
+-- Helper function: Get Note from SubstrateTradeoffs by TradeoffId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_tradeoffs_note(p_tradeoff_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT note FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_fully_expressive
+-- Field: ExecutionSubstrates.IsFullyExpressive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_fully_expressive(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(expressive_completeness, '') FROM execution_substrates WHERE substrate_id = p_substrate_id) = 'full')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_fully_expressive_flag
+-- Field: ExecutionSubstrates.FullyExpressiveFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_fully_expressive_flag(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN (SELECT NULLIF(expressive_completeness, '') FROM execution_substrates WHERE substrate_id = p_substrate_id) = 'full' THEN (1)::text ELSE (0)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_reference_quality
+-- Field: ExecutionSubstrates.IsReferenceQuality
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_reference_quality(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(maturity, '') FROM execution_substrates WHERE substrate_id = p_substrate_id) = 'reference-quality')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_tradeoff_count
+-- Field: ExecutionSubstrates.TradeoffCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_tradeoff_count(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM substrate_tradeoffs WHERE substrate_id = (SELECT NULLIF(substrate_id, '') FROM execution_substrates WHERE substrate_id = p_substrate_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_proxy_route_count
+-- Field: ExecutionSubstrates.ProxyRouteCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_proxy_route_count(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM ssotme_proxy WHERE substrate_id = (SELECT NULLIF(substrate_id, '') FROM execution_substrates WHERE substrate_id = p_substrate_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_catalog_tool_count
+-- Field: ExecutionSubstrates.CatalogToolCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_catalog_tool_count(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM add_tool_catalog WHERE substrate_id = (SELECT NULLIF(substrate_id, '') FROM execution_substrates WHERE substrate_id = p_substrate_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_peer_complete
+-- Field: ExecutionSubstrates.IsPeerComplete
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_peer_complete(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_execution_substrates_is_fully_expressive(p_substrate_id) AND COALESCE((SELECT can_be_answer_key FROM execution_substrates WHERE substrate_id = p_substrate_id), FALSE)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_peer_complete_flag
+-- Field: ExecutionSubstrates.PeerCompleteFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_peer_complete_flag(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN (calc_execution_substrates_is_fully_expressive(p_substrate_id) AND COALESCE((SELECT can_be_answer_key FROM execution_substrates WHERE substrate_id = p_substrate_id), FALSE)) THEN (1)::text ELSE (0)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_has_proxy_route
+-- Field: ExecutionSubstrates.HasProxyRoute
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_has_proxy_route(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_execution_substrates_proxy_route_count(p_substrate_id))::NUMERIC > 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_cataloged
+-- Field: ExecutionSubstrates.IsCataloged
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_cataloged(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_execution_substrates_catalog_tool_count(p_substrate_id))::NUMERIC > 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_bus_reachable_peer
+-- Field: ExecutionSubstrates.IsBusReachablePeer
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_bus_reachable_peer(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_execution_substrates_is_peer_complete(p_substrate_id) AND calc_execution_substrates_has_proxy_route(p_substrate_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_installable_peer
+-- Field: ExecutionSubstrates.IsInstallablePeer
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_installable_peer(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_execution_substrates_is_peer_complete(p_substrate_id) AND calc_execution_substrates_is_cataloged(p_substrate_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_readiness_score
+-- Field: ExecutionSubstrates.ReadinessScore
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_readiness_score(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_execution_substrates_is_peer_complete(p_substrate_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_execution_substrates_has_proxy_route(p_substrate_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (CASE WHEN calc_execution_substrates_is_cataloged(p_substrate_id) THEN (1)::text ELSE (0)::text END) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_readiness_band
+-- Field: ExecutionSubstrates.ReadinessBand
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_readiness_band(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_execution_substrates_readiness_score(p_substrate_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 3 THEN ('ready')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC >= 1 THEN ('partial')::text ELSE ('absent')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_ready_flag
+-- Field: ExecutionSubstrates.ReadyFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_ready_flag(p_substrate_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN (calc_execution_substrates_readiness_score(p_substrate_id))::NUMERIC = 3 THEN (1)::text ELSE (0)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_is_showcase_substrate
+-- Field: ExecutionSubstrates.IsShowcaseSubstrate
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_is_showcase_substrate(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_execution_substrates_readiness_band(p_substrate_id) = 'ready' AND calc_execution_substrates_is_reference_quality(p_substrate_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_orchestration_components_dependency_count
+-- Field: OrchestrationComponents.DependencyCount
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_orchestration_components_dependency_count(p_component_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (CASE WHEN (SELECT NULLIF(dependencies, '') FROM orchestration_components WHERE component_id = p_component_id) IS NULL THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(dependencies, '') FROM orchestration_components WHERE component_id = p_component_id))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(dependencies, '') FROM orchestration_components WHERE component_id = p_component_id), ',', ''))) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) + COALESCE(1, 0)))::text END)::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_orchestration_components_is_shell_script
+-- Field: OrchestrationComponents.IsShellScript
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_orchestration_components_is_shell_script(p_component_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(language, '') FROM orchestration_components WHERE component_id = p_component_id) = 'Bash')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_orchestration_components_dependency_band
+-- Field: OrchestrationComponents.DependencyBand
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_orchestration_components_dependency_band(p_component_id TEXT)
+RETURNS TEXT AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_orchestration_components_dependency_count(p_component_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN ('leaf')::text ELSE (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC <= 2 THEN ('light')::text ELSE ('heavy')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_orchestration_components_is_heavy_shell
+-- Field: OrchestrationComponents.IsHeavyShell
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_orchestration_components_is_heavy_shell(p_component_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_orchestration_components_is_shell_script(p_component_id) AND calc_orchestration_components_dependency_band(p_component_id) = 'heavy'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_orchestration_components_review_priority
+-- Field: OrchestrationComponents.ReviewPriority
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_orchestration_components_review_priority(p_component_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_orchestration_components_is_heavy_shell(p_component_id) THEN ('review')::text ELSE (CASE WHEN calc_orchestration_components_dependency_band(p_component_id) = 'heavy' THEN ('watch')::text ELSE ('ok')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_orchestration_components_needs_review
+-- Field: OrchestrationComponents.NeedsReview
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_orchestration_components_needs_review(p_component_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_orchestration_components_review_priority(p_component_id) = 'review')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_substrate_is_fully_expressive
+-- Field: SsotmeProxy.SubstrateIsFullyExpressive
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsFullyExpressive from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_substrate_is_fully_expressive(p_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_execution_substrates_is_fully_expressive((SELECT substrate_id FROM ssotme_proxy WHERE route_id = p_route_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_name
+-- Helper function: Get Name from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_name(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_technology
+-- Helper function: Get Technology from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_technology(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT technology FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_relative_path
+-- Helper function: Get RelativePath from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_relative_path(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT relative_path FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_injector_script
+-- Helper function: Get InjectorScript from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_injector_script(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT injector_script FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_test_script
+-- Helper function: Get TestScript from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_test_script(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT test_script FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_transpiler_source
+-- Helper function: Get TranspilerSource from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_transpiler_source(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT transpiler_source FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_maturity
+-- Helper function: Get Maturity from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_maturity(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT maturity FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_expressive_completeness
+-- Helper function: Get ExpressiveCompleteness from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_expressive_completeness(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT expressive_completeness FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_can_be_answer_key
+-- Helper function: Get CanBeAnswerKey from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_can_be_answer_key(p_substrate_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT can_be_answer_key FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_determinism
+-- Helper function: Get Determinism from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_determinism(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT determinism FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_runtime_kind
+-- Helper function: Get RuntimeKind from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_runtime_kind(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT runtime_kind FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_status
+-- Helper function: Get Status from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_status(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT status FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_execution_substrates_description
+-- Helper function: Get Description from ExecutionSubstrates by SubstrateId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_execution_substrates_description(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM execution_substrates WHERE substrate_id = p_substrate_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_name
+-- Field: SsotmeProxy.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_name(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(route, '') FROM ssotme_proxy WHERE route_id = p_route_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_http_method
+-- Field: SsotmeProxy.HttpMethod
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_http_method(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (LEFT(((SELECT NULLIF(route, '') FROM ssotme_proxy WHERE route_id = p_route_id))::text, ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (POSITION(' ' IN (SELECT NULLIF(route, '') FROM ssotme_proxy WHERE route_id = p_route_id))) AS v) __safe_numeric), 0) - COALESCE(1, 0)))::integer))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_route_path
+-- Field: SsotmeProxy.RoutePath
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_route_path(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SUBSTRING((SELECT NULLIF(route, '') FROM ssotme_proxy WHERE route_id = p_route_id), ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (POSITION(' ' IN (SELECT NULLIF(route, '') FROM ssotme_proxy WHERE route_id = p_route_id))) AS v) __safe_numeric), 0) + COALESCE(1, 0)))::integer, (200)::integer))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_has_substrate
+-- Field: SsotmeProxy.HasSubstrate
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_has_substrate(p_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(substrate_id, '') FROM ssotme_proxy WHERE route_id = p_route_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_is_post
+-- Field: SsotmeProxy.IsPost
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_is_post(p_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_ssotme_proxy_http_method(p_route_id) = 'POST')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_route_slug
+-- Field: SsotmeProxy.RouteSlug
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_route_slug(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (REPLACE(calc_ssotme_proxy_route_path(p_route_id), '/', ''))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_is_full_bus_route
+-- Field: SsotmeProxy.IsFullBusRoute
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_is_full_bus_route(p_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_ssotme_proxy_has_substrate(p_route_id) AND (COALESCE(calc_ssotme_proxy_substrate_is_fully_expressive(p_route_id), FALSE) = 'true')))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_is_post_spoke
+-- Field: SsotmeProxy.IsPostSpoke
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_is_post_spoke(p_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_ssotme_proxy_is_post(p_route_id) AND NOT (calc_ssotme_proxy_has_substrate(p_route_id))))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_route_class
+-- Field: SsotmeProxy.RouteClass
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_route_class(p_route_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_ssotme_proxy_is_full_bus_route(p_route_id) THEN ('full-substrate')::text ELSE (CASE WHEN calc_ssotme_proxy_has_substrate(p_route_id) THEN ('partial-substrate')::text ELSE (CASE WHEN calc_ssotme_proxy_is_post_spoke(p_route_id) THEN ('spoke')::text ELSE ('other')::text END)::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_ssotme_proxy_is_bus_headline
+-- Field: SsotmeProxy.IsBusHeadline
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_ssotme_proxy_is_bus_headline(p_route_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_ssotme_proxy_route_class(p_route_id) = 'full-substrate')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_testing_framework_is_global
+-- Field: TestingFramework.IsGlobal
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_testing_framework_is_global(p_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(scope, '') FROM testing_framework WHERE test_id = p_test_id) = 'global')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_testing_framework_is_glob_pattern
+-- Field: TestingFramework.IsGlobPattern
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_testing_framework_is_glob_pattern(p_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (LENGTH(COALESCE((SELECT NULLIF(file_path, '') FROM testing_framework WHERE test_id = p_test_id), '')) <> LENGTH(REPLACE(COALESCE((SELECT NULLIF(file_path, '') FROM testing_framework WHERE test_id = p_test_id), ''), '*', '')))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_testing_framework_is_global_glob
+-- Field: TestingFramework.IsGlobalGlob
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_testing_framework_is_global_glob(p_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_testing_framework_is_global(p_test_id) AND calc_testing_framework_is_glob_pattern(p_test_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_testing_framework_scope_label
+-- Field: TestingFramework.ScopeLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_testing_framework_scope_label(p_test_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_testing_framework_is_global_glob(p_test_id) THEN ('global-glob')::text ELSE (CASE WHEN calc_testing_framework_is_global(p_test_id) THEN ('global-file')::text ELSE ('domain')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_testing_framework_is_domain_agnostic
+-- Field: TestingFramework.IsDomainAgnostic
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_testing_framework_is_domain_agnostic(p_test_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_testing_framework_scope_label(p_test_id) <> 'domain')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_testing_framework_agnostic_label
+-- Field: TestingFramework.AgnosticLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_testing_framework_agnostic_label(p_test_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_testing_framework_is_domain_agnostic(p_test_id) THEN ('domain-agnostic')::text ELSE ('domain-bound')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_step_count
+-- Field: CoreDataFlows.StepCount
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_step_count(p_flow_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (CASE WHEN (SELECT NULLIF(steps, '') FROM core_data_flows WHERE flow_id = p_flow_id) IS NULL THEN (0)::text ELSE ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH((SELECT NULLIF(steps, '') FROM core_data_flows WHERE flow_id = p_flow_id))) AS v) __safe_numeric), 0) - COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (LENGTH(REPLACE((SELECT NULLIF(steps, '') FROM core_data_flows WHERE flow_id = p_flow_id), '|', ''))) AS v) __safe_numeric), 0))) AS v) __safe_numeric), 0) + COALESCE(1, 0)))::text END)::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_has_invariant
+-- Field: CoreDataFlows.HasInvariant
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_has_invariant(p_flow_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(invariant, '') FROM core_data_flows WHERE flow_id = p_flow_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_is_multi_step
+-- Field: CoreDataFlows.IsMultiStep
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_is_multi_step(p_flow_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_core_data_flows_step_count(p_flow_id))::NUMERIC > 1)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_is_invariant_backed
+-- Field: CoreDataFlows.IsInvariantBacked
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_is_invariant_backed(p_flow_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_core_data_flows_has_invariant(p_flow_id) AND (calc_core_data_flows_step_count(p_flow_id))::NUMERIC > 0));
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_flow_maturity
+-- Field: CoreDataFlows.FlowMaturity
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_flow_maturity(p_flow_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_core_data_flows_is_invariant_backed(p_flow_id) THEN (CASE WHEN calc_core_data_flows_is_multi_step(p_flow_id) THEN ('pipeline')::text ELSE ('atomic')::text END)::text ELSE ('undocumented')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_is_pipeline
+-- Field: CoreDataFlows.IsPipeline
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_is_pipeline(p_flow_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_core_data_flows_flow_maturity(p_flow_id) = 'pipeline')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_core_data_flows_flow_label
+-- Field: CoreDataFlows.FlowLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_core_data_flows_flow_label(p_flow_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_core_data_flows_is_pipeline(p_flow_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM core_data_flows WHERE flow_id = p_flow_id), ' [pipeline]'))::text ELSE ((SELECT NULLIF(name, '') FROM core_data_flows WHERE flow_id = p_flow_id))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_dependencies_is_language
+-- Field: Dependencies.IsLanguage
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_dependencies_is_language(p_dependency_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(type, '') FROM dependencies WHERE dependency_id = p_dependency_id) = 'Language')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_dependencies_required_flag
+-- Field: Dependencies.RequiredFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_dependencies_required_flag(p_dependency_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN COALESCE((SELECT required FROM dependencies WHERE dependency_id = p_dependency_id), FALSE) THEN (1)::text ELSE (0)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_dependencies_is_required_language
+-- Field: Dependencies.IsRequiredLanguage
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_dependencies_is_required_language(p_dependency_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_dependencies_is_language(p_dependency_id) AND COALESCE((SELECT required FROM dependencies WHERE dependency_id = p_dependency_id), FALSE)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_dependencies_criticality
+-- Field: Dependencies.Criticality
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_dependencies_criticality(p_dependency_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_dependencies_is_required_language(p_dependency_id) THEN ('core')::text ELSE (CASE WHEN COALESCE((SELECT required FROM dependencies WHERE dependency_id = p_dependency_id), FALSE) THEN ('required')::text ELSE ('optional')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_dependencies_is_core
+-- Field: Dependencies.IsCore
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_dependencies_is_core(p_dependency_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_dependencies_criticality(p_dependency_id) = 'core')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_dependencies_bootstrap_tier
+-- Field: Dependencies.BootstrapTier
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_dependencies_bootstrap_tier(p_dependency_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_dependencies_is_core(p_dependency_id) THEN ('tier-0')::text ELSE (CASE WHEN COALESCE((SELECT required FROM dependencies WHERE dependency_id = p_dependency_id), FALSE) THEN ('tier-1')::text ELSE ('tier-2')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_substrate_name
+-- Field: AddToolCatalog.SubstrateName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Name from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_substrate_name(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name::text FROM execution_substrates WHERE substrate_id = (SELECT substrate_id FROM add_tool_catalog WHERE tool_id = p_tool_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_substrate_maturity
+-- Field: AddToolCatalog.SubstrateMaturity
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Maturity from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_substrate_maturity(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT maturity::text FROM execution_substrates WHERE substrate_id = (SELECT substrate_id FROM add_tool_catalog WHERE tool_id = p_tool_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_substrate_is_fully_expressive
+-- Field: AddToolCatalog.SubstrateIsFullyExpressive
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsFullyExpressive from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_substrate_is_fully_expressive(p_tool_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_execution_substrates_is_fully_expressive((SELECT substrate_id FROM add_tool_catalog WHERE tool_id = p_tool_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_substrate_is_peer_complete
+-- Field: AddToolCatalog.SubstrateIsPeerComplete
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsPeerComplete from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_substrate_is_peer_complete(p_tool_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_execution_substrates_is_peer_complete((SELECT substrate_id FROM add_tool_catalog WHERE tool_id = p_tool_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_is_local_proxy
+-- Field: AddToolCatalog.IsLocalProxy
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_is_local_proxy(p_tool_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(source, '') FROM add_tool_catalog WHERE tool_id = p_tool_id) = 'local-proxy')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_is_proxy_backed_reference
+-- Field: AddToolCatalog.IsProxyBackedReference
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_is_proxy_backed_reference(p_tool_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_add_tool_catalog_is_local_proxy(p_tool_id) AND calc_add_tool_catalog_substrate_maturity(p_tool_id) = 'reference-quality'))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_is_peer_complete_tool
+-- Field: AddToolCatalog.IsPeerCompleteTool
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_is_peer_complete_tool(p_tool_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((COALESCE(calc_add_tool_catalog_substrate_is_fully_expressive(p_tool_id), FALSE) = 'true') AND calc_add_tool_catalog_is_proxy_backed_reference(p_tool_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_tool_tier
+-- Field: AddToolCatalog.ToolTier
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_tool_tier(p_tool_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_add_tool_catalog_is_peer_complete_tool(p_tool_id) THEN ('tier-1')::text ELSE (CASE WHEN (COALESCE(calc_add_tool_catalog_substrate_is_peer_complete(p_tool_id), FALSE) = 'true') THEN ('tier-2')::text ELSE ('tier-3')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_add_tool_catalog_is_recommended_install
+-- Field: AddToolCatalog.IsRecommendedInstall
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_add_tool_catalog_is_recommended_install(p_tool_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_add_tool_catalog_tool_tier(p_tool_id) = 'tier-1' AND calc_add_tool_catalog_is_local_proxy(p_tool_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_steps_order
+-- Helper function: Get Order from EvaluationSteps by StepId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_evaluation_steps_order(p_step_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT "order" FROM evaluation_steps WHERE step_id = p_step_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_steps_name
+-- Helper function: Get Name from EvaluationSteps by StepId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_evaluation_steps_name(p_step_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM evaluation_steps WHERE step_id = p_step_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_steps_description
+-- Helper function: Get Description from EvaluationSteps by StepId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_evaluation_steps_description(p_step_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM evaluation_steps WHERE step_id = p_step_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_steps_mechanism
+-- Helper function: Get Mechanism from EvaluationSteps by StepId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_evaluation_steps_mechanism(p_step_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT mechanism FROM evaluation_steps WHERE step_id = p_step_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_steps_invariant
+-- Helper function: Get Invariant from EvaluationSteps by StepId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_evaluation_steps_invariant(p_step_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT invariant FROM evaluation_steps WHERE step_id = p_step_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_artifacts_name
+-- Helper function: Get Name from EvaluationArtifacts by ArtifactId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_evaluation_artifacts_name(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM evaluation_artifacts WHERE artifact_id = p_artifact_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_artifacts_format
+-- Helper function: Get Format from EvaluationArtifacts by ArtifactId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_evaluation_artifacts_format(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT format FROM evaluation_artifacts WHERE artifact_id = p_artifact_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_artifacts_path_pattern
+-- Helper function: Get PathPattern from EvaluationArtifacts by ArtifactId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_evaluation_artifacts_path_pattern(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT path_pattern FROM evaluation_artifacts WHERE artifact_id = p_artifact_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_artifacts_derived_from
+-- Helper function: Get DerivedFrom from EvaluationArtifacts by ArtifactId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_evaluation_artifacts_derived_from(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT derived_from FROM evaluation_artifacts WHERE artifact_id = p_artifact_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_evaluation_artifacts_description
+-- Helper function: Get Description from EvaluationArtifacts by ArtifactId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_evaluation_artifacts_description(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM evaluation_artifacts WHERE artifact_id = p_artifact_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_step_count
+-- Field: SubstrateContractPhases.StepCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_step_count(p_phase_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM evaluation_steps WHERE phase_id = (SELECT NULLIF(phase_id, '') FROM substrate_contract_phases WHERE phase_id = p_phase_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_produced_artifact_count
+-- Field: SubstrateContractPhases.ProducedArtifactCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_produced_artifact_count(p_phase_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM evaluation_artifacts WHERE produced_by_phase_id = (SELECT NULLIF(phase_id, '') FROM substrate_contract_phases WHERE phase_id = p_phase_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_consumed_artifact_count
+-- Field: SubstrateContractPhases.ConsumedArtifactCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_consumed_artifact_count(p_phase_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM evaluation_artifacts WHERE consumed_by_phase_id = (SELECT NULLIF(phase_id, '') FROM substrate_contract_phases WHERE phase_id = p_phase_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_is_first_phase
+-- Field: SubstrateContractPhases.IsFirstPhase
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_is_first_phase(p_phase_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT "order" FROM substrate_contract_phases WHERE phase_id = p_phase_id))::NUMERIC = 1)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_is_productive
+-- Field: SubstrateContractPhases.IsProductive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_is_productive(p_phase_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_substrate_contract_phases_produced_artifact_count(p_phase_id))::NUMERIC > 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_artifact_throughput
+-- Field: SubstrateContractPhases.ArtifactThroughput
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_artifact_throughput(p_phase_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_substrate_contract_phases_produced_artifact_count(p_phase_id)) AS v) __safe_numeric), 0) + COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_substrate_contract_phases_consumed_artifact_count(p_phase_id)) AS v) __safe_numeric), 0)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_has_steps
+-- Field: SubstrateContractPhases.HasSteps
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_has_steps(p_phase_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_substrate_contract_phases_step_count(p_phase_id))::NUMERIC > 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_is_fully_modeled
+-- Field: SubstrateContractPhases.IsFullyModeled
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_is_fully_modeled(p_phase_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_substrate_contract_phases_is_productive(p_phase_id) AND calc_substrate_contract_phases_has_steps(p_phase_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_throughput_per_step
+-- Field: SubstrateContractPhases.ThroughputPerStep
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_throughput_per_step(p_phase_id TEXT)
+RETURNS NUMERIC AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_substrate_contract_phases_step_count(p_phase_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE (ROUND(((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_substrate_contract_phases_artifact_throughput(p_phase_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0)))::NUMERIC, (2)::INTEGER))::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_phase_health
+-- Field: SubstrateContractPhases.PhaseHealth
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_phase_health(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_substrate_contract_phases_is_fully_modeled(p_phase_id) THEN (CASE WHEN (calc_substrate_contract_phases_throughput_per_step(p_phase_id))::NUMERIC >= 1 THEN ('dense')::text ELSE ('modeled')::text END)::text ELSE ('sparse')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_is_dense_phase
+-- Field: SubstrateContractPhases.IsDensePhase
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_is_dense_phase(p_phase_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_substrate_contract_phases_phase_health(p_phase_id) = 'dense')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_phase_name
+-- Field: EvaluationSteps.PhaseName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Name from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_phase_name(p_step_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name::text FROM substrate_contract_phases WHERE phase_id = (SELECT phase_id FROM evaluation_steps WHERE step_id = p_step_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_phase_order
+-- Field: EvaluationSteps.PhaseOrder
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Order from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_phase_order(p_step_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT "order"::integer FROM substrate_contract_phases WHERE phase_id = (SELECT phase_id FROM evaluation_steps WHERE step_id = p_step_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_phase_step_count
+-- Field: EvaluationSteps.PhaseStepCount
+-- Type: lookup | DataType: number | Returns: NUMERIC
+-- Lookup: StepCount from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_phase_step_count(p_step_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_substrate_contract_phases_step_count((SELECT phase_id FROM evaluation_steps WHERE step_id = p_step_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_order
+-- Helper function: Get Order from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_order(p_phase_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT "order" FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_name
+-- Helper function: Get Name from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_name(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_domain_agnostic
+-- Helper function: Get DomainAgnostic from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_domain_agnostic(p_phase_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (SELECT domain_agnostic FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_input
+-- Helper function: Get Input from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_input(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT input FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_output
+-- Helper function: Get Output from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_output(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT output FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_script_pattern
+-- Helper function: Get ScriptPattern from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_script_pattern(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT script_pattern FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_description
+-- Helper function: Get Description from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_description(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_why_domain_agnostic
+-- Helper function: Get WhyDomainAgnostic from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_why_domain_agnostic(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT why_domain_agnostic FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_contract_phases_failure_mode
+-- Helper function: Get FailureMode from SubstrateContractPhases by PhaseId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_contract_phases_failure_mode(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT failure_mode FROM substrate_contract_phases WHERE phase_id = p_phase_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_is_first_step
+-- Field: EvaluationSteps.IsFirstStep
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_is_first_step(p_step_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((SELECT "order" FROM evaluation_steps WHERE step_id = p_step_id))::NUMERIC = 1)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_is_in_first_phase
+-- Field: EvaluationSteps.IsInFirstPhase
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_is_in_first_phase(p_step_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_evaluation_steps_phase_order(p_step_id))::NUMERIC = 1)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_is_last_step
+-- Field: EvaluationSteps.IsLastStep
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_is_last_step(p_step_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT "order" FROM evaluation_steps WHERE step_id = p_step_id) = COALESCE(calc_evaluation_steps_phase_step_count(p_step_id), 0))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_position_percent
+-- Field: EvaluationSteps.PositionPercent
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_position_percent(p_step_id TEXT)
+RETURNS NUMERIC AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_evaluation_steps_phase_step_count(p_step_id) AS val) SELECT (CASE WHEN (COALESCE((SELECT val FROM __erb_dedup_v1), 0))::NUMERIC = 0 THEN (0)::text ELSE (ROUND(((COALESCE(100, 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT "order" FROM evaluation_steps WHERE step_id = p_step_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0)))::NUMERIC, (0)::INTEGER))::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_step_role
+-- Field: EvaluationSteps.StepRole
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_step_role(p_step_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_evaluation_steps_is_first_step(p_step_id) THEN ('entry')::text ELSE (CASE WHEN calc_evaluation_steps_is_last_step(p_step_id) THEN ('exit')::text ELSE ('middle')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_steps_is_boundary_step
+-- Field: EvaluationSteps.IsBoundaryStep
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_steps_is_boundary_step(p_step_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_evaluation_steps_step_role(p_step_id) <> 'middle')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_producer_phase_name
+-- Field: EvaluationArtifacts.ProducerPhaseName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Name from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_producer_phase_name(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name::text FROM substrate_contract_phases WHERE phase_id = (SELECT produced_by_phase_id FROM evaluation_artifacts WHERE artifact_id = p_artifact_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_consumer_phase_name
+-- Field: EvaluationArtifacts.ConsumerPhaseName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Name from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_consumer_phase_name(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name::text FROM substrate_contract_phases WHERE phase_id = (SELECT consumed_by_phase_id FROM evaluation_artifacts WHERE artifact_id = p_artifact_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_producer_step_count
+-- Field: EvaluationArtifacts.ProducerStepCount
+-- Type: lookup | DataType: number | Returns: NUMERIC
+-- Lookup: StepCount from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_producer_step_count(p_artifact_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_substrate_contract_phases_step_count((SELECT produced_by_phase_id FROM evaluation_artifacts WHERE artifact_id = p_artifact_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_producer_is_productive
+-- Field: EvaluationArtifacts.ProducerIsProductive
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsProductive from related SubstrateContractPhases
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_producer_is_productive(p_artifact_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_substrate_contract_phases_is_productive((SELECT produced_by_phase_id FROM evaluation_artifacts WHERE artifact_id = p_artifact_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_is_source_artifact
+-- Field: EvaluationArtifacts.IsSourceArtifact
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_is_source_artifact(p_artifact_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(produced_by_phase_id, '') FROM evaluation_artifacts WHERE artifact_id = p_artifact_id) IS NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_is_json
+-- Field: EvaluationArtifacts.IsJson
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_is_json(p_artifact_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(format, '') FROM evaluation_artifacts WHERE artifact_id = p_artifact_id) = 'json')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_is_json_source
+-- Field: EvaluationArtifacts.IsJsonSource
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_is_json_source(p_artifact_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_evaluation_artifacts_is_source_artifact(p_artifact_id) AND calc_evaluation_artifacts_is_json(p_artifact_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_is_pipeline_handoff
+-- Field: EvaluationArtifacts.IsPipelineHandoff
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_is_pipeline_handoff(p_artifact_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((NOT (calc_evaluation_artifacts_is_json_source(p_artifact_id)) AND (COALESCE(calc_evaluation_artifacts_producer_step_count(p_artifact_id), 0))::NUMERIC > 0));
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_artifact_role
+-- Field: EvaluationArtifacts.ArtifactRole
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_artifact_role(p_artifact_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_evaluation_artifacts_is_json_source(p_artifact_id) THEN ('seed')::text ELSE (CASE WHEN calc_evaluation_artifacts_is_pipeline_handoff(p_artifact_id) THEN ('handoff')::text ELSE ('terminal')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_evaluation_artifacts_is_seed_artifact
+-- Field: EvaluationArtifacts.IsSeedArtifact
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_evaluation_artifacts_is_seed_artifact(p_artifact_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_evaluation_artifacts_artifact_role(p_artifact_id) = 'seed')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoff_dimensions_tradeoff_count
+-- Field: SubstrateTradeoffDimensions.TradeoffCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoff_dimensions_tradeoff_count(p_dimension_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COUNT(*) FROM substrate_tradeoffs WHERE dimension_id = (SELECT NULLIF(dimension_id, '') FROM substrate_tradeoff_dimensions WHERE dimension_id = p_dimension_id)))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoff_dimensions_has_tradeoffs
+-- Field: SubstrateTradeoffDimensions.HasTradeoffs
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoff_dimensions_has_tradeoffs(p_dimension_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_substrate_tradeoff_dimensions_tradeoff_count(p_dimension_id))::NUMERIC > 0)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoff_dimensions_fully_expressive_tradeoff_co
+-- Field: SubstrateTradeoffDimensions.FullyExpressiveTradeoffCount
+-- Type: aggregation | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoff_dimensions_fully_expressive_tradeoff_co(p_dimension_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT ((SELECT COALESCE(SUM((calc_substrate_tradeoffs_substrate_full_flag(tradeoff_id))::numeric), 0) FROM substrate_tradeoffs WHERE dimension_id = p_dimension_id))::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoff_dimensions_full_coverage_percent
+-- Field: SubstrateTradeoffDimensions.FullCoveragePercent
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoff_dimensions_full_coverage_percent(p_dimension_id TEXT)
+RETURNS NUMERIC AS $$
+  WITH __erb_dedup_v1 AS (SELECT calc_substrate_tradeoff_dimensions_tradeoff_count(p_dimension_id) AS val) SELECT (CASE WHEN ((SELECT val FROM __erb_dedup_v1))::NUMERIC = 0 THEN (0)::text ELSE (ROUND(((COALESCE(100, 0) * COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT (calc_substrate_tradeoff_dimensions_fully_expressive_tradeoff_co(p_dimension_id)) AS v) __safe_numeric), 0) / NULLIF(COALESCE((SELECT CASE WHEN v::text ~ '^-?[0-9]*\.?[0-9]+$' THEN v::numeric ELSE NULL END FROM (SELECT ((SELECT val FROM __erb_dedup_v1)) AS v) __safe_numeric), 0), 0))) AS v) __safe_numeric), 0)))::NUMERIC, (0)::INTEGER))::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoff_dimensions_is_fully_covered
+-- Field: SubstrateTradeoffDimensions.IsFullyCovered
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoff_dimensions_is_fully_covered(p_dimension_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_substrate_tradeoff_dimensions_full_coverage_percent(p_dimension_id))::NUMERIC = 100)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_substrate_name
+-- Field: SubstrateTradeoffs.SubstrateName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Name from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_substrate_name(p_tradeoff_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name::text FROM execution_substrates WHERE substrate_id = (SELECT substrate_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_dimension_name
+-- Field: SubstrateTradeoffs.DimensionName
+-- Type: lookup | DataType: string | Returns: TEXT
+-- Lookup: Name from related SubstrateTradeoffDimensions
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_dimension_name(p_tradeoff_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name::text FROM substrate_tradeoff_dimensions WHERE dimension_id = (SELECT dimension_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_dimension_order
+-- Field: SubstrateTradeoffs.DimensionOrder
+-- Type: lookup | DataType: integer | Returns: INTEGER
+-- Lookup: Order from related SubstrateTradeoffDimensions
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_dimension_order(p_tradeoff_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT "order"::integer FROM substrate_tradeoff_dimensions WHERE dimension_id = (SELECT dimension_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_substrate_is_fully_expressive
+-- Field: SubstrateTradeoffs.SubstrateIsFullyExpressive
+-- Type: lookup | DataType: boolean | Returns: BOOLEAN
+-- Lookup: IsFullyExpressive from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_substrate_is_fully_expressive(p_tradeoff_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT calc_execution_substrates_is_fully_expressive((SELECT substrate_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_substrate_full_flag
+-- Field: SubstrateTradeoffs.SubstrateFullFlag
+-- Type: lookup | DataType: number | Returns: NUMERIC
+-- Lookup: FullyExpressiveFlag from related ExecutionSubstrates
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_substrate_full_flag(p_tradeoff_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_execution_substrates_fully_expressive_flag((SELECT substrate_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_dimension_tradeoff_count
+-- Field: SubstrateTradeoffs.DimensionTradeoffCount
+-- Type: lookup | DataType: number | Returns: NUMERIC
+-- Lookup: TradeoffCount from related SubstrateTradeoffDimensions
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_dimension_tradeoff_count(p_tradeoff_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_substrate_tradeoff_dimensions_tradeoff_count((SELECT dimension_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_dimension_full_count
+-- Field: SubstrateTradeoffs.DimensionFullCount
+-- Type: lookup | DataType: number | Returns: NUMERIC
+-- Lookup: FullyExpressiveTradeoffCount from related SubstrateTradeoffDimensions
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_dimension_full_count(p_tradeoff_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT calc_substrate_tradeoff_dimensions_fully_expressive_tradeoff_co((SELECT dimension_id FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id));
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_tradeoff_dimensions_name
+-- Helper function: Get Name from SubstrateTradeoffDimensions by DimensionId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_tradeoff_dimensions_name(p_dimension_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT name FROM substrate_tradeoff_dimensions WHERE dimension_id = p_dimension_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_tradeoff_dimensions_description
+-- Helper function: Get Description from SubstrateTradeoffDimensions by DimensionId
+-- Used for join-free cross-table references in aggregations
+CREATE OR REPLACE FUNCTION get_substrate_tradeoff_dimensions_description(p_dimension_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (SELECT description FROM substrate_tradeoff_dimensions WHERE dimension_id = p_dimension_id);
+$$ LANGUAGE sql STABLE;
+
+-- get_substrate_tradeoff_dimensions_order
+-- Helper function: Get Order from SubstrateTradeoffDimensions by DimensionId
+-- Used for join-free cross-table references in aggregations
+
+CREATE OR REPLACE FUNCTION get_substrate_tradeoff_dimensions_order(p_dimension_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (SELECT "order" FROM substrate_tradeoff_dimensions WHERE dimension_id = p_dimension_id);
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_name
+-- Field: SubstrateTradeoffs.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_name(p_tradeoff_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CONCAT((SELECT NULLIF(substrate_id, '') FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id), ':', (SELECT NULLIF(dimension_id, '') FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id)))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_has_note
+-- Field: SubstrateTradeoffs.HasNote
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_has_note(p_tradeoff_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(note, '') FROM substrate_tradeoffs WHERE tradeoff_id = p_tradeoff_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_is_full_substrate_noted
+-- Field: SubstrateTradeoffs.IsFullSubstrateNoted
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_is_full_substrate_noted(p_tradeoff_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((COALESCE(calc_substrate_tradeoffs_substrate_is_fully_expressive(p_tradeoff_id), FALSE) = 'true') AND calc_substrate_tradeoffs_has_note(p_tradeoff_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoffs_is_dominant_dimension_entry
+-- Field: SubstrateTradeoffs.IsDominantDimensionEntry
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoffs_is_dominant_dimension_entry(p_tradeoff_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (((COALESCE(calc_substrate_tradeoffs_substrate_is_fully_expressive(p_tradeoff_id), FALSE) = 'true') AND (COALESCE(calc_substrate_tradeoffs_dimension_full_count(p_tradeoff_id), 0))::NUMERIC >= 5));
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_is_deterministic
+-- Field: FuzzyGradingProviders.IsDeterministic
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_is_deterministic(p_provider_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(determinism, '') FROM fuzzy_grading_providers WHERE provider_id = p_provider_id) = 'deterministic')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_requires_api_key
+-- Field: FuzzyGradingProviders.RequiresApiKey
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_requires_api_key(p_provider_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(env_var, '') FROM fuzzy_grading_providers WHERE provider_id = p_provider_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_is_local_deterministic
+-- Field: FuzzyGradingProviders.IsLocalDeterministic
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_is_local_deterministic(p_provider_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((COALESCE((SELECT local_runtime FROM fuzzy_grading_providers WHERE provider_id = p_provider_id), FALSE) AND calc_fuzzy_grading_providers_is_deterministic(p_provider_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_is_cloud_keyed
+-- Field: FuzzyGradingProviders.IsCloudKeyed
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_is_cloud_keyed(p_provider_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((NOT (COALESCE((SELECT local_runtime FROM fuzzy_grading_providers WHERE provider_id = p_provider_id), FALSE)) AND calc_fuzzy_grading_providers_requires_api_key(p_provider_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_provider_class
+-- Field: FuzzyGradingProviders.ProviderClass
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_provider_class(p_provider_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_fuzzy_grading_providers_is_local_deterministic(p_provider_id) THEN ('local-deterministic')::text ELSE (CASE WHEN calc_fuzzy_grading_providers_is_cloud_keyed(p_provider_id) THEN ('cloud-llm')::text ELSE ('other')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_is_preferred_provider
+-- Field: FuzzyGradingProviders.IsPreferredProvider
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_is_preferred_provider(p_provider_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_fuzzy_grading_providers_provider_class(p_provider_id) = 'local-deterministic')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_fuzzy_grading_providers_provider_label
+-- Field: FuzzyGradingProviders.ProviderLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_fuzzy_grading_providers_provider_label(p_provider_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_fuzzy_grading_providers_is_preferred_provider(p_provider_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM fuzzy_grading_providers WHERE provider_id = p_provider_id), ' (preferred)'))::text ELSE ((SELECT NULLIF(name, '') FROM fuzzy_grading_providers WHERE provider_id = p_provider_id))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_name
+-- Field: ProjectConfiguration.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_name(p_config_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(file_name, '') FROM project_configuration WHERE config_id = p_config_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_is_human_maintained
+-- Field: ProjectConfiguration.IsHumanMaintained
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_is_human_maintained(p_config_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(maintained_by, '') FROM project_configuration WHERE config_id = p_config_id) = 'human')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_is_json
+-- Field: ProjectConfiguration.IsJson
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_is_json(p_config_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(format, '') FROM project_configuration WHERE config_id = p_config_id) = 'JSON')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_is_human_json
+-- Field: ProjectConfiguration.IsHumanJson
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_is_human_json(p_config_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_project_configuration_is_human_maintained(p_config_id) AND calc_project_configuration_is_json(p_config_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_drift_risk
+-- Field: ProjectConfiguration.DriftRisk
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_drift_risk(p_config_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_project_configuration_is_human_json(p_config_id) THEN ('high')::text ELSE (CASE WHEN calc_project_configuration_is_human_maintained(p_config_id) THEN ('medium')::text ELSE ('low')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_needs_guard
+-- Field: ProjectConfiguration.NeedsGuard
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_needs_guard(p_config_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_project_configuration_drift_risk(p_config_id) = 'high')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_project_configuration_guard_label
+-- Field: ProjectConfiguration.GuardLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_project_configuration_guard_label(p_config_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_project_configuration_needs_guard(p_config_id) THEN ('guard: validate on build')::text ELSE ('no guard needed')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_name
+-- Field: BuildPipeline.Name
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_name(p_aspect_id TEXT)
+RETURNS TEXT AS $$
+  SELECT ((SELECT NULLIF(aspect, '') FROM build_pipeline WHERE aspect_id = p_aspect_id))::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_has_cli_equivalent
+-- Field: BuildPipeline.HasCliEquivalent
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_has_cli_equivalent(p_aspect_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((SELECT NULLIF(cli_equivalent, '') FROM build_pipeline WHERE aspect_id = p_aspect_id) IS NOT NULL)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_is_project_scoped
+-- Field: BuildPipeline.IsProjectScoped
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_is_project_scoped(p_aspect_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (LENGTH(COALESCE((SELECT NULLIF(authority, '') FROM build_pipeline WHERE aspect_id = p_aspect_id), '')) <> LENGTH(REPLACE(COALESCE((SELECT NULLIF(authority, '') FROM build_pipeline WHERE aspect_id = p_aspect_id), ''), '{active-project}', '')))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_is_cli_parity_gap
+-- Field: BuildPipeline.IsCliParityGap
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_is_cli_parity_gap(p_aspect_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (NOT (calc_build_pipeline_has_cli_equivalent(p_aspect_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_is_scoped_with_cli
+-- Field: BuildPipeline.IsScopedWithCli
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_is_scoped_with_cli(p_aspect_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_build_pipeline_is_project_scoped(p_aspect_id) AND calc_build_pipeline_has_cli_equivalent(p_aspect_id)))::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_parity_state
+-- Field: BuildPipeline.ParityState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_parity_state(p_aspect_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_build_pipeline_is_cli_parity_gap(p_aspect_id) THEN ('portal-only')::text ELSE (CASE WHEN calc_build_pipeline_is_scoped_with_cli(p_aspect_id) THEN ('scoped-parity')::text ELSE ('global-parity')::text END)::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_is_parity_violation
+-- Field: BuildPipeline.IsParityViolation
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_is_parity_violation(p_aspect_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_build_pipeline_parity_state(p_aspect_id) = 'portal-only')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_build_pipeline_parity_flag
+-- Field: BuildPipeline.ParityFlag
+-- Type: calculated | DataType: number | Returns: NUMERIC
+
+
+CREATE OR REPLACE FUNCTION calc_build_pipeline_parity_flag(p_aspect_id TEXT)
+RETURNS NUMERIC AS $$
+  SELECT (CASE WHEN calc_build_pipeline_is_parity_violation(p_aspect_id) THEN (0)::text ELSE (1)::text END)::numeric;
+$$ LANGUAGE sql STABLE;
+
+-- calc_portal_cli_parity_description_length
+-- Field: PortalCliParity.DescriptionLength
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_portal_cli_parity_description_length(p_portal_cli_parity_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (LENGTH((SELECT NULLIF(description, '') FROM portal_cli_parity WHERE portal_cli_parity_id = p_portal_cli_parity_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_portal_cli_parity_is_substantive
+-- Field: PortalCliParity.IsSubstantive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_portal_cli_parity_is_substantive(p_portal_cli_parity_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_portal_cli_parity_description_length(p_portal_cli_parity_id))::NUMERIC >= 200)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_portal_cli_parity_narrative_state
+-- Field: PortalCliParity.NarrativeState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_portal_cli_parity_narrative_state(p_portal_cli_parity_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_portal_cli_parity_is_substantive(p_portal_cli_parity_id) THEN ('ready')::text ELSE ('stub')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_portal_cli_parity_is_ready
+-- Field: PortalCliParity.IsReady
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_portal_cli_parity_is_ready(p_portal_cli_parity_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_portal_cli_parity_narrative_state(p_portal_cli_parity_id) = 'ready')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_portal_cli_parity_section_label
+-- Field: PortalCliParity.SectionLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_portal_cli_parity_section_label(p_portal_cli_parity_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_portal_cli_parity_is_ready(p_portal_cli_parity_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM portal_cli_parity WHERE portal_cli_parity_id = p_portal_cli_parity_id), ' (ready)'))::text ELSE (CONCAT((SELECT NULLIF(name, '') FROM portal_cli_parity WHERE portal_cli_parity_id = p_portal_cli_parity_id), ' (stub)'))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_write_through_invariant_description_length
+-- Field: WriteThroughInvariant.DescriptionLength
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_write_through_invariant_description_length(p_write_through_invariant_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (LENGTH((SELECT NULLIF(description, '') FROM write_through_invariant WHERE write_through_invariant_id = p_write_through_invariant_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_write_through_invariant_is_substantive
+-- Field: WriteThroughInvariant.IsSubstantive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_write_through_invariant_is_substantive(p_write_through_invariant_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_write_through_invariant_description_length(p_write_through_invariant_id))::NUMERIC >= 200)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_write_through_invariant_narrative_state
+-- Field: WriteThroughInvariant.NarrativeState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_write_through_invariant_narrative_state(p_write_through_invariant_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_write_through_invariant_is_substantive(p_write_through_invariant_id) THEN ('ready')::text ELSE ('stub')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_write_through_invariant_is_ready
+-- Field: WriteThroughInvariant.IsReady
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_write_through_invariant_is_ready(p_write_through_invariant_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_write_through_invariant_narrative_state(p_write_through_invariant_id) = 'ready')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_write_through_invariant_section_label
+-- Field: WriteThroughInvariant.SectionLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_write_through_invariant_section_label(p_write_through_invariant_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_write_through_invariant_is_ready(p_write_through_invariant_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM write_through_invariant WHERE write_through_invariant_id = p_write_through_invariant_id), ' (ready)'))::text ELSE (CONCAT((SELECT NULLIF(name, '') FROM write_through_invariant WHERE write_through_invariant_id = p_write_through_invariant_id), ' (stub)'))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_bootstrap_story_description_length
+-- Field: BootstrapStory.DescriptionLength
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_bootstrap_story_description_length(p_bootstrap_story_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (LENGTH((SELECT NULLIF(description, '') FROM bootstrap_story WHERE bootstrap_story_id = p_bootstrap_story_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_bootstrap_story_is_substantive
+-- Field: BootstrapStory.IsSubstantive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_bootstrap_story_is_substantive(p_bootstrap_story_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_bootstrap_story_description_length(p_bootstrap_story_id))::NUMERIC >= 200)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_bootstrap_story_narrative_state
+-- Field: BootstrapStory.NarrativeState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_bootstrap_story_narrative_state(p_bootstrap_story_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_bootstrap_story_is_substantive(p_bootstrap_story_id) THEN ('ready')::text ELSE ('stub')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_bootstrap_story_is_ready
+-- Field: BootstrapStory.IsReady
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_bootstrap_story_is_ready(p_bootstrap_story_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_bootstrap_story_narrative_state(p_bootstrap_story_id) = 'ready')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_bootstrap_story_section_label
+-- Field: BootstrapStory.SectionLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_bootstrap_story_section_label(p_bootstrap_story_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_bootstrap_story_is_ready(p_bootstrap_story_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM bootstrap_story WHERE bootstrap_story_id = p_bootstrap_story_id), ' (ready)'))::text ELSE (CONCAT((SELECT NULLIF(name, '') FROM bootstrap_story WHERE bootstrap_story_id = p_bootstrap_story_id), ' (stub)'))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_developer_journey_description_length
+-- Field: DeveloperJourney.DescriptionLength
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_developer_journey_description_length(p_developer_journey_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (LENGTH((SELECT NULLIF(description, '') FROM developer_journey WHERE developer_journey_id = p_developer_journey_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_developer_journey_is_substantive
+-- Field: DeveloperJourney.IsSubstantive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_developer_journey_is_substantive(p_developer_journey_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_developer_journey_description_length(p_developer_journey_id))::NUMERIC >= 200)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_developer_journey_narrative_state
+-- Field: DeveloperJourney.NarrativeState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_developer_journey_narrative_state(p_developer_journey_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_developer_journey_is_substantive(p_developer_journey_id) THEN ('ready')::text ELSE ('stub')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_developer_journey_is_ready
+-- Field: DeveloperJourney.IsReady
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_developer_journey_is_ready(p_developer_journey_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_developer_journey_narrative_state(p_developer_journey_id) = 'ready')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_developer_journey_section_label
+-- Field: DeveloperJourney.SectionLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_developer_journey_section_label(p_developer_journey_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_developer_journey_is_ready(p_developer_journey_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM developer_journey WHERE developer_journey_id = p_developer_journey_id), ' (ready)'))::text ELSE (CONCAT((SELECT NULLIF(name, '') FROM developer_journey WHERE developer_journey_id = p_developer_journey_id), ' (stub)'))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_resilience_claim_description_length
+-- Field: ResilienceClaim.DescriptionLength
+-- Type: calculated | DataType: integer | Returns: INTEGER
+
+
+CREATE OR REPLACE FUNCTION calc_resilience_claim_description_length(p_resilience_claim_id TEXT)
+RETURNS INTEGER AS $$
+  SELECT (LENGTH((SELECT NULLIF(description, '') FROM resilience_claim WHERE resilience_claim_id = p_resilience_claim_id)))::integer;
+$$ LANGUAGE sql STABLE;
+
+-- calc_resilience_claim_is_substantive
+-- Field: ResilienceClaim.IsSubstantive
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_resilience_claim_is_substantive(p_resilience_claim_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT ((calc_resilience_claim_description_length(p_resilience_claim_id))::NUMERIC >= 200)::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_resilience_claim_narrative_state
+-- Field: ResilienceClaim.NarrativeState
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_resilience_claim_narrative_state(p_resilience_claim_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_resilience_claim_is_substantive(p_resilience_claim_id) THEN ('ready')::text ELSE ('stub')::text END)::text;
+$$ LANGUAGE sql STABLE;
+
+-- calc_resilience_claim_is_ready
+-- Field: ResilienceClaim.IsReady
+-- Type: calculated | DataType: boolean | Returns: BOOLEAN
+
+
+CREATE OR REPLACE FUNCTION calc_resilience_claim_is_ready(p_resilience_claim_id TEXT)
+RETURNS BOOLEAN AS $$
+  SELECT (calc_resilience_claim_narrative_state(p_resilience_claim_id) = 'ready')::boolean;
+$$ LANGUAGE sql STABLE;
+
+-- calc_resilience_claim_section_label
+-- Field: ResilienceClaim.SectionLabel
+-- Type: calculated | DataType: string | Returns: TEXT
+
+
+CREATE OR REPLACE FUNCTION calc_resilience_claim_section_label(p_resilience_claim_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (CASE WHEN calc_resilience_claim_is_ready(p_resilience_claim_id) THEN (CONCAT((SELECT NULLIF(name, '') FROM resilience_claim WHERE resilience_claim_id = p_resilience_claim_id), ' (ready)'))::text ELSE (CONCAT((SELECT NULLIF(name, '') FROM resilience_claim WHERE resilience_claim_id = p_resilience_claim_id), ' (stub)'))::text END)::text;
+$$ LANGUAGE sql STABLE;
+
 -- ============================================================================
 -- MANY-SIDE RELATIONSHIP FUNCTIONS
 -- These functions aggregate child records for many-side relationships
@@ -6289,6 +8257,97 @@ RETURNS TEXT AS $$
     SELECT STRING_AGG(project_slot_witness_id::TEXT, ', ' ORDER BY project_slot_witness_id)
     FROM project_slot_witnesses
     WHERE slot = p_project_layout_slot_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_catalog_tools
+-- Field: ExecutionSubstrates.CatalogTools
+-- Type: Inverse relationship (reverse FK lookup from AddToolCatalog.SubstrateId)
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_catalog_tools(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(tool_id::TEXT, ', ' ORDER BY tool_id)
+    FROM add_tool_catalog
+    WHERE substrate_id = p_substrate_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_proxy_routes
+-- Field: ExecutionSubstrates.ProxyRoutes
+-- Type: Inverse relationship (reverse FK lookup from SsotmeProxy.SubstrateId)
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_proxy_routes(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(route_id::TEXT, ', ' ORDER BY route_id)
+    FROM ssotme_proxy
+    WHERE substrate_id = p_substrate_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_execution_substrates_tradeoffs
+-- Field: ExecutionSubstrates.Tradeoffs
+-- Type: Inverse relationship (reverse FK lookup from SubstrateTradeoffs.SubstrateId)
+
+CREATE OR REPLACE FUNCTION calc_execution_substrates_tradeoffs(p_substrate_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(tradeoff_id::TEXT, ', ' ORDER BY tradeoff_id)
+    FROM substrate_tradeoffs
+    WHERE substrate_id = p_substrate_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_evaluation_steps
+-- Field: SubstrateContractPhases.EvaluationSteps
+-- Type: Inverse relationship (reverse FK lookup from EvaluationSteps.PhaseId)
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_evaluation_steps(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(step_id::TEXT, ', ' ORDER BY step_id)
+    FROM evaluation_steps
+    WHERE phase_id = p_phase_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_produced_artifacts
+-- Field: SubstrateContractPhases.ProducedArtifacts
+-- Type: Inverse relationship (reverse FK lookup from EvaluationArtifacts.ProducedByPhaseId)
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_produced_artifacts(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(artifact_id::TEXT, ', ' ORDER BY artifact_id)
+    FROM evaluation_artifacts
+    WHERE produced_by_phase_id = p_phase_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_contract_phases_consumed_artifacts
+-- Field: SubstrateContractPhases.ConsumedArtifacts
+-- Type: Inverse relationship (reverse FK lookup from EvaluationArtifacts.ConsumedByPhaseId)
+
+CREATE OR REPLACE FUNCTION calc_substrate_contract_phases_consumed_artifacts(p_phase_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(artifact_id::TEXT, ', ' ORDER BY artifact_id)
+    FROM evaluation_artifacts
+    WHERE consumed_by_phase_id = p_phase_id
+  );
+$$ LANGUAGE sql STABLE;
+
+-- calc_substrate_tradeoff_dimensions_tradeoffs
+-- Field: SubstrateTradeoffDimensions.Tradeoffs
+-- Type: Inverse relationship (reverse FK lookup from SubstrateTradeoffs.DimensionId)
+
+CREATE OR REPLACE FUNCTION calc_substrate_tradeoff_dimensions_tradeoffs(p_dimension_id TEXT)
+RETURNS TEXT AS $$
+  SELECT (
+    SELECT STRING_AGG(tradeoff_id::TEXT, ', ' ORDER BY tradeoff_id)
+    FROM substrate_tradeoffs
+    WHERE dimension_id = p_dimension_id
   );
 $$ LANGUAGE sql STABLE;
 

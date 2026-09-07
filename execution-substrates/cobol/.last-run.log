@@ -1,0 +1,21 @@
+=== COBOL Substrate Test Run ===
+
+cobol: running compiled COBOL via take-test.py...
+COBOL Substrate Test Runner
+==================================================
+
+Checking for GnuCOBOL...
+  Found: cobc (GnuCOBOL) 3.2.0
+
+Compiling erb_main.cbl...
+  Compiled successfully: erb_test
+
+COBOL substrate targets: customers
+
+Processing entities...
+  -> customers: 3 records
+
+==================================================
+COBOL substrate: Processed 1 entities, 3 total records
+==================================================
+

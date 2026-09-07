@@ -37,6 +37,11 @@ _Semiotic candidates evaluated by formula — shows substrate-equality holds for
 | Relationship to Concept | Determined by priority: “IsMirrorOf” if the distance from concept is 1; in all other cases, “IsDescriptionOf”. | — |
 | Model Object Facility Layer | A defined attribute. | — |
 | Sort Order | A defined attribute. | — |
+| Hockett Assessed Count | The number of hockett assessments related to the language candidate. | _How many of Hockett's design features this candidate has a published assessment for. Zero means nobody has assessed it, which is not the same as failing._ |
+| Hockett Yes Count | The total is yes flag across the hockett assessments related to the language candidate. | _How many assessed design features this candidate satisfies outright._ |
+| Is Hockett Assessed | True when the hockett assessed count is greater than 0. | _TRUE once this candidate has at least one published design-feature assessment._ |
+| Hockett Score | Determined by priority: “not assessed” if the hockett assessed count is 0; in all other cases, the hockett yes count, followed by “ of ”, followed by the hockett assessed count. | _The design-feature tally as text, reading "not assessed" rather than "0" when there is no published assessment. A hand-written Postgres function used to sum eleven bio_has_* columns that were never in the rulebook, so every candidate silently scored zero; this field replaces it._ |
+| Hockett Vs Gate | Determined by priority: an empty string if the hockett assessed count is 0; “The eight-clause gate says language; Hockett's features hold for only ”, followed by the hockett yes count, followed by “ of ”, followed by the hockett assessed count, followed by a period if all of the following hold: the predicted answer flag is set and the hockett yes count is less than the hockett assessed count; “Hockett's features all hold, and the eight-clause gate says not a language.” if all of the following hold: the predicted answer flag is not set and the hockett yes count is the hockett assessed count; in all other cases, an empty string. | _Names the disagreement, in English, when the eight-clause gate and Hockett's design features reach opposite conclusions. Empty when they agree or when the candidate is unassessed._ |
 | **Is Everything a Language** | An is everything a language is identified by its name. | — |
 | Name | A defined attribute. | — |
 | Argument Name | A defined attribute. | — |
@@ -48,6 +53,23 @@ _Semiotic candidates evaluated by formula — shows substrate-equality holds for
 | Related Candidate ID | A defined attribute. | — |
 | Evidence From Rulebook | A defined attribute. | — |
 | Notes | A defined attribute. | — |
+| **Hockett Feature** | A hockett feature is identified by its name. | — |
+| Name | A defined attribute. | _The design feature's name, as Hockett gives it._ |
+| Feature Number | A defined attribute. | _Hockett's own numbering, 1 through 13, then 14 through 16 for the 1968 additions._ |
+| Definition | A defined attribute. | _What the feature asserts, in plain English._ |
+| Is Original Thirteen | True when an empty string. | _TRUE for the thirteen features of the 1960 paper; FALSE for the three added in 1968._ |
+| Source | A defined attribute. | _Citation for the feature list._ |
+| Assessment Count | The number of hockett assessments related to the hockett feature. | _How many candidates have been assessed against this feature._ |
+| Yes Count | The total is yes flag across the hockett assessments related to the hockett feature. | _How many assessed candidates satisfy this feature outright._ |
+| **Hockett Assessment** | A hockett assessment is identified by its name and is related to a language candidate and a hockett feature. | — |
+| Name | Computed as the language candidate, followed by “ / ”, followed by the hockett feature. | _Logical key: the candidate and the feature being assessed._ |
+| Language Candidate | A defined attribute. | _FK to the candidate being assessed._ |
+| Hockett Feature | A defined attribute. | _FK to the design feature being applied._ |
+| Verdict | A defined attribute. | _Yes, No, Partial or Unknown. Partial and Unknown exist because the published assessments hedge, and flattening a hedge into a boolean would bury a judgement call in the data._ |
+| Verbatim Assessment | A defined attribute. | _The source's exact wording for this cell, so every resolution to Verdict stays auditable._ |
+| Source Citation | A defined attribute. | _Where this cell came from, including which column._ |
+| Mapping Note | A defined attribute. | _Empty when this candidate corresponds exactly to the source's column. Otherwise, how the two differ and how far the row should be trusted._ |
+| Is Yes Flag | True when the verdict is “Yes”. | _1 when the verdict is an outright Yes, else 0. Summed by the rollups on LanguageCandidates and HockettFeatures._ |
 | **ERB Customization** | An ERB customization is identified by its name. | — |
 | Name | A defined attribute. | — |
 | Title | A defined attribute. | — |
@@ -55,11 +77,22 @@ _Semiotic candidates evaluated by formula — shows substrate-equality holds for
 | SQL Target | A defined attribute. | — |
 | Customization Type | A defined attribute. | — |
 
+## 2 Fact Types
+
+- a **hockett assessment** references exactly one **language candidate**
+- a **hockett assessment** references exactly one **hockett feature**
+
 ## 3 Operative Rules
 
-_No operative rules yet. Required fields and foreign keys imply structural
-`must`-rules automatically; to declare semantic obligations (`must` / `must not` / `should`), add a **Constraints** table whose rows point at
-boolean calculated fields. See the tool README for the column contract._
+_Operative rules state what the business **obliges**, **prohibits**, or
+advises (**should**). Structural rules come from required fields and foreign keys;
+semantic rules come from the Constraints table, each keyed on a boolean the rulebook
+already computes (cross-referenced as DR-N in the Definitional Rules below)._
+
+### Structural Constraints (from the schema)
+
+- A hockett assessment **must** reference exactly one language candidate.
+- A hockett assessment **must** reference exactly one hockett feature.
 
 ## 4 Definitional Rules
 
@@ -79,6 +112,15 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-6 Is Description of** | A language candidate is considered a description of if the distance from concept is greater than 1. |
 | **DR-7 Is Open Closed World Conflicted** | A language candidate is considered open-closed-world-conflicted if all of the following hold: the open world flag is set and the closed world flag is set. |
 | **DR-8 Relationship to Concept** | The language candidate's relationship to concept is determined by the following priority:<br>1. “IsMirrorOf”, if the distance from concept is 1;<br>2. in all other cases, “IsDescriptionOf”. |
+| **DR-9 Hockett Assessed Count** | A language candidate's hockett assessed count is the number of hockett assessments related to the language candidate. |
+| **DR-10 Hockett Yes Count** | A language candidate's hockett yes count is the total is yes flag across the hockett assessments related to the language candidate. |
+| **DR-11 Is Hockett Assessed** | A language candidate is considered hockett-assessed if the hockett assessed count is greater than 0. |
+| **DR-12 Hockett Score** | The language candidate's hockett score is determined by the following priority:<br>1. “not assessed”, if the hockett assessed count is 0;<br>2. in all other cases, the hockett yes count, followed by “ of ”, followed by the hockett assessed count. |
+| **DR-13 Hockett Vs Gate** | The language candidate's hockett vs gate is determined by the following priority:<br>1. an empty string, if the hockett assessed count is 0;<br>2. “The eight-clause gate says language; Hockett's features hold for only ”, followed by the hockett yes count, followed by “ of ”, followed by the hockett assessed count, followed by a period, if all of the following hold: the predicted answer flag is set and the hockett yes count is less than the hockett assessed count;<br>3. “Hockett's features all hold, and the eight-clause gate says not a language.”, if all of the following hold: the predicted answer flag is not set and the hockett yes count is the hockett assessed count;<br>4. in all other cases, an empty string. |
+| **DR-14 Assessment Count** | A hockett feature's assessment count is the number of hockett assessments related to the hockett feature. |
+| **DR-15 Yes Count** | A hockett feature's yes count is the total is yes flag across the hockett assessments related to the hockett feature. |
+| **DR-16 Name** | A hockett assessment's name is computed as the language candidate, followed by “ / ”, followed by the hockett feature. |
+| **DR-17 Is Yes Flag** | A hockett assessment is considered a yes flag if the verdict is “Yes”. |
 
 ## 5 Traceability to Schema
 
@@ -95,6 +137,15 @@ the same logic the rulebook stores, written for a business reader._
 | **LanguageCandidates.IsDescriptionOf** | formula | `DistanceFromConcept > 1` |
 | **LanguageCandidates.IsOpenClosedWorldConflicted** | formula | `And(IsOpenWorld, IsClosedWorld)` |
 | **LanguageCandidates.RelationshipToConcept** | formula | `If(DistanceFromConcept = 1, "IsMirrorOf", "IsDescriptionOf")` |
+| **LanguageCandidates.HockettAssessedCount** | rollup | `Count(HockettAssessments via LanguageCandidate)` |
+| **LanguageCandidates.HockettYesCount** | rollup | `Sum(HockettAssessments.IsYesFlag via LanguageCandidate)` |
+| **LanguageCandidates.IsHockettAssessed** | formula | `HockettAssessedCount > 0` |
+| **LanguageCandidates.HockettScore** | formula | `If(HockettAssessedCount = 0, "not assessed", HockettYesCount & " of " & HockettAssessedCount)` |
+| **LanguageCandidates.HockettVsGate** | formula | `If(HockettAssessedCount = 0, "", If(And(PredictedAnswer, HockettYesCount < HockettAssessedCount), "The eight-clause gate says language; Hockett's features hold for only " & HockettYesCount & " of " & HockettAssessedCount & ".", If(And(Not(PredictedAnswer), HockettYesCount = HockettAssessedCount), "Hockett's features all hold, and the eight-clause gate says not a language.", "")))` |
+| **HockettFeatures.AssessmentCount** | rollup | `Count(HockettAssessments via HockettFeature)` |
+| **HockettFeatures.YesCount** | rollup | `Sum(HockettAssessments.IsYesFlag via HockettFeature)` |
+| **HockettAssessments.Name** | formula | `LanguageCandidate & " / " & HockettFeature` |
+| **HockettAssessments.IsYesFlag** | formula | `If(Verdict = "Yes", 1, 0)` |
 
 ---
 

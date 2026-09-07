@@ -170,4 +170,40 @@ ALTER TABLE project_slot_witnesses DROP CONSTRAINT IF EXISTS fk_project_slot_wit
 ALTER TABLE project_slot_witnesses ADD CONSTRAINT fk_project_slot_witnesses_slot
   FOREIGN KEY (slot) REFERENCES project_layout_slots (project_layout_slot_id);
 
--- 36 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).
+-- ExecutionSubstrates
+ALTER TABLE execution_substrates DROP CONSTRAINT IF EXISTS fk_execution_substrates_project;
+ALTER TABLE execution_substrates ADD CONSTRAINT fk_execution_substrates_project
+  FOREIGN KEY (project) REFERENCES project_metadata (project_id);
+
+-- SsotmeProxy
+ALTER TABLE ssotme_proxy DROP CONSTRAINT IF EXISTS fk_ssotme_proxy_substrate_id;
+ALTER TABLE ssotme_proxy ADD CONSTRAINT fk_ssotme_proxy_substrate_id
+  FOREIGN KEY (substrate_id) REFERENCES execution_substrates (substrate_id);
+
+-- AddToolCatalog
+ALTER TABLE add_tool_catalog DROP CONSTRAINT IF EXISTS fk_add_tool_catalog_substrate_id;
+ALTER TABLE add_tool_catalog ADD CONSTRAINT fk_add_tool_catalog_substrate_id
+  FOREIGN KEY (substrate_id) REFERENCES execution_substrates (substrate_id);
+
+-- EvaluationSteps
+ALTER TABLE evaluation_steps DROP CONSTRAINT IF EXISTS fk_evaluation_steps_phase_id;
+ALTER TABLE evaluation_steps ADD CONSTRAINT fk_evaluation_steps_phase_id
+  FOREIGN KEY (phase_id) REFERENCES substrate_contract_phases (phase_id);
+
+-- EvaluationArtifacts
+ALTER TABLE evaluation_artifacts DROP CONSTRAINT IF EXISTS fk_evaluation_artifacts_produced_by_phase_id;
+ALTER TABLE evaluation_artifacts ADD CONSTRAINT fk_evaluation_artifacts_produced_by_phase_id
+  FOREIGN KEY (produced_by_phase_id) REFERENCES substrate_contract_phases (phase_id);
+ALTER TABLE evaluation_artifacts DROP CONSTRAINT IF EXISTS fk_evaluation_artifacts_consumed_by_phase_id;
+ALTER TABLE evaluation_artifacts ADD CONSTRAINT fk_evaluation_artifacts_consumed_by_phase_id
+  FOREIGN KEY (consumed_by_phase_id) REFERENCES substrate_contract_phases (phase_id);
+
+-- SubstrateTradeoffs
+ALTER TABLE substrate_tradeoffs DROP CONSTRAINT IF EXISTS fk_substrate_tradeoffs_substrate_id;
+ALTER TABLE substrate_tradeoffs ADD CONSTRAINT fk_substrate_tradeoffs_substrate_id
+  FOREIGN KEY (substrate_id) REFERENCES execution_substrates (substrate_id);
+ALTER TABLE substrate_tradeoffs DROP CONSTRAINT IF EXISTS fk_substrate_tradeoffs_dimension_id;
+ALTER TABLE substrate_tradeoffs ADD CONSTRAINT fk_substrate_tradeoffs_dimension_id
+  FOREIGN KEY (dimension_id) REFERENCES substrate_tradeoff_dimensions (dimension_id);
+
+-- 44 FK constraint(s) declared (off unless EFFORTLESS_ENFORCE_FKS=true).

@@ -1,6 +1,8 @@
 [
   {
     "concept_id": "cap-ci-execution",
+    "relative_path": "concepts/agent-capability/cap-ci-execution",
+    "iri": "concepts-agent-capability-cap-ci-execution",
     "pref_label": "CI/CD Execution",
     "alt_label": "Pipeline Execution",
     "definition": "The filler must be an automated pipeline capable of running a deterministic build, test, and deploy sequence.",
@@ -8,7 +10,19 @@
     "roles": ""
   },
   {
+    "concept_id": "cap-deployment-health",
+    "relative_path": "concepts/agent-capability/cap-deployment-health",
+    "iri": "concepts-agent-capability-cap-deployment-health",
+    "pref_label": "Deployment Health Monitoring",
+    "alt_label": "Post-Deployment Telemetry Summarization",
+    "definition": "The filler must be capable of summarizing post-deployment telemetry into a health report. Distinct from risk analysis: it scores a live deployment's health, not input risk datasets \u2014 so a deployment-health role does NOT consume the Q1 Risk Metrics dataset.",
+    "scope_note": "Held by the Deployment Health Agent role (filled by DeploymentHealth-AI, health-summarizer-v1.2.0).",
+    "roles": ""
+  },
+  {
     "concept_id": "cap-executive-authorization",
+    "relative_path": "concepts/agent-capability/cap-executive-authorization",
+    "iri": "concepts-agent-capability-cap-executive-authorization",
     "pref_label": "Executive Authorization",
     "alt_label": "C-Level Sign-off",
     "definition": "The filler must hold executive authority to approve high-impact organizational changes.",
@@ -17,6 +31,8 @@
   },
   {
     "concept_id": "cap-human-judgment",
+    "relative_path": "concepts/agent-capability/cap-human-judgment",
+    "iri": "concepts-agent-capability-cap-human-judgment",
     "pref_label": "Human Judgment",
     "alt_label": "Human Decision",
     "definition": "The filler must be a human agent capable of contextual, ethical, and legally binding decisions.",
@@ -25,6 +41,8 @@
   },
   {
     "concept_id": "cap-legal-review",
+    "relative_path": "concepts/agent-capability/cap-legal-review",
+    "iri": "concepts-agent-capability-cap-legal-review",
     "pref_label": "Legal Review",
     "alt_label": "Compliance Review",
     "definition": "The filler must have authority to certify regulatory and contractual compliance.",
@@ -33,6 +51,8 @@
   },
   {
     "concept_id": "cap-risk-analysis",
+    "relative_path": "concepts/agent-capability/cap-risk-analysis",
+    "iri": "concepts-agent-capability-cap-risk-analysis",
     "pref_label": "Risk Analysis",
     "alt_label": "Risk Assessment",
     "definition": "The filler must be capable of probabilistic risk scoring over structured datasets.",

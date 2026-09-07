@@ -1,0 +1,29 @@
+=== English (LLM) Substrate Test Run ===
+
+======================================================================
+English Execution Substrate - One-Shot All-Entities LLM Run
+======================================================================
+
+  Loaded specification.md (2185 chars)
+  Loaded 1 entities, 3 records total
+    - customers: 3 records
+
+============================================================
+PROMPT (first 2 lines):
+  You are taking a test. Follow the English specification below to fill in
+  every null derived field in the test data. The data spans multiple tables and many
+  ... (116 total lines, 4317 chars)
+============================================================
+Calling OpenAI (gpt-4o-mini)... please wait...
+============================================================
+RESPONSE (first 2 lines):
+  {
+    "customers": [
+  ... (28 total lines, 662 chars)
+============================================================
+  -> customers: 3 records written
+
+======================================================================
+English substrate: filled 6 derived fields across 1 entities
+======================================================================
+

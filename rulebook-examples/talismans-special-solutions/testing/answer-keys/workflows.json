@@ -21,7 +21,7 @@
     "count_approval_consistency_violations": 0,
     "has_consistency_violation": false,
     "has_ai_agent_step": true,
-    "months_since_modified": 2,
+    "months_since_modified": 5,
     "is_stale": false,
     "is_stale_and_has_ai_agent": false,
     "count_derivation_links": 4,
@@ -38,7 +38,7 @@
     "count_gates_without_human_approver": 0,
     "count_workflow_artifacts": 5,
     "count_roles_with_escalation_violation": 0,
-    "count_unconsumed_datasets": 0,
+    "count_unconsumed_datasets": 1,
     "cq1_satisfied": true,
     "cq2_satisfied": true,
     "cq3_satisfied": true,
@@ -46,6 +46,6 @@
     "cq5_satisfied": true,
     "cq6_satisfied": true,
     "cq7_satisfied": true,
-    "cq8_satisfied": true
+    "cq8_satisfied": false
   }
 ]

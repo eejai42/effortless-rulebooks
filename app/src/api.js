@@ -55,7 +55,7 @@ export async function setFindingStatus(id, status) {
 
 // Trigger a new conformance harness run for a project. The explorer's dev server
 // shells out to scripts/run-conformance.py (which invokes the existing
-// rulebook-examples/legacy-runner/orchestration/test-orchestrator.py, records
+// orchestration/test-orchestrator.py, records
 // ConformanceRuns/ConformanceResults rows in the rulebook, then runs
 // `effortless build` so the views pick them up) — see conformanceRunPlugin in
 // vite.config.js. This can take a while; the caller should show a busy state.

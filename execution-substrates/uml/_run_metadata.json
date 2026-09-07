@@ -1,0 +1,19 @@
+{
+  "last_run": {
+    "timestamp": "2026-02-22T12:00:19.824130",
+    "status": "success",
+    "duration_seconds": 0.08585906028747559,
+    "exit_code": 0
+  },
+  "last_successful_run": {
+    "timestamp": "2026-02-22T12:00:19.824130",
+    "duration_seconds": 0.08585906028747559,
+    "status": "success",
+    "test_results": {
+      "total_fields_tested": 200,
+      "fields_passed": 200,
+      "fields_failed": 0,
+      "score": 100.0
+    }
+  }
+}

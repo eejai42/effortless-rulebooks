@@ -32,11 +32,44 @@
 
 set -uo pipefail
 
-RULEBOOK_PATH="/app/effortless-rulebook/effortless-rulebook.json"
-RULEBOOK_DIR="/app/effortless-rulebook"
 BOOT_STATE_FILE="/tmp/boot-state"
 BUILD_LOG_FILE="/tmp/current-build.log"
 REBUILD_TRIGGER_FILE="/tmp/rebuild-trigger"
+# Both touched immediately so the RULEBOOK_FILENAME check just below can write
+# to them under `set -u` (the fuller boot-state init these are also part of
+# happens again, harmlessly, a few lines down alongside the other boot files).
+echo "booting" > "$BOOT_STATE_FILE"
+touch "$BUILD_LOG_FILE"
+
+# RULEBOOK_FILENAME is set by edit-rulebook.sh's `docker run -e` from its own
+# -p rulebookPath (see EditRulebookSh's RULEBOOK_SELF_UPDATE_PATH) -- the real
+# basename of the project's rulebook file, e.g. "effortless-banking-rulebook.json".
+# It is NOT hardcoded to "effortless-rulebook.json" here, because that name is
+# only one of two valid conventions (the other being "<slug>-rulebook.json" --
+# see the platform rulebook's ProjectLayoutSlots). A hardcoded guess that
+# disagreed with the actual mounted filename used to make EVERY pipeline step
+# fail with "No INPUT files matched" -- silently, since `effortless build`
+# keeps going after a failed step -- while the container still reported
+# itself as running. Fail loudly here instead, before anything else runs.
+# BOOT_STATE_FILE/BUILD_LOG_FILE are defined immediately above, before this
+# check, specifically so this FATAL path can write to them under `set -u`
+# instead of dying on an unbound-variable error and hiding the real message.
+if [ -z "${RULEBOOK_FILENAME:-}" ]; then
+  echo "[entrypoint] FATAL: RULEBOOK_FILENAME was not set." >&2
+  {
+    echo "[entrypoint] $(date -Iseconds) FATAL: RULEBOOK_FILENAME environment variable is required and was not passed to this container."
+    echo "[entrypoint]   This should always be set automatically by edit-rulebook.sh's \`docker run -e RULEBOOK_FILENAME=...\`."
+    echo "[entrypoint]   FIX: relaunch via ./edit-rulebook.sh (regenerate it first with \`effortless effortless-rulebook-editor\` if it predates this variable)."
+    echo "[entrypoint]   If you are invoking \`docker run\` by hand, add:  -e RULEBOOK_FILENAME=<your-rulebook>.json"
+    echo "[entrypoint]   (the exact filename inside the mounted effortless-rulebook/ folder, e.g. effortless-banking-rulebook.json)."
+    echo "[entrypoint] Refusing to guess a filename and build against the wrong file. Exiting instead of retry-looping."
+  } | tee -a "$BUILD_LOG_FILE" >&2
+  echo "error" > "$BOOT_STATE_FILE"
+  sleep 2
+  exit 1
+fi
+RULEBOOK_PATH="/app/effortless-rulebook/$RULEBOOK_FILENAME"
+RULEBOOK_DIR="/app/effortless-rulebook"
 # Where the effortless CLI writes its structured build-failure record when
 # -continueOnError is in effect (see BuildErrorLog in the CLI): the project root,
 # which for this container is always the effortless-root symlink target. Its mere
@@ -150,16 +183,17 @@ ln -sfn "$EFFORTLESS_ROOT_TARGET" /app/effortless-root
 # Make the bind-mounted rulebook reachable from INSIDE the build root.
 #
 # Every step in effortless.editor.json addresses the rulebook the same way --
-# `-i ../effortless-rulebook/effortless-rulebook.json`, relative to its own
-# RelativePath (/postgres, /api, /admin-portal, ...) -- which resolves to
+# `-i ../effortless-rulebook/$RULEBOOK_FILENAME` (the seed step below rewrites
+# the placeholder filename to the real one), relative to its own RelativePath
+# (/postgres, /api, /admin-portal, ...) -- which resolves to
 # $EFFORTLESS_ROOT_TARGET/effortless-rulebook. The rulebook is mounted
 # somewhere else entirely (/app/effortless-rulebook), so without this link
 # nothing in the pipeline can see it: `effortless build` reports one
-# easy-to-miss "No INPUT files matched effortless-rulebook.json" warning per
-# step and rulebook-to-postgres fails outright with "No rulebook JSON
-# provided". (That was exactly the state after the build root moved out of
-# /app -- back when the build ran with `cd /app`, ../effortless-rulebook
-# happened to land on the mount, and the link was not needed.)
+# easy-to-miss "No INPUT files matched" warning per step and
+# rulebook-to-postgres fails outright with "No rulebook JSON provided". (That
+# was exactly the state after the build root moved out of /app -- back when
+# the build ran with `cd /app`, ../effortless-rulebook happened to land on the
+# mount, and the link was not needed.)
 #
 # A symlink rather than a copy, deliberately: the API and the merge path write
 # the real rulebook file and its uncommitted-change log through
@@ -178,6 +212,22 @@ ln -sfn /app/effortless-rulebook "$EFFORTLESS_ROOT_TARGET/effortless-rulebook"
 if [ ! -f "$EFFORTLESS_ROOT_TARGET/effortless.json" ]; then
   echo "[entrypoint] seeding $EFFORTLESS_ROOT_TARGET/effortless.json (first boot, or a reset) from the tool's default pipeline config..."
   cp /app/effortless.editor.json.seed "$EFFORTLESS_ROOT_TARGET/effortless.json"
+
+  # The seed's every -i flag hardcodes the placeholder "effortless-rulebook.json"
+  # (see EffortlessEditorJson -- it is baked into the image and cannot know any
+  # project's real filename). Substitute the actual mounted filename now, once,
+  # at seed time only -- NOT on every boot, so a user's own hand-edited pipeline
+  # steps are never touched again after this first pass. If the placeholder is
+  # ever not found (e.g. a future image ships a differently-worded seed), fail
+  # loudly rather than silently leaving every step pointed at the wrong file.
+  if ! grep -q "effortless-rulebook/effortless-rulebook.json" "$EFFORTLESS_ROOT_TARGET/effortless.json"; then
+    echo "[entrypoint] FATAL: expected placeholder 'effortless-rulebook/effortless-rulebook.json' not found in the freshly-seeded effortless.json." >&2
+    echo "[entrypoint]   The seed template may have changed shape. Cannot safely substitute the real rulebook filename ($RULEBOOK_FILENAME)." >&2
+    echo "error" > "$BOOT_STATE_FILE"
+    exit 1
+  fi
+  sed -i "s#effortless-rulebook/effortless-rulebook\.json#effortless-rulebook/$RULEBOOK_FILENAME#g" "$EFFORTLESS_ROOT_TARGET/effortless.json"
+  echo "[entrypoint] pointed the seeded pipeline's -i flags at effortless-rulebook/$RULEBOOK_FILENAME"
 fi
 
 # Versioned migrations for pipeline DEFAULTS, not per-build overrides.
@@ -269,15 +319,20 @@ fi
 if [ ! -d "$RULEBOOK_DIR" ] || [ ! -f "$RULEBOOK_PATH" ]; then
   echo "[entrypoint] FATAL: $RULEBOOK_PATH not found inside the container." >&2
   {
-    echo "[entrypoint] $(date -Iseconds) FATAL: the project's effortless-rulebook/ folder is not correctly bind-mounted."
+    echo "[entrypoint] $(date -Iseconds) FATAL: the project's effortless-rulebook/ folder is not correctly bind-mounted, OR RULEBOOK_FILENAME ($RULEBOOK_FILENAME) does not match the actual mounted file."
     echo "[entrypoint]   Expected to find: $RULEBOOK_PATH"
     echo "[entrypoint]   RULEBOOK_DIR exists: $([ -d "$RULEBOOK_DIR" ] && echo yes || echo NO)"
+    echo "[entrypoint]   Contents of $RULEBOOK_DIR (if mounted):"
+    ls -la "$RULEBOOK_DIR" 2>&1 | sed 's/^/[entrypoint]     /'
     echo "[entrypoint]   Contents of /app:"
     ls -la /app 2>&1 | sed 's/^/[entrypoint]     /'
-    echo "[entrypoint]   Check the docker run -v flag (see edit-rulebook.sh) actually mounted the host"
-    echo "[entrypoint]   effortless-rulebook/ folder to $RULEBOOK_DIR -- on Windows Git Bash, MSYS path"
+    echo "[entrypoint]   If the folder above IS mounted but under a DIFFERENT filename than $RULEBOOK_FILENAME:"
+    echo "[entrypoint]     re-run \`effortless effortless-rulebook-editor -p rulebookPath=../effortless-rulebook/<actual-name>.json\`"
+    echo "[entrypoint]     to regenerate edit-rulebook.sh with the correct RULEBOOK_FILENAME, then relaunch it."
+    echo "[entrypoint]   If the folder is not mounted at all: check the docker run -v flag (see edit-rulebook.sh) actually"
+    echo "[entrypoint]   mounted the host effortless-rulebook/ folder to $RULEBOOK_DIR -- on Windows Git Bash, MSYS path"
     echo "[entrypoint]   auto-conversion is a common cause of a bind mount silently landing somewhere else."
-    echo "[entrypoint] Refusing to build or watch a missing mount. Exiting instead of retry-looping."
+    echo "[entrypoint] Refusing to build or watch a missing/mismatched mount. Exiting instead of retry-looping."
   } | tee -a "$BUILD_LOG_FILE" >&2
   echo "error" > "$BOOT_STATE_FILE"
   sleep 2

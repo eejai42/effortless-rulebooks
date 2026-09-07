@@ -11,16 +11,6 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -o tiling-the-plane-rulebook.json -account airtable -p \"view=Grid view\"",
-      "IsDisabled": true,
-      "LastVersionUsed": "v2026.04.23.1357",
-      "Enabled": false,
-      "Description": "Pull rulebook from Airtable (optional; edit tiling-the-plane-rulebook.json directly). [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "rulebooktopostgres",
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/tiling-the-plane-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",

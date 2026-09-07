@@ -9,7 +9,8 @@
 #      SSE and exposes a Rebuild button; see boot-server.js for the full
 #      contract (state file + log file it watches).
 #   1. start local Postgres cluster (bundled in-image, single-container app)
-#   2. run `effortless build` once (generates SQL + runs init-db.sh against
+#   2. run `effortless build` once (generates SQL + runs the database reset
+#      wrapper against
 #      the local Postgres + generates the Node API + Vite UI + RuleSpeak® +
 #      RuleSpeak-DE + XLSX export) -- consumed transpilers resolve from the
 #      normal published registry, same as any other effortless transpiler
@@ -31,11 +32,44 @@
 
 set -uo pipefail
 
-RULEBOOK_PATH="/app/effortless-rulebook/effortless-rulebook.json"
-RULEBOOK_DIR="/app/effortless-rulebook"
 BOOT_STATE_FILE="/tmp/boot-state"
 BUILD_LOG_FILE="/tmp/current-build.log"
 REBUILD_TRIGGER_FILE="/tmp/rebuild-trigger"
+# Both touched immediately so the RULEBOOK_FILENAME check just below can write
+# to them under `set -u` (the fuller boot-state init these are also part of
+# happens again, harmlessly, a few lines down alongside the other boot files).
+echo "booting" > "$BOOT_STATE_FILE"
+touch "$BUILD_LOG_FILE"
+
+# RULEBOOK_FILENAME is set by edit-rulebook.sh's `docker run -e` from its own
+# -p rulebookPath (see EditRulebookSh's RULEBOOK_SELF_UPDATE_PATH) -- the real
+# basename of the project's rulebook file, e.g. "effortless-banking-rulebook.json".
+# It is NOT hardcoded to "effortless-rulebook.json" here, because that name is
+# only one of two valid conventions (the other being "<slug>-rulebook.json" --
+# see the platform rulebook's ProjectLayoutSlots). A hardcoded guess that
+# disagreed with the actual mounted filename used to make EVERY pipeline step
+# fail with "No INPUT files matched" -- silently, since `effortless build`
+# keeps going after a failed step -- while the container still reported
+# itself as running. Fail loudly here instead, before anything else runs.
+# BOOT_STATE_FILE/BUILD_LOG_FILE are defined immediately above, before this
+# check, specifically so this FATAL path can write to them under `set -u`
+# instead of dying on an unbound-variable error and hiding the real message.
+if [ -z "${RULEBOOK_FILENAME:-}" ]; then
+  echo "[entrypoint] FATAL: RULEBOOK_FILENAME was not set." >&2
+  {
+    echo "[entrypoint] $(date -Iseconds) FATAL: RULEBOOK_FILENAME environment variable is required and was not passed to this container."
+    echo "[entrypoint]   This should always be set automatically by edit-rulebook.sh's \`docker run -e RULEBOOK_FILENAME=...\`."
+    echo "[entrypoint]   FIX: relaunch via ./edit-rulebook.sh (regenerate it first with \`effortless effortless-rulebook-editor\` if it predates this variable)."
+    echo "[entrypoint]   If you are invoking \`docker run\` by hand, add:  -e RULEBOOK_FILENAME=<your-rulebook>.json"
+    echo "[entrypoint]   (the exact filename inside the mounted effortless-rulebook/ folder, e.g. effortless-banking-rulebook.json)."
+    echo "[entrypoint] Refusing to guess a filename and build against the wrong file. Exiting instead of retry-looping."
+  } | tee -a "$BUILD_LOG_FILE" >&2
+  echo "error" > "$BOOT_STATE_FILE"
+  sleep 2
+  exit 1
+fi
+RULEBOOK_PATH="/app/effortless-rulebook/$RULEBOOK_FILENAME"
+RULEBOOK_DIR="/app/effortless-rulebook"
 # Where the effortless CLI writes its structured build-failure record when
 # -continueOnError is in effect (see BuildErrorLog in the CLI): the project root,
 # which for this container is always the effortless-root symlink target. Its mere
@@ -149,16 +183,17 @@ ln -sfn "$EFFORTLESS_ROOT_TARGET" /app/effortless-root
 # Make the bind-mounted rulebook reachable from INSIDE the build root.
 #
 # Every step in effortless.editor.json addresses the rulebook the same way --
-# `-i ../effortless-rulebook/effortless-rulebook.json`, relative to its own
-# RelativePath (/postgres, /api, /admin-portal, ...) -- which resolves to
+# `-i ../effortless-rulebook/$RULEBOOK_FILENAME` (the seed step below rewrites
+# the placeholder filename to the real one), relative to its own RelativePath
+# (/postgres, /api, /admin-portal, ...) -- which resolves to
 # $EFFORTLESS_ROOT_TARGET/effortless-rulebook. The rulebook is mounted
 # somewhere else entirely (/app/effortless-rulebook), so without this link
 # nothing in the pipeline can see it: `effortless build` reports one
-# easy-to-miss "No INPUT files matched effortless-rulebook.json" warning per
-# step and rulebook-to-postgres fails outright with "No rulebook JSON
-# provided". (That was exactly the state after the build root moved out of
-# /app -- back when the build ran with `cd /app`, ../effortless-rulebook
-# happened to land on the mount, and the link was not needed.)
+# easy-to-miss "No INPUT files matched" warning per step and
+# rulebook-to-postgres fails outright with "No rulebook JSON provided". (That
+# was exactly the state after the build root moved out of /app -- back when
+# the build ran with `cd /app`, ../effortless-rulebook happened to land on the
+# mount, and the link was not needed.)
 #
 # A symlink rather than a copy, deliberately: the API and the merge path write
 # the real rulebook file and its uncommitted-change log through
@@ -177,15 +212,35 @@ ln -sfn /app/effortless-rulebook "$EFFORTLESS_ROOT_TARGET/effortless-rulebook"
 if [ ! -f "$EFFORTLESS_ROOT_TARGET/effortless.json" ]; then
   echo "[entrypoint] seeding $EFFORTLESS_ROOT_TARGET/effortless.json (first boot, or a reset) from the tool's default pipeline config..."
   cp /app/effortless.editor.json.seed "$EFFORTLESS_ROOT_TARGET/effortless.json"
+
+  # The seed's every -i flag hardcodes the placeholder "effortless-rulebook.json"
+  # (see EffortlessEditorJson -- it is baked into the image and cannot know any
+  # project's real filename). Substitute the actual mounted filename now, once,
+  # at seed time only -- NOT on every boot, so a user's own hand-edited pipeline
+  # steps are never touched again after this first pass. If the placeholder is
+  # ever not found (e.g. a future image ships a differently-worded seed), fail
+  # loudly rather than silently leaving every step pointed at the wrong file.
+  if ! grep -q "effortless-rulebook/effortless-rulebook.json" "$EFFORTLESS_ROOT_TARGET/effortless.json"; then
+    echo "[entrypoint] FATAL: expected placeholder 'effortless-rulebook/effortless-rulebook.json' not found in the freshly-seeded effortless.json." >&2
+    echo "[entrypoint]   The seed template may have changed shape. Cannot safely substitute the real rulebook filename ($RULEBOOK_FILENAME)." >&2
+    echo "error" > "$BOOT_STATE_FILE"
+    exit 1
+  fi
+  sed -i "s#effortless-rulebook/effortless-rulebook\.json#effortless-rulebook/$RULEBOOK_FILENAME#g" "$EFFORTLESS_ROOT_TARGET/effortless.json"
+  echo "[entrypoint] pointed the seeded pipeline's -i flags at effortless-rulebook/$RULEBOOK_FILENAME"
 fi
 
-# Versioned migration for pipeline DEFAULTS, not a per-build override. Version 2
-# changed the shipped first-build contract from English-only/no-XLSX to all ten
-# RuleSpeak® languages plus XLSX. Existing host-backed build roots retain their
-# effortless.json across image upgrades, so changing only the seed never reached
-# them. Migrate the exact legacy default combination once, then stamp the version.
-# Any other combination is treated as an intentional user choice and preserved.
-PIPELINE_DEFAULTS_VERSION=2
+# Versioned migrations for pipeline DEFAULTS, not per-build overrides.
+# Existing host-backed build roots retain their effortless.json across image
+# upgrades, so changing only the seed never reaches them.
+#
+# Version 2: English-only/no-XLSX -> all RuleSpeak® languages plus XLSX.
+# Version 3: init-db.sh -> the compatibility reset wrapper, because current
+#            rulebook-to-postgres emits reset-rulebook-db.sh.
+#
+# Each migration changes only its exact prior default. Any other value is an
+# intentional user customization and is preserved.
+PIPELINE_DEFAULTS_VERSION=3
 if ! node - "$EFFORTLESS_ROOT_TARGET/effortless.json" "$PIPELINE_DEFAULTS_VERSION" <<'NODE'
 const fs = require('fs');
 const file = process.argv[2];
@@ -198,24 +253,42 @@ const currentVersion = Number(marker && marker.Value) || 0;
 if (currentVersion < targetVersion) {
   const steps = Array.isArray(cfg.ProjectTranspilers) ? cfg.ProjectTranspilers : [];
   const byName = new Map(steps.map((s) => [s.Name, s]));
-  const english = byName.get('rulebooktorulespeaken');
-  const allLanguages = byName.get('rulebooktorulespeak');
-  const xlsx = byName.get('rulebooktoxlsx');
-  if (!english || !allLanguages || !xlsx) {
-    throw new Error('pipeline defaults migration requires the English, all-languages, and XLSX steps');
+
+  if (currentVersion < 2) {
+    const english = byName.get('rulebooktorulespeaken');
+    const allLanguages = byName.get('rulebooktorulespeak');
+    const xlsx = byName.get('rulebooktoxlsx');
+    if (!english || !allLanguages || !xlsx) {
+      throw new Error('pipeline defaults v2 migration requires the English, all-languages, and XLSX steps');
+    }
+
+    const isLegacyDefault =
+      english.IsDisabled === false &&
+      allLanguages.IsDisabled === true &&
+      xlsx.IsDisabled === true;
+    if (isLegacyDefault) {
+      english.IsDisabled = true;
+      allLanguages.IsDisabled = false;
+      xlsx.IsDisabled = false;
+      console.log('[entrypoint] migrated legacy build defaults: all RuleSpeak languages + XLSX are enabled');
+    } else {
+      console.log('[entrypoint] preserved customized build-step choices while advancing defaults to v2');
+    }
   }
 
-  const isLegacyDefault =
-    english.IsDisabled === false &&
-    allLanguages.IsDisabled === true &&
-    xlsx.IsDisabled === true;
-  if (isLegacyDefault) {
-    english.IsDisabled = true;
-    allLanguages.IsDisabled = false;
-    xlsx.IsDisabled = false;
-    console.log('[entrypoint] migrated legacy build defaults: all RuleSpeak languages + XLSX are enabled');
-  } else {
-    console.log('[entrypoint] preserved customized build-step choices while advancing defaults version');
+  if (currentVersion < 3) {
+    const initDb = byName.get('initdb');
+    if (!initDb) {
+      throw new Error('pipeline defaults v3 migration requires the initdb step');
+    }
+
+    if (initDb.CommandLine === '-exec ./init-db.sh') {
+      initDb.CommandLine = '-exec ./run-rulebook-db-reset.sh';
+      initDb.Description = 'Reset the in-container Postgres DB using reset-rulebook-db.sh when present, with legacy init-db.sh compatibility for older rulebook-to-postgres versions.';
+      console.log('[entrypoint] migrated database reset step to the current filename with legacy compatibility');
+    } else if (initDb.CommandLine !== '-exec ./run-rulebook-db-reset.sh') {
+      console.log('[entrypoint] preserved customized initdb command while advancing defaults to v3');
+    }
   }
 
   if (marker) marker.Value = String(targetVersion);
@@ -246,15 +319,20 @@ fi
 if [ ! -d "$RULEBOOK_DIR" ] || [ ! -f "$RULEBOOK_PATH" ]; then
   echo "[entrypoint] FATAL: $RULEBOOK_PATH not found inside the container." >&2
   {
-    echo "[entrypoint] $(date -Iseconds) FATAL: the project's effortless-rulebook/ folder is not correctly bind-mounted."
+    echo "[entrypoint] $(date -Iseconds) FATAL: the project's effortless-rulebook/ folder is not correctly bind-mounted, OR RULEBOOK_FILENAME ($RULEBOOK_FILENAME) does not match the actual mounted file."
     echo "[entrypoint]   Expected to find: $RULEBOOK_PATH"
     echo "[entrypoint]   RULEBOOK_DIR exists: $([ -d "$RULEBOOK_DIR" ] && echo yes || echo NO)"
+    echo "[entrypoint]   Contents of $RULEBOOK_DIR (if mounted):"
+    ls -la "$RULEBOOK_DIR" 2>&1 | sed 's/^/[entrypoint]     /'
     echo "[entrypoint]   Contents of /app:"
     ls -la /app 2>&1 | sed 's/^/[entrypoint]     /'
-    echo "[entrypoint]   Check the docker run -v flag (see edit-rulebook.sh) actually mounted the host"
-    echo "[entrypoint]   effortless-rulebook/ folder to $RULEBOOK_DIR -- on Windows Git Bash, MSYS path"
+    echo "[entrypoint]   If the folder above IS mounted but under a DIFFERENT filename than $RULEBOOK_FILENAME:"
+    echo "[entrypoint]     re-run \`effortless effortless-rulebook-editor -p rulebookPath=../effortless-rulebook/<actual-name>.json\`"
+    echo "[entrypoint]     to regenerate edit-rulebook.sh with the correct RULEBOOK_FILENAME, then relaunch it."
+    echo "[entrypoint]   If the folder is not mounted at all: check the docker run -v flag (see edit-rulebook.sh) actually"
+    echo "[entrypoint]   mounted the host effortless-rulebook/ folder to $RULEBOOK_DIR -- on Windows Git Bash, MSYS path"
     echo "[entrypoint]   auto-conversion is a common cause of a bind mount silently landing somewhere else."
-    echo "[entrypoint] Refusing to build or watch a missing mount. Exiting instead of retry-looping."
+    echo "[entrypoint] Refusing to build or watch a missing/mismatched mount. Exiting instead of retry-looping."
   } | tee -a "$BUILD_LOG_FILE" >&2
   echo "error" > "$BOOT_STATE_FILE"
   sleep 2
@@ -315,18 +393,41 @@ export PGPASSWORD=postgres
 export PGDATABASE=effortless-rulebook
 export DATABASE_URL="postgresql://postgres:postgres@localhost:5432/effortless-rulebook"
 
-# Tiny no-args wrapper the "chmodinitdb" pipeline step execs (see comment on
-# that step in effortless.editor.json: -exec passes NO arguments through to
-# the invoked command, so `chmod +x ./init-db.sh` as one CommandLine token
-# stream does not work -- this wrapper takes no CLI args of its own).
-# Written into effortless-root/postgres before every build since
-# rulebook-to-postgres creates that directory fresh on the very first build.
+# The CLI's -exec form accepts one command token and cannot express shell
+# conditionals. These two no-args wrappers give the pipeline a stable command:
+# prepare makes generated scripts executable, then run selects the current
+# reset-rulebook-db.sh filename and uses init-db.sh only for an older
+# rulebook-to-postgres version.
+#
+# Both wrappers are written before every build because rulebook-to-postgres
+# creates the postgres directory during the first build.
 mkdir -p /app/effortless-root/postgres
 cat > /app/effortless-root/postgres/chmod-initdb.sh <<'EOF'
-#!/bin/bash
-chmod +x /app/effortless-root/postgres/init-db.sh 2>/dev/null || true
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+chmod +x "$SCRIPT_DIR/run-rulebook-db-reset.sh"
+[ ! -f "$SCRIPT_DIR/reset-rulebook-db.sh" ] || chmod +x "$SCRIPT_DIR/reset-rulebook-db.sh"
+[ ! -f "$SCRIPT_DIR/init-db.sh" ] || chmod +x "$SCRIPT_DIR/init-db.sh"
 EOF
-chmod +x /app/effortless-root/postgres/chmod-initdb.sh
+cat > /app/effortless-root/postgres/run-rulebook-db-reset.sh <<'EOF'
+#!/usr/bin/env bash
+set -euo pipefail
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+if [ -f "$SCRIPT_DIR/reset-rulebook-db.sh" ]; then
+  exec "$SCRIPT_DIR/reset-rulebook-db.sh"
+elif [ -f "$SCRIPT_DIR/init-db.sh" ]; then
+  echo "[db-reset] reset-rulebook-db.sh not found; using legacy init-db.sh" >&2
+  exec "$SCRIPT_DIR/init-db.sh"
+else
+  echo "[db-reset] no database reset script found; expected reset-rulebook-db.sh or legacy init-db.sh" >&2
+  exit 127
+fi
+EOF
+chmod +x \
+  /app/effortless-root/postgres/chmod-initdb.sh \
+  /app/effortless-root/postgres/run-rulebook-db-reset.sh
 
 
 check_uncommitted_before_build() {
@@ -542,11 +643,10 @@ run_build() {
   # fixed. Clearing it up front makes "errors.json exists" mean exactly one
   # thing: THIS build produced failures.
   rm -f "$ERRORS_JSON_PATH" "$BOOT_ERRORS_FILE"
-  # The registered initdb step's CommandLine chmods init-db.sh executable
-  # before running it -- rulebook-to-postgres emits init-db.sh as a
-  # `Never`-overwrite file WITHOUT the execute bit set, and on the very
-  # first build it doesn't exist until the preceding rulebooktopostgres
-  # step creates it within this same `effortless build` run.
+  # The registered chmodinitdb step makes the generated reset script
+  # executable before initdb runs the compatibility selector. On the first
+  # build the selected script does not exist until the preceding
+  # rulebooktopostgres step creates it in this same `effortless build` run.
   #
   # -continueOnError is the WHOLE REASON this container survives a broken
   # transpiler. Without it, one failing step (historically rulebook-to-xlsx,

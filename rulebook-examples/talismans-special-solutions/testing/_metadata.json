@@ -168,7 +168,7 @@
       "relative_path",
       "iri"
     ],
-    "record_count": 5
+    "record_count": 6
   },
   "artifact_type_concepts": {
     "primary_key": "concept_id",

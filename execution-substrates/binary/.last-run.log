@@ -1,0 +1,17 @@
+=== Binary (ARM64) Substrate Test Run ===
+
+======================================================================
+Binary Execution Substrate - Multi-Entity Test Execution
+======================================================================
+
+Loaded library: /Users/eejai42/development/effortless-rulebooks/rulebook-examples/legacy-runner/execution-substrates/binary/erb_calc.dylib
+Loading rulebook...
+Discovered 1 entities: Customers
+  Schema for customers: 6 fields, 96 bytes
+    Found: eval_customers_name -> string
+    Found: eval_customers_full_name -> string
+  -> customers: 3 records
+
+Binary substrate: Processed 1 entities, 3 total records
+======================================================================
+

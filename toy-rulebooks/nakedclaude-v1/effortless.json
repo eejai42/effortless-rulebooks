@@ -18,18 +18,6 @@
   "ProjectTranspilers": [
     {
       "IsSSoTTranspiler": false,
-      "Name": "airtabletorulebook",
-      "RelativePath": "/effortless-rulebook",
-      "CommandLine": "airtable-to-rulebook -account airtable -o nakedclaude-v1-rulebook.json",
-      "IsDisabled": true,
-      "PinnedVersion": "v2026.04.23.1357",
-      "LastVersionUsed": "v2026.04.23.1357",
-      "LastUrl": "https://effortless-airtable-to-rulebook-v2026-04-23-1357-cmvbd4phczmeg.7pktzg2z971j0.cpln.app",
-      "Enabled": true,
-      "Description": "Pull rulebook from Airtable [DISABLED: rulebook JSON is authoritative; re-enable only with explicit user consent]"
-    },
-    {
-      "IsSSoTTranspiler": false,
       "Name": "rulebooktopostgres",
       "RelativePath": "/postgres-bootstrap",
       "CommandLine": "rulebook-to-postgres -i ../effortless-rulebook/nakedclaude-v1-rulebook.json -p mode=drop-all -p stage=dev -p drop_all=true",
@@ -61,6 +49,13 @@
       "IsDisabled": false,
       "LastVersionUsed": "v2026.06.06.0219",
       "LastUrl": "https://effortless-rulebook-to-rulespeak-v2026-06-06-0219-cmvbd4phczmeg.7pktzg2z971j0.cpln.app"
+    },
+    {
+      "IsSSoTTranspiler": false,
+      "Name": "effortlessrulebookeditor",
+      "RelativePath": "/effortless-rulebook",
+      "CommandLine": "effortless-rulebook-editor -i nakedclaude-v1-rulebook.json -p rulebookPath=nakedclaude-v1-rulebook.json -p dockerfilePath=docker/Dockerfile",
+      "IsDisabled": false
     }
   ]
 }

@@ -1,0 +1,32 @@
+[
+  {
+    "change_log_id": "change-1-0-0",
+    "version": "1.0.0",
+    "change_date": "2026-01-15",
+    "change_kind": "major",
+    "motivating_question": "All eight competency questions (CQ1-CQ8).",
+    "terms_affected": "Initial release: 9 classes, 13 object properties, 5 datatype properties, 2 CBox schemes.",
+    "rationale": "First validated release of the NTWF workflow ontology; passes the 104-test suite.",
+    "approved_by": "gov-authority",
+    "relative_path": null,
+    "iri": null,
+    "name": null,
+    "is_breaking_change": null,
+    "is_backward_compatible": null
+  },
+  {
+    "change_log_id": "change-1-1-0",
+    "version": "1.1.0",
+    "change_date": "2026-03-20",
+    "change_kind": "minor",
+    "motivating_question": "Which AI agent was executing this step on March 1, 2026?",
+    "terms_affected": "Added filledBy assignment history (RoleAssignments) with validity periods; AIAgent deployment date; agent-type-change audit witnesses.",
+    "rationale": "Operational governance needed retained filledBy history so historical 'as of date' and blast-radius queries are answerable without discarding provenance. Additive and backward compatible \u2014 a minor, backward-compatible change, so the steward is authorized to approve and deploy it without authority review.",
+    "approved_by": "gov-steward",
+    "relative_path": null,
+    "iri": null,
+    "name": null,
+    "is_breaking_change": null,
+    "is_backward_compatible": null
+  }
+]

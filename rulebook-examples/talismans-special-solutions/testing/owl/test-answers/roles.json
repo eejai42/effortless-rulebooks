@@ -12,7 +12,9 @@
     "owned_by": "ntwf-engineering",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "AutomatedPipeline"
+    "filler_type": "AutomatedPipeline",
+    "fills_approval_gate": 0,
+    "escalation_violation": false
   },
   {
     "role_id": "ntwf-cto-role",
@@ -28,7 +30,9 @@
     "from_delegates_to": "ntwf-vp-engineering-role",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "HumanAgent"
+    "filler_type": "HumanAgent",
+    "fills_approval_gate": 0,
+    "escalation_violation": false
   },
   {
     "role_id": "ntwf-deployment-health-role",
@@ -43,7 +47,9 @@
     "owned_by": "ntwf-engineering",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "AIAgent"
+    "filler_type": "AIAgent",
+    "fills_approval_gate": 0,
+    "escalation_violation": false
   },
   {
     "role_id": "ntwf-vp-engineering-role",
@@ -60,7 +66,9 @@
     "from_delegates_to": "ntwf-release-manager-role",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "HumanAgent"
+    "filler_type": "HumanAgent",
+    "fills_approval_gate": 0,
+    "escalation_violation": false
   },
   {
     "role_id": "ntwf-risk-analysis-role",
@@ -75,7 +83,9 @@
     "owned_by": "ntwf-engineering",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "AIAgent"
+    "filler_type": "AIAgent",
+    "fills_approval_gate": 0,
+    "escalation_violation": false
   },
   {
     "role_id": "ntwf-legal-compliance-role",
@@ -90,7 +100,9 @@
     "owned_by": "ntwf-legal-dept",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "HumanAgent"
+    "filler_type": "HumanAgent",
+    "fills_approval_gate": 0,
+    "escalation_violation": false
   },
   {
     "role_id": "ntwf-release-manager-role",
@@ -106,6 +118,8 @@
     "delegates_to": "ntwf-vp-engineering-role",
     "filled_by_arm_count": 1,
     "has_exactly_one_filler": true,
-    "filler_type": "HumanAgent"
+    "filler_type": "HumanAgent",
+    "fills_approval_gate": 1,
+    "escalation_violation": false
   }
 ]

@@ -1,0 +1,28 @@
+[
+  {
+    "ai_agent_id": "ntwf-health-ai",
+    "name": "DeploymentHealth-AI",
+    "title": "Deployment Health AI Agent",
+    "display_name": "DeploymentHealth-AI",
+    "model_version": "health-summarizer-v1.2.0",
+    "deployed_on": "2026-02-20",
+    "roles": "ntwf-deployment-health-role",
+    "relative_path": null,
+    "iri": null,
+    "count_attributed_artifacts": null,
+    "count_impacted_workflows": null
+  },
+  {
+    "ai_agent_id": "ntwf-risk-ai",
+    "name": "RiskAnalysis-AI",
+    "title": "Risk Analysis AI Agent",
+    "display_name": "RiskAnalysis-AI",
+    "model_version": "risk-classifier-v2.4.1",
+    "deployed_on": "2026-01-10",
+    "roles": "ntwf-risk-analysis-role",
+    "relative_path": null,
+    "iri": null,
+    "count_attributed_artifacts": null,
+    "count_impacted_workflows": null
+  }
+]

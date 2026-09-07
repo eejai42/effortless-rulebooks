@@ -1,0 +1,14 @@
+=== CSV Substrate Test Run ===
+
+
+  Processing customers...
+Found 6 fields in test answers
+Primary key field: customer_id
+Reading from worksheet: Customers
+Found 6 columns, matched 6 to JSON fields
+Loaded 3 rows from xlsx
+Filled 6 null fields across 3 records
+Updated /Users/eejai42/development/effortless-rulebooks/toy-rulebooks/acme-llc/testing/csv/test-answers/customers.json
+
+csv: Processed 1 entities from rulebook.xlsx
+

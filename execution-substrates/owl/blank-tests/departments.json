@@ -1,0 +1,20 @@
+[
+  {
+    "department_id": "ntwf-engineering",
+    "title": "Engineering",
+    "display_name": "engineering",
+    "roles": "",
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "department_id": "ntwf-legal-dept",
+    "title": "Legal",
+    "display_name": "legal",
+    "roles": "",
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  }
+]

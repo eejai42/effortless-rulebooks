@@ -217,7 +217,7 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Has Health URL | True when the health URL has a value. | _Order 1. A health URL is explicitly modeled._ |
 | Is Http Service | True when at least one of the following holds: the first 7 character(s) of the local URL is “http://” or the first 8 character(s) of the local URL is “https://”. | _Order 1. The service uses local HTTP._ |
 | Is Complete | True when all of the following hold: the local URL has a value and the health URL has a value. | _Order 1. Both launch and health URLs are explicit._ |
-| **Legacy Runner Capability** | Succession ledger for rulebook-examples/legacy-runner/, a permanent governed example that is no longer privileged. Each row records which platform surface now owns a capability's role (promote / separate / replace) or that it has none (retire). The runner keeps its copy of every capability; nothing is deleted. | — |
+| **Legacy Runner Capability** | Succession ledger for the legacy-runner promotion and its 2026-09-07 reversal. legacy-runner/ was a transitional staging area (2026-08-30 to 2026-09-07) for the root platform infrastructure (orchestrator, transpiler bus, execution substrates, conformance harness); it no longer exists as a directory, and that infrastructure is root infrastructure again. Each row records the capability, the original promote/separate/replace/retire decision, and — where the decision was reversed — an honest new decision and rationale. The admin portal capability was retired outright (deleted, not restored); every other reversed row is restored to root. | — |
 | Name | The same as its title. | _Order 1. Display alias (calculated)._ |
 | Title | A defined attribute. | _Capability name._ |
 | Runner Path | A defined attribute. | _Where the capability lives inside legacy-runner/._ |
@@ -235,7 +235,7 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Resolved Flag | Determined by priority: 1 if the status is “done”; in all other cases, 0. | _Order 1. 1 when resolved — rollup carrier._ |
 | Capability State | Determined by priority: “undecided” if the decided flag is not set; “resolved” if the resolved flag is set; in all other cases, “decided”. | _Order 2. undecided / decided / resolved._ |
 | Capability Label | Computed as the title, followed by “ [”, followed by the decision, followed by “]”. | _Order 1. Display label with decision._ |
-| **Conformance Run** | One row per invocation of the cross-substrate conformance harness (rulebook-examples/legacy-runner/orchestration/test-orchestrator.py) against a governed project. Imported by scripts/run-conformance.py from that project's testing/_substrate_results.json. This is the promoted, first-class-row destination for LegacyRunnerCapabilities row cap-conformance-harness; the runner keeps the harness itself and its markdown report as the legacy view. | — |
+| **Conformance Run** | One row per invocation of the cross-substrate conformance harness (orchestration/test-orchestrator.py) against a governed project. Imported by scripts/run-conformance.py from that project's testing/_substrate_results.json. | — |
 | Name | The same as its conformance run ID. | _Order 1. Display alias (calculated)._ |
 | Domain | A defined attribute. | _FK to the governed project this run tested._ |
 | Ran on | A defined attribute. | _ISO-8601 timestamp when the harness run was imported._ |
@@ -247,7 +247,7 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Failing Substrate Count | Computed as the total substrates minus the passing substrate count. | _Order 5. TotalSubstrates minus PassingSubstrateCount._ |
 | Overall Score | The average score across the conformance results related to the conformance run. | _Order 6. Average per-substrate score (0-100) across this run._ |
 | Overall Status | Determined by priority: “no-results” if the total substrates is 0; “all-passing” if the failing substrate count is 0; in all other cases, “has-failures”. | _Order 7. no-results / all-passing / has-failures, derived from the substrate counts above._ |
-| **Conformance Result** | One row per substrate graded within a ConformanceRuns run. Mirrors the per-substrate entries of testing/_substrate_results.json (last_run + last_successful_run.test_results) written by rulebook-examples/legacy-runner/orchestration/test-orchestrator.py. | — |
+| **Conformance Result** | One row per substrate graded within a ConformanceRuns run. Mirrors the per-substrate entries of testing/_substrate_results.json (last_run + last_successful_run.test_results) written by orchestration/test-orchestrator.py. | — |
 | Name | The same as its conformance result ID. | _Order 1. Display alias (calculated)._ |
 | Run | A defined attribute. | _FK to the conformance run this substrate result belongs to._ |
 | Substrate Name | A defined attribute. | _Substrate key from _substrate_results.json (postgres, python, golang, owl, ...)._ |
@@ -751,6 +751,290 @@ _The repo-governing rulebook: every governed project including the root, witness
 | Narrative State | Determined by priority: “ready” if the substantive flag is set; in all other cases, “stub”. | _Order 3. ready / stub._ |
 | Is Ready | True when the narrative state is “ready”. | _Order 4. Narrative is ready for publication._ |
 | Section Label | Determined by priority: the name, followed by “ (ready)” if the ready flag is set; in all other cases, the name, followed by “ (stub)”. | _Order 5. Display label with readiness._ |
+| **Execution Substrate** | Runtime environments that execute business rules derived from the rulebook | — |
+| Name | A defined attribute. | _Human-readable substrate name_ |
+| Technology | A defined attribute. | _Language/platform (PostgreSQL, Python, Go, Excel, OWL, PlantUML, etc.)_ |
+| Relative Path | A defined attribute. | _Path within repo: execution-substrates/{technology}/_ |
+| Injector Script | A defined attribute. | _Code generation script: inject-into-{technology}.py_ |
+| Test Script | A defined attribute. | _Conformance test script: take-test.py_ |
+| Transpiler Source | A defined attribute. | _licensed-effortless-tool \| local-injector \| external. WHO BUILT THE GENERATOR — provenance, not trustworthiness. Replaces the old IsProduction column. See FramingInvariants.framing-003._ |
+| Maturity | A defined attribute. | _prototype \| demonstrating \| reference-quality — how complete THIS substrate's implementation is. Independent of TranspilerSource._ |
+| Expressive Completeness | A defined attribute. | _full \| partial-aggregation \| partial-formula \| shape-only — which formula classes this substrate can faithfully evaluate. A factual property of the substrate engine._ |
+| Can Be Answer Key | True when an empty string. | _Can serve as the oracle (SSoT) in a conformance run if the user designates it. True for any substrate whose output is fully witnessable. NOT an authority ranking — see ax-002._ |
+| Determinism | A defined attribute. | _deterministic \| stochastic \| externally-influenced — pure-function reproducibility class of the substrate_ |
+| Runtime Kind | A defined attribute. | _database \| spreadsheet \| binary \| text-emit \| graph \| docs — what kind of artifact this substrate produces / runs as_ |
+| Status | A defined attribute. | _Operational status (active, proof-of-concept, deprecated). Lifecycle, not trustworthiness._ |
+| Description | A defined attribute. | _Purpose and capabilities_ |
+| Catalog Tools | A defined attribute. | _Reverse relationship: AddToolCatalog rows whose SubstrateId points here._ |
+| Proxy Routes | A defined attribute. | _Reverse relationship: SsotmeProxy rows whose SubstrateId points here._ |
+| Tradeoffs | A defined attribute. | _Reverse relationship: SubstrateTradeoffs rows whose SubstrateId points here._ |
+| Project | A defined attribute. | _FK to ProjectMetadata — roots this catalog row to the platform row so repo-wide rollups exist on one dashboard record._ |
+| Is Fully Expressive | True when the expressive completeness is “full”. | _Order 1. Substrate expresses every formula type (Expressive = full)._ |
+| Fully Expressive Flag | Determined by priority: 1 if the expressive completeness is “full”; in all other cases, 0. | _Order 1. 1 when fully expressive — rollup carrier._ |
+| Is Reference Quality | True when the maturity is “reference-quality”. | _Order 1. Maturity is reference-quality._ |
+| Tradeoff Count | The number of substrate tradeoffs related to the execution substrate. | _Order 1. Tradeoff rows recorded for this substrate._ |
+| Proxy Route Count | The number of ssotme proxy related to the execution substrate. | _Order 1. ssotme-proxy routes that produce this substrate._ |
+| Catalog Tool Count | The number of add tool catalog related to the execution substrate. | _Order 1. Add-tool catalog entries targeting this substrate._ |
+| Is Peer Complete | True when all of the following hold: the fully expressive flag is set and the can be answer key flag is set. | _Order 2. Fully expressive and eligible as an answer key — a peer-complete substrate._ |
+| Peer Complete Flag | Determined by priority: 1 if all of the following hold: the fully expressive flag is set and the can be answer key flag is set; in all other cases, 0. | _Order 2. 1 when peer-complete — rollup carrier._ |
+| Has Proxy Route | True when the proxy route count is greater than 0. | _Order 2. Reachable through the local transpiler bus._ |
+| Is Cataloged | True when the catalog tool count is greater than 0. | _Order 2. Installable from the add-tool catalog._ |
+| Is Bus Reachable Peer | True when all of the following hold: the peer complete flag is set and the proxy route flag is set. | _Order 3. Peer-complete and reachable on the local bus._ |
+| Is Installable Peer | True when all of the following hold: the peer complete flag is set and the cataloged flag is set. | _Order 3. Peer-complete and installable from the catalog._ |
+| Readiness Score | Computed as the count of the following that hold: the peer complete flag is set; the proxy route flag is set; and the cataloged flag is set. | _Order 3. Peer-complete + bus route + catalog entry (0-3)._ |
+| Readiness Band | Determined by priority: “ready” if the readiness score is 3; “partial” if the readiness score is at least 1; in all other cases, “absent”. | _Order 4. ready / partial / absent._ |
+| Ready Flag | Determined by priority: 1 if the readiness score is 3; in all other cases, 0. | _Order 4. 1 when ready — rollup carrier._ |
+| Is Showcase Substrate | True when all of the following hold: the readiness band is “ready” and the reference quality flag is set. | _Order 5. Ready on every axis and reference-quality._ |
+| **Orchestration Component** | Central orchestration logic that coordinates rulebook loading, injection, and testing | — |
+| Name | A defined attribute. | — |
+| File Path | A defined attribute. | _Relative path from repo root_ |
+| Language | A defined attribute. | — |
+| Purpose | A defined attribute. | — |
+| Dependencies | A defined attribute. | _Comma-separated list of other components_ |
+| Dependency Count | Determined by priority: 0 if the dependencies is blank; in all other cases, the length of the dependencies minus the length of the dependencies with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Number of comma-separated dependencies listed (lossy parse of the Dependencies string)._ |
+| Is Shell Script | True when the language is “Bash”. | _Order 1. Component is a Bash script._ |
+| Dependency Band | Determined by priority: “leaf” if the dependency count is 0; “light” if the dependency count is at most 2; in all other cases, “heavy”. | _Order 2. leaf / light / heavy by dependency count._ |
+| Is Heavy Shell | True when all of the following hold: the shell script flag is set and the dependency band is “heavy”. | _Order 3. Bash script with a heavy dependency fan-in._ |
+| Review Priority | Determined by priority: “review” if the heavy shell flag is set; “watch” if the dependency band is “heavy”; in all other cases, “ok”. | _Order 4. review / watch / ok._ |
+| Needs Review | True when the review priority is “review”. | _Order 5. Flagged for dependency review._ |
+| **Ssotme Proxy** | Local HTTP transpiler server on localhost:4242. Each transpiler is an HTTP route; injectors are the route bodies. Used by `effortless build` to call substrate generators uniformly. | — |
+| Name | The same as its route. | _Order 1. Display alias (calculated). Order 1._ |
+| Route | A defined attribute. | _POST /{route-name}_ |
+| Substrate ID | A defined attribute. | _FK to ExecutionSubstrates.SubstrateId_ |
+| Injector Script | A defined attribute. | _Backing script that the route runs; null for upstream Effortless tools (e.g. airtable-to-rulebook)_ |
+| Description | A defined attribute. | — |
+| Http Method | Computed as the first the position of a space within the route minus 1 character(s) of the route. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. HTTP verb parsed from the Route string._ |
+| Route Path | Computed as the position of a space within the route plus 1 character(s) of the route starting at position 200. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Path portion of the Route string._ |
+| Has Substrate | True when the substrate ID has a value. | _Order 1. Route is bound to an execution substrate._ |
+| Is Post | True when the http method is “POST”. | _Order 2. Route is invoked with POST._ |
+| Route Slug | Computed as the route path with every a slash replaced by an empty string. | _Order 2. Transpiler name (path without the leading slash)._ |
+| Substrate is Fully Expressive | True when the linked substrate ID is fully expressive. | _Order 2. Whether the bound substrate is fully expressive._ |
+| Is Full Bus Route | True when all of the following hold: the substrate flag is set and the substrate is fully expressive (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 3. Route produces a fully expressive substrate._ |
+| Is Post Spoke | True when all of the following hold: the post flag is set and the substrate flag is not set. | _Order 3. POST route that is a hub spoke rather than a substrate._ |
+| Route Class | Determined by priority: “full-substrate” if the full bus route flag is set; “partial-substrate” if the substrate flag is set; “spoke” if the post spoke flag is set; in all other cases, “other”. | _Order 4. full-substrate / partial-substrate / spoke / other._ |
+| Is Bus Headline | True when the route class is “full-substrate”. | _Order 5. A route worth listing first in the bus section._ |
+| **Testing Framework** | Conformance testing: prove all substrates compute identically | — |
+| Name | A defined attribute. | — |
+| File Path | A defined attribute. | — |
+| Purpose | A defined attribute. | — |
+| Scope | A defined attribute. | _global (all substrates) or per-substrate_ |
+| Is Global | True when the scope is “global”. | _Order 1. Scope is global (not per-domain)._ |
+| Is Glob Pattern | True when the length of the file path (a missing value counts as an empty string) is not the length of the file path (a missing value counts as an empty string) with every “*” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. FilePath is a glob rather than a single file._ |
+| Is Global Glob | True when all of the following hold: the global flag is set and the glob pattern flag is set. | _Order 2. Global-scope component matched by glob._ |
+| Scope Label | Determined by priority: “global-glob” if the global glob flag is set; “global-file” if the global flag is set; in all other cases, “domain”. | _Order 3. global-glob / global-file / domain._ |
+| Is Domain Agnostic | True when the scope label is not “domain”. | _Order 4. Not bound to a single domain._ |
+| Agnostic Label | Determined by priority: “domain-agnostic” if the domain agnostic flag is set; in all other cases, “domain-bound”. | _Order 5. domain-agnostic / domain-bound._ |
+| **Core Data Flow** | End-to-end flows from rulebook to execution and testing | — |
+| Name | A defined attribute. | — |
+| Steps | A defined attribute. | _Pipe-delimited sequence of steps_ |
+| Triggers | A defined attribute. | _When this flow runs_ |
+| Outputs | A defined attribute. | _Artifacts produced_ |
+| Invariant | A defined attribute. | _Hard rule the flow must preserve (e.g. write-through, SSoT precedence)_ |
+| Step Count | Determined by priority: 0 if the steps is blank; in all other cases, the length of the steps minus the length of the steps with every “|” replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Number of pipe-separated steps._ |
+| Has Invariant | True when the invariant has a value. | _Order 1. Flow states an invariant it preserves._ |
+| Is Multi Step | True when the step count is greater than 1. | _Order 2. Flow has more than one step._ |
+| Is Invariant Backed | True when all of the following hold: the invariant flag is set and the step count is greater than 0. | _Order 2. Has steps and states the invariant they preserve._ |
+| Flow Maturity | Determined by priority: “pipeline” if the multi step flag is set, in all other cases “atomic” if the invariant backed flag is set; in all other cases, “undocumented”. | _Order 3. pipeline / atomic / undocumented._ |
+| Is Pipeline | True when the flow maturity is “pipeline”. | _Order 4. Multi-step, invariant-backed flow._ |
+| Flow Label | Determined by priority: the name, followed by “ [pipeline]” if the pipeline flag is set; in all other cases, the name. | _Order 5. Display label marking pipelines._ |
+| **Dependency** | External tools and their roles | — |
+| Name | A defined attribute. | — |
+| Version | A defined attribute. | — |
+| Type | A defined attribute. | _Language, tool, service, or external API_ |
+| Purpose | A defined attribute. | — |
+| Required | True when an empty string. | — |
+| Is Language | True when the type is “Language”. | _Order 1. Dependency is a language runtime._ |
+| Required Flag | Determined by priority: 1 if the required flag is set; in all other cases, 0. | _Order 1. 1 when required — rollup carrier._ |
+| Is Required Language | True when all of the following hold: the language flag is set and the required flag is set. | _Order 2. A language runtime the repo cannot run without._ |
+| Criticality | Determined by priority: “core” if the required language flag is set; “required” if the required flag is set; in all other cases, “optional”. | _Order 3. core / required / optional._ |
+| Is Core | True when the criticality is “core”. | _Order 4. Required language runtime._ |
+| Bootstrap Tier | Determined by priority: “tier-0” if the core flag is set; “tier-1” if the required flag is set; in all other cases, “tier-2”. | _Order 5. tier-0 / tier-1 / tier-2 install order._ |
+| **Add Tool Catalog** | Tools the developer can install into the active project via the Add Tool screen. Same catalog the `effortless -install` CLI consumes; the portal is just a thin UI over the CLI so behaviour stays canonical. | — |
+| Name | A defined attribute. | — |
+| Category | A defined attribute. | _substrate \| spoke-input \| spoke-output \| docs_ |
+| Source | A defined attribute. | _local-proxy \| effortless-registry_ |
+| Install URL | A defined attribute. | _URL passed to `effortless -install`_ |
+| Output Path | A defined attribute. | _Default RelativePath under the project (e.g. /python, /golang)_ |
+| Substrate ID | A defined attribute. | _FK to ExecutionSubstrates for code-gen tools_ |
+| Description | A defined attribute. | — |
+| Is Local Proxy | True when the source is “local-proxy”. | _Order 1. Tool is served by the local ssotme-proxy._ |
+| Substrate Name | Taken from the linked substrate ID. | _Order 1. Name of the target substrate._ |
+| Substrate Maturity | Taken from the linked substrate ID. | _Order 1. Maturity of the target substrate._ |
+| Is Proxy Backed Reference | True when all of the following hold: the local proxy flag is set and the substrate maturity is “reference-quality”. | _Order 2. Local-proxy tool whose substrate is reference-quality._ |
+| Substrate is Fully Expressive | True when the linked substrate ID is fully expressive. | _Order 2. Whether the substrate is fully expressive._ |
+| Substrate is Peer Complete | True when the linked substrate ID is a peer complete. | _Order 3. Whether the substrate is peer-complete._ |
+| Is Peer Complete Tool | True when all of the following hold: the substrate is fully expressive (a missing value counts as false) and the proxy backed reference flag is set. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 3. Local-proxy tool for a fully expressive reference substrate._ |
+| Tool Tier | Determined by priority: “tier-1” if the peer complete tool flag is set; “tier-2” if the substrate is peer complete (a missing value counts as false); in all other cases, “tier-3”. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 4. tier-1 / tier-2 / tier-3._ |
+| Is Recommended Install | True when all of the following hold: the tool tier is “tier-1” and the local proxy flag is set. | _Order 5. Tier-1 tool served by the local bus._ |
+| **Substrate Contract Phas** | The three-phase contract every execution substrate implements. Inject is structural (schema → SDK), Execute is functional (compute), Grade is comparison. All three are 100% domain-agnostic — they translate whatever the rulebook defines without knowing what it means. Together with EvaluationSteps (the substeps within each phase) and EvaluationArtifacts (the JSON files that flow between phases), this forms the full evaluation subgraph: Phase → Steps → Artifacts. | — |
+| Order | A defined attribute. | — |
+| Name | A defined attribute. | — |
+| Domain Agnostic | True when an empty string. | _Whether this phase's code is generic across all rulebooks. All three are true by design._ |
+| Input | A defined attribute. | — |
+| Output | A defined attribute. | — |
+| Script Pattern | A defined attribute. | _Filename pattern under each execution-substrates/<technology>/ folder._ |
+| Description | A defined attribute. | — |
+| Why Domain Agnostic | A defined attribute. | _Explains how this phase remains generic — i.e. what it must NOT contain._ |
+| Input Artifact ID | A defined attribute. | _FK to EvaluationArtifacts.ArtifactId — the canonical input artifact this phase consumes. [Soft reference to EvaluationArtifacts.ArtifactId; kept raw because EvaluationArtifacts.Produced/ConsumedByPhaseId already point artifacts -> phases and a FK here would create a table-level cycle.]_ |
+| Output Artifact ID | A defined attribute. | _FK to EvaluationArtifacts.ArtifactId — the canonical output artifact this phase produces. [Soft reference to EvaluationArtifacts.ArtifactId; kept raw because EvaluationArtifacts.Produced/ConsumedByPhaseId already point artifacts -> phases and a FK here would create a table-level cycle.]_ |
+| Failure Mode | A defined attribute. | _What going wrong in this phase actually looks like — e.g. injector emits a domain word, execute calls a hand-written helper, grader hides field-level disagreement._ |
+| Evaluation Steps | A defined attribute. | _Reverse relationship: EvaluationSteps rows whose PhaseId points here._ |
+| Produced Artifacts | A defined attribute. | _Reverse relationship: EvaluationArtifacts rows whose ProducedByPhaseId points here._ |
+| Consumed Artifacts | A defined attribute. | _Reverse relationship: EvaluationArtifacts rows whose ConsumedByPhaseId points here._ |
+| Step Count | The number of evaluation steps related to the substrate contract phas. | _Order 1. Evaluation steps in this phase._ |
+| Produced Artifact Count | The number of evaluation artifacts related to the substrate contract phas. | _Order 1. Artifacts produced by this phase._ |
+| Consumed Artifact Count | The number of evaluation artifacts related to the substrate contract phas. | _Order 1. Artifacts consumed by this phase._ |
+| Is First Phase | True when the order is 1. | _Order 1. First phase of the contract._ |
+| Is Productive | True when the produced artifact count is greater than 0. | _Order 2. Produces at least one artifact._ |
+| Artifact Throughput | Computed as the produced artifact count plus the consumed artifact count. | _Order 2. Artifacts touched by the phase._ |
+| Has Steps | True when the step count is greater than 0. | _Order 2. Phase is decomposed into evaluation steps._ |
+| Is Fully Modeled | True when all of the following hold: the productive flag is set and the steps flag is set. | _Order 3. Produces artifacts and is decomposed into steps._ |
+| Throughput Per Step | Determined by priority: 0 if the step count is 0; in all other cases, the artifact throughput divided by the step count rounded to 2 decimal place(s). | _Order 3. Artifacts touched per step._ |
+| Phase Health | Determined by priority: “dense” if the throughput per step is at least 1, in all other cases “modeled” if the fully modeled flag is set; in all other cases, “sparse”. | _Order 4. dense / modeled / sparse._ |
+| Is Dense Phase | True when the phase health is “dense”. | _Order 5. Fully modeled with at least one artifact per step._ |
+| **Evaluation Step** | Substeps within each SubstrateContractPhase. Inject, Execute, and Grade each decompose into a small number of concrete substeps the orchestrator executes in order. This is the layer below SubstrateContractPhases — it answers 'what specifically happens inside phase-execute?' Used by the admin portal's Tests screen to render the actual stages a substrate run goes through. | — |
+| Phase ID | A defined attribute. | _FK to SubstrateContractPhases.PhaseId._ |
+| Order | A defined attribute. | _Order within the parent phase._ |
+| Name | A defined attribute. | — |
+| Description | A defined attribute. | — |
+| Mechanism | A defined attribute. | _The actual code path — script file, function, or pipeline stage._ |
+| Invariant | A defined attribute. | _A rule this step must preserve to remain domain-agnostic / conformance-preserving._ |
+| Phase Name | Taken from the linked phase ID. | _Order 1. Name of the owning phase._ |
+| Phase Order | Taken from the linked phase ID. | _Order 1. Order of the owning phase._ |
+| Is First Step | True when the order is 1. | _Order 1. First step within its phase._ |
+| Phase Step Count | Taken from the linked phase ID. | _Order 2. How many steps the owning phase has._ |
+| Is in First Phase | True when the phase order is 1. | _Order 2. Belongs to the first contract phase._ |
+| Is Last Step | True when the order is the phase step count (a missing value counts as 0). | _Order 3. Final step of its phase._ |
+| Position Percent | Determined by priority: 0 if the phase step count (a missing value counts as 0) is 0; in all other cases, 100 times the order divided by the phase step count rounded to 0 decimal place(s). | _Order 3. Position within the phase as a percent._ |
+| Step Role | Determined by priority: “entry” if the first step flag is set; “exit” if the last step flag is set; in all other cases, “middle”. | _Order 4. entry / exit / middle._ |
+| Is Boundary Step | True when the step role is not “middle”. | _Order 5. Entry or exit step of its phase._ |
+| **Evaluation Artifact** | The JSON / Markdown files that flow between SubstrateContractPhases. Each artifact is a contract: a file with a known schema produced by one phase and consumed by the next. This table is the artifact registry — what each file IS, where it lives, who writes it, who reads it. Together with SubstrateContractPhases.InputArtifactId/OutputArtifactId, this gives the evaluation pipeline a fully-witnessed data-flow graph. | — |
+| Name | A defined attribute. | — |
+| Format | A defined attribute. | _json \| markdown \| html \| binary \| source-tree_ |
+| Path Pattern | A defined attribute. | _Where the artifact lives on disk, with <placeholders> for variable parts._ |
+| Produced by Phase ID | A defined attribute. | _FK to SubstrateContractPhases.PhaseId — the phase that writes this artifact. Null for inputs that come from outside the evaluation pipeline (e.g. the rulebook itself)._ |
+| Consumed by Phase ID | A defined attribute. | _FK to SubstrateContractPhases.PhaseId — the phase that reads this artifact. Null for terminal outputs (e.g. the human-facing report)._ |
+| Derived From | A defined attribute. | _Plain-text description of how this artifact is derived — important for proving no substrate is privileged._ |
+| Description | A defined attribute. | — |
+| Is Source Artifact | True when the produced by phase ID is blank. | _Order 1. Not produced by any phase (an input to the contract)._ |
+| Is JSON | True when the format is “json”. | _Order 1. Artifact format is JSON._ |
+| Producer Phase Name | Taken from the linked produced by phase ID. | _Order 1. Producing phase name._ |
+| Consumer Phase Name | Taken from the linked consumed by phase ID. | _Order 1. Consuming phase name._ |
+| Producer Step Count | Taken from the linked produced by phase ID. | _Order 2. Steps in the producing phase._ |
+| Is JSON Source | True when all of the following hold: the source artifact flag is set and the JSON flag is set. | _Order 2. A JSON input to the contract._ |
+| Producer is Productive | True when the linked produced by phase ID is productive. | _Order 3. Whether the producing phase is productive._ |
+| Is Pipeline Handoff | True when all of the following hold: the JSON source flag is not set and the producer step count (a missing value counts as 0) is greater than 0. | _Order 3. Produced by a decomposed phase and passed onward._ |
+| Artifact Role | Determined by priority: “seed” if the JSON source flag is set; “handoff” if the pipeline handoff flag is set; in all other cases, “terminal”. | _Order 4. seed / handoff / terminal._ |
+| Is Seed Artifact | True when the artifact role is “seed”. | _Order 5. JSON input that seeds the contract._ |
+| **Substrate Tradeoff Dimension** | The fixed taxonomy of dimensions used to characterize every substrate. Pro/con statements in SubstrateTradeoffs are scoped to one of these dimensions, so substrates can be compared apples-to-apples (e.g. 'who's fastest?' = filter SubstrateTradeoffs by DimensionId=dim-speed). Adding a dimension here means committing to fill it in for every substrate. | — |
+| Name | A defined attribute. | — |
+| Description | A defined attribute. | — |
+| Order | A defined attribute. | _Display order in UI._ |
+| Tradeoffs | A defined attribute. | _Reverse relationship: SubstrateTradeoffs rows whose DimensionId points here._ |
+| Tradeoff Count | The number of substrate tradeoffs related to the substrate tradeoff dimension. | _Order 1. Tradeoff rows on this dimension._ |
+| Has Tradeoffs | True when the tradeoff count is greater than 0. | _Order 2. At least one substrate is assessed on this dimension._ |
+| Fully Expressive Tradeoff Count | The total substrate full flag across the substrate tradeoffs related to the substrate tradeoff dimension. | _Order 3. Tradeoffs on this dimension from fully expressive substrates._ |
+| Full Coverage Percent | Determined by priority: 0 if the tradeoff count is 0; in all other cases, 100 times the fully expressive tradeoff count divided by the tradeoff count rounded to 0 decimal place(s). | _Order 4. Percent of tradeoffs on this dimension from fully expressive substrates._ |
+| Is Fully Covered | True when the full coverage percent is 100. | _Order 5. Only fully expressive substrates are assessed here._ |
+| **Substrate Tradeoff** | Per-(Substrate × Dimension) Pro/Con/Note. The same fixed dimension set (see SubstrateTradeoffDimensions) is applied to every substrate, so 'why pick Postgres over Python?' or 'why does English cost so much?' is answerable by filtering this table. NOT a ranking — see ax-002 (no privileged substrate). Each row records a factual property along one comparable axis. | — |
+| Name | Computed as the substrate ID, followed by “:”, followed by the dimension ID. | _Order 1. Display alias (calculated). Order 1._ |
+| Substrate ID | A defined attribute. | _FK to ExecutionSubstrates.SubstrateId._ |
+| Dimension ID | A defined attribute. | _FK to SubstrateTradeoffDimensions.DimensionId._ |
+| Pro | A defined attribute. | _What this substrate does WELL along this dimension. Null if neutral or weak._ |
+| Con | A defined attribute. | _What this substrate does POORLY along this dimension. Null if neutral or strong._ |
+| Note | A defined attribute. | _Additional context — e.g. quantitative observation, edge case, source of measurement._ |
+| Substrate Name | Taken from the linked substrate ID. | _Order 1. Substrate name._ |
+| Dimension Name | Taken from the linked dimension ID. | _Order 1. Dimension name._ |
+| Dimension Order | Taken from the linked dimension ID. | _Order 1. Dimension display order._ |
+| Has Note | True when the note has a value. | _Order 1. A qualifying note is recorded._ |
+| Substrate is Fully Expressive | True when the linked substrate ID is fully expressive. | _Order 2. Whether the substrate is fully expressive._ |
+| Substrate Full Flag | The fully expressive flag of the substrate tradeoff's substrate ID. | _Order 2. 1 when the substrate is fully expressive — rollup carrier._ |
+| Dimension Tradeoff Count | Taken from the linked dimension ID. | _Order 2. How many tradeoffs share this dimension._ |
+| Is Full Substrate Noted | True when all of the following hold: the substrate is fully expressive (a missing value counts as false) and the note flag is set. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 3. Fully expressive substrate with a qualifying note._ |
+| Dimension Full Count | The fully expressive tradeoff count of the substrate tradeoff's dimension ID. | _Order 4. Fully expressive entries sharing this dimension._ |
+| Is Dominant Dimension Entry | True when all of the following hold: the substrate is fully expressive (a missing value counts as false) and the dimension full count (a missing value counts as 0) is at least 5. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 5. Fully expressive entry on a dimension dominated by fully expressive substrates._ |
+| **Fuzzy Grading Provider** | LLM providers usable for fuzzy grading of the English substrate — the ONLY non-deterministic substrate. All other substrates execute formulas deterministically; English requires an LLM to interpret prose into computed values. Use low temperature (0.1) for repeatability. | — |
+| Name | A defined attribute. | — |
+| Model | A defined attribute. | — |
+| Env Var | A defined attribute. | _Environment variable holding the API key. Null for local providers._ |
+| Determinism | A defined attribute. | _'non-deterministic' for all LLMs; low temperature reduces variance but does not eliminate it._ |
+| Typical Accuracy | A defined attribute. | _Observed conformance on the English substrate against deterministic answer keys._ |
+| Speed Relative to Deterministic | A defined attribute. | _Order-of-magnitude slowdown vs. a deterministic substrate like Python or Postgres._ |
+| Local Runtime | True when an empty string. | _True if runnable without network._ |
+| Notes | A defined attribute. | — |
+| Is Deterministic | True when the determinism is “deterministic”. | _Order 1. Provider grades deterministically._ |
+| Requires API Key | True when the env var has a value. | _Order 1. Provider needs an API key from the environment._ |
+| Is Local Deterministic | True when all of the following hold: the local runtime flag is set and the deterministic flag is set. | _Order 2. Runs locally and deterministically._ |
+| Is Cloud Keyed | True when all of the following hold: the local runtime flag is not set and the requires API key flag is set. | _Order 2. Remote provider gated by an API key._ |
+| Provider Class | Determined by priority: “local-deterministic” if the local deterministic flag is set; “cloud-llm” if the cloud keyed flag is set; in all other cases, “other”. | _Order 3. local-deterministic / cloud-llm / other._ |
+| Is Preferred Provider | True when the provider class is “local-deterministic”. | _Order 4. Local and deterministic — the preferred grader._ |
+| Provider Label | Determined by priority: the name, followed by “ (preferred)” if the preferred provider flag is set; in all other cases, the name. | _Order 5. Display label marking the preferred grader._ |
+| **Project Configuration** | Configuration files and their purposes | — |
+| Name | The same as its file name. | _Order 1. Display alias (calculated). Order 1._ |
+| File Name | A defined attribute. | — |
+| File Path | A defined attribute. | — |
+| Format | A defined attribute. | — |
+| Purpose | A defined attribute. | — |
+| Maintained by | A defined attribute. | _human (manual edits) or tool (auto-generated)_ |
+| Is Human Maintained | True when the maintained by is “human”. | _Order 1. File is hand-maintained rather than generated._ |
+| Is JSON | True when the format is “JSON”. | _Order 1. File format is JSON._ |
+| Is Human JSON | True when all of the following hold: the human maintained flag is set and the JSON flag is set. | _Order 2. Hand-maintained JSON config (the kind that drifts)._ |
+| Drift Risk | Determined by priority: “high” if the human JSON flag is set; “medium” if the human maintained flag is set; in all other cases, “low”. | _Order 3. Likelihood the file drifts from the rulebook._ |
+| Needs Guard | True when the drift risk is “high”. | _Order 4. Hand-maintained JSON that deserves a build-time validator._ |
+| Guard Label | Determined by priority: “guard: validate on build” if the needs guard flag is set; in all other cases, “no guard needed”. | _Order 5. Recommended guard for the file._ |
+| **Build Pipeline** | The effortless.json contract that both the admin portal and the CLI consume. There is ONE pipeline definition per project; both surfaces are thin wrappers around `effortless build` so they stay in lockstep. | — |
+| Name | The same as its aspect. | _Order 1. Display alias (calculated). Order 1._ |
+| Aspect | A defined attribute. | — |
+| Portal Location | A defined attribute. | _Where in the portal this aspect surfaces_ |
+| Cli Equivalent | A defined attribute. | — |
+| Authority | A defined attribute. | _File or system that holds the canonical state_ |
+| Has Cli Equivalent | True when the cli equivalent has a value. | _Order 1. A CLI equivalent is documented for this portal aspect._ |
+| Is Project Scoped | True when the length of the authority (a missing value counts as an empty string) is not the length of the authority (a missing value counts as an empty string) with every “{active-project}” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> | _Order 1. Authority is resolved per active project._ |
+| Is Cli Parity Gap | True when the cli equivalent flag is not set. | _Order 2. Portal-only aspect with no CLI equivalent (a PortalCliParity violation)._ |
+| Is Scoped With Cli | True when all of the following hold: the project scoped flag is set and the cli equivalent flag is set. | _Order 2. Project-scoped and mirrored on the CLI._ |
+| Parity State | Determined by priority: “portal-only” if the cli parity gap flag is set; “scoped-parity” if the scoped with cli flag is set; in all other cases, “global-parity”. | _Order 3. portal-only / scoped-parity / global-parity._ |
+| Is Parity Violation | True when the parity state is “portal-only”. | _Order 4. Breaks the PortalCliParity claim._ |
+| Parity Flag | Determined by priority: 0 if the parity violation flag is set; in all other cases, 1. | _Order 5. 1 when portal and CLI agree — rollup carrier._ |
+| **Portal Cli Parity** | The portal and the `./start.sh --cli` interface are peer interfaces to the same effortless.json pipeline; portal behaviour cannot drift from CLI behaviour. | — |
+| Name | A defined attribute. | _Identifier for this narrative entry (single-row tables use 'primary')._ |
+| Description | A defined attribute. | _The full narrative content for this concept._ |
+| Description Length | Computed as the length of the description. | _Order 1. Character length of the narrative text._ |
+| Is Substantive | True when the description length is at least 200. | _Order 2. Narrative is at least 200 characters (not a placeholder)._ |
+| Narrative State | Determined by priority: “ready” if the substantive flag is set; in all other cases, “stub”. | _Order 3. ready / stub._ |
+| Is Ready | True when the narrative state is “ready”. | _Order 4. Narrative is ready for publication._ |
+| Section Label | Determined by priority: the name, followed by “ (ready)” if the ready flag is set; in all other cases, the name, followed by “ (stub)”. | _Order 5. Display label with readiness._ |
+| **Write Through Invariant** | The portal-vs-rulebook write-through invariant: Postgres is the live editor, JSON is the durable SSoT, every save writes to both. | — |
+| Name | A defined attribute. | _Identifier for this narrative entry (single-row tables use 'primary')._ |
+| Description | A defined attribute. | _The full narrative content for this concept._ |
+| Description Length | Computed as the length of the description. | _Order 1. Character length of the narrative text._ |
+| Is Substantive | True when the description length is at least 200. | _Order 2. Narrative is at least 200 characters (not a placeholder)._ |
+| Narrative State | Determined by priority: “ready” if the substantive flag is set; in all other cases, “stub”. | _Order 3. ready / stub._ |
+| Is Ready | True when the narrative state is “ready”. | _Order 4. Narrative is ready for publication._ |
+| Section Label | Determined by priority: the name, followed by “ (ready)” if the ready flag is set; in all other cases, the name, followed by “ (stub)”. | _Order 5. Display label with readiness._ |
+| **Bootstrap Story** | The cold-start story: from `git clone` to a running portal with a default user landing on Home. | — |
+| Name | A defined attribute. | _Identifier for this narrative entry (single-row tables use 'primary')._ |
+| Description | A defined attribute. | _The full narrative content for this concept._ |
+| Description Length | Computed as the length of the description. | _Order 1. Character length of the narrative text._ |
+| Is Substantive | True when the description length is at least 200. | _Order 2. Narrative is at least 200 characters (not a placeholder)._ |
+| Narrative State | Determined by priority: “ready” if the substantive flag is set; in all other cases, “stub”. | _Order 3. ready / stub._ |
+| Is Ready | True when the narrative state is “ready”. | _Order 4. Narrative is ready for publication._ |
+| Section Label | Determined by priority: the name, followed by “ (ready)” if the ready flag is set; in all other cases, the name, followed by “ (stub)”. | _Order 5. Display label with readiness._ |
+| **Developer Journey** | The intended developer path through the portal: Home → project → Rulebook → Substrates → Builds → Tests → Input Spokes → Users. | — |
+| Name | A defined attribute. | _Identifier for this narrative entry (single-row tables use 'primary')._ |
+| Description | A defined attribute. | _The full narrative content for this concept._ |
+| Description Length | Computed as the length of the description. | _Order 1. Character length of the narrative text._ |
+| Is Substantive | True when the description length is at least 200. | _Order 2. Narrative is at least 200 characters (not a placeholder)._ |
+| Narrative State | Determined by priority: “ready” if the substantive flag is set; in all other cases, “stub”. | _Order 3. ready / stub._ |
+| Is Ready | True when the narrative state is “ready”. | _Order 4. Narrative is ready for publication._ |
+| Section Label | Determined by priority: the name, followed by “ (ready)” if the ready flag is set; in all other cases, the name, followed by “ (stub)”. | _Order 5. Display label with readiness._ |
+| **Resilience Claim** | The resilience claim: dropping the Postgres editor at any time is safe, because `./start.sh` rebuilds it from JSON. | — |
+| Name | A defined attribute. | _Identifier for this narrative entry (single-row tables use 'primary')._ |
+| Description | A defined attribute. | _The full narrative content for this concept._ |
+| Description Length | Computed as the length of the description. | _Order 1. Character length of the narrative text._ |
+| Is Substantive | True when the description length is at least 200. | _Order 2. Narrative is at least 200 characters (not a placeholder)._ |
+| Narrative State | Determined by priority: “ready” if the substantive flag is set; in all other cases, “stub”. | _Order 3. ready / stub._ |
+| Is Ready | True when the narrative state is “ready”. | _Order 4. Narrative is ready for publication._ |
+| Section Label | Determined by priority: the name, followed by “ (ready)” if the ready flag is set; in all other cases, the name, followed by “ (stub)”. | _Order 5. Display label with readiness._ |
 
 ## 2 Fact Types
 
@@ -795,6 +1079,18 @@ _The repo-governing rulebook: every governed project including the root, witness
 - a **project layout slot** may reference one **project slot witness**
 - a **project slot witness** references exactly one **rulebook domain**
 - a **project slot witness** references exactly one **project layout slot**
+- an **execution substrate** may reference one **add tool catalog**
+- an **execution substrate** may reference one **ssotme proxy**
+- an **execution substrate** may reference one **substrate tradeoff**
+- an **execution substrate** references exactly one **project metadata**
+- a **ssotme proxy** may reference one **execution substrate**
+- an **add tool catalog** may reference one **execution substrate**
+- a **substrate contract phas** may reference one **evaluation artifact**
+- an **evaluation step** references exactly one **substrate contract phas**
+- an **evaluation artifact** may reference one **substrate contract phas**
+- a **substrate tradeoff dimension** may reference one **substrate tradeoff**
+- a **substrate tradeoff** references exactly one **execution substrate**
+- a **substrate tradeoff** references exactly one **substrate tradeoff dimension**
 
 ## 3 Operative Rules
 
@@ -868,6 +1164,29 @@ already computes (cross-referenced as DR-N in the Definitional Rules below)._
 - A CMCC summary **must** have a name and a description.
 - A project goal **must** have a name and a description.
 - An architectural highlight **must** have a name and a description.
+- An execution substrate **must** reference exactly one project metadata as its project.
+- An execution substrate **must** have a name, a technology, a relative path, an injector script, a transpiler source, a maturity, an expressive completeness, a determinism, and a runtime kind, and record whether it can be answer key.
+- An orchestration component **must** have a name, a file path, a language, and a purpose.
+- A ssotme proxy **must** have a route and a description.
+- A testing framework **must** have a name, a file path, and a purpose.
+- A core data flow **must** have a name and a steps.
+- A dependency **must** have a name, a type, and a purpose, and record whether it is required.
+- An add tool catalog **must** have a name, a category, a source, an install URL, and a description.
+- A substrate contract phas **must** have an order, a name, an input, an output, and a description, and record whether it is domain agnostic.
+- An evaluation step **must** reference exactly one substrate contract phas as its phase ID.
+- An evaluation step **must** have an order, a name, and a description.
+- An evaluation artifact **must** have a name, a format, a path pattern, and a description.
+- A substrate tradeoff dimension **must** have a name, a description, and an order.
+- A substrate tradeoff **must** reference exactly one execution substrate as its substrate ID.
+- A substrate tradeoff **must** reference exactly one substrate tradeoff dimension as its dimension ID.
+- A fuzzy grading provider **must** have a name, a model, and a determinism, and record whether it is local runtime.
+- A project configuration **must** have a file name, a file path, a format, and a purpose.
+- A build pipeline **must** have an aspect and an authority.
+- A portal cli parity **must** have a name and a description.
+- A write through invariant **must** have a name and a description.
+- A bootstrap story **must** have a name and a description.
+- A developer journey **must** have a name and a description.
+- A resilience claim **must** have a name and a description.
 
 ## 4 Definitional Rules
 
@@ -1308,6 +1627,160 @@ but clunky — a flag for an optional downstream reword pass, not a defect._
 | **DR-427 Narrative State** | The architectural highlight's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
 | **DR-428 Is Ready** | An architectural highlight is considered a ready if the narrative state is “ready”. |
 | **DR-429 Section Label** | The architectural highlight's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-430 Is Fully Expressive** | An execution substrate is considered fully-expressive if the expressive completeness is “full”. |
+| **DR-431 Fully Expressive Flag** | The execution substrate's fully expressive flag is determined by the following priority:<br>1. 1, if the expressive completeness is “full”;<br>2. in all other cases, 0. |
+| **DR-432 Is Reference Quality** | An execution substrate is considered a reference quality if the maturity is “reference-quality”. |
+| **DR-433 Tradeoff Count** | An execution substrate's tradeoff count is the number of substrate tradeoffs related to the execution substrate. |
+| **DR-434 Proxy Route Count** | An execution substrate's proxy route count is the number of ssotme proxy related to the execution substrate. |
+| **DR-435 Catalog Tool Count** | An execution substrate's catalog tool count is the number of add tool catalog related to the execution substrate. |
+| **DR-436 Is Peer Complete** | An execution substrate is considered a peer complete if all of the following hold: the fully expressive flag is set and the can be answer key flag is set. |
+| **DR-437 Peer Complete Flag** | The execution substrate's peer complete flag is determined by the following priority:<br>1. 1, if all of the following hold: the fully expressive flag is set and the can be answer key flag is set;<br>2. in all other cases, 0. |
+| **DR-438 Has Proxy Route** | An execution substrate is considered to have a proxy route if the proxy route count is greater than 0. |
+| **DR-439 Is Cataloged** | An execution substrate is considered cataloged if the catalog tool count is greater than 0. |
+| **DR-440 Is Bus Reachable Peer** | An execution substrate is considered a bus reachable peer if all of the following hold: the peer complete flag is set and the proxy route flag is set. |
+| **DR-441 Is Installable Peer** | An execution substrate is considered an installable peer if all of the following hold: the peer complete flag is set and the cataloged flag is set. |
+| **DR-442 Readiness Score** | An execution substrate's readiness score is computed as the count of the following that hold: the peer complete flag is set; the proxy route flag is set; and the cataloged flag is set. |
+| **DR-443 Readiness Band** | The execution substrate's readiness band is determined by the following priority:<br>1. “ready”, if the readiness score is 3;<br>2. “partial”, if the readiness score is at least 1;<br>3. in all other cases, “absent”. |
+| **DR-444 Ready Flag** | The execution substrate's ready flag is determined by the following priority:<br>1. 1, if the readiness score is 3;<br>2. in all other cases, 0. |
+| **DR-445 Is Showcase Substrate** | An execution substrate is considered a showcase substrate if all of the following hold: the readiness band is “ready” and the reference quality flag is set. |
+| **DR-446 Dependency Count** | The orchestration component's dependency count is determined by the following priority:<br>1. 0, if the dependencies is blank;<br>2. in all other cases, the length of the dependencies minus the length of the dependencies with every a comma replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-447 Is Shell Script** | An orchestration component is considered a shell script if the language is “Bash”. |
+| **DR-448 Dependency Band** | The orchestration component's dependency band is determined by the following priority:<br>1. “leaf”, if the dependency count is 0;<br>2. “light”, if the dependency count is at most 2;<br>3. in all other cases, “heavy”. |
+| **DR-449 Is Heavy Shell** | An orchestration component is considered a heavy shell if all of the following hold: the shell script flag is set and the dependency band is “heavy”. |
+| **DR-450 Review Priority** | The orchestration component's review priority is determined by the following priority:<br>1. “review”, if the heavy shell flag is set;<br>2. “watch”, if the dependency band is “heavy”;<br>3. in all other cases, “ok”. |
+| **DR-451 Needs Review** | An orchestration component is considered to need a review if the review priority is “review”. |
+| **DR-452 Name** | A ssotme proxy's name is the same as its route. |
+| **DR-453 Http Method** | A ssotme proxy's http method is computed as the first the position of a space within the route minus 1 character(s) of the route. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-454 Route Path** | A ssotme proxy's route path is computed as the position of a space within the route plus 1 character(s) of the route starting at position 200. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-455 Has Substrate** | A ssotme proxy is considered to have a substrate if the substrate ID has a value. |
+| **DR-456 Is Post** | A ssotme proxy is considered a post if the http method is “POST”. |
+| **DR-457 Route Slug** | A ssotme proxy's route slug is computed as the route path with every a slash replaced by an empty string. |
+| **DR-458 Substrate is Fully Expressive** | A ssotme proxy's substrate is fully expressive when the linked substrate ID is fully expressive. |
+| **DR-459 Is Full Bus Route** | A ssotme proxy is considered a full bus route if all of the following hold: the substrate flag is set and the substrate is fully expressive (a missing value counts as false). ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-460 Is Post Spoke** | A ssotme proxy is considered a post spoke if all of the following hold: the post flag is set and the substrate flag is not set. |
+| **DR-461 Route Class** | The ssotme proxy's route class is determined by the following priority:<br>1. “full-substrate”, if the full bus route flag is set;<br>2. “partial-substrate”, if the substrate flag is set;<br>3. “spoke”, if the post spoke flag is set;<br>4. in all other cases, “other”. |
+| **DR-462 Is Bus Headline** | A ssotme proxy is considered a bus headline if the route class is “full-substrate”. |
+| **DR-463 Is Global** | A testing framework is considered a global if the scope is “global”. |
+| **DR-464 Is Glob Pattern** | A testing framework is considered a glob pattern if the length of the file path (a missing value counts as an empty string) is not the length of the file path (a missing value counts as an empty string) with every “*” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-465 Is Global Glob** | A testing framework is considered a global glob if all of the following hold: the global flag is set and the glob pattern flag is set. |
+| **DR-466 Scope Label** | The testing framework's scope label is determined by the following priority:<br>1. “global-glob”, if the global glob flag is set;<br>2. “global-file”, if the global flag is set;<br>3. in all other cases, “domain”. |
+| **DR-467 Is Domain Agnostic** | A testing framework is considered domain-agnostic if the scope label is not “domain”. |
+| **DR-468 Agnostic Label** | The testing framework's agnostic label is determined by the following priority:<br>1. “domain-agnostic”, if the domain agnostic flag is set;<br>2. in all other cases, “domain-bound”. |
+| **DR-469 Step Count** | The core data flow's step count is determined by the following priority:<br>1. 0, if the steps is blank;<br>2. in all other cases, the length of the steps minus the length of the steps with every “|” replaced by an empty string plus 1. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-470 Has Invariant** | A core data flow is considered to have an invariant if the invariant has a value. |
+| **DR-471 Is Multi Step** | A core data flow is considered a multi step if the step count is greater than 1. |
+| **DR-472 Is Invariant Backed** | A core data flow is considered invariant-backed if all of the following hold: the invariant flag is set and the step count is greater than 0. |
+| **DR-473 Flow Maturity** | The core data flow's flow maturity is determined by the following priority:<br>1. “pipeline” if the multi step flag is set, in all other cases “atomic”, if the invariant backed flag is set;<br>2. in all other cases, “undocumented”. |
+| **DR-474 Is Pipeline** | A core data flow is considered a pipeline if the flow maturity is “pipeline”. |
+| **DR-475 Flow Label** | The core data flow's flow label is determined by the following priority:<br>1. the name, followed by “ [pipeline]”, if the pipeline flag is set;<br>2. in all other cases, the name. |
+| **DR-476 Is Language** | A dependency is considered a language if the type is “Language”. |
+| **DR-477 Required Flag** | The dependency's required flag is determined by the following priority:<br>1. 1, if the required flag is set;<br>2. in all other cases, 0. |
+| **DR-478 Is Required Language** | A dependency is considered a required language if all of the following hold: the language flag is set and the required flag is set. |
+| **DR-479 Criticality** | The dependency's criticality is determined by the following priority:<br>1. “core”, if the required language flag is set;<br>2. “required”, if the required flag is set;<br>3. in all other cases, “optional”. |
+| **DR-480 Is Core** | A dependency is considered a core if the criticality is “core”. |
+| **DR-481 Bootstrap Tier** | The dependency's bootstrap tier is determined by the following priority:<br>1. “tier-0”, if the core flag is set;<br>2. “tier-1”, if the required flag is set;<br>3. in all other cases, “tier-2”. |
+| **DR-482 Is Local Proxy** | An add tool catalog is considered a local proxy if the source is “local-proxy”. |
+| **DR-483 Substrate Name** | An add tool catalog's substrate name — taken from the linked substrate ID. |
+| **DR-484 Substrate Maturity** | An add tool catalog's substrate maturity — taken from the linked substrate ID. |
+| **DR-485 Is Proxy Backed Reference** | An add tool catalog is considered a proxy backed reference if all of the following hold: the local proxy flag is set and the substrate maturity is “reference-quality”. |
+| **DR-486 Substrate is Fully Expressive** | An add tool catalog's substrate is fully expressive when the linked substrate ID is fully expressive. |
+| **DR-487 Substrate is Peer Complete** | An add tool catalog's substrate is peer complete when the linked substrate ID is a peer complete. |
+| **DR-488 Is Peer Complete Tool** | An add tool catalog is considered a peer complete tool if all of the following hold: the substrate is fully expressive (a missing value counts as false) and the proxy backed reference flag is set. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-489 Tool Tier** | The add tool catalog's tool tier is determined by the following priority:<br>1. “tier-1”, if the peer complete tool flag is set;<br>2. “tier-2”, if the substrate is peer complete (a missing value counts as false);<br>3. in all other cases, “tier-3”. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-490 Is Recommended Install** | An add tool catalog is considered a recommended install if all of the following hold: the tool tier is “tier-1” and the local proxy flag is set. |
+| **DR-491 Step Count** | A substrate contract phas's step count is the number of evaluation steps related to the substrate contract phas. |
+| **DR-492 Produced Artifact Count** | A substrate contract phas's produced artifact count is the number of evaluation artifacts related to the substrate contract phas. |
+| **DR-493 Consumed Artifact Count** | A substrate contract phas's consumed artifact count is the number of evaluation artifacts related to the substrate contract phas. |
+| **DR-494 Is First Phase** | A substrate contract phas is considered a first phase if the order is 1. |
+| **DR-495 Is Productive** | A substrate contract phas is considered productive if the produced artifact count is greater than 0. |
+| **DR-496 Artifact Throughput** | A substrate contract phas's artifact throughput is computed as the produced artifact count plus the consumed artifact count. |
+| **DR-497 Has Steps** | A substrate contract phas is considered to have a steps if the step count is greater than 0. |
+| **DR-498 Is Fully Modeled** | A substrate contract phas is considered fully-modeled if all of the following hold: the productive flag is set and the steps flag is set. |
+| **DR-499 Throughput Per Step** | The substrate contract phas's throughput per step is determined by the following priority:<br>1. 0, if the step count is 0;<br>2. in all other cases, the artifact throughput divided by the step count rounded to 2 decimal place(s). |
+| **DR-500 Phase Health** | The substrate contract phas's phase health is determined by the following priority:<br>1. “dense” if the throughput per step is at least 1, in all other cases “modeled”, if the fully modeled flag is set;<br>2. in all other cases, “sparse”. |
+| **DR-501 Is Dense Phase** | A substrate contract phas is considered a dense phase if the phase health is “dense”. |
+| **DR-502 Phase Name** | An evaluation step's phase name — taken from the linked phase ID. |
+| **DR-503 Phase Order** | An evaluation step's phase order — taken from the linked phase ID. |
+| **DR-504 Is First Step** | An evaluation step is considered a first step if the order is 1. |
+| **DR-505 Phase Step Count** | An evaluation step's phase step count — taken from the linked phase ID. |
+| **DR-506 Is in First Phase** | An evaluation step is considered in-first-phase if the phase order is 1. |
+| **DR-507 Is Last Step** | An evaluation step is considered a last step if the order is the phase step count (a missing value counts as 0). |
+| **DR-508 Position Percent** | The evaluation step's position percent is determined by the following priority:<br>1. 0, if the phase step count (a missing value counts as 0) is 0;<br>2. in all other cases, 100 times the order divided by the phase step count rounded to 0 decimal place(s). |
+| **DR-509 Step Role** | The evaluation step's step role is determined by the following priority:<br>1. “entry”, if the first step flag is set;<br>2. “exit”, if the last step flag is set;<br>3. in all other cases, “middle”. |
+| **DR-510 Is Boundary Step** | An evaluation step is considered a boundary step if the step role is not “middle”. |
+| **DR-511 Is Source Artifact** | An evaluation artifact is considered a source artifact if the produced by phase ID is blank. |
+| **DR-512 Is JSON** | An evaluation artifact is considered a JSON if the format is “json”. |
+| **DR-513 Producer Phase Name** | An evaluation artifact's producer phase name — taken from the linked produced by phase ID. |
+| **DR-514 Consumer Phase Name** | An evaluation artifact's consumer phase name — taken from the linked consumed by phase ID. |
+| **DR-515 Producer Step Count** | An evaluation artifact's producer step count — taken from the linked produced by phase ID. |
+| **DR-516 Is JSON Source** | An evaluation artifact is considered a JSON source if all of the following hold: the source artifact flag is set and the JSON flag is set. |
+| **DR-517 Producer is Productive** | An evaluation artifact's producer is productive when the linked produced by phase ID is productive. |
+| **DR-518 Is Pipeline Handoff** | An evaluation artifact is considered a pipeline handoff if all of the following hold: the JSON source flag is not set and the producer step count (a missing value counts as 0) is greater than 0. |
+| **DR-519 Artifact Role** | The evaluation artifact's artifact role is determined by the following priority:<br>1. “seed”, if the JSON source flag is set;<br>2. “handoff”, if the pipeline handoff flag is set;<br>3. in all other cases, “terminal”. |
+| **DR-520 Is Seed Artifact** | An evaluation artifact is considered a seed artifact if the artifact role is “seed”. |
+| **DR-521 Tradeoff Count** | A substrate tradeoff dimension's tradeoff count is the number of substrate tradeoffs related to the substrate tradeoff dimension. |
+| **DR-522 Has Tradeoffs** | A substrate tradeoff dimension is considered to have a tradeoffs if the tradeoff count is greater than 0. |
+| **DR-523 Fully Expressive Tradeoff Count** | A substrate tradeoff dimension's fully expressive tradeoff count is the total substrate full flag across the substrate tradeoffs related to the substrate tradeoff dimension. |
+| **DR-524 Full Coverage Percent** | The substrate tradeoff dimension's full coverage percent is determined by the following priority:<br>1. 0, if the tradeoff count is 0;<br>2. in all other cases, 100 times the fully expressive tradeoff count divided by the tradeoff count rounded to 0 decimal place(s). |
+| **DR-525 Is Fully Covered** | A substrate tradeoff dimension is considered fully-covered if the full coverage percent is 100. |
+| **DR-526 Name** | A substrate tradeoff's name is computed as the substrate ID, followed by “:”, followed by the dimension ID. |
+| **DR-527 Substrate Name** | A substrate tradeoff's substrate name — taken from the linked substrate ID. |
+| **DR-528 Dimension Name** | A substrate tradeoff's dimension name — taken from the linked dimension ID. |
+| **DR-529 Dimension Order** | A substrate tradeoff's dimension order — taken from the linked dimension ID. |
+| **DR-530 Has Note** | A substrate tradeoff is considered to have a note if the note has a value. |
+| **DR-531 Substrate is Fully Expressive** | A substrate tradeoff's substrate is fully expressive when the linked substrate ID is fully expressive. |
+| **DR-532 Substrate Full Flag** | A substrate tradeoff's substrate full flag is the fully expressive flag of the substrate tradeoff's substrate ID. |
+| **DR-533 Dimension Tradeoff Count** | A substrate tradeoff's dimension tradeoff count — taken from the linked dimension ID. |
+| **DR-534 Is Full Substrate Noted** | A substrate tradeoff is considered full-substrate-noted if all of the following hold: the substrate is fully expressive (a missing value counts as false) and the note flag is set. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-535 Dimension Full Count** | A substrate tradeoff's dimension full count is the fully expressive tradeoff count of the substrate tradeoff's dimension ID. |
+| **DR-536 Is Dominant Dimension Entry** | A substrate tradeoff is considered a dominant dimension entry if all of the following hold: the substrate is fully expressive (a missing value counts as false) and the dimension full count (a missing value counts as 0) is at least 5. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-537 Is Deterministic** | A fuzzy grading provider is considered deterministic if the determinism is “deterministic”. |
+| **DR-538 Requires API Key** | A fuzzy grading provider is considered to require an API key if the env var has a value. |
+| **DR-539 Is Local Deterministic** | A fuzzy grading provider is considered local-deterministic if all of the following hold: the local runtime flag is set and the deterministic flag is set. |
+| **DR-540 Is Cloud Keyed** | A fuzzy grading provider is considered cloud-keyed if all of the following hold: the local runtime flag is not set and the requires API key flag is set. |
+| **DR-541 Provider Class** | The fuzzy grading provider's provider class is determined by the following priority:<br>1. “local-deterministic”, if the local deterministic flag is set;<br>2. “cloud-llm”, if the cloud keyed flag is set;<br>3. in all other cases, “other”. |
+| **DR-542 Is Preferred Provider** | A fuzzy grading provider is considered a preferred provider if the provider class is “local-deterministic”. |
+| **DR-543 Provider Label** | The fuzzy grading provider's provider label is determined by the following priority:<br>1. the name, followed by “ (preferred)”, if the preferred provider flag is set;<br>2. in all other cases, the name. |
+| **DR-544 Name** | A project configuration's name is the same as its file name. |
+| **DR-545 Is Human Maintained** | A project configuration is considered human-maintained if the maintained by is “human”. |
+| **DR-546 Is JSON** | A project configuration is considered a JSON if the format is “JSON”. |
+| **DR-547 Is Human JSON** | A project configuration is considered a human JSON if all of the following hold: the human maintained flag is set and the JSON flag is set. |
+| **DR-548 Drift Risk** | The project configuration's drift risk is determined by the following priority:<br>1. “high”, if the human JSON flag is set;<br>2. “medium”, if the human maintained flag is set;<br>3. in all other cases, “low”. |
+| **DR-549 Needs Guard** | A project configuration is considered to need a guard if the drift risk is “high”. |
+| **DR-550 Guard Label** | The project configuration's guard label is determined by the following priority:<br>1. “guard: validate on build”, if the needs guard flag is set;<br>2. in all other cases, “no guard needed”. |
+| **DR-551 Name** | A build pipeline's name is the same as its aspect. |
+| **DR-552 Has Cli Equivalent** | A build pipeline is considered to have a cli equivalent if the cli equivalent has a value. |
+| **DR-553 Is Project Scoped** | A build pipeline is considered project-scoped if the length of the authority (a missing value counts as an empty string) is not the length of the authority (a missing value counts as an empty string) with every “{active-project}” replaced by an empty string. ⚠︎ mechanical <!-- rulespeak:reword --> |
+| **DR-554 Is Cli Parity Gap** | A build pipeline is considered a cli parity gap if the cli equivalent flag is not set. |
+| **DR-555 Is Scoped With Cli** | A build pipeline is considered a scoped with cli if all of the following hold: the project scoped flag is set and the cli equivalent flag is set. |
+| **DR-556 Parity State** | The build pipeline's parity state is determined by the following priority:<br>1. “portal-only”, if the cli parity gap flag is set;<br>2. “scoped-parity”, if the scoped with cli flag is set;<br>3. in all other cases, “global-parity”. |
+| **DR-557 Is Parity Violation** | A build pipeline is considered a parity violation if the parity state is “portal-only”. |
+| **DR-558 Parity Flag** | The build pipeline's parity flag is determined by the following priority:<br>1. 0, if the parity violation flag is set;<br>2. in all other cases, 1. |
+| **DR-559 Description Length** | A portal cli parity's description length is computed as the length of the description. |
+| **DR-560 Is Substantive** | A portal cli parity is considered substantive if the description length is at least 200. |
+| **DR-561 Narrative State** | The portal cli parity's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-562 Is Ready** | A portal cli parity is considered a ready if the narrative state is “ready”. |
+| **DR-563 Section Label** | The portal cli parity's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-564 Description Length** | A write through invariant's description length is computed as the length of the description. |
+| **DR-565 Is Substantive** | A write through invariant is considered substantive if the description length is at least 200. |
+| **DR-566 Narrative State** | The write through invariant's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-567 Is Ready** | A write through invariant is considered a ready if the narrative state is “ready”. |
+| **DR-568 Section Label** | The write through invariant's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-569 Description Length** | A bootstrap story's description length is computed as the length of the description. |
+| **DR-570 Is Substantive** | A bootstrap story is considered substantive if the description length is at least 200. |
+| **DR-571 Narrative State** | The bootstrap story's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-572 Is Ready** | A bootstrap story is considered a ready if the narrative state is “ready”. |
+| **DR-573 Section Label** | The bootstrap story's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-574 Description Length** | A developer journey's description length is computed as the length of the description. |
+| **DR-575 Is Substantive** | A developer journey is considered substantive if the description length is at least 200. |
+| **DR-576 Narrative State** | The developer journey's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-577 Is Ready** | A developer journey is considered a ready if the narrative state is “ready”. |
+| **DR-578 Section Label** | The developer journey's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
+| **DR-579 Description Length** | A resilience claim's description length is computed as the length of the description. |
+| **DR-580 Is Substantive** | A resilience claim is considered substantive if the description length is at least 200. |
+| **DR-581 Narrative State** | The resilience claim's narrative state is determined by the following priority:<br>1. “ready”, if the substantive flag is set;<br>2. in all other cases, “stub”. |
+| **DR-582 Is Ready** | A resilience claim is considered a ready if the narrative state is “ready”. |
+| **DR-583 Section Label** | The resilience claim's section label is determined by the following priority:<br>1. the name, followed by “ (ready)”, if the ready flag is set;<br>2. in all other cases, the name, followed by “ (stub)”. |
 
 ## 5 Traceability to Schema
 
@@ -1745,6 +2218,160 @@ the same logic the rulebook stores, written for a business reader._
 | **ArchitecturalHighlight.NarrativeState** | formula | `If(IsSubstantive, "ready", "stub")` |
 | **ArchitecturalHighlight.IsReady** | formula | `NarrativeState = "ready"` |
 | **ArchitecturalHighlight.SectionLabel** | formula | `If(IsReady, Concat(Name, " (ready)"), Concat(Name, " (stub)"))` |
+| **ExecutionSubstrates.IsFullyExpressive** | formula | `ExpressiveCompleteness = "full"` |
+| **ExecutionSubstrates.FullyExpressiveFlag** | formula | `If(ExpressiveCompleteness = "full", 1, 0)` |
+| **ExecutionSubstrates.IsReferenceQuality** | formula | `Maturity = "reference-quality"` |
+| **ExecutionSubstrates.TradeoffCount** | rollup | `Count(SubstrateTradeoffs via SubstrateId)` |
+| **ExecutionSubstrates.ProxyRouteCount** | rollup | `Count(SsotmeProxy via SubstrateId)` |
+| **ExecutionSubstrates.CatalogToolCount** | rollup | `Count(AddToolCatalog via SubstrateId)` |
+| **ExecutionSubstrates.IsPeerComplete** | formula | `And(IsFullyExpressive, CanBeAnswerKey)` |
+| **ExecutionSubstrates.PeerCompleteFlag** | formula | `If(And(IsFullyExpressive, CanBeAnswerKey), 1, 0)` |
+| **ExecutionSubstrates.HasProxyRoute** | formula | `ProxyRouteCount > 0` |
+| **ExecutionSubstrates.IsCataloged** | formula | `CatalogToolCount > 0` |
+| **ExecutionSubstrates.IsBusReachablePeer** | formula | `And(IsPeerComplete, HasProxyRoute)` |
+| **ExecutionSubstrates.IsInstallablePeer** | formula | `And(IsPeerComplete, IsCataloged)` |
+| **ExecutionSubstrates.ReadinessScore** | formula | `If(IsPeerComplete, 1, 0) + If(HasProxyRoute, 1, 0) + If(IsCataloged, 1, 0)` |
+| **ExecutionSubstrates.ReadinessBand** | formula | `If(ReadinessScore = 3, "ready", If(ReadinessScore >= 1, "partial", "absent"))` |
+| **ExecutionSubstrates.ReadyFlag** | formula | `If(ReadinessScore = 3, 1, 0)` |
+| **ExecutionSubstrates.IsShowcaseSubstrate** | formula | `And(ReadinessBand = "ready", IsReferenceQuality)` |
+| **OrchestrationComponents.DependencyCount** | formula | `If(Dependencies = "", 0, Len(Dependencies) - Len(Replace(Dependencies, ",", "")) + 1)` |
+| **OrchestrationComponents.IsShellScript** | formula | `Language = "Bash"` |
+| **OrchestrationComponents.DependencyBand** | formula | `If(DependencyCount = 0, "leaf", If(DependencyCount <= 2, "light", "heavy"))` |
+| **OrchestrationComponents.IsHeavyShell** | formula | `And(IsShellScript, DependencyBand = "heavy")` |
+| **OrchestrationComponents.ReviewPriority** | formula | `If(IsHeavyShell, "review", If(DependencyBand = "heavy", "watch", "ok"))` |
+| **OrchestrationComponents.NeedsReview** | formula | `ReviewPriority = "review"` |
+| **SsotmeProxy.Name** | formula | `Route` |
+| **SsotmeProxy.HttpMethod** | formula | `Left(Route, Find(" ", Route) - 1)` |
+| **SsotmeProxy.RoutePath** | formula | `Mid(Route, Find(" ", Route) + 1, 200)` |
+| **SsotmeProxy.HasSubstrate** | formula | `SubstrateId <> ""` |
+| **SsotmeProxy.IsPost** | formula | `HttpMethod = "POST"` |
+| **SsotmeProxy.RouteSlug** | formula | `Replace(RoutePath, "/", "")` |
+| **SsotmeProxy.SubstrateIsFullyExpressive** | lookup | `Lookup(ExecutionSubstrates.IsFullyExpressive via SubstrateId)` |
+| **SsotmeProxy.IsFullBusRoute** | formula | `And(HasSubstrate, Coalesce(SubstrateIsFullyExpressive, False()))` |
+| **SsotmeProxy.IsPostSpoke** | formula | `And(IsPost, Not(HasSubstrate))` |
+| **SsotmeProxy.RouteClass** | formula | `If(IsFullBusRoute, "full-substrate", If(HasSubstrate, "partial-substrate", If(IsPostSpoke, "spoke", "other")))` |
+| **SsotmeProxy.IsBusHeadline** | formula | `RouteClass = "full-substrate"` |
+| **TestingFramework.IsGlobal** | formula | `Scope = "global"` |
+| **TestingFramework.IsGlobPattern** | formula | `Len(Coalesce(FilePath, "")) <> Len(Replace(Coalesce(FilePath, ""), "*", ""))` |
+| **TestingFramework.IsGlobalGlob** | formula | `And(IsGlobal, IsGlobPattern)` |
+| **TestingFramework.ScopeLabel** | formula | `If(IsGlobalGlob, "global-glob", If(IsGlobal, "global-file", "domain"))` |
+| **TestingFramework.IsDomainAgnostic** | formula | `ScopeLabel <> "domain"` |
+| **TestingFramework.AgnosticLabel** | formula | `If(IsDomainAgnostic, "domain-agnostic", "domain-bound")` |
+| **CoreDataFlows.StepCount** | formula | `If(Steps = "", 0, Len(Steps) - Len(Replace(Steps, "\|", "")) + 1)` |
+| **CoreDataFlows.HasInvariant** | formula | `Invariant <> ""` |
+| **CoreDataFlows.IsMultiStep** | formula | `StepCount > 1` |
+| **CoreDataFlows.IsInvariantBacked** | formula | `And(HasInvariant, StepCount > 0)` |
+| **CoreDataFlows.FlowMaturity** | formula | `If(IsInvariantBacked, If(IsMultiStep, "pipeline", "atomic"), "undocumented")` |
+| **CoreDataFlows.IsPipeline** | formula | `FlowMaturity = "pipeline"` |
+| **CoreDataFlows.FlowLabel** | formula | `If(IsPipeline, Concat(Name, " [pipeline]"), Name)` |
+| **Dependencies.IsLanguage** | formula | `Type = "Language"` |
+| **Dependencies.RequiredFlag** | formula | `If(Required, 1, 0)` |
+| **Dependencies.IsRequiredLanguage** | formula | `And(IsLanguage, Required)` |
+| **Dependencies.Criticality** | formula | `If(IsRequiredLanguage, "core", If(Required, "required", "optional"))` |
+| **Dependencies.IsCore** | formula | `Criticality = "core"` |
+| **Dependencies.BootstrapTier** | formula | `If(IsCore, "tier-0", If(Required, "tier-1", "tier-2"))` |
+| **AddToolCatalog.IsLocalProxy** | formula | `Source = "local-proxy"` |
+| **AddToolCatalog.SubstrateName** | lookup | `Lookup(ExecutionSubstrates.Name via SubstrateId)` |
+| **AddToolCatalog.SubstrateMaturity** | lookup | `Lookup(ExecutionSubstrates.Maturity via SubstrateId)` |
+| **AddToolCatalog.IsProxyBackedReference** | formula | `And(IsLocalProxy, SubstrateMaturity = "reference-quality")` |
+| **AddToolCatalog.SubstrateIsFullyExpressive** | lookup | `Lookup(ExecutionSubstrates.IsFullyExpressive via SubstrateId)` |
+| **AddToolCatalog.SubstrateIsPeerComplete** | lookup | `Lookup(ExecutionSubstrates.IsPeerComplete via SubstrateId)` |
+| **AddToolCatalog.IsPeerCompleteTool** | formula | `And(Coalesce(SubstrateIsFullyExpressive, False()), IsProxyBackedReference)` |
+| **AddToolCatalog.ToolTier** | formula | `If(IsPeerCompleteTool, "tier-1", If(Coalesce(SubstrateIsPeerComplete, False()), "tier-2", "tier-3"))` |
+| **AddToolCatalog.IsRecommendedInstall** | formula | `And(ToolTier = "tier-1", IsLocalProxy)` |
+| **SubstrateContractPhases.StepCount** | rollup | `Count(EvaluationSteps via PhaseId)` |
+| **SubstrateContractPhases.ProducedArtifactCount** | rollup | `Count(EvaluationArtifacts via ProducedByPhaseId)` |
+| **SubstrateContractPhases.ConsumedArtifactCount** | rollup | `Count(EvaluationArtifacts via ConsumedByPhaseId)` |
+| **SubstrateContractPhases.IsFirstPhase** | formula | `Order = 1` |
+| **SubstrateContractPhases.IsProductive** | formula | `ProducedArtifactCount > 0` |
+| **SubstrateContractPhases.ArtifactThroughput** | formula | `ProducedArtifactCount + ConsumedArtifactCount` |
+| **SubstrateContractPhases.HasSteps** | formula | `StepCount > 0` |
+| **SubstrateContractPhases.IsFullyModeled** | formula | `And(IsProductive, HasSteps)` |
+| **SubstrateContractPhases.ThroughputPerStep** | formula | `If(StepCount = 0, 0, Round(ArtifactThroughput / StepCount, 2))` |
+| **SubstrateContractPhases.PhaseHealth** | formula | `If(IsFullyModeled, If(ThroughputPerStep >= 1, "dense", "modeled"), "sparse")` |
+| **SubstrateContractPhases.IsDensePhase** | formula | `PhaseHealth = "dense"` |
+| **EvaluationSteps.PhaseName** | lookup | `Lookup(SubstrateContractPhases.Name via PhaseId)` |
+| **EvaluationSteps.PhaseOrder** | lookup | `Lookup(SubstrateContractPhases.Order via PhaseId)` |
+| **EvaluationSteps.IsFirstStep** | formula | `Order = 1` |
+| **EvaluationSteps.PhaseStepCount** | lookup | `Lookup(SubstrateContractPhases.StepCount via PhaseId)` |
+| **EvaluationSteps.IsInFirstPhase** | formula | `PhaseOrder = 1` |
+| **EvaluationSteps.IsLastStep** | formula | `Order = Coalesce(PhaseStepCount, 0)` |
+| **EvaluationSteps.PositionPercent** | formula | `If(Coalesce(PhaseStepCount, 0) = 0, 0, Round(100 * Order / PhaseStepCount, 0))` |
+| **EvaluationSteps.StepRole** | formula | `If(IsFirstStep, "entry", If(IsLastStep, "exit", "middle"))` |
+| **EvaluationSteps.IsBoundaryStep** | formula | `StepRole <> "middle"` |
+| **EvaluationArtifacts.IsSourceArtifact** | formula | `ProducedByPhaseId = ""` |
+| **EvaluationArtifacts.IsJson** | formula | `Format = "json"` |
+| **EvaluationArtifacts.ProducerPhaseName** | lookup | `Lookup(SubstrateContractPhases.Name via ProducedByPhaseId)` |
+| **EvaluationArtifacts.ConsumerPhaseName** | lookup | `Lookup(SubstrateContractPhases.Name via ConsumedByPhaseId)` |
+| **EvaluationArtifacts.ProducerStepCount** | lookup | `Lookup(SubstrateContractPhases.StepCount via ProducedByPhaseId)` |
+| **EvaluationArtifacts.IsJsonSource** | formula | `And(IsSourceArtifact, IsJson)` |
+| **EvaluationArtifacts.ProducerIsProductive** | lookup | `Lookup(SubstrateContractPhases.IsProductive via ProducedByPhaseId)` |
+| **EvaluationArtifacts.IsPipelineHandoff** | formula | `And(Not(IsJsonSource), Coalesce(ProducerStepCount, 0) > 0)` |
+| **EvaluationArtifacts.ArtifactRole** | formula | `If(IsJsonSource, "seed", If(IsPipelineHandoff, "handoff", "terminal"))` |
+| **EvaluationArtifacts.IsSeedArtifact** | formula | `ArtifactRole = "seed"` |
+| **SubstrateTradeoffDimensions.TradeoffCount** | rollup | `Count(SubstrateTradeoffs via DimensionId)` |
+| **SubstrateTradeoffDimensions.HasTradeoffs** | formula | `TradeoffCount > 0` |
+| **SubstrateTradeoffDimensions.FullyExpressiveTradeoffCount** | rollup | `Sum(SubstrateTradeoffs.SubstrateFullFlag via DimensionId)` |
+| **SubstrateTradeoffDimensions.FullCoveragePercent** | formula | `If(TradeoffCount = 0, 0, Round(100 * FullyExpressiveTradeoffCount / TradeoffCount, 0))` |
+| **SubstrateTradeoffDimensions.IsFullyCovered** | formula | `FullCoveragePercent = 100` |
+| **SubstrateTradeoffs.Name** | formula | `Concat(SubstrateId, ":", DimensionId)` |
+| **SubstrateTradeoffs.SubstrateName** | lookup | `Lookup(ExecutionSubstrates.Name via SubstrateId)` |
+| **SubstrateTradeoffs.DimensionName** | lookup | `Lookup(SubstrateTradeoffDimensions.Name via DimensionId)` |
+| **SubstrateTradeoffs.DimensionOrder** | lookup | `Lookup(SubstrateTradeoffDimensions.Order via DimensionId)` |
+| **SubstrateTradeoffs.HasNote** | formula | `Note <> ""` |
+| **SubstrateTradeoffs.SubstrateIsFullyExpressive** | lookup | `Lookup(ExecutionSubstrates.IsFullyExpressive via SubstrateId)` |
+| **SubstrateTradeoffs.SubstrateFullFlag** | lookup | `Lookup(ExecutionSubstrates.FullyExpressiveFlag via SubstrateId)` |
+| **SubstrateTradeoffs.DimensionTradeoffCount** | lookup | `Lookup(SubstrateTradeoffDimensions.TradeoffCount via DimensionId)` |
+| **SubstrateTradeoffs.IsFullSubstrateNoted** | formula | `And(Coalesce(SubstrateIsFullyExpressive, False()), HasNote)` |
+| **SubstrateTradeoffs.DimensionFullCount** | lookup | `Lookup(SubstrateTradeoffDimensions.FullyExpressiveTradeoffCount via DimensionId)` |
+| **SubstrateTradeoffs.IsDominantDimensionEntry** | formula | `And(Coalesce(SubstrateIsFullyExpressive, False()), Coalesce(DimensionFullCount, 0) >= 5)` |
+| **FuzzyGradingProviders.IsDeterministic** | formula | `Determinism = "deterministic"` |
+| **FuzzyGradingProviders.RequiresApiKey** | formula | `EnvVar <> ""` |
+| **FuzzyGradingProviders.IsLocalDeterministic** | formula | `And(LocalRuntime, IsDeterministic)` |
+| **FuzzyGradingProviders.IsCloudKeyed** | formula | `And(Not(LocalRuntime), RequiresApiKey)` |
+| **FuzzyGradingProviders.ProviderClass** | formula | `If(IsLocalDeterministic, "local-deterministic", If(IsCloudKeyed, "cloud-llm", "other"))` |
+| **FuzzyGradingProviders.IsPreferredProvider** | formula | `ProviderClass = "local-deterministic"` |
+| **FuzzyGradingProviders.ProviderLabel** | formula | `If(IsPreferredProvider, Concat(Name, " (preferred)"), Name)` |
+| **ProjectConfiguration.Name** | formula | `FileName` |
+| **ProjectConfiguration.IsHumanMaintained** | formula | `MaintainedBy = "human"` |
+| **ProjectConfiguration.IsJson** | formula | `Format = "JSON"` |
+| **ProjectConfiguration.IsHumanJson** | formula | `And(IsHumanMaintained, IsJson)` |
+| **ProjectConfiguration.DriftRisk** | formula | `If(IsHumanJson, "high", If(IsHumanMaintained, "medium", "low"))` |
+| **ProjectConfiguration.NeedsGuard** | formula | `DriftRisk = "high"` |
+| **ProjectConfiguration.GuardLabel** | formula | `If(NeedsGuard, "guard: validate on build", "no guard needed")` |
+| **BuildPipeline.Name** | formula | `Aspect` |
+| **BuildPipeline.HasCliEquivalent** | formula | `CliEquivalent <> ""` |
+| **BuildPipeline.IsProjectScoped** | formula | `Len(Coalesce(Authority, "")) <> Len(Replace(Coalesce(Authority, ""), "{active-project}", ""))` |
+| **BuildPipeline.IsCliParityGap** | formula | `Not(HasCliEquivalent)` |
+| **BuildPipeline.IsScopedWithCli** | formula | `And(IsProjectScoped, HasCliEquivalent)` |
+| **BuildPipeline.ParityState** | formula | `If(IsCliParityGap, "portal-only", If(IsScopedWithCli, "scoped-parity", "global-parity"))` |
+| **BuildPipeline.IsParityViolation** | formula | `ParityState = "portal-only"` |
+| **BuildPipeline.ParityFlag** | formula | `If(IsParityViolation, 0, 1)` |
+| **PortalCliParity.DescriptionLength** | formula | `Len(Description)` |
+| **PortalCliParity.IsSubstantive** | formula | `DescriptionLength >= 200` |
+| **PortalCliParity.NarrativeState** | formula | `If(IsSubstantive, "ready", "stub")` |
+| **PortalCliParity.IsReady** | formula | `NarrativeState = "ready"` |
+| **PortalCliParity.SectionLabel** | formula | `If(IsReady, Concat(Name, " (ready)"), Concat(Name, " (stub)"))` |
+| **WriteThroughInvariant.DescriptionLength** | formula | `Len(Description)` |
+| **WriteThroughInvariant.IsSubstantive** | formula | `DescriptionLength >= 200` |
+| **WriteThroughInvariant.NarrativeState** | formula | `If(IsSubstantive, "ready", "stub")` |
+| **WriteThroughInvariant.IsReady** | formula | `NarrativeState = "ready"` |
+| **WriteThroughInvariant.SectionLabel** | formula | `If(IsReady, Concat(Name, " (ready)"), Concat(Name, " (stub)"))` |
+| **BootstrapStory.DescriptionLength** | formula | `Len(Description)` |
+| **BootstrapStory.IsSubstantive** | formula | `DescriptionLength >= 200` |
+| **BootstrapStory.NarrativeState** | formula | `If(IsSubstantive, "ready", "stub")` |
+| **BootstrapStory.IsReady** | formula | `NarrativeState = "ready"` |
+| **BootstrapStory.SectionLabel** | formula | `If(IsReady, Concat(Name, " (ready)"), Concat(Name, " (stub)"))` |
+| **DeveloperJourney.DescriptionLength** | formula | `Len(Description)` |
+| **DeveloperJourney.IsSubstantive** | formula | `DescriptionLength >= 200` |
+| **DeveloperJourney.NarrativeState** | formula | `If(IsSubstantive, "ready", "stub")` |
+| **DeveloperJourney.IsReady** | formula | `NarrativeState = "ready"` |
+| **DeveloperJourney.SectionLabel** | formula | `If(IsReady, Concat(Name, " (ready)"), Concat(Name, " (stub)"))` |
+| **ResilienceClaim.DescriptionLength** | formula | `Len(Description)` |
+| **ResilienceClaim.IsSubstantive** | formula | `DescriptionLength >= 200` |
+| **ResilienceClaim.NarrativeState** | formula | `If(IsSubstantive, "ready", "stub")` |
+| **ResilienceClaim.IsReady** | formula | `NarrativeState = "ready"` |
+| **ResilienceClaim.SectionLabel** | formula | `If(IsReady, Concat(Name, " (ready)"), Concat(Name, " (stub)"))` |
 
 ---
 

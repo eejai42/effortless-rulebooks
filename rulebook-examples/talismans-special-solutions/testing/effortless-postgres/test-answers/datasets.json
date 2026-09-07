@@ -1,10 +1,13 @@
 [
   {
     "dataset_id": "ds-q1-2026-risk-metrics",
+    "relative_path": "datasets/ds-q1-2026-risk-metrics",
+    "iri": "datasets-ds-q1-2026-risk-metrics",
     "title": "Q1 2026 Risk Metrics",
     "identifier": "DS-RISK-2026-Q1",
     "modified": "2026-03-31 00:00:00-05:00",
     "distribution_url": "https://data.internal.special-solutions.example/risk/q1-2026",
-    "consumed_by_steps": "prod-deploy-step-2"
+    "consumed_by_steps": null,
+    "is_consumed": false
   }
 ]

@@ -269,8 +269,10 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
 <nav class="toc">
   <h2 class="toc-title">Entities</h2>
   <ul class="toc-list">
-    <li><a href="#en-t-languagecandidates">Language Candidate</a> <span class="toc-meta">8 rules · 0 links</span></li>
+    <li><a href="#en-t-languagecandidates">Language Candidate</a> <span class="toc-meta">13 rules · 0 links</span></li>
     <li><a href="#en-t-iseverythingalanguage">Is Everything a Language</a> <span class="toc-meta">0 rules · 0 links</span></li>
+    <li><a href="#en-t-hockettfeatures">Hockett Feature</a> <span class="toc-meta">2 rules · 0 links</span></li>
+    <li><a href="#en-t-hockettassessments">Hockett Assessment</a> <span class="toc-meta">2 rules · 2 links</span></li>
     <li><a href="#en-t-erbcustomizations">ERB Customization</a> <span class="toc-meta">0 rules · 0 links</span></li>
   </ul>
 </nav>
@@ -290,10 +292,15 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">4 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-question">ƒ Question <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionfail">ƒ Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-languagecandidates-hockettassessedcount">Σ Hockett Assessed Count <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-languagecandidates-hockettyescount">Σ Hockett Yes Count <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-ishockettassessed">Is Hockett Assessed <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettscore">Hockett Score <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Name of the language candidate being classified.</p>
@@ -367,12 +374,13 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">3 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">3 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-hasgrammar">ƒ Has Grammar <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Does this language candidate have syntax and/or grammar?</p>
@@ -388,11 +396,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Is this candidate physical/material.  I.e. could it at least theoretically &quot;be held&quot;?</p>
@@ -507,9 +516,10 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
     </details>
     <details class="prov prov-consumers elem elem-consumers">
-      <summary>Consumers <span class="count">1 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionfail">ƒ Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-languagecandidates-hockettvsgate">ƒ Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
@@ -689,11 +699,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Could this thing be assigned a guid, unique in the universe that would identify it globally?  Like a drivers license or social security number for a person.</p>
@@ -709,11 +720,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Is the knowledge/information encoded in a form that requires parsing before meaning can be extracted?</p>
@@ -729,11 +741,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <p class="field-note elem elem-desc">Is the knowledge/information encoded in a form that requires parsing before meaning can be extracted?</p>
@@ -749,11 +762,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     </article>
@@ -768,11 +782,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     </article>
@@ -856,11 +871,12 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       </div>
     </details>
     <details class="prov prov-consumers elem elem-consumers">
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+1 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictedanswer">ƒ Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-predictionpredicates">ƒ Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     <details class="prov prov-leaves elem elem-inputs">
@@ -881,13 +897,14 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     <details class="prov prov-consumers elem elem-consumers" open>
-      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+4 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
       <div class="prov-pills">
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-isdescriptionof">ƒ Is Description of <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-calc" href="#en-f-languagecandidates-relationshiptoconcept">ƒ Relationship to Concept <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictedanswer">Predicted Answer <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionpredicates">Prediction Predicates <span class="ref-pill-tbl">Language Candidate</span></a>
         <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-predictionfail">Prediction Fail <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
       </div>
     </details>
     </article>
@@ -1013,6 +1030,261 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
     </article>
+  <article class="field tone-agg" id="en-f-languagecandidates-hockettassessedcount" data-entity="Language Candidate" data-field="Hockett Assessed Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Hockett Assessed Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-9</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A language candidate's <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> is the number of <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> related to the language candidate.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> whose <a class="ref" href="#en-f-hockettassessments-languagecandidate">language candidate</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-hockettassessments-languagecandidate">Language Candidate</a>, <a class="fx-chip" href="#en-f-languagecandidates-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-hockettassessments-languagecandidate">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Language Candidate</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">FK to the candidate being assessed.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-languagecandidates-name">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Name</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en muted">Name of the language candidate being classified.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">3 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-languagecandidates-ishockettassessed">ƒ Is Hockett Assessed <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-languagecandidates-hockettscore">ƒ Hockett Score <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-languagecandidates-hockettvsgate">ƒ Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-languagecandidate">⇢ Language Candidate <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-name">● Name <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">How many of Hockett's design features this candidate has a published assessment for. Zero means nobody has assessed it, which is not the same as failing.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-languagecandidates-hockettyescount" data-entity="Language Candidate" data-field="Hockett Yes Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Hockett Yes Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-10</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A language candidate's <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a> is the total <a class="ref" href="#en-f-hockettassessments-isyesflag">is yes flag</a> across the <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> related to the language candidate.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Sum of <a class="ref" href="#en-f-hockettassessments-isyesflag">is yes flag</a> across all <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> whose <a class="ref" href="#en-f-hockettassessments-languagecandidate">language candidate</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUMIFS(<a class="fx-chip" href="#en-f-hockettassessments-isyesflag">Is Yes Flag</a>, <a class="fx-chip" href="#en-f-hockettassessments-languagecandidate">Language Candidate</a>, <a class="fx-chip" href="#en-f-languagecandidates-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-calc" href="#en-f-hockettassessments-isyesflag">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Yes Flag</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en">If verdict is &quot;Yes&quot; then 1, otherwise 0.</span>
+        </a>
+        <a class="input tone-rel" href="#en-f-hockettassessments-languagecandidate">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Language Candidate</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">FK to the candidate being assessed.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-languagecandidates-name">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Name</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en muted">Name of the language candidate being classified.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-languagecandidates-hockettscore">ƒ Hockett Score <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-languagecandidates-hockettvsgate">ƒ Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">3</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-hockettassessments-verdict">● Verdict <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-languagecandidate">⇢ Language Candidate <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-name">● Name <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">How many assessed design features this candidate satisfies outright.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-languagecandidates-ishockettassessed" data-entity="Language Candidate" data-field="Is Hockett Assessed">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Is Hockett Assessed</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+      <span class="pill pill-dr">DR-11</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A language candidate is considered hockett-assessed if the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> is greater than 0.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body"><a class="ref" href="#en-f-languagecandidates-hockettassessedcount">Hockett assessed count</a> is greater than 0.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a> &gt; 0</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-languagecandidates-hockettassessedcount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Hockett Assessed Count</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en">Count of hockett assessments whose language candidate is this one.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-languagecandidate">⇢ Language Candidate <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-name">● Name <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">TRUE once this candidate has at least one published design-feature assessment.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-languagecandidates-hockettscore" data-entity="Language Candidate" data-field="Hockett Score">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Hockett Score</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-12</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <div class="view-body"><p class="rt-headline">The language candidate's <a class="ref" href="#en-f-languagecandidates-hockettscore">hockett score</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">“not assessed”</span> <span class="rt-when">if the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> is 0</span></li><li><span class="rt-value">the <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a>, followed by “ of ”, followed by the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a></span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> equals 0 then &quot;not assessed&quot;, otherwise ((<a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a> joined with &quot; of &quot;) joined with <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a>).</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a> = 0, &quot;not assessed&quot;, <a class="fx-chip" href="#en-f-languagecandidates-hockettyescount">Hockett Yes Count</a> &amp; &quot; of &quot; &amp; <a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-languagecandidates-hockettassessedcount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Hockett Assessed Count</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en">Count of hockett assessments whose language candidate is this one.</span>
+        </a>
+        <a class="input tone-agg" href="#en-f-languagecandidates-hockettyescount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Hockett Yes Count</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en">Sum of is yes flag across all hockett assessments whose language candidate is this one.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">3</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-languagecandidate">⇢ Language Candidate <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-name">● Name <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-hockettassessments-verdict">● Verdict <span class="ref-pill-tbl">Hockett Assessment</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">The design-feature tally as text, reading &quot;not assessed&quot; rather than &quot;0&quot; when there is no published assessment. A hand-written Postgres function used to sum eleven bio_has_* columns that were never in the rulebook, so every candidate silently scored zero; this field replaces it.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-languagecandidates-hockettvsgate" data-entity="Language Candidate" data-field="Hockett Vs Gate">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Hockett Vs Gate</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">3 hops from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-13</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <div class="view-body"><p class="rt-headline">The language candidate's <a class="ref" href="#en-f-languagecandidates-hockettvsgate">hockett vs gate</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">an empty string</span> <span class="rt-when">if the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> is 0</span></li><li><span class="rt-value">“The eight-clause gate says language; Hockett's features hold for only ”, followed by the <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a>, followed by “ of ”, followed by the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a>, followed by a period</span> <span class="rt-when">if <span class="rt-group-label">all of these hold:</span><ul class="rt-group"><li>the <a class="ref" href="#en-f-languagecandidates-predictedanswer">predicted answer</a> flag is set</li><li>the <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a> is less than the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a></li></ul></span></li><li><span class="rt-value">“Hockett's features all hold, and the eight-clause gate says not a language.”</span> <span class="rt-when">if <span class="rt-group-label">all of these hold:</span><ul class="rt-group"><li>the <a class="ref" href="#en-f-languagecandidates-predictedanswer">predicted answer</a> flag is not set</li><li>the <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a> is the <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a></li></ul></span></li><li><span class="rt-value">an empty string</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> equals 0 then &quot;&quot;, otherwise if <a class="ref" href="#en-f-languagecandidates-predictedanswer">predicted answer</a> and <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a> is less than <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> then ((((&quot;The eight-clause gate says language; Hockett's features hold for only &quot; joined with <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a>) joined with &quot; of &quot;) joined with <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a>) joined with &quot;.&quot;), otherwise if not <a class="ref" href="#en-f-languagecandidates-predictedanswer">predicted answer</a> and <a class="ref" href="#en-f-languagecandidates-hockettyescount">hockett yes count</a> equals <a class="ref" href="#en-f-languagecandidates-hockettassessedcount">hockett assessed count</a> then &quot;Hockett's features all hold, and the eight-clause gate says not a language.&quot;, otherwise &quot;&quot;.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a> = 0, &quot;&quot;, IF(AND(<a class="fx-chip" href="#en-f-languagecandidates-predictedanswer">Predicted Answer</a>, <a class="fx-chip" href="#en-f-languagecandidates-hockettyescount">Hockett Yes Count</a> &lt; <a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a>), &quot;The eight-clause gate says language; Hockett's features hold for only &quot; &amp; <a class="fx-chip" href="#en-f-languagecandidates-hockettyescount">Hockett Yes Count</a> &amp; &quot; of &quot; &amp; <a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a> &amp; &quot;.&quot;, IF(AND(NOT(<a class="fx-chip" href="#en-f-languagecandidates-predictedanswer">Predicted Answer</a>), <a class="fx-chip" href="#en-f-languagecandidates-hockettyescount">Hockett Yes Count</a> = <a class="fx-chip" href="#en-f-languagecandidates-hockettassessedcount">Hockett Assessed Count</a>), &quot;Hockett's features all hold, and the eight-clause gate says not a language.&quot;, &quot;&quot;)))</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-agg" href="#en-f-languagecandidates-hockettassessedcount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Hockett Assessed Count</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en">Count of hockett assessments whose language candidate is this one.</span>
+        </a>
+        <a class="input tone-calc" href="#en-f-languagecandidates-predictedanswer">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Predicted Answer</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en">Has syntax, is parsed, is description of, has linear decoding pressure, resolves to an AST, is stable ontology reference, not can be held, and not has identity.</span>
+        </a>
+        <a class="input tone-agg" href="#en-f-languagecandidates-hockettyescount">
+          <span class="input-head"><span class="input-glyph">Σ</span><span class="input-name">Hockett Yes Count</span><span class="input-table">Language Candidate</span></span>
+          <span class="input-en">Sum of is yes flag across all hockett assessments whose language candidate is this one.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">11</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-languagecandidate">⇢ Language Candidate <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-name">● Name <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-hassyntax">● Has Syntax <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-isparsed">● Is Parsed <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-distancefromconcept">● Distance From Concept <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-haslineardecodingpressure">● Has Linear Decoding Pressure <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-resolvestoanast">● Resolves to an AST <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-isstableontologyreference">● Is Stable Ontology Reference <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-canbeheld">● Can Be Held <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-languagecandidates-hasidentity">● Has Identity <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-hockettassessments-verdict">● Verdict <span class="ref-pill-tbl">Hockett Assessment</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Names the disagreement, in English, when the eight-clause gate and Hockett's design features reach opposite conclusions. Empty when they agree or when the candidate is unassessed.</p>
+    </article>
 </section>
 <section class="entity" id="en-t-iseverythingalanguage" data-entity="Is Everything a Language">
   <header class="entity-head">
@@ -1128,6 +1400,375 @@ html[data-lang="en"] .lang-doc[data-lang="en"]{display:block}
     <div class="gt">
       <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
     </div>
+    </article>
+</section>
+<section class="entity" id="en-t-hockettfeatures" data-entity="Hockett Feature">
+  <header class="entity-head">
+    <h2 class="entity-title">Hockett Feature</h2>
+    <p class="entity-synopsis">A hockett feature is identified by its <a class="ref" href="#en-f-hockettfeatures-name">name</a>.</p>
+  </header>
+  <article class="field tone-raw" id="en-f-hockettfeatures-name" data-entity="Hockett Feature" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">2 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-hockettfeatures-assessmentcount">Σ Assessment Count <span class="ref-pill-tbl">Hockett Feature</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-hockettfeatures-yescount">Σ Yes Count <span class="ref-pill-tbl">Hockett Feature</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">The design feature's name, as Hockett gives it.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettfeatures-featurenumber" data-entity="Hockett Feature" data-field="Feature Number">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Feature Number</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">integer</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>integer</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Hockett's own numbering, 1 through 13, then 14 through 16 for the 1968 additions.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettfeatures-definition" data-entity="Hockett Feature" data-field="Definition">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Definition</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">What the feature asserts, in plain English.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettfeatures-isoriginalthirteen" data-entity="Hockett Feature" data-field="Is Original Thirteen">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Is Original Thirteen</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">boolean</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>boolean</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">TRUE for the thirteen features of the 1960 paper; FALSE for the three added in 1968.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettfeatures-source" data-entity="Hockett Feature" data-field="Source">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Source</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Citation for the feature list.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-hockettfeatures-assessmentcount" data-entity="Hockett Feature" data-field="Assessment Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Assessment Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-14</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A hockett feature's <a class="ref" href="#en-f-hockettfeatures-assessmentcount">assessment count</a> is the number of <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> related to the hockett feature.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Count of <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> whose <a class="ref" href="#en-f-hockettassessments-hockettfeature">hockett feature</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>COUNTIFS(<a class="fx-chip" href="#en-f-hockettassessments-hockettfeature">Hockett Feature</a>, <a class="fx-chip" href="#en-f-hockettfeatures-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-hockettassessments-hockettfeature">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Hockett Feature</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">FK to the design feature being applied.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-hockettfeatures-name">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Name</span><span class="input-table">Hockett Feature</span></span>
+          <span class="input-en muted">The design feature's name, as Hockett gives it.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-hockettfeature">⇢ Hockett Feature <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-hockettfeatures-name">● Name <span class="ref-pill-tbl">Hockett Feature</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">How many candidates have been assessed against this feature.</p>
+    </article>
+  <article class="field tone-agg" id="en-f-hockettfeatures-yescount" data-entity="Hockett Feature" data-field="Yes Count">
+    <div class="field-head">
+      <span class="field-glyph" title="Aggregation">Σ</span>
+      <span class="field-name">Yes Count</span>
+      <span class="pill pill-type">Aggregation</span>
+      <span class="pill pill-depth">2 hops from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-15</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A hockett feature's <a class="ref" href="#en-f-hockettfeatures-yescount">yes count</a> is the total <a class="ref" href="#en-f-hockettassessments-isyesflag">is yes flag</a> across the <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> related to the hockett feature.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">Sum of <a class="ref" href="#en-f-hockettassessments-isyesflag">is yes flag</a> across all <a class="ref" href="#en-t-hockettassessments">hockett assessments</a> whose <a class="ref" href="#en-f-hockettassessments-hockettfeature">hockett feature</a> is this one.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>SUMIFS(<a class="fx-chip" href="#en-f-hockettassessments-isyesflag">Is Yes Flag</a>, <a class="fx-chip" href="#en-f-hockettassessments-hockettfeature">Hockett Feature</a>, <a class="fx-chip" href="#en-f-hockettfeatures-name">Name</a>)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">3</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-calc" href="#en-f-hockettassessments-isyesflag">
+          <span class="input-head"><span class="input-glyph">ƒ</span><span class="input-name">Is Yes Flag</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en">If verdict is &quot;Yes&quot; then 1, otherwise 0.</span>
+        </a>
+        <a class="input tone-rel" href="#en-f-hockettassessments-hockettfeature">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Hockett Feature</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">FK to the design feature being applied.</span>
+        </a>
+        <a class="input tone-raw" href="#en-f-hockettfeatures-name">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Name</span><span class="input-table">Hockett Feature</span></span>
+          <span class="input-en muted">The design feature's name, as Hockett gives it.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">3</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-hockettassessments-verdict">● Verdict <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-hockettfeature">⇢ Hockett Feature <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-raw" href="#en-f-hockettfeatures-name">● Name <span class="ref-pill-tbl">Hockett Feature</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">How many assessed candidates satisfy this feature outright.</p>
+    </article>
+</section>
+<section class="entity" id="en-t-hockettassessments" data-entity="Hockett Assessment">
+  <header class="entity-head">
+    <h2 class="entity-title">Hockett Assessment</h2>
+    <p class="entity-synopsis">A hockett assessment is identified by its <a class="ref" href="#en-f-hockettassessments-name">name</a> and is related to a <a class="ref" href="#en-t-languagecandidates">language candidate</a> and a <a class="ref" href="#en-t-hockettfeatures">hockett feature</a>.</p>
+  </header>
+  <article class="field tone-calc" id="en-f-hockettassessments-name" data-entity="Hockett Assessment" data-field="Name">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Name</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">string</span>
+      <span class="pill pill-dr">DR-16</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <p class="view-body">A hockett assessment's <a class="ref" href="#en-f-hockettassessments-name">name</a> is computed as the <a class="ref" href="#en-f-hockettassessments-languagecandidate">language candidate</a>, followed by “ / ”, followed by the <a class="ref" href="#en-f-hockettassessments-hockettfeature">hockett feature</a>.</p>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">(<a class="ref" href="#en-f-hockettassessments-languagecandidate">language candidate</a> joined with &quot; / &quot;) joined with <a class="ref" href="#en-f-hockettassessments-hockettfeature">hockett feature</a>.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span><a class="fx-chip" href="#en-f-hockettassessments-languagecandidate">Language Candidate</a> &amp; &quot; / &quot; &amp; <a class="fx-chip" href="#en-f-hockettassessments-hockettfeature">Hockett Feature</a></div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">2</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-rel" href="#en-f-hockettassessments-languagecandidate">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Language Candidate</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">FK to the candidate being assessed.</span>
+        </a>
+        <a class="input tone-rel" href="#en-f-hockettassessments-hockettfeature">
+          <span class="input-head"><span class="input-glyph">⇢</span><span class="input-name">Hockett Feature</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">FK to the design feature being applied.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">2</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-languagecandidate">⇢ Language Candidate <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-rel" href="#en-f-hockettassessments-hockettfeature">⇢ Hockett Feature <span class="ref-pill-tbl">Hockett Assessment</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Logical key: the candidate and the feature being assessed.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-hockettassessments-languagecandidate" data-entity="Hockett Assessment" data-field="Language Candidate">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Language Candidate</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-languagecandidates">Language Candidate</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">3 direct</span> <span class="count count-muted">+3 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-languagecandidates-hockettassessedcount">Σ Hockett Assessed Count <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-languagecandidates-hockettyescount">Σ Hockett Yes Count <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-hockettassessments-name">ƒ Name <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-ishockettassessed">Is Hockett Assessed <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettscore">Hockett Score <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">FK to the candidate being assessed.</p>
+    </article>
+  <article class="field tone-rel" id="en-f-hockettassessments-hockettfeature" data-entity="Hockett Assessment" data-field="Hockett Feature">
+    <div class="field-head">
+      <span class="field-glyph" title="Relationship">⇢</span>
+      <span class="field-name">Hockett Feature</span>
+      <span class="pill pill-type">Relationship</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">A pointer to <a href="#en-t-hockettfeatures">Hockett Feature</a>. It is not derived from anything else — it is the link the rest of the DAG hangs off.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">3 direct</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-hockettfeatures-assessmentcount">Σ Assessment Count <span class="ref-pill-tbl">Hockett Feature</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-hockettfeatures-yescount">Σ Yes Count <span class="ref-pill-tbl">Hockett Feature</span></a>
+        <a class="ref-pill tone-calc" href="#en-f-hockettassessments-name">ƒ Name <span class="ref-pill-tbl">Hockett Assessment</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">FK to the design feature being applied.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettassessments-verdict" data-entity="Hockett Assessment" data-field="Verdict">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Verdict</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <details class="prov prov-consumers elem elem-consumers" open>
+      <summary>Consumers <span class="count">1 direct</span> <span class="count count-muted">+4 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-calc" href="#en-f-hockettassessments-isyesflag">ƒ Is Yes Flag <span class="ref-pill-tbl">Hockett Assessment</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettyescount">Hockett Yes Count <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-hockettfeatures-yescount">Yes Count <span class="ref-pill-tbl">Hockett Feature</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettscore">Hockett Score <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">Yes, No, Partial or Unknown. Partial and Unknown exist because the published assessments hedge, and flattening a hedge into a boolean would bury a judgement call in the data.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettassessments-verbatimassessment" data-entity="Hockett Assessment" data-field="Verbatim Assessment">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Verbatim Assessment</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">The source's exact wording for this cell, so every resolution to Verdict stays auditable.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettassessments-sourcecitation" data-entity="Hockett Assessment" data-field="Source Citation">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Source Citation</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Where this cell came from, including which column.</p>
+    </article>
+  <article class="field tone-raw" id="en-f-hockettassessments-mappingnote" data-entity="Hockett Assessment" data-field="Mapping Note">
+    <div class="field-head">
+      <span class="field-glyph" title="Ground truth">●</span>
+      <span class="field-name">Mapping Note</span>
+      <span class="pill pill-type">Ground truth</span>
+      <span class="pill pill-muted">string</span>
+    </div>
+    <div class="gt">
+      <p class="gt-body">Ground truth. Written directly to the database (datatype <code>string</code>); not computed from anything else. Everything derived ultimately traces back to values like this one.</p>
+    </div>
+    <p class="field-note elem elem-desc">Empty when this candidate corresponds exactly to the source's column. Otherwise, how the two differ and how far the row should be trusted.</p>
+    </article>
+  <article class="field tone-calc" id="en-f-hockettassessments-isyesflag" data-entity="Hockett Assessment" data-field="Is Yes Flag">
+    <div class="field-head">
+      <span class="field-glyph" title="Calculated">ƒ</span>
+      <span class="field-name">Is Yes Flag</span>
+      <span class="pill pill-type">Calculated</span>
+      <span class="pill pill-depth">1 hop from ground truth</span>
+      <span class="pill pill-muted">integer</span>
+      <span class="pill pill-dr">DR-17</span>
+    </div>
+    <div class="narr-views">
+      <div class="view elem elem-rulespeak">
+        <span class="view-label">In RuleSpeak®</span>
+        <div class="view-body"><p class="rt-headline">The hockett assessment's <a class="ref" href="#en-f-hockettassessments-isyesflag">is yes flag</a> is determined by the following priority:</p><ol class="rt-priority"><li><span class="rt-value">1</span> <span class="rt-when">if the <a class="ref" href="#en-f-hockettassessments-verdict">verdict</a> is “Yes”</span></li><li><span class="rt-value">0</span> <span class="rt-when">in all other cases</span></li></ol></div>
+      </div>
+      <div class="view elem elem-english">
+        <span class="view-label">In plain words</span>
+        <p class="view-body">If <a class="ref" href="#en-f-hockettassessments-verdict">verdict</a> is &quot;Yes&quot; then 1, otherwise 0.</p>
+      </div>
+      <div class="view elem elem-formula">
+        <span class="view-label">As a formula</span>
+        <div class="view-body fx"><span class="fx-eq">= </span>IF(<a class="fx-chip" href="#en-f-hockettassessments-verdict">Verdict</a> = &quot;Yes&quot;, 1, 0)</div>
+      </div>
+    </div>
+    <details class="prov prov-inputs elem elem-inputs" open>
+      <summary>Inputs <span class="count">1</span> <span class="prov-hint">fields this rule reads</span></summary>
+      <div class="prov-grid">
+        <a class="input tone-raw" href="#en-f-hockettassessments-verdict">
+          <span class="input-head"><span class="input-glyph">●</span><span class="input-name">Verdict</span><span class="input-table">Hockett Assessment</span></span>
+          <span class="input-en muted">Yes, No, Partial or Unknown. Partial and Unknown exist because the published assessments hedge, and flattening a hedge into a boolean would bury a judgement call in the data.</span>
+        </a>
+      </div>
+    </details>
+    <details class="prov prov-consumers elem elem-consumers">
+      <summary>Consumers <span class="count">2 direct</span> <span class="count count-muted">+2 transitive</span> <span class="prov-hint">rules that read this one</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-agg" href="#en-f-languagecandidates-hockettyescount">Σ Hockett Yes Count <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-agg" href="#en-f-hockettfeatures-yescount">Σ Yes Count <span class="ref-pill-tbl">Hockett Feature</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettscore">Hockett Score <span class="ref-pill-tbl">Language Candidate</span></a>
+        <a class="ref-pill tone-rel faded" href="#en-f-languagecandidates-hockettvsgate">Hockett Vs Gate <span class="ref-pill-tbl">Language Candidate</span></a>
+      </div>
+    </details>
+    <details class="prov prov-leaves elem elem-inputs">
+      <summary>Ground truth at the leaves <span class="count">1</span> <span class="prov-hint">the raw values this ultimately depends on</span></summary>
+      <div class="prov-pills">
+        <a class="ref-pill tone-raw" href="#en-f-hockettassessments-verdict">● Verdict <span class="ref-pill-tbl">Hockett Assessment</span></a>
+      </div>
+    </details>
+    <p class="field-note elem elem-desc">1 when the verdict is an outright Yes, else 0. Summed by the rollups on LanguageCandidates and HockettFeatures.</p>
     </article>
 </section>
 <section class="entity" id="en-t-erbcustomizations" data-entity="ERB Customization">

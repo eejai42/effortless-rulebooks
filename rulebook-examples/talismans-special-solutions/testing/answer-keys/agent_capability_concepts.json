@@ -10,6 +10,16 @@
     "iri": "concepts-agent-capability-cap-ci-execution"
   },
   {
+    "concept_id": "cap-deployment-health",
+    "pref_label": "Deployment Health Monitoring",
+    "alt_label": "Post-Deployment Telemetry Summarization",
+    "definition": "The filler must be capable of summarizing post-deployment telemetry into a health report. Distinct from risk analysis: it scores a live deployment's health, not input risk datasets \u2014 so a deployment-health role does NOT consume the Q1 Risk Metrics dataset.",
+    "scope_note": "Held by the Deployment Health Agent role (filled by DeploymentHealth-AI, health-summarizer-v1.2.0).",
+    "roles": "",
+    "relative_path": "concepts/agent-capability/cap-deployment-health",
+    "iri": "concepts-agent-capability-cap-deployment-health"
+  },
+  {
     "concept_id": "cap-executive-authorization",
     "pref_label": "Executive Authorization",
     "alt_label": "C-Level Sign-off",

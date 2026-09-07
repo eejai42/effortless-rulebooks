@@ -1,0 +1,38 @@
+[
+  {
+    "step_precedence_id": "prec-1-2",
+    "from_step": "prod-deploy-step-1",
+    "to_step": "prod-deploy-step-2",
+    "parent_path": null,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "step_precedence_id": "prec-2-3",
+    "from_step": "prod-deploy-step-2",
+    "to_step": "prod-deploy-step-3",
+    "parent_path": null,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "step_precedence_id": "prec-3-4",
+    "from_step": "prod-deploy-step-3",
+    "to_step": "prod-deploy-step-4",
+    "parent_path": null,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  },
+  {
+    "step_precedence_id": "prec-4-5",
+    "from_step": "prod-deploy-step-4",
+    "to_step": "prod-deploy-step-5",
+    "parent_path": null,
+    "relative_path": null,
+    "iri": null,
+    "name": null
+  }
+]
