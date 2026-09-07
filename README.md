@@ -6,6 +6,14 @@
 
 This repository is both the proof of that claim and the platform that runs it: **[41 governed projects](#the-catalog)**, one shared shape, all driven by the same rulebook-first discipline this repo requires of itself.
 
+## Watch the repository tour
+
+[![Show Me One That Works — watch the Effortless Rulebooks repository tour](assets/effortless-rulebooks-repository-tour-player.png)](https://www.youtube.com/watch?v=G1hyAOmpb9o)
+
+▶ [**Play: Show Me One That Works. Here Are 40. | Effortless Rulebooks Tour**](https://www.youtube.com/watch?v=G1hyAOmpb9o)
+
+An eight-minute tour, for someone who has never heard of this, of what "the rulebook is the code" looks like end to end. It opens the smallest project, [customer-fullname](toy-rulebooks/customer-fullname/), where three columns are typed and a fourth is a rule, then follows that single line through one build into a Postgres function, a view, and a plain-English sentence. From there it measures the real range: [star-trek](toy-rulebooks/star-trek/) at 11 tables and about a thousand rows, [simpsons-paradox](rulebook-examples/simpsons-paradox/) at 40 tables and 8,764 rows with 411 of its 699 fields calculated rather than typed. It shows that projects register whatever substrates they want (two for one, eighteen for another) and closes on the read, run, change, build loop and the one sentence that hands the whole thing to a coding agent.
+
 ## This is not a code generator
 
 That distinction isn't rhetorical — it's the one property that makes the whole approach hold together, and it's easy to miss:
@@ -67,14 +75,6 @@ The empirical claim above rests on a stronger theoretical one: the **Conceptual 
 - [CMCC vs. traditional Model-Driven Engineering](https://medium.com/@eejai42/why-the-conceptual-model-completeness-conjecture-cmcc-transcends-traditional-model-driven-241ba020031a) — MDE's thirty-year track record of underdelivering is the correct prior to bring here; this is the argument for why CMCC's substrate-equivalence claim is checked empirically (the conformance harness above) rather than merely asserted
 - [As a universal computational framework (Zenodo)](https://zenodo.org/records/15252466)
 - [The ssotme:// protocol](https://github.com/SSoTme) — the open transpiler registry that operationalizes CMCC: any tool that speaks the protocol can consume a rulebook without understanding any other substrate's output
-
-## Watch the repository tour
-
-[![Show Me One That Works — watch the Effortless Rulebooks repository tour](assets/effortless-rulebooks-repository-tour-player.png)](https://www.youtube.com/watch?v=G1hyAOmpb9o)
-
-▶ [**Play: Show Me One That Works. Here Are 40. | Effortless Rulebooks Tour**](https://www.youtube.com/watch?v=G1hyAOmpb9o)
-
-An eight-minute tour, for someone who has never heard of this, of what "the rulebook is the code" looks like end to end. It opens the smallest project, [customer-fullname](toy-rulebooks/customer-fullname/), where three columns are typed and a fourth is a rule, then follows that single line through one build into a Postgres function, a view, and a plain-English sentence. From there it measures the real range: [star-trek](toy-rulebooks/star-trek/) at 11 tables and about a thousand rows, [simpsons-paradox](rulebook-examples/simpsons-paradox/) at 40 tables and 8,764 rows with 411 of its 699 fields calculated rather than typed. It shows that projects register whatever substrates they want (two for one, eighteen for another) and closes on the read, run, change, build loop and the one sentence that hands the whole thing to a coding agent.
 
 ## The catalog
 
